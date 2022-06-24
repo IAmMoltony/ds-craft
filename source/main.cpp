@@ -147,6 +147,7 @@ int main(void)
             }
         }
     }
+    printf("Created %llu blocks\n", blocks.size());
 
     Camera camera = {0, 0};
     Player player;
