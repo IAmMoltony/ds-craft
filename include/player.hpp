@@ -12,6 +12,7 @@
 #include <oak_log_small_img.h>
 #include <oak_leaves_small_img.h>
 #include <sand_small_img.h>
+#include <sandstone_small_img.h>
 #include <math.h>
 #include <stdio.h>
 #include <block.hpp>
@@ -27,6 +28,7 @@ enum class InventoryItemID
     Wood,
     Leaves,
     Sand,
+    Sandstone,
 };
 
 typedef struct item
@@ -41,7 +43,7 @@ class Player
 {
 private:
     s16 x, y, aimX, aimY;
-    u8 inventorySelect;
+    u8 inventorySelect, inventoryFullSelect, inventoryMoveSelect;
     float velX, velY;
     bool falling, jumping, fullInventory;
     InventoryItem inventory[20];
