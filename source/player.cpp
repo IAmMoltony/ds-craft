@@ -8,6 +8,7 @@ static glImage sprStoneSmall[1];
 static glImage sprWoodSmall[1];
 static glImage sprLeavesSmall[1];
 static glImage sprSandSmall[1];
+static glImage sprSandstoneSmall[1];
 
 void loadPlayerGUI(void)
 {
@@ -18,6 +19,7 @@ void loadPlayerGUI(void)
     loadImage(sprStoneSmall, 8, 8, stone_smallBitmap);
     loadImage(sprWoodSmall, 8, 8, oak_log_smallBitmap);
     loadImage(sprSandSmall, 8, 8, sand_smallBitmap);
+    loadImage(sprSandstoneSmall, 8, 8, sandstone_smallBitmap);
 
     loadImageAlpha(sprLeavesSmall, 8, 8, oak_leaves_smallPal, oak_leaves_smallBitmap);
 }
@@ -27,7 +29,10 @@ Player::Player()
     x = 0;
     y = 0;
     inventorySelect = 0;
-    velX = velY = 0;
+    inventoryFullSelect = 0;
+    inventoryMoveSelect = 20;
+    velX = 0;
+    velY = 0;
     falling = true;
     jumping = false;
     fullInventory = false;
@@ -75,7 +80,16 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                 y = 46 + 48 + 27;
             }
 
-            glSprite(x, y, GL_FLIP_NONE, sprInventorySlot);
+            if (inventoryMoveSelect == i)
+            {
+                glColor(RGB15(0, 31, 0));
+            }
+            glSprite(x, y, GL_FLIP_NONE,
+                     (inventoryFullSelect == i ? sprInventorySlotSelect : sprInventorySlot));
+            if (inventoryMoveSelect == i)
+            {
+                glColor(RGB15(31, 31, 31));
+            }
 
             if (inventory[i].amount > 0 && inventory[i].id != InventoryItemID::None)
             {
@@ -107,6 +121,10 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                 else if (id == InventoryItemID::Sand)
                 {
                     glSprite(x + 4, y + 4, GL_FLIP_NONE, sprSandSmall);
+                }
+                else if (id == InventoryItemID::Sandstone)
+                {
+                    glSprite(x + 4, y + 4, GL_FLIP_NONE, sprSandstoneSmall);
                 }
 
                 if (amount > 1)
@@ -166,6 +184,11 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                     glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              GL_FLIP_NONE, sprSandSmall);
                 }
+                else if (id == InventoryItemID::Sandstone)
+                {
+                    glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             GL_FLIP_NONE, sprSandstoneSmall);
+                }
 
                 if (amount > 1)
                 {
@@ -194,10 +217,83 @@ void Player::update(Camera camera, BlockList *blocks)
 
     if (fullInventory)
     {
-        u32 down = keysDown();
-        if (down & KEY_SELECT)
+        u32 kdown = keysDown();
+        if (kdown & KEY_SELECT)
         {
             fullInventory = false;
+        }
+
+        bool left = kdown & KEY_LEFT;
+        bool right = kdown & KEY_RIGHT;
+        bool up = kdown & KEY_UP;
+        bool down = kdown & KEY_DOWN;
+        if (left)
+        {
+            if (inventoryFullSelect - 1 >= 0)
+            {
+                if (inventoryFullSelect - 1 != 4 &&
+                    inventoryFullSelect - 1 != 9 &&
+                    inventoryFullSelect - 1 != 14)
+                {
+                    --inventoryFullSelect;
+                }
+            }
+        }
+        else if (right)
+        {
+            if (inventoryFullSelect + 1 < 20)
+            {
+                if (inventoryFullSelect + 1 != 5 &&
+                    inventoryFullSelect + 1 != 10 &&
+                    inventoryFullSelect + 1 != 15)
+                {
+                    ++inventoryFullSelect;
+                }
+            }
+        }
+        else if (up)
+        {
+            if (inventoryFullSelect - 5 >= 0)
+            {
+                inventoryFullSelect -= 5;
+            }
+        }
+        else if (down)
+        {
+            if (inventoryFullSelect + 5 < 20)
+            {
+                inventoryFullSelect += 5;
+            }
+        }
+
+        if (kdown & KEY_A)
+        {
+            if (inventoryMoveSelect == 20)
+            {
+                inventoryMoveSelect = inventoryFullSelect;
+            }
+            else
+            {
+                InventoryItemID msid = inventory[inventoryMoveSelect].id;
+                InventoryItemID fsid = inventory[inventoryFullSelect].id;
+                u8 msa = inventory[inventoryMoveSelect].amount;
+                u8 fsa = inventory[inventoryFullSelect].amount;
+
+                if (inventoryFullSelect != inventoryMoveSelect)
+                {
+                    if (msid == fsid)
+                    {
+                        inventory[inventoryFullSelect] = {fsid, fsa + msa};
+                        inventory[inventoryMoveSelect] = NULLITEM;
+                    }
+                    else
+                    {
+                        inventory[inventoryMoveSelect] = {fsid, fsa};
+                        inventory[inventoryFullSelect] = {msid, msa};
+                    }
+                }
+                inventoryMoveSelect = 20;
+            }
         }
     }
     else
@@ -250,6 +346,11 @@ void Player::update(Camera camera, BlockList *blocks)
                     blocks->emplace_back(new SandBlock(snapToGrid(camera.x + aimX),
                                                        snapToGrid(camera.y + aimY), true));
                 }
+                else if (id == InventoryItemID::Sandstone)
+                {
+                    blocks->emplace_back(new SandstoneBlock(snapToGrid(camera.x + aimX),
+                                                            snapToGrid(camera.y + aimY), true));
+                }
             }
         }
         if (down & KEY_R)
@@ -297,6 +398,10 @@ void Player::update(Camera camera, BlockList *blocks)
                     else if (bid == "sand")
                     {
                         addItem(InventoryItemID::Sand);
+                    }
+                    else if (bid == "sandstone")
+                    {
+                        addItem(InventoryItemID::Sandstone);
                     }
 
                     remove = true;
