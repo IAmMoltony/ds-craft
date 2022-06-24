@@ -1,0 +1,8 @@
+*.o
+*.d
+ds-craft.map
+mctex/
+mctex.zip
+*.elf
+*.nds
+nitrofiles/*
