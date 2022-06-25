@@ -200,8 +200,10 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
     }
 }
 
-void Player::update(Camera camera, BlockList *blocks)
+bool Player::update(Camera camera, BlockList *blocks)
 {
+    bool ret = false;
+
     for (u8 i = 0; i < 5; ++i)
     {
         if (inventory[i].amount == 0)
@@ -283,7 +285,7 @@ void Player::update(Camera camera, BlockList *blocks)
                 {
                     if (msid == fsid)
                     {
-                        inventory[inventoryFullSelect] = {fsid, fsa + msa};
+                        inventory[inventoryFullSelect] = {fsid, (u8)(fsa + msa)}; // TODO: make stacking >64 blocks work
                         inventory[inventoryMoveSelect] = NULLITEM;
                     }
                     else
@@ -319,38 +321,39 @@ void Player::update(Camera camera, BlockList *blocks)
                 if (id == InventoryItemID::Grass)
                 {
                     blocks->emplace_back(new GrassBlock(snapToGrid(camera.x + aimX),
-                                                        snapToGrid(camera.y + aimY), true));
+                                                        snapToGrid(camera.y + aimY)));
                 }
                 else if (id == InventoryItemID::Dirt)
                 {
                     blocks->emplace_back(new DirtBlock(snapToGrid(camera.x + aimX),
-                                                       snapToGrid(camera.y + aimY), true));
+                                                       snapToGrid(camera.y + aimY)));
                 }
                 else if (id == InventoryItemID::Stone)
                 {
                     blocks->emplace_back(new StoneBlock(snapToGrid(camera.x + aimX),
-                                                        snapToGrid(camera.y + aimY), true));
+                                                        snapToGrid(camera.y + aimY)));
                 }
                 else if (id == InventoryItemID::Wood)
                 {
                     blocks->emplace_back(new WoodBlock(snapToGrid(camera.x + aimX),
-                                                       snapToGrid(camera.y + aimY), true));
+                                                       snapToGrid(camera.y + aimY)));
                 }
                 else if (id == InventoryItemID::Leaves)
                 {
                     blocks->emplace_back(new LeavesBlock(snapToGrid(camera.x + aimX),
-                                                         snapToGrid(camera.y + aimY), true));
+                                                         snapToGrid(camera.y + aimY)));
                 }
                 else if (id == InventoryItemID::Sand)
                 {
                     blocks->emplace_back(new SandBlock(snapToGrid(camera.x + aimX),
-                                                       snapToGrid(camera.y + aimY), true));
+                                                       snapToGrid(camera.y + aimY)));
                 }
                 else if (id == InventoryItemID::Sandstone)
                 {
                     blocks->emplace_back(new SandstoneBlock(snapToGrid(camera.x + aimX),
-                                                            snapToGrid(camera.y + aimY), true));
+                                                            snapToGrid(camera.y + aimY)));
                 }
+                ret = true;
             }
         }
         if (down & KEY_R)
@@ -488,6 +491,8 @@ void Player::update(Camera camera, BlockList *blocks)
             velX = 0;
         }
     }
+
+    return ret;
 }
 
 void Player::addItem(InventoryItemID item)
