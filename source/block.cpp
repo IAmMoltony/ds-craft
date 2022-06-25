@@ -30,14 +30,13 @@ void loadBlockTextures(void)
 
 //----------------------------------------
 
-Block::Block(s16 x, s16 y, bool vis)
+Block::Block(s16 x, s16 y)
 {
     this->x = x;
     this->y = y;
-    this->vis = vis;
 }
 
-Rect Block::getRect(void)
+Rect Block::getRect(void) const
 {
     return Rect(x, y, 16, 16);
 }
@@ -47,14 +46,9 @@ bool Block::solid(void)
     return true;
 }
 
-bool Block::getVis(void)
-{
-    return vis;
-}
-
 //-----------------------------------------
 
-GrassBlock::GrassBlock(s16 x, s16 y, bool vis) : Block(x, y)
+GrassBlock::GrassBlock(s16 x, s16 y) : Block(x, y)
 {
 }
 
@@ -70,7 +64,7 @@ std::string GrassBlock::id(void)
 
 //-----------------------------------------
 
-DirtBlock::DirtBlock(s16 x, s16 y, bool vis) : Block(x, y)
+DirtBlock::DirtBlock(s16 x, s16 y) : Block(x, y)
 {
 }
 
@@ -86,7 +80,7 @@ std::string DirtBlock::id(void)
 
 //-----------------------------------------
 
-StoneBlock::StoneBlock(s16 x, s16 y, bool vis) : Block(x, y)
+StoneBlock::StoneBlock(s16 x, s16 y) : Block(x, y)
 {
 }
 
@@ -102,7 +96,7 @@ std::string StoneBlock::id(void)
 
 //-----------------------------------------
 
-WoodBlock::WoodBlock(s16 x, s16 y, bool vis) : Block(x, y)
+WoodBlock::WoodBlock(s16 x, s16 y) : Block(x, y)
 {
 }
 
@@ -123,7 +117,7 @@ std::string WoodBlock::id(void)
 
 //-----------------------------------------
 
-LeavesBlock::LeavesBlock(s16 x, s16 y, bool vis) : Block(x, y)
+LeavesBlock::LeavesBlock(s16 x, s16 y) : Block(x, y)
 {
 }
 
@@ -146,7 +140,7 @@ std::string LeavesBlock::id(void)
 
 //-----------------------------------------
 
-SandBlock::SandBlock(s16 x, s16 y, bool vis) : Block(x, y)
+SandBlock::SandBlock(s16 x, s16 y) : Block(x, y)
 {
 }
 
@@ -162,7 +156,7 @@ std::string SandBlock::id(void)
 
 //-----------------------------------------
 
-SandstoneBlock::SandstoneBlock(s16 x, s16 y, bool vis) : Block(x, y)
+SandstoneBlock::SandstoneBlock(s16 x, s16 y) : Block(x, y)
 {
 }
 
@@ -178,7 +172,7 @@ std::string SandstoneBlock::id(void)
 
 //-----------------------------------------
 
-CactusBlock::CactusBlock(s16 x, s16 y, bool vis) : Block(x, y)
+CactusBlock::CactusBlock(s16 x, s16 y) : Block(x, y)
 {
 }
 
@@ -199,7 +193,7 @@ std::string CactusBlock::id(void)
 
 //-----------------------------------------
 
-DeadBushBlock::DeadBushBlock(s16 x, s16 y, bool vis) : Block(x, y)
+DeadBushBlock::DeadBushBlock(s16 x, s16 y) : Block(x, y)
 {
 }
 
@@ -220,7 +214,7 @@ std::string DeadBushBlock::id(void)
 
 //-----------------------------------------
 
-FlowerBlock::FlowerBlock(s16 x, s16 y, bool vis) : Block(x, y)
+FlowerBlock::FlowerBlock(s16 x, s16 y) : Block(x, y)
 {
     type = chance(50) ? FlowerType::Dandelion : FlowerType::Poppy;
 }
