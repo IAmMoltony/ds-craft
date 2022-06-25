@@ -12,6 +12,7 @@
 #include <block.hpp>
 #include <player.hpp>
 #include <font.hpp>
+#include <algorithm>
 
 int main(void)
 {
@@ -154,7 +155,10 @@ int main(void)
     while (true)
     {
         scanKeys();
-        player.update(camera, &blocks);
+        if (player.update(camera, &blocks))
+        {
+            std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
+        }
 
         camera.x = lerp(camera.x, player.getX() - SCREEN_WIDTH / 2, 0.1f);
         camera.y = lerp(camera.y, player.getY() - SCREEN_HEIGHT / 2, 0.1f);
@@ -164,17 +168,14 @@ int main(void)
 
         for (auto &block : blocks)
         {
-            if (!block->getVis())
+            if (block->getRect().x - camera.x < -16 ||
+                block->getRect().y - camera.y < -16)
             {
-                if (block->getRect().x - camera.x < -16 ||
-                    block->getRect().y - camera.y < -16)
-                {
-                    continue;
-                }
-                if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
-                {
-                    break;
-                }
+                continue;
+            }
+            if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
+            {
+                break;
             }
 
             block->draw(camera);

@@ -52,7 +52,7 @@ public:
     Player();
 
     void draw(Camera camera, Font fontSmall, Font font);
-    void update(Camera camera, BlockList *blocks);
+    bool update(Camera camera, BlockList *blocks); // return true if placed block
     void addItem(InventoryItemID item);
 
     s16 getX(void);

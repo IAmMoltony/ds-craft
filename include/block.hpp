@@ -30,30 +30,20 @@ class Block
 {
 protected:
     s16 x, y;
-    /* this is a fix of a bug because when player places block
-       then it was only visible under the world and it (bug) didnt affect
-       terrain generated so this is true on every block player
-       places and it doesnt hide even if off cam
-       and if i remove frustum culling the game lags
-       with this fix, the game is running ok and player
-       can see their builds
-       i know the name is bad but what do i do about it */
-    bool vis;
 
 public:
-    Block(s16 x, s16 y, bool vis = false);
+    Block(s16 x, s16 y);
 
     virtual void draw(Camera camera) = 0;
     virtual std::string id(void) = 0;
     virtual bool solid(void);
-    bool getVis(void);
-    Rect getRect(void);
+    Rect getRect(void) const;
 };
 
 class GrassBlock : public Block
 {
 public:
-    GrassBlock(s16 x, s16 y, bool vis = false);
+    GrassBlock(s16 x, s16 y);
 
     void draw(Camera camera);
     std::string id(void);
@@ -62,7 +52,7 @@ public:
 class DirtBlock : public Block
 {
 public:
-    DirtBlock(s16 x, s16 y, bool vis = false);
+    DirtBlock(s16 x, s16 y);
 
     void draw(Camera camera);
     std::string id(void);
@@ -71,7 +61,7 @@ public:
 class StoneBlock : public Block
 {
 public:
-    StoneBlock(s16 x, s16 y, bool vis = false);
+    StoneBlock(s16 x, s16 y);
 
     void draw(Camera camera);
     std::string id(void);
@@ -80,7 +70,7 @@ public:
 class WoodBlock : public Block
 {
 public:
-    WoodBlock(s16 x, s16 y, bool vis = false);
+    WoodBlock(s16 x, s16 y);
 
     void draw(Camera camera);
     bool solid(void);
@@ -90,7 +80,7 @@ public:
 class LeavesBlock : public Block
 {
 public:
-    LeavesBlock(s16 x, s16 y, bool vis = false);
+    LeavesBlock(s16 x, s16 y);
 
     void draw(Camera camera);
     bool solid(void);
@@ -100,7 +90,7 @@ public:
 class SandBlock : public Block
 {
 public:
-    SandBlock(s16 x, s16 y, bool vis = false);
+    SandBlock(s16 x, s16 y);
 
     void draw(Camera camera);
     std::string id(void);
@@ -109,7 +99,7 @@ public:
 class SandstoneBlock : public Block
 {
 public:
-    SandstoneBlock(s16 x, s16 y, bool vis = false);
+    SandstoneBlock(s16 x, s16 y);
 
     void draw(Camera camera);
     std::string id(void);
@@ -118,7 +108,7 @@ public:
 class CactusBlock : public Block
 {
 public:
-    CactusBlock(s16 x, s16 y, bool vis = false);
+    CactusBlock(s16 x, s16 y);
 
     void draw(Camera camera);
     bool solid(void);
@@ -128,7 +118,7 @@ public:
 class DeadBushBlock : public Block
 {
 public:
-    DeadBushBlock(s16 x, s16 y, bool vis = false);
+    DeadBushBlock(s16 x, s16 y);
 
     void draw(Camera camera);
     bool solid(void);
@@ -141,11 +131,19 @@ private:
     FlowerType type;
 
 public:
-    FlowerBlock(s16 x, s16 y, bool vis = false);
+    FlowerBlock(s16 x, s16 y);
 
     void draw(Camera camera);
     bool solid(void);
     std::string id(void);
+};
+
+struct BlockCompareKey
+{
+    inline bool operator() (const std::unique_ptr<Block> &b1, const std::unique_ptr<Block> &b2)
+    {
+        return (b1->getRect().x < b2->getRect().x);
+    }
 };
 
 typedef std::vector<std::unique_ptr<Block>> BlockList;
