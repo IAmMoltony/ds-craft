@@ -147,7 +147,7 @@ int main(void)
             }
         }
     }
-    printf("Created %llu blocks\n", blocks.size());
+    printf("Created %u blocks\n", blocks.size());
 
     Camera camera = {0, 0};
     Player player;
@@ -164,7 +164,7 @@ int main(void)
 
         for (auto &block : blocks)
         {
-            if (block->getVis())
+            if (!block->getVis())
             {
                 if (block->getRect().x - camera.x < -16 ||
                     block->getRect().y - camera.y < -16)
