@@ -5,14 +5,14 @@
             "includePath": [
                 "${workspaceFolder}/build",
                 "${workspaceFolder}/include",
-                "/opt/devkitpro/libnds/include/**",
-                "/opt/devkitpro/devkitARM/arm-none-eabi/include/**"
+                "E:/devkitPro/libnds/include/**",
+                "E:/devkitPro/devkitARM/arm-none-eabi/include/**"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/gcc",
+            "compilerPath": "cl",
             "cStandard": "gnu17",
-            "cppStandard": "gnu++14",
-            "intelliSenseMode": "linux-gcc-x64"
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "windows-msvc-x64"
         }
     ],
     "version": 4
