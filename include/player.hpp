@@ -13,6 +13,7 @@
 #include <oak_leaves_small_img.h>
 #include <sand_small_img.h>
 #include <sandstone_small_img.h>
+#include <cactus_side_small_img.h>
 #include <math.h>
 #include <stdio.h>
 #include <block.hpp>
