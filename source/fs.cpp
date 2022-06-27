@@ -26,3 +26,13 @@ std::string readFile(const char *path)
     file.read(&buf[0], size);
     return buf;
 }
+
+bool fileExists(const char *path)
+{
+    if (FILE *file = fopen(path, "r"))
+    {
+        fclose(file);
+        return true;
+    }
+    return false;
+}

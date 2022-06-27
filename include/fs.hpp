@@ -8,3 +8,4 @@
 
 void fsInit(void);
 std::string readFile(const char *path);
+bool fileExists(const char *path);
