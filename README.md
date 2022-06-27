@@ -14,6 +14,10 @@ A selects inventory slot. Pressing a again will cause either stacking the blocks
 
 You are a blue rectangle that can place and break blocks. That is it.
 
+## Dependencies
+
+devkitPro libnds installed. For converting images and fonts, grit from &lt;devkitPro folder&gt;/tools/bin in PATH variable.
+
 ## Credits
 
 Mojang - textures and font
