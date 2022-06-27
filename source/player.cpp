@@ -11,6 +11,8 @@ static glImage sprSandSmall[1];
 static glImage sprSandstoneSmall[1];
 static glImage sprCactusSmall[1];
 static glImage sprDeadBushSmall[1];
+static glImage sprPoppySmall[1];
+static glImage sprDandelionSmall[1];
 
 void loadPlayerGUI(void)
 {
@@ -26,6 +28,8 @@ void loadPlayerGUI(void)
     loadImageAlpha(sprLeavesSmall, 8, 8, oak_leaves_smallPal, oak_leaves_smallBitmap);
     loadImageAlpha(sprCactusSmall, 8, 8, cactus_side_smallPal, cactus_side_smallBitmap);
     loadImageAlpha(sprDeadBushSmall, 8, 8, dead_bush_smallPal, dead_bush_smallBitmap);
+    loadImageAlpha(sprPoppySmall, 8, 8, poppy_smallPal, poppy_smallBitmap);
+    loadImageAlpha(sprDandelionSmall, 8, 8, dandelion_smallPal, dandelion_smallBitmap);
 }
 
 Player::Player()
@@ -138,6 +142,14 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                 {
                     glSprite(x + 4, y + 4, GL_FLIP_NONE, sprDeadBushSmall);
                 }
+                else if (id == InventoryItemID::Poppy)
+                {
+                    glSprite(x + 4, y + 4, GL_FLIP_NONE, sprPoppySmall);
+                }
+                else if (id == InventoryItemID::Dandelion)
+                {
+                    glSprite(x + 4, y + 4, GL_FLIP_NONE, sprDandelionSmall);
+                }
 
                 if (amount > 1)
                 {
@@ -210,6 +222,16 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                 {
                     glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              GL_FLIP_NONE, sprDeadBushSmall);
+                }
+                else if (id == InventoryItemID::Poppy)
+                {
+                    glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             GL_FLIP_NONE, sprPoppySmall);
+                }
+                else if (id == InventoryItemID::Dandelion)
+                {
+                    glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             GL_FLIP_NONE, sprDandelionSmall);
                 }
 
                 if (amount > 1)
@@ -385,6 +407,17 @@ bool Player::update(Camera camera, BlockList *blocks)
                     blocks->emplace_back(new DeadBushBlock(snapToGrid(camera.x + aimX),
                                                            snapToGrid(camera.y + aimY)));
                 }
+                else if (id == InventoryItemID::Poppy)
+                {
+                    blocks->emplace_back(new FlowerBlock(snapToGrid(camera.x + aimX),
+                                                         snapToGrid(camera.y + aimY), FlowerType::Poppy));
+                }
+                else if (id == InventoryItemID::Dandelion)
+                {
+                    blocks->emplace_back(new FlowerBlock(snapToGrid(camera.x + aimX),
+                                                         snapToGrid(camera.y + aimY),
+                                                         FlowerType::Dandelion));
+                }
                 ret = true;
             }
         }
@@ -445,6 +478,14 @@ bool Player::update(Camera camera, BlockList *blocks)
                     else if (bid == "dead bush")
                     {
                         addItem(InventoryItemID::DeadBush);
+                    }
+                    else if (bid == "poppy")
+                    {
+                        addItem(InventoryItemID::Poppy);
+                    }
+                    else if (bid == "dandelion")
+                    {
+                        addItem(InventoryItemID::Dandelion);
                     }
 
                     remove = true;

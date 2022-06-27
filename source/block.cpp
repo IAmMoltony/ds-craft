@@ -219,6 +219,11 @@ FlowerBlock::FlowerBlock(s16 x, s16 y) : Block(x, y)
     type = chance(50) ? FlowerType::Dandelion : FlowerType::Poppy;
 }
 
+FlowerBlock::FlowerBlock(s16 x, s16 y, FlowerType type) : Block(x, y)
+{
+    this->type = type;
+}
+
 void FlowerBlock::draw(Camera camera)
 {
     glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, type == FlowerType::Dandelion ?

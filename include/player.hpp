@@ -15,6 +15,8 @@
 #include <sandstone_small_img.h>
 #include <cactus_side_small_img.h>
 #include <dead_bush_small_img.h>
+#include <poppy_small_img.h>
+#include <dandelion_small_img.h>
 #include <math.h>
 #include <stdio.h>
 #include <block.hpp>
@@ -33,6 +35,8 @@ enum class InventoryItemID
     Sandstone,
     Cactus,
     DeadBush,
+    Poppy,
+    Dandelion,
 };
 
 typedef struct item

@@ -132,6 +132,7 @@ private:
 
 public:
     FlowerBlock(s16 x, s16 y);
+    FlowerBlock(s16 x, s16 y, FlowerType type);
 
     void draw(Camera camera);
     bool solid(void);
