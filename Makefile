@@ -13,22 +13,24 @@ include $(DEVKITARM)/ds_rules
 # BUILD is the directory where object files & intermediate files will be placed
 # SOURCES is a list of directories containing source code
 # INCLUDES is a list of directories containing extra header files
+# MAXMOD_SOUNDBANK contains a directory of music and sound effect files
 #---------------------------------------------------------------------------------
 TARGET		:=	$(shell basename $(CURDIR))
 BUILD		:=	build
-SOURCES		:=	gfx source data source/img
+SOURCES		:=	source source/img
+DATA		:=
 INCLUDES	:=	include build
-NITRODATA   :=  nitrofiles
+NITRODATA	:=	nitrofiles
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
-ARCH	:=	-mthumb -mthumb-interwork
+ARCH	:=	-mthumb -mthumb-interwork -march=armv5te -mtune=arm946e-s
 
 CFLAGS	:=	-g -Wall -O2\
- 			-march=armv5te -mtune=arm946e-s -fomit-frame-pointer\
-			-ffast-math \
-			$(ARCH)
+ 		-fomit-frame-pointer\
+		-ffast-math \
+		$(ARCH)
 
 CFLAGS	+=	$(INCLUDE) -DARM9
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions
@@ -37,9 +39,9 @@ ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=ds_arm9.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
 #---------------------------------------------------------------------------------
-# any extra libraries we wish to link with the project
+# any extra libraries we wish to link with the project (order is important)
 #---------------------------------------------------------------------------------
-LIBS	:= -lnds9
+LIBS	:= 	-lfilesystem -lfat -lnds9
  
  
 #---------------------------------------------------------------------------------
@@ -54,16 +56,23 @@ LIBDIRS	:=	$(LIBNDS)
 #---------------------------------------------------------------------------------
 ifneq ($(BUILD),$(notdir $(CURDIR)))
 #---------------------------------------------------------------------------------
- 
+export TOPDIR	:=	$(CURDIR)
+
 export OUTPUT	:=	$(CURDIR)/$(TARGET)
- 
-export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir))
+
+export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
+					$(foreach dir,$(DATA),$(CURDIR)/$(dir))
+
 export DEPSDIR	:=	$(CURDIR)/$(BUILD)
+
+ifneq ($(strip $(NITRODATA)),)
+	export NITRO_FILES	:=	$(CURDIR)/$(NITRODATA)
+endif
 
 CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
 CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
 SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
-BINFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.bin)))
+BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
  
 #---------------------------------------------------------------------------------
 # use CXX for linking C++ projects, CC for standard C
@@ -79,12 +88,13 @@ else
 endif
 #---------------------------------------------------------------------------------
 
-export OFILES	:=	$(BINFILES:.bin=.o) \
-					$(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o)
+export OFILES	:=	$(addsuffix .o,$(BINFILES)) \
+			$(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o)
  
 export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
-					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
-					-I$(CURDIR)/$(BUILD)
+			$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
+			$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
+			-I$(CURDIR)/$(BUILD)
  
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
  
@@ -98,28 +108,25 @@ $(BUILD):
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).nds $(TARGET).ds.gba 
- 
- 
+	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).nds
+
 #---------------------------------------------------------------------------------
 else
- 
-DEPENDS	:=	$(OFILES:.o=.d)
  
 #---------------------------------------------------------------------------------
 # main targets
 #---------------------------------------------------------------------------------
 $(OUTPUT).nds	: 	$(OUTPUT).elf
+$(OUTPUT).nds	: 	$(shell find $(TOPDIR)/$(NITRODATA))
 $(OUTPUT).elf	:	$(OFILES)
  
 #---------------------------------------------------------------------------------
-%.o	:	%.bin
+%.bin.o	:	%.bin
 #---------------------------------------------------------------------------------
 	@echo $(notdir $<)
 	$(bin2o)
  
- 
--include $(DEPENDS)
+-include $(DEPSDIR)/*.d
  
 #---------------------------------------------------------------------------------------
 endif

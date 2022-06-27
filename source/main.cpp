@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <block.hpp>
 #include <player.hpp>
+#include <fs.hpp>
 #include <font.hpp>
 #include <algorithm>
 
@@ -19,6 +20,7 @@ int main(void)
     srand(time(NULL));
     consoleDemoInit();
     videoSetMode(MODE_5_3D);
+    fsInit();
     glScreen2D();
 
     vramSetBankA(VRAM_A_TEXTURE);
@@ -148,7 +150,6 @@ int main(void)
             }
         }
     }
-    printf("Created %u blocks\n", blocks.size());
 
     Camera camera = {0, 0};
     Player player;
