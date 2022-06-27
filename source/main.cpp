@@ -11,7 +11,6 @@
 #include <stdio.h>
 #include <block.hpp>
 #include <player.hpp>
-#include <fs.hpp>
 #include <font.hpp>
 #include <algorithm>
 
@@ -20,7 +19,6 @@ int main(void)
     srand(time(NULL));
     consoleDemoInit();
     videoSetMode(MODE_5_3D);
-    fsInit();
     glScreen2D();
 
     vramSetBankA(VRAM_A_TEXTURE);
