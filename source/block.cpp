@@ -232,5 +232,14 @@ bool FlowerBlock::solid(void)
 
 std::string FlowerBlock::id(void)
 {
-    return "flower"; // todo: return poppy, dandelion or whatever
+    switch (type)
+    {
+    default:
+        return "";
+    
+    case FlowerType::Poppy:
+        return "poppy";
+    case FlowerType::Dandelion:
+        return "dandelion";
+    }
 }
