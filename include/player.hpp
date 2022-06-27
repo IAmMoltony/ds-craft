@@ -29,6 +29,7 @@ enum class InventoryItemID
     Leaves,
     Sand,
     Sandstone,
+    Cactus,
 };
 
 typedef struct item
