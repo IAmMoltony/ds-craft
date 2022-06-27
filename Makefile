@@ -20,7 +20,6 @@ BUILD		:=	build
 SOURCES		:=	source source/img
 DATA		:=
 INCLUDES	:=	include build
-NITRODATA	:=	nitrofiles
 
 #---------------------------------------------------------------------------------
 # options for code generation
