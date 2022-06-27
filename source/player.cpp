@@ -10,6 +10,7 @@ static glImage sprLeavesSmall[1];
 static glImage sprSandSmall[1];
 static glImage sprSandstoneSmall[1];
 static glImage sprCactusSmall[1];
+static glImage sprDeadBushSmall[1];
 
 void loadPlayerGUI(void)
 {
@@ -24,6 +25,7 @@ void loadPlayerGUI(void)
 
     loadImageAlpha(sprLeavesSmall, 8, 8, oak_leaves_smallPal, oak_leaves_smallBitmap);
     loadImageAlpha(sprCactusSmall, 8, 8, cactus_side_smallPal, cactus_side_smallBitmap);
+    loadImageAlpha(sprDeadBushSmall, 8, 8, dead_bush_smallPal, dead_bush_smallBitmap);
 }
 
 Player::Player()
@@ -132,6 +134,10 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                 {
                     glSprite(x + 4, y + 4, GL_FLIP_NONE, sprCactusSmall);
                 }
+                else if (id == InventoryItemID::DeadBush)
+                {
+                    glSprite(x + 4, y + 4, GL_FLIP_NONE, sprDeadBushSmall);
+                }
 
                 if (amount > 1)
                 {
@@ -199,6 +205,11 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                 {
                     glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              GL_FLIP_NONE, sprCactusSmall);
+                }
+                else if (id == InventoryItemID::DeadBush)
+                {
+                    glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             GL_FLIP_NONE, sprDeadBushSmall);
                 }
 
                 if (amount > 1)
@@ -369,6 +380,11 @@ bool Player::update(Camera camera, BlockList *blocks)
                     blocks->emplace_back(new CactusBlock(snapToGrid(camera.x + aimX),
                                                          snapToGrid(camera.y + aimY)));
                 }
+                else if (id == InventoryItemID::DeadBush)
+                {
+                    blocks->emplace_back(new DeadBushBlock(snapToGrid(camera.x + aimX),
+                                                           snapToGrid(camera.y + aimY)));
+                }
                 ret = true;
             }
         }
@@ -425,6 +441,10 @@ bool Player::update(Camera camera, BlockList *blocks)
                     else if (bid == "cactus")
                     {
                         addItem(InventoryItemID::Cactus);
+                    }
+                    else if (bid == "dead bush")
+                    {
+                        addItem(InventoryItemID::DeadBush);
                     }
 
                     remove = true;
