@@ -16,8 +16,6 @@ You are a blue rectangle that can place and break blocks. That is it.
 
 ## Credits
 
-Mojang - textures
-
-dafont.com - font (Minecraft Medium)
+Mojang - textures and font
 
 The libnds example authors

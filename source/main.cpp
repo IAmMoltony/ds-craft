@@ -181,6 +181,7 @@ int main(void)
             block->draw(camera);
         }
         player.draw(camera, fontSmall, font);
+        fontSmall.print(0, 0, "hijklmnop");
 
         glEnd2D();
         glFlush(0);
