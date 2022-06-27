@@ -43,7 +43,7 @@ int main(void)
     BlockList blocks;
     s16 y = SCREEN_HEIGHT / 2;
     u8 sinceLastTree = 0;
-    for (u8 k = 0; k < 3; ++k)
+    for (u8 k = 0; k < 2; ++k)
     {
         u8 biome = chance(50) ? 0 : 1; // 0 = plains, 1 = desert
         if (biome == 0)
