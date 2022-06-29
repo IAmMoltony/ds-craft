@@ -37,6 +37,7 @@ enum class InventoryItemID
     DeadBush,
     Poppy,
     Dandelion,
+    Stick,
 };
 
 typedef struct item
@@ -53,7 +54,7 @@ private:
     s16 x, y, aimX, aimY;
     u8 inventorySelect, inventoryFullSelect, inventoryMoveSelect;
     float velX, velY;
-    bool falling, jumping, fullInventory;
+    bool falling, jumping, fullInventory, inventoryCrafting;
     InventoryItem inventory[20];
 
 public:

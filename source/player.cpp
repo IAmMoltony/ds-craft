@@ -63,99 +63,107 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(3));
         font.printfShadow(SCREEN_WIDTH / 2 - (9 * 16 / 2), 12, "Inventory");
 
-        for (u8 i = 0; i < 20; ++i)
+        if (inventoryCrafting)
         {
-            u8 x, y;
+            // TODO implement crafting
+        }
+        else
+        {
+            for (u8 i = 0; i < 20; ++i)
+            {
+                u8 x, y;
 
-            if (i >= 0 && i < 5)
-            {
-                x = i * 16 + 16;
-                y = 46;
-            }
-            else if (i >= 5 && i < 10)
-            {
-                x = (i - 5) * 16 + 16;
-                y = 46 + 16 + 9;
-            }
-            else if (i >= 10 && i < 15)
-            {
-                x = (i - 10) * 16 + 16;
-                y = 46 + 32 + 18;
-            }
-            else if (i >= 15 && i < 20)
-            {
-                x = (i - 15) * 16 + 16;
-                y = 46 + 48 + 27;
-            }
+                if (i >= 0 && i < 5)
+                {
+                    x = i * 16 + 16;
+                    y = 46;
+                }
+                else if (i >= 5 && i < 10)
+                {
+                    x = (i - 5) * 16 + 16;
+                    y = 46 + 16 + 9;
+                }
+                else if (i >= 10 && i < 15)
+                {
+                    x = (i - 10) * 16 + 16;
+                    y = 46 + 32 + 18;
+                }
+                else if (i >= 15 && i < 20)
+                {
+                    x = (i - 15) * 16 + 16;
+                    y = 46 + 48 + 27;
+                }
 
-            if (inventoryMoveSelect == i)
-            {
-                glColor(RGB15(0, 31, 0));
-            }
-            glSprite(x, y, GL_FLIP_NONE,
-                     (inventoryFullSelect == i ? sprInventorySlotSelect : sprInventorySlot));
-            if (inventoryMoveSelect == i)
-            {
-                glColor(RGB15(31, 31, 31));
-            }
-
-            if (inventory[i].amount > 0 && inventory[i].id != InventoryItemID::None)
-            {
-                u8 amount = inventory[i].amount;
-                InventoryItemID id = inventory[i].id;
-
-                if (id == InventoryItemID::Grass)
+                if (inventoryMoveSelect == i)
                 {
-                    glSprite(x + 4, y + 4, GL_FLIP_NONE, sprGrassSmall);
+                    glColor(RGB15(0, 31, 0));
                 }
-                else if (id == InventoryItemID::Dirt)
+                glSprite(x, y, GL_FLIP_NONE,
+                        (inventoryFullSelect == i ? sprInventorySlotSelect : sprInventorySlot));
+                if (inventoryMoveSelect == i)
                 {
-                    glSprite(x + 4, y + 4, GL_FLIP_NONE, sprDirtSmall);
-                }
-                else if (id == InventoryItemID::Stone)
-                {
-                    glSprite(x + 4, y + 4, GL_FLIP_NONE, sprStoneSmall);
-                }
-                else if (id == InventoryItemID::Wood)
-                {
-                    glSprite(x + 4, y + 4, GL_FLIP_NONE, sprWoodSmall);
-                }
-                else if (id == InventoryItemID::Leaves)
-                {
-                    glColor(RGB15(0, 22, 0));
-                    glSprite(x + 4, y + 4, GL_FLIP_NONE, sprLeavesSmall);
                     glColor(RGB15(31, 31, 31));
                 }
-                else if (id == InventoryItemID::Sand)
-                {
-                    glSprite(x + 4, y + 4, GL_FLIP_NONE, sprSandSmall);
-                }
-                else if (id == InventoryItemID::Sandstone)
-                {
-                    glSprite(x + 4, y + 4, GL_FLIP_NONE, sprSandstoneSmall);
-                }
-                else if (id == InventoryItemID::Cactus)
-                {
-                    glSprite(x + 4, y + 4, GL_FLIP_NONE, sprCactusSmall);
-                }
-                else if (id == InventoryItemID::DeadBush)
-                {
-                    glSprite(x + 4, y + 4, GL_FLIP_NONE, sprDeadBushSmall);
-                }
-                else if (id == InventoryItemID::Poppy)
-                {
-                    glSprite(x + 4, y + 4, GL_FLIP_NONE, sprPoppySmall);
-                }
-                else if (id == InventoryItemID::Dandelion)
-                {
-                    glSprite(x + 4, y + 4, GL_FLIP_NONE, sprDandelionSmall);
-                }
 
-                if (amount > 1)
+                if (inventory[i].amount > 0 && inventory[i].id != InventoryItemID::None)
                 {
-                    fontSmall.printfShadow(x, y - 8, "%u", amount);
+                    u8 amount = inventory[i].amount;
+                    InventoryItemID id = inventory[i].id;
+
+                    if (id == InventoryItemID::Grass)
+                    {
+                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprGrassSmall);
+                    }
+                    else if (id == InventoryItemID::Dirt)
+                    {
+                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprDirtSmall);
+                    }
+                    else if (id == InventoryItemID::Stone)
+                    {
+                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprStoneSmall);
+                    }
+                    else if (id == InventoryItemID::Wood)
+                    {
+                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprWoodSmall);
+                    }
+                    else if (id == InventoryItemID::Leaves)
+                    {
+                        glColor(RGB15(0, 22, 0));
+                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprLeavesSmall);
+                        glColor(RGB15(31, 31, 31));
+                    }
+                    else if (id == InventoryItemID::Sand)
+                    {
+                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprSandSmall);
+                    }
+                    else if (id == InventoryItemID::Sandstone)
+                    {
+                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprSandstoneSmall);
+                    }
+                    else if (id == InventoryItemID::Cactus)
+                    {
+                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprCactusSmall);
+                    }
+                    else if (id == InventoryItemID::DeadBush)
+                    {
+                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprDeadBushSmall);
+                    }
+                    else if (id == InventoryItemID::Poppy)
+                    {
+                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprPoppySmall);
+                    }
+                    else if (id == InventoryItemID::Dandelion)
+                    {
+                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprDandelionSmall);
+                    }
+
+                    if (amount > 1)
+                    {
+                        fontSmall.printfShadow(x, y - 8, "%u", amount);
+                    }
                 }
             }
+            fontSmall.print(16, 46 + 48 + 27 + 20, "Press L to see crafting menu");
         }
     }
     else
@@ -267,78 +275,90 @@ bool Player::update(Camera camera, BlockList *blocks)
         if (kdown & KEY_SELECT)
         {
             fullInventory = false;
+            inventoryCrafting = false;
+        }
+        if (kdown & KEY_L)
+        {
+            inventoryCrafting = !inventoryCrafting;
         }
 
-        bool left = kdown & KEY_LEFT;
-        bool right = kdown & KEY_RIGHT;
-        bool up = kdown & KEY_UP;
-        bool down = kdown & KEY_DOWN;
-        if (left)
+        if (inventoryCrafting)
         {
-            if (inventoryFullSelect - 1 >= 0)
+            // TODO implement crafting
+        }
+        else
+        {
+            bool left = kdown & KEY_LEFT;
+            bool right = kdown & KEY_RIGHT;
+            bool up = kdown & KEY_UP;
+            bool down = kdown & KEY_DOWN;
+            if (left)
             {
-                if (inventoryFullSelect - 1 != 4 &&
-                    inventoryFullSelect - 1 != 9 &&
-                    inventoryFullSelect - 1 != 14)
+                if (inventoryFullSelect - 1 >= 0)
                 {
-                    --inventoryFullSelect;
-                }
-            }
-        }
-        else if (right)
-        {
-            if (inventoryFullSelect + 1 < 20)
-            {
-                if (inventoryFullSelect + 1 != 5 &&
-                    inventoryFullSelect + 1 != 10 &&
-                    inventoryFullSelect + 1 != 15)
-                {
-                    ++inventoryFullSelect;
-                }
-            }
-        }
-        else if (up)
-        {
-            if (inventoryFullSelect - 5 >= 0)
-            {
-                inventoryFullSelect -= 5;
-            }
-        }
-        else if (down)
-        {
-            if (inventoryFullSelect + 5 < 20)
-            {
-                inventoryFullSelect += 5;
-            }
-        }
-
-        if (kdown & KEY_A)
-        {
-            if (inventoryMoveSelect == 20)
-            {
-                inventoryMoveSelect = inventoryFullSelect;
-            }
-            else
-            {
-                InventoryItemID msid = inventory[inventoryMoveSelect].id;
-                InventoryItemID fsid = inventory[inventoryFullSelect].id;
-                u8 msa = inventory[inventoryMoveSelect].amount;
-                u8 fsa = inventory[inventoryFullSelect].amount;
-
-                if (inventoryFullSelect != inventoryMoveSelect)
-                {
-                    if (msid == fsid)
+                    if (inventoryFullSelect - 1 != 4 &&
+                        inventoryFullSelect - 1 != 9 &&
+                        inventoryFullSelect - 1 != 14)
                     {
-                        inventory[inventoryFullSelect] = {fsid, (u8)(fsa + msa)}; // TODO: make stacking >64 blocks work
-                        inventory[inventoryMoveSelect] = NULLITEM;
-                    }
-                    else
-                    {
-                        inventory[inventoryMoveSelect] = {fsid, fsa};
-                        inventory[inventoryFullSelect] = {msid, msa};
+                        --inventoryFullSelect;
                     }
                 }
-                inventoryMoveSelect = 20;
+            }
+            else if (right)
+            {
+                if (inventoryFullSelect + 1 < 20)
+                {
+                    if (inventoryFullSelect + 1 != 5 &&
+                        inventoryFullSelect + 1 != 10 &&
+                        inventoryFullSelect + 1 != 15)
+                    {
+                        ++inventoryFullSelect;
+                    }
+                }
+            }
+            else if (up)
+            {
+                if (inventoryFullSelect - 5 >= 0)
+                {
+                    inventoryFullSelect -= 5;
+                }
+            }
+            else if (down)
+            {
+                if (inventoryFullSelect + 5 < 20)
+                {
+                    inventoryFullSelect += 5;
+                }
+            }
+
+            if (kdown & KEY_A)
+            {
+                if (inventoryMoveSelect == 20)
+                {
+                    inventoryMoveSelect = inventoryFullSelect;
+                }
+                else
+                {
+                    InventoryItemID msid = inventory[inventoryMoveSelect].id;
+                    InventoryItemID fsid = inventory[inventoryFullSelect].id;
+                    u8 msa = inventory[inventoryMoveSelect].amount;
+                    u8 fsa = inventory[inventoryFullSelect].amount;
+
+                    if (inventoryFullSelect != inventoryMoveSelect)
+                    {
+                        if (msid == fsid)
+                        {
+                            inventory[inventoryFullSelect] = {fsid, (u8)(fsa + msa)}; // TODO: make stacking >64 blocks work
+                            inventory[inventoryMoveSelect] = NULLITEM;
+                        }
+                        else
+                        {
+                            inventory[inventoryMoveSelect] = {fsid, fsa};
+                            inventory[inventoryFullSelect] = {msid, msa};
+                        }
+                    }
+                    inventoryMoveSelect = 20;
+                }
             }
         }
     }
@@ -440,7 +460,8 @@ bool Player::update(Camera camera, BlockList *blocks)
         {
             if (down & KEY_B)
             {
-                if (getRectAim(camera).x == block->getRect().x && getRectAim(camera).y == block->getRect().y)
+                if (Rect(getRectAim(camera).x + 1, getRectAim(camera).y + 1, 14, 14)
+                    .intersects(block->getRect()))
                 {
                     std::string bid = block->id();
                     if (bid == "grass")

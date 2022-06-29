@@ -11,6 +11,7 @@ static glImage sprCactus[1];
 static glImage sprDeadBush[1];
 static glImage sprDandelion[1];
 static glImage sprPoppy[1];
+static glImage sprDoor[1];
 
 void loadBlockTextures(void)
 {
@@ -26,6 +27,7 @@ void loadBlockTextures(void)
     loadImageAlpha(sprDeadBush, 16, 16, dead_bushPal, dead_bushBitmap);
     loadImageAlpha(sprDandelion, 16, 16, dandelionPal, dandelionBitmap);
     loadImageAlpha(sprPoppy, 16, 16, poppyPal, poppyBitmap);
+    loadImageAlpha(sprDoor, 32, 32, doorPal, doorBitmap);
 }
 
 //----------------------------------------
@@ -247,4 +249,31 @@ std::string FlowerBlock::id(void)
     case FlowerType::Dandelion:
         return "dandelion";
     }
+}
+
+//-----------------------------------------
+
+DoorBlock::DoorBlock(s16 x, s16 y) : Block(x, y)
+{
+    open = false;
+}
+
+void DoorBlock::draw(Camera camera)
+{
+    glSprite(x - camera.x - 1, y - camera.y, GL_FLIP_NONE, sprDoor);
+}
+
+bool DoorBlock::solid(void)
+{
+    return !open;
+}
+
+std::string DoorBlock::id(void)
+{
+    return "door";
+}
+
+Rect DoorBlock::getRect(void)
+{
+    return Rect(x, y, 16, 32);
 }

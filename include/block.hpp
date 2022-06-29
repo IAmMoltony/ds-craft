@@ -12,6 +12,7 @@
 #include <dead_bush_img.h>
 #include <dandelion_img.h>
 #include <poppy_img.h>
+#include <door_img.h>
 #include <camera.h>
 #include <rect.hpp>
 #include <vector>
@@ -37,7 +38,7 @@ public:
     virtual void draw(Camera camera) = 0;
     virtual std::string id(void) = 0;
     virtual bool solid(void);
-    Rect getRect(void) const;
+    virtual Rect getRect(void) const;
 };
 
 class GrassBlock : public Block
@@ -137,6 +138,20 @@ public:
     void draw(Camera camera);
     bool solid(void);
     std::string id(void);
+};
+
+class DoorBlock : public Block
+{
+private:
+    bool open;
+
+public:
+    DoorBlock(s16 x, s16 y);
+
+    void draw(Camera camera);
+    bool solid(void);
+    std::string id(void);
+    Rect getRect(void);
 };
 
 struct BlockCompareKey

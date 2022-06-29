@@ -5,13 +5,16 @@
             "includePath": [
                 "${workspaceFolder}/build",
                 "${workspaceFolder}/include",
+                "D:/devkitPro/libnds/include/**",
+                "D:/devkitPro/devkitARM/arm-none-eabi/include/**",
                 "E:/devkitPro/libnds/include/**",
-                "E:/devkitPro/devkitARM/arm-none-eabi/include/**"
+                "E:/devkitPro/devkitARM/arm-none-eabi/include/**",
+                "/opt/devkitPro/libnds/include/**",
+                "/opt/devkitPro/devkitARM/arm-none-eabi/include/**"
             ],
             "defines": [],
-            "compilerPath": "cl",
-            "cStandard": "gnu17",
-            "cppStandard": "gnu++17",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
             "intelliSenseMode": "windows-msvc-x64"
         }
     ],
