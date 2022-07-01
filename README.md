@@ -16,6 +16,6 @@ devkitPro libnds installed. For converting images and fonts, grit from &lt;devki
 
 ## Credits
 
-Mojang - textures and font
+Mojang - textures, font and sounds
 
 The libnds example authors
