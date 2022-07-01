@@ -127,56 +127,46 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                     u8 amount = inventory[i].amount;
                     InventoryItemID id = inventory[i].id;
 
-                    // TODO rewrite into a switch
-                    if (id == InventoryItemID::Grass)
+                    switch (id)
                     {
+                    case InventoryItemID::Grass:
                         glSprite(x + 4, y + 4, GL_FLIP_NONE, sprGrassSmall);
-                    }
-                    else if (id == InventoryItemID::Dirt)
-                    {
+                        break;
+                    case InventoryItemID::Dirt:
                         glSprite(x + 4, y + 4, GL_FLIP_NONE, sprDirtSmall);
-                    }
-                    else if (id == InventoryItemID::Stone)
-                    {
+                        break;
+                    case InventoryItemID::Stone:
                         glSprite(x + 4, y + 4, GL_FLIP_NONE, sprStoneSmall);
-                    }
-                    else if (id == InventoryItemID::Wood)
-                    {
+                        break;
+                    case InventoryItemID::Wood:
                         glSprite(x + 4, y + 4, GL_FLIP_NONE, sprWoodSmall);
-                    }
-                    else if (id == InventoryItemID::Leaves)
-                    {
+                        break;
+                    case InventoryItemID::Leaves:
                         glColor(RGB15(0, 22, 0));
                         glSprite(x + 4, y + 4, GL_FLIP_NONE, sprLeavesSmall);
                         glColor(RGB15(31, 31, 31));
-                    }
-                    else if (id == InventoryItemID::Sand)
-                    {
+                        break;
+                    case InventoryItemID::Sand:
                         glSprite(x + 4, y + 4, GL_FLIP_NONE, sprSandSmall);
-                    }
-                    else if (id == InventoryItemID::Sandstone)
-                    {
+                        break;
+                    case InventoryItemID::Sandstone:
                         glSprite(x + 4, y + 4, GL_FLIP_NONE, sprSandstoneSmall);
-                    }
-                    else if (id == InventoryItemID::Cactus)
-                    {
+                        break;
+                    case InventoryItemID::Cactus:
                         glSprite(x + 4, y + 4, GL_FLIP_NONE, sprCactusSmall);
-                    }
-                    else if (id == InventoryItemID::DeadBush)
-                    {
+                        break;
+                    case InventoryItemID::DeadBush:
                         glSprite(x + 4, y + 4, GL_FLIP_NONE, sprDeadBushSmall);
-                    }
-                    else if (id == InventoryItemID::Poppy)
-                    {
+                        break;
+                    case InventoryItemID::Poppy:
                         glSprite(x + 4, y + 4, GL_FLIP_NONE, sprPoppySmall);
-                    }
-                    else if (id == InventoryItemID::Dandelion)
-                    {
+                        break;
+                    case InventoryItemID::Dandelion:
                         glSprite(x + 4, y + 4, GL_FLIP_NONE, sprDandelionSmall);
-                    }
-                    else if (id == InventoryItemID::Door)
-                    {
+                        break;
+                    case InventoryItemID::Door:
                         glSprite(x + 4, y + 4, GL_FLIP_NONE, sprDoorSmall);
+                        break;
                     }
 
                     if (amount > 1)
@@ -273,68 +263,58 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
             {
                 InventoryItemID id = inventory[i].id;
                 u8 amount = inventory[i].amount;
-                // TODO rewrite into a switch
-                if (id == InventoryItemID::Grass)
+                switch (id)
                 {
+                case InventoryItemID::Grass:
                     glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              GL_FLIP_NONE, sprGrassSmall);
-                }
-                else if (id == InventoryItemID::Dirt)
-                {
+                    break;
+                case InventoryItemID::Dirt:
                     glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              GL_FLIP_NONE, sprDirtSmall);
-                }
-                else if (id == InventoryItemID::Stone)
-                {
+                    break;
+                case InventoryItemID::Stone:
                     glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              GL_FLIP_NONE, sprStoneSmall);
-                }
-                else if (id == InventoryItemID::Wood)
-                {
+                    break;
+                case InventoryItemID::Wood:
                     glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              GL_FLIP_NONE, sprWoodSmall);
-                }
-                else if (id == InventoryItemID::Leaves)
-                {
+                    break;
+                case InventoryItemID::Leaves:
                     glColor(RGB15(0, 22, 0));
                     glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              GL_FLIP_NONE, sprLeavesSmall);
                     glColor(RGB15(31, 31, 31));
-                }
-                else if (id == InventoryItemID::Sand)
-                {
+                    break;
+                case InventoryItemID::Sand:
                     glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              GL_FLIP_NONE, sprSandSmall);
-                }
-                else if (id == InventoryItemID::Sandstone)
-                {
+                    break;
+                case InventoryItemID::Sandstone:
                     glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              GL_FLIP_NONE, sprSandstoneSmall);
-                }
-                else if (id == InventoryItemID::Cactus)
-                {
+                    break;
+                case InventoryItemID::Cactus:
                     glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              GL_FLIP_NONE, sprCactusSmall);
-                }
-                else if (id == InventoryItemID::DeadBush)
-                {
+                    break;
+                case InventoryItemID::DeadBush:
                     glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              GL_FLIP_NONE, sprDeadBushSmall);
-                }
-                else if (id == InventoryItemID::Poppy)
-                {
+                    break;
+                case InventoryItemID::Poppy:
                     glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              GL_FLIP_NONE, sprPoppySmall);
-                }
-                else if (id == InventoryItemID::Dandelion)
-                {
+                    break;
+                case InventoryItemID::Dandelion:
                     glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              GL_FLIP_NONE, sprDandelionSmall);
-                }
-                else if (id == InventoryItemID::Door)
-                {
+                    break;
+                case InventoryItemID::Door:
                     glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              GL_FLIP_NONE, sprDoorSmall);
+                    break;
                 }
 
                 if (amount > 1)
