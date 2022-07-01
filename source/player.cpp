@@ -496,6 +496,22 @@ bool Player::update(Camera camera, BlockList *blocks)
                     {
                         blocks->emplace_back(new GrassBlock(snapToGrid(camera.x + aimX),
                                                             snapToGrid(camera.y + aimY)));
+                        u8 effect = rand() % 4;
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndGrass1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndGrass2);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndGrass3);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndGrass4);
+                            break;
+                        }
                     }
                     else if (id == InventoryItemID::Dirt)
                     {
