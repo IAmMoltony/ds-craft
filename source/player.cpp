@@ -35,6 +35,10 @@ mm_sound_effect sndGrass1;
 mm_sound_effect sndGrass2;
 mm_sound_effect sndGrass3;
 mm_sound_effect sndGrass4;
+mm_sound_effect sndDirt1;
+mm_sound_effect sndDirt2;
+mm_sound_effect sndDirt3;
+mm_sound_effect sndDirt4;
 
 void loadPlayerGUI(void)
 {
@@ -66,6 +70,10 @@ void loadPlayerSounds(void)
     sndGrass2 = soundEffect(SFX_GRASS2);
     sndGrass3 = soundEffect(SFX_GRASS3);
     sndGrass4 = soundEffect(SFX_GRASS4);
+    sndDirt1 = soundEffect(SFX_GRAVEL1);
+    sndDirt2 = soundEffect(SFX_GRAVEL2);
+    sndDirt3 = soundEffect(SFX_GRAVEL3);
+    sndDirt4 = soundEffect(SFX_GRAVEL4);
 }
 
 Player::Player()
@@ -517,6 +525,22 @@ bool Player::update(Camera camera, BlockList *blocks)
                     {
                         blocks->emplace_back(new DirtBlock(snapToGrid(camera.x + aimX),
                                                            snapToGrid(camera.y + aimY)));
+                        u8 effect = rand() % 4;
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndDirt1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndDirt2);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndDirt3);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndDirt4);
+                            break;
+                        }
                     }
                     else if (id == InventoryItemID::Stone)
                     {
@@ -619,6 +643,22 @@ bool Player::update(Camera camera, BlockList *blocks)
                     else if (bid == "dirt")
                     {
                         addItem(InventoryItemID::Dirt);
+                        u8 effect = rand() % 4;
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndDirt1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndDirt2);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndDirt3);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndDirt4);
+                            break;
+                        }
                     }
                     else if (bid == "stone")
                     {

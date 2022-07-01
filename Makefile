@@ -25,6 +25,7 @@ BUILD		:=	build
 SOURCES		:=	source source/img
 INCLUDES	:=	include build
 MUSIC       :=  maxmod_data
+NITRODATA   :=  nitrofiles
 
 #---------------------------------------------------------------------------------
 # options for code generation

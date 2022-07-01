@@ -2,7 +2,11 @@
 #define SFX_GRASS2	1
 #define SFX_GRASS3	2
 #define SFX_GRASS4	3
-#define SFX_TADA	4
+#define SFX_GRAVEL1	4
+#define SFX_GRAVEL2	5
+#define SFX_GRAVEL3	6
+#define SFX_GRAVEL4	7
+#define SFX_TADA	8
 #define MSL_NSONGS	0
-#define MSL_NSAMPS	5
-#define MSL_BANKSIZE	5
+#define MSL_NSAMPS	9
+#define MSL_BANKSIZE	9
