@@ -2,6 +2,7 @@
 *.d
 ds-craft.map
 mctex/
+mcsnd/
 mctex.zip
 *.elf
 *.nds
