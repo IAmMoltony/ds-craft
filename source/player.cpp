@@ -65,6 +65,10 @@ void loadPlayerSounds(void)
     mmLoadEffect(SFX_GRASS2);
     mmLoadEffect(SFX_GRASS3);
     mmLoadEffect(SFX_GRASS4);
+    mmLoadEffect(SFX_GRAVEL1);
+    mmLoadEffect(SFX_GRAVEL2);
+    mmLoadEffect(SFX_GRAVEL3);
+    mmLoadEffect(SFX_GRAVEL4);
 
     sndGrass1 = soundEffect(SFX_GRASS1);
     sndGrass2 = soundEffect(SFX_GRASS2);
