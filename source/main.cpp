@@ -3,6 +3,7 @@
 #include <nds/arm9/input.h>
 #include <gl2d.h>
 #include <maxmod9.h>
+#include <filesystem.h>
 #include <font_16x16.h>
 #include <font_small.h>
 #include <uvcoord_font_16x16.h>
@@ -23,6 +24,12 @@ int main(void)
     consoleDemoInit();
     videoSetMode(MODE_5_3D);
     glScreen2D();
+
+    if (!nitroFSInit(NULL))
+    {
+        printf("Error initializing Nitro FS");
+        while (true);
+    }
 
     mmInitDefaultMem((mm_addr)soundbank_bin);
 
