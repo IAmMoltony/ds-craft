@@ -560,6 +560,22 @@ bool Player::update(Camera camera, BlockList *blocks)
                     {
                         blocks->emplace_back(new LeavesBlock(snapToGrid(camera.x + aimX),
                                                              snapToGrid(camera.y + aimY)));
+                        u8 effect = rand() % 4;
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndGrass1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndGrass2);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndGrass3);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndGrass4);
+                            break;
+                        }
                     }
                     else if (id == InventoryItemID::Sand)
                     {
@@ -580,17 +596,65 @@ bool Player::update(Camera camera, BlockList *blocks)
                     {
                         blocks->emplace_back(new DeadBushBlock(snapToGrid(camera.x + aimX),
                                                              snapToGrid(camera.y + aimY)));
+                        u8 effect = rand() % 4;
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndGrass1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndGrass2);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndGrass3);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndGrass4);
+                            break;
+                        }
                     }
                     else if (id == InventoryItemID::Poppy)
                     {
                         blocks->emplace_back(new FlowerBlock(snapToGrid(camera.x + aimX),
                                                              snapToGrid(camera.y + aimY), FlowerType::Poppy));
+                        u8 effect = rand() % 4;
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndGrass1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndGrass2);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndGrass3);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndGrass4);
+                            break;
+                        }
                     }
                     else if (id == InventoryItemID::Dandelion)
                     {
                         blocks->emplace_back(new FlowerBlock(snapToGrid(camera.x + aimX),
                                                              snapToGrid(camera.y + aimY),
                                                              FlowerType::Dandelion));
+                        u8 effect = rand() % 4;
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndGrass1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndGrass2);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndGrass3);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndGrass4);
+                            break;
+                        }
                     }
                     else if (id == InventoryItemID::Door)
                     {
@@ -675,6 +739,22 @@ bool Player::update(Camera camera, BlockList *blocks)
                     else if (bid == "leaves")
                     {
                         addItem(InventoryItemID::Leaves);
+                        u8 effect = rand() % 4;
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndGrass1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndGrass2);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndGrass3);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndGrass4);
+                            break;
+                        }
                     }
                     else if (bid == "sand")
                     {
@@ -691,14 +771,62 @@ bool Player::update(Camera camera, BlockList *blocks)
                     else if (bid == "dead bush")
                     {
                         addItem(InventoryItemID::DeadBush);
+                        u8 effect = rand() % 4;
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndGrass1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndGrass2);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndGrass3);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndGrass4);
+                            break;
+                        }
                     }
                     else if (bid == "poppy")
                     {
                         addItem(InventoryItemID::Poppy);
+                        u8 effect = rand() % 4;
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndGrass1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndGrass2);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndGrass3);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndGrass4);
+                            break;
+                        }
                     }
                     else if (bid == "dandelion")
                     {
                         addItem(InventoryItemID::Dandelion);
+                        u8 effect = rand() % 4;
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndGrass1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndGrass2);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndGrass3);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndGrass4);
+                            break;
+                        }
                     }
                     else if (bid == "door")
                     {
