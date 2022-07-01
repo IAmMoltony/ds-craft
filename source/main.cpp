@@ -2,10 +2,13 @@
 #include <nds/arm9/console.h>
 #include <nds/arm9/input.h>
 #include <gl2d.h>
+#include <maxmod9.h>
 #include <font_16x16.h>
 #include <font_small.h>
 #include <uvcoord_font_16x16.h>
 #include <uvcoord_font_si.h>
+#include <soundbank.h>
+#include <soundbank_bin.h>
 #include <camera.h>
 #include <time.h>
 #include <stdio.h>
@@ -20,6 +23,12 @@ int main(void)
     consoleDemoInit();
     videoSetMode(MODE_5_3D);
     glScreen2D();
+
+    mmInitDefaultMem((mm_addr)soundbank_bin);
+    mmLoadEffect(SFX_TADA);
+    mm_sound_effect tada = {
+        SFX_TADA, (int)(1.0f * (1<<10)), 0, 255, 0,
+    };
 
     vramSetBankA(VRAM_A_TEXTURE);
     vramSetBankB(VRAM_B_TEXTURE);
@@ -156,6 +165,10 @@ int main(void)
     while (true)
     {
         scanKeys();
+        if (keysDown() & KEY_X)
+        {
+            mmEffectEx(&tada);
+        }
         if (player.update(camera, &blocks))
         {
             std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
@@ -182,6 +195,9 @@ int main(void)
             block->draw(camera);
         }
         player.draw(camera, fontSmall, font);
+        glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(4));
+        fontSmall.printf(3, 3, "%s%d.%d", VERSION_PREFIX, VERSION_MAJOR, VERSION_MINOR);
+        glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(4));
 
         glEnd2D();
         glFlush(0);

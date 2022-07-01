@@ -6,6 +6,7 @@
 #define lerp(a, b, t) ((a) + (t) * ((b) - (a)))
 #define snapToGrid(x) (round((x) / 16) * 16)
 
+#define VERSION_PREFIX "alpha"
 #define VERSION_MAJOR 1
 #define VERSION_MINOR 0
 

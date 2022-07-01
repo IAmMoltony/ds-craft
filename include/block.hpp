@@ -37,8 +37,9 @@ public:
 
     virtual void draw(Camera camera) = 0;
     virtual std::string id(void) = 0;
+    virtual void interact(void);
     virtual bool solid(void);
-    virtual Rect getRect(void) const;
+    virtual Rect getRect(void) const = 0;
 };
 
 class GrassBlock : public Block
@@ -48,6 +49,7 @@ public:
 
     void draw(Camera camera);
     std::string id(void);
+    Rect getRect(void) const;
 };
 
 class DirtBlock : public Block
@@ -57,6 +59,7 @@ public:
 
     void draw(Camera camera);
     std::string id(void);
+    Rect getRect(void) const;
 };
 
 class StoneBlock : public Block
@@ -66,6 +69,7 @@ public:
 
     void draw(Camera camera);
     std::string id(void);
+    Rect getRect(void) const;
 };
 
 class WoodBlock : public Block
@@ -76,6 +80,7 @@ public:
     void draw(Camera camera);
     bool solid(void);
     std::string id(void);
+    Rect getRect(void) const;
 };
 
 class LeavesBlock : public Block
@@ -86,6 +91,7 @@ public:
     void draw(Camera camera);
     bool solid(void);
     std::string id(void);
+    Rect getRect(void) const;
 };
 
 class SandBlock : public Block
@@ -95,6 +101,7 @@ public:
 
     void draw(Camera camera);
     std::string id(void);
+    Rect getRect(void) const;
 };
 
 class SandstoneBlock : public Block
@@ -104,6 +111,7 @@ public:
 
     void draw(Camera camera);
     std::string id(void);
+    Rect getRect(void) const;
 };
 
 class CactusBlock : public Block
@@ -114,6 +122,7 @@ public:
     void draw(Camera camera);
     bool solid(void);
     std::string id(void);
+    Rect getRect(void) const;
 };
 
 class DeadBushBlock : public Block
@@ -124,6 +133,7 @@ public:
     void draw(Camera camera);
     bool solid(void);
     std::string id(void);
+    Rect getRect(void) const;
 };
 
 class FlowerBlock : public Block
@@ -138,6 +148,7 @@ public:
     void draw(Camera camera);
     bool solid(void);
     std::string id(void);
+    Rect getRect(void) const;
 };
 
 class DoorBlock : public Block
@@ -150,8 +161,9 @@ public:
 
     void draw(Camera camera);
     bool solid(void);
+    void interact(void);
     std::string id(void);
-    Rect getRect(void);
+    Rect getRect(void) const;
 };
 
 struct BlockCompareKey

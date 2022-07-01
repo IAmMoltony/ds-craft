@@ -1,17 +1,17 @@
 #include <block.hpp>
 
-static glImage sprGrass[1];
-static glImage sprDirt[1];
-static glImage sprStone[1];
-static glImage sprWood[1];
-static glImage sprLeaves[1];
-static glImage sprSand[1];
-static glImage sprSandstone[1];
-static glImage sprCactus[1];
-static glImage sprDeadBush[1];
-static glImage sprDandelion[1];
-static glImage sprPoppy[1];
-static glImage sprDoor[1];
+glImage sprGrass[1];
+glImage sprDirt[1];
+glImage sprStone[1];
+glImage sprWood[1];
+glImage sprLeaves[1];
+glImage sprSand[1];
+glImage sprSandstone[1];
+glImage sprCactus[1];
+glImage sprDeadBush[1];
+glImage sprDandelion[1];
+glImage sprPoppy[1];
+glImage sprDoor[1];
 
 void loadBlockTextures(void)
 {
@@ -38,9 +38,8 @@ Block::Block(s16 x, s16 y)
     this->y = y;
 }
 
-Rect Block::getRect(void) const
+void Block::interact(void)
 {
-    return Rect(x, y, 16, 16);
 }
 
 bool Block::solid(void)
@@ -64,6 +63,11 @@ std::string GrassBlock::id(void)
     return "grass";
 }
 
+Rect GrassBlock::getRect(void) const
+{
+    return Rect(x, y, 16, 16);
+}
+
 //-----------------------------------------
 
 DirtBlock::DirtBlock(s16 x, s16 y) : Block(x, y)
@@ -80,6 +84,11 @@ std::string DirtBlock::id(void)
     return "dirt";
 }
 
+Rect DirtBlock::getRect(void) const
+{
+    return Rect(x, y, 16, 16);
+}
+
 //-----------------------------------------
 
 StoneBlock::StoneBlock(s16 x, s16 y) : Block(x, y)
@@ -94,6 +103,11 @@ void StoneBlock::draw(Camera camera)
 std::string StoneBlock::id(void)
 {
     return "stone";
+}
+
+Rect StoneBlock::getRect(void) const
+{
+    return Rect(x, y, 16, 16);
 }
 
 //-----------------------------------------
@@ -115,6 +129,11 @@ bool WoodBlock::solid(void)
 std::string WoodBlock::id(void)
 {
     return "wood";
+}
+
+Rect WoodBlock::getRect(void) const
+{
+    return Rect(x, y, 16, 16);
 }
 
 //-----------------------------------------
@@ -140,6 +159,11 @@ std::string LeavesBlock::id(void)
     return "leaves";
 }
 
+Rect LeavesBlock::getRect(void) const
+{
+    return Rect(x, y, 16, 16);
+}
+
 //-----------------------------------------
 
 SandBlock::SandBlock(s16 x, s16 y) : Block(x, y)
@@ -156,6 +180,11 @@ std::string SandBlock::id(void)
     return "sand";
 }
 
+Rect SandBlock::getRect(void) const
+{
+    return Rect(x, y, 16, 16);
+}
+
 //-----------------------------------------
 
 SandstoneBlock::SandstoneBlock(s16 x, s16 y) : Block(x, y)
@@ -170,6 +199,11 @@ void SandstoneBlock::draw(Camera camera)
 std::string SandstoneBlock::id(void)
 {
     return "sandstone";
+}
+
+Rect SandstoneBlock::getRect(void) const
+{
+    return Rect(x, y, 16, 16);
 }
 
 //-----------------------------------------
@@ -193,6 +227,11 @@ std::string CactusBlock::id(void)
     return "cactus";
 }
 
+Rect CactusBlock::getRect(void) const
+{
+    return Rect(x, y, 16, 16);
+}
+
 //-----------------------------------------
 
 DeadBushBlock::DeadBushBlock(s16 x, s16 y) : Block(x, y)
@@ -212,6 +251,11 @@ bool DeadBushBlock::solid(void)
 std::string DeadBushBlock::id(void)
 {
     return "dead bush";
+}
+
+Rect DeadBushBlock::getRect(void) const
+{
+    return Rect(x, y, 16, 16);
 }
 
 //-----------------------------------------
@@ -251,16 +295,28 @@ std::string FlowerBlock::id(void)
     }
 }
 
+Rect FlowerBlock::getRect(void) const
+{
+    return Rect(x, y, 16, 16);
+}
+
 //-----------------------------------------
 
 DoorBlock::DoorBlock(s16 x, s16 y) : Block(x, y)
 {
-    open = false;
+    open = true;
 }
 
 void DoorBlock::draw(Camera camera)
 {
-    glSprite(x - camera.x - 1, y - camera.y, GL_FLIP_NONE, sprDoor);
+    if (open)
+    {
+        glSprite(x - camera.x - 1, y - camera.y, GL_FLIP_NONE, sprDoor);
+    }
+    else
+    {
+        glSpriteScaleXY(x - camera.x - 1, y - camera.y, 1 << 10, 1 << 12, GL_FLIP_NONE, sprDoor);
+    }
 }
 
 bool DoorBlock::solid(void)
@@ -268,12 +324,21 @@ bool DoorBlock::solid(void)
     return !open;
 }
 
+void DoorBlock::interact(void)
+{
+    open = !open;
+}
+
 std::string DoorBlock::id(void)
 {
     return "door";
 }
 
-Rect DoorBlock::getRect(void)
+Rect DoorBlock::getRect(void) const
 {
-    return Rect(x, y, 16, 32);
+    if (open)
+    {
+        return Rect(x, y, 16, 32);
+    }
+    return Rect(x, y, 4, 32);
 }

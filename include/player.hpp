@@ -17,6 +17,7 @@
 #include <dead_bush_small_img.h>
 #include <poppy_small_img.h>
 #include <dandelion_small_img.h>
+#include <door_small_img.h>
 #include <math.h>
 #include <stdio.h>
 #include <block.hpp>
@@ -37,7 +38,7 @@ enum class InventoryItemID
     DeadBush,
     Poppy,
     Dandelion,
-    Stick,
+    Door,
 };
 
 typedef struct item
