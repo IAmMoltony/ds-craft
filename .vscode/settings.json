@@ -1,7 +1,8 @@
 {
     "files.associations": {
-        "*.lock": "toml",
         "*.h": "c",
+        "*.json": "jsonc",
+        "*.lock": "toml",
         "*.bxrc": "ini",
         "vector": "cpp",
         "array": "cpp",
@@ -49,6 +50,13 @@
         "streambuf": "cpp",
         "cinttypes": "cpp",
         "typeinfo": "cpp",
-        "optional": "cpp"
+        "optional": "cpp",
+        "list": "cpp",
+        "xhash": "cpp",
+        "xlocale": "cpp",
+        "xlocinfo": "cpp",
+        "xmemory": "cpp",
+        "xstring": "cpp",
+        "xutility": "cpp"
     }
 }

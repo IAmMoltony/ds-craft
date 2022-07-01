@@ -5,6 +5,7 @@
 #define chance(percent) (rand() % 100 <= (percent))
 #define lerp(a, b, t) ((a) + (t) * ((b) - (a)))
 #define snapToGrid(x) (round((x) / 16) * 16)
+#define soundEffect(id) {{id}, (int)(1.0f * (1<<10)), 0, 255, 0}
 
 #define VERSION_PREFIX "alpha"
 #define VERSION_MAJOR 1

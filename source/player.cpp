@@ -1,5 +1,6 @@
 #include <player.hpp>
 
+// gui images
 static glImage sprInventorySlot[1];
 static glImage sprInventorySlotSelect[1];
 static glImage sprGrassSmall[1];
@@ -29,6 +30,12 @@ extern glImage sprPoppy[1];
 extern glImage sprDandelion[1];
 extern glImage sprDoor[1];
 
+// sounds
+mm_sound_effect sndGrass1;
+mm_sound_effect sndGrass2;
+mm_sound_effect sndGrass3;
+mm_sound_effect sndGrass4;
+
 void loadPlayerGUI(void)
 {
     loadImage(sprInventorySlot, 16, 16, inventory_slotBitmap);
@@ -46,6 +53,19 @@ void loadPlayerGUI(void)
     loadImageAlpha(sprPoppySmall, 8, 8, poppy_smallPal, poppy_smallBitmap);
     loadImageAlpha(sprDandelionSmall, 8, 8, dandelion_smallPal, dandelion_smallBitmap);
     loadImageAlpha(sprDoorSmall, 8, 8, door_smallPal, door_smallBitmap);
+}
+
+void loadPlayerSounds(void)
+{
+    mmLoadEffect(SFX_GRASS1);
+    mmLoadEffect(SFX_GRASS2);
+    mmLoadEffect(SFX_GRASS3);
+    mmLoadEffect(SFX_GRASS4);
+
+    sndGrass1 = soundEffect(SFX_GRASS1);
+    sndGrass2 = soundEffect(SFX_GRASS2);
+    sndGrass3 = soundEffect(SFX_GRASS3);
+    sndGrass4 = soundEffect(SFX_GRASS4);
 }
 
 Player::Player()
@@ -560,10 +580,25 @@ bool Player::update(Camera camera, BlockList *blocks)
                     .intersects(block->getRect()))
                 {
                     std::string bid = block->id();
-                    // TODO rewrite into a switch
                     if (bid == "grass")
                     {
                         addItem(InventoryItemID::Grass);
+                        u8 effect = rand() % 4;
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndGrass1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndGrass2);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndGrass3);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndGrass4);
+                            break;
+                        }
                     }
                     else if (bid == "dirt")
                     {

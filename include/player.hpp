@@ -2,6 +2,8 @@
 #include <nds.h>
 #include <nds/arm9/input.h>
 #include <gl2d.h>
+#include <maxmod9.h>
+#include <soundbank.h>
 #include <defines.h>
 #include <camera.h>
 #include <inventory_slot_img.h>
@@ -48,6 +50,7 @@ typedef struct item
 } InventoryItem;
 
 void loadPlayerGUI(void);
+void loadPlayerSounds(void);
 
 class Player
 {

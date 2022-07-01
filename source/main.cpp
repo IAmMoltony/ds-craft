@@ -25,10 +25,6 @@ int main(void)
     glScreen2D();
 
     mmInitDefaultMem((mm_addr)soundbank_bin);
-    mmLoadEffect(SFX_TADA);
-    mm_sound_effect tada = {
-        SFX_TADA, (int)(1.0f * (1<<10)), 0, 255, 0,
-    };
 
     vramSetBankA(VRAM_A_TEXTURE);
     vramSetBankB(VRAM_B_TEXTURE);
@@ -36,6 +32,7 @@ int main(void)
     vramSetBankE(VRAM_E_TEX_PALETTE);
     loadBlockTextures();
     loadPlayerGUI();
+    loadPlayerSounds();
 
     glImage font16x16Img[FONT_16X16_NUM_IMAGES];
     glImage fontSmallImg[FONT_SI_NUM_IMAGES];
@@ -165,10 +162,6 @@ int main(void)
     while (true)
     {
         scanKeys();
-        if (keysDown() & KEY_X)
-        {
-            mmEffectEx(&tada);
-        }
         if (player.update(camera, &blocks))
         {
             std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
