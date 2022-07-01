@@ -18,7 +18,7 @@
 #include <font.hpp>
 #include <algorithm>
 
-int main(void)
+int main(int argc, char **argv)
 {
     srand(time(NULL));
     consoleDemoInit();
@@ -27,8 +27,16 @@ int main(void)
 
     if (!nitroFSInit(NULL))
     {
-        printf("Error initializing Nitro FS");
-        while (true);
+        printf("Error initializing Nitro FS\nPress START to quit");
+        while (true)
+        {
+            scanKeys();
+            if (keysDown() & KEY_START)
+            {
+                return 1;
+            }
+            swiWaitForVBlank();
+        }
     }
 
     mmInitDefaultMem((mm_addr)soundbank_bin);

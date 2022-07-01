@@ -48,6 +48,9 @@ LDFLAGS	=	-specs=ds_arm9.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 #---------------------------------------------------------------------------------
 LIBS	:= -lfilesystem -lfat -lmm9 -lnds9
  
+ifneq ($(strip $(NITRODATA)),)
+	export NITRO_FILES	:=	$(CURDIR)/$(NITRODATA)
+endif
  
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
