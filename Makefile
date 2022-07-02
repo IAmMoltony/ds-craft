@@ -1,3 +1,4 @@
+# TODO automate process of convetring the images
 #---------------------------------------------------------------------------------
 .SUFFIXES:
 #---------------------------------------------------------------------------------
@@ -25,7 +26,6 @@ BUILD		:=	build
 SOURCES		:=	source source/img
 INCLUDES	:=	include build
 MUSIC       :=  maxmod_data
-NITRODATA   :=  nitrofiles
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -47,10 +47,6 @@ LDFLAGS	=	-specs=ds_arm9.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
 LIBS	:= -lfilesystem -lfat -lmm9 -lnds9
- 
-ifneq ($(strip $(NITRODATA)),)
-	export NITRO_FILES	:=	$(CURDIR)/$(NITRODATA)
-endif
  
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
