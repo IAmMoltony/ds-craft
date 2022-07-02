@@ -51,6 +51,10 @@ static mm_sound_effect sndSand1;
 static mm_sound_effect sndSand2;
 static mm_sound_effect sndSand3;
 static mm_sound_effect sndSand4;
+static mm_sound_effect sndCloth1;
+static mm_sound_effect sndCloth2;
+static mm_sound_effect sndCloth3;
+static mm_sound_effect sndCloth4;
 
 void loadPlayerGUI(void)
 {
@@ -93,6 +97,10 @@ void loadPlayerSounds(void)
     mmLoadEffect(SFX_SAND2);
     mmLoadEffect(SFX_SAND3);
     mmLoadEffect(SFX_SAND4);
+    mmLoadEffect(SFX_CLOTH1);
+    mmLoadEffect(SFX_CLOTH2);
+    mmLoadEffect(SFX_CLOTH3);
+    mmLoadEffect(SFX_CLOTH4);
 
     sndGrass1 = soundEffect(SFX_GRASS1);
     sndGrass2 = soundEffect(SFX_GRASS2);
@@ -114,6 +122,10 @@ void loadPlayerSounds(void)
     sndSand2 = soundEffect(SFX_SAND2);
     sndSand3 = soundEffect(SFX_SAND3);
     sndSand4 = soundEffect(SFX_SAND4);
+    sndCloth1 = soundEffect(SFX_CLOTH1);
+    sndCloth2 = soundEffect(SFX_CLOTH2);
+    sndCloth3 = soundEffect(SFX_CLOTH3);
+    sndCloth4 = soundEffect(SFX_CLOTH4);
 }
 
 Player::Player()
@@ -685,6 +697,21 @@ bool Player::update(Camera camera, BlockList *blocks)
                     {
                         blocks->emplace_back(new CactusBlock(snapToGrid(camera.x + aimX),
                                                              snapToGrid(camera.y + aimY)));
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndCloth1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndCloth2);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndCloth3);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndCloth4);
+                            break;
+                        }
                     }
                     else if (id == InventoryItemID::DeadBush)
                     {
@@ -931,6 +958,21 @@ bool Player::update(Camera camera, BlockList *blocks)
                     else if (bid == "cactus")
                     {
                         addItem(InventoryItemID::Cactus);
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndCloth1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndCloth2);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndCloth3);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndCloth4);
+                            break;
+                        }
                     }
                     else if (bid == "dead bush")
                     {
