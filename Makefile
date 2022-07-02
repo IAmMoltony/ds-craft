@@ -7,6 +7,10 @@ ifeq ($(strip $(DEVKITARM)),)
 $(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM")
 endif
 
+GAME_TITLE     := DS-Craft
+GAME_SUBTITLE1 := Minecraft clone for NDS
+GAME_SUBTITLE2 := made with devkitARM
+
 include $(DEVKITARM)/ds_rules
 
 #---------------------------------------------------------------------------------
