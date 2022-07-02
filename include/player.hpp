@@ -20,6 +20,7 @@
 #include <poppy_small_img.h>
 #include <dandelion_small_img.h>
 #include <door_small_img.h>
+#include <planks_small_img.h>
 #include <math.h>
 #include <stdio.h>
 #include <block.hpp>
@@ -41,6 +42,7 @@ enum class InventoryItemID
     Poppy,
     Dandelion,
     Door,
+    Planks,
 };
 
 typedef struct item
@@ -66,7 +68,9 @@ public:
 
     void draw(Camera camera, Font fontSmall, Font font);
     bool update(Camera camera, BlockList *blocks); // return true if placed block
+    bool hasItem(InventoryItem item);
     void addItem(InventoryItemID item);
+    void removeItem(InventoryItemID item);
 
     s16 getX(void);
     s16 getY(void);

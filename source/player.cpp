@@ -15,6 +15,7 @@ static glImage sprDeadBushSmall[1];
 static glImage sprPoppySmall[1];
 static glImage sprDandelionSmall[1];
 static glImage sprDoorSmall[1];
+static glImage sprPlanksSmall[1];
 
 // these images are loaded in block.cpp
 extern glImage sprGrass[1];
@@ -29,6 +30,7 @@ extern glImage sprDeadBush[1];
 extern glImage sprPoppy[1];
 extern glImage sprDandelion[1];
 extern glImage sprDoor[1];
+extern glImage sprPlanks[1];
 
 // sounds
 static mm_sound_effect sndGrass1;
@@ -66,6 +68,7 @@ void loadPlayerGUI(void)
     loadImage(sprWoodSmall, 8, 8, oak_log_smallBitmap);
     loadImage(sprSandSmall, 8, 8, sand_smallBitmap);
     loadImage(sprSandstoneSmall, 8, 8, sandstone_smallBitmap);
+    loadImage(sprPlanksSmall, 8, 8, planks_smallBitmap);
 
     loadImageAlpha(sprLeavesSmall, 8, 8, oak_leaves_smallPal, oak_leaves_smallBitmap);
     loadImageAlpha(sprCactusSmall, 8, 8, cactus_side_smallPal, cactus_side_smallBitmap);
@@ -163,7 +166,19 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
 
         if (inventoryCrafting)
         {
-            glSprite(16, 46, GL_FLIP_NONE, craftingSelect == 0 ? sprInventorySlotSelect : sprInventorySlot);
+            if (hasItem({InventoryItemID::Wood, 1}))
+            {
+                glColor(RGB15(0, 31, 0));
+            }
+            else
+            {
+                glColor(RGB15(31, 0, 0));
+            }
+            glSprite(16, 46, GL_FLIP_NONE,
+                     craftingSelect == 0 ? sprInventorySlotSelect : sprInventorySlot);
+            glColor(RGB15(31, 31, 31));
+            glSprite(20, 50, GL_FLIP_NONE, sprPlanksSmall);
+            fontSmall.printfShadow(16, 46, "4");
         }
         else
         {
@@ -248,6 +263,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                     case InventoryItemID::Door:
                         glSprite(x + 4, y + 4, GL_FLIP_NONE, sprDoorSmall);
                         break;
+                    case InventoryItemID::Planks:
+                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprPlanksSmall);
+                        break;
                     }
 
                     if (amount > 1)
@@ -331,6 +349,11 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
             glSprite(getRectAim(camera).x - camera.x - 1, getRectAim(camera).y - camera.y,
                      GL_FLIP_NONE, sprDoor);
             break;
+        
+        case InventoryItemID::Planks:
+            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
+                     GL_FLIP_NONE, sprPlanks);
+            break;
         }
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(1));
         glBoxFilled(aimX, aimY, aimX + 1, aimY + 1, RGB15(0, 0, 0));
@@ -396,6 +419,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                     glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              GL_FLIP_NONE, sprDoorSmall);
                     break;
+                case InventoryItemID::Planks:
+                    glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             GL_FLIP_NONE, sprPlanksSmall);
                 }
 
                 if (amount > 1)
@@ -436,11 +462,23 @@ bool Player::update(Camera camera, BlockList *blocks)
         if (kdown & KEY_L)
         {
             inventoryCrafting = !inventoryCrafting;
+            craftingSelect = 0;
         }
 
         if (inventoryCrafting)
         {
-            // TODO implement crafting
+            if (kdown & KEY_A)
+            {
+                if (craftingSelect == 0 && hasItem({InventoryItemID::Wood, 1}))
+                {
+                    removeItem(InventoryItemID::Wood);
+                    // TODO add addItemMultiple function (or overload to existing function)
+                    addItem(InventoryItemID::Planks);
+                    addItem(InventoryItemID::Planks);
+                    addItem(InventoryItemID::Planks);
+                    addItem(InventoryItemID::Planks);
+                }
+            }
         }
         else
         {
@@ -795,6 +833,26 @@ bool Player::update(Camera camera, BlockList *blocks)
                             break;
                         }
                     }
+                    else if (id == InventoryItemID::Planks)
+                    {
+                        blocks->emplace_back(new PlanksBlock(snapToGrid(camera.x + aimX),
+                                                             snapToGrid(camera.y + aimY)));
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        }
+                    }
                     ret = true;
                 }
             }
@@ -1051,6 +1109,25 @@ bool Player::update(Camera camera, BlockList *blocks)
                             break;
                         }
                     }
+                    else if (bid == "planks")
+                    {
+                        addItem(InventoryItemID::Planks);
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        }
+                    }
 
                     remove = true;
                     removei = i;
@@ -1148,6 +1225,16 @@ bool Player::update(Camera camera, BlockList *blocks)
     return ret;
 }
 
+bool Player::hasItem(InventoryItem item)
+{
+    for (u8 i = 0; i < 20; ++i)
+    {
+        if (inventory[i].id == item.id && inventory[i].amount >= item.amount)
+            return true;
+    }
+    return false;
+}
+
 void Player::addItem(InventoryItemID item)
 {
     for (u8 i = 0; i < 20; ++i)
@@ -1165,6 +1252,18 @@ void Player::addItem(InventoryItemID item)
         else if (inventory[i].id == InventoryItemID::None)
         {
             inventory[i] = {item, 1};
+            return;
+        }
+    }
+}
+
+void Player::removeItem(InventoryItemID item)
+{
+    for (u8 i = 0; i < 20; ++i)
+    {
+        if (inventory[i].id == item && inventory[i].amount > 0)
+        {
+            --inventory[i].amount;
             return;
         }
     }

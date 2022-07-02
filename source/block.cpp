@@ -12,6 +12,7 @@ glImage sprDeadBush[1];
 glImage sprDandelion[1];
 glImage sprPoppy[1];
 glImage sprDoor[1];
+glImage sprPlanks[1];
 
 static mm_sound_effect sndDoorOpen1;
 static mm_sound_effect sndDoorOpen2;
@@ -31,6 +32,7 @@ void loadBlockTextures(void)
     loadImage(sprLeaves, 16, 16, oak_leavesBitmap);
     loadImage(sprSand, 16, 16, sandBitmap);
     loadImage(sprSandstone, 16, 16, sandstoneBitmap);
+    loadImage(sprPlanks, 16, 16, planksBitmap);
 
     loadImageAlpha(sprCactus, 16, 16, cactus_sidePal, cactus_sideBitmap);
     loadImageAlpha(sprDeadBush, 16, 16, dead_bushPal, dead_bushBitmap);
@@ -77,96 +79,20 @@ bool Block::solid(void)
     return true;
 }
 
-//-----------------------------------------
+// generic block implementations
 
-GrassBlock::GrassBlock(s16 x, s16 y) : Block(x, y)
-{
-}
+GENERIC_BLOCK_IMPL(GrassBlock, sprGrass, "grass")
+GENERIC_BLOCK_IMPL(DirtBlock, sprDirt, "dirt")
+GENERIC_BLOCK_IMPL(StoneBlock, sprStone, "stone")
+GENERIC_BLOCK_IMPL(SandBlock, sprSand, "sand")
+GENERIC_BLOCK_IMPL(SandstoneBlock, sprSandstone, "sandstone")
+GENERIC_BLOCK_IMPL(PlanksBlock, sprPlanks, "planks")
 
-void GrassBlock::draw(Camera camera)
-{
-    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprGrass);
-}
+NONSOLID_BLOCK_IMPL(WoodBlock, sprWood, "wood")
+NONSOLID_BLOCK_IMPL(CactusBlock, sprCactus, "cactus")
+NONSOLID_BLOCK_IMPL(DeadBushBlock, sprDeadBush, "dead bush");
 
-std::string GrassBlock::id(void)
-{
-    return "grass";
-}
-
-Rect GrassBlock::getRect(void) const
-{
-    return Rect(x, y, 16, 16);
-}
-
-//-----------------------------------------
-
-DirtBlock::DirtBlock(s16 x, s16 y) : Block(x, y)
-{
-}
-
-void DirtBlock::draw(Camera camera)
-{
-    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprDirt);
-}
-
-std::string DirtBlock::id(void)
-{
-    return "dirt";
-}
-
-Rect DirtBlock::getRect(void) const
-{
-    return Rect(x, y, 16, 16);
-}
-
-//-----------------------------------------
-
-StoneBlock::StoneBlock(s16 x, s16 y) : Block(x, y)
-{
-}
-
-void StoneBlock::draw(Camera camera)
-{
-    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprStone);
-}
-
-std::string StoneBlock::id(void)
-{
-    return "stone";
-}
-
-Rect StoneBlock::getRect(void) const
-{
-    return Rect(x, y, 16, 16);
-}
-
-//-----------------------------------------
-
-WoodBlock::WoodBlock(s16 x, s16 y) : Block(x, y)
-{
-}
-
-void WoodBlock::draw(Camera camera)
-{
-    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprWood);
-}
-
-bool WoodBlock::solid(void)
-{
-    return false;
-}
-
-std::string WoodBlock::id(void)
-{
-    return "wood";
-}
-
-Rect WoodBlock::getRect(void) const
-{
-    return Rect(x, y, 16, 16);
-}
-
-//-----------------------------------------
+// non-generic implementations
 
 LeavesBlock::LeavesBlock(s16 x, s16 y) : Block(x, y)
 {
@@ -190,100 +116,6 @@ std::string LeavesBlock::id(void)
 }
 
 Rect LeavesBlock::getRect(void) const
-{
-    return Rect(x, y, 16, 16);
-}
-
-//-----------------------------------------
-
-SandBlock::SandBlock(s16 x, s16 y) : Block(x, y)
-{
-}
-
-void SandBlock::draw(Camera camera)
-{
-    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprSand);
-}
-
-std::string SandBlock::id(void)
-{
-    return "sand";
-}
-
-Rect SandBlock::getRect(void) const
-{
-    return Rect(x, y, 16, 16);
-}
-
-//-----------------------------------------
-
-SandstoneBlock::SandstoneBlock(s16 x, s16 y) : Block(x, y)
-{
-}
-
-void SandstoneBlock::draw(Camera camera)
-{
-    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprSandstone);
-}
-
-std::string SandstoneBlock::id(void)
-{
-    return "sandstone";
-}
-
-Rect SandstoneBlock::getRect(void) const
-{
-    return Rect(x, y, 16, 16);
-}
-
-//-----------------------------------------
-
-CactusBlock::CactusBlock(s16 x, s16 y) : Block(x, y)
-{
-}
-
-void CactusBlock::draw(Camera camera)
-{
-    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprCactus);
-}
-
-bool CactusBlock::solid(void)
-{
-    return false;
-}
-
-std::string CactusBlock::id(void)
-{
-    return "cactus";
-}
-
-Rect CactusBlock::getRect(void) const
-{
-    return Rect(x, y, 16, 16);
-}
-
-//-----------------------------------------
-
-DeadBushBlock::DeadBushBlock(s16 x, s16 y) : Block(x, y)
-{
-}
-
-void DeadBushBlock::draw(Camera camera)
-{
-    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprDeadBush);
-}
-
-bool DeadBushBlock::solid(void)
-{
-    return false;
-}
-
-std::string DeadBushBlock::id(void)
-{
-    return "dead bush";
-}
-
-Rect DeadBushBlock::getRect(void) const
 {
     return Rect(x, y, 16, 16);
 }

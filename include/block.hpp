@@ -15,11 +15,69 @@
 #include <dandelion_img.h>
 #include <poppy_img.h>
 #include <door_img.h>
+#include <planks_img.h>
 #include <camera.h>
 #include <rect.hpp>
 #include <vector>
 #include <memory>
 #include <string>
+
+// Block implementations for blocks that
+// don't have anything really special.
+// They are used to save a lot of typing when
+// adding a new block.
+#define GENERIC_BLOCK_IMPL(block, spr, id_) \
+    block::block(s16 x, s16 y) : Block(x, y) \
+    { \
+    } \
+    void block::draw(Camera camera) \
+    { \
+        glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, spr); \
+    } \
+    std::string block::id(void) \
+    { \
+        return id_; \
+    } \
+    Rect block::getRect(void) const \
+    { \
+        return Rect(x, y, 16, 16); \
+    } \
+    bool block::solid(void) \
+    { \
+        return true; \
+    }
+#define NONSOLID_BLOCK_IMPL(block, spr, id_) \
+    block::block(s16 x, s16 y) : Block(x, y) \
+    { \
+    } \
+    void block::draw(Camera camera) \
+    { \
+        glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, spr); \
+    } \
+    std::string block::id(void) \
+    { \
+        return id_; \
+    } \
+    Rect block::getRect(void) const \
+    { \
+        return Rect(x, y, 16, 16); \
+    } \
+    bool block::solid(void) \
+    { \
+        return false; \
+    }
+
+// Same thing as above except for declarations.
+#define GENERIC_BLOCK_DECL(block) \
+    class block : public Block \
+    { \
+    public: \
+        block(s16 x, s16 y); \
+        void draw(Camera camera); \
+        std::string id(void); \
+        Rect getRect(void) const; \
+        bool solid(void); \
+    };
 
 void loadBlockTextures(void);
 void loadBlockSounds(void);
@@ -45,99 +103,20 @@ public:
     virtual Rect getRect(void) const = 0;
 };
 
-class GrassBlock : public Block
-{
-public:
-    GrassBlock(s16 x, s16 y);
+// generic block declarations
 
-    void draw(Camera camera);
-    std::string id(void);
-    Rect getRect(void) const;
-};
+GENERIC_BLOCK_DECL(GrassBlock);
+GENERIC_BLOCK_DECL(DirtBlock);
+GENERIC_BLOCK_DECL(StoneBlock);
+GENERIC_BLOCK_DECL(WoodBlock);
+GENERIC_BLOCK_DECL(LeavesBlock);
+GENERIC_BLOCK_DECL(SandBlock);
+GENERIC_BLOCK_DECL(SandstoneBlock);
+GENERIC_BLOCK_DECL(CactusBlock);
+GENERIC_BLOCK_DECL(DeadBushBlock);
+GENERIC_BLOCK_DECL(PlanksBlock);
 
-class DirtBlock : public Block
-{
-public:
-    DirtBlock(s16 x, s16 y);
-
-    void draw(Camera camera);
-    std::string id(void);
-    Rect getRect(void) const;
-};
-
-class StoneBlock : public Block
-{
-public:
-    StoneBlock(s16 x, s16 y);
-
-    void draw(Camera camera);
-    std::string id(void);
-    Rect getRect(void) const;
-};
-
-class WoodBlock : public Block
-{
-public:
-    WoodBlock(s16 x, s16 y);
-
-    void draw(Camera camera);
-    bool solid(void);
-    std::string id(void);
-    Rect getRect(void) const;
-};
-
-class LeavesBlock : public Block
-{
-public:
-    LeavesBlock(s16 x, s16 y);
-
-    void draw(Camera camera);
-    bool solid(void);
-    std::string id(void);
-    Rect getRect(void) const;
-};
-
-class SandBlock : public Block
-{
-public:
-    SandBlock(s16 x, s16 y);
-
-    void draw(Camera camera);
-    std::string id(void);
-    Rect getRect(void) const;
-};
-
-class SandstoneBlock : public Block
-{
-public:
-    SandstoneBlock(s16 x, s16 y);
-
-    void draw(Camera camera);
-    std::string id(void);
-    Rect getRect(void) const;
-};
-
-class CactusBlock : public Block
-{
-public:
-    CactusBlock(s16 x, s16 y);
-
-    void draw(Camera camera);
-    bool solid(void);
-    std::string id(void);
-    Rect getRect(void) const;
-};
-
-class DeadBushBlock : public Block
-{
-public:
-    DeadBushBlock(s16 x, s16 y);
-
-    void draw(Camera camera);
-    bool solid(void);
-    std::string id(void);
-    Rect getRect(void) const;
-};
+// non-generic block declarations
 
 class FlowerBlock : public Block
 {
