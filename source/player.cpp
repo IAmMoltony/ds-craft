@@ -179,6 +179,19 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
             glColor(RGB15(31, 31, 31));
             glSprite(20, 50, GL_FLIP_NONE, sprPlanksSmall);
             fontSmall.printfShadow(16, 46, "4");
+
+            if (hasItem({InventoryItemID::Planks, 6}))
+            {
+                glColor(RGB15(0, 31, 0));
+            }
+            else
+            {
+                glColor(RGB15(31, 0, 0));
+            }
+            glSprite(32, 46, GL_FLIP_NONE,
+                     craftingSelect == 1 ? sprInventorySlotSelect : sprInventorySlot);
+            glColor(RGB15(31, 31, 31));
+            glSprite(36, 50, GL_FLIP_NONE, sprDoorSmall);
         }
         else
         {
@@ -472,11 +485,29 @@ bool Player::update(Camera camera, BlockList *blocks)
                 if (craftingSelect == 0 && hasItem({InventoryItemID::Wood, 1}))
                 {
                     removeItem(InventoryItemID::Wood);
-                    // TODO add addItemMultiple function (or overload to existing function)
+                    // TODO add addItemMultiple function (or overload to addItem)
                     addItem(InventoryItemID::Planks);
                     addItem(InventoryItemID::Planks);
                     addItem(InventoryItemID::Planks);
                     addItem(InventoryItemID::Planks);
+                }
+                if (craftingSelect == 1 && hasItem({InventoryItemID::Planks, 6}))
+                {
+                    // TODO add removeItemMultiple function (or overload to removeItem)
+                    removeItem(InventoryItemID::Planks);
+                    removeItem(InventoryItemID::Planks);
+                    removeItem(InventoryItemID::Planks);
+                    removeItem(InventoryItemID::Planks);
+                    removeItem(InventoryItemID::Planks);
+                    removeItem(InventoryItemID::Planks);
+                    addItem(InventoryItemID::Door);
+                }
+            }
+            if (kdown & KEY_R)
+            {
+                if (++craftingSelect >= 2)
+                {
+                    craftingSelect = 0;
                 }
             }
         }
