@@ -56,7 +56,7 @@ class Player
 {
 private:
     s16 x, y, aimX, aimY;
-    u8 inventorySelect, inventoryFullSelect, inventoryMoveSelect;
+    u8 inventorySelect, inventoryFullSelect, inventoryMoveSelect, craftingSelect;
     float velX, velY;
     bool falling, jumping, fullInventory, inventoryCrafting;
     InventoryItem inventory[20];

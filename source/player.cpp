@@ -135,6 +135,7 @@ Player::Player()
     inventorySelect = 0;
     inventoryFullSelect = 0;
     inventoryMoveSelect = 20;
+    craftingSelect = 0;
     velX = 0;
     velY = 0;
     falling = true;
@@ -158,11 +159,11 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
         glPolyFmt(POLY_ALPHA(20) | POLY_CULL_NONE | POLY_ID(3));
         glBoxFilled(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(17, 17, 17));
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(3));
-        font.printfShadow(SCREEN_WIDTH / 2 - (9 * 16 / 2), 12, "Inventory");
+        font.printfShadow(SCREEN_WIDTH / 2 - (9 * 16 / 2), 12, inventoryCrafting ? "Crafting" : "Inventory");
 
         if (inventoryCrafting)
         {
-            // TODO implement crafting
+            glSprite(16, 46, GL_FLIP_NONE, craftingSelect == 0 ? sprInventorySlotSelect : sprInventorySlot);
         }
         else
         {
