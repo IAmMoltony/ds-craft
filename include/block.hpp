@@ -1,6 +1,8 @@
 #pragma once
 #include <defines.h>
 #include <gl2d.h>
+#include <maxmod9.h>
+#include <soundbank.h>
 #include <grass_img.h>
 #include <dirt_img.h>
 #include <stone_img.h>
@@ -20,6 +22,7 @@
 #include <string>
 
 void loadBlockTextures(void);
+void loadBlockSounds(void);
 
 enum class FlowerType
 {

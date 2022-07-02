@@ -46,6 +46,7 @@ int main(int argc, char **argv)
     vramSetBankF(VRAM_F_TEX_PALETTE);
     vramSetBankE(VRAM_E_TEX_PALETTE);
     loadBlockTextures();
+    loadBlockSounds();
     loadPlayerGUI();
     loadPlayerSounds();
 

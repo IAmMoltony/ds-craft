@@ -13,6 +13,15 @@ glImage sprDandelion[1];
 glImage sprPoppy[1];
 glImage sprDoor[1];
 
+static mm_sound_effect sndDoorOpen1;
+static mm_sound_effect sndDoorOpen2;
+static mm_sound_effect sndDoorOpen3;
+static mm_sound_effect sndDoorOpen4;
+static mm_sound_effect sndDoorClose1;
+static mm_sound_effect sndDoorClose2;
+static mm_sound_effect sndDoorClose3;
+static mm_sound_effect sndDoorClose4;
+
 void loadBlockTextures(void)
 {
     loadImage(sprGrass, 16, 16, grassBitmap);
@@ -28,6 +37,27 @@ void loadBlockTextures(void)
     loadImageAlpha(sprDandelion, 16, 16, dandelionPal, dandelionBitmap);
     loadImageAlpha(sprPoppy, 16, 16, poppyPal, poppyBitmap);
     loadImageAlpha(sprDoor, 32, 32, doorPal, doorBitmap);
+}
+
+void loadBlockSounds(void)
+{
+    mmLoadEffect(SFX_OPEN);
+    mmLoadEffect(SFX_OPEN2);
+    mmLoadEffect(SFX_OPEN3);
+    mmLoadEffect(SFX_OPEN4);
+    mmLoadEffect(SFX_CLOSE);
+    mmLoadEffect(SFX_CLOSE2);
+    mmLoadEffect(SFX_CLOSE3);
+    mmLoadEffect(SFX_CLOSE4);
+
+    sndDoorOpen1 = soundEffect(SFX_OPEN);
+    sndDoorOpen2 = soundEffect(SFX_OPEN2);
+    sndDoorOpen3 = soundEffect(SFX_OPEN3);
+    sndDoorOpen4 = soundEffect(SFX_OPEN4);
+    sndDoorClose1 = soundEffect(SFX_CLOSE);
+    sndDoorClose2 = soundEffect(SFX_CLOSE2);
+    sndDoorClose3 = soundEffect(SFX_CLOSE3);
+    sndDoorClose4 = soundEffect(SFX_CLOSE4);
 }
 
 //----------------------------------------
@@ -326,7 +356,46 @@ bool DoorBlock::solid(void)
 
 void DoorBlock::interact(void)
 {
-    open = !open;
+    if (open)
+    {
+        open = false;
+        u8 effect = rand() % 4;
+        switch (effect)
+        {
+        case 0:
+            mmEffectEx(&sndDoorClose1);
+            break;
+        case 1:
+            mmEffectEx(&sndDoorClose2);
+            break;
+        case 2:
+            mmEffectEx(&sndDoorClose3);
+            break;
+        case 3:
+            mmEffectEx(&sndDoorClose4);
+            break;
+        }
+    }
+    else
+    {
+        open = true;
+        u8 effect = rand() % 4;
+        switch (effect)
+        {
+        case 0:
+            mmEffectEx(&sndDoorOpen1);
+            break;
+        case 1:
+            mmEffectEx(&sndDoorOpen2);
+            break;
+        case 2:
+            mmEffectEx(&sndDoorOpen3);
+            break;
+        case 3:
+            mmEffectEx(&sndDoorOpen4);
+            break;
+        }
+    }
 }
 
 std::string DoorBlock::id(void)

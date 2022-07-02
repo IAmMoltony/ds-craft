@@ -31,14 +31,26 @@ extern glImage sprDandelion[1];
 extern glImage sprDoor[1];
 
 // sounds
-mm_sound_effect sndGrass1;
-mm_sound_effect sndGrass2;
-mm_sound_effect sndGrass3;
-mm_sound_effect sndGrass4;
-mm_sound_effect sndDirt1;
-mm_sound_effect sndDirt2;
-mm_sound_effect sndDirt3;
-mm_sound_effect sndDirt4;
+static mm_sound_effect sndGrass1;
+static mm_sound_effect sndGrass2;
+static mm_sound_effect sndGrass3;
+static mm_sound_effect sndGrass4;
+static mm_sound_effect sndDirt1;
+static mm_sound_effect sndDirt2;
+static mm_sound_effect sndDirt3;
+static mm_sound_effect sndDirt4;
+static mm_sound_effect sndStone1;
+static mm_sound_effect sndStone2;
+static mm_sound_effect sndStone3;
+static mm_sound_effect sndStone4;
+static mm_sound_effect sndWood1;
+static mm_sound_effect sndWood2;
+static mm_sound_effect sndWood3;
+static mm_sound_effect sndWood4;
+static mm_sound_effect sndSand1;
+static mm_sound_effect sndSand2;
+static mm_sound_effect sndSand3;
+static mm_sound_effect sndSand4;
 
 void loadPlayerGUI(void)
 {
@@ -69,6 +81,18 @@ void loadPlayerSounds(void)
     mmLoadEffect(SFX_GRAVEL2);
     mmLoadEffect(SFX_GRAVEL3);
     mmLoadEffect(SFX_GRAVEL4);
+    mmLoadEffect(SFX_STONE1);
+    mmLoadEffect(SFX_STONE2);
+    mmLoadEffect(SFX_STONE3);
+    mmLoadEffect(SFX_STONE4);
+    mmLoadEffect(SFX_WOOD1);
+    mmLoadEffect(SFX_WOOD2);
+    mmLoadEffect(SFX_WOOD3);
+    mmLoadEffect(SFX_WOOD4);
+    mmLoadEffect(SFX_SAND1);
+    mmLoadEffect(SFX_SAND2);
+    mmLoadEffect(SFX_SAND3);
+    mmLoadEffect(SFX_SAND4);
 
     sndGrass1 = soundEffect(SFX_GRASS1);
     sndGrass2 = soundEffect(SFX_GRASS2);
@@ -78,6 +102,18 @@ void loadPlayerSounds(void)
     sndDirt2 = soundEffect(SFX_GRAVEL2);
     sndDirt3 = soundEffect(SFX_GRAVEL3);
     sndDirt4 = soundEffect(SFX_GRAVEL4);
+    sndStone1 = soundEffect(SFX_STONE1);
+    sndStone2 = soundEffect(SFX_STONE2);
+    sndStone3 = soundEffect(SFX_STONE3);
+    sndStone4 = soundEffect(SFX_STONE4);
+    sndWood1 = soundEffect(SFX_WOOD1);
+    sndWood2 = soundEffect(SFX_WOOD2);
+    sndWood3 = soundEffect(SFX_WOOD3);
+    sndWood4 = soundEffect(SFX_WOOD4);
+    sndSand1 = soundEffect(SFX_SAND1);
+    sndSand2 = soundEffect(SFX_SAND2);
+    sndSand3 = soundEffect(SFX_SAND3);
+    sndSand4 = soundEffect(SFX_SAND4);
 }
 
 Player::Player()
@@ -503,12 +539,12 @@ bool Player::update(Camera camera, BlockList *blocks)
                 {
                     --inventory[inventorySelect].amount;
                     InventoryItemID id = inventory[inventorySelect].id;
+                    u8 effect = rand() % 4;
                     // TODO rewrite into a switch
                     if (id == InventoryItemID::Grass)
                     {
                         blocks->emplace_back(new GrassBlock(snapToGrid(camera.x + aimX),
                                                             snapToGrid(camera.y + aimY)));
-                        u8 effect = rand() % 4;
                         switch (effect)
                         {
                         case 0:
@@ -529,7 +565,6 @@ bool Player::update(Camera camera, BlockList *blocks)
                     {
                         blocks->emplace_back(new DirtBlock(snapToGrid(camera.x + aimX),
                                                            snapToGrid(camera.y + aimY)));
-                        u8 effect = rand() % 4;
                         switch (effect)
                         {
                         case 0:
@@ -550,17 +585,46 @@ bool Player::update(Camera camera, BlockList *blocks)
                     {
                         blocks->emplace_back(new StoneBlock(snapToGrid(camera.x + aimX),
                                                             snapToGrid(camera.y + aimY)));
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndStone1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndStone2);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndStone3);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndStone4);
+                            break;
+                        }
                     }
                     else if (id == InventoryItemID::Wood)
                     {
                         blocks->emplace_back(new WoodBlock(snapToGrid(camera.x + aimX),
                                                            snapToGrid(camera.y + aimY)));
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        }
                     }
                     else if (id == InventoryItemID::Leaves)
                     {
                         blocks->emplace_back(new LeavesBlock(snapToGrid(camera.x + aimX),
                                                              snapToGrid(camera.y + aimY)));
-                        u8 effect = rand() % 4;
                         switch (effect)
                         {
                         case 0:
@@ -581,11 +645,41 @@ bool Player::update(Camera camera, BlockList *blocks)
                     {
                         blocks->emplace_back(new SandBlock(snapToGrid(camera.x + aimX),
                                                            snapToGrid(camera.y + aimY)));
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndSand1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndSand2);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndSand3);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndSand4);
+                            break;
+                        }
                     }
                     else if (id == InventoryItemID::Sandstone)
                     {
                         blocks->emplace_back(new SandstoneBlock(snapToGrid(camera.x + aimX),
                                                                 snapToGrid(camera.y + aimY)));
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndStone1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndStone2);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndStone3);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndStone4);
+                            break;
+                        }
                     }
                     else if (id == InventoryItemID::Cactus)
                     {
@@ -596,7 +690,6 @@ bool Player::update(Camera camera, BlockList *blocks)
                     {
                         blocks->emplace_back(new DeadBushBlock(snapToGrid(camera.x + aimX),
                                                              snapToGrid(camera.y + aimY)));
-                        u8 effect = rand() % 4;
                         switch (effect)
                         {
                         case 0:
@@ -617,7 +710,6 @@ bool Player::update(Camera camera, BlockList *blocks)
                     {
                         blocks->emplace_back(new FlowerBlock(snapToGrid(camera.x + aimX),
                                                              snapToGrid(camera.y + aimY), FlowerType::Poppy));
-                        u8 effect = rand() % 4;
                         switch (effect)
                         {
                         case 0:
@@ -639,7 +731,6 @@ bool Player::update(Camera camera, BlockList *blocks)
                         blocks->emplace_back(new FlowerBlock(snapToGrid(camera.x + aimX),
                                                              snapToGrid(camera.y + aimY),
                                                              FlowerType::Dandelion));
-                        u8 effect = rand() % 4;
                         switch (effect)
                         {
                         case 0:
@@ -660,6 +751,21 @@ bool Player::update(Camera camera, BlockList *blocks)
                     {
                         blocks->emplace_back(new DoorBlock(snapToGrid(camera.x + aimX),
                                                             snapToGrid(camera.y + aimY)));
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        }
                     }
                     ret = true;
                 }
@@ -688,10 +794,10 @@ bool Player::update(Camera camera, BlockList *blocks)
                     .intersects(block->getRect()))
                 {
                     std::string bid = block->id();
+                    u8 effect = rand() % 4;
                     if (bid == "grass")
                     {
                         addItem(InventoryItemID::Grass);
-                        u8 effect = rand() % 4;
                         switch (effect)
                         {
                         case 0:
@@ -711,7 +817,6 @@ bool Player::update(Camera camera, BlockList *blocks)
                     else if (bid == "dirt")
                     {
                         addItem(InventoryItemID::Dirt);
-                        u8 effect = rand() % 4;
                         switch (effect)
                         {
                         case 0:
@@ -731,15 +836,44 @@ bool Player::update(Camera camera, BlockList *blocks)
                     else if (bid == "stone")
                     {
                         addItem(InventoryItemID::Stone);
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndStone1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndStone2);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndStone3);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndStone4);
+                            break;
+                        }
                     }
                     else if (bid == "wood")
                     {
                         addItem(InventoryItemID::Wood);
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        }
                     }
                     else if (bid == "leaves")
                     {
                         addItem(InventoryItemID::Leaves);
-                        u8 effect = rand() % 4;
                         switch (effect)
                         {
                         case 0:
@@ -759,10 +893,40 @@ bool Player::update(Camera camera, BlockList *blocks)
                     else if (bid == "sand")
                     {
                         addItem(InventoryItemID::Sand);
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndSand1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndSand2);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndSand3);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndSand4);
+                            break;
+                        }
                     }
                     else if (bid == "sandstone")
                     {
                         addItem(InventoryItemID::Sandstone);
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndStone1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndStone2);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndStone3);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndStone4);
+                            break;
+                        }
                     }
                     else if (bid == "cactus")
                     {
@@ -771,7 +935,6 @@ bool Player::update(Camera camera, BlockList *blocks)
                     else if (bid == "dead bush")
                     {
                         addItem(InventoryItemID::DeadBush);
-                        u8 effect = rand() % 4;
                         switch (effect)
                         {
                         case 0:
@@ -791,7 +954,6 @@ bool Player::update(Camera camera, BlockList *blocks)
                     else if (bid == "poppy")
                     {
                         addItem(InventoryItemID::Poppy);
-                        u8 effect = rand() % 4;
                         switch (effect)
                         {
                         case 0:
@@ -811,7 +973,6 @@ bool Player::update(Camera camera, BlockList *blocks)
                     else if (bid == "dandelion")
                     {
                         addItem(InventoryItemID::Dandelion);
-                        u8 effect = rand() % 4;
                         switch (effect)
                         {
                         case 0:
@@ -831,6 +992,21 @@ bool Player::update(Camera camera, BlockList *blocks)
                     else if (bid == "door")
                     {
                         addItem(InventoryItemID::Door);
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        case 3:
+                            mmEffectEx(&sndWood1);
+                            break;
+                        }
                     }
 
                     remove = true;
