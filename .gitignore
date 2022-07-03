@@ -1,6 +1,8 @@
 *.o
 *.d
 ds-craft.map
+*_img.h
+*_img.s
 mctex/
 mcsnd/
 releases/

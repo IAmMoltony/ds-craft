@@ -13,37 +13,14 @@ del *.h > nul 2>&1
 del *.s > nul 2>&1
 del OK > nul 2>&1
 if "%1"=="onlyfonts" goto :fonts
-call :colecho 09 "Processing images"
 echo.
-for /r %%i in (*.png) do (
-    echo | set /p="Processing %%~ni.png..."
+for /r %%i in (*.png *.bmp) do (
+    echo | set /p="Processing %%i..."
     if not exist "%%~ni.grit" (
         call :colecho 0e "No %%~ni.grit"
         echo.
     ) else (
         grit %%~ni.png -ff%%~ni.grit > nul 2>&1
-        if not errorlevel 0 (
-            call :colecho 0c "Error!"
-            echo.
-            exit /b 1
-        )
-        move %%~ni.s ..\source\img\%%~ni_img.s >nul 2>&1
-        move %%~ni.h ..\build\%%~ni_img.h >nul 2>&1
-        call :colecho 0a "OK"
-        echo.
-    )
-)
-if "%1"=="onlyimg" goto :eof
-:fonts
-call :colecho 09 "Processing fonts"
-echo.
-for /r %%i in (font_*.bmp) do (
-    echo | set /p="Processing %%~ni.bmp..."
-    if not exist "%%~ni.grit" (
-        call :colecho 0e "No %%~ni.grit"
-        echo.
-    ) else (
-        grit %%~ni.bmp -ff%%~ni.grit > nul 2>&1
         if not errorlevel 0 (
             call :colecho 0c "Error!"
             echo.
