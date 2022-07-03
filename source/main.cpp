@@ -49,9 +49,10 @@ int main(int argc, char **argv)
     BlockList blocks;
     s16 y = SCREEN_HEIGHT / 2;
     u8 sinceLastTree = 0;
+    u8 treeInterval = 3;
     for (u8 k = 0; k < 2; ++k)
     {
-        u8 biome = chance(50) ? 0 : 1; // 0 = plains, 1 = desert
+        u8 biome = chance(60) ? 0 : 1; // 0 = forest, 1 = desert
         if (biome == 0)
         {
             for (u16 i = k * SCREEN_WIDTH * 2; i < k * SCREEN_WIDTH * 2 + SCREEN_WIDTH * 2; i += 16)
@@ -69,7 +70,7 @@ int main(int argc, char **argv)
                 }
 
                 bool placedTree = false;
-                if (chance(30) && sinceLastTree > 5)
+                if (sinceLastTree > treeInterval)
                 {
                     placedTree = true;
                     u8 tree = chance(50) ? 1 : 0;
@@ -89,6 +90,7 @@ int main(int argc, char **argv)
                         blocks.emplace_back(new LeavesBlock(i, y - 96));
                         blocks.emplace_back(new LeavesBlock(i - 16, y - 96));
                         blocks.emplace_back(new LeavesBlock(i + 16, y - 96));
+                        treeInterval = 5;
                     }
                     else if (tree == 1)
                     {
@@ -103,6 +105,7 @@ int main(int argc, char **argv)
                         blocks.emplace_back(new LeavesBlock(i, y - 80));
                         blocks.emplace_back(new LeavesBlock(i - 16, y - 80));
                         blocks.emplace_back(new LeavesBlock(i + 16, y - 80));
+                        treeInterval = 3;
                     }
                     sinceLastTree = 0;
                 }
