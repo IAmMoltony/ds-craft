@@ -28,3 +28,5 @@
 #include <stick_small_img.h>
 #include <stone_img.h>
 #include <stone_small_img.h>
+#include <font_16x16_img.h>
+#include <font_small_img.h>

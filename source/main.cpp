@@ -3,8 +3,7 @@
 #include <nds/arm9/input.h>
 #include <gl2d.h>
 #include <maxmod9.h>
-#include <font_16x16.h>
-#include <font_small.h>
+#include <images.h>
 #include <uvcoord_font_16x16.h>
 #include <uvcoord_font_si.h>
 #include <soundbank.h>

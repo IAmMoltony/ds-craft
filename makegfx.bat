@@ -14,7 +14,6 @@ if not exist "..\build" mkdir ..\build
 del *.h > nul 2>&1
 del *.s > nul 2>&1
 del OK > nul 2>&1
-if "%1"=="onlyfonts" goto :fonts
 echo.
 for /r %%i in (*.png *.bmp) do (
     echo | set /p="Processing %%i..."
@@ -22,12 +21,7 @@ for /r %%i in (*.png *.bmp) do (
         call :colecho 0e "No %%~ni.grit"
         echo.
     ) else (
-        grit %%~ni.png -ff%%~ni.grit > nul 2>&1
-        if not errorlevel 0 (
-            call :colecho 0c "Error!"
-            echo.
-            exit /b 1
-        )
+        grit %%i -ff%%~ni.grit > nul 2>&1
         move %%~ni.s ..\source\img\%%~ni_img.s >nul 2>&1
         move %%~ni.h ..\build\%%~ni_img.h >nul 2>&1
         call :colecho 0a "OK"
