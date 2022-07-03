@@ -1,4 +1,3 @@
-# TODO automate process of convetring the images
 #---------------------------------------------------------------------------------
 .SUFFIXES:
 #---------------------------------------------------------------------------------
@@ -32,6 +31,7 @@ BUILD		:=	build
 SOURCES		:=	source source/img
 INCLUDES	:=	include build
 MUSIC       :=  maxmod_data
+GRAPHICS    :=  gfx
 
 #---------------------------------------------------------------------------------
 # options for code generation

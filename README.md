@@ -8,7 +8,11 @@ Left and right for horizontal movement, up for jump, select to open inventory, a
 
 ### Inventory manipulation
 
-A selects inventory slot. Pressing a again will cause either stacking the blocks or moving them. Your inventory has 20 slots.
+A selects inventory slot. Pressing a again will cause either stacking the blocks or moving them. Your inventory has 20 slots. To select next hotbar slot press r.
+
+### Crafting
+
+Press r to select next crafting recipe. Press a to craft the item (if you have the requirements to craft it).
 
 ## Dependencies
 
