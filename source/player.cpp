@@ -1,3 +1,7 @@
+// WARNING!! this code is a complete mess
+// there is a lot of not optimized code
+// and i think it is spaghetti...
+
 #include <player.hpp>
 
 // gui images
@@ -16,6 +20,7 @@ static glImage sprPoppySmall[1];
 static glImage sprDandelionSmall[1];
 static glImage sprDoorSmall[1];
 static glImage sprPlanksSmall[1];
+static glImage sprStickSmall[1];
 
 // these images are loaded in block.cpp
 extern glImage sprGrass[1];
@@ -57,6 +62,25 @@ static mm_sound_effect sndCloth1;
 static mm_sound_effect sndCloth2;
 static mm_sound_effect sndCloth3;
 static mm_sound_effect sndCloth4;
+static mm_sound_effect sndStepGrass1;
+static mm_sound_effect sndStepGrass2;
+static mm_sound_effect sndStepGrass3;
+static mm_sound_effect sndStepGrass4;
+static mm_sound_effect sndStepGravel1;
+static mm_sound_effect sndStepGravel2;
+static mm_sound_effect sndStepGravel3;
+static mm_sound_effect sndStepGravel4;
+static mm_sound_effect sndStepStone1;
+static mm_sound_effect sndStepStone2;
+static mm_sound_effect sndStepStone3;
+static mm_sound_effect sndStepStone4;
+static mm_sound_effect sndStepSand1;
+static mm_sound_effect sndStepSand2;
+static mm_sound_effect sndStepSand3;
+static mm_sound_effect sndStepSand4;
+
+// sounds that will be used in other files
+mm_sound_effect sndClick;
 
 void loadPlayerGUI(void)
 {
@@ -76,6 +100,7 @@ void loadPlayerGUI(void)
     loadImageAlpha(sprPoppySmall, 8, 8, poppy_smallPal, poppy_smallBitmap);
     loadImageAlpha(sprDandelionSmall, 8, 8, dandelion_smallPal, dandelion_smallBitmap);
     loadImageAlpha(sprDoorSmall, 8, 8, door_smallPal, door_smallBitmap);
+    loadImageAlpha(sprStickSmall, 8, 8, stick_smallPal, stick_smallBitmap);
 }
 
 void loadPlayerSounds(void)
@@ -104,6 +129,23 @@ void loadPlayerSounds(void)
     mmLoadEffect(SFX_CLOTH2);
     mmLoadEffect(SFX_CLOTH3);
     mmLoadEffect(SFX_CLOTH4);
+    mmLoadEffect(SFX_STEPGRASS1);
+    mmLoadEffect(SFX_STEPGRASS2);
+    mmLoadEffect(SFX_STEPGRASS3);
+    mmLoadEffect(SFX_STEPGRASS4);
+    mmLoadEffect(SFX_STEPGRAVEL1);
+    mmLoadEffect(SFX_STEPGRAVEL2);
+    mmLoadEffect(SFX_STEPGRAVEL3);
+    mmLoadEffect(SFX_STEPGRAVEL4);
+    mmLoadEffect(SFX_STEPSTONE1);
+    mmLoadEffect(SFX_STEPSTONE2);
+    mmLoadEffect(SFX_STEPSTONE3);
+    mmLoadEffect(SFX_STEPSTONE4);
+    mmLoadEffect(SFX_STEPSAND1);
+    mmLoadEffect(SFX_STEPSAND2);
+    mmLoadEffect(SFX_STEPSAND3);
+    mmLoadEffect(SFX_STEPSAND4);
+    mmLoadEffect(SFX_CLICK);
 
     sndGrass1 = soundEffect(SFX_GRASS1);
     sndGrass2 = soundEffect(SFX_GRASS2);
@@ -129,6 +171,23 @@ void loadPlayerSounds(void)
     sndCloth2 = soundEffect(SFX_CLOTH2);
     sndCloth3 = soundEffect(SFX_CLOTH3);
     sndCloth4 = soundEffect(SFX_CLOTH4);
+    sndStepGrass1 = soundEffect(SFX_STEPGRASS1);
+    sndStepGrass2 = soundEffect(SFX_STEPGRASS2);
+    sndStepGrass3 = soundEffect(SFX_STEPGRASS3);
+    sndStepGrass4 = soundEffect(SFX_STEPGRASS4);
+    sndStepGravel1 = soundEffect(SFX_STEPGRAVEL1);
+    sndStepGravel2 = soundEffect(SFX_STEPGRAVEL2);
+    sndStepGravel3 = soundEffect(SFX_STEPGRAVEL3);
+    sndStepGravel4 = soundEffect(SFX_STEPGRAVEL4);
+    sndStepStone1 = soundEffect(SFX_STEPSTONE1);
+    sndStepStone2 = soundEffect(SFX_STEPSTONE2);
+    sndStepStone3 = soundEffect(SFX_STEPSTONE3);
+    sndStepStone4 = soundEffect(SFX_STEPSTONE4);
+    sndStepSand1 = soundEffect(SFX_STEPSAND1);
+    sndStepSand2 = soundEffect(SFX_STEPSAND2);
+    sndStepSand3 = soundEffect(SFX_STEPSAND3);
+    sndStepSand4 = soundEffect(SFX_STEPSAND4);
+    sndClick = soundEffect(SFX_CLICK);
 }
 
 Player::Player()
@@ -192,6 +251,19 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                      craftingSelect == 1 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
             glSprite(36, 50, GL_FLIP_NONE, sprDoorSmall);
+
+            if (hasItem({InventoryItemID::Planks, 2}))
+            {
+                glColor(RGB15(0, 31, 0));
+            }
+            else
+            {
+                glColor(RGB15(31, 0, 0));
+            }
+            glSprite(48, 46, GL_FLIP_NONE,
+                     craftingSelect == 2 ? sprInventorySlotSelect : sprInventorySlot);
+            glColor(RGB15(31, 31, 31));
+            glSprite(52, 50, GL_FLIP_NONE, sprStickSmall);
         }
         else
         {
@@ -279,6 +351,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                     case InventoryItemID::Planks:
                         glSprite(x + 4, y + 4, GL_FLIP_NONE, sprPlanksSmall);
                         break;
+                    case InventoryItemID::Stick:
+                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprStickSmall);
+                        break;
                     }
 
                     if (amount > 1)
@@ -324,8 +399,10 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
             break;
         
         case InventoryItemID::Leaves:
+            glColor(RGB15(0, 22, 0));
             glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
                      GL_FLIP_NONE, sprLeaves);
+            glColor(RGB15(31, 31, 31));
             break;
         
         case InventoryItemID::Sand:
@@ -435,6 +512,11 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                 case InventoryItemID::Planks:
                     glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              GL_FLIP_NONE, sprPlanksSmall);
+                    break;
+                case InventoryItemID::Stick:
+                    glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             GL_FLIP_NONE, sprStickSmall);
+                    break;
                 }
 
                 if (amount > 1)
@@ -447,8 +529,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
     }
 }
 
-bool Player::update(Camera camera, BlockList *blocks)
+bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
 {
+    s16 oldX = x;
     bool ret = false;
 
     for (u8 i = 0; i < 5; ++i)
@@ -471,11 +554,14 @@ bool Player::update(Camera camera, BlockList *blocks)
         {
             fullInventory = false;
             inventoryCrafting = false;
+            mmEffectEx(&sndClick);
         }
         if (kdown & KEY_L)
         {
             inventoryCrafting = !inventoryCrafting;
             craftingSelect = 0;
+            inventoryFullSelect = 0;
+            mmEffectEx(&sndClick);
         }
 
         if (inventoryCrafting)
@@ -492,10 +578,22 @@ bool Player::update(Camera camera, BlockList *blocks)
                     removeItem(InventoryItemID::Planks, 6);
                     addItem(InventoryItemID::Door);
                 }
+                if (craftingSelect == 2 && hasItem({InventoryItemID::Planks, 2}))
+                {
+                    removeItem(InventoryItemID::Planks, 2);
+                    addItem(InventoryItemID::Stick);
+                }
             }
             if (kdown & KEY_R)
             {
-                if (++craftingSelect >= 2)
+                if (++craftingSelect > 2)
+                {
+                    craftingSelect = 0;
+                }
+            }
+            if (kdown & KEY_L)
+            {
+                if (--craftingSelect == 255)
                 {
                     craftingSelect = 0;
                 }
@@ -696,6 +794,7 @@ bool Player::update(Camera camera, BlockList *blocks)
         if (down & KEY_SELECT)
         {
             fullInventory = true;
+            mmEffectEx(&sndClick);
         }
         size_t removei = 0;
         size_t i = 0;
@@ -818,6 +917,33 @@ bool Player::update(Camera camera, BlockList *blocks)
                 }
             }
 
+            if (block->getRect().intersects(Rect(getRectBottom().x, getRectBottom().y + 1,
+                                                 getRectBottom().w, getRectBottom().h)) &&
+                *frames % 22 == 0)
+            {
+                if (moving(oldX))
+                {
+                    u8 effect = rand() % 4;
+                    std::string id = block->id();
+                    if (id == "grass")
+                    {
+                        playsfx(effect, sndStepGrass1, sndStepGrass2, sndStepGrass3, sndStepGrass4);
+                    }
+                    else if (id == "dirt")
+                    {
+                        playsfx(effect, sndStepGravel1, sndStepGravel2, sndStepGravel3, sndStepGravel4);
+                    }
+                    else if (id == "stone" || id == "sandstone")
+                    {
+                        playsfx(effect, sndStepStone1, sndStepStone2, sndStepStone3, sndStepStone4);
+                    }
+                    else if (id == "sand")
+                    {
+                        playsfx(effect, sndStepSand1, sndStepSand2, sndStepSand3, sndStepSand4);
+                    }
+                }
+            }
+
             if (block->getRect().intersects(getRectRight()))
             {
                 x = block->getRect().x - 16;
@@ -868,6 +994,7 @@ bool Player::update(Camera camera, BlockList *blocks)
         }
     }
 
+    ++*frames;
     return ret;
 }
 
@@ -925,6 +1052,11 @@ void Player::removeItem(InventoryItemID item, u8 amount)
 {
     for (u8 _ = 0; _ < amount; ++_)
         removeItem(item);
+}
+
+bool Player::moving(s16 oldX)
+{
+    return x != oldX;
 }
 
 s16 Player::getX(void)

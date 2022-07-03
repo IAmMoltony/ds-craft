@@ -57,6 +57,15 @@
         "xlocinfo": "cpp",
         "xmemory": "cpp",
         "xstring": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "cstring": "cpp",
+        "ctime": "cpp",
+        "ios": "cpp",
+        "queue": "cpp",
+        "xfacet": "cpp",
+        "xiosbase": "cpp",
+        "xlocnum": "cpp",
+        "xstddef": "cpp",
+        "xtr1common": "cpp"
     }
 }

@@ -29,6 +29,7 @@ enum class InventoryItemID
     Dandelion,
     Door,
     Planks,
+    Stick,
 };
 
 typedef struct item
@@ -53,12 +54,13 @@ public:
     Player();
 
     void draw(Camera camera, Font fontSmall, Font font);
-    bool update(Camera camera, BlockList *blocks); // return true if placed block
+    bool update(Camera camera, BlockList *blocks, u16 *frames); // return true if placed block
     bool hasItem(InventoryItem item);
     void addItem(InventoryItemID item);
     void addItem(InventoryItemID item, u8 amount);
     void removeItem(InventoryItemID item);
     void removeItem(InventoryItemID item, u8 amount);
+    bool moving(s16 oldX);
 
     s16 getX(void);
     s16 getY(void);

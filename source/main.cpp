@@ -159,10 +159,11 @@ int main(int argc, char **argv)
 
     Camera camera = {0, 0};
     Player player;
+    u16 frames = 0;
     while (true)
     {
         scanKeys();
-        if (player.update(camera, &blocks))
+        if (player.update(camera, &blocks, &frames) || frames % 300 == 0)
         {
             std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
         }
