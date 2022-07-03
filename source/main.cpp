@@ -52,7 +52,12 @@ int main(int argc, char **argv)
     u8 treeInterval = 3;
     for (u8 k = 0; k < 2; ++k)
     {
-        u8 biome = chance(60) ? 0 : 1; // 0 = forest, 1 = desert
+        // biomes
+        // 0 = forest
+        // 1 = desert
+        // 2 = plains
+        u8 biome = randomRange(0, 2);
+        printf("%u", biome);
         if (biome == 0)
         {
             for (u16 i = k * SCREEN_WIDTH * 2; i < k * SCREEN_WIDTH * 2 + SCREEN_WIDTH * 2; i += 16)
@@ -151,6 +156,71 @@ int main(int argc, char **argv)
                 if (!placedCactus && chance(30))
                 {
                     blocks.emplace_back(new DeadBushBlock(i, y - 16));
+                }
+
+                y += randomRange(-1, 1) * 16;
+            }
+        }
+        else if (biome == 2)
+        {
+            for (u16 i = k * SCREEN_WIDTH * 2; i < k * SCREEN_WIDTH * 2 + SCREEN_WIDTH * 2; i += 16)
+            {
+                ++sinceLastTree;
+                blocks.emplace_back(new GrassBlock(i, y));
+
+                for (s16 j = y + 16; j < y + 16 * 4; j += 16)
+                {
+                    blocks.emplace_back(new DirtBlock(i, j));
+                }
+                for (s16 j = y + 16 * 4; j < SCREEN_HEIGHT * 1.7; j += 16)
+                {
+                    blocks.emplace_back(new StoneBlock(i, j));
+                }
+
+                bool placedTree = false;
+                if (chance(9) && sinceLastTree > treeInterval)
+                {
+                    placedTree = true;
+                    u8 tree = chance(50) ? 1 : 0;
+                    if (tree == 0)
+                    {
+                        blocks.emplace_back(new WoodBlock(i, y - 16));
+                        blocks.emplace_back(new WoodBlock(i, y - 32));
+                        blocks.emplace_back(new WoodBlock(i, y - 48));
+                        blocks.emplace_back(new LeavesBlock(i, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i - 16, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i - 32, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i + 16, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i + 32, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i, y - 80));
+                        blocks.emplace_back(new LeavesBlock(i - 16, y - 80));
+                        blocks.emplace_back(new LeavesBlock(i + 16, y - 80));
+                        blocks.emplace_back(new LeavesBlock(i, y - 96));
+                        blocks.emplace_back(new LeavesBlock(i - 16, y - 96));
+                        blocks.emplace_back(new LeavesBlock(i + 16, y - 96));
+                        treeInterval = 5;
+                    }
+                    else if (tree == 1)
+                    {
+                        blocks.emplace_back(new WoodBlock(i, y - 16));
+                        blocks.emplace_back(new WoodBlock(i, y - 32));
+                        blocks.emplace_back(new LeavesBlock(i, y - 48));
+                        blocks.emplace_back(new LeavesBlock(i - 16, y - 48));
+                        blocks.emplace_back(new LeavesBlock(i + 16, y - 48));
+                        blocks.emplace_back(new LeavesBlock(i, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i - 16, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i + 16, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i, y - 80));
+                        blocks.emplace_back(new LeavesBlock(i - 16, y - 80));
+                        blocks.emplace_back(new LeavesBlock(i + 16, y - 80));
+                        treeInterval = 3;
+                    }
+                    sinceLastTree = 0;
+                }
+
+                if (!placedTree && chance(20))
+                {
+                    blocks.emplace_back(new FlowerBlock(i, y - 16));
                 }
 
                 y += randomRange(-1, 1) * 16;
