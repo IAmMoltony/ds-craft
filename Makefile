@@ -10,7 +10,7 @@ endif
 GAME_ICON      := ../icon.bmp
 GAME_TITLE     := DS-Craft
 GAME_SUBTITLE1 := Minecraft clone for NDS
-GAME_SUBTITLE2 := (c) 2022 moltony
+GAME_SUBTITLE2 := Version alpha1.3
 
 include $(DEVKITARM)/ds_rules
 
