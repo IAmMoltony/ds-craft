@@ -9,6 +9,8 @@ for /f "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1)
 )
 
 cd gfx
+if not exist "..\source\img" mkdir ..\source\img
+if not exist "..\build" mkdir ..\build
 del *.h > nul 2>&1
 del *.s > nul 2>&1
 del OK > nul 2>&1

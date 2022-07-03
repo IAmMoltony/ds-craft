@@ -485,21 +485,11 @@ bool Player::update(Camera camera, BlockList *blocks)
                 if (craftingSelect == 0 && hasItem({InventoryItemID::Wood, 1}))
                 {
                     removeItem(InventoryItemID::Wood);
-                    // TODO add addItemMultiple function (or overload to addItem)
-                    addItem(InventoryItemID::Planks);
-                    addItem(InventoryItemID::Planks);
-                    addItem(InventoryItemID::Planks);
-                    addItem(InventoryItemID::Planks);
+                    addItem(InventoryItemID::Planks, 4);
                 }
                 if (craftingSelect == 1 && hasItem({InventoryItemID::Planks, 6}))
                 {
-                    // TODO add removeItemMultiple function (or overload to removeItem)
-                    removeItem(InventoryItemID::Planks);
-                    removeItem(InventoryItemID::Planks);
-                    removeItem(InventoryItemID::Planks);
-                    removeItem(InventoryItemID::Planks);
-                    removeItem(InventoryItemID::Planks);
-                    removeItem(InventoryItemID::Planks);
+                    removeItem(InventoryItemID::Planks, 6);
                     addItem(InventoryItemID::Door);
                 }
             }
@@ -622,267 +612,74 @@ bool Player::update(Camera camera, BlockList *blocks)
                     --inventory[inventorySelect].amount;
                     InventoryItemID id = inventory[inventorySelect].id;
                     u8 effect = rand() % 4;
-                    // TODO rewrite into a switch
-                    if (id == InventoryItemID::Grass)
+                    switch (id)
                     {
+                    case InventoryItemID::Grass:
                         blocks->emplace_back(new GrassBlock(snapToGrid(camera.x + aimX),
                                                             snapToGrid(camera.y + aimY)));
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndGrass1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndGrass2);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndGrass3);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndGrass4);
-                            break;
-                        }
-                    }
-                    else if (id == InventoryItemID::Dirt)
-                    {
+                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        break;
+                    case InventoryItemID::Dirt:
                         blocks->emplace_back(new DirtBlock(snapToGrid(camera.x + aimX),
                                                            snapToGrid(camera.y + aimY)));
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndDirt1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndDirt2);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndDirt3);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndDirt4);
-                            break;
-                        }
-                    }
-                    else if (id == InventoryItemID::Stone)
-                    {
+                        playsfx(effect, sndDirt1, sndDirt2, sndDirt3, sndDirt4)
+                        break;
+                    case InventoryItemID::Stone:
                         blocks->emplace_back(new StoneBlock(snapToGrid(camera.x + aimX),
                                                             snapToGrid(camera.y + aimY)));
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndStone1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndStone2);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndStone3);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndStone4);
-                            break;
-                        }
-                    }
-                    else if (id == InventoryItemID::Wood)
-                    {
+                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
+                        break;
+                    case InventoryItemID::Wood:
                         blocks->emplace_back(new WoodBlock(snapToGrid(camera.x + aimX),
                                                            snapToGrid(camera.y + aimY)));
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        }
-                    }
-                    else if (id == InventoryItemID::Leaves)
-                    {
+                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
+                        break;
+                    case InventoryItemID::Leaves:
                         blocks->emplace_back(new LeavesBlock(snapToGrid(camera.x + aimX),
                                                              snapToGrid(camera.y + aimY)));
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndGrass1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndGrass2);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndGrass3);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndGrass4);
-                            break;
-                        }
-                    }
-                    else if (id == InventoryItemID::Sand)
-                    {
+                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        break;
+                    case InventoryItemID::Sand:
                         blocks->emplace_back(new SandBlock(snapToGrid(camera.x + aimX),
                                                            snapToGrid(camera.y + aimY)));
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndSand1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndSand2);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndSand3);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndSand4);
-                            break;
-                        }
-                    }
-                    else if (id == InventoryItemID::Sandstone)
-                    {
+                        playsfx(effect, sndSand1, sndSand2, sndSand3, sndSand4)
+                        break;
+                    case InventoryItemID::Sandstone:
                         blocks->emplace_back(new SandstoneBlock(snapToGrid(camera.x + aimX),
                                                                 snapToGrid(camera.y + aimY)));
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndStone1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndStone2);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndStone3);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndStone4);
-                            break;
-                        }
-                    }
-                    else if (id == InventoryItemID::Cactus)
-                    {
+                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
+                        break;
+                    case InventoryItemID::Cactus:
                         blocks->emplace_back(new CactusBlock(snapToGrid(camera.x + aimX),
                                                              snapToGrid(camera.y + aimY)));
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndCloth1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndCloth2);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndCloth3);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndCloth4);
-                            break;
-                        }
-                    }
-                    else if (id == InventoryItemID::DeadBush)
-                    {
+                        playsfx(effect, sndCloth1, sndCloth2, sndCloth3, sndCloth4)
+                        break;
+                    case InventoryItemID::DeadBush:
                         blocks->emplace_back(new DeadBushBlock(snapToGrid(camera.x + aimX),
                                                              snapToGrid(camera.y + aimY)));
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndGrass1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndGrass2);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndGrass3);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndGrass4);
-                            break;
-                        }
-                    }
-                    else if (id == InventoryItemID::Poppy)
-                    {
+                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        break;
+                    case InventoryItemID::Poppy:
                         blocks->emplace_back(new FlowerBlock(snapToGrid(camera.x + aimX),
                                                              snapToGrid(camera.y + aimY), FlowerType::Poppy));
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndGrass1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndGrass2);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndGrass3);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndGrass4);
-                            break;
-                        }
-                    }
-                    else if (id == InventoryItemID::Dandelion)
-                    {
+                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        break;
+                    case InventoryItemID::Dandelion:
                         blocks->emplace_back(new FlowerBlock(snapToGrid(camera.x + aimX),
                                                              snapToGrid(camera.y + aimY),
                                                              FlowerType::Dandelion));
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndGrass1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndGrass2);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndGrass3);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndGrass4);
-                            break;
-                        }
-                    }
-                    else if (id == InventoryItemID::Door)
-                    {
+                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        break;
+                    case InventoryItemID::Door:
                         blocks->emplace_back(new DoorBlock(snapToGrid(camera.x + aimX),
                                                             snapToGrid(camera.y + aimY)));
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        }
-                    }
-                    else if (id == InventoryItemID::Planks)
-                    {
+                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
+                        break;
+                    case InventoryItemID::Planks:
                         blocks->emplace_back(new PlanksBlock(snapToGrid(camera.x + aimX),
                                                              snapToGrid(camera.y + aimY)));
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        }
+                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
+                        break;
                     }
                     ret = true;
                 }
@@ -915,249 +712,67 @@ bool Player::update(Camera camera, BlockList *blocks)
                     if (bid == "grass")
                     {
                         addItem(InventoryItemID::Grass);
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndGrass1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndGrass2);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndGrass3);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndGrass4);
-                            break;
-                        }
+                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                     }
                     else if (bid == "dirt")
                     {
                         addItem(InventoryItemID::Dirt);
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndDirt1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndDirt2);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndDirt3);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndDirt4);
-                            break;
-                        }
+                        playsfx(effect, sndDirt1, sndDirt2, sndDirt3, sndDirt4)
                     }
                     else if (bid == "stone")
                     {
                         addItem(InventoryItemID::Stone);
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndStone1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndStone2);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndStone3);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndStone4);
-                            break;
-                        }
+                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
                     }
                     else if (bid == "wood")
                     {
                         addItem(InventoryItemID::Wood);
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        }
+                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
                     }
                     else if (bid == "leaves")
                     {
                         addItem(InventoryItemID::Leaves);
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndGrass1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndGrass2);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndGrass3);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndGrass4);
-                            break;
-                        }
+                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                     }
                     else if (bid == "sand")
                     {
                         addItem(InventoryItemID::Sand);
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndSand1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndSand2);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndSand3);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndSand4);
-                            break;
-                        }
+                        playsfx(effect, sndSand1, sndSand2, sndSand3, sndSand4)
                     }
                     else if (bid == "sandstone")
                     {
                         addItem(InventoryItemID::Sandstone);
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndStone1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndStone2);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndStone3);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndStone4);
-                            break;
-                        }
+                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
                     }
                     else if (bid == "cactus")
                     {
                         addItem(InventoryItemID::Cactus);
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndCloth1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndCloth2);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndCloth3);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndCloth4);
-                            break;
-                        }
+                        playsfx(effect, sndCloth1, sndCloth2, sndCloth3, sndCloth4)
                     }
                     else if (bid == "dead bush")
                     {
                         addItem(InventoryItemID::DeadBush);
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndGrass1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndGrass2);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndGrass3);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndGrass4);
-                            break;
-                        }
+                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                     }
                     else if (bid == "poppy")
                     {
                         addItem(InventoryItemID::Poppy);
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndGrass1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndGrass2);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndGrass3);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndGrass4);
-                            break;
-                        }
+                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                     }
                     else if (bid == "dandelion")
                     {
                         addItem(InventoryItemID::Dandelion);
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndGrass1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndGrass2);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndGrass3);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndGrass4);
-                            break;
-                        }
+                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                     }
                     else if (bid == "door")
                     {
                         addItem(InventoryItemID::Door);
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        }
+                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
                     }
                     else if (bid == "planks")
                     {
                         addItem(InventoryItemID::Planks);
-                        switch (effect)
-                        {
-                        case 0:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        case 1:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        case 2:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        case 3:
-                            mmEffectEx(&sndWood1);
-                            break;
-                        }
+                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
                     }
 
                     remove = true;
@@ -1288,6 +903,12 @@ void Player::addItem(InventoryItemID item)
     }
 }
 
+void Player::addItem(InventoryItemID item, u8 amount)
+{
+    for (u8 _ = 0; _ < amount; ++_)
+        addItem(item);
+}
+
 void Player::removeItem(InventoryItemID item)
 {
     for (u8 i = 0; i < 20; ++i)
@@ -1298,6 +919,12 @@ void Player::removeItem(InventoryItemID item)
             return;
         }
     }
+}
+
+void Player::removeItem(InventoryItemID item, u8 amount)
+{
+    for (u8 _ = 0; _ < amount; ++_)
+        removeItem(item);
 }
 
 s16 Player::getX(void)

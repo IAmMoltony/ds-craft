@@ -70,7 +70,9 @@ public:
     bool update(Camera camera, BlockList *blocks); // return true if placed block
     bool hasItem(InventoryItem item);
     void addItem(InventoryItemID item);
+    void addItem(InventoryItemID item, u8 amount);
     void removeItem(InventoryItemID item);
+    void removeItem(InventoryItemID item, u8 amount);
 
     s16 getX(void);
     s16 getY(void);

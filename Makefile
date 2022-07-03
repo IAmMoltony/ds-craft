@@ -10,7 +10,7 @@ endif
 GAME_ICON      := ../icon.bmp
 GAME_TITLE     := DS-Craft
 GAME_SUBTITLE1 := Minecraft clone for NDS
-GAME_SUBTITLE2 := made with devkitARM
+GAME_SUBTITLE2 := (c) 2022 moltony
 
 include $(DEVKITARM)/ds_rules
 
@@ -123,6 +123,7 @@ $(BUILD):
 clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).nds 
+	@rm -fr source/img
  
  
 #---------------------------------------------------------------------------------

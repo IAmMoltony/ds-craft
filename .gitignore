@@ -1,11 +1,12 @@
 *.o
 *.d
+*.bin
 ds-craft.map
-*_img.h
-*_img.s
 mctex/
 mcsnd/
 releases/
+build/*.h
+source/img/*.s
 mctex.zip
 *.elf
 *.nds

@@ -7,6 +7,23 @@
 #define snapToGrid(x) (round((x) / 16) * 16)
 #define soundEffect(id) {{id}, (int)(1.0f * (1<<10)), 0, 255, 0}
 
+#define playsfx(effect, sfx1, sfx2, sfx3, sfx4) \
+    switch (effect) \
+    { \
+        case 0: \
+            mmEffectEx(&sfx1); \
+            break; \
+        case 1: \
+            mmEffectEx(&sfx2); \
+            break; \
+        case 2: \
+            mmEffectEx(&sfx3); \
+            break; \
+        case 3: \
+            mmEffectEx(&sfx4); \
+            break; \
+    }
+
 #define VERSION_PREFIX "alpha"
 #define VERSION_MAJOR 1
 #define VERSION_MINOR 2
