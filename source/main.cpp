@@ -227,7 +227,6 @@ int main(int argc, char **argv)
             }
         }
     }
-    blocks.emplace_back(new DoorBlock(32, 0));
     std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
 
     Camera camera = {0, 0};
