@@ -295,8 +295,8 @@ int main(int argc, char **argv)
     printf("\n");
     std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
 
-    glImage placeholderLogo[1];
-    loadImageAlpha(placeholderLogo, 128, 32, placeholder_logoPal, placeholder_logoBitmap);
+    glImage logo[1];
+    loadImageAlpha(logo, 256, 64, logoPal, logoBitmap);
 
     GameState gameState = GameState::Menu;
     Camera camera = {0, 0};
@@ -359,7 +359,7 @@ int main(int argc, char **argv)
                 }
             }
             glColor(RGB15(31, 31, 31));
-            glSprite(SCREEN_WIDTH / 2 - 50, 16, GL_FLIP_NONE, placeholderLogo);
+            glSprite(SCREEN_WIDTH / 2 - 192 / 2, 16, GL_FLIP_NONE, logo);
             fontSmall.printCentered(0, 96, "Press START!");
         }
 
