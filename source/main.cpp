@@ -246,10 +246,8 @@ int main(int argc, char **argv)
                     blocks.emplace_back(new StoneBlock(i, j));
                 }
 
-                bool placedTree = false;
                 if (chance(9) && sinceLastTree > treeInterval)
                 {
-                    placedTree = true;
                     u8 tree = chance(50) ? 1 : 0;
                     if (tree == 0)
                     {
