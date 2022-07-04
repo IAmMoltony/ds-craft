@@ -296,8 +296,9 @@ int main(int argc, char **argv)
     std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
 
     glImage logo[1];
-    loadImageAlpha(logo, 256, 64, logoPal, logoBitmap);
+    loadImageAlpha(logo, 128, 32, logoPal, logoBitmap);
 
+    bool tsBlink = false; // title screen blink
     GameState gameState = GameState::Menu;
     Camera camera = {0, 0};
     Player player;
@@ -320,7 +321,13 @@ int main(int argc, char **argv)
             if (keysDown() & KEY_START)
             {
                 gameState = GameState::Game;
+                frames = 0;
             }
+            if (frames % 40 == 0)
+            {
+                tsBlink = !tsBlink;
+            }
+            ++frames;
         }
 
         glBegin2D();
@@ -359,8 +366,10 @@ int main(int argc, char **argv)
                 }
             }
             glColor(RGB15(31, 31, 31));
-            glSprite(SCREEN_WIDTH / 2 - 192 / 2, 16, GL_FLIP_NONE, logo);
+            glSpriteScale(SCREEN_WIDTH / 2 - 96, 16, (1 << 12) * 2, GL_FLIP_NONE, logo);
+            glColor(tsBlink ? RGB15(0, 31, 0) : RGB15(31, 31, 31));
             fontSmall.printCentered(0, 96, "Press START!");
+            glColor(RGB15(31, 31, 31));
         }
 
         glEnd2D();
