@@ -287,11 +287,6 @@ int main(int argc, char **argv)
                     sinceLastTree = 0;
                 }
 
-                if (!placedTree && chance(20))
-                {
-                    blocks.emplace_back(new FlowerBlock(i, y - 16));
-                }
-
                 y += randomRange(-1, 1) * 16;
             }
         }
