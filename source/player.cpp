@@ -64,6 +64,10 @@ static mm_sound_effect sndCloth1;
 static mm_sound_effect sndCloth2;
 static mm_sound_effect sndCloth3;
 static mm_sound_effect sndCloth4;
+static mm_sound_effect sndSnow1;
+static mm_sound_effect sndSnow2;
+static mm_sound_effect sndSnow3;
+static mm_sound_effect sndSnow4;
 static mm_sound_effect sndStepGrass1;
 static mm_sound_effect sndStepGrass2;
 static mm_sound_effect sndStepGrass3;
@@ -80,6 +84,10 @@ static mm_sound_effect sndStepSand1;
 static mm_sound_effect sndStepSand2;
 static mm_sound_effect sndStepSand3;
 static mm_sound_effect sndStepSand4;
+static mm_sound_effect sndStepSnow1;
+static mm_sound_effect sndStepSnow2;
+static mm_sound_effect sndStepSnow3;
+static mm_sound_effect sndStepSnow4;
 
 // sounds that will be used in other files
 mm_sound_effect sndClick;
@@ -132,6 +140,10 @@ void loadPlayerSounds(void)
     mmLoadEffect(SFX_CLOTH2);
     mmLoadEffect(SFX_CLOTH3);
     mmLoadEffect(SFX_CLOTH4);
+    mmLoadEffect(SFX_SNOW1);
+    mmLoadEffect(SFX_SNOW2);
+    mmLoadEffect(SFX_SNOW3);
+    mmLoadEffect(SFX_SNOW4);
     mmLoadEffect(SFX_STEPGRASS1);
     mmLoadEffect(SFX_STEPGRASS2);
     mmLoadEffect(SFX_STEPGRASS3);
@@ -148,6 +160,10 @@ void loadPlayerSounds(void)
     mmLoadEffect(SFX_STEPSAND2);
     mmLoadEffect(SFX_STEPSAND3);
     mmLoadEffect(SFX_STEPSAND4);
+    mmLoadEffect(SFX_STEPSNOW1);
+    mmLoadEffect(SFX_STEPSNOW2);
+    mmLoadEffect(SFX_STEPSNOW3);
+    mmLoadEffect(SFX_STEPSNOW4);
     mmLoadEffect(SFX_CLICK);
 
     sndGrass1 = soundEffect(SFX_GRASS1);
@@ -174,6 +190,10 @@ void loadPlayerSounds(void)
     sndCloth2 = soundEffect(SFX_CLOTH2);
     sndCloth3 = soundEffect(SFX_CLOTH3);
     sndCloth4 = soundEffect(SFX_CLOTH4);
+    sndSnow1 = soundEffect(SFX_SNOW1);
+    sndSnow2 = soundEffect(SFX_SNOW2);
+    sndSnow3 = soundEffect(SFX_SNOW3);
+    sndSnow4 = soundEffect(SFX_SNOW4);
     sndStepGrass1 = soundEffect(SFX_STEPGRASS1);
     sndStepGrass2 = soundEffect(SFX_STEPGRASS2);
     sndStepGrass3 = soundEffect(SFX_STEPGRASS3);
@@ -190,6 +210,10 @@ void loadPlayerSounds(void)
     sndStepSand2 = soundEffect(SFX_STEPSAND2);
     sndStepSand3 = soundEffect(SFX_STEPSAND3);
     sndStepSand4 = soundEffect(SFX_STEPSAND4);
+    sndStepSnow1 = soundEffect(SFX_STEPSNOW1);
+    sndStepSnow2 = soundEffect(SFX_STEPSNOW2);
+    sndStepSnow3 = soundEffect(SFX_STEPSNOW3);
+    sndStepSnow4 = soundEffect(SFX_STEPSNOW4);
     sndClick = soundEffect(SFX_CLICK);
 }
 
@@ -794,7 +818,7 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
                     case InventoryItemID::SnowyGrass:
                         blocks->emplace_back(new SnowyGrassBlock(snapToGrid(camera.x + aimX),
                                                              snapToGrid(camera.y + aimY)));
-                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
+                        playsfx(effect, sndSnow1, sndSnow2, sndSnow3, sndSnow4)
                         break;
                     }
                     ret = true;
@@ -894,6 +918,7 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
                     else if (bid == "snowy grass")
                     {
                         addItem(InventoryItemID::SnowyGrass);
+                        playsfx(effect, sndSnow1, sndSnow2, sndSnow3, sndSnow4);
                     }
 
                     remove = true;
@@ -949,21 +974,24 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
                     std::string id = block->id();
                     if (id == "grass")
                     {
-                        playsfx(effect, sndStepGrass1, sndStepGrass2, sndStepGrass3, sndStepGrass4);
+                        playsfx(effect, sndStepGrass1, sndStepGrass2, sndStepGrass3, sndStepGrass4)
                     }
                     else if (id == "dirt")
                     {
-                        playsfx(effect, sndStepGravel1, sndStepGravel2, sndStepGravel3, sndStepGravel4);
+                        playsfx(effect, sndStepGravel1, sndStepGravel2, sndStepGravel3, sndStepGravel4)
                     }
                     else if (id == "stone" || id == "sandstone")
                     {
-                        playsfx(effect, sndStepStone1, sndStepStone2, sndStepStone3, sndStepStone4);
+                        playsfx(effect, sndStepStone1, sndStepStone2, sndStepStone3, sndStepStone4)
                     }
                     else if (id == "sand")
                     {
-                        playsfx(effect, sndStepSand1, sndStepSand2, sndStepSand3, sndStepSand4);
+                        playsfx(effect, sndStepSand1, sndStepSand2, sndStepSand3, sndStepSand4)
                     }
-                    // TODO add sfx for snowy grass
+                    else if (id == "snowy grass")
+                    {
+                        playsfx(effect, sndStepSnow1, sndStepSnow2, sndStepSnow3, sndStepSnow4)
+                    }
                 }
             }
 
