@@ -21,6 +21,7 @@ static glImage sprDandelionSmall[1];
 static glImage sprDoorSmall[1];
 static glImage sprPlanksSmall[1];
 static glImage sprStickSmall[1];
+static glImage sprSnowyGrassSmall[1];
 
 // these images are loaded in block.cpp
 extern glImage sprGrass[1];
@@ -36,6 +37,7 @@ extern glImage sprPoppy[1];
 extern glImage sprDandelion[1];
 extern glImage sprDoor[1];
 extern glImage sprPlanks[1];
+extern glImage sprSnowyGrass[1];
 
 // sounds
 static mm_sound_effect sndGrass1;
@@ -93,6 +95,7 @@ void loadPlayerGUI(void)
     loadImage(sprSandSmall, 8, 8, sand_smallBitmap);
     loadImage(sprSandstoneSmall, 8, 8, sandstone_smallBitmap);
     loadImage(sprPlanksSmall, 8, 8, planks_smallBitmap);
+    loadImage(sprSnowyGrassSmall, 8, 8, snowy_grass_smallBitmap);
 
     loadImageAlpha(sprLeavesSmall, 8, 8, oak_leaves_smallPal, oak_leaves_smallBitmap);
     loadImageAlpha(sprCactusSmall, 8, 8, cactus_side_smallPal, cactus_side_smallBitmap);
@@ -354,6 +357,8 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                     case InventoryItemID::Stick:
                         glSprite(x + 4, y + 4, GL_FLIP_NONE, sprStickSmall);
                         break;
+                    case InventoryItemID::SnowyGrass:
+                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprSnowyGrassSmall);
                     }
 
                     if (amount > 1)
@@ -444,6 +449,11 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
             glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
                      GL_FLIP_NONE, sprPlanks);
             break;
+
+        case InventoryItemID::SnowyGrass:
+            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
+                     GL_FLIP_NONE, sprSnowyGrass);
+            break;
         }
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(1));
         glBoxFilled(aimX, aimY, aimX + 1, aimY + 1, RGB15(0, 0, 0));
@@ -517,6 +527,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                     glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              GL_FLIP_NONE, sprStickSmall);
                     break;
+                case InventoryItemID::SnowyGrass:
+                    glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             GL_FLIP_NONE, sprSnowyGrassSmall);
                 }
 
                 if (amount > 1)
@@ -778,6 +791,11 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
                                                              snapToGrid(camera.y + aimY)));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
                         break;
+                    case InventoryItemID::SnowyGrass:
+                        blocks->emplace_back(new SnowyGrassBlock(snapToGrid(camera.x + aimX),
+                                                             snapToGrid(camera.y + aimY)));
+                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
+                        break;
                     }
                     ret = true;
                 }
@@ -873,6 +891,10 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
                         addItem(InventoryItemID::Planks);
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
                     }
+                    else if (bid == "snowy grass")
+                    {
+                        addItem(InventoryItemID::SnowyGrass);
+                    }
 
                     remove = true;
                     removei = i;
@@ -941,6 +963,7 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
                     {
                         playsfx(effect, sndStepSand1, sndStepSand2, sndStepSand3, sndStepSand4);
                     }
+                    // TODO add sfx for snowy grass
                 }
             }
 

@@ -78,10 +78,8 @@ enum class FlowerType
 
 class Block
 {
-protected:
-    s16 x, y;
-
 public:
+    s16 x, y;
     Block(s16 x, s16 y);
 
     virtual void draw(Camera camera) = 0;
@@ -94,6 +92,7 @@ public:
 // generic block declarations
 
 GENERIC_BLOCK_DECL(GrassBlock);
+GENERIC_BLOCK_DECL(SnowyGrassBlock);
 GENERIC_BLOCK_DECL(DirtBlock);
 GENERIC_BLOCK_DECL(StoneBlock);
 GENERIC_BLOCK_DECL(WoodBlock);

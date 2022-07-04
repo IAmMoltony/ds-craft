@@ -1,6 +1,7 @@
 #include <block.hpp>
 
 glImage sprGrass[1];
+glImage sprSnowyGrass[1];
 glImage sprDirt[1];
 glImage sprStone[1];
 glImage sprWood[1];
@@ -26,6 +27,7 @@ static mm_sound_effect sndDoorClose4;
 void loadBlockTextures(void)
 {
     loadImage(sprGrass, 16, 16, grassBitmap);
+    loadImage(sprSnowyGrass, 16, 16, snowy_grassBitmap);
     loadImage(sprDirt, 16, 16, dirtBitmap);
     loadImage(sprStone, 16, 16, stoneBitmap);
     loadImage(sprWood, 16, 16, oak_logBitmap);
@@ -82,6 +84,7 @@ bool Block::solid(void)
 // generic block implementations
 
 GENERIC_BLOCK_IMPL(GrassBlock, sprGrass, "grass")
+GENERIC_BLOCK_IMPL(SnowyGrassBlock, sprSnowyGrass, "snowy grass")
 GENERIC_BLOCK_IMPL(DirtBlock, sprDirt, "dirt")
 GENERIC_BLOCK_IMPL(StoneBlock, sprStone, "stone")
 GENERIC_BLOCK_IMPL(SandBlock, sprSand, "sand")
