@@ -323,7 +323,7 @@ int main(int argc, char **argv)
                 gameState = GameState::Game;
                 frames = 0;
             }
-            if (frames % 40 == 0)
+            if (frames % 30 == 0)
             {
                 tsBlink = !tsBlink;
             }
