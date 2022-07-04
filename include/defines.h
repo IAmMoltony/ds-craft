@@ -28,5 +28,7 @@
 #define VERSION_MAJOR 1
 #define VERSION_MINOR 3
 
+#define HALFSIZE ((1 << 12) / 2)
+
 typedef signed short s16;
 typedef signed char s8;

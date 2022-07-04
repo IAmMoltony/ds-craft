@@ -7,21 +7,7 @@
 // gui images
 static glImage sprInventorySlot[1];
 static glImage sprInventorySlotSelect[1];
-static glImage sprGrassSmall[1];
-static glImage sprDirtSmall[1];
-static glImage sprStoneSmall[1];
-static glImage sprWoodSmall[1];
-static glImage sprLeavesSmall[1];
-static glImage sprSandSmall[1];
-static glImage sprSandstoneSmall[1];
-static glImage sprCactusSmall[1];
-static glImage sprDeadBushSmall[1];
-static glImage sprPoppySmall[1];
-static glImage sprDandelionSmall[1];
-static glImage sprDoorSmall[1];
-static glImage sprPlanksSmall[1];
-static glImage sprStickSmall[1];
-static glImage sprSnowyGrassSmall[1];
+static glImage sprStick[1];
 
 // these images are loaded in block.cpp
 extern glImage sprGrass[1];
@@ -96,22 +82,8 @@ void loadPlayerGUI(void)
 {
     loadImage(sprInventorySlot, 16, 16, inventory_slotBitmap);
     loadImage(sprInventorySlotSelect, 16, 16, inventory_slot_selectBitmap);
-    loadImage(sprGrassSmall, 8, 8, grass_smallBitmap);
-    loadImage(sprDirtSmall, 8, 8, dirt_smallBitmap);
-    loadImage(sprStoneSmall, 8, 8, stone_smallBitmap);
-    loadImage(sprWoodSmall, 8, 8, oak_log_smallBitmap);
-    loadImage(sprSandSmall, 8, 8, sand_smallBitmap);
-    loadImage(sprSandstoneSmall, 8, 8, sandstone_smallBitmap);
-    loadImage(sprPlanksSmall, 8, 8, planks_smallBitmap);
-    loadImage(sprSnowyGrassSmall, 8, 8, snowy_grass_smallBitmap);
 
-    loadImageAlpha(sprLeavesSmall, 8, 8, oak_leaves_smallPal, oak_leaves_smallBitmap);
-    loadImageAlpha(sprCactusSmall, 8, 8, cactus_side_smallPal, cactus_side_smallBitmap);
-    loadImageAlpha(sprDeadBushSmall, 8, 8, dead_bush_smallPal, dead_bush_smallBitmap);
-    loadImageAlpha(sprPoppySmall, 8, 8, poppy_smallPal, poppy_smallBitmap);
-    loadImageAlpha(sprDandelionSmall, 8, 8, dandelion_smallPal, dandelion_smallBitmap);
-    loadImageAlpha(sprDoorSmall, 8, 8, door_smallPal, door_smallBitmap);
-    loadImageAlpha(sprStickSmall, 8, 8, stick_smallPal, stick_smallBitmap);
+    loadImageAlpha(sprStick, 8, 8, stickPal, stickBitmap);
 }
 
 void loadPlayerSounds(void)
@@ -263,7 +235,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
             glSprite(16, 46, GL_FLIP_NONE,
                      craftingSelect == 0 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
-            glSprite(20, 50, GL_FLIP_NONE, sprPlanksSmall);
+            glSpriteScale(20, 50, HALFSIZE, GL_FLIP_NONE, sprPlanks);
             fontSmall.printfShadow(16, 46, "4");
 
             if (hasItem({InventoryItemID::Planks, 6}))
@@ -277,7 +249,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
             glSprite(32, 46, GL_FLIP_NONE,
                      craftingSelect == 1 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
-            glSprite(36, 50, GL_FLIP_NONE, sprDoorSmall);
+            glSpriteScale(36, 50, HALFSIZE, GL_FLIP_NONE, sprDoor);
 
             if (hasItem({InventoryItemID::Planks, 2}))
             {
@@ -290,7 +262,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
             glSprite(48, 46, GL_FLIP_NONE,
                      craftingSelect == 2 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
-            glSprite(52, 50, GL_FLIP_NONE, sprStickSmall);
+            glSprite(52, 50, GL_FLIP_NONE, sprStick);
         }
         else
         {
@@ -338,51 +310,51 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                     switch (id)
                     {
                     case InventoryItemID::Grass:
-                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprGrassSmall);
+                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprGrass);
                         break;
                     case InventoryItemID::Dirt:
-                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprDirtSmall);
+                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprDirt);
                         break;
                     case InventoryItemID::Stone:
-                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprStoneSmall);
+                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprStone);
                         break;
                     case InventoryItemID::Wood:
-                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprWoodSmall);
+                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprWood);
                         break;
                     case InventoryItemID::Leaves:
                         glColor(RGB15(0, 22, 0));
-                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprLeavesSmall);
+                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprLeaves);
                         glColor(RGB15(31, 31, 31));
                         break;
                     case InventoryItemID::Sand:
-                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprSandSmall);
+                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprSand);
                         break;
                     case InventoryItemID::Sandstone:
-                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprSandstoneSmall);
+                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprSandstone);
                         break;
                     case InventoryItemID::Cactus:
-                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprCactusSmall);
+                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprCactus);
                         break;
                     case InventoryItemID::DeadBush:
-                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprDeadBushSmall);
+                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprDeadBush);
                         break;
                     case InventoryItemID::Poppy:
-                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprPoppySmall);
+                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprPoppy);
                         break;
                     case InventoryItemID::Dandelion:
-                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprDandelionSmall);
+                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprDandelion);
                         break;
                     case InventoryItemID::Door:
-                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprDoorSmall);
+                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprDoor);
                         break;
                     case InventoryItemID::Planks:
-                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprPlanksSmall);
+                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprPlanks);
                         break;
                     case InventoryItemID::Stick:
-                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprStickSmall);
+                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprStick);
                         break;
                     case InventoryItemID::SnowyGrass:
-                        glSprite(x + 4, y + 4, GL_FLIP_NONE, sprSnowyGrassSmall);
+                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprSnowyGrass);
                     }
 
                     if (amount > 1)
@@ -494,66 +466,66 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                 switch (id)
                 {
                 case InventoryItemID::Grass:
-                    glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                             GL_FLIP_NONE, sprGrassSmall);
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             HALFSIZE, GL_FLIP_NONE, sprGrass);
                     break;
                 case InventoryItemID::Dirt:
-                    glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                             GL_FLIP_NONE, sprDirtSmall);
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             HALFSIZE, GL_FLIP_NONE, sprDirt);
                     break;
                 case InventoryItemID::Stone:
-                    glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                             GL_FLIP_NONE, sprStoneSmall);
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             HALFSIZE, GL_FLIP_NONE, sprStone);
                     break;
                 case InventoryItemID::Wood:
-                    glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                             GL_FLIP_NONE, sprWoodSmall);
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             HALFSIZE, GL_FLIP_NONE, sprWood);
                     break;
                 case InventoryItemID::Leaves:
                     glColor(RGB15(0, 22, 0));
-                    glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                             GL_FLIP_NONE, sprLeavesSmall);
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             HALFSIZE, GL_FLIP_NONE, sprLeaves);
                     glColor(RGB15(31, 31, 31));
                     break;
                 case InventoryItemID::Sand:
-                    glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                             GL_FLIP_NONE, sprSandSmall);
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             HALFSIZE, GL_FLIP_NONE, sprSand);
                     break;
                 case InventoryItemID::Sandstone:
-                    glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                             GL_FLIP_NONE, sprSandstoneSmall);
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             HALFSIZE, GL_FLIP_NONE, sprSandstone);
                     break;
                 case InventoryItemID::Cactus:
-                    glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                             GL_FLIP_NONE, sprCactusSmall);
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             HALFSIZE, GL_FLIP_NONE, sprCactus);
                     break;
                 case InventoryItemID::DeadBush:
-                    glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                             GL_FLIP_NONE, sprDeadBushSmall);
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             HALFSIZE, GL_FLIP_NONE, sprDeadBush);
                     break;
                 case InventoryItemID::Poppy:
-                    glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                             GL_FLIP_NONE, sprPoppySmall);
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             HALFSIZE, GL_FLIP_NONE, sprPoppy);
                     break;
                 case InventoryItemID::Dandelion:
-                    glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                             GL_FLIP_NONE, sprDandelionSmall);
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             HALFSIZE, GL_FLIP_NONE, sprDandelion);
                     break;
                 case InventoryItemID::Door:
-                    glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                             GL_FLIP_NONE, sprDoorSmall);
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             HALFSIZE, GL_FLIP_NONE, sprDoor);
                     break;
                 case InventoryItemID::Planks:
-                    glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                             GL_FLIP_NONE, sprPlanksSmall);
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             HALFSIZE, GL_FLIP_NONE, sprPlanks);
                     break;
                 case InventoryItemID::Stick:
-                    glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                             GL_FLIP_NONE, sprStickSmall);
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             HALFSIZE, GL_FLIP_NONE, sprStick);
                     break;
                 case InventoryItemID::SnowyGrass:
-                    glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                             GL_FLIP_NONE, sprSnowyGrassSmall);
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             HALFSIZE, GL_FLIP_NONE, sprSnowyGrass);
                 }
 
                 if (amount > 1)
