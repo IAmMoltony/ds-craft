@@ -938,7 +938,7 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
 
             if (block->getRect().intersects(Rect(getRectBottom().x, getRectBottom().y + 1,
                                                  getRectBottom().w, getRectBottom().h)) &&
-                *frames % 22 == 0)
+                *frames % 19 == 0)
             {
                 if (moving(oldX))
                 {
