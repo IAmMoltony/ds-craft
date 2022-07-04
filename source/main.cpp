@@ -14,7 +14,10 @@
 #include <block.hpp>
 #include <player.hpp>
 #include <font.hpp>
+#include <gamestate.hpp>
 #include <algorithm>
+
+extern glImage sprDirt[1];
 
 int main(int argc, char **argv)
 {
@@ -292,41 +295,73 @@ int main(int argc, char **argv)
     printf("\n");
     std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
 
+    glImage placeholderLogo[1];
+    loadImageAlpha(placeholderLogo, 128, 32, placeholder_logoPal, placeholder_logoBitmap);
+
+    GameState gameState = GameState::Menu;
     Camera camera = {0, 0};
     Player player;
     u16 frames = 0;
     while (true)
     {
         scanKeys();
-        if (player.update(camera, &blocks, &frames) || frames % 300 == 0)
+        if (gameState == GameState::Game)
         {
-            std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
-        }
+            if (player.update(camera, &blocks, &frames) || frames % 300 == 0)
+            {
+                std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
+            }
 
-        camera.x = lerp(camera.x, player.getX() - SCREEN_WIDTH / 2, 0.1f);
-        camera.y = lerp(camera.y, player.getY() - SCREEN_HEIGHT / 2, 0.1f);
+            camera.x = lerp(camera.x, player.getX() - SCREEN_WIDTH / 2, 0.1f);
+            camera.y = lerp(camera.y, player.getY() - SCREEN_HEIGHT / 2, 0.1f);
+        }
+        else if (gameState == GameState::Menu)
+        {
+            if (keysDown() & KEY_START)
+            {
+                gameState = GameState::Game;
+            }
+        }
 
         glBegin2D();
-        glBoxFilledGradient(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(10, 17, 26), RGB15(15, 23, 31), RGB15(15, 23, 31), RGB15(10, 17, 26));
 
-        for (auto &block : blocks)
+        if (gameState == GameState::Game)
         {
-            if (block->getRect().x - camera.x < -16 ||
-                block->getRect().y - camera.y < -16)
-            {
-                continue;
-            }
-            if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
-            {
-                break;
-            }
+            glBoxFilledGradient(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(10, 17, 26), RGB15(15, 23, 31), RGB15(15, 23, 31), RGB15(10, 17, 26));
 
-            block->draw(camera);
+            for (auto &block : blocks)
+            {
+                if (block->getRect().x - camera.x < -16 ||
+                    block->getRect().y - camera.y < -16)
+                {
+                    continue;
+                }
+                if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
+                {
+                    break;
+                }
+
+                block->draw(camera);
+            }
+            player.draw(camera, fontSmall, font);
+            glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(4));
+            fontSmall.printf(3, 3, "%s%d.%d", VERSION_PREFIX, VERSION_MAJOR, VERSION_MINOR);
+            glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(4));
         }
-        player.draw(camera, fontSmall, font);
-        glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(4));
-        fontSmall.printf(3, 3, "%s%d.%d", VERSION_PREFIX, VERSION_MAJOR, VERSION_MINOR);
-        glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(4));
+        else if (gameState == GameState::Menu)
+        {
+            glColor(RGB15(15, 15, 15));
+            for (u8 i = 0; i < SCREEN_WIDTH / 32; ++i)
+            {
+                for (u8 j = 0; j < SCREEN_HEIGHT / 32; ++j)
+                {
+                    glSpriteScale(i * 32, j * 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
+                }
+            }
+            glColor(RGB15(31, 31, 31));
+            glSprite(SCREEN_WIDTH / 2 - 50, 16, GL_FLIP_NONE, placeholderLogo);
+            fontSmall.printCentered(0, 96, "Press START!");
+        }
 
         glEnd2D();
         glFlush(0);

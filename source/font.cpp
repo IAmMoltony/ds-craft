@@ -22,6 +22,29 @@ void Font::print(int x, int y, const char *str)
     }
 }
 
+void Font::printCentered(int x, int y, const char *str)
+{
+    uint8_t ch;
+    int tw = 0;
+    char *ostr = (char*)str;
+
+    while(*str)
+    {
+        ch = ( *(unsigned char*)str++ ) - 32;
+        tw += spr[ch].width;
+    }
+
+    x = (SCREEN_WIDTH - tw) / 2;
+
+    str = ostr;
+    while(*str)
+    {
+        ch = (*(unsigned char*)str++) - 32;
+        glSprite(x, y, GL_FLIP_NONE, &spr[ch]);
+        x += spr[ch].width;
+    }
+}
+
 void Font::printf(int x, int y, const char *format, ...)
 {
     va_list args;
