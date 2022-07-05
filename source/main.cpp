@@ -17,7 +17,9 @@
 #include <gamestate.hpp>
 #include <algorithm>
 
-extern glImage sprDirt[1];
+extern glImage sprDirt[1]; // from block.cpp
+
+extern mm_sound_effect sndClick; // from player.cpp
 
 int main(int argc, char **argv)
 {
@@ -322,6 +324,7 @@ int main(int argc, char **argv)
             {
                 gameState = GameState::Game;
                 frames = 0;
+                mmEffectEx(&sndClick);
             }
             if (frames % 30 == 0)
             {
