@@ -356,7 +356,7 @@ int main(int argc, char **argv)
         }
         else if (gameState == GameState::Menu)
         {
-            if (keysDown() & KEY_START)
+            if (keysDown() & KEY_A)
             {
                 gameState = GameState::Game;
                 frames = 0;
