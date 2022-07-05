@@ -3,6 +3,7 @@
 #include <nds/arm9/input.h>
 #include <gl2d.h>
 #include <maxmod9.h>
+#include <fat.h>
 #include <images.h>
 #include <uvcoord_font_16x16.h>
 #include <uvcoord_font_si.h>
@@ -28,6 +29,39 @@ int main(int argc, char **argv)
     videoSetMode(MODE_5_3D);
     glScreen2D();
 
+    if (!fatInitDefault())
+    {
+        printf("FAT init failed! :(\n");
+        printf("This error is most likely caused by the fact that the ");
+        printf("ROM is not DLDI-patched or SD card is missing.\n\n");
+        printf("Press A to view instructions for real hardware.\n\n");
+        printf("Press B to view instructions for emulators.\n\n");
+        while (true)
+        {
+            scanKeys();
+            u32 kdown = keysDown();
+            if (kdown & KEY_A)
+            {
+                consoleClear();
+                printf("Real hardware\n\n");
+                printf("Visit chishm.com/DLDI/index.html for instructions.");
+            }
+            if (kdown & KEY_B)
+            {
+                consoleClear();
+                printf("Emulators\n\n");
+                printf("MelonDS:\n");
+                printf("1. Go to melonds.kuribo64.net/board/thread.php?pid=2902 ");
+                printf("and create a virtual SD card.\n");
+                printf("2. Open MelonDS, go to config -> emu settings -> DLDI -> ");
+                printf("check \"Enable DLDI\" and in the \"DLDI SD card\" box, choose ");
+                printf("the SD crad image you created earlier.\n\n");
+                printf("DeSmuME:\n");
+                printf("Visit gbatemp.net/threads/emulating-dldi-reading-from-cartridge");
+                printf(".583105/#post-9368395");
+            }
+        }
+    }
     mmInitDefaultMem((mm_addr)soundbank_bin);
 
     vramSetBankA(VRAM_A_TEXTURE);
@@ -305,6 +339,7 @@ int main(int argc, char **argv)
     Camera camera = {0, 0};
     Player player;
     u16 frames = 0;
+
     while (true)
     {
         scanKeys();

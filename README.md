@@ -16,7 +16,8 @@ Press r to select next crafting recipe. Press a to craft the item (if you have t
 
 ## Dependencies
 
-devkitPro libnds installed. For converting images and fonts, &lt;devkitPro folder&gt;/tools/bin in PATH variable.
+ - devkitPro libnds installed
+ - &lt;devkitPro folder&gt;/tools/bin in PATH variable.
 
 ## How to build
 
