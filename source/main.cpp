@@ -334,7 +334,7 @@ int main(int argc, char **argv)
     glImage logo[1];
     glImage abtn[1];
     loadImageAlpha(logo, 128, 32, logoPal, logoBitmap);
-    loadImageAlpha(abtn, 8, 8, abtnPal, abtnBitmap);
+    loadImageAlpha(abtn, 16, 16, abtnPal, abtnBitmap);
 
     GameState gameState = GameState::Menu;
     Camera camera = {0, 0};
@@ -402,8 +402,8 @@ int main(int argc, char **argv)
             }
             glColor(RGB15(31, 31, 31));
             glSpriteScale(SCREEN_WIDTH / 2 - 96, 16, (1 << 12) * 2, GL_FLIP_NONE, logo);
-            glSprite(SCREEN_WIDTH / 2 - 28, 96, GL_FLIP_NONE, abtn);
-            fontSmall.printCentered(0, 96, "Play");
+            glSprite(SCREEN_WIDTH / 2 - 30, 96, GL_FLIP_NONE, abtn);
+            fontSmall.printCentered(0, 98, "Play");
         }
 
         glEnd2D();
