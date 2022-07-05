@@ -26,7 +26,7 @@
 
 #define VERSION_PREFIX "alpha"
 #define VERSION_MAJOR 1
-#define VERSION_MINOR 3
+#define VERSION_MINOR 4
 
 #define HALFSIZE ((1 << 12) / 2)
 
