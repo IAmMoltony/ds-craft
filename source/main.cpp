@@ -285,7 +285,7 @@ int main(int argc, char **argv)
                     blocks.emplace_back(new StoneBlock(i, j));
                 }
 
-                if (chance(9) && sinceLastTree > treeInterval)
+                if (chance(20) && sinceLastTree > treeInterval)
                 {
                     u8 tree = chance(50) ? 1 : 0;
                     if (tree == 0)
