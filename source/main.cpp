@@ -332,9 +332,10 @@ int main(int argc, char **argv)
     std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
 
     glImage logo[1];
+    glImage abtn[1];
     loadImageAlpha(logo, 128, 32, logoPal, logoBitmap);
+    loadImageAlpha(abtn, 8, 8, abtnPal, abtnBitmap);
 
-    bool tsBlink = false; // title screen blink
     GameState gameState = GameState::Menu;
     Camera camera = {0, 0};
     Player player;
@@ -360,10 +361,6 @@ int main(int argc, char **argv)
                 gameState = GameState::Game;
                 frames = 0;
                 mmEffectEx(&sndClick);
-            }
-            if (frames % 30 == 0)
-            {
-                tsBlink = !tsBlink;
             }
             ++frames;
         }
@@ -396,18 +393,17 @@ int main(int argc, char **argv)
         else if (gameState == GameState::Menu)
         {
             glColor(RGB15(15, 15, 15));
-            for (u8 i = 0; i < SCREEN_WIDTH / 32; ++i)
+            for (u8 i = 0; i < SCREEN_WIDTH / 32 + 2; ++i)
             {
-                for (u8 j = 0; j < SCREEN_HEIGHT / 32; ++j)
+                for (u8 j = 0; j < SCREEN_HEIGHT / 32 + 1; ++j)
                 {
-                    glSpriteScale(i * 32, j * 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
+                    glSpriteScale(i * 32 - frames % 64, j * 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
                 }
             }
             glColor(RGB15(31, 31, 31));
             glSpriteScale(SCREEN_WIDTH / 2 - 96, 16, (1 << 12) * 2, GL_FLIP_NONE, logo);
-            glColor(tsBlink ? RGB15(0, 31, 0) : RGB15(31, 31, 31));
-            fontSmall.printCentered(0, 96, "Press START!");
-            glColor(RGB15(31, 31, 31));
+            glSprite(SCREEN_WIDTH / 2 - 28, 96, GL_FLIP_NONE, abtn);
+            fontSmall.printCentered(0, 96, "Play");
         }
 
         glEnd2D();

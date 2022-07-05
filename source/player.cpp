@@ -249,7 +249,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
             glSprite(32, 46, GL_FLIP_NONE,
                      craftingSelect == 1 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
-            glSpriteScale(36, 50, HALFSIZE, GL_FLIP_NONE, sprDoor);
+            glSpriteScale(37, 50, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
 
             if (hasItem({InventoryItemID::Planks, 2}))
             {
@@ -345,7 +345,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                         glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprDandelion);
                         break;
                     case InventoryItemID::Door:
-                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprDoor);
+                        glSpriteScale(x + 5, y + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
                         break;
                     case InventoryItemID::Planks:
                         glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprPlanks);
@@ -512,8 +512,8 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                              HALFSIZE, GL_FLIP_NONE, sprDandelion);
                     break;
                 case InventoryItemID::Door:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                             HALFSIZE, GL_FLIP_NONE, sprDoor);
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 5, SCREEN_HEIGHT - 16 + 4,
+                             (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
                     break;
                 case InventoryItemID::Planks:
                     glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,

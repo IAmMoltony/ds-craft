@@ -18,5 +18,6 @@
 #include <snowy_grass_img.h>
 #include <placeholder_logo_img.h>
 #include <logo_img.h>
+#include <abtn_img.h>
 #include <font_16x16_img.h>
 #include <font_small_img.h>
