@@ -58,7 +58,7 @@ int main(int argc, char **argv)
                 printf("the SD crad image you created earlier.\n\n");
                 printf("DeSmuME:\n");
                 printf("Visit gbatemp.net/threads/emulating-dldi-reading-from-cartridge");
-                printf(".583105/#post-9368395");
+                printf(".583105/#post-9368395\n");
             }
         }
     }
@@ -333,8 +333,10 @@ int main(int argc, char **argv)
 
     glImage logo[1];
     glImage abtn[1];
+    glImage bbtn[1];
     loadImageAlpha(logo, 128, 32, logoPal, logoBitmap);
     loadImageAlpha(abtn, 16, 16, abtnPal, abtnBitmap);
+    loadImageAlpha(bbtn, 16, 16, bbtnPal, bbtnBitmap);
 
     GameState gameState = GameState::Menu;
     Camera camera = {0, 0};
@@ -356,11 +358,26 @@ int main(int argc, char **argv)
         }
         else if (gameState == GameState::Menu)
         {
-            if (keysDown() & KEY_A)
+            u32 down = keysDown();
+            if (down & KEY_A)
             {
                 gameState = GameState::Game;
                 frames = 0;
                 mmEffectEx(&sndClick);
+            }
+            else if (down & KEY_B)
+            {
+                gameState = GameState::Credits;
+                mmEffectEx(&sndClick);
+            }
+            ++frames;
+        }
+        else if (gameState == GameState::Credits)
+        {
+            u32 down = keysDown();
+            if (down & KEY_B)
+            {
+                gameState = GameState::Menu;
             }
             ++frames;
         }
@@ -401,9 +418,33 @@ int main(int argc, char **argv)
                 }
             }
             glColor(RGB15(31, 31, 31));
+
             glSpriteScale(SCREEN_WIDTH / 2 - 96, 16, (1 << 12) * 2, GL_FLIP_NONE, logo);
+
             glSprite(SCREEN_WIDTH / 2 - 30, 96, GL_FLIP_NONE, abtn);
             fontSmall.printCentered(0, 98, "Play");
+
+            glSprite(SCREEN_WIDTH / 2 - 41, 116, GL_FLIP_NONE, bbtn);
+            fontSmall.printCentered(0, 118, "Credits");
+        }
+        else if (gameState == GameState::Credits)
+        {
+            glColor(RGB15(15, 15, 15));
+            for (u8 i = 0; i < SCREEN_WIDTH / 32 + 2; ++i)
+            {
+                for (u8 j = 0; j < SCREEN_HEIGHT / 32 + 1; ++j)
+                {
+                    glSpriteScale(i * 32 - frames % 64, j * 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
+                }
+            }
+            glColor(RGB15(31, 31, 31));
+
+            font.printCentered(0, 16, "Credits");
+            fontSmall.printCentered(0, 33, "Press B to go back");
+            
+            fontSmall.printCentered(0, 70, "Textures by Mojang");
+            fontSmall.printCentered(0, 120, "(C) 2022 moltony");
+            fontSmall.printCentered(0, 129, "Built with devkitARM");
         }
 
         glEnd2D();
