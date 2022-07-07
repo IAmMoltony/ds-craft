@@ -16,6 +16,7 @@
 #include <player.hpp>
 #include <font.hpp>
 #include <gamestate.hpp>
+#include <entity.hpp>
 #include <algorithm>
 
 extern glImage sprDirt[1]; // from block.cpp
@@ -85,7 +86,8 @@ int main(int argc, char **argv)
                    GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
                    256, font_smallPal, (u8 *)font_smallBitmap);
 
-    BlockList blocks;
+    std::vector<std::unique_ptr<Block>> blocks;
+    std::vector<std::unique_ptr<Entity>> entities;
     s16 y = SCREEN_HEIGHT / 2;
     u8 sinceLastTree = 0;
     u8 treeInterval = 3;
@@ -352,6 +354,10 @@ int main(int argc, char **argv)
             {
                 std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
             }
+            for (auto &entity : entities)
+            {
+                entity->update(blocks);
+            }
 
             camera.x = lerp(camera.x, player.getX() - SCREEN_WIDTH / 2, 0.1f);
             camera.y = lerp(camera.y, player.getY() - SCREEN_HEIGHT / 2, 0.1f);
@@ -402,7 +408,14 @@ int main(int argc, char **argv)
 
                 block->draw(camera);
             }
+
+            for (auto &entity : entities)
+            {
+                entity->draw(camera);
+            }
+
             player.draw(camera, fontSmall, font);
+
             glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(4));
             fontSmall.printf(3, 3, "%s%d.%d", VERSION_PREFIX, VERSION_MAJOR, VERSION_MINOR);
             glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(4));
