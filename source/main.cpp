@@ -5,6 +5,7 @@
 #include <maxmod9.h>
 #include <fat.h>
 #include <images.h>
+#include <fs.h>
 #include <uvcoord_font_16x16.h>
 #include <uvcoord_font_si.h>
 #include <soundbank.h>
@@ -16,11 +17,128 @@
 #include <player.hpp>
 #include <font.hpp>
 #include <gamestate.hpp>
+#include <terrain.hpp>
 #include <algorithm>
+#include <sstream>
 
 extern glImage sprDirt[1]; // from block.cpp
 
 extern mm_sound_effect sndClick; // from player.cpp
+
+BlockList blocks;
+Player player;
+
+void saveWorld(void)
+{
+    if (!fsFileExists("worlds/world.wld"))
+    {
+        blocks = generateTerrain();
+    }
+
+    fsCreateFile("worlds/world.wld");
+    std::string wld;
+    
+    wld += "player " + std::to_string(player.getX()) + " " + std::to_string(player.getY()) + "\n";
+    for (auto &block : blocks)
+    {
+        std::string id = block->id();
+        std::remove(id.begin(), id.end(), ' ');
+        wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + id + "\n";
+    }
+
+    fsWrite("worlds/world.wld", wld.c_str());
+}
+
+void loadWorld(void)
+{
+    if (!fsFileExists("worlds/world.wld"))
+    {
+        return;
+    }
+
+    std::string contents = std::string(fsReadFile("worlds/world.wld"));
+    std::istringstream iss(contents);
+    std::string line;
+    while (std::getline(iss, line))
+    {
+        std::vector<std::string> split;
+        std::stringstream ss(line);
+        std::string line2;
+        while (std::getline(ss, line2, ' '))
+        {
+            split.push_back(line2);
+        }
+        
+        if (split[0] == "player")
+        {
+            player.setX(atoi(split[1].c_str()));
+            player.setY(atoi(split[2].c_str()));
+        }
+        if (split[0] == "block")
+        {
+            s16 x = atoi(split[1].c_str());
+            s16 y = atoi(split[2].c_str());
+            std::string id = split[3];
+            // oh boi
+            if (id == "grass")
+            {
+                blocks.emplace_back(new GrassBlock(x, y));
+            }
+            else if (id == "dirt")
+            {
+                blocks.emplace_back(new DirtBlock(x, y));
+            }
+            else if (id == "stone")
+            {
+                blocks.emplace_back(new StoneBlock(x, y));
+            }
+            else if (id == "wood")
+            {
+                blocks.emplace_back(new WoodBlock(x, y));
+            }
+            else if (id == "leaves")
+            {
+                blocks.emplace_back(new LeavesBlock(x, y));
+            }
+            else if (id == "sand")
+            {
+                blocks.emplace_back(new SandBlock(x, y));
+            }
+            else if (id == "sandstone")
+            {
+                blocks.emplace_back(new SandstoneBlock(x, y));
+            }
+            else if (id == "cactus")
+            {
+                blocks.emplace_back(new CactusBlock(x, y));
+            }
+            else if (id == "deadbush")
+            {
+                blocks.emplace_back(new DeadBushBlock(x, y));
+            }
+            else if (id == "poppy")
+            {
+                blocks.emplace_back(new FlowerBlock(x, y, FlowerType::Poppy));
+            }
+            else if (id == "dandelion")
+            {
+                blocks.emplace_back(new FlowerBlock(x, y, FlowerType::Dandelion));
+            }
+            else if (id == "door")
+            {
+                blocks.emplace_back(new DoorBlock(x, y));
+            }
+            else if (id == "planks")
+            {
+                blocks.emplace_back(new PlanksBlock(x, y));
+            }
+            else if (id == "snowygrass")
+            {
+                blocks.emplace_back(new SnowyGrassBlock(x, y));
+            }
+        }
+    }
+}
 
 int main(int argc, char **argv)
 {
@@ -28,41 +146,9 @@ int main(int argc, char **argv)
     consoleDemoInit();
     videoSetMode(MODE_5_3D);
     glScreen2D();
-
-    if (!fatInitDefault())
-    {
-        printf("FAT init failed! :(\n");
-        printf("This error is most likely caused by the fact that the ");
-        printf("ROM is not DLDI-patched or SD card is missing.\n\n");
-        printf("Press A to view instructions for real hardware.\n\n");
-        printf("Press B to view instructions for emulators.\n\n");
-        while (true)
-        {
-            scanKeys();
-            u32 kdown = keysDown();
-            if (kdown & KEY_A)
-            {
-                consoleClear();
-                printf("Real hardware\n\n");
-                printf("Visit chishm.com/DLDI/index.html for instructions.");
-            }
-            if (kdown & KEY_B)
-            {
-                consoleClear();
-                printf("Emulators\n\n");
-                printf("MelonDS:\n");
-                printf("1. Go to melonds.kuribo64.net/board/thread.php?pid=2902 ");
-                printf("and create a virtual SD card.\n");
-                printf("2. Open MelonDS, go to config -> emu settings -> DLDI -> ");
-                printf("check \"Enable DLDI\" and in the \"DLDI SD card\" box, choose ");
-                printf("the SD crad image you created earlier.\n\n");
-                printf("DeSmuME:\n");
-                printf("Visit gbatemp.net/threads/emulating-dldi-reading-from-cartridge");
-                printf(".583105/#post-9368395\n");
-            }
-        }
-    }
+    fsInit();
     mmInitDefaultMem((mm_addr)soundbank_bin);
+    fsCreateDir("worlds");
 
     vramSetBankA(VRAM_A_TEXTURE);
     vramSetBankB(VRAM_B_TEXTURE);
@@ -85,252 +171,6 @@ int main(int argc, char **argv)
                    GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
                    256, font_smallPal, (u8 *)font_smallBitmap);
 
-    BlockList blocks;
-    s16 y = SCREEN_HEIGHT / 2;
-    u8 sinceLastTree = 0;
-    u8 treeInterval = 3;
-    for (u8 k = 0; k < 2; ++k)
-    {
-        // biomes
-        // 0 = forest
-        // 1 = desert
-        // 2 = plains
-        // 3 = snow
-        u8 biome = randomRange(0, 3);
-        printf("%u", biome);
-        if (biome == 0)
-        {
-            for (u16 i = k * SCREEN_WIDTH * 2; i < k * SCREEN_WIDTH * 2 + SCREEN_WIDTH * 2; i += 16)
-            {
-                ++sinceLastTree;
-                blocks.emplace_back(new GrassBlock(i, y));
-
-                for (s16 j = y + 16; j < y + 16 * 4; j += 16)
-                {
-                    blocks.emplace_back(new DirtBlock(i, j));
-                }
-                for (s16 j = y + 16 * 4; j < SCREEN_HEIGHT * 1.7; j += 16)
-                {
-                    blocks.emplace_back(new StoneBlock(i, j));
-                }
-
-                bool placedTree = false;
-                if (sinceLastTree > treeInterval)
-                {
-                    placedTree = true;
-                    u8 tree = chance(50) ? 1 : 0;
-                    if (tree == 0)
-                    {
-                        blocks.emplace_back(new WoodBlock(i, y - 16));
-                        blocks.emplace_back(new WoodBlock(i, y - 32));
-                        blocks.emplace_back(new WoodBlock(i, y - 48));
-                        blocks.emplace_back(new LeavesBlock(i, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i - 32, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i + 32, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i, y - 96));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 96));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 96));
-                        treeInterval = 5;
-                    }
-                    else if (tree == 1)
-                    {
-                        blocks.emplace_back(new WoodBlock(i, y - 16));
-                        blocks.emplace_back(new WoodBlock(i, y - 32));
-                        blocks.emplace_back(new LeavesBlock(i, y - 48));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 48));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 48));
-                        blocks.emplace_back(new LeavesBlock(i, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 80));
-                        treeInterval = 3;
-                    }
-                    sinceLastTree = 0;
-                }
-
-                if (!placedTree && chance(20))
-                {
-                    blocks.emplace_back(new FlowerBlock(i, y - 16));
-                }
-
-                y += randomRange(-1, 1) * 16;
-            }
-        }
-        else if (biome == 1)
-        {
-            for (u16 i = k * SCREEN_WIDTH * 2; i < k * SCREEN_WIDTH * 2 + SCREEN_WIDTH * 2; i += 16)
-            {
-                ++sinceLastTree;
-                for (s16 j = y; j < y + 16 * 4; j += 16)
-                {
-                    blocks.emplace_back(new SandBlock(i, j));
-                }
-                for (s16 j = y + 16 * 4; j < y + 16 * 8; j += 16)
-                {
-                    blocks.emplace_back(new SandstoneBlock(i, j));
-                }
-                for (s16 j = y + 16 * 8; j < SCREEN_HEIGHT * 1.7; j += 16)
-                {
-                    blocks.emplace_back(new StoneBlock(i, j));
-                }
-
-                bool placedCactus = false;
-                if (chance(40) && sinceLastTree > 3)
-                {
-                    placedCactus = true;
-                    u8 len = randomRange(0, 3);
-                    for (int l = 0; l < len; ++l)
-                    {
-                        blocks.emplace_back(new CactusBlock(i, y - l * 16 - 16));
-                    }
-                    sinceLastTree = 0;
-                }
-
-                if (!placedCactus && chance(30))
-                {
-                    blocks.emplace_back(new DeadBushBlock(i, y - 16));
-                }
-
-                y += randomRange(-1, 1) * 16;
-            }
-        }
-        else if (biome == 2)
-        {
-            for (u16 i = k * SCREEN_WIDTH * 2; i < k * SCREEN_WIDTH * 2 + SCREEN_WIDTH * 2; i += 16)
-            {
-                ++sinceLastTree;
-                blocks.emplace_back(new GrassBlock(i, y));
-
-                for (s16 j = y + 16; j < y + 16 * 4; j += 16)
-                {
-                    blocks.emplace_back(new DirtBlock(i, j));
-                }
-                for (s16 j = y + 16 * 4; j < SCREEN_HEIGHT * 1.7; j += 16)
-                {
-                    blocks.emplace_back(new StoneBlock(i, j));
-                }
-
-                bool placedTree = false;
-                if (chance(9) && sinceLastTree > treeInterval)
-                {
-                    placedTree = true;
-                    u8 tree = chance(50) ? 1 : 0;
-                    if (tree == 0)
-                    {
-                        blocks.emplace_back(new WoodBlock(i, y - 16));
-                        blocks.emplace_back(new WoodBlock(i, y - 32));
-                        blocks.emplace_back(new WoodBlock(i, y - 48));
-                        blocks.emplace_back(new LeavesBlock(i, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i - 32, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i + 32, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i, y - 96));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 96));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 96));
-                        treeInterval = 5;
-                    }
-                    else if (tree == 1)
-                    {
-                        blocks.emplace_back(new WoodBlock(i, y - 16));
-                        blocks.emplace_back(new WoodBlock(i, y - 32));
-                        blocks.emplace_back(new LeavesBlock(i, y - 48));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 48));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 48));
-                        blocks.emplace_back(new LeavesBlock(i, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 80));
-                        treeInterval = 3;
-                    }
-                    sinceLastTree = 0;
-                }
-
-                if (!placedTree && chance(20))
-                {
-                    blocks.emplace_back(new FlowerBlock(i, y - 16));
-                }
-
-                if (chance(8))
-                {
-                    y += randomRange(-1, 1) * 16;
-                }
-            }
-        }
-        else if (biome == 3)
-        {
-            for (u16 i = k * SCREEN_WIDTH * 2; i < k * SCREEN_WIDTH * 2 + SCREEN_WIDTH * 2; i += 16)
-            {
-                ++sinceLastTree;
-                blocks.emplace_back(new SnowyGrassBlock(i, y));
-
-                for (s16 j = y + 16; j < y + 16 * 4; j += 16)
-                {
-                    blocks.emplace_back(new DirtBlock(i, j));
-                }
-                for (s16 j = y + 16 * 4; j < SCREEN_HEIGHT * 1.7; j += 16)
-                {
-                    blocks.emplace_back(new StoneBlock(i, j));
-                }
-
-                if (chance(20) && sinceLastTree > treeInterval)
-                {
-                    u8 tree = chance(50) ? 1 : 0;
-                    if (tree == 0)
-                    {
-                        blocks.emplace_back(new WoodBlock(i, y - 16));
-                        blocks.emplace_back(new WoodBlock(i, y - 32));
-                        blocks.emplace_back(new WoodBlock(i, y - 48));
-                        blocks.emplace_back(new LeavesBlock(i, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i - 32, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i + 32, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i, y - 96));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 96));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 96));
-                        treeInterval = 5;
-                    }
-                    else if (tree == 1)
-                    {
-                        blocks.emplace_back(new WoodBlock(i, y - 16));
-                        blocks.emplace_back(new WoodBlock(i, y - 32));
-                        blocks.emplace_back(new LeavesBlock(i, y - 48));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 48));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 48));
-                        blocks.emplace_back(new LeavesBlock(i, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 80));
-                        treeInterval = 3;
-                    }
-                    sinceLastTree = 0;
-                }
-
-                y += randomRange(-1, 1) * 16;
-            }
-        }
-    }
-    printf("\n");
-    std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
-
     glImage logo[1];
     glImage abtn[1];
     glImage bbtn[1];
@@ -340,7 +180,6 @@ int main(int argc, char **argv)
 
     GameState gameState = GameState::Menu;
     Camera camera = {0, 0};
-    Player player;
     u16 frames = 0;
 
     while (true)
@@ -348,6 +187,12 @@ int main(int argc, char **argv)
         scanKeys();
         if (gameState == GameState::Game)
         {
+            if (frames % 900 == 0)
+            {
+                saveWorld();
+                printf("saved\n");
+            }
+
             if (player.update(camera, &blocks, &frames) || frames % 300 == 0)
             {
                 std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
@@ -364,6 +209,14 @@ int main(int argc, char **argv)
                 gameState = GameState::Game;
                 frames = 0;
                 mmEffectEx(&sndClick);
+                if (!fsFileExists("worlds/world.wld"))
+                {
+                    saveWorld();
+                }
+                else
+                {
+                    loadWorld();
+                }
             }
             else if (down & KEY_B)
             {

@@ -7,15 +7,19 @@
                 "${workspaceFolder}/include",
                 "D:/devkitPro/libnds/include/**",
                 "D:/devkitPro/devkitARM/arm-none-eabi/include/**",
+                "D:/devkitPro/libnds/include/nds",
                 "E:/devkitPro/libnds/include/**",
                 "E:/devkitPro/devkitARM/arm-none-eabi/include/**",
+                "E:/devkitPro/libnds/include/nds",
                 "/opt/devkitPro/libnds/include/**",
-                "/opt/devkitPro/devkitARM/arm-none-eabi/include/**"
+                "/opt/devkitPro/devkitARM/arm-none-eabi/include/**",
+                "/opt/devkitPro/libnds/include/nds",
             ],
             "defines": [],
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "intelliSenseMode": "windows-msvc-x64"
+            "intelliSenseMode": "windows-msvc-x64",
+            "configurationProvider": "ms-vscode.makefile-tools"
         }
     ],
     "version": 4

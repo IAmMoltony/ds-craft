@@ -14,3 +14,4 @@ mctex.zip
 *.nds
 desktop.ini
 melonDS.ini
+.vscode/*.log
