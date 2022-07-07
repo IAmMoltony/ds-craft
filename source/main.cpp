@@ -94,6 +94,9 @@ void saveWorld(void)
         case InventoryItemID::SnowyGrass:
             id = "snowygrass";
             break;
+        case InventoryItemID::Sapling:
+            id = "sapling";
+            break;
         }
 
         wld += "inventory " + std::to_string(i) + " " + id + " " + std::to_string(playerInventory[i].amount) + "\n";
@@ -209,6 +212,10 @@ void loadWorld(void)
             {
                 blocks.emplace_back(new SnowyGrassBlock(x, y));
             }
+            else if (id == "sapling")
+            {
+                blocks.emplace_back(new SaplingBlock(x, y));
+            }
         }
         if (split[0] == "inventory")
         {
@@ -280,6 +287,10 @@ void loadWorld(void)
             else if (sid == "snowygrass")
             {
                 id = InventoryItemID::SnowyGrass;
+            }
+            else if (sid == "sapling")
+            {
+                id = InventoryItemID::Sapling;
             }
             
             player.setItem(i, {id, amount});
@@ -396,6 +407,11 @@ int main(int argc, char **argv)
             {
                 gameState = GameState::Credits;
                 mmEffectEx(&sndClick);
+            }
+            else if (down & KEY_X)
+            {
+                fsDeleteFile("worlds/world.wld");
+                printf("deleted save\n");
             }
             ++frames;
         }

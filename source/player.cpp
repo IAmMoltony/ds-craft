@@ -728,9 +728,9 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
             {
                 if (inventory[inventorySelect].amount > 0)
                 {
-                    --inventory[inventorySelect].amount;
                     InventoryItemID id = inventory[inventorySelect].id;
                     u8 effect = rand() % 4;
+                    bool canPlace = true;
                     switch (id)
                     {
                     case InventoryItemID::Grass:
@@ -769,29 +769,86 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
                         break;
                     case InventoryItemID::Cactus:
-                        blocks->emplace_back(new CactusBlock(snapToGrid(camera.x + aimX),
-                                                             snapToGrid(camera.y + aimY)));
-                        playsfx(effect, sndCloth1, sndCloth2, sndCloth3, sndCloth4)
+                        canPlace = false;
+                        for (size_t i = 0; i < blocks->size(); ++i)
+                        {
+                            if (blocks->at(i)->y == getRectAim(camera).y + 16 &&
+                                blocks->at(i)->x == getRectAim(camera).x && (
+                                blocks->at(i)->id() == "sand" ||
+                                blocks->at(i)->id() == "cactus"))
+                            {
+                                canPlace = true;
+                            }
+                        }
+                        if (canPlace)
+                        {
+                            blocks->emplace_back(new CactusBlock(snapToGrid(camera.x + aimX),
+                                                                 snapToGrid(camera.y + aimY)));
+                            playsfx(effect, sndCloth1, sndCloth2, sndCloth3, sndCloth4)
+                        }
                         break;
                     case InventoryItemID::DeadBush:
-                        blocks->emplace_back(new DeadBushBlock(snapToGrid(camera.x + aimX),
-                                                             snapToGrid(camera.y + aimY)));
-                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        canPlace = false;
+                        for (size_t i = 0; i < blocks->size(); ++i)
+                        {
+                            if (blocks->at(i)->y == getRectAim(camera).y + 16 &&
+                                blocks->at(i)->x == getRectAim(camera).x && (
+                                blocks->at(i)->id() == "sand"))
+                            {
+                                canPlace = true;
+                            }
+                        }
+                        if (canPlace)
+                        {
+                            blocks->emplace_back(new DeadBushBlock(snapToGrid(camera.x + aimX),
+                                                                   snapToGrid(camera.y + aimY)));
+                            playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        }
                         break;
                     case InventoryItemID::Poppy:
-                        blocks->emplace_back(new FlowerBlock(snapToGrid(camera.x + aimX),
-                                                             snapToGrid(camera.y + aimY), FlowerType::Poppy));
-                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        canPlace = false;
+                        for (size_t i = 0; i < blocks->size(); ++i)
+                        {
+                            if (blocks->at(i)->y == getRectAim(camera).y + 16 &&
+                                blocks->at(i)->x == getRectAim(camera).x && (
+                                blocks->at(i)->id() == "grass" ||
+                                blocks->at(i)->id() == "dirt" ||
+                                blocks->at(i)->id() == "snowy grass"))
+                            {
+                                canPlace = true;
+                            }
+                        }
+                        if (canPlace)
+                        {
+                            blocks->emplace_back(new FlowerBlock(snapToGrid(camera.x + aimX),
+                                                                 snapToGrid(camera.y + aimY), FlowerType::Poppy));
+                            playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        }
                         break;
                     case InventoryItemID::Dandelion:
-                        blocks->emplace_back(new FlowerBlock(snapToGrid(camera.x + aimX),
-                                                             snapToGrid(camera.y + aimY),
-                                                             FlowerType::Dandelion));
-                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        canPlace = false;
+                        for (size_t i = 0; i < blocks->size(); ++i)
+                        {
+                            if (blocks->at(i)->y == getRectAim(camera).y + 16 &&
+                                blocks->at(i)->x == getRectAim(camera).x && (
+                                blocks->at(i)->id() == "grass" ||
+                                blocks->at(i)->id() == "dirt" ||
+                                blocks->at(i)->id() == "snowy grass"))
+                            {
+                                canPlace = true;
+                            }
+                        }
+                        if (canPlace)
+                        {
+                            blocks->emplace_back(new FlowerBlock(snapToGrid(camera.x + aimX),
+                                                                 snapToGrid(camera.y + aimY),
+                                                                 FlowerType::Dandelion));
+                            playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        }
                         break;
                     case InventoryItemID::Door:
                         blocks->emplace_back(new DoorBlock(snapToGrid(camera.x + aimX),
-                                                            snapToGrid(camera.y + aimY), x));
+                                                           snapToGrid(camera.y + aimY), x));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
                         break;
                     case InventoryItemID::Planks:
@@ -805,9 +862,28 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
                         playsfx(effect, sndSnow1, sndSnow2, sndSnow3, sndSnow4)
                         break;
                     case InventoryItemID::Sapling:
-                        blocks->emplace_back(new SaplingBlock(snapToGrid(camera.x + aimX),
-                                                              snapToGrid(camera.y + aimY)));
-                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        canPlace = false;
+                        for (size_t i = 0; i < blocks->size(); ++i)
+                        {
+                            if (blocks->at(i)->y == getRectAim(camera).y + 16 &&
+                                blocks->at(i)->x == getRectAim(camera).x && (
+                                blocks->at(i)->id() == "grass" ||
+                                blocks->at(i)->id() == "dirt" ||
+                                blocks->at(i)->id() == "snowy grass"))
+                            {
+                                canPlace = true;
+                            }
+                        }
+                        if (canPlace)
+                        {
+                            blocks->emplace_back(new SaplingBlock(snapToGrid(camera.x + aimX),
+                                                                  snapToGrid(camera.y + aimY)));
+                            playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        }
+                    }
+                    if (canPlace)
+                    {
+                        --inventory[inventorySelect].amount;
                     }
                     ret = true;
                 }

@@ -17,6 +17,7 @@ void fsInit(void);
 void fsCreateDir(const char *name);
 void fsCreateFile(const char *name);
 void fsWrite(const char *file, const char *data);
+void fsDeleteFile(const char *name);
 bool fsFileExists(const char *name);
 char *fsReadFile(const char *name);
 

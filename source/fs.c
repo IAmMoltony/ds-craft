@@ -59,6 +59,11 @@ void fsWrite(const char *file, const char *data)
     fclose(fp);
 }
 
+void fsDeleteFile(const char *name)
+{
+    remove(name);
+}
+
 bool fsFileExists(const char *name)
 {
     return access(name, F_OK) == 0;
