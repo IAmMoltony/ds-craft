@@ -16,7 +16,6 @@
 #include <player.hpp>
 #include <font.hpp>
 #include <gamestate.hpp>
-#include <entity.hpp>
 #include <algorithm>
 
 extern glImage sprDirt[1]; // from block.cpp
