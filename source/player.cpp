@@ -1077,6 +1077,16 @@ void Player::removeItem(InventoryItemID item, u8 amount)
         removeItem(item);
 }
 
+void Player::setX(s16 x)
+{
+    this->x = x;
+}
+
+void Player::setY(s16 y)
+{
+    this->y = y;
+}
+
 bool Player::moving(s16 oldX)
 {
     return x != oldX;

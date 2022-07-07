@@ -61,6 +61,8 @@ public:
     void addItem(InventoryItemID item, u8 amount);
     void removeItem(InventoryItemID item);
     void removeItem(InventoryItemID item, u8 amount);
+    void setX(s16 x);
+    void setY(s16 y);
     bool moving(s16 oldX);
 
     s16 getX(void);
