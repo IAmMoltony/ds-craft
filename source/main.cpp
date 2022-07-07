@@ -314,7 +314,8 @@ int main(int argc, char **argv)
     GameState gameState = GameState::Menu;
     Camera camera = {0, 0};
     u16 frames = 0;
-
+    u8 saveTextTimer = 0;
+    bool saveTextShow = false;
     while (true)
     {
         scanKeys();
@@ -323,7 +324,16 @@ int main(int argc, char **argv)
             if (frames % 900 == 0)
             {
                 saveWorld();
-                printf("saved\n");
+                saveTextShow = true;
+            }
+
+            if (saveTextShow)
+            {
+                ++saveTextTimer;
+                if (saveTextTimer == 120)
+                {
+                    saveTextShow = false;
+                }
             }
 
             if (player.update(camera, &blocks, &frames) || frames % 300 == 0)
@@ -390,6 +400,11 @@ int main(int argc, char **argv)
             }
 
             player.draw(camera, fontSmall, font);
+
+            if (saveTextShow)
+            {
+                fontSmall.printfShadow(2, SCREEN_HEIGHT - 11, "Saved!");
+            }
 
             glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(4));
             fontSmall.printf(3, 3, "%s%d.%d", VERSION_PREFIX, VERSION_MAJOR, VERSION_MINOR);
