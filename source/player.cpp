@@ -1087,6 +1087,11 @@ void Player::setY(s16 y)
     this->y = y;
 }
 
+void Player::setItem(u8 index, InventoryItem item)
+{
+    inventory[index] = item;
+}
+
 bool Player::moving(s16 oldX)
 {
     return x != oldX;
@@ -1125,4 +1130,14 @@ Rect Player::getRectRight(void)
 Rect Player::getRectAim(Camera camera)
 {
     return Rect(snapToGrid(aimX + camera.x), snapToGrid(aimY + camera.y), 16, 16);
+}
+
+std::array<InventoryItem, 20> Player::getInventory(void)
+{
+    std::array<InventoryItem, 20> inv;
+    for (u8 i = 0; i < 20; ++i)
+    {
+        inv[i] = inventory[i];
+    }
+    return inv;
 }

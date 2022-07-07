@@ -39,6 +39,65 @@ void saveWorld(void)
     std::string wld;
     
     wld += "player " + std::to_string(player.getX()) + " " + std::to_string(player.getY()) + "\n";
+    std::array<InventoryItem, 20> playerInventory = player.getInventory();
+    for (u8 i = 0; i < 20; ++i)
+    {
+        std::string id;
+        // i hate switch statements
+        switch (playerInventory[i].id)
+        {
+        case InventoryItemID::None:
+            id = "none";
+            break;
+        case InventoryItemID::Grass:
+            id = "grass";
+            break;
+        case InventoryItemID::Dirt:
+            id = "dirt";
+            break;
+        case InventoryItemID::Stone:
+            id = "stone";
+            break;
+        case InventoryItemID::Wood:
+            id = "wood";
+            break;
+        case InventoryItemID::Leaves:
+            id = "leaves";
+            break;
+        case InventoryItemID::Sand:
+            id = "sand";
+            break;
+        case InventoryItemID::Sandstone:
+            id = "sandstone";
+            break;
+        case InventoryItemID::Cactus:
+            id = "cactus";
+            break;
+        case InventoryItemID::DeadBush:
+            id = "deadbush";
+            break;
+        case InventoryItemID::Poppy:
+            id = "poppy";
+            break;
+        case InventoryItemID::Dandelion:
+            id = "dandelion";
+            break;
+        case InventoryItemID::Door:
+            id = "door";
+            break;
+        case InventoryItemID::Planks:
+            id = "planks";
+            break;
+        case InventoryItemID::Stick:
+            id = "stick";
+            break;
+        case InventoryItemID::SnowyGrass:
+            id = "snowygrass";
+            break;
+        }
+
+        wld += "inventory " + std::to_string(i) + " " + id + " " + std::to_string(playerInventory[i].amount) + "\n";
+    }
     for (auto &block : blocks)
     {
         std::string id = block->id();
@@ -136,6 +195,80 @@ void loadWorld(void)
             {
                 blocks.emplace_back(new SnowyGrassBlock(x, y));
             }
+        }
+        if (split[0] == "inventory")
+        {
+            u8 i = atoi(split[1].c_str());
+            u8 amount = atoi(split[3].c_str());
+            std::string sid = split[2];
+            InventoryItemID id = InventoryItemID::None;
+            // not again
+            if (sid == "none")
+            {
+                id = InventoryItemID::None;
+            }
+            else if (sid == "grass")
+            {
+                id = InventoryItemID::Grass;
+            }
+            else if (sid == "dirt")
+            {
+                id = InventoryItemID::Dirt;
+            }
+            else if (sid == "stone")
+            {
+                id = InventoryItemID::Stone;
+            }
+            else if (sid == "wood")
+            {
+                id = InventoryItemID::Wood;
+            }
+            else if (sid == "leaves")
+            {
+                id = InventoryItemID::Leaves;
+            }
+            else if (sid == "sand")
+            {
+                id = InventoryItemID::Sand;
+            }
+            else if (sid == "sandstone")
+            {
+                id = InventoryItemID::Sandstone;
+            }
+            else if (sid == "cactus")
+            {
+                id = InventoryItemID::Cactus;
+            }
+            else if (sid == "deadbush")
+            {
+                id = InventoryItemID::DeadBush;
+            }
+            else if (sid == "poppy")
+            {
+                id = InventoryItemID::Poppy;
+            }
+            else if (sid == "dandelion")
+            {
+                id = InventoryItemID::Dandelion;
+            }
+            else if (sid == "door")
+            {
+                id = InventoryItemID::Door;
+            }
+            else if (sid == "planks")
+            {
+                id = InventoryItemID::Planks;
+            }
+            else if (sid == "stick")
+            {
+                id = InventoryItemID::Stick;
+            }
+            else if (sid == "snowygrass")
+            {
+                id = InventoryItemID::SnowyGrass;
+            }
+            
+            player.setItem(i, {id, amount});
         }
     }
 }

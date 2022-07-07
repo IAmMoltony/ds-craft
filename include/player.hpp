@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <block.hpp>
 #include <font.hpp>
+#include <array>
 #define NULLITEM {InventoryItemID::None, 0}
 
 enum class InventoryItemID
@@ -63,8 +64,9 @@ public:
     void removeItem(InventoryItemID item, u8 amount);
     void setX(s16 x);
     void setY(s16 y);
+    void setItem(u8 index, InventoryItem item);
+    
     bool moving(s16 oldX);
-
     s16 getX(void);
     s16 getY(void);
     Rect getRectBottom(void);
@@ -72,4 +74,5 @@ public:
     Rect getRectLeft(void);
     Rect getRectRight(void);
     Rect getRectAim(Camera camera);
+    std::array<InventoryItem, 20> getInventory(void);
 };
