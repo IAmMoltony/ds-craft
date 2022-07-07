@@ -86,8 +86,7 @@ int main(int argc, char **argv)
                    GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
                    256, font_smallPal, (u8 *)font_smallBitmap);
 
-    std::vector<std::unique_ptr<Block>> blocks;
-    std::vector<std::unique_ptr<Entity>> entities;
+    BlockList blocks;
     s16 y = SCREEN_HEIGHT / 2;
     u8 sinceLastTree = 0;
     u8 treeInterval = 3;
@@ -354,10 +353,6 @@ int main(int argc, char **argv)
             {
                 std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
             }
-            for (auto &entity : entities)
-            {
-                entity->update(blocks);
-            }
 
             camera.x = lerp(camera.x, player.getX() - SCREEN_WIDTH / 2, 0.1f);
             camera.y = lerp(camera.y, player.getY() - SCREEN_HEIGHT / 2, 0.1f);
@@ -407,11 +402,6 @@ int main(int argc, char **argv)
                 }
 
                 block->draw(camera);
-            }
-
-            for (auto &entity : entities)
-            {
-                entity->draw(camera);
             }
 
             player.draw(camera, fontSmall, font);
