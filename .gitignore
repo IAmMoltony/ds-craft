@@ -15,3 +15,5 @@ mctex.zip
 desktop.ini
 melonDS.ini
 .vscode/*.log
+ds-craft.cppcheck
+ds-craft-cppcheck-build-dir/

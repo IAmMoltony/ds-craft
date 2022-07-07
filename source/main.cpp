@@ -101,12 +101,12 @@ void saveWorld(void)
     for (auto &block : blocks)
     {
         std::string id = block->id();
-        std::remove(id.begin(), id.end(), ' ');
+        (void)std::remove(id.begin(), id.end(), ' ');
 
         if (block->id() == "door")
         {
             Block *b = block.get();
-            DoorBlock *door = (DoorBlock *)b;
+            DoorBlock *door = reinterpret_cast<DoorBlock *>(b);
             wld += "door " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(door->isOpen()) + " " + std::to_string(door->getFacing()) + "\n";
         }
         else
@@ -312,11 +312,11 @@ int main(int argc, char **argv)
     font.load(font16x16Img, FONT_16X16_NUM_IMAGES, font_16x16_texcoords, GL_RGB256,
               TEXTURE_SIZE_64, TEXTURE_SIZE_512,
               GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
-              256, font_16x16Pal, (u8 *)font_16x16Bitmap);
+              256, font_16x16Pal, reinterpret_cast<const u8 *>(font_16x16Bitmap));
     fontSmall.load(fontSmallImg, FONT_SI_NUM_IMAGES, font_si_texcoords, GL_RGB256,
                    TEXTURE_SIZE_64, TEXTURE_SIZE_128,
                    GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
-                   256, font_smallPal, (u8 *)font_smallBitmap);
+                   256, font_smallPal, reinterpret_cast<const u8 *>(font_smallBitmap));
 
     glImage logo[1];
     glImage abtn[1];
@@ -347,6 +347,23 @@ int main(int argc, char **argv)
                 if (saveTextTimer == 120)
                 {
                     saveTextShow = false;
+                }
+            }
+
+            for (size_t i = 0; i < blocks.size(); ++i)
+            {
+                auto &block = blocks[i];
+                if (block->id() == "sapling")
+                {
+                    Block *b = block.get();
+                    SaplingBlock *sapling = (SaplingBlock *)b; // here i dont use reinterpret_cast
+                                                               // because it makes the game break
+                    sapling->update(&blocks);
+                    if (sapling->hasGrown())
+                    {
+                        blocks.erase(blocks.begin() + i);
+                        std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
+                    }
                 }
             }
 

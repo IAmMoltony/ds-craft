@@ -32,6 +32,7 @@ enum class InventoryItemID
     Planks,
     Stick,
     SnowyGrass,
+    Sapling,
 };
 
 typedef struct item

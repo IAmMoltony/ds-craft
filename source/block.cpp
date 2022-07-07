@@ -14,6 +14,7 @@ glImage sprDandelion[1];
 glImage sprPoppy[1];
 glImage sprDoor[1];
 glImage sprPlanks[1];
+glImage sprSapling[1];
 
 static mm_sound_effect sndDoorOpen1;
 static mm_sound_effect sndDoorOpen2;
@@ -41,6 +42,7 @@ void loadBlockTextures(void)
     loadImageAlpha(sprDandelion, 16, 16, dandelionPal, dandelionBitmap);
     loadImageAlpha(sprPoppy, 16, 16, poppyPal, poppyBitmap);
     loadImageAlpha(sprDoor, 32, 32, doorPal, doorBitmap);
+    loadImageAlpha(sprSapling, 16, 16, oak_saplingPal, oak_saplingBitmap);
 }
 
 void loadBlockSounds(void)
@@ -262,4 +264,67 @@ bool DoorBlock::isOpen(void)
 bool DoorBlock::getFacing(void)
 {
     return facing;
+}
+
+//-----------------------------------------
+
+SaplingBlock::SaplingBlock(s16 x, s16 y) : Block(x, y), growTime(1200)
+{
+    grown = false;
+}
+
+void SaplingBlock::draw(Camera camera)
+{
+    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprSapling);
+}
+
+bool SaplingBlock::solid(void)
+{
+    return false;
+}
+
+void SaplingBlock::interact(void)
+{
+}
+
+std::string SaplingBlock::id(void)
+{
+    return "sapling";
+}
+
+Rect SaplingBlock::getRect(void) const
+{
+    return Rect(x, y, 16, 16);
+}
+
+bool SaplingBlock::hasGrown(void)
+{
+    return grown;
+}
+
+void SaplingBlock::update(BlockList *blocks)
+{
+    if (!grown)
+    {
+        --growTime;
+    }
+    if (growTime == 0)
+    {
+        blocks->emplace_back(new WoodBlock(x, y));
+        blocks->emplace_back(new WoodBlock(x, y - 16));
+        blocks->emplace_back(new WoodBlock(x, y - 32));
+        blocks->emplace_back(new LeavesBlock(x, y - 48));
+        blocks->emplace_back(new LeavesBlock(x - 16, y - 48));
+        blocks->emplace_back(new LeavesBlock(x - 32, y - 48));
+        blocks->emplace_back(new LeavesBlock(x + 16, y - 48));
+        blocks->emplace_back(new LeavesBlock(x + 32, y - 48));
+        blocks->emplace_back(new LeavesBlock(x, y - 64));
+        blocks->emplace_back(new LeavesBlock(x - 16, y - 64));
+        blocks->emplace_back(new LeavesBlock(x + 16, y - 64));
+        blocks->emplace_back(new LeavesBlock(x, y - 80));
+        blocks->emplace_back(new LeavesBlock(x - 16, y - 80));
+        blocks->emplace_back(new LeavesBlock(x + 16, y - 80));
+        std::sort(blocks->begin(), blocks->end(), BlockCompareKey());
+        grown = true;
+    }
 }

@@ -67,11 +67,11 @@ bool fsFileExists(const char *name)
 char *fsReadFile(const char *name)
 {
     char *buf = NULL;
-    int ssize, rsize;
     FILE *fp = fopen(name, "r");
 
     if (fp)
     {
+        int ssize, rsize;
         fseek(fp, 0, SEEK_END);
         ssize = ftell(fp);
         rewind(fp);

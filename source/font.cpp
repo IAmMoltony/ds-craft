@@ -2,6 +2,7 @@
 
 Font::Font()
 {
+    spr = NULL;
 }
 
 void Font::load(glImage *fspr, const u32 frames, const unsigned int *texCoords, GL_TEXTURE_TYPE_ENUM type,
@@ -16,7 +17,7 @@ void Font::print(int x, int y, const char *str)
     u8 ch;
     while (*str)
     {
-        ch = (*(u8 *)str++) - 32;
+        ch = (*str++) - 32;
         glSprite(x, y, GL_FLIP_NONE, &spr[ch]);
         x += spr[ch].width;
     }
@@ -24,22 +25,22 @@ void Font::print(int x, int y, const char *str)
 
 void Font::printCentered(int x, int y, const char *str)
 {
-    uint8_t ch;
+    u8 ch;
     int tw = 0;
-    char *ostr = (char*)str;
+    char *ostr = const_cast<char *>(str);
 
-    while(*str)
+    while (*str)
     {
-        ch = ( *(unsigned char*)str++ ) - 32;
+        ch = (*str++) - 32;
         tw += spr[ch].width;
     }
 
     x = (SCREEN_WIDTH - tw) / 2;
 
     str = ostr;
-    while(*str)
+    while (*str)
     {
-        ch = (*(unsigned char*)str++) - 32;
+        ch = (*str++) - 32;
         glSprite(x, y, GL_FLIP_NONE, &spr[ch]);
         x += spr[ch].width;
     }
@@ -50,7 +51,7 @@ void Font::printf(int x, int y, const char *format, ...)
     va_list args;
     va_start(args, format);
 
-    char *str = (char *)malloc(150 * sizeof(char));
+    char *str = reinterpret_cast<char *>(malloc(150 * sizeof(char)));
     vsprintf(str, format, args);
     print(x, y, str);
     free(str);
@@ -63,7 +64,7 @@ void Font::printfShadow(int x, int y, const char *format, ...)
     va_list args;
     va_start(args, format);
 
-    char *str = (char *)malloc(150 * sizeof(char));
+    char *str = reinterpret_cast<char *>(malloc(150 * sizeof(char)));
     vsprintf(str, format, args);
     glColor(RGB15(0, 0, 0));
     glPolyFmt(POLY_ALPHA(14) | POLY_CULL_NONE | POLY_ID(2));
