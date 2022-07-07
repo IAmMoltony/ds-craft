@@ -102,7 +102,17 @@ void saveWorld(void)
     {
         std::string id = block->id();
         std::remove(id.begin(), id.end(), ' ');
-        wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + id + "\n";
+
+        if (block->id() == "door")
+        {
+            Block *b = block.get();
+            DoorBlock *door = (DoorBlock *)b;
+            wld += "door " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(door->isOpen()) + " " + std::to_string(door->getFacing()) + "\n";
+        }
+        else
+        {
+            wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + id + "\n";
+        }
     }
 
     fsWrite("worlds/world.wld", wld.c_str());
@@ -132,6 +142,14 @@ void loadWorld(void)
         {
             player.setX(atoi(split[1].c_str()));
             player.setY(atoi(split[2].c_str()));
+        }
+        if (split[0] == "door")
+        {
+            s16 x = atoi(split[1].c_str());
+            s16 y = atoi(split[2].c_str());
+            bool open = split[3] == "1";
+            bool facing = split[4] == "1";
+            blocks.emplace_back(new DoorBlock(x, y, open, facing));
         }
         if (split[0] == "block")
         {
@@ -182,10 +200,6 @@ void loadWorld(void)
             else if (id == "dandelion")
             {
                 blocks.emplace_back(new FlowerBlock(x, y, FlowerType::Dandelion));
-            }
-            else if (id == "door")
-            {
-                blocks.emplace_back(new DoorBlock(x, y));
             }
             else if (id == "planks")
             {

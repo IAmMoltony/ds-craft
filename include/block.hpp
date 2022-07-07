@@ -123,16 +123,19 @@ public:
 class DoorBlock : public Block
 {
 private:
-    bool open;
+    bool open, facing;
 
 public:
-    DoorBlock(s16 x, s16 y);
+    DoorBlock(s16 x, s16 y, s16 px);
+    DoorBlock(s16 x, s16 y, bool open, bool facing);
 
     void draw(Camera camera);
     bool solid(void);
     void interact(void);
     std::string id(void);
     Rect getRect(void) const;
+    bool isOpen(void);
+    bool getFacing(void);
 };
 
 struct BlockCompareKey

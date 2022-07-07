@@ -779,7 +779,7 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
                         break;
                     case InventoryItemID::Door:
                         blocks->emplace_back(new DoorBlock(snapToGrid(camera.x + aimX),
-                                                            snapToGrid(camera.y + aimY)));
+                                                            snapToGrid(camera.y + aimY), x));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
                         break;
                     case InventoryItemID::Planks:

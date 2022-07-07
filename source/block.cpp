@@ -167,9 +167,16 @@ Rect FlowerBlock::getRect(void) const
 
 //-----------------------------------------
 
-DoorBlock::DoorBlock(s16 x, s16 y) : Block(x, y)
+DoorBlock::DoorBlock(s16 x, s16 y, s16 px) : Block(x, y)
 {
     open = true;
+    facing = px > x;
+}
+
+DoorBlock::DoorBlock(s16 x, s16 y, bool open, bool facing) : Block(x, y)
+{
+    this->open = open;
+    this->facing = facing;
 }
 
 void DoorBlock::draw(Camera camera)
@@ -180,7 +187,7 @@ void DoorBlock::draw(Camera camera)
     }
     else
     {
-        glSpriteScaleXY(x - camera.x - 1, y - camera.y, 1 << 10, 1 << 12, GL_FLIP_NONE, sprDoor);
+        glSpriteScaleXY(x - camera.x - 1 + (facing ? 0 : 8), y - camera.y, 1 << 10, 1 << 12, (facing ? GL_FLIP_NONE : GL_FLIP_H), sprDoor);
     }
 }
 
@@ -244,5 +251,15 @@ Rect DoorBlock::getRect(void) const
     {
         return Rect(x, y, 16, 32);
     }
-    return Rect(x, y, 4, 32);
+    return Rect(x + (facing ? 0 : 11), y, 4, 32);
+}
+
+bool DoorBlock::isOpen(void)
+{
+    return open;
+}
+
+bool DoorBlock::getFacing(void)
+{
+    return facing;
 }
