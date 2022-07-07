@@ -137,7 +137,7 @@ public:
 
 struct BlockCompareKey
 {
-    inline bool operator() (const std::unique_ptr<Block> &b1, const std::unique_ptr<Block> &b2)
+    inline bool operator()(const std::unique_ptr<Block> &b1, const std::unique_ptr<Block> &b2)
     {
         return (b1->getRect().x < b2->getRect().x);
     }
