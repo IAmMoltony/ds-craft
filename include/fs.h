@@ -20,6 +20,8 @@ void fsWrite(const char *file, const char *data);
 void fsDeleteFile(const char *name);
 bool fsFileExists(const char *name);
 char *fsReadFile(const char *name);
+int fsGetFileSize(const char *name); // in bytes
+char *fsHumanreadFileSize(double size);
 
 #ifdef __cplusplus
 }

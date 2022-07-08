@@ -94,3 +94,27 @@ char *fsReadFile(const char *name)
 
     return buf;
 }
+
+int fsGetFileSize(const char *name)
+{
+    // TODO make this work correctly
+    struct stat st;
+    stat(name, &st);
+    return st.st_size;
+}
+
+char *fsHumanreadFileSize(double size)
+{
+    char *buf = (char *)malloc(10 * sizeof(char));
+    int i = 0;
+    static const char *units[] = {
+        "B", "KB", "MB", "GB",
+    };
+    while (size > 1024)
+    {
+        size /= 1024;
+        ++i;
+    }
+    sprintf(buf, "%.*f %s", i, size, units[i]);
+    return buf;
+}

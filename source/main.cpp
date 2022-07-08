@@ -1,6 +1,7 @@
 #include <nds.h>
 #include <nds/arm9/console.h>
 #include <nds/arm9/input.h>
+#include <nds/arm9/keyboard.h>
 #include <gl2d.h>
 #include <maxmod9.h>
 #include <fat.h>
@@ -28,14 +29,64 @@ extern mm_sound_effect sndClick; // from player.cpp
 BlockList blocks;
 Player player;
 
-void saveWorld(void)
+typedef struct world_info
 {
-    if (!fsFileExists("worlds/world.wld"))
+    std::string name;
+    int size; // in bytes
+} WorldInfo;
+
+void drawMovingBackground(glImage dirt[1], u8 frames)
+{
+    glColor(RGB15(15, 15, 15));
+    for (u8 i = 0; i < SCREEN_WIDTH / 32 + 2; ++i)
+    {
+        for (u8 j = 0; j < SCREEN_HEIGHT / 32 + 1; ++j)
+        {
+            glSpriteScale(i * 32 - frames % 64, j * 32, (1 << 12) * 2, GL_FLIP_NONE, dirt);
+        }
+    }
+    glColor(RGB15(31, 31, 31));
+}
+
+std::vector<WorldInfo> getWorlds(void)
+{
+    DIR *dp;
+    dp = opendir("worlds");
+    struct dirent *ep;
+    std::string dls; // directory list string
+    while ((ep = readdir(dp)) != NULL)
+    {
+        dls += std::string(ep->d_name) + "\n";
+    }
+    (void)closedir(dp);
+
+    std::vector<WorldInfo> worlds;
+    std::stringstream ss(dls);
+    std::string line;
+    while (std::getline(ss, line))
+    {
+        if (line == "." || line == "..")
+        {
+            continue;
+        }
+
+        size_t li = line.find_last_of(".");
+        int size = fsGetFileSize(line.c_str());
+        std::string noext = line.substr(0, li);
+        worlds.push_back({noext.c_str(), size});
+    }
+
+    return worlds;
+}
+
+void saveWorld(const std::string &name)
+{
+    if (!fsFileExists(std::string("worlds/" + name + ".wld").c_str()))
     {
         blocks = generateTerrain();
     }
 
-    fsCreateFile("worlds/world.wld");
+    fsCreateFile(std::string("worlds/" + name + ".wld").c_str());
     std::string wld;
     
     wld += "player " + std::to_string(player.getX()) + " " + std::to_string(player.getY()) + "\n";
@@ -118,17 +169,17 @@ void saveWorld(void)
         }
     }
 
-    fsWrite("worlds/world.wld", wld.c_str());
+    fsWrite(std::string("worlds/" + name + ".wld").c_str(), wld.c_str());
 }
 
-void loadWorld(void)
+void loadWorld(const std::string &name)
 {
-    if (!fsFileExists("worlds/world.wld"))
+    if (!fsFileExists(std::string("worlds/" + name + ".wld").c_str()))
     {
         return;
     }
 
-    std::string contents = std::string(fsReadFile("worlds/world.wld"));
+    std::string contents = std::string(fsReadFile(std::string("worlds/" + name + ".wld").c_str()));
     std::istringstream iss(contents);
     std::string line;
     while (std::getline(iss, line))
@@ -302,6 +353,8 @@ int main(int argc, char **argv)
 {
     srand(time(NULL));
     consoleDemoInit();
+    keyboardDemoInit();
+    keyboardHide();
     videoSetMode(MODE_5_3D);
     glScreen2D();
     fsInit();
@@ -332,23 +385,37 @@ int main(int argc, char **argv)
     glImage logo[1];
     glImage abtn[1];
     glImage bbtn[1];
+    glImage xbtn[1];
+    glImage ybtn[1];
+    glImage worldLabel[1];
+    glImage grayCircle[1];
     loadImageAlpha(logo, 128, 32, logoPal, logoBitmap);
     loadImageAlpha(abtn, 16, 16, abtnPal, abtnBitmap);
     loadImageAlpha(bbtn, 16, 16, bbtnPal, bbtnBitmap);
+    loadImageAlpha(xbtn, 16, 16, xbtnPal, xbtnBitmap);
+    loadImageAlpha(ybtn, 16, 16, ybtnPal, ybtnBitmap);
+    loadImageAlpha(worldLabel, 128, 32, world_labelPal, world_labelBitmap);
+    loadImageAlpha(grayCircle, 16, 16, gray_circlePal, gray_circleBitmap);
 
     GameState gameState = GameState::Menu;
     Camera camera = {0, 0};
     u16 frames = 0;
     u8 saveTextTimer = 0;
+    u8 wsSelected = 0; // selected world
+    std::vector<WorldInfo> wsWorlds; // worlds in world select
     bool saveTextShow = false;
+    std::string worldName = "";
+    std::string createWorldName = "";
     while (true)
     {
         scanKeys();
+        u32 down = keysDown();
+        // TODO rewrite into a switch
         if (gameState == GameState::Game)
         {
             if (frames % 900 == 0)
             {
-                saveWorld();
+                saveWorld(worldName);
                 saveTextShow = true;
             }
 
@@ -388,45 +455,124 @@ int main(int argc, char **argv)
         }
         else if (gameState == GameState::Menu)
         {
-            u32 down = keysDown();
             if (down & KEY_A)
             {
-                gameState = GameState::Game;
-                frames = 0;
+                gameState = GameState::WorldSelect;
+                wsWorlds = getWorlds();
+                wsSelected = 0;
                 mmEffectEx(&sndClick);
-                if (!fsFileExists("worlds/world.wld"))
-                {
-                    saveWorld();
-                }
-                else
-                {
-                    loadWorld();
-                }
             }
             else if (down & KEY_B)
             {
                 gameState = GameState::Credits;
                 mmEffectEx(&sndClick);
             }
-            else if (down & KEY_X)
-            {
-                fsDeleteFile("worlds/world.wld");
-                printf("deleted save\n");
-            }
             ++frames;
         }
         else if (gameState == GameState::Credits)
         {
-            u32 down = keysDown();
             if (down & KEY_B)
             {
+                mmEffectEx(&sndClick);
                 gameState = GameState::Menu;
             }
             ++frames;
         }
+        else if (gameState == GameState::WorldSelect)
+        {
+            if (down & KEY_B)
+            {
+                mmEffectEx(&sndClick);
+                gameState = GameState::Menu;
+            }
+            else if (down & KEY_X)
+            {
+                worldName = wsWorlds[wsSelected].name;
+                loadWorld(worldName);
+                mmEffectEx(&sndClick);
+                gameState = GameState::Game;
+            }
+            else if (down & KEY_Y)
+            {
+                // TODO add a confirmation screen for delete
+                fsDeleteFile(std::string("worlds/" + wsWorlds[wsSelected].name + ".wld").c_str());
+                wsWorlds = getWorlds();
+                mmEffectEx(&sndClick);
+            }
+            else if (down & KEY_A)
+            {
+                gameState = GameState::CreateWorld;
+                createWorldName = "";
+                keyboardShow();
+                mmEffectEx(&sndClick);
+            }
+            else if (down & KEY_DOWN)
+            {
+                if (wsSelected + 1 < wsWorlds.size())
+                {
+                    ++wsSelected;
+                }
+            }
+            else if (down & KEY_UP)
+            {
+                if (wsSelected - 1 >= 0)
+                {
+                    --wsSelected;
+                }
+            }
+            ++frames;
+        }
+        else if (gameState == GameState::CreateWorld)
+        {
+            if (down & KEY_B)
+            {
+                keyboardHide();
+                gameState = GameState::WorldSelect;
+                mmEffectEx(&sndClick);
+            }
+            else if (down & KEY_A)
+            {
+                // trim the string
+                createWorldName.erase(createWorldName.begin(), std::find_if(createWorldName.begin(),
+                                      createWorldName.end(), [](unsigned char ch) {
+                    return !std::isspace(ch);
+                }));
+                createWorldName.erase(std::find_if(createWorldName.rbegin(), createWorldName.rend(),
+                                      [](unsigned char ch) {
+                    return !std::isspace(ch);
+                }).base(), createWorldName.end());
 
+                keyboardHide();
+                worldName = createWorldName.c_str();
+                saveWorld(worldName);
+                gameState = GameState::Game;
+                frames = 0;
+                mmEffectEx(&sndClick);
+            }
+
+            char ch = keyboardUpdate();
+            if (ch > 0 && ch != 255)
+            {
+                if (ch == '\b')
+                {
+                    if (createWorldName.size() > 0)
+                    {
+                        createWorldName.pop_back();
+                    }
+                }
+                else
+                {
+                    createWorldName += ch;
+                }
+            }
+
+            ++frames;
+        }
+
+        //--------------------------------------------------
         glBegin2D();
 
+        // TODO rewrite into a switch
         if (gameState == GameState::Game)
         {
             glBoxFilledGradient(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(10, 17, 26), RGB15(15, 23, 31), RGB15(15, 23, 31), RGB15(10, 17, 26));
@@ -479,22 +625,81 @@ int main(int argc, char **argv)
         }
         else if (gameState == GameState::Credits)
         {
-            glColor(RGB15(15, 15, 15));
-            for (u8 i = 0; i < SCREEN_WIDTH / 32 + 2; ++i)
-            {
-                for (u8 j = 0; j < SCREEN_HEIGHT / 32 + 1; ++j)
-                {
-                    glSpriteScale(i * 32 - frames % 64, j * 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
-                }
-            }
-            glColor(RGB15(31, 31, 31));
+            drawMovingBackground(sprDirt, frames);
 
             font.printCentered(0, 16, "Credits");
-            fontSmall.printCentered(0, 33, "Press B to go back");
             
             fontSmall.printCentered(0, 70, "Textures by Mojang");
             fontSmall.printCentered(0, 120, "(C) 2022 moltony");
             fontSmall.printCentered(0, 129, "Built with devkitARM");
+
+            glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, bbtn);
+            fontSmall.print(15, SCREEN_HEIGHT - 15, "Back");
+        }
+        else if (gameState == GameState::WorldSelect)
+        {
+            drawMovingBackground(sprDirt, frames);
+
+            for (u8 i = 0; i < SCREEN_WIDTH / 32; ++i)
+            {
+                glSpriteScale(i * 32, 0, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
+                glSpriteScale(i * 32, SCREEN_HEIGHT - 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
+            }
+
+            glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, bbtn);
+            fontSmall.print(15, SCREEN_HEIGHT - 28, "Back");
+
+            glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, abtn);
+            fontSmall.print(15, SCREEN_HEIGHT - 15, "New world");
+
+            glSprite(93, SCREEN_HEIGHT - 30, GL_FLIP_NONE, xbtn);
+            fontSmall.print(106, SCREEN_HEIGHT - 28, "Play world");
+
+            glSprite(93, SCREEN_HEIGHT - 17, GL_FLIP_NONE, ybtn);
+            fontSmall.print(106, SCREEN_HEIGHT - 15, "Delete world");
+
+            if (wsWorlds.size() == 0)
+            {
+                fontSmall.printCentered(0, 100, "No worlds yet...");
+            }
+            else
+            {
+                for (size_t i = 0; i < wsWorlds.size(); ++i)
+                {
+                    WorldInfo worldInfo = wsWorlds[i];
+                    std::string str = worldInfo.name + " - " + std::string(fsHumanreadFileSize(worldInfo.size));
+                    glSprite(SCREEN_WIDTH / 2 - 121, 48 + i * 40, GL_FLIP_NONE, worldLabel);
+                    glSprite(SCREEN_WIDTH / 2 - 121 + 113, 48 + i * 40, GL_FLIP_H, worldLabel);
+                    fontSmall.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 12, str.c_str());
+
+                    if (i == wsSelected)
+                    {
+                        glSprite(SCREEN_WIDTH / 2 - 121 + 121 * 2 - 24, 48 + i * 40 + 32 / 2 - 8, GL_FLIP_NONE, grayCircle);
+                    }
+                }
+            }
+
+            font.printCentered(0, 5, "World select");
+        }
+        else if (gameState == GameState::CreateWorld)
+        {
+            drawMovingBackground(sprDirt, frames);
+            for (u8 i = 0; i < SCREEN_WIDTH / 32; ++i)
+            {
+                glSpriteScale(i * 32, 0, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
+                glSpriteScale(i * 32, SCREEN_HEIGHT - 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
+            }
+
+            glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, abtn);
+            fontSmall.print(15, SCREEN_HEIGHT - 28, "Create");
+
+            glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, bbtn);
+            fontSmall.print(15, SCREEN_HEIGHT - 15, "Back");
+
+            fontSmall.printCentered(0, 71, "World name:");
+            fontSmall.printCentered(0, 80, std::string(createWorldName + "_").c_str());
+
+            font.printCentered(0, 5, "Create world");
         }
 
         glEnd2D();

@@ -681,8 +681,19 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
                     {
                         if (msid == fsid)
                         {
-                            inventory[inventoryFullSelect] = {fsid, (u8)(fsa + msa)}; // TODO make stacking >64 blocks work
-                            inventory[inventoryMoveSelect] = NULLITEM;
+                            if (fsa + msa > 64)
+                            {
+                                u8 sum = fsa + msa;
+                                u8 fsna = 64;
+                                u8 msna = sum - msa;
+                                inventory[inventoryFullSelect] = {fsid, fsna};
+                                inventory[inventoryMoveSelect] = {msid, msna};
+                            }
+                            else
+                            {
+                                inventory[inventoryFullSelect] = {fsid, (u8)(fsa + msa)};
+                                inventory[inventoryMoveSelect] = NULLITEM;
+                            }
                         }
                         else
                         {

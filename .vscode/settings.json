@@ -67,5 +67,12 @@
         "xlocnum": "cpp",
         "xstddef": "cpp",
         "xtr1common": "cpp"
-    }
+    },
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "opt:\\devkitpro\\projects\\ds\\ds-craft",
+            "binaryPath": "opt:\\devkitpro\\projects\\ds\\ds-craft\\opt:\\devkitpro\\projects\\ds\\ds-craft\\ds-craft.elf",
+            "binaryArgs": []
+        }
+    ]
 }
