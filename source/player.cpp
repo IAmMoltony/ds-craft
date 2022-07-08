@@ -24,6 +24,7 @@ extern glImage sprDandelion[1];
 extern glImage sprDoor[1];
 extern glImage sprPlanks[1];
 extern glImage sprSnowyGrass[1];
+extern glImage sprSapling[1];
 
 // sounds
 static mm_sound_effect sndGrass1;
@@ -189,19 +190,17 @@ void loadPlayerSounds(void)
     sndClick = soundEffect(SFX_CLICK);
 }
 
-Player::Player()
+Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSelect(20),
+                   craftingSelect(0)
 {
     x = 0;
     y = 0;
-    inventorySelect = 0;
-    inventoryFullSelect = 0;
-    inventoryMoveSelect = 20;
-    craftingSelect = 0;
     velX = 0;
     velY = 0;
     falling = true;
     jumping = false;
     fullInventory = false;
+    inventoryCrafting = false;
     aimX = SCREEN_WIDTH / 2;
     aimY = SCREEN_HEIGHT / 2;
 
@@ -268,34 +267,34 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
         {
             for (u8 i = 0; i < 20; ++i)
             {
-                u8 x, y;
+                u8 xx, yy;
 
-                if (i >= 0 && i < 5)
+                if (i < 5)
                 {
-                    x = i * 16 + 16;
-                    y = 46;
+                    xx = i * 16 + 16;
+                    yy = 46;
                 }
-                else if (i >= 5 && i < 10)
+                else if (i < 10)
                 {
-                    x = (i - 5) * 16 + 16;
-                    y = 46 + 16 + 9;
+                    xx = (i - 5) * 16 + 16;
+                    yy = 46 + 16 + 9;
                 }
-                else if (i >= 10 && i < 15)
+                else if (i < 15)
                 {
-                    x = (i - 10) * 16 + 16;
-                    y = 46 + 32 + 18;
+                    xx = (i - 10) * 16 + 16;
+                    yy = 46 + 32 + 18;
                 }
-                else if (i >= 15 && i < 20)
+                else
                 {
-                    x = (i - 15) * 16 + 16;
-                    y = 46 + 48 + 27;
+                    xx = (i - 15) * 16 + 16;
+                    yy = 46 + 48 + 27;
                 }
 
                 if (inventoryMoveSelect == i)
                 {
                     glColor(RGB15(0, 31, 0));
                 }
-                glSprite(x, y, GL_FLIP_NONE,
+                glSprite(xx, yy, GL_FLIP_NONE,
                         (inventoryFullSelect == i ? sprInventorySlotSelect : sprInventorySlot));
                 if (inventoryMoveSelect == i)
                 {
@@ -310,56 +309,60 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                     switch (id)
                     {
                     case InventoryItemID::Grass:
-                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprGrass);
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprGrass);
                         break;
                     case InventoryItemID::Dirt:
-                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprDirt);
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprDirt);
                         break;
                     case InventoryItemID::Stone:
-                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprStone);
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprStone);
                         break;
                     case InventoryItemID::Wood:
-                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprWood);
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprWood);
                         break;
                     case InventoryItemID::Leaves:
                         glColor(RGB15(0, 22, 0));
-                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprLeaves);
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprLeaves);
                         glColor(RGB15(31, 31, 31));
                         break;
                     case InventoryItemID::Sand:
-                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprSand);
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprSand);
                         break;
                     case InventoryItemID::Sandstone:
-                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprSandstone);
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprSandstone);
                         break;
                     case InventoryItemID::Cactus:
-                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprCactus);
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprCactus);
                         break;
                     case InventoryItemID::DeadBush:
-                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprDeadBush);
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprDeadBush);
                         break;
                     case InventoryItemID::Poppy:
-                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprPoppy);
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprPoppy);
                         break;
                     case InventoryItemID::Dandelion:
-                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprDandelion);
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprDandelion);
                         break;
                     case InventoryItemID::Door:
-                        glSpriteScale(x + 5, y + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
+                        glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
                         break;
                     case InventoryItemID::Planks:
-                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprPlanks);
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprPlanks);
                         break;
                     case InventoryItemID::Stick:
-                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprStick);
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprStick);
                         break;
                     case InventoryItemID::SnowyGrass:
-                        glSpriteScale(x + 4, y + 4, HALFSIZE, GL_FLIP_NONE, sprSnowyGrass);
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprSnowyGrass);
+                        break;
+                    case InventoryItemID::Sapling:
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprSapling);
+                        break;
                     }
 
                     if (amount > 1)
                     {
-                        fontSmall.printfShadow(x, y - 8, "%u", amount);
+                        fontSmall.printfShadow(xx, yy - 8, "%u", amount);
                     }
                 }
             }
@@ -450,6 +453,10 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
             glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
                      GL_FLIP_NONE, sprSnowyGrass);
             break;
+        case InventoryItemID::Sapling:
+            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
+                     GL_FLIP_NONE, sprSapling);
+            break;
         }
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(1));
         glBoxFilled(aimX, aimY, aimX + 1, aimY + 1, RGB15(0, 0, 0));
@@ -526,6 +533,10 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                 case InventoryItemID::SnowyGrass:
                     glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              HALFSIZE, GL_FLIP_NONE, sprSnowyGrass);
+                    break;
+                case InventoryItemID::Sapling:
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             HALFSIZE, GL_FLIP_NONE, sprSapling);
                 }
 
                 if (amount > 1)
@@ -670,8 +681,19 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
                     {
                         if (msid == fsid)
                         {
-                            inventory[inventoryFullSelect] = {fsid, (u8)(fsa + msa)}; // TODO make stacking >64 blocks work
-                            inventory[inventoryMoveSelect] = NULLITEM;
+                            if (fsa + msa > 64)
+                            {
+                                u8 sum = fsa + msa;
+                                u8 fsna = 64;
+                                u8 msna = sum - msa;
+                                inventory[inventoryFullSelect] = {fsid, fsna};
+                                inventory[inventoryMoveSelect] = {msid, msna};
+                            }
+                            else
+                            {
+                                inventory[inventoryFullSelect] = {fsid, (u8)(fsa + msa)};
+                                inventory[inventoryMoveSelect] = NULLITEM;
+                            }
                         }
                         else
                         {
@@ -701,6 +723,7 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
         if (down & KEY_A)
         {
             bool interact = false;
+
             for (auto &block : *blocks)
             {
                 if (Rect(getRectAim(camera).x + 1, getRectAim(camera).y + 1, 14, 14)
@@ -716,9 +739,9 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
             {
                 if (inventory[inventorySelect].amount > 0)
                 {
-                    --inventory[inventorySelect].amount;
                     InventoryItemID id = inventory[inventorySelect].id;
                     u8 effect = rand() % 4;
+                    bool canPlace = true;
                     switch (id)
                     {
                     case InventoryItemID::Grass:
@@ -757,29 +780,86 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
                         break;
                     case InventoryItemID::Cactus:
-                        blocks->emplace_back(new CactusBlock(snapToGrid(camera.x + aimX),
-                                                             snapToGrid(camera.y + aimY)));
-                        playsfx(effect, sndCloth1, sndCloth2, sndCloth3, sndCloth4)
+                        canPlace = false;
+                        for (size_t i = 0; i < blocks->size(); ++i)
+                        {
+                            if (blocks->at(i)->y == getRectAim(camera).y + 16 &&
+                                blocks->at(i)->x == getRectAim(camera).x && (
+                                blocks->at(i)->id() == "sand" ||
+                                blocks->at(i)->id() == "cactus"))
+                            {
+                                canPlace = true;
+                            }
+                        }
+                        if (canPlace)
+                        {
+                            blocks->emplace_back(new CactusBlock(snapToGrid(camera.x + aimX),
+                                                                 snapToGrid(camera.y + aimY)));
+                            playsfx(effect, sndCloth1, sndCloth2, sndCloth3, sndCloth4)
+                        }
                         break;
                     case InventoryItemID::DeadBush:
-                        blocks->emplace_back(new DeadBushBlock(snapToGrid(camera.x + aimX),
-                                                             snapToGrid(camera.y + aimY)));
-                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        canPlace = false;
+                        for (size_t i = 0; i < blocks->size(); ++i)
+                        {
+                            if (blocks->at(i)->y == getRectAim(camera).y + 16 &&
+                                blocks->at(i)->x == getRectAim(camera).x && (
+                                blocks->at(i)->id() == "sand"))
+                            {
+                                canPlace = true;
+                            }
+                        }
+                        if (canPlace)
+                        {
+                            blocks->emplace_back(new DeadBushBlock(snapToGrid(camera.x + aimX),
+                                                                   snapToGrid(camera.y + aimY)));
+                            playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        }
                         break;
                     case InventoryItemID::Poppy:
-                        blocks->emplace_back(new FlowerBlock(snapToGrid(camera.x + aimX),
-                                                             snapToGrid(camera.y + aimY), FlowerType::Poppy));
-                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        canPlace = false;
+                        for (size_t i = 0; i < blocks->size(); ++i)
+                        {
+                            if (blocks->at(i)->y == getRectAim(camera).y + 16 &&
+                                blocks->at(i)->x == getRectAim(camera).x && (
+                                blocks->at(i)->id() == "grass" ||
+                                blocks->at(i)->id() == "dirt" ||
+                                blocks->at(i)->id() == "snowy grass"))
+                            {
+                                canPlace = true;
+                            }
+                        }
+                        if (canPlace)
+                        {
+                            blocks->emplace_back(new FlowerBlock(snapToGrid(camera.x + aimX),
+                                                                 snapToGrid(camera.y + aimY), FlowerType::Poppy));
+                            playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        }
                         break;
                     case InventoryItemID::Dandelion:
-                        blocks->emplace_back(new FlowerBlock(snapToGrid(camera.x + aimX),
-                                                             snapToGrid(camera.y + aimY),
-                                                             FlowerType::Dandelion));
-                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        canPlace = false;
+                        for (size_t i = 0; i < blocks->size(); ++i)
+                        {
+                            if (blocks->at(i)->y == getRectAim(camera).y + 16 &&
+                                blocks->at(i)->x == getRectAim(camera).x && (
+                                blocks->at(i)->id() == "grass" ||
+                                blocks->at(i)->id() == "dirt" ||
+                                blocks->at(i)->id() == "snowy grass"))
+                            {
+                                canPlace = true;
+                            }
+                        }
+                        if (canPlace)
+                        {
+                            blocks->emplace_back(new FlowerBlock(snapToGrid(camera.x + aimX),
+                                                                 snapToGrid(camera.y + aimY),
+                                                                 FlowerType::Dandelion));
+                            playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        }
                         break;
                     case InventoryItemID::Door:
                         blocks->emplace_back(new DoorBlock(snapToGrid(camera.x + aimX),
-                                                            snapToGrid(camera.y + aimY)));
+                                                           snapToGrid(camera.y + aimY), x));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
                         break;
                     case InventoryItemID::Planks:
@@ -789,9 +869,32 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
                         break;
                     case InventoryItemID::SnowyGrass:
                         blocks->emplace_back(new SnowyGrassBlock(snapToGrid(camera.x + aimX),
-                                                             snapToGrid(camera.y + aimY)));
+                                                                 snapToGrid(camera.y + aimY)));
                         playsfx(effect, sndSnow1, sndSnow2, sndSnow3, sndSnow4)
                         break;
+                    case InventoryItemID::Sapling:
+                        canPlace = false;
+                        for (size_t i = 0; i < blocks->size(); ++i)
+                        {
+                            if (blocks->at(i)->y == getRectAim(camera).y + 16 &&
+                                blocks->at(i)->x == getRectAim(camera).x && (
+                                blocks->at(i)->id() == "grass" ||
+                                blocks->at(i)->id() == "dirt" ||
+                                blocks->at(i)->id() == "snowy grass"))
+                            {
+                                canPlace = true;
+                            }
+                        }
+                        if (canPlace)
+                        {
+                            blocks->emplace_back(new SaplingBlock(snapToGrid(camera.x + aimX),
+                                                                  snapToGrid(camera.y + aimY)));
+                            playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        }
+                    }
+                    if (canPlace)
+                    {
+                        --inventory[inventorySelect].amount;
                     }
                     ret = true;
                 }
@@ -846,6 +949,10 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
                     {
                         addItem(InventoryItemID::Leaves);
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        if (chance(10))
+                        {
+                            addItem(InventoryItemID::Sapling);
+                        }
                     }
                     else if (bid == "sand")
                     {
@@ -890,7 +997,12 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
                     else if (bid == "snowy grass")
                     {
                         addItem(InventoryItemID::SnowyGrass);
-                        playsfx(effect, sndSnow1, sndSnow2, sndSnow3, sndSnow4);
+                        playsfx(effect, sndSnow1, sndSnow2, sndSnow3, sndSnow4)
+                    }
+                    else if (bid == "sapling")
+                    {
+                        addItem(InventoryItemID::Sapling);
+                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                     }
 
                     remove = true;
@@ -1087,6 +1199,11 @@ void Player::setY(s16 y)
     this->y = y;
 }
 
+void Player::setItem(u8 index, InventoryItem item)
+{
+    inventory[index] = item;
+}
+
 bool Player::moving(s16 oldX)
 {
     return x != oldX;
@@ -1125,4 +1242,14 @@ Rect Player::getRectRight(void)
 Rect Player::getRectAim(Camera camera)
 {
     return Rect(snapToGrid(aimX + camera.x), snapToGrid(aimY + camera.y), 16, 16);
+}
+
+std::array<InventoryItem, 20> Player::getInventory(void)
+{
+    std::array<InventoryItem, 20> inv;
+    for (u8 i = 0; i < 20; ++i)
+    {
+        inv[i] = inventory[i];
+    }
+    return inv;
 }

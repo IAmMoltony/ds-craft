@@ -14,6 +14,7 @@ glImage sprDandelion[1];
 glImage sprPoppy[1];
 glImage sprDoor[1];
 glImage sprPlanks[1];
+glImage sprSapling[1];
 
 static mm_sound_effect sndDoorOpen1;
 static mm_sound_effect sndDoorOpen2;
@@ -41,6 +42,7 @@ void loadBlockTextures(void)
     loadImageAlpha(sprDandelion, 16, 16, dandelionPal, dandelionBitmap);
     loadImageAlpha(sprPoppy, 16, 16, poppyPal, poppyBitmap);
     loadImageAlpha(sprDoor, 32, 32, doorPal, doorBitmap);
+    loadImageAlpha(sprSapling, 16, 16, oak_saplingPal, oak_saplingBitmap);
 }
 
 void loadBlockSounds(void)
@@ -167,9 +169,16 @@ Rect FlowerBlock::getRect(void) const
 
 //-----------------------------------------
 
-DoorBlock::DoorBlock(s16 x, s16 y) : Block(x, y)
+DoorBlock::DoorBlock(s16 x, s16 y, s16 px) : Block(x, y)
 {
     open = true;
+    facing = px > x;
+}
+
+DoorBlock::DoorBlock(s16 x, s16 y, bool open, bool facing) : Block(x, y)
+{
+    this->open = open;
+    this->facing = facing;
 }
 
 void DoorBlock::draw(Camera camera)
@@ -180,7 +189,7 @@ void DoorBlock::draw(Camera camera)
     }
     else
     {
-        glSpriteScaleXY(x - camera.x - 1, y - camera.y, 1 << 10, 1 << 12, GL_FLIP_NONE, sprDoor);
+        glSpriteScaleXY(x - camera.x - 1 + (facing ? 0 : 8), y - camera.y, 1 << 10, 1 << 12, (facing ? GL_FLIP_NONE : GL_FLIP_H), sprDoor);
     }
 }
 
@@ -244,5 +253,78 @@ Rect DoorBlock::getRect(void) const
     {
         return Rect(x, y, 16, 32);
     }
-    return Rect(x, y, 4, 32);
+    return Rect(x + (facing ? 0 : 11), y, 4, 32);
+}
+
+bool DoorBlock::isOpen(void)
+{
+    return open;
+}
+
+bool DoorBlock::getFacing(void)
+{
+    return facing;
+}
+
+//-----------------------------------------
+
+SaplingBlock::SaplingBlock(s16 x, s16 y) : Block(x, y), growTime(1200)
+{
+    grown = false;
+}
+
+void SaplingBlock::draw(Camera camera)
+{
+    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprSapling);
+}
+
+bool SaplingBlock::solid(void)
+{
+    return false;
+}
+
+void SaplingBlock::interact(void)
+{
+}
+
+std::string SaplingBlock::id(void)
+{
+    return "sapling";
+}
+
+Rect SaplingBlock::getRect(void) const
+{
+    return Rect(x, y, 16, 16);
+}
+
+bool SaplingBlock::hasGrown(void)
+{
+    return grown;
+}
+
+void SaplingBlock::update(BlockList *blocks)
+{
+    if (!grown)
+    {
+        --growTime;
+    }
+    if (growTime == 0)
+    {
+        blocks->emplace_back(new WoodBlock(x, y));
+        blocks->emplace_back(new WoodBlock(x, y - 16));
+        blocks->emplace_back(new WoodBlock(x, y - 32));
+        blocks->emplace_back(new LeavesBlock(x, y - 48));
+        blocks->emplace_back(new LeavesBlock(x - 16, y - 48));
+        blocks->emplace_back(new LeavesBlock(x - 32, y - 48));
+        blocks->emplace_back(new LeavesBlock(x + 16, y - 48));
+        blocks->emplace_back(new LeavesBlock(x + 32, y - 48));
+        blocks->emplace_back(new LeavesBlock(x, y - 64));
+        blocks->emplace_back(new LeavesBlock(x - 16, y - 64));
+        blocks->emplace_back(new LeavesBlock(x + 16, y - 64));
+        blocks->emplace_back(new LeavesBlock(x, y - 80));
+        blocks->emplace_back(new LeavesBlock(x - 16, y - 80));
+        blocks->emplace_back(new LeavesBlock(x + 16, y - 80));
+        std::sort(blocks->begin(), blocks->end(), BlockCompareKey());
+        grown = true;
+    }
 }

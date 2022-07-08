@@ -15,7 +15,6 @@ BlockList generateTerrain(void)
         // 2 = plains
         // 3 = snow
         u8 biome = randomRange(0, 3);
-        printf("%u", biome);
         if (biome == 0)
         {
             for (u16 i = k * SCREEN_WIDTH * 2; i < k * SCREEN_WIDTH * 2 + SCREEN_WIDTH * 2; i += 16)
@@ -246,7 +245,6 @@ BlockList generateTerrain(void)
             }
         }
     }
-    printf("\n");
     std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
     return blocks;
 }

@@ -9,6 +9,7 @@
 #include <vector>
 #include <memory>
 #include <string>
+#include <algorithm>
 
 // Block implementations for blocks that
 // don't have anything really special.
@@ -61,10 +62,10 @@
     { \
     public: \
         block(s16 x, s16 y); \
-        void draw(Camera camera); \
-        std::string id(void); \
-        Rect getRect(void) const; \
-        bool solid(void); \
+        void draw(Camera camera) override; \
+        std::string id(void) override; \
+        Rect getRect(void) const override; \
+        bool solid(void) override; \
     };
 
 void loadBlockTextures(void);
@@ -88,6 +89,8 @@ public:
     virtual bool solid(void);
     virtual Rect getRect(void) const = 0;
 };
+
+typedef std::vector<std::unique_ptr<Block>> BlockList;
 
 // generic block declarations
 
@@ -114,33 +117,54 @@ public:
     FlowerBlock(s16 x, s16 y);
     FlowerBlock(s16 x, s16 y, FlowerType type);
 
-    void draw(Camera camera);
-    bool solid(void);
-    std::string id(void);
-    Rect getRect(void) const;
+    void draw(Camera camera) override;
+    bool solid(void) override;
+    std::string id(void) override;
+    Rect getRect(void) const override;
 };
 
 class DoorBlock : public Block
 {
 private:
-    bool open;
+    bool open, facing;
 
 public:
-    DoorBlock(s16 x, s16 y);
+    DoorBlock(s16 x, s16 y, s16 px);
+    DoorBlock(s16 x, s16 y, bool open, bool facing);
 
-    void draw(Camera camera);
-    bool solid(void);
-    void interact(void);
-    std::string id(void);
-    Rect getRect(void) const;
+    void draw(Camera camera) override;
+    bool solid(void) override;
+    void interact(void) override;
+    std::string id(void) override;
+    Rect getRect(void) const override;
+
+    bool isOpen(void);
+    bool getFacing(void);
+};
+
+class SaplingBlock : public Block
+{
+private:
+    u16 growTime;
+    bool grown;
+
+public:
+    SaplingBlock(s16 x, s16 y);
+    
+    void draw(Camera camera) override;
+    bool solid(void) override;
+    void interact(void) override;
+    std::string id(void) override;
+    Rect getRect(void) const override;
+
+    bool hasGrown(void);
+    void update(BlockList *blocks);
 };
 
 struct BlockCompareKey
 {
-    inline bool operator() (const std::unique_ptr<Block> &b1, const std::unique_ptr<Block> &b2)
+    inline bool operator()(const std::unique_ptr<Block> &b1, const std::unique_ptr<Block> &b2)
     {
         return (b1->getRect().x < b2->getRect().x);
     }
 };
-
-typedef std::vector<std::unique_ptr<Block>> BlockList;

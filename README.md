@@ -27,5 +27,7 @@ Press r to select next crafting recipe. Press a to craft the item (if you have t
 ## Credits
 
 Mojang - textures, font and sounds
+
 The libnds example authors
+
 [This tutorial](https://www.youtube.com/watch?v=yb6QJl6mqf4)

@@ -1,0 +1,36 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build",
+            "type": "shell",
+            "command": "make",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "Build and run",
+            "type": "shell",
+            "command": "E:\\MelonDS\\melonDS.exe",
+            "args": [
+                "ds-craft.nds"
+            ],
+            "dependsOn": [
+                "Build"
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Create graphics",
+            "type": "shell",
+            "command": "./makegfx"
+        }
+    ]
+}

@@ -59,6 +59,11 @@ void fsWrite(const char *file, const char *data)
     fclose(fp);
 }
 
+void fsDeleteFile(const char *name)
+{
+    remove(name);
+}
+
 bool fsFileExists(const char *name)
 {
     return access(name, F_OK) == 0;
@@ -67,11 +72,11 @@ bool fsFileExists(const char *name)
 char *fsReadFile(const char *name)
 {
     char *buf = NULL;
-    int ssize, rsize;
     FILE *fp = fopen(name, "r");
 
     if (fp)
     {
+        int ssize, rsize;
         fseek(fp, 0, SEEK_END);
         ssize = ftell(fp);
         rewind(fp);
@@ -87,5 +92,29 @@ char *fsReadFile(const char *name)
         fclose(fp);
     }
 
+    return buf;
+}
+
+int fsGetFileSize(const char *name)
+{
+    // TODO make this work correctly
+    struct stat st;
+    stat(name, &st);
+    return st.st_size;
+}
+
+char *fsHumanreadFileSize(double size)
+{
+    char *buf = (char *)malloc(10 * sizeof(char));
+    int i = 0;
+    static const char *units[] = {
+        "B", "KB", "MB", "GB",
+    };
+    while (size > 1024)
+    {
+        size /= 1024;
+        ++i;
+    }
+    sprintf(buf, "%.*f %s", i, size, units[i]);
     return buf;
 }
