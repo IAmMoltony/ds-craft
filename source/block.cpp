@@ -99,8 +99,9 @@ NONSOLID_BLOCK_IMPL(DeadBushBlock, sprDeadBush, "dead bush");
 
 // non-generic implementations
 
-LeavesBlock::LeavesBlock(s16 x, s16 y) : Block(x, y)
+LeavesBlock::LeavesBlock(s16 x, s16 y, bool natural) : Block(x, y)
 {
+    this->natural = natural;
 }
 
 void LeavesBlock::draw(Camera camera)
@@ -123,6 +124,11 @@ std::string LeavesBlock::id(void)
 Rect LeavesBlock::getRect(void) const
 {
     return Rect(x, y, 16, 16);
+}
+
+bool LeavesBlock::isNatural(void)
+{
+    return natural;
 }
 
 //-----------------------------------------

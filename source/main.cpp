@@ -70,6 +70,7 @@ std::vector<WorldInfo> getWorlds(void)
             continue;
         }
 
+        // world name = world file name wothout extension
         size_t li = line.find_last_of(".");
         int size = fsGetFileSize(line.c_str());
         std::string noext = line.substr(0, li);
@@ -155,7 +156,6 @@ void saveWorld(const std::string &name)
     for (auto &block : blocks)
     {
         std::string id = block->id();
-        (void)std::remove(id.begin(), id.end(), ' ');
 
         if (block->id() == "door")
         {
@@ -165,7 +165,18 @@ void saveWorld(const std::string &name)
         }
         else
         {
-            wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + id + "\n";
+            if (id == "snowy grass")
+            {
+                wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " snowygrass\n";
+            }
+            else if (id == "dead bush")
+            {
+                wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " deadbush\n";
+            }
+            else
+            {
+                wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + id + "\n";
+            }
         }
     }
 
@@ -495,6 +506,7 @@ int main(int argc, char **argv)
             else if (down & KEY_Y)
             {
                 // TODO add a confirmation screen for delete
+                wsSelected = 0;
                 fsDeleteFile(std::string("worlds/" + wsWorlds[wsSelected].name + ".wld").c_str());
                 wsWorlds = getWorlds();
                 mmEffectEx(&sndClick);

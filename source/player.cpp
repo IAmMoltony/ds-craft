@@ -766,7 +766,7 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
                         break;
                     case InventoryItemID::Leaves:
                         blocks->emplace_back(new LeavesBlock(snapToGrid(camera.x + aimX),
-                                                             snapToGrid(camera.y + aimY)));
+                                                             snapToGrid(camera.y + aimY), false));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                         break;
                     case InventoryItemID::Sand:
@@ -951,7 +951,12 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                         if (chance(10))
                         {
-                            addItem(InventoryItemID::Sapling);
+                            Block *b = block.get();
+                            LeavesBlock *l = reinterpret_cast<LeavesBlock *>(b);
+                            if (l->isNatural())
+                            {
+                                addItem(InventoryItemID::Sapling);
+                            }
                         }
                     }
                     else if (bid == "sand")
