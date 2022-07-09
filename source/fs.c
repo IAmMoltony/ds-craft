@@ -97,10 +97,9 @@ char *fsReadFile(const char *name)
 
 int fsGetFileSize(const char *name)
 {
-    // TODO make this work correctly
     struct stat st;
     stat(name, &st);
-    return st.st_size;
+    return st.st_size * 1000;
 }
 
 char *fsHumanreadFileSize(double size)
