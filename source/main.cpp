@@ -70,6 +70,7 @@ std::vector<WorldInfo> getWorlds(void)
             continue;
         }
 
+        // world name = world file name wothout extension
         size_t li = line.find_last_of(".");
         int size = fsGetFileSize(line.c_str());
         std::string noext = line.substr(0, li);
