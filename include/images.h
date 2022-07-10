@@ -26,5 +26,6 @@
 #include <world_label_img.h>
 #include <gray_circle_img.h>
 #include <dirent_games_img.h>
+#include <pig_img.h>
 #include <font_16x16_img.h>
 #include <font_small_img.h>
