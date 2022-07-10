@@ -581,20 +581,6 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
     bool ret = false; // this is return value. true if placed block and false if not.
                       // game checks if this is true and if yes sorts blocks.
 
-    // i need to remove this
-    for (u8 i = 0; i < 5; ++i)
-    {
-        if (inventory[i].amount == 0)
-        {
-            inventory[i].id = InventoryItemID::None;
-        }
-
-        if (inventory[i].amount > 64)
-        {
-            inventory[i].amount = 64;
-        }
-    }
-
     if (fullInventory)
     {
         u32 kdown = keysDown();
@@ -778,6 +764,16 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
 
             for (auto &block : *blocks)
             {
+                if (block->getRect().x - camera.x < -16 ||
+                    block->getRect().y - camera.y < -16)
+                {
+                    continue;
+                }
+                if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
+                {
+                    break;
+                }
+
                 // if there is block at aim
                 if (Rect(getRectAim(camera).x + 1, getRectAim(camera).y + 1, 14, 14)
                     .intersects(block->getRect()))
@@ -986,6 +982,16 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
         bool remove = false; // do we remove or not
         for (auto &block : *blocks)
         {
+            if (block->getRect().x - camera.x < -16 ||
+                block->getRect().y - camera.y < -16)
+            {
+                continue;
+            }
+            if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
+            {
+                break;
+            }
+
             if (down & KEY_B)
             {
                 // if block touch aim then block break (if b is pressed that is)
