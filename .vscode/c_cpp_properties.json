@@ -14,12 +14,12 @@
                 "/opt/devkitPro/libnds/include/**",
                 "/opt/devkitPro/devkitARM/arm-none-eabi/include/**",
                 "/opt/devkitPro/libnds/include/nds",
+                "${workspaceFolder}/include"
             ],
             "defines": [],
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "intelliSenseMode": "windows-msvc-x64",
-            "configurationProvider": "ms-vscode.makefile-tools"
+            "compilerPath": "E:/devkitPro/devkitARM/bin/arm-none-eabi-gcc.exe"
         }
     ],
     "version": 4

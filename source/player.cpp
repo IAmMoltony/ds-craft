@@ -1,6 +1,5 @@
 // WARNING!! this code is a complete mess
-// there is a lot of not optimized code
-// and i think it is spaghetti...
+// there is a lot of bad code (probably)
 
 #include <player.hpp>
 
@@ -215,14 +214,18 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
 {
     if (fullInventory)
     {
+        // draw the player
         glBoxFilled(x - camera.x, y - camera.y, x + 16 - 1 - camera.x, y + 24 - 1 - camera.y, RGB15(0, 0, 31));
         glPolyFmt(POLY_ALPHA(20) | POLY_CULL_NONE | POLY_ID(3));
+
+        // draw inventory background
         glBoxFilled(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(17, 17, 17));
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(3));
         font.printfShadow(SCREEN_WIDTH / 2 - (9 * 16 / 2), 12, inventoryCrafting ? "Crafting" : "Inventory");
 
         if (inventoryCrafting)
         {
+            // planks recipe
             if (hasItem({InventoryItemID::Wood, 1}))
             {
                 glColor(RGB15(0, 31, 0));
@@ -237,6 +240,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
             glSpriteScale(20, 50, HALFSIZE, GL_FLIP_NONE, sprPlanks);
             fontSmall.printfShadow(16, 46, "4");
 
+            // door recipe
             if (hasItem({InventoryItemID::Planks, 6}))
             {
                 glColor(RGB15(0, 31, 0));
@@ -250,6 +254,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
             glColor(RGB15(31, 31, 31));
             glSpriteScale(37, 50, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
 
+            // stick recipe
             if (hasItem({InventoryItemID::Planks, 2}))
             {
                 glColor(RGB15(0, 31, 0));
@@ -267,45 +272,52 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
         {
             for (u8 i = 0; i < 20; ++i)
             {
-                u8 xx, yy;
+                u8 xx, yy; // the x and y for the slot
 
+                // 1st row
                 if (i < 5)
                 {
                     xx = i * 16 + 16;
                     yy = 46;
                 }
+                // 2nd row
                 else if (i < 10)
                 {
                     xx = (i - 5) * 16 + 16;
                     yy = 46 + 16 + 9;
                 }
+                // 3rd row
                 else if (i < 15)
                 {
                     xx = (i - 10) * 16 + 16;
                     yy = 46 + 32 + 18;
                 }
+                // 4th row
                 else
                 {
                     xx = (i - 15) * 16 + 16;
                     yy = 46 + 48 + 27;
                 }
 
+                // highlight the slot with green if move-selected
                 if (inventoryMoveSelect == i)
                 {
                     glColor(RGB15(0, 31, 0));
                 }
+                // draw the slot
                 glSprite(xx, yy, GL_FLIP_NONE,
                         (inventoryFullSelect == i ? sprInventorySlotSelect : sprInventorySlot));
-                if (inventoryMoveSelect == i)
-                {
-                    glColor(RGB15(31, 31, 31));
-                }
+                // reset color
+                glColor(RGB15(31, 31, 31));
 
+                // draw the item if theres more than 0 and it is not null
                 if (inventory[i].amount > 0 && inventory[i].id != InventoryItemID::None)
                 {
+                    // get the id and amount
                     u8 amount = inventory[i].amount;
                     InventoryItemID id = inventory[i].id;
 
+                    // draw the half-sized version of the item
                     switch (id)
                     {
                     case InventoryItemID::Grass:
@@ -344,6 +356,8 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                         glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprDandelion);
                         break;
                     case InventoryItemID::Door:
+                        // door is 4 times smaller since it is bigger than a
+                        // normal block
                         glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
                         break;
                     case InventoryItemID::Planks:
@@ -371,9 +385,12 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
     }
     else
     {
+        // draw the player
         glBoxFilled(x - camera.x, y - camera.y, x + 16 - 1 - camera.x, y + 24 - 1 - camera.y, RGB15(0, 0, 31));
         glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(1));
-        
+
+        // draw the aim as green square or a half-transparent
+        // version of the block
         InventoryItemID currid = inventory[inventorySelect].id;
         switch (currid)
         {
@@ -458,18 +475,27 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                      GL_FLIP_NONE, sprSapling);
             break;
         }
+        // reset the alpha
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(1));
+
+        // draw the aim point
         glBoxFilled(aimX, aimY, aimX + 1, aimY + 1, RGB15(0, 0, 0));
 
+        // hotbar drawing
         for (u8 i = 0; i < 5; i++)
         {
+            // draw the slot
             glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)), SCREEN_HEIGHT - 16, GL_FLIP_NONE,
                      (i == inventorySelect ? sprInventorySlotSelect : sprInventorySlot));
 
+            // draw the item if it exists
             if (inventory[i].amount > 0 && inventory[i].id != InventoryItemID::None)
             {
+                // get the id and amount
                 InventoryItemID id = inventory[i].id;
                 u8 amount = inventory[i].amount;
+
+                // draw the smaller version of that item
                 switch (id)
                 {
                 case InventoryItemID::Grass:
@@ -552,32 +578,22 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
 bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
 {
     s16 oldX = x;
-    bool ret = false;
-
-    for (u8 i = 0; i < 5; ++i)
-    {
-        if (inventory[i].amount == 0)
-        {
-            inventory[i].id = InventoryItemID::None;
-        }
-
-        if (inventory[i].amount > 64)
-        {
-            inventory[i].amount = 64;
-        }
-    }
+    bool ret = false; // this is return value. true if placed block and false if not.
+                      // game checks if this is true and if yes sorts blocks.
 
     if (fullInventory)
     {
         u32 kdown = keysDown();
         if (kdown & KEY_SELECT)
         {
+            // when select is pressed, close inventory
             fullInventory = false;
             inventoryCrafting = false;
             mmEffectEx(&sndClick);
         }
         if (kdown & KEY_L)
         {
+            // when l is pressed, open crafting (or close)
             inventoryCrafting = !inventoryCrafting;
             craftingSelect = 0;
             inventoryFullSelect = 0;
@@ -588,16 +604,21 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
         {
             if (kdown & KEY_A)
             {
+                // when a is pressed, craft
+
+                // planks recipe
                 if (craftingSelect == 0 && hasItem({InventoryItemID::Wood, 1}))
                 {
                     removeItem(InventoryItemID::Wood);
                     addItem(InventoryItemID::Planks, 4);
                 }
+                // door recipe
                 if (craftingSelect == 1 && hasItem({InventoryItemID::Planks, 6}))
                 {
                     removeItem(InventoryItemID::Planks, 6);
                     addItem(InventoryItemID::Door);
                 }
+                // stick recipe
                 if (craftingSelect == 2 && hasItem({InventoryItemID::Planks, 2}))
                 {
                     removeItem(InventoryItemID::Planks, 2);
@@ -606,14 +627,8 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
             }
             if (kdown & KEY_R)
             {
+                // when r is pressed advance to the next recipe
                 if (++craftingSelect > 2)
-                {
-                    craftingSelect = 0;
-                }
-            }
-            if (kdown & KEY_L)
-            {
-                if (--craftingSelect == 255)
                 {
                     craftingSelect = 0;
                 }
@@ -621,10 +636,15 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
         }
         else
         {
+            // inventory navigation
             bool left = kdown & KEY_LEFT;
             bool right = kdown & KEY_RIGHT;
             bool up = kdown & KEY_UP;
             bool down = kdown & KEY_DOWN;
+
+            // these if statements check if a direction is pressed
+            // and if yes move cursor to that direction
+            // i will not explain this code because im lazy
             if (left)
             {
                 if (inventoryFullSelect - 1 >= 0)
@@ -666,21 +686,30 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
 
             if (kdown & KEY_A)
             {
+                // when a pressed
                 if (inventoryMoveSelect == 20)
                 {
+                    // if nothing is move-selected then
+                    // move-select current selected slot
                     inventoryMoveSelect = inventoryFullSelect;
                 }
                 else
                 {
+                    // move item (or stack)
+
+                    // get the id and amount
                     InventoryItemID msid = inventory[inventoryMoveSelect].id;
                     InventoryItemID fsid = inventory[inventoryFullSelect].id;
                     u8 msa = inventory[inventoryMoveSelect].amount;
                     u8 fsa = inventory[inventoryFullSelect].amount;
 
+                    // if they arent the same then move/stack
                     if (inventoryFullSelect != inventoryMoveSelect)
                     {
+                        // stacking (same id)
                         if (msid == fsid)
                         {
+                            // stacking >64 items
                             if (fsa + msa > 64)
                             {
                                 u8 sum = fsa + msa;
@@ -689,18 +718,21 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
                                 inventory[inventoryFullSelect] = {fsid, fsna};
                                 inventory[inventoryMoveSelect] = {msid, msna};
                             }
+                            // stacking <= 64 items
                             else
                             {
                                 inventory[inventoryFullSelect] = {fsid, (u8)(fsa + msa)};
                                 inventory[inventoryMoveSelect] = NULLITEM;
                             }
                         }
+                        // moving (different id)
                         else
                         {
                             inventory[inventoryMoveSelect] = {fsid, fsa};
                             inventory[inventoryFullSelect] = {msid, msa};
                         }
                     }
+                    // move-unselect (lol)
                     inventoryMoveSelect = 20;
                 }
             }
@@ -708,13 +740,17 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
     }
     else
     {
+        // move
         x += velX;
         y += velY;
+
+        // gravity
         if (falling || jumping)
         {
             velY += 0.3f;
             if (velY > 5)
             {
+                // cap fall speed
                 velY = 5;
             }
         }
@@ -722,13 +758,27 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
         u32 down = keysDown();
         if (down & KEY_A)
         {
+            // when a pressed, either interact or place block
+            // and interact if there is a block, place if there isnt
             bool interact = false;
 
             for (auto &block : *blocks)
             {
+                if (block->getRect().x - camera.x < -16 ||
+                    block->getRect().y - camera.y < -16)
+                {
+                    continue;
+                }
+                if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
+                {
+                    break;
+                }
+
+                // if there is block at aim
                 if (Rect(getRectAim(camera).x + 1, getRectAim(camera).y + 1, 14, 14)
                     .intersects(block->getRect()))
                 {
+                    // interact
                     interact = true;
                     block->interact();
                     break;
@@ -737,11 +787,17 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
 
             if (!interact)
             {
+                // place a block if we didnt interact
+                // some blocks you can only place on other
+                // certain blocks
+                // eg flowers can only be placed on grass
+                // dirt and snow and cactus can only be placed
+                // on cactus and sand
                 if (inventory[inventorySelect].amount > 0)
                 {
-                    InventoryItemID id = inventory[inventorySelect].id;
-                    u8 effect = rand() % 4;
-                    bool canPlace = true;
+                    InventoryItemID id = inventory[inventorySelect].id; // id
+                    u8 effect = rand() % 4; // sound effect 2 play
+                    bool canPlace = true; // can place block?????
                     switch (id)
                     {
                     case InventoryItemID::Grass:
@@ -895,6 +951,10 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
                     if (canPlace)
                     {
                         --inventory[inventorySelect].amount;
+                        if (inventory[inventorySelect].amount == 0)
+                        {
+                            inventory[inventorySelect].id = InventoryItemID::None;
+                        }
                     }
                     ret = true;
                 }
@@ -902,6 +962,7 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
         }
         if (down & KEY_R)
         {
+            // when r pressed go to next hotbar slot
             ++inventorySelect;
             if (inventorySelect > 4)
             {
@@ -910,16 +971,30 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
         }
         if (down & KEY_SELECT)
         {
+            // when select pressed bring uop inventory
             fullInventory = true;
             mmEffectEx(&sndClick);
         }
-        size_t removei = 0;
-        size_t i = 0;
-        bool remove = false;
+
+        // breaking blocks
+        size_t removei = 0; // remove index
+        size_t i = 0; // index
+        bool remove = false; // do we remove or not
         for (auto &block : *blocks)
         {
+            if (block->getRect().x - camera.x < -16 ||
+                block->getRect().y - camera.y < -16)
+            {
+                continue;
+            }
+            if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
+            {
+                break;
+            }
+
             if (down & KEY_B)
             {
+                // if block touch aim then block break (if b is pressed that is)
                 if (Rect(getRectAim(camera).x + 1, getRectAim(camera).y + 1, 14, 14)
                     .intersects(block->getRect()))
                 {
@@ -951,6 +1026,8 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                         if (chance(10))
                         {
+                            // get a spling eith 10% chance if leaves werent
+                            // placed by player
                             Block *b = block.get();
                             LeavesBlock *l = reinterpret_cast<LeavesBlock *>(b);
                             if (l->isNatural())
@@ -1017,12 +1094,15 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
                 }
             }
 
+            // if block isnt solid then skip dat boi
             if (!block->solid())
             {
                 ++i;
                 continue;
             }
 
+            // collision yay
+            // i dont wanna put comments here
             if (block->getRect().intersects(getRectTop()))
             {
                 velY = 0;
@@ -1057,6 +1137,7 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
                                                  getRectBottom().w, getRectBottom().h)) &&
                 *frames % 19 == 0)
             {
+                // this is for step sounds
                 if (moving(oldX))
                 {
                     u8 effect = rand() % 4;
@@ -1090,11 +1171,13 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
             }
             ++i;
         }
+        // remove block if remove block
         if (remove)
         {
             blocks->erase(blocks->begin() + removei);
         }
 
+        // controls
         u32 keys = keysHeld();
         bool up = keys & KEY_UP;
         bool left = keys & KEY_LEFT;
@@ -1102,6 +1185,7 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
 
         if (keys & KEY_TOUCH)
         {
+            // aiming when touch bottom scren
             touchPosition touchPos;
             touchRead(&touchPos);
             if (touchPos.px != 0 && touchPos.py != 0)
@@ -1111,6 +1195,7 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
             }
         }
 
+        // jumpign
         if (up)
         {
             if (!jumping)
@@ -1120,6 +1205,7 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
             }
         }
 
+        // horizontla movemtn
         if (left && !right)
         {
             velX = -2;
@@ -1128,14 +1214,16 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
         {
             velX = 2;
         }
+        // STOP YOU VIOLATED THE LAW!!!!!!
         if ((right && left) || (!right && !left))
         {
             velX = 0;
         }
     }
 
+    // increment frames which i probably should do in game loop.......
     ++*frames;
-    return ret;
+    return ret; // yes
 }
 
 bool Player::hasItem(InventoryItem item)
