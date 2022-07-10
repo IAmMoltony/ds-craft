@@ -381,6 +381,7 @@ int main(int argc, char **argv)
     vramSetBankE(VRAM_E_TEX_PALETTE);
     loadBlockTextures();
     loadBlockSounds();
+    loadEntityTextures();
     loadPlayerGUI();
     loadPlayerSounds();
 
@@ -413,6 +414,8 @@ int main(int argc, char **argv)
     loadImageAlpha(grayCircle, 16, 16, gray_circlePal, gray_circleBitmap);
 
     loadImage(direntGames, 64, 64, dirent_gamesBitmap);
+
+    entities.emplace_back(new PigEntity(10, 0));
 
     GameState gameState = 
 #if SKIP_SPLASH_SCREEN
@@ -498,7 +501,7 @@ int main(int argc, char **argv)
 
             for (auto &entity : entities)
             {
-                entity->update(blocks);
+                entity->update(blocks, camera);
             }
 
             if (player.update(camera, &blocks, &frames))
@@ -545,6 +548,8 @@ int main(int argc, char **argv)
             {
                 worldName = wsWorlds[wsSelected].name;
                 loadWorld(worldName);
+                camera.x = player.getX() - SCREEN_WIDTH / 2;
+                camera.y = player.getY() - SCREEN_HEIGHT / 2;
                 mmEffectEx(&sndClick);
                 gameState = GameState::Game;
             }
@@ -602,7 +607,8 @@ int main(int argc, char **argv)
                 keyboardHide();
                 worldName = createWorldName.c_str();
                 saveWorld(worldName);
-                gameState = GameState::Game;
+                gameState = GameState::WorldSelect;
+                wsWorlds = getWorlds();
                 frames = 0;
                 mmEffectEx(&sndClick);
             }

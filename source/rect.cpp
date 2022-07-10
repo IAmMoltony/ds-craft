@@ -18,7 +18,7 @@ bool Rect::intersects(Rect other)
     );
 }
 
-void Rect::draw(void)
+void Rect::draw(Camera camera)
 {
-    glBox(x, y, x + w - 1, y + h - 1, RGB15(31, 0, 0));
+    glBox(x - camera.x, y - camera.y, x + w - 1 - camera.x, y + h - 1 - camera.y, RGB15(31, 0, 0));
 }

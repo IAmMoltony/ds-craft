@@ -10,5 +10,5 @@ public:
 
     Rect(s16 x, s16 y, s16 w, s16 h);
     bool intersects(Rect other);
-    void draw(void);
+    void draw(Camera camera);
 };
