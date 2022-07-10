@@ -611,14 +611,14 @@ int main(int argc, char **argv)
         }
         else if (gameState == GameState::SplashScreen)
         {
-            if (frames >= 64)
+            if (frames >= 70)
             {
                 if (direntColor - 1 >= 0)
                 {
                     --direntColor;
                 }
             }
-            if (frames == 100)
+            if (frames == 135)
             {
                 gameState = GameState::Menu;
             }
