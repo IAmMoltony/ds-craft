@@ -7,4 +7,5 @@ enum class GameState
     Credits,
     WorldSelect,
     CreateWorld,
+    SplashScreen,
 };

@@ -1,6 +1,5 @@
 // WARNING!! this code is a complete mess
-// there is a lot of not optimized code
-// and i think it is spaghetti...
+// there is a lot of bad code (probably)
 
 #include <player.hpp>
 

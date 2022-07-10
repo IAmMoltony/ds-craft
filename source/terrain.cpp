@@ -26,7 +26,7 @@ BlockList generateTerrain(void)
                 {
                     blocks.emplace_back(new DirtBlock(i, j));
                 }
-                for (s16 j = y + 16 * 4; j < SCREEN_HEIGHT * 1.7; j += 16)
+                for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
                     blocks.emplace_back(new StoneBlock(i, j));
                 }
@@ -93,7 +93,7 @@ BlockList generateTerrain(void)
                 {
                     blocks.emplace_back(new SandstoneBlock(i, j));
                 }
-                for (s16 j = y + 16 * 8; j < SCREEN_HEIGHT * 1.7; j += 16)
+                for (s16 j = y + 16 * 8; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
                     blocks.emplace_back(new StoneBlock(i, j));
                 }
@@ -129,7 +129,7 @@ BlockList generateTerrain(void)
                 {
                     blocks.emplace_back(new DirtBlock(i, j));
                 }
-                for (s16 j = y + 16 * 4; j < SCREEN_HEIGHT * 1.7; j += 16)
+                for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
                     blocks.emplace_back(new StoneBlock(i, j));
                 }
@@ -197,7 +197,7 @@ BlockList generateTerrain(void)
                 {
                     blocks.emplace_back(new DirtBlock(i, j));
                 }
-                for (s16 j = y + 16 * 4; j < SCREEN_HEIGHT * 1.7; j += 16)
+                for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
                     blocks.emplace_back(new StoneBlock(i, j));
                 }

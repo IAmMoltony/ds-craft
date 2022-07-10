@@ -19,6 +19,7 @@
 #include <font.hpp>
 #include <gamestate.hpp>
 #include <terrain.hpp>
+#include <entity.hpp>
 #include <algorithm>
 #include <sstream>
 
@@ -27,6 +28,7 @@ extern glImage sprDirt[1]; // from block.cpp
 extern mm_sound_effect sndClick; // from player.cpp
 
 BlockList blocks;
+EntityList entities;
 Player player;
 
 typedef struct world_info
@@ -79,6 +81,8 @@ std::vector<WorldInfo> getWorlds(void)
 
     return worlds;
 }
+
+// TODO rewrite this stupidly terribly buggy garbage save system
 
 void saveWorld(const std::string &name)
 {
@@ -362,7 +366,8 @@ void loadWorld(const std::string &name)
 
 int main(int argc, char **argv)
 {
-    srand(time(NULL));
+    time_t curtime = time(NULL);
+    srand(curtime);
     consoleDemoInit();
     keyboardDemoInit();
     keyboardHide();
@@ -400,6 +405,7 @@ int main(int argc, char **argv)
     glImage ybtn[1];
     glImage worldLabel[1];
     glImage grayCircle[1];
+    glImage direntGames[1];
     loadImageAlpha(logo, 128, 32, logoPal, logoBitmap);
     loadImageAlpha(abtn, 16, 16, abtnPal, abtnBitmap);
     loadImageAlpha(bbtn, 16, 16, bbtnPal, bbtnBitmap);
@@ -408,10 +414,23 @@ int main(int argc, char **argv)
     loadImageAlpha(worldLabel, 128, 32, world_labelPal, world_labelBitmap);
     loadImageAlpha(grayCircle, 16, 16, gray_circlePal, gray_circleBitmap);
 
-    GameState gameState = GameState::Menu;
+    loadImage(direntGames, 64, 64, dirent_gamesBitmap);
+
+    entities.emplace_back(new TestEntity(0, 0));
+
+    GameState gameState = 
+#if SKIP_SPLASH_SCREEN
+        GameState::Menu
+#else
+        GameState::SplashScreen
+#endif
+        ;
     Camera camera = {0, 0};
     u16 frames = 0;
     u8 saveTextTimer = 0;
+    s16 direntx = SCREEN_WIDTH / 2 - 32;
+    s16 direnty = -64;
+    u8 direntColor = 31;
     u8 wsSelected = 0; // selected world
     std::vector<WorldInfo> wsWorlds; // worlds in world select
     bool saveTextShow = false;
@@ -442,6 +461,15 @@ int main(int argc, char **argv)
             for (size_t i = 0; i < blocks.size(); ++i)
             {
                 auto &block = blocks[i];
+                if (block->getRect().x - camera.x < -16 ||
+                    block->getRect().y - camera.y < -16)
+                {
+                    continue;
+                }
+                if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
+                {
+                    break;
+                }
                 if (block->id() == "sapling")
                 {
                     Block *b = block.get();
@@ -454,6 +482,11 @@ int main(int argc, char **argv)
                         std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
                     }
                 }
+            }
+
+            for (auto &entity : entities)
+            {
+                entity->update(blocks);
             }
 
             if (player.update(camera, &blocks, &frames) || frames % 300 == 0)
@@ -520,7 +553,7 @@ int main(int argc, char **argv)
             }
             else if (down & KEY_DOWN)
             {
-                if (wsSelected + 1 < wsWorlds.size())
+                if ((std::vector<WorldInfo>::size_type)(wsSelected + 1) < wsWorlds.size())
                 {
                     ++wsSelected;
                 }
@@ -580,6 +613,23 @@ int main(int argc, char **argv)
 
             ++frames;
         }
+        else if (gameState == GameState::SplashScreen)
+        {
+            if (frames >= 64)
+            {
+                if (direntColor - 1 >= 0)
+                {
+                    --direntColor;
+                }
+            }
+            if (frames == 100)
+            {
+                gameState = GameState::Menu;
+            }
+
+            direnty = lerp(direnty, SCREEN_HEIGHT / 2 - 32, 0.07f);
+            ++frames;
+        }
 
         //--------------------------------------------------
         glBegin2D();
@@ -602,6 +652,11 @@ int main(int argc, char **argv)
                 }
 
                 block->draw(camera);
+            }
+
+            for (auto &entity : entities)
+            {
+                entity->draw(camera);
             }
 
             player.draw(camera, fontSmall, font);
@@ -712,6 +767,13 @@ int main(int argc, char **argv)
             fontSmall.printCentered(0, 80, std::string(createWorldName + "_").c_str());
 
             font.printCentered(0, 5, "Create world");
+        }
+        else if (gameState == GameState::SplashScreen)
+        {
+            glClearColor(0, 0, 0, 31);
+            glColor(RGB15(direntColor, direntColor, direntColor));
+            glSprite(direntx, direnty, GL_FLIP_NONE, direntGames);
+            glColor(RGB15(31, 31, 31));
         }
 
         glEnd2D();
