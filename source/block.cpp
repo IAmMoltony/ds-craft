@@ -308,7 +308,7 @@ bool SaplingBlock::hasGrown(void)
     return grown;
 }
 
-void SaplingBlock::update(BlockList *blocks)
+void SaplingBlock::update(void)
 {
     if (!grown)
     {
@@ -316,21 +316,6 @@ void SaplingBlock::update(BlockList *blocks)
     }
     if (growTime == 0)
     {
-        blocks->emplace_back(new WoodBlock(x, y));
-        blocks->emplace_back(new WoodBlock(x, y - 16));
-        blocks->emplace_back(new WoodBlock(x, y - 32));
-        blocks->emplace_back(new LeavesBlock(x, y - 48));
-        blocks->emplace_back(new LeavesBlock(x - 16, y - 48));
-        blocks->emplace_back(new LeavesBlock(x - 32, y - 48));
-        blocks->emplace_back(new LeavesBlock(x + 16, y - 48));
-        blocks->emplace_back(new LeavesBlock(x + 32, y - 48));
-        blocks->emplace_back(new LeavesBlock(x, y - 64));
-        blocks->emplace_back(new LeavesBlock(x - 16, y - 64));
-        blocks->emplace_back(new LeavesBlock(x + 16, y - 64));
-        blocks->emplace_back(new LeavesBlock(x, y - 80));
-        blocks->emplace_back(new LeavesBlock(x - 16, y - 80));
-        blocks->emplace_back(new LeavesBlock(x + 16, y - 80));
-        std::sort(blocks->begin(), blocks->end(), BlockCompareKey());
         grown = true;
     }
 }

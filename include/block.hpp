@@ -172,7 +172,7 @@ public:
     Rect getRect(void) const override;
 
     bool hasGrown(void);
-    void update(BlockList *blocks);
+    void update(void);
 };
 
 struct BlockCompareKey
