@@ -985,6 +985,7 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
             if (block->getRect().x - camera.x < -16 ||
                 block->getRect().y - camera.y < -16)
             {
+                ++i;
                 continue;
             }
             if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
