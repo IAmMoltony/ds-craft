@@ -82,8 +82,6 @@ std::vector<WorldInfo> getWorlds(void)
     return worlds;
 }
 
-// TODO rewrite this stupidly terribly buggy garbage save system
-
 void saveWorld(const std::string &name)
 {
     if (!fsFileExists(std::string("worlds/" + name + ".wld").c_str()))
@@ -697,7 +695,7 @@ int main(int argc, char **argv)
             font.printCentered(0, 16, "Credits");
             
             fontSmall.printCentered(0, 70, "Textures by Mojang");
-            fontSmall.printCentered(0, 120, "(C) 2022 moltony");
+            fontSmall.printCentered(0, 120, "(C) 2022 dirent games");
             fontSmall.printCentered(0, 129, "Built with devkitARM");
 
             glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, bbtn);
