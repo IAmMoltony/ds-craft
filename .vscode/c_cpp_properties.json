@@ -19,7 +19,7 @@
             "defines": [],
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "compilerPath": "E:/devkitPro/devkitARM/bin/arm-none-eabi-gcc.exe"
+            "compilerPath": "D:/devkitPro/devkitARM/bin/arm-none-eabi-gcc.exe"
         }
     ],
     "version": 4
