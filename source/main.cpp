@@ -414,8 +414,6 @@ int main(int argc, char **argv)
 
     loadImage(direntGames, 64, 64, dirent_gamesBitmap);
 
-    entities.emplace_back(new TestEntity(0, 0));
-
     GameState gameState = 
 #if SKIP_SPLASH_SCREEN
         GameState::Menu

@@ -20,13 +20,10 @@ public:
     virtual Rect getRectRight(void) = 0;
 };
 
-class TestEntity : public Entity
+class PigEntity : public Entity
 {
-private:
-    bool facing;
-
 public:
-    TestEntity(s16 x, s16 y);
+    PigEntity(s16 x, s16 y);
     void draw(Camera camera) override;
     void update(BlockList &blocks) override;
     Rect getRectBottom(void) override;
