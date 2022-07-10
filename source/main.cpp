@@ -489,7 +489,7 @@ int main(int argc, char **argv)
                 entity->update(blocks);
             }
 
-            if (player.update(camera, &blocks, &frames) || frames % 300 == 0)
+            if (player.update(camera, &blocks, &frames))
             {
                 std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
             }
