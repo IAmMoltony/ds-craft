@@ -37,11 +37,6 @@ PigEntity::PigEntity(s16 x, s16 y) : Entity(x, y)
 void PigEntity::draw(Camera camera)
 {
     glSpriteScale(x - camera.x - (facing == Facing::Left ? 17 : 0), y - camera.y, (1 << 12) * 1.25f, facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H, sprPig);
-
-    getRectBottom().draw(camera);
-    getRectTop().draw(camera);
-    getRectLeft().draw(camera);
-    getRectRight().draw(camera);
 }
 
 void PigEntity::update(BlockList &blocks, Camera camera)
