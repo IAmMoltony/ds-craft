@@ -87,7 +87,8 @@ void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
         for (auto &block : blocks)
         {
             if (block->getRect().x - camera.x < -40 ||
-                block->getRect().y - camera.y < -40)
+                block->getRect().y - camera.y < -40 ||
+                block->y - camera.y > SCREEN_HEIGHT + 48)
             {
                 continue;
             }
