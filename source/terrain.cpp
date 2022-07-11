@@ -1,9 +1,7 @@
 #include <terrain.hpp>
 
-BlockList generateTerrain(void)
+void generateTerrain(BlockList &blocks, EntityList &entities)
 {
-    BlockList blocks;
-
     s16 y = SCREEN_HEIGHT / 2;
     u8 sinceLastTree = 0;
     u8 treeInterval = 3;
@@ -21,6 +19,11 @@ BlockList generateTerrain(void)
             {
                 ++sinceLastTree;
                 blocks.emplace_back(new GrassBlock(i, y));
+
+                if (chance(10))
+                {
+                    entities.emplace_back(new PigEntity(i, y - 64));
+                }
 
                 for (s16 j = y + 16; j < y + 16 * 4; j += 16)
                 {
@@ -89,6 +92,12 @@ BlockList generateTerrain(void)
                 {
                     blocks.emplace_back(new SandBlock(i, j));
                 }
+
+                if (chance(10))
+                {
+                    entities.emplace_back(new PigEntity(i, y - 64));
+                }
+
                 for (s16 j = y + 16 * 4; j < y + 16 * 8; j += 16)
                 {
                     blocks.emplace_back(new SandstoneBlock(i, j));
@@ -124,6 +133,11 @@ BlockList generateTerrain(void)
             {
                 ++sinceLastTree;
                 blocks.emplace_back(new GrassBlock(i, y));
+
+                if (chance(10))
+                {
+                    entities.emplace_back(new PigEntity(i, y - 64));
+                }
 
                 for (s16 j = y + 16; j < y + 16 * 4; j += 16)
                 {
@@ -193,6 +207,11 @@ BlockList generateTerrain(void)
                 ++sinceLastTree;
                 blocks.emplace_back(new SnowyGrassBlock(i, y));
 
+                if (chance(10))
+                {
+                    entities.emplace_back(new PigEntity(i, y - 64));
+                }
+
                 for (s16 j = y + 16; j < y + 16 * 4; j += 16)
                 {
                     blocks.emplace_back(new DirtBlock(i, j));
@@ -245,6 +264,6 @@ BlockList generateTerrain(void)
             }
         }
     }
+
     std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
-    return blocks;
 }

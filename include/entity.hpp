@@ -28,6 +28,10 @@ public:
     virtual Rect getRectTop(void) = 0;
     virtual Rect getRectLeft(void) = 0;
     virtual Rect getRectRight(void) = 0;
+    virtual std::string id(void) = 0;
+
+    s16 getX(void);
+    s16 getY(void);
 };
 
 class PigEntity : public Entity
@@ -44,6 +48,7 @@ public:
     Rect getRectTop(void) override;
     Rect getRectLeft(void) override;
     Rect getRectRight(void) override;
+    std::string id(void) override;
 };
 
 typedef std::vector<std::unique_ptr<Entity>> EntityList;

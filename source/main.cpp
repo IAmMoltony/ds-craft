@@ -86,7 +86,9 @@ void saveWorld(const std::string &name)
 {
     if (!fsFileExists(std::string("worlds/" + name + ".wld").c_str()))
     {
-        blocks = generateTerrain();
+        blocks.clear();
+        entities.clear();
+        generateTerrain(blocks, entities);
     }
 
     fsCreateFile(std::string("worlds/" + name + ".wld").c_str());
@@ -181,12 +183,20 @@ void saveWorld(const std::string &name)
             }
         }
     }
+    for (auto &entity : entities)
+    {
+        std::string id = entity->id();
+        wld += "entity " + std::to_string(entity->getX()) + " " + std::to_string(entity->getY()) + " " + id + "\n";
+    }
 
     fsWrite(std::string("worlds/" + name + ".wld").c_str(), wld.c_str());
 }
 
 void loadWorld(const std::string &name)
 {
+    blocks.clear();
+    entities.clear();
+
     if (!fsFileExists(std::string("worlds/" + name + ".wld").c_str()))
     {
         return;
@@ -359,6 +369,16 @@ void loadWorld(const std::string &name)
             
             player.setItem(i, {id, amount});
         }
+        if (split[0] == "entity")
+        {
+            s16 x = atoi(split[1].c_str());
+            s16 y = atoi(split[2].c_str());
+            std::string id = split[3];
+            if (id == "pig")
+            {
+                entities.emplace_back(new PigEntity(x, y));
+            }
+        }
     }
 }
 
@@ -414,8 +434,6 @@ int main(int argc, char **argv)
     loadImageAlpha(grayCircle, 16, 16, gray_circlePal, gray_circleBitmap);
 
     loadImage(direntGames, 64, 64, dirent_gamesBitmap);
-
-    entities.emplace_back(new PigEntity(10, 0));
 
     GameState gameState = 
 #if SKIP_SPLASH_SCREEN

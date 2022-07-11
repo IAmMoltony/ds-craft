@@ -16,6 +16,16 @@ Entity::Entity(s16 x, s16 y)
     falling = jumping = true;
 }
 
+s16 Entity::getX(void)
+{
+    return x;
+}
+
+s16 Entity::getY(void)
+{
+    return y;
+}
+
 //----------------------------------------
 
 PigEntity::PigEntity(s16 x, s16 y) : Entity(x, y)
@@ -26,7 +36,12 @@ PigEntity::PigEntity(s16 x, s16 y) : Entity(x, y)
 
 void PigEntity::draw(Camera camera)
 {
-    glSpriteScale(x - camera.x - (facing == Facing::Left ? 3 : 0), y - camera.y, (1 << 12) * 1.25f, facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H, sprPig);
+    glSpriteScale(x - camera.x - (facing == Facing::Left ? 17 : 0), y - camera.y, (1 << 12) * 1.25f, facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H, sprPig);
+
+    getRectBottom().draw(camera);
+    getRectTop().draw(camera);
+    getRectLeft().draw(camera);
+    getRectRight().draw(camera);
 }
 
 void PigEntity::update(BlockList &blocks, Camera camera)
@@ -72,6 +87,7 @@ void PigEntity::update(BlockList &blocks, Camera camera)
         moving = !moving;
     }
 
+    // TODO optimize
     for (auto &block : blocks)
     {
         if (block->getRect().x - camera.x < -40 ||
@@ -106,16 +122,6 @@ void PigEntity::update(BlockList &blocks, Camera camera)
             y = block->y + 17;
         }
 
-        if (block->getRect().intersects(getRectLeft()))
-        {
-            x = block->x + 16;
-            if (!jumping)
-            {
-                jumping = true;
-                velY = -4;
-            }
-        }
-
         if (block->getRect().intersects(getRectRight()))
         {
             x = block->x - 22;
@@ -123,6 +129,16 @@ void PigEntity::update(BlockList &blocks, Camera camera)
             {
                 jumping = true;
                 velY = -4;
+            }
+        }
+
+        if (block->getRect().intersects(getRectLeft()))
+        {
+            x = block->x + 14;
+            if (!jumping)
+            {
+                velY = -4;
+                jumping = true;
             }
         }
     }
@@ -140,10 +156,15 @@ Rect PigEntity::getRectTop(void)
 
 Rect PigEntity::getRectLeft(void)
 {
-    return Rect(x + 3, y + 3, 3, 18);
+    return Rect(x + 2, y + 2, 3, 20);
 }
 
 Rect PigEntity::getRectRight(void)
 {
-    return Rect(x + 22 - 3, y + 3, 4, 18);
+    return Rect(x + 22 - 3, y + 2, 4, 20);
+}
+
+std::string PigEntity::id(void)
+{
+    return "pig";
 }

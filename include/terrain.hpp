@@ -1,5 +1,6 @@
 #pragma once
 #include <block.hpp>
+#include <entity.hpp>
 #include <algorithm>
 
-BlockList generateTerrain(void);
+void generateTerrain(BlockList &blocks, EntityList &entities);
