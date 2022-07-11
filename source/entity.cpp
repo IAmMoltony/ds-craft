@@ -39,7 +39,7 @@ void PigEntity::draw(Camera camera)
     glSpriteScale(x - camera.x - (facing == Facing::Left ? 17 : 0), y - camera.y, (1 << 12) * 1.25f, facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H, sprPig);
 }
 
-void PigEntity::update(BlockList &blocks, Camera camera)
+void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
 {
     if (x - camera.x < -38 || x - camera.x > SCREEN_WIDTH + 37)
     {
@@ -82,58 +82,60 @@ void PigEntity::update(BlockList &blocks, Camera camera)
         moving = !moving;
     }
 
-    // TODO optimize
-    for (auto &block : blocks)
+    if (frames % 4 == 0)
     {
-        if (block->getRect().x - camera.x < -40 ||
-            block->getRect().y - camera.y < -40)
+        for (auto &block : blocks)
         {
-            continue;
-        }
-        if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
-        {
-            break;
-        }
-
-        if (!block->solid())
-        {
-            continue;
-        }
-
-        if (block->getRect().intersects(getRectBottom()))
-        {
-            falling = jumping = false;
-            velY = 0;
-            y = block->y - 24;
-        }
-        else
-        {
-            falling = true;
-        }
-
-        if (block->getRect().intersects(getRectTop()))
-        {
-            velY = 0;
-            y = block->y + 17;
-        }
-
-        if (block->getRect().intersects(getRectRight()))
-        {
-            x = block->x - 22;
-            if (!jumping)
+            if (block->getRect().x - camera.x < -40 ||
+                block->getRect().y - camera.y < -40)
             {
-                jumping = true;
-                velY = -4;
+                continue;
             }
-        }
-
-        if (block->getRect().intersects(getRectLeft()))
-        {
-            x = block->x + 14;
-            if (!jumping)
+            if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
             {
-                velY = -4;
-                jumping = true;
+                break;
+            }
+
+            if (!block->solid())
+            {
+                continue;
+            }
+
+            if (block->getRect().intersects(getRectBottom()))
+            {
+                falling = jumping = false;
+                velY = 0;
+                y = block->y - 24;
+            }
+            else
+            {
+                falling = true;
+            }
+
+            if (block->getRect().intersects(getRectTop()))
+            {
+                velY = 0;
+                y = block->y + 17;
+            }
+
+            if (block->getRect().intersects(getRectRight()))
+            {
+                x = block->x - 22;
+                if (!jumping)
+                {
+                    jumping = true;
+                    velY = -4;
+                }
+            }
+
+            if (block->getRect().intersects(getRectLeft()))
+            {
+                x = block->x + 14;
+                if (!jumping)
+                {
+                    velY = -4;
+                    jumping = true;
+                }
             }
         }
     }

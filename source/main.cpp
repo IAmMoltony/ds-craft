@@ -519,7 +519,7 @@ int main(int argc, char **argv)
 
             for (auto &entity : entities)
             {
-                entity->update(blocks, camera);
+                entity->update(blocks, camera, frames);
             }
 
             if (player.update(camera, &blocks, &frames))
