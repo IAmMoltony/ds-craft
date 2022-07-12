@@ -27,5 +27,7 @@
 #include <gray_circle_img.h>
 #include <dirent_games_img.h>
 #include <pig_img.h>
+#include <heart_img.h>
+#include <half_heart_img.h>
 #include <font_16x16_img.h>
 #include <font_small_img.h>

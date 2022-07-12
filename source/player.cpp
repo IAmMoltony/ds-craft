@@ -7,6 +7,8 @@
 static glImage sprInventorySlot[1];
 static glImage sprInventorySlotSelect[1];
 static glImage sprStick[1];
+static glImage sprHeart[1];
+static glImage sprHalfHeart[1];
 
 // these images are loaded in block.cpp
 extern glImage sprGrass[1];
@@ -84,6 +86,8 @@ void loadPlayerGUI(void)
     loadImage(sprInventorySlotSelect, 16, 16, inventory_slot_selectBitmap);
 
     loadImageAlpha(sprStick, 8, 8, stickPal, stickBitmap);
+    loadImageAlpha(sprHeart, 16, 16, heartPal, heartBitmap);
+    loadImageAlpha(sprHalfHeart, 16, 16, half_heartPal, half_heartBitmap);
 }
 
 void loadPlayerSounds(void)
@@ -190,7 +194,7 @@ void loadPlayerSounds(void)
 }
 
 Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSelect(20),
-                   craftingSelect(0)
+                   craftingSelect(0), health(10)
 {
     x = 0;
     y = 0;
@@ -572,10 +576,16 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                 }
             }
         }
+
+        // health bar drawing
+        for (u8 i = 0; i < 5; ++i)
+        {
+            glSprite(SCREEN_WIDTH - 9 - i * 9, SCREEN_HEIGHT - 9, GL_FLIP_NONE, sprHeart);
+        }
     }
 }
 
-bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
+bool Player::update(Camera camera, BlockList *blocks, const u16 &frames)
 {
     s16 oldX = x;
     bool ret = false; // this is return value. true if placed block and false if not.
@@ -1137,7 +1147,7 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
 
             if (block->getRect().intersects(Rect(getRectBottom().x, getRectBottom().y + 1,
                                                  getRectBottom().w, getRectBottom().h)) &&
-                *frames % 19 == 0)
+                frames % 19 == 0)
             {
                 // this is for step sounds
                 if (moving(oldX))
