@@ -473,9 +473,21 @@ int main(int argc, char **argv)
                 saveTextShow = true;
             }
 
-            if (down & KEY_START)
+            if (down & KEY_START && !paused)
             {
-                paused = !paused;
+                paused = true;
+                mmEffectEx(&sndClick);
+            }
+            if (down & KEY_A && paused)
+            {
+                paused = false;
+                mmEffectEx(&sndClick);
+            }
+            if (down & KEY_B && paused)
+            {
+                paused = false;
+                saveWorld(worldName);
+                gameState = GameState::Menu;
                 mmEffectEx(&sndClick);
             }
 
@@ -560,7 +572,6 @@ int main(int argc, char **argv)
                 gameState = GameState::Credits;
                 mmEffectEx(&sndClick);
             }
-            ++frames;
         }
         else if (gameState == GameState::Credits)
         {
@@ -569,7 +580,6 @@ int main(int argc, char **argv)
                 mmEffectEx(&sndClick);
                 gameState = GameState::Menu;
             }
-            ++frames;
         }
         else if (gameState == GameState::WorldSelect)
         {
@@ -616,7 +626,6 @@ int main(int argc, char **argv)
                     --wsSelected;
                 }
             }
-            ++frames;
         }
         else if (gameState == GameState::CreateWorld)
         {
@@ -662,8 +671,6 @@ int main(int argc, char **argv)
                     createWorldName += ch;
                 }
             }
-
-            ++frames;
         }
         else if (gameState == GameState::SplashScreen)
         {
@@ -680,8 +687,8 @@ int main(int argc, char **argv)
             }
 
             direnty = lerp(direnty, SCREEN_HEIGHT / 2 - 32, 0.07f);
-            ++frames;
         }
+        ++frames;
 
         //--------------------------------------------------
         glBegin2D();
@@ -721,6 +728,24 @@ int main(int argc, char **argv)
             glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(4));
             fontSmall.printf(3, 3, "%s%d.%d", VERSION_PREFIX, VERSION_MAJOR, VERSION_MINOR);
             glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(4));
+
+            if (paused)
+            {
+                drawMovingBackground(sprDirt, frames);
+                for (u8 i = 0; i < SCREEN_WIDTH / 32; ++i)
+                {
+                    glSpriteScale(i * 32, 0, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
+                    glSpriteScale(i * 32, SCREEN_HEIGHT - 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
+                }
+
+                glSprite(SCREEN_WIDTH / 2 - 30, 96, GL_FLIP_NONE, abtn);
+                fontSmall.printCentered(0, 98, "Resume");
+
+                glSprite(SCREEN_WIDTH / 2 - 41, 116, GL_FLIP_NONE, bbtn);
+                fontSmall.printCentered(0, 118, "Save and quit");
+
+                font.printCentered(0, 5, "Paused");
+            }
         }
         else if (gameState == GameState::Menu)
         {
