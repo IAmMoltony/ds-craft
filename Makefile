@@ -11,7 +11,7 @@ endif
 GAME_ICON      := ../icon.bmp
 GAME_TITLE     := DS-Craft
 GAME_SUBTITLE1 := Minecraft clone for NDS
-GAME_SUBTITLE2 := Version alpha1.7
+GAME_SUBTITLE2 := Version alpha1.8
 
 include $(DEVKITARM)/ds_rules
 
