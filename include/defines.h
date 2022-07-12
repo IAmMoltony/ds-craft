@@ -31,7 +31,7 @@
 
 #define VERSION_PREFIX "alpha"
 #define VERSION_MAJOR 1
-#define VERSION_MINOR 6
+#define VERSION_MINOR 7
 #define SKIP_SPLASH_SCREEN 0
 
 #define HALFSIZE ((1 << 12) / 2)
