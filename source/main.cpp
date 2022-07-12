@@ -738,11 +738,11 @@ int main(int argc, char **argv)
                     glSpriteScale(i * 32, SCREEN_HEIGHT - 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
                 }
 
-                glSprite(SCREEN_WIDTH / 2 - 30, 96, GL_FLIP_NONE, abtn);
-                fontSmall.printCentered(0, 98, "Resume");
+                glSprite(SCREEN_WIDTH / 2 - 38, 84, GL_FLIP_NONE, abtn);
+                fontSmall.printCentered(0, 86, "Resume");
 
-                glSprite(SCREEN_WIDTH / 2 - 41, 116, GL_FLIP_NONE, bbtn);
-                fontSmall.printCentered(0, 118, "Save and quit");
+                glSprite(SCREEN_WIDTH / 2 - 66, 100, GL_FLIP_NONE, bbtn);
+                fontSmall.printCentered(0, 102, "Save and quit");
 
                 font.printCentered(0, 5, "Paused");
             }
