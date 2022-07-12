@@ -451,12 +451,19 @@ int main(int argc, char **argv)
     u8 wsSelected = 0; // selected world
     std::vector<WorldInfo> wsWorlds; // worlds in world select
     bool saveTextShow = false;
+    bool paused = false;
     std::string worldName = "";
     std::string createWorldName = "";
     while (true)
     {
         scanKeys();
         u32 down = keysDown();
+
+        if (gameState != GameState::Game)
+        {
+            paused = false;
+        }
+
         // TODO rewrite into a switch
         if (gameState == GameState::Game)
         {
@@ -464,6 +471,12 @@ int main(int argc, char **argv)
             {
                 saveWorld(worldName);
                 saveTextShow = true;
+            }
+
+            if (down & KEY_START)
+            {
+                paused = !paused;
+                mmEffectEx(&sndClick);
             }
 
             if (saveTextShow)
@@ -475,60 +488,63 @@ int main(int argc, char **argv)
                 }
             }
 
-            for (size_t i = 0; i < blocks.size(); ++i)
+            if (!paused)
             {
-                auto &block = blocks[i];
-                if (block->getRect().x - camera.x < -16 ||
-                    block->getRect().y - camera.y < -16)
+                for (size_t i = 0; i < blocks.size(); ++i)
                 {
-                    continue;
-                }
-                if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
-                {
-                    break;
-                }
-                if (block->id() == "sapling")
-                {
-                    Block *b = block.get();
-                    SaplingBlock *sapling = (SaplingBlock *)b; // here i dont use reinterpret_cast
-                                                               // because it makes the game break
-                    sapling->update();
-                    if (sapling->hasGrown())
+                    auto &block = blocks[i];
+                    if (block->getRect().x - camera.x < -16 ||
+                        block->getRect().y - camera.y < -16)
                     {
-                        s16 x = sapling->x;
-                        s16 y = sapling->y;
-                        blocks.erase(blocks.begin() + i);
-                        blocks.emplace_back(new WoodBlock(x, y));
-                        blocks.emplace_back(new WoodBlock(x, y - 16));
-                        blocks.emplace_back(new WoodBlock(x, y - 32));
-                        blocks.emplace_back(new LeavesBlock(x, y - 48));
-                        blocks.emplace_back(new LeavesBlock(x - 16, y - 48));
-                        blocks.emplace_back(new LeavesBlock(x - 32, y - 48));
-                        blocks.emplace_back(new LeavesBlock(x + 16, y - 48));
-                        blocks.emplace_back(new LeavesBlock(x + 32, y - 48));
-                        blocks.emplace_back(new LeavesBlock(x, y - 64));
-                        blocks.emplace_back(new LeavesBlock(x - 16, y - 64));
-                        blocks.emplace_back(new LeavesBlock(x + 16, y - 64));
-                        blocks.emplace_back(new LeavesBlock(x, y - 80));
-                        blocks.emplace_back(new LeavesBlock(x - 16, y - 80));
-                        blocks.emplace_back(new LeavesBlock(x + 16, y - 80));
-                        std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
+                        continue;
+                    }
+                    if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
+                    {
+                        break;
+                    }
+                    if (block->id() == "sapling")
+                    {
+                        Block *b = block.get();
+                        SaplingBlock *sapling = (SaplingBlock *)b; // here i dont use reinterpret_cast
+                                                                // because it makes the game break
+                        sapling->update();
+                        if (sapling->hasGrown())
+                        {
+                            s16 x = sapling->x;
+                            s16 y = sapling->y;
+                            blocks.erase(blocks.begin() + i);
+                            blocks.emplace_back(new WoodBlock(x, y));
+                            blocks.emplace_back(new WoodBlock(x, y - 16));
+                            blocks.emplace_back(new WoodBlock(x, y - 32));
+                            blocks.emplace_back(new LeavesBlock(x, y - 48));
+                            blocks.emplace_back(new LeavesBlock(x - 16, y - 48));
+                            blocks.emplace_back(new LeavesBlock(x - 32, y - 48));
+                            blocks.emplace_back(new LeavesBlock(x + 16, y - 48));
+                            blocks.emplace_back(new LeavesBlock(x + 32, y - 48));
+                            blocks.emplace_back(new LeavesBlock(x, y - 64));
+                            blocks.emplace_back(new LeavesBlock(x - 16, y - 64));
+                            blocks.emplace_back(new LeavesBlock(x + 16, y - 64));
+                            blocks.emplace_back(new LeavesBlock(x, y - 80));
+                            blocks.emplace_back(new LeavesBlock(x - 16, y - 80));
+                            blocks.emplace_back(new LeavesBlock(x + 16, y - 80));
+                            std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
+                        }
                     }
                 }
-            }
 
-            for (auto &entity : entities)
-            {
-                entity->update(blocks, camera, frames);
-            }
+                for (auto &entity : entities)
+                {
+                    entity->update(blocks, camera, frames);
+                }
 
-            if (player.update(camera, &blocks, &frames))
-            {
-                std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
-            }
+                if (player.update(camera, &blocks, &frames))
+                {
+                    std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
+                }
 
-            camera.x = lerp(camera.x, player.getX() - SCREEN_WIDTH / 2, 0.1f);
-            camera.y = lerp(camera.y, player.getY() - SCREEN_HEIGHT / 2, 0.1f);
+                camera.x = lerp(camera.x, player.getX() - SCREEN_WIDTH / 2, 0.1f);
+                camera.y = lerp(camera.y, player.getY() - SCREEN_HEIGHT / 2, 0.1f);
+            }
         }
         else if (gameState == GameState::Menu)
         {
