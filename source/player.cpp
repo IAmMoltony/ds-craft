@@ -1223,8 +1223,6 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
         }
     }
 
-    // increment frames which i probably should do in game loop.......
-    ++*frames;
     return ret; // yes
 }
 
