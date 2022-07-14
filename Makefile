@@ -118,7 +118,7 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-iquote $(CURDIR)/$(dir)) \
  
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
-.PHONY: $(BUILD) clean run
+.PHONY: $(BUILD) clean run all
  
 #---------------------------------------------------------------------------------
 $(BUILD):
@@ -135,6 +135,9 @@ clean:
 run:
 	@echo run ...
 	@$(MELONDS_PATH) ds-craft.nds
+ 
+#---------------------------------------------------------------------------------
+all: $(BUILD)
  
 #---------------------------------------------------------------------------------
 else
