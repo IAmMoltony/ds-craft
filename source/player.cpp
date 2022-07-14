@@ -7,6 +7,8 @@
 static glImage sprInventorySlot[1];
 static glImage sprInventorySlotSelect[1];
 static glImage sprStick[1];
+static glImage sprHeart[1];
+static glImage sprHalfHeart[1];
 
 // these images are loaded in block.cpp
 extern glImage sprGrass[1];
@@ -84,6 +86,8 @@ void loadPlayerGUI(void)
     loadImage(sprInventorySlotSelect, 16, 16, inventory_slot_selectBitmap);
 
     loadImageAlpha(sprStick, 8, 8, stickPal, stickBitmap);
+    loadImageAlpha(sprHeart, 16, 16, heartPal, heartBitmap);
+    loadImageAlpha(sprHalfHeart, 16, 16, half_heartPal, half_heartBitmap);
 }
 
 void loadPlayerSounds(void)
@@ -190,7 +194,7 @@ void loadPlayerSounds(void)
 }
 
 Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSelect(20),
-                   craftingSelect(0)
+                   craftingSelect(0), health(10)
 {
     x = 0;
     y = 0;
@@ -210,7 +214,7 @@ Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSele
     }
 }
 
-void Player::draw(Camera camera, Font fontSmall, Font font)
+void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Font fontRu, Language lang)
 {
     if (fullInventory)
     {
@@ -221,7 +225,15 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
         // draw inventory background
         glBoxFilled(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(17, 17, 17));
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(3));
-        font.printfShadow(SCREEN_WIDTH / 2 - (9 * 16 / 2), 12, inventoryCrafting ? "Crafting" : "Inventory");
+        switch (lang)
+        {
+        case Language::English:
+            font.printfShadow(SCREEN_WIDTH / 2 - (9 * 16 / 2), 12, inventoryCrafting ? "Crafting" : "Inventory");
+            break;
+        case Language::Russian:
+            fontRu.printfShadow(SCREEN_WIDTH / 2 - (9 * 16 / 2), 12, inventoryCrafting ? "Sqjfbpkg" : "Jpdgpubs#");
+            break;
+        }
 
         if (inventoryCrafting)
         {
@@ -380,7 +392,18 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                     }
                 }
             }
-            fontSmall.print(16, 46 + 48 + 27 + 20, "Press L to see crafting menu");
+            switch (lang)
+            {
+            case Language::English:
+                fontSmall.print(16, 46 + 48 + 27 + 20, "Press L to see crafting menu");
+                break;
+            case Language::Russian:
+                fontSmallRu.print(16, 46 + 48 + 27 + 20, "Obiokug");
+                fontSmall.print(81, 46 + 48 + 27 + 20, "L");
+                fontSmallRu.print(81 + 18, 46 + 48 + 27 + 20, "zuqc\" rgsgluk");
+                fontSmallRu.print(16, 46 + 48 + 27 + 29, "d ogp% tqjfbpk&");
+                break;
+            }
         }
     }
     else
@@ -572,10 +595,16 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                 }
             }
         }
+
+        // health bar drawing
+        for (u8 i = 0; i < 5; ++i)
+        {
+            glSprite(SCREEN_WIDTH - 9 - i * 9, SCREEN_HEIGHT - 9, GL_FLIP_NONE, sprHeart);
+        }
     }
 }
 
-bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
+bool Player::update(Camera camera, BlockList *blocks, const u16 &frames)
 {
     s16 oldX = x;
     bool ret = false; // this is return value. true if placed block and false if not.
@@ -1137,7 +1166,7 @@ bool Player::update(Camera camera, BlockList *blocks, u16 *frames)
 
             if (block->getRect().intersects(Rect(getRectBottom().x, getRectBottom().y + 1,
                                                  getRectBottom().w, getRectBottom().h)) &&
-                *frames % 19 == 0)
+                frames % 19 == 0)
             {
                 // this is for step sounds
                 if (moving(oldX))

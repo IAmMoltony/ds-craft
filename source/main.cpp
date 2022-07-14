@@ -13,6 +13,7 @@
 #include <soundbank_bin.h>
 #include <camera.h>
 #include <time.h>
+#include <glext.h>
 #include <stdio.h>
 #include <block.hpp>
 #include <player.hpp>
@@ -20,6 +21,7 @@
 #include <gamestate.hpp>
 #include <terrain.hpp>
 #include <entity.hpp>
+#include <lang.hpp>
 #include <algorithm>
 #include <sstream>
 
@@ -30,6 +32,7 @@ extern mm_sound_effect sndClick; // from player.cpp
 BlockList blocks;
 EntityList entities;
 Player player;
+Language lang;
 
 typedef struct world_info
 {
@@ -405,9 +408,13 @@ int main(int argc, char **argv)
     loadPlayerGUI();
     loadPlayerSounds();
 
+    lang = Language::Russian;
+
     glImage font16x16Img[FONT_16X16_NUM_IMAGES];
     glImage fontSmallImg[FONT_SI_NUM_IMAGES];
-    Font font, fontSmall;
+    glImage fontSmallRu1Img[FONT_SI_NUM_IMAGES];
+    glImage font16x16RuImg[FONT_16X16_NUM_IMAGES];
+    Font font, fontSmall, fontSmallRu1, fontRu;
     font.load(font16x16Img, FONT_16X16_NUM_IMAGES, font_16x16_texcoords, GL_RGB256,
               TEXTURE_SIZE_64, TEXTURE_SIZE_512,
               GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
@@ -416,15 +423,26 @@ int main(int argc, char **argv)
                    TEXTURE_SIZE_64, TEXTURE_SIZE_128,
                    GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
                    256, font_smallPal, reinterpret_cast<const u8 *>(font_smallBitmap));
+    fontSmallRu1.load(fontSmallRu1Img, FONT_SI_NUM_IMAGES, font_si_texcoords, GL_RGB256,
+                      TEXTURE_SIZE_64, TEXTURE_SIZE_128,
+                      GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
+                      256, font_small_ru1Pal, reinterpret_cast<const u8 *>(font_small_ru1Bitmap));
+    fontRu.load(font16x16RuImg, FONT_16X16_NUM_IMAGES, font_16x16_texcoords, GL_RGB256,
+                TEXTURE_SIZE_64, TEXTURE_SIZE_512,
+                GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
+                256, font_16x16_ruPal, reinterpret_cast<const u8 *>(font_16x16_ruBitmap));
 
     glImage logo[1];
     glImage abtn[1];
     glImage bbtn[1];
     glImage xbtn[1];
     glImage ybtn[1];
+    glImage selectbtn[1];
     glImage worldLabel[1];
     glImage grayCircle[1];
     glImage direntGames[1];
+    glImage english[1];
+    glImage russian[1];
     loadImageAlpha(logo, 128, 32, logoPal, logoBitmap);
     loadImageAlpha(abtn, 16, 16, abtnPal, abtnBitmap);
     loadImageAlpha(bbtn, 16, 16, bbtnPal, bbtnBitmap);
@@ -432,12 +450,15 @@ int main(int argc, char **argv)
     loadImageAlpha(ybtn, 16, 16, ybtnPal, ybtnBitmap);
     loadImageAlpha(worldLabel, 128, 32, world_labelPal, world_labelBitmap);
     loadImageAlpha(grayCircle, 16, 16, gray_circlePal, gray_circleBitmap);
+    loadImageAlpha(english, 16, 16, englishPal, englishBitmap);
+    loadImageAlpha(russian, 16, 16, russianPal, russianBitmap);
+    loadImageAlpha(selectbtn, 32, 16, selectbtnPal, selectbtnBitmap);
 
     loadImage(direntGames, 64, 64, dirent_gamesBitmap);
 
     GameState gameState = 
 #if SKIP_SPLASH_SCREEN
-        GameState::Menu
+        GameState::LanguageSelect
 #else
         GameState::SplashScreen
 #endif
@@ -449,6 +470,7 @@ int main(int argc, char **argv)
     s16 direnty = -64;
     u8 direntColor = 31;
     u8 wsSelected = 0; // selected world
+    u8 lsSelected = 0; // selected language
     std::vector<WorldInfo> wsWorlds; // worlds in world select
     bool saveTextShow = false;
     bool paused = false;
@@ -549,7 +571,7 @@ int main(int argc, char **argv)
                     entity->update(blocks, camera, frames);
                 }
 
-                if (player.update(camera, &blocks, &frames))
+                if (player.update(camera, &blocks, frames))
                 {
                     std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
                 }
@@ -683,10 +705,32 @@ int main(int argc, char **argv)
             }
             if (frames == 135)
             {
-                gameState = GameState::Menu;
+                gameState = GameState::LanguageSelect;
             }
 
             direnty = lerp(direnty, SCREEN_HEIGHT / 2 - 32, 0.07f);
+        }
+        else if (gameState == GameState::LanguageSelect)
+        {
+            if (down & KEY_SELECT)
+            {
+                if (++lsSelected > 1)
+                {
+                    lsSelected = 0;
+                }
+            }
+
+            if (down & KEY_A)
+            {
+                if (!lsSelected)
+                {
+                    lang = Language::English;
+                }
+
+                mmEffectEx(&sndClick);
+                gameState = GameState::Menu;
+                frames = 0;
+            }
         }
         ++frames;
 
@@ -718,11 +762,19 @@ int main(int argc, char **argv)
                 entity->draw(camera);
             }
 
-            player.draw(camera, fontSmall, font);
+            player.draw(camera, fontSmall, font, fontSmallRu1, fontRu, lang);
 
             if (saveTextShow)
             {
-                fontSmall.printfShadow(2, SCREEN_HEIGHT - 11, "Saved!");
+                switch (lang)
+                {
+                case Language::English:
+                    fontSmall.printfShadow(2, SCREEN_HEIGHT - 11, "Saved!");
+                    break;
+                case Language::Russian:
+                    fontSmallRu1.printfShadow(2, SCREEN_HEIGHT - 11, "Sqxsbpgpq");
+                    break;
+                }
             }
 
             glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(4));
@@ -738,13 +790,33 @@ int main(int argc, char **argv)
                     glSpriteScale(i * 32, SCREEN_HEIGHT - 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
                 }
 
-                glSprite(SCREEN_WIDTH / 2 - 38, 84, GL_FLIP_NONE, abtn);
-                fontSmall.printCentered(0, 86, "Resume");
+                switch (lang)
+                {
+                case Language::English:
+                    glSprite(SCREEN_WIDTH / 2 - 38, 84, GL_FLIP_NONE, abtn);
+                    fontSmall.printCentered(0, 86, "Resume");
 
-                glSprite(SCREEN_WIDTH / 2 - 66, 100, GL_FLIP_NONE, bbtn);
-                fontSmall.printCentered(0, 102, "Save and quit");
+                    glSprite(SCREEN_WIDTH / 2 - 66, 100, GL_FLIP_NONE, bbtn);
+                    fontSmall.printCentered(0, 102, "Save and quit");
+                    break;
+                case Language::Russian:
+                    glSprite(SCREEN_WIDTH / 2 - 54, 84, GL_FLIP_NONE, abtn);
+                    fontSmallRu1.printCentered(0, 86, "Qsqfqniku#");
 
-                font.printCentered(0, 5, "Paused");
+                    glSprite(SCREEN_WIDTH / 2 - 82, 100, GL_FLIP_NONE, bbtn);
+                    fontSmallRu1.printCentered(0, 102, "Sqxsbpku# k d\"luk");
+                    break;
+                }
+
+                switch (lang)
+                {
+                case Language::English:
+                    font.printCentered(0, 5, "Paused");
+                    break;
+                case Language::Russian:
+                    fontRu.printCentered(0, 5, "Qbvjb");
+                    break;
+                }
             }
         }
         else if (gameState == GameState::Menu)
@@ -761,11 +833,20 @@ int main(int argc, char **argv)
 
             glSpriteScale(SCREEN_WIDTH / 2 - 96, 16, (1 << 12) * 2, GL_FLIP_NONE, logo);
 
-            glSprite(SCREEN_WIDTH / 2 - 30, 96, GL_FLIP_NONE, abtn);
-            fontSmall.printCentered(0, 98, "Play");
-
-            glSprite(SCREEN_WIDTH / 2 - 41, 116, GL_FLIP_NONE, bbtn);
-            fontSmall.printCentered(0, 118, "Credits");
+            switch (lang)
+            {
+            case Language::English:
+                glSprite(SCREEN_WIDTH / 2 - 30, 96, GL_FLIP_NONE, abtn);
+                fontSmall.printCentered(0, 98, "Play");
+                glSprite(SCREEN_WIDTH / 2 - 41, 116, GL_FLIP_NONE, bbtn);
+                fontSmall.printCentered(0, 118, "Credits");
+                break;
+            case Language::Russian:
+                glSprite(SCREEN_WIDTH / 2 - 37, 96, GL_FLIP_NONE, abtn);
+                fontSmallRu1.printCentered(0, 98, "Jesbu#");
+                glSprite(SCREEN_WIDTH / 2 - 33, 116, GL_FLIP_NONE, bbtn);
+                fontSmallRu1.printCentered(0, 118, "Tkus\"");
+            }
         }
         else if (gameState == GameState::Credits)
         {
@@ -778,7 +859,15 @@ int main(int argc, char **argv)
             fontSmall.printCentered(0, 129, "Built with devkitARM");
 
             glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, bbtn);
-            fontSmall.print(15, SCREEN_HEIGHT - 15, "Back");
+            switch (lang)
+            {
+            case Language::English:
+                fontSmall.print(15, SCREEN_HEIGHT - 15, "Back");
+                break;
+            case Language::Russian:
+                fontSmallRu1.print(15, SCREEN_HEIGHT - 15, "Objbf");
+                break;
+            }
         }
         else if (gameState == GameState::WorldSelect)
         {
@@ -790,21 +879,47 @@ int main(int argc, char **argv)
                 glSpriteScale(i * 32, SCREEN_HEIGHT - 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
             }
 
-            glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, bbtn);
-            fontSmall.print(15, SCREEN_HEIGHT - 28, "Back");
+            switch (lang)
+            {
+            case Language::English:
+                glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, bbtn);
+                fontSmall.print(15, SCREEN_HEIGHT - 28, "Back");
 
-            glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, abtn);
-            fontSmall.print(15, SCREEN_HEIGHT - 15, "New world");
+                glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, abtn);
+                fontSmall.print(15, SCREEN_HEIGHT - 15, "New world");
 
-            glSprite(93, SCREEN_HEIGHT - 30, GL_FLIP_NONE, xbtn);
-            fontSmall.print(106, SCREEN_HEIGHT - 28, "Play world");
+                glSprite(93, SCREEN_HEIGHT - 30, GL_FLIP_NONE, xbtn);
+                fontSmall.print(106, SCREEN_HEIGHT - 28, "Play world");
 
-            glSprite(93, SCREEN_HEIGHT - 17, GL_FLIP_NONE, ybtn);
-            fontSmall.print(106, SCREEN_HEIGHT - 15, "Delete world");
+                glSprite(93, SCREEN_HEIGHT - 17, GL_FLIP_NONE, ybtn);
+                fontSmall.print(106, SCREEN_HEIGHT - 15, "Delete world");
+                break;
+            case Language::Russian:
+                glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, bbtn);
+                fontSmallRu1.print(15, SCREEN_HEIGHT - 28, "Objbf");
+
+                glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, abtn);
+                fontSmallRu1.print(15, SCREEN_HEIGHT - 15, "Oqd\"l oks");
+
+                glSprite(93, SCREEN_HEIGHT - 30, GL_FLIP_NONE, xbtn);
+                fontSmallRu1.print(106, SCREEN_HEIGHT - 28, "Jesbu#");
+
+                glSprite(93, SCREEN_HEIGHT - 17, GL_FLIP_NONE, ybtn);
+                fontSmallRu1.print(106, SCREEN_HEIGHT - 15, "Ufbnku#");
+                break;
+            }
 
             if (wsWorlds.size() == 0)
             {
-                fontSmall.printCentered(0, 100, "No worlds yet...");
+                switch (lang)
+                {
+                case Language::English:
+                    fontSmall.printCentered(0, 100, "No worlds yet...");
+                    break;
+                case Language::Russian:
+                    fontSmallRu1.printCentered(0, 100, "Qqmb pgu oksqd...");
+                    break;
+                }
             }
             else
             {
@@ -823,7 +938,15 @@ int main(int argc, char **argv)
                 }
             }
 
-            font.printCentered(0, 5, "World select");
+            switch (lang)
+            {
+            case Language::English:
+                font.printCentered(0, 5, "World select");
+                break;
+            case Language::Russian:
+                fontRu.printCentered(0, 5, "C\"cqs oksb");
+                break;
+            }
         }
         else if (gameState == GameState::CreateWorld)
         {
@@ -834,16 +957,44 @@ int main(int argc, char **argv)
                 glSpriteScale(i * 32, SCREEN_HEIGHT - 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
             }
 
-            glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, abtn);
-            fontSmall.print(15, SCREEN_HEIGHT - 28, "Create");
+            switch (lang)
+            {
+            case Language::English:
+                glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, abtn);
+                fontSmall.print(15, SCREEN_HEIGHT - 28, "Create");
 
-            glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, bbtn);
-            fontSmall.print(15, SCREEN_HEIGHT - 15, "Back");
+                glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, bbtn);
+                fontSmall.print(15, SCREEN_HEIGHT - 15, "Back");
+                break;
+            case Language::Russian:
+                glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, abtn);
+                fontSmallRu1.print(15, SCREEN_HEIGHT - 28, "Sqjfbu#");
 
-            fontSmall.printCentered(0, 71, "World name:");
+                glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, bbtn);
+                fontSmallRu1.print(15, SCREEN_HEIGHT - 15, "Objbf");
+                break;
+            }
+
+            switch (lang)
+            {
+            case Language::English:
+                fontSmall.printCentered(0, 71, "World name:");
+                break;
+            case Language::Russian:
+                fontSmallRu1.printCentered(0, 71, "Cdgfkug ko&:");
+                break;
+            }
             fontSmall.printCentered(0, 80, std::string(createWorldName + "_").c_str());
 
-            font.printCentered(0, 5, "Create world");
+            switch (lang)
+            {
+            case Language::English:
+                font.printCentered(0, 5, "Create world");
+                break;
+            case Language::Russian:
+                fontRu.printCentered(0, 5, "Sqjfbu# oks");
+                break;
+            }
         }
         else if (gameState == GameState::SplashScreen)
         {
@@ -851,6 +1002,35 @@ int main(int argc, char **argv)
             glColor(RGB15(direntColor, direntColor, direntColor));
             glSprite(direntx, direnty, GL_FLIP_NONE, direntGames);
             glColor(RGB15(31, 31, 31));
+        }
+        else if (gameState == GameState::LanguageSelect)
+        {
+            drawMovingBackground(sprDirt, frames);
+
+            glSprite(SCREEN_WIDTH / 2 - 8, 60, GL_FLIP_NONE, english);
+            fontSmall.printCentered(0, 71, "English");
+
+            glSprite(SCREEN_WIDTH / 2 - 8, 90, GL_FLIP_NONE, russian);
+            fontSmallRu1.printCentered(0, 101, "Rvttmkl");
+
+            switch (lsSelected)
+            {
+            case 0:
+                glBoxStroke(SCREEN_WIDTH / 2 - 8, 60, 16, 9, RGB15(31, 31, 31));
+                break;
+            case 1:
+                glBoxStroke(SCREEN_WIDTH / 2 - 8, 90, 16, 9, RGB15(31, 31, 31));
+                break;
+            }
+
+            glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, selectbtn);
+            fontSmall.print(30, SCREEN_HEIGHT - 28, "Select (");
+            fontSmallRu1.print(97, SCREEN_HEIGHT - 28, "C\"csbu#)");
+    
+            glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, abtn);
+            fontSmall.print(15, SCREEN_HEIGHT - 15, "OK");
+
+            font.printCentered(0, 5, "Select language");
         }
 
         glEnd2D();

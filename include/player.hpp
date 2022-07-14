@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <block.hpp>
 #include <font.hpp>
+#include <lang.hpp>
 #include <array>
 #define NULLITEM {InventoryItemID::None, 0}
 
@@ -48,7 +49,7 @@ class Player
 {
 private:
     s16 x, y, aimX, aimY;
-    u8 inventorySelect, inventoryFullSelect, inventoryMoveSelect, craftingSelect;
+    u8 inventorySelect, inventoryFullSelect, inventoryMoveSelect, craftingSelect, health;
     float velX, velY;
     bool falling, jumping, fullInventory, inventoryCrafting;
     InventoryItem inventory[20];
@@ -56,8 +57,8 @@ private:
 public:
     Player();
 
-    void draw(Camera camera, Font fontSmall, Font font);
-    bool update(Camera camera, BlockList *blocks, u16 *frames);
+    void draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Font fontRu, Language lang);
+    bool update(Camera camera, BlockList *blocks, const u16 &frames);
     bool hasItem(InventoryItem item);
     void addItem(InventoryItemID item);
     void addItem(InventoryItemID item, u8 amount);

@@ -11,7 +11,12 @@ endif
 GAME_ICON      := ../icon.bmp
 GAME_TITLE     := DS-Craft
 GAME_SUBTITLE1 := Minecraft clone for NDS
-GAME_SUBTITLE2 := Version alpha1.7
+GAME_SUBTITLE2 := Version alpha1.8
+
+# this is the melonDS path change it if needed
+# and tbh this can be any emulator as long
+# as you can launch it with <path> ds-craft.nds
+MELONDS_PATH := E:\MelonDS\melonDS.exe
 
 include $(DEVKITARM)/ds_rules
 
@@ -113,7 +118,7 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-iquote $(CURDIR)/$(dir)) \
  
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
-.PHONY: $(BUILD) clean
+.PHONY: $(BUILD) clean run all
  
 #---------------------------------------------------------------------------------
 $(BUILD):
@@ -125,7 +130,14 @@ clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).nds 
 	@rm -fr source/img
+
+#---------------------------------------------------------------------------------
+run:
+	@echo run ...
+	@$(MELONDS_PATH) ds-craft.nds
  
+#---------------------------------------------------------------------------------
+all: $(BUILD)
  
 #---------------------------------------------------------------------------------
 else

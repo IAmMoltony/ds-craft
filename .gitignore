@@ -1,19 +1,33 @@
+# image stuff
 build/*.h
 source/img/*.s
 gfx/*.h
 gfx/*.s
+
+# build files
 *.o
 *.d
 *.bin
 ds-craft.map
+
+# minecraft original assets
 mctex/
 mcsnd/
+
+# releases
 releases/
+
+# orignal textures zip
 mctex.zip
+
+# executable files
 *.elf
 *.nds
+
+# ini files ig
 desktop.ini
 melonDS.ini
-.vscode/*.log
+
+# yes
 ds-craft.cppcheck
 ds-craft-cppcheck-build-dir/

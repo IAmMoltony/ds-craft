@@ -23,9 +23,16 @@
 #include <bbtn_img.h>
 #include <xbtn_img.h>
 #include <ybtn_img.h>
+#include <selectbtn_img.h>
 #include <world_label_img.h>
 #include <gray_circle_img.h>
 #include <dirent_games_img.h>
 #include <pig_img.h>
+#include <heart_img.h>
+#include <half_heart_img.h>
+#include <english_img.h>
+#include <russian_img.h>
 #include <font_16x16_img.h>
 #include <font_small_img.h>
+#include <font_small_ru1_img.h>
+#include <font_16x16_ru_img.h>
