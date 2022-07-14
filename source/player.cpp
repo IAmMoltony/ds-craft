@@ -214,7 +214,7 @@ Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSele
     }
 }
 
-void Player::draw(Camera camera, Font fontSmall, Font font)
+void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Language lang)
 {
     if (fullInventory)
     {
@@ -384,7 +384,18 @@ void Player::draw(Camera camera, Font fontSmall, Font font)
                     }
                 }
             }
-            fontSmall.print(16, 46 + 48 + 27 + 20, "Press L to see crafting menu");
+            switch (lang)
+            {
+            case Language::English:
+                fontSmall.print(16, 46 + 48 + 27 + 20, "Press L to see crafting menu");
+                break;
+            case Language::Russian:
+                fontSmallRu.print(16, 46 + 48 + 27 + 20, "Obiokug");
+                fontSmall.print(81, 46 + 48 + 27 + 20, "L");
+                fontSmallRu.print(81 + 18, 46 + 48 + 27 + 20, "zuqc\" rgsgluk");
+                fontSmallRu.print(16, 46 + 48 + 27 + 29, "d ogp% tqjfbpk&");
+                break;
+            }
         }
     }
     else

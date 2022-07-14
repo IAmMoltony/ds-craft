@@ -8,4 +8,5 @@ enum class GameState
     WorldSelect,
     CreateWorld,
     SplashScreen,
+    LanguageSelect,
 };

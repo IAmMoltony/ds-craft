@@ -19,7 +19,8 @@
             "defines": [],
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "compilerPath": "D:/devkitPro/devkitARM/bin/arm-none-eabi-gcc.exe"
+            "compilerPath": "D:/devkitPro/devkitARM/bin/arm-none-eabi-gcc.exe",
+            "intelliSenseMode": "linux-gcc-arm"
         }
     ],
     "version": 4
