@@ -762,7 +762,7 @@ int main(int argc, char **argv)
                 entity->draw(camera);
             }
 
-            player.draw(camera, fontSmall, font, fontSmallRu1, lang);
+            player.draw(camera, fontSmall, font, fontSmallRu1, fontRu, lang);
 
             if (saveTextShow)
             {
@@ -1026,6 +1026,9 @@ int main(int argc, char **argv)
             glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, selectbtn);
             fontSmall.print(30, SCREEN_HEIGHT - 28, "Select (");
             fontSmallRu1.print(97, SCREEN_HEIGHT - 28, "C\"csbu#)");
+    
+            glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, abtn);
+            fontSmall.print(15, SCREEN_HEIGHT - 15, "OK");
 
             font.printCentered(0, 5, "Select language");
         }

@@ -214,7 +214,7 @@ Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSele
     }
 }
 
-void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Language lang)
+void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Font fontRu, Language lang)
 {
     if (fullInventory)
     {
@@ -225,7 +225,15 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, La
         // draw inventory background
         glBoxFilled(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(17, 17, 17));
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(3));
-        font.printfShadow(SCREEN_WIDTH / 2 - (9 * 16 / 2), 12, inventoryCrafting ? "Crafting" : "Inventory");
+        switch (lang)
+        {
+        case Language::English:
+            font.printfShadow(SCREEN_WIDTH / 2 - (9 * 16 / 2), 12, inventoryCrafting ? "Crafting" : "Inventory");
+            break;
+        case Language::Russian:
+            fontRu.printfShadow(SCREEN_WIDTH / 2 - (9 * 16 / 2), 12, inventoryCrafting ? "Sqjfbpkg" : "Jpdgpubs#");
+            break;
+        }
 
         if (inventoryCrafting)
         {

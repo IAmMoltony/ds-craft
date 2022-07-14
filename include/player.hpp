@@ -57,7 +57,7 @@ private:
 public:
     Player();
 
-    void draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Language lang);
+    void draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Font fontRu, Language lang);
     bool update(Camera camera, BlockList *blocks, const u16 &frames);
     bool hasItem(InventoryItem item);
     void addItem(InventoryItemID item);
