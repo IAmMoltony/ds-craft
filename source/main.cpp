@@ -413,7 +413,8 @@ int main(int argc, char **argv)
     glImage font16x16Img[FONT_16X16_NUM_IMAGES];
     glImage fontSmallImg[FONT_SI_NUM_IMAGES];
     glImage fontSmallRu1Img[FONT_SI_NUM_IMAGES];
-    Font font, fontSmall, fontSmallRu1;
+    glImage font16x16RuImg[FONT_16X16_NUM_IMAGES];
+    Font font, fontSmall, fontSmallRu1, fontRu;
     font.load(font16x16Img, FONT_16X16_NUM_IMAGES, font_16x16_texcoords, GL_RGB256,
               TEXTURE_SIZE_64, TEXTURE_SIZE_512,
               GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
@@ -426,6 +427,10 @@ int main(int argc, char **argv)
                       TEXTURE_SIZE_64, TEXTURE_SIZE_128,
                       GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
                       256, font_small_ru1Pal, reinterpret_cast<const u8 *>(font_small_ru1Bitmap));
+    fontRu.load(font16x16RuImg, FONT_16X16_NUM_IMAGES, font_16x16_texcoords, GL_RGB256,
+                TEXTURE_SIZE_64, TEXTURE_SIZE_512,
+                GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
+                256, font_16x16_ruPal, reinterpret_cast<const u8 *>(font_16x16_ruBitmap));
 
     glImage logo[1];
     glImage abtn[1];
@@ -803,7 +808,15 @@ int main(int argc, char **argv)
                     break;
                 }
 
-                font.printCentered(0, 5, "Paused");
+                switch (lang)
+                {
+                case Language::English:
+                    font.printCentered(0, 5, "Paused");
+                    break;
+                case Language::Russian:
+                    fontRu.printCentered(0, 5, "Qbvjb");
+                    break;
+                }
             }
         }
         else if (gameState == GameState::Menu)
@@ -846,7 +859,15 @@ int main(int argc, char **argv)
             fontSmall.printCentered(0, 129, "Built with devkitARM");
 
             glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, bbtn);
-            fontSmall.print(15, SCREEN_HEIGHT - 15, "Back");
+            switch (lang)
+            {
+            case Language::English:
+                fontSmall.print(15, SCREEN_HEIGHT - 15, "Back");
+                break;
+            case Language::Russian:
+                fontSmallRu1.print(15, SCREEN_HEIGHT - 15, "Objbf");
+                break;
+            }
         }
         else if (gameState == GameState::WorldSelect)
         {
@@ -917,7 +938,15 @@ int main(int argc, char **argv)
                 }
             }
 
-            font.printCentered(0, 5, "World select");
+            switch (lang)
+            {
+            case Language::English:
+                font.printCentered(0, 5, "World select");
+                break;
+            case Language::Russian:
+                fontRu.printCentered(0, 5, "C\"cqs oksb");
+                break;
+            }
         }
         else if (gameState == GameState::CreateWorld)
         {
@@ -957,7 +986,15 @@ int main(int argc, char **argv)
             }
             fontSmall.printCentered(0, 80, std::string(createWorldName + "_").c_str());
 
-            font.printCentered(0, 5, "Create world");
+            switch (lang)
+            {
+            case Language::English:
+                font.printCentered(0, 5, "Create world");
+                break;
+            case Language::Russian:
+                fontRu.printCentered(0, 5, "Sqjfbu# oks");
+                break;
+            }
         }
         else if (gameState == GameState::SplashScreen)
         {

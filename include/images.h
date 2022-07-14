@@ -35,3 +35,4 @@
 #include <font_16x16_img.h>
 #include <font_small_img.h>
 #include <font_small_ru1_img.h>
+#include <font_16x16_ru_img.h>
