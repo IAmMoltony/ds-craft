@@ -397,6 +397,7 @@ int main(int argc, char **argv)
     fsInit();
     mmInitDefaultMem((mm_addr)soundbank_bin);
     fsCreateDir("worlds");
+    fsCreateDir("config");
 
     vramSetBankA(VRAM_A_TEXTURE);
     vramSetBankB(VRAM_B_TEXTURE);
@@ -409,6 +410,14 @@ int main(int argc, char **argv)
     loadPlayerSounds();
 
     lang = Language::Russian;
+    if (fsFileExists("config/lang.cfg"))
+    {
+        char *data = fsReadFile("config/lang.cfg");
+        if (data[0] == '0')
+        {
+            lang = Language::English;
+        }
+    }
 
     glImage font16x16Img[FONT_16X16_NUM_IMAGES];
     glImage fontSmallImg[FONT_SI_NUM_IMAGES];
@@ -458,7 +467,7 @@ int main(int argc, char **argv)
 
     GameState gameState = 
 #if SKIP_SPLASH_SCREEN
-        GameState::LanguageSelect
+        fsFileExists("config/lang.cfg") ? GameState::Menu : GameState::LanguageSelect
 #else
         GameState::SplashScreen
 #endif
@@ -705,7 +714,7 @@ int main(int argc, char **argv)
             }
             if (frames == 135)
             {
-                gameState = GameState::LanguageSelect;
+                gameState = fsFileExists("config/lang.cfg") ? GameState::Menu : GameState::LanguageSelect;
             }
 
             direnty = lerp(direnty, SCREEN_HEIGHT / 2 - 32, 0.07f);
@@ -725,6 +734,11 @@ int main(int argc, char **argv)
                 if (!lsSelected)
                 {
                     lang = Language::English;
+                    fsWrite("config/lang.cfg", "0");
+                }
+                else
+                {
+                    fsWrite("config/lang.cfg", "1");
                 }
 
                 mmEffectEx(&sndClick);
