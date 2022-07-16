@@ -809,9 +809,9 @@ int main(int argc, char **argv)
                 switch (lang)
                 {
                 case Language::English:
-                    glSprite(SCREEN_WIDTH / 2 - 30, 96, GL_FLIP_NONE, abtn);
+                    glSprite(SCREEN_WIDTH / 2 - 42, 96, GL_FLIP_NONE, abtn);
                     fontSmall.printCentered(0, 98, "Respawn");
-                    glSprite(SCREEN_WIDTH / 2 - 41, 116, GL_FLIP_NONE, bbtn);
+                    glSprite(SCREEN_WIDTH / 2 - 30, 116, GL_FLIP_NONE, bbtn);
                     fontSmall.printCentered(0, 118, "Quit");
                     break;
                 case Language::Russian:
