@@ -1,6 +1,5 @@
 #pragma once
 #include <nds.h>
-#include <nds/arm9/input.h>
 #include <gl2d.h>
 #include <camera.h>
 #include <defines.h>

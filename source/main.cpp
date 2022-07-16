@@ -1,7 +1,4 @@
 #include <nds.h>
-#include <nds/arm9/console.h>
-#include <nds/arm9/input.h>
-#include <nds/arm9/keyboard.h>
 #include <gl2d.h>
 #include <maxmod9.h>
 #include <fat.h>

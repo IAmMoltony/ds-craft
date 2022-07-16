@@ -1,6 +1,5 @@
 #pragma once
 #include <nds.h>
-#include <nds/arm9/input.h>
 #include <gl2d.h>
 #include <maxmod9.h>
 #include <soundbank.h>
