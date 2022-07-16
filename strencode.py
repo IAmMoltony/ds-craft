@@ -1,5 +1,5 @@
 # strencode.py
-# String encoder - russian -> what game can understand
+# String encoder from russian to what game can understand
 
 import sys
 
