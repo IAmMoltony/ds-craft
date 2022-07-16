@@ -7,8 +7,9 @@
 static glImage sprInventorySlot[1];
 static glImage sprInventorySlotSelect[1];
 static glImage sprStick[1];
-static glImage sprHeart[1];
+static glImage sprHeartOutline[1];
 static glImage sprHalfHeart[1];
+static glImage sprHalfHeart2[1];
 
 // these images are loaded in block.cpp
 extern glImage sprGrass[1];
@@ -86,8 +87,9 @@ void loadPlayerGUI(void)
     loadImage(sprInventorySlotSelect, 16, 16, inventory_slot_selectBitmap);
 
     loadImageAlpha(sprStick, 8, 8, stickPal, stickBitmap);
-    loadImageAlpha(sprHeart, 16, 16, heartPal, heartBitmap);
-    loadImageAlpha(sprHalfHeart, 16, 16, half_heartPal, half_heartBitmap);
+    loadImageAlpha(sprHeartOutline, 16, 16, heart_outlinePal, heart_outlineBitmap);
+    loadImageAlpha(sprHalfHeart, 8, 8, half_heartPal, half_heartBitmap);
+    loadImageAlpha(sprHalfHeart2, 8, 8, half_heart2Pal, half_heart2Bitmap);
 }
 
 void loadPlayerSounds(void)
@@ -194,7 +196,7 @@ void loadPlayerSounds(void)
 }
 
 Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSelect(20),
-                   craftingSelect(0), health(10)
+                   craftingSelect(0), health(9), airY(0)
 {
     x = 0;
     y = 0;
@@ -597,9 +599,23 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
         }
 
         // health bar drawing
-        for (u8 i = 0; i < 5; ++i)
+        for (u8 i = 0; i < 10; ++i)
         {
-            glSprite(SCREEN_WIDTH - 9 - i * 9, SCREEN_HEIGHT - 9, GL_FLIP_NONE, sprHeart);
+            if (i % 2 != 0)
+            {
+                if (health >= i)
+                {
+                    glSprite(SCREEN_WIDTH - 9 - i / 2 * 9, SCREEN_HEIGHT - 9, GL_FLIP_NONE, sprHalfHeart);
+                }
+            }
+            else
+            {
+                glSprite(SCREEN_WIDTH - 9 - i / 2 * 9, SCREEN_HEIGHT - 9, GL_FLIP_NONE, sprHeartOutline);
+                if (health >= i)
+                {
+                    glSprite(SCREEN_WIDTH - 9 - i / 2 * 9 + 1, SCREEN_HEIGHT - 9, GL_FLIP_H, sprHalfHeart2);
+                }
+            }
         }
     }
 }
@@ -778,6 +794,7 @@ bool Player::update(Camera camera, BlockList *blocks, const u16 &frames)
         if (falling || jumping)
         {
             velY += 0.3f;
+            ++airY;
             if (velY > 5)
             {
                 // cap fall speed
@@ -1145,6 +1162,12 @@ bool Player::update(Camera camera, BlockList *blocks, const u16 &frames)
                 falling = jumping = false;
                 velY = 0;
                 y = block->getRect().y - 24;
+                if (airY >= 32)
+                {
+                    u16 damage = airY / 8 - 3 + airY / 16;
+                    health -= damage;
+                }
+                airY = 0;
             }
             else
             {
@@ -1326,9 +1349,19 @@ void Player::setItem(u8 index, InventoryItem item)
     inventory[index] = item;
 }
 
+void Player::restoreHealth(void)
+{
+    health = 9;
+}
+
 bool Player::moving(s16 oldX)
 {
     return x != oldX;
+}
+
+bool Player::dead(void)
+{
+    return health < 0;
 }
 
 s16 Player::getX(void)
@@ -1339,6 +1372,11 @@ s16 Player::getX(void)
 s16 Player::getY(void)
 {
     return y;
+}
+
+s16 Player::getHealth(void)
+{
+    return health;
 }
 
 Rect Player::getRectBottom(void)

@@ -97,7 +97,7 @@ void saveWorld(const std::string &name)
     fsCreateFile(std::string("worlds/" + name + ".wld").c_str());
     std::string wld;
     
-    wld += "player " + std::to_string(player.getX()) + " " + std::to_string(player.getY()) + "\n";
+    wld += "player " + std::to_string(player.getX()) + " " + std::to_string(player.getY()) + " " + std::to_string(player.getHealth()) + "\n";
     std::array<InventoryItem, 20> playerInventory = player.getInventory();
     for (u8 i = 0; i < 20; ++i)
     {
@@ -531,7 +531,7 @@ int main(int argc, char **argv)
                 }
             }
 
-            if (!paused)
+            if (!paused && !player.dead())
             {
                 for (size_t i = 0; i < blocks.size(); ++i)
                 {
@@ -587,6 +587,19 @@ int main(int argc, char **argv)
 
                 camera.x = lerp(camera.x, player.getX() - SCREEN_WIDTH / 2, 0.1f);
                 camera.y = lerp(camera.y, player.getY() - SCREEN_HEIGHT / 2, 0.1f);
+            }
+            else if (player.dead())
+            {
+                if (down & KEY_A)
+                {
+                    player.setX(0);
+                    player.setY(0);
+                    player.restoreHealth();
+                }
+                else if (down & KEY_B)
+                {
+                    gameState = GameState::Menu;
+                }
             }
         }
         else if (gameState == GameState::Menu)
@@ -776,7 +789,26 @@ int main(int argc, char **argv)
                 entity->draw(camera);
             }
 
-            player.draw(camera, fontSmall, font, fontSmallRu1, fontRu, lang);
+            if (!player.dead())
+            {
+                player.draw(camera, fontSmall, font, fontSmallRu1, fontRu, lang);
+            }
+            else
+            {
+                glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(8));
+                glBoxFilled(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(31, 0, 0));
+                glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(8));
+
+                switch (lang)
+                {
+                case Language::English:
+                    font.printCentered(0, 5, "Game over");
+                    break;
+                case Language::Russian:
+                    fontRu.printCentered(0, 5, "Jesb qmqpzgpb");
+                    break;
+                }
+            }
 
             if (saveTextShow)
             {
