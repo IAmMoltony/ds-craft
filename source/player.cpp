@@ -1162,10 +1162,13 @@ bool Player::update(Camera camera, BlockList *blocks, const u16 &frames)
                 falling = jumping = false;
                 velY = 0;
                 y = block->getRect().y - 24;
-                if (airY >= 32)
+                if (airY >= 48)
                 {
-                    u16 damage = airY / 8 - 3 + airY / 16;
-                    health -= damage;
+                    s16 damage = airY / 10 - 6 + airY / 16;
+                    if (damage > 0)
+                    {
+                        health -= damage;
+                    }
                 }
                 airY = 0;
             }
