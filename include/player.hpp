@@ -48,8 +48,9 @@ void loadPlayerSounds(void);
 class Player
 {
 private:
-    s16 x, y, aimX, aimY;
-    u8 inventorySelect, inventoryFullSelect, inventoryMoveSelect, craftingSelect, health;
+    s16 x, y, aimX, aimY, health;
+    u16 airY;
+    u8 inventorySelect, inventoryFullSelect, inventoryMoveSelect, craftingSelect;
     float velX, velY;
     bool falling, jumping, fullInventory, inventoryCrafting;
     InventoryItem inventory[20];
@@ -67,10 +68,13 @@ public:
     void setX(s16 x);
     void setY(s16 y);
     void setItem(u8 index, InventoryItem item);
+    void restoreHealth(void);
     
     bool moving(s16 oldX);
+    bool dead(void);
     s16 getX(void);
     s16 getY(void);
+    s16 getHealth(void);
     Rect getRectBottom(void);
     Rect getRectTop(void);
     Rect getRectLeft(void);

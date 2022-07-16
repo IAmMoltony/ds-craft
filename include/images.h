@@ -28,8 +28,9 @@
 #include <gray_circle_img.h>
 #include <dirent_games_img.h>
 #include <pig_img.h>
-#include <heart_img.h>
+#include <heart_outline_img.h>
 #include <half_heart_img.h>
+#include <half_heart2_img.h>
 #include <english_img.h>
 #include <russian_img.h>
 #include <font_16x16_img.h>

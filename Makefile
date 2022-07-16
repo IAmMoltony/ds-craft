@@ -11,7 +11,7 @@ endif
 GAME_ICON      := ../icon.bmp
 GAME_TITLE     := DS-Craft
 GAME_SUBTITLE1 := Minecraft clone for NDS
-GAME_SUBTITLE2 := Version alpha1.8.1
+GAME_SUBTITLE2 := Version alpha1.9
 
 # this is the melonDS path change it if needed
 # and tbh this can be any emulator as long
@@ -50,7 +50,7 @@ CFLAGS	:=	-g -Wall -O2\
 			$(ARCH)
 
 CFLAGS	+=	$(INCLUDE) -DARM9
-CXXFLAGS	:=	$(CFLAGS) -fno-exceptions -Wno-switch
+CXXFLAGS	:=	$(CFLAGS) -fno-exceptions -Wno-switch -Wno-reorder
 
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=ds_arm9.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
