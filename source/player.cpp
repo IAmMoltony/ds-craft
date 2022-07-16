@@ -1326,6 +1326,10 @@ void Player::removeItem(InventoryItemID item)
         if (inventory[i].id == item && inventory[i].amount > 0)
         {
             --inventory[i].amount;
+            if (inventory[i].amount == 0)
+            {
+                inventory[i].id = InventoryItemID::None;
+            }
             return;
         }
     }
