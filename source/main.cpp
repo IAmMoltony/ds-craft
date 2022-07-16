@@ -805,6 +805,21 @@ int main(int argc, char **argv)
                     fontRu.printCentered(0, 5, "Jesb qmqpzgpb");
                     break;
                 }
+
+                switch (lang)
+                {
+                case Language::English:
+                    glSprite(SCREEN_WIDTH / 2 - 30, 96, GL_FLIP_NONE, abtn);
+                    fontSmall.printCentered(0, 98, "Respawn");
+                    glSprite(SCREEN_WIDTH / 2 - 41, 116, GL_FLIP_NONE, bbtn);
+                    fontSmall.printCentered(0, 118, "Quit");
+                    break;
+                case Language::Russian:
+                    glSprite(SCREEN_WIDTH / 2 - 37, 96, GL_FLIP_NONE, abtn);
+                    fontSmallRu1.printCentered(0, 98, "Cqjsqfku#t&");
+                    glSprite(SCREEN_WIDTH / 2 - 33, 116, GL_FLIP_NONE, bbtn);
+                    fontSmallRu1.printCentered(0, 118, "C\"luk");
+                }
             }
 
             if (saveTextShow)
