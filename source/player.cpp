@@ -1293,8 +1293,10 @@ bool Player::hasItem(InventoryItem item)
 
 void Player::addItem(InventoryItemID item)
 {
+    // find the stack
     for (u8 i = 0; i < 20; ++i)
     {
+        // if theres 64 items, skip
         if (inventory[i].amount >= 64)
         {
             continue;
@@ -1305,9 +1307,16 @@ void Player::addItem(InventoryItemID item)
             ++inventory[i].amount;
             return;
         }
-        else if (inventory[i].id == InventoryItemID::None)
+    }
+
+    // if the stack not found, try to create new stack
+    for (u8 i = 0; i < 20; ++i)
+    {
+        // if slot is empty, then occupy it
+        if (inventory[i].id == InventoryItemID::None)
         {
-            inventory[i] = {item, 1};
+            inventory[i].id = item;
+            ++inventory[i].amount;
             return;
         }
     }
