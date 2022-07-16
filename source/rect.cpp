@@ -20,5 +20,5 @@ bool Rect::intersects(Rect other)
 
 void Rect::draw(Camera camera)
 {
-    glBox(x - camera.x, y - camera.y, x + w - 1 - camera.x, y + h - 1 - camera.y, RGB15(31, 0, 0));
+    glBoxStroke(x - camera.x, y - camera.y, w, h, RGB15(31, 0, 0));
 }
