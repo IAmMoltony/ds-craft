@@ -6,7 +6,10 @@
                 "${workspaceFolder}/**",
                 "/mnt/e/devkitPro/libnds/include/",
                 "/mnt/e/devkitPro/libnds/include/**",
-                "/mnt/e/devkitPro/devkitARM/arm-none-eabi/include/"
+                "/mnt/e/devkitPro/devkitARM/arm-none-eabi/include/",
+                "D:/devkitPro/libnds/include/",
+                "D:/devkitPro/libnds/include/**",
+                "D:/devkitPro/devkitARM/arm-none-eabi/include/"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
