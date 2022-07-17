@@ -33,50 +33,65 @@ static mm_sound_effect sndGrass1;
 static mm_sound_effect sndGrass2;
 static mm_sound_effect sndGrass3;
 static mm_sound_effect sndGrass4;
+
 static mm_sound_effect sndDirt1;
 static mm_sound_effect sndDirt2;
 static mm_sound_effect sndDirt3;
 static mm_sound_effect sndDirt4;
+
 static mm_sound_effect sndStone1;
 static mm_sound_effect sndStone2;
 static mm_sound_effect sndStone3;
 static mm_sound_effect sndStone4;
+
 static mm_sound_effect sndWood1;
 static mm_sound_effect sndWood2;
 static mm_sound_effect sndWood3;
 static mm_sound_effect sndWood4;
+
 static mm_sound_effect sndSand1;
 static mm_sound_effect sndSand2;
 static mm_sound_effect sndSand3;
 static mm_sound_effect sndSand4;
+
 static mm_sound_effect sndCloth1;
 static mm_sound_effect sndCloth2;
 static mm_sound_effect sndCloth3;
 static mm_sound_effect sndCloth4;
+
 static mm_sound_effect sndSnow1;
 static mm_sound_effect sndSnow2;
 static mm_sound_effect sndSnow3;
 static mm_sound_effect sndSnow4;
+
 static mm_sound_effect sndStepGrass1;
 static mm_sound_effect sndStepGrass2;
 static mm_sound_effect sndStepGrass3;
 static mm_sound_effect sndStepGrass4;
+
 static mm_sound_effect sndStepGravel1;
 static mm_sound_effect sndStepGravel2;
 static mm_sound_effect sndStepGravel3;
 static mm_sound_effect sndStepGravel4;
+
 static mm_sound_effect sndStepStone1;
 static mm_sound_effect sndStepStone2;
 static mm_sound_effect sndStepStone3;
 static mm_sound_effect sndStepStone4;
+
 static mm_sound_effect sndStepSand1;
 static mm_sound_effect sndStepSand2;
 static mm_sound_effect sndStepSand3;
 static mm_sound_effect sndStepSand4;
+
 static mm_sound_effect sndStepSnow1;
 static mm_sound_effect sndStepSnow2;
 static mm_sound_effect sndStepSnow3;
 static mm_sound_effect sndStepSnow4;
+
+static mm_sound_effect sndHit1;
+static mm_sound_effect sndHit2;
+static mm_sound_effect sndHit3;
 
 // sounds that will be used in other files
 mm_sound_effect sndClick;
@@ -98,100 +113,132 @@ void loadPlayerSounds(void)
     mmLoadEffect(SFX_GRASS2);
     mmLoadEffect(SFX_GRASS3);
     mmLoadEffect(SFX_GRASS4);
+
     mmLoadEffect(SFX_GRAVEL1);
     mmLoadEffect(SFX_GRAVEL2);
     mmLoadEffect(SFX_GRAVEL3);
     mmLoadEffect(SFX_GRAVEL4);
+
     mmLoadEffect(SFX_STONE1);
     mmLoadEffect(SFX_STONE2);
     mmLoadEffect(SFX_STONE3);
     mmLoadEffect(SFX_STONE4);
+
     mmLoadEffect(SFX_WOOD1);
     mmLoadEffect(SFX_WOOD2);
     mmLoadEffect(SFX_WOOD3);
     mmLoadEffect(SFX_WOOD4);
+
     mmLoadEffect(SFX_SAND1);
     mmLoadEffect(SFX_SAND2);
     mmLoadEffect(SFX_SAND3);
     mmLoadEffect(SFX_SAND4);
+
     mmLoadEffect(SFX_CLOTH1);
     mmLoadEffect(SFX_CLOTH2);
     mmLoadEffect(SFX_CLOTH3);
     mmLoadEffect(SFX_CLOTH4);
+
     mmLoadEffect(SFX_SNOW1);
     mmLoadEffect(SFX_SNOW2);
     mmLoadEffect(SFX_SNOW3);
     mmLoadEffect(SFX_SNOW4);
+
     mmLoadEffect(SFX_STEPGRASS1);
     mmLoadEffect(SFX_STEPGRASS2);
     mmLoadEffect(SFX_STEPGRASS3);
     mmLoadEffect(SFX_STEPGRASS4);
+
     mmLoadEffect(SFX_STEPGRAVEL1);
     mmLoadEffect(SFX_STEPGRAVEL2);
     mmLoadEffect(SFX_STEPGRAVEL3);
     mmLoadEffect(SFX_STEPGRAVEL4);
+
     mmLoadEffect(SFX_STEPSTONE1);
     mmLoadEffect(SFX_STEPSTONE2);
     mmLoadEffect(SFX_STEPSTONE3);
     mmLoadEffect(SFX_STEPSTONE4);
+
     mmLoadEffect(SFX_STEPSAND1);
     mmLoadEffect(SFX_STEPSAND2);
     mmLoadEffect(SFX_STEPSAND3);
     mmLoadEffect(SFX_STEPSAND4);
+
     mmLoadEffect(SFX_STEPSNOW1);
     mmLoadEffect(SFX_STEPSNOW2);
     mmLoadEffect(SFX_STEPSNOW3);
     mmLoadEffect(SFX_STEPSNOW4);
+
+    mmLoadEffect(SFX_HIT1);
+    mmLoadEffect(SFX_HIT2);
+    mmLoadEffect(SFX_HIT3);
+
     mmLoadEffect(SFX_CLICK);
 
     sndGrass1 = soundEffect(SFX_GRASS1);
     sndGrass2 = soundEffect(SFX_GRASS2);
     sndGrass3 = soundEffect(SFX_GRASS3);
     sndGrass4 = soundEffect(SFX_GRASS4);
+
     sndDirt1 = soundEffect(SFX_GRAVEL1);
     sndDirt2 = soundEffect(SFX_GRAVEL2);
     sndDirt3 = soundEffect(SFX_GRAVEL3);
     sndDirt4 = soundEffect(SFX_GRAVEL4);
+
     sndStone1 = soundEffect(SFX_STONE1);
     sndStone2 = soundEffect(SFX_STONE2);
     sndStone3 = soundEffect(SFX_STONE3);
     sndStone4 = soundEffect(SFX_STONE4);
+
     sndWood1 = soundEffect(SFX_WOOD1);
     sndWood2 = soundEffect(SFX_WOOD2);
     sndWood3 = soundEffect(SFX_WOOD3);
     sndWood4 = soundEffect(SFX_WOOD4);
+
     sndSand1 = soundEffect(SFX_SAND1);
     sndSand2 = soundEffect(SFX_SAND2);
     sndSand3 = soundEffect(SFX_SAND3);
     sndSand4 = soundEffect(SFX_SAND4);
+
     sndCloth1 = soundEffect(SFX_CLOTH1);
     sndCloth2 = soundEffect(SFX_CLOTH2);
     sndCloth3 = soundEffect(SFX_CLOTH3);
     sndCloth4 = soundEffect(SFX_CLOTH4);
+
     sndSnow1 = soundEffect(SFX_SNOW1);
     sndSnow2 = soundEffect(SFX_SNOW2);
     sndSnow3 = soundEffect(SFX_SNOW3);
     sndSnow4 = soundEffect(SFX_SNOW4);
+
     sndStepGrass1 = soundEffect(SFX_STEPGRASS1);
     sndStepGrass2 = soundEffect(SFX_STEPGRASS2);
     sndStepGrass3 = soundEffect(SFX_STEPGRASS3);
     sndStepGrass4 = soundEffect(SFX_STEPGRASS4);
+
     sndStepGravel1 = soundEffect(SFX_STEPGRAVEL1);
     sndStepGravel2 = soundEffect(SFX_STEPGRAVEL2);
     sndStepGravel3 = soundEffect(SFX_STEPGRAVEL3);
     sndStepGravel4 = soundEffect(SFX_STEPGRAVEL4);
+
     sndStepStone1 = soundEffect(SFX_STEPSTONE1);
     sndStepStone2 = soundEffect(SFX_STEPSTONE2);
     sndStepStone3 = soundEffect(SFX_STEPSTONE3);
     sndStepStone4 = soundEffect(SFX_STEPSTONE4);
+
     sndStepSand1 = soundEffect(SFX_STEPSAND1);
     sndStepSand2 = soundEffect(SFX_STEPSAND2);
     sndStepSand3 = soundEffect(SFX_STEPSAND3);
     sndStepSand4 = soundEffect(SFX_STEPSAND4);
+
     sndStepSnow1 = soundEffect(SFX_STEPSNOW1);
     sndStepSnow2 = soundEffect(SFX_STEPSNOW2);
     sndStepSnow3 = soundEffect(SFX_STEPSNOW3);
     sndStepSnow4 = soundEffect(SFX_STEPSNOW4);
+
+    sndHit1 = soundEffect(SFX_HIT1);
+    sndHit2 = soundEffect(SFX_HIT2);
+    sndHit3 = soundEffect(SFX_HIT3);
+
     sndClick = soundEffect(SFX_CLICK);
 }
 
@@ -1168,6 +1215,19 @@ bool Player::update(Camera camera, BlockList *blocks, const u16 &frames)
                     if (damage > 0)
                     {
                         health -= damage;
+                        u8 effect = rand() % 3;
+                        switch (effect)
+                        {
+                        case 0:
+                            mmEffectEx(&sndHit1);
+                            break;
+                        case 1:
+                            mmEffectEx(&sndHit2);
+                            break;
+                        case 2:
+                            mmEffectEx(&sndHit3);
+                            break;
+                        }
                     }
                 }
                 airY = 0;
