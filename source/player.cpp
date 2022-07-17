@@ -648,19 +648,27 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
         // health bar drawing
         for (u8 i = 0; i < 10; ++i)
         {
+            u8 xx = SCREEN_WIDTH - 9 - i / 2 * 9;
+            u8 yy = SCREEN_HEIGHT - 9;
+            if (health <= 2)
+            {
+                xx += randomRange(-1, 1);
+                yy += randomRange(-1, 1);
+            }
+
             if (i % 2 != 0)
             {
                 if (health >= i)
                 {
-                    glSprite(SCREEN_WIDTH - 9 - i / 2 * 9, SCREEN_HEIGHT - 9, GL_FLIP_NONE, sprHalfHeart);
+                    glSprite(xx, yy, GL_FLIP_NONE, sprHalfHeart);
                 }
             }
             else
             {
-                glSprite(SCREEN_WIDTH - 9 - i / 2 * 9, SCREEN_HEIGHT - 9, GL_FLIP_NONE, sprHeartOutline);
+                glSprite(xx, yy, GL_FLIP_NONE, sprHeartOutline);
                 if (health >= i)
                 {
-                    glSprite(SCREEN_WIDTH - 9 - i / 2 * 9 + 1, SCREEN_HEIGHT - 9, GL_FLIP_H, sprHalfHeart2);
+                    glSprite(xx + 1, yy, GL_FLIP_H, sprHalfHeart2);
                 }
             }
         }
@@ -1209,7 +1217,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                 falling = jumping = false;
                 velY = 0;
                 y = block->getRect().y - 24;
-                printf("%u\n", airY);
+                //printf("%u\n", airY);
                 if (airY >= 38) // if we fall too much
                 {
                     s16 damage = airY / 38;
