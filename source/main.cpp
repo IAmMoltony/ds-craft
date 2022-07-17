@@ -592,6 +592,8 @@ int main(int argc, char **argv)
                     player.setX(0);
                     player.setY(0);
                     player.restoreHealth();
+                    camera.x = player.getX() - SCREEN_WIDTH / 2;
+                    camera.y = player.getY() - SCREEN_HEIGHT / 2;
                 }
                 else if (down & KEY_B)
                 {
