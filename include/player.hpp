@@ -58,7 +58,7 @@ public:
     Player();
 
     void draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Font fontRu, Language lang);
-    bool update(Camera camera, BlockList *blocks, const u16 &frames);
+    bool update(Camera *camera, BlockList *blocks, const u16 &frames);
     bool hasItem(InventoryItem item);
     void addItem(InventoryItemID item);
     void addItem(InventoryItemID item, u8 amount);
