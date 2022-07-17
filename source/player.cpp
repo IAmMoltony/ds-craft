@@ -1213,6 +1213,10 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                 if (airY >= 38) // if we fall too much
                 {
                     s16 damage = airY / 38;
+                    if (airY - 38 >= 27)
+                    {
+                        damage += (airY - 38) / 27;
+                    }
                     if (damage > 0)
                     {
                         health -= damage;
