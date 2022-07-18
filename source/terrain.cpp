@@ -31,8 +31,9 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
                 }
                 for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
-                    blocks.emplace_back(new BedrockBlock(i, j));
+                    blocks.emplace_back(new StoneBlock(i, j));
                 }
+                blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
 
                 bool placedTree = false;
                 if (sinceLastTree > treeInterval)
