@@ -89,6 +89,11 @@ static mm_sound_effect sndStepSnow2;
 static mm_sound_effect sndStepSnow3;
 static mm_sound_effect sndStepSnow4;
 
+static mm_sound_effect sndStepWood1;
+static mm_sound_effect sndStepWood2;
+static mm_sound_effect sndStepWood3;
+static mm_sound_effect sndStepWood4;
+
 static mm_sound_effect sndHit1;
 static mm_sound_effect sndHit2;
 static mm_sound_effect sndHit3;
@@ -169,6 +174,11 @@ void loadPlayerSounds(void)
     mmLoadEffect(SFX_STEPSNOW3);
     mmLoadEffect(SFX_STEPSNOW4);
 
+    mmLoadEffect(SFX_STEPWOOD1);
+    mmLoadEffect(SFX_STEPWOOD2);
+    mmLoadEffect(SFX_STEPWOOD3);
+    mmLoadEffect(SFX_STEPWOOD4);
+
     mmLoadEffect(SFX_HIT1);
     mmLoadEffect(SFX_HIT2);
     mmLoadEffect(SFX_HIT3);
@@ -234,6 +244,11 @@ void loadPlayerSounds(void)
     sndStepSnow2 = soundEffect(SFX_STEPSNOW2);
     sndStepSnow3 = soundEffect(SFX_STEPSNOW3);
     sndStepSnow4 = soundEffect(SFX_STEPSNOW4);
+
+    sndStepWood1 = soundEffect(SFX_STEPWOOD1);
+    sndStepWood2 = soundEffect(SFX_STEPWOOD2);
+    sndStepWood3 = soundEffect(SFX_STEPWOOD3);
+    sndStepWood4 = soundEffect(SFX_STEPWOOD4);
 
     sndHit1 = soundEffect(SFX_HIT1);
     sndHit2 = soundEffect(SFX_HIT2);
@@ -1297,6 +1312,10 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                     else if (id == "snowy grass")
                     {
                         playsfx(effect, sndStepSnow1, sndStepSnow2, sndStepSnow3, sndStepSnow4)
+                    }
+                    else if (id == "planks" || id == "door")
+                    {
+                        playsfx(effect, sndStepWood1, sndStepWood2, sndStepWood3, sndStepWood4)
                     }
                 }
             }
