@@ -15,6 +15,7 @@ glImage sprPoppy[1];
 glImage sprDoor[1];
 glImage sprPlanks[1];
 glImage sprSapling[1];
+glImage sprBedrock[1];
 
 static mm_sound_effect sndDoorOpen1;
 static mm_sound_effect sndDoorOpen2;
@@ -36,6 +37,7 @@ void loadBlockTextures(void)
     loadImage(sprSand, 16, 16, sandBitmap);
     loadImage(sprSandstone, 16, 16, sandstoneBitmap);
     loadImage(sprPlanks, 16, 16, planksBitmap);
+    loadImage(sprBedrock, 16, 16, bedrockBitmap);
 
     loadImageAlpha(sprCactus, 16, 16, cactus_sidePal, cactus_sideBitmap);
     loadImageAlpha(sprDeadBush, 16, 16, dead_bushPal, dead_bushBitmap);
@@ -92,6 +94,7 @@ GENERIC_BLOCK_IMPL(StoneBlock, sprStone, "stone")
 GENERIC_BLOCK_IMPL(SandBlock, sprSand, "sand")
 GENERIC_BLOCK_IMPL(SandstoneBlock, sprSandstone, "sandstone")
 GENERIC_BLOCK_IMPL(PlanksBlock, sprPlanks, "planks")
+GENERIC_BLOCK_IMPL(BedrockBlock, sprBedrock, "bedrock")
 
 NONSOLID_BLOCK_IMPL(WoodBlock, sprWood, "wood")
 NONSOLID_BLOCK_IMPL(CactusBlock, sprCactus, "cactus")
