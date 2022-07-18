@@ -1218,10 +1218,10 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                 velY = 0;
                 y = block->getRect().y - 24;
                 //printf("%u\n", airY);
-                if (airY >= 38) // if we fall too much
+                if (airY >= 44) // if we fall too much
                 {
-                    s16 damage = airY / 38;
-                    if (airY - 38 >= 27)
+                    s16 damage = airY / 44;
+                    if (airY - 44 >= 27)
                     {
                         damage += (airY - 38) / 27;
                     }
