@@ -519,6 +519,10 @@ int main(int argc, char **argv)
             {
                 paused = false;
                 saveWorld(worldName);
+                player.setX(0);
+                player.setY(0);
+                player.restoreHealth();
+                player.resetInventory();
                 gameState = GameState::Menu;
                 mmEffectEx(&sndClick);
             }

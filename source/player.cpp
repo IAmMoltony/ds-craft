@@ -1449,6 +1449,14 @@ void Player::restoreHealth(void)
     health = 9;
 }
 
+void Player::resetInventory(void)
+{
+    for (u8 i = 0; i < 20; ++i)
+    {
+        inventory[i] = NULLITEM;
+    }
+}
+
 bool Player::moving(s16 oldX)
 {
     return x != oldX;
