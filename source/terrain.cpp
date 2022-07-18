@@ -12,7 +12,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
         // 1 = desert
         // 2 = plains
         // 3 = snow
-        u8 biome = /*randomRange(0, 3)*/0;
+        u8 biome = randomRange(0, 3);
         if (biome == 0)
         {
             for (u16 i = k * SCREEN_WIDTH * 2; i < k * SCREEN_WIDTH * 2 + SCREEN_WIDTH * 2; i += 16)
@@ -107,6 +107,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
                 {
                     blocks.emplace_back(new StoneBlock(i, j));
                 }
+                blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
 
                 bool placedCactus = false;
                 if (chance(40) && sinceLastTree > 3)
@@ -148,6 +149,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
                 {
                     blocks.emplace_back(new StoneBlock(i, j));
                 }
+                blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
 
                 bool placedTree = false;
                 if (chance(9) && sinceLastTree > treeInterval)
@@ -221,6 +223,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
                 {
                     blocks.emplace_back(new StoneBlock(i, j));
                 }
+                blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
 
                 if (chance(20) && sinceLastTree > treeInterval)
                 {
