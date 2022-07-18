@@ -776,6 +776,7 @@ int main(int argc, char **argv)
             if (down & KEY_B)
             {
                 mmEffectEx(&sndClick);
+                gameState = GameState::Credits;
             }
         }
         ++frames;
@@ -1128,8 +1129,9 @@ int main(int argc, char **argv)
                 break;
             }
 
-            fontSmall.printfCentered(0, 50, "Compiled on %s, %s", __DATE__, __TIME__);
-            fontSmall.printfCentered(0, 61, "Version %s%d.%d.%d", VERSION_PREFIX, VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH);
+            fontSmall.printCentered(0, 50, "Compiled on:");
+            fontSmall.printfCentered(0, 61, "%s %s", __DATE__, __TIME__);
+            fontSmall.printfCentered(0, 83, "Version %s%d.%d.%d", VERSION_PREFIX, VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH);
 
             glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, bbtn);
             switch (lang)
