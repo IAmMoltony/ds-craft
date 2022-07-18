@@ -1099,7 +1099,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
             {
                 // if block touch aim then block break (if b is pressed that is)
                 if (Rect(getRectAim(*camera).x + 1, getRectAim(*camera).y + 1, 14, 14)
-                    .intersects(block->getRect()))
+                    .intersects(block->getRect()) && block->id() != "bedrock")
                 {
                     std::string bid = block->id();
                     u8 effect = rand() % 4;
