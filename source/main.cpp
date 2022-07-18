@@ -290,6 +290,10 @@ void loadWorld(const std::string &name)
             {
                 blocks.emplace_back(new SaplingBlock(x, y));
             }
+            else if (id == "bedrock")
+            {
+                blocks.emplace_back(new BedrockBlock(x, y));
+            }
         }
         if (split[0] == "inventory")
         {
