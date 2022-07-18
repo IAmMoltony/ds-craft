@@ -46,6 +46,19 @@ void Font::printCentered(int x, int y, const char *str)
     }
 }
 
+void Font::printfCentered(int x, int y, const char *format, ...)
+{
+    va_list args;
+    va_start(args, format);
+
+    char *str = reinterpret_cast<char *>(malloc(150 * sizeof(char)));
+    vsprintf(str, format, args);
+    printCentered(x, y, str);
+    free(str);
+
+    va_end(args);
+}
+
 void Font::printf(int x, int y, const char *format, ...)
 {
     va_list args;

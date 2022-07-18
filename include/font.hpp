@@ -16,5 +16,6 @@ public:
     void print(int x, int y, const char *str);
     void printCentered(int x, int y, const char *str);
     void printf(int x, int y, const char *format, ...);
+    void printfCentered(int x, int y, const char *format, ...);
     void printfShadow(int x, int y, const char *format, ...);
 };

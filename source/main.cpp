@@ -631,6 +631,11 @@ int main(int argc, char **argv)
                 mmEffectEx(&sndClick);
                 gameState = GameState::Menu;
             }
+            else if (down & KEY_A)
+            {
+                mmEffectEx(&sndClick);
+                gameState = GameState::VersionInfo;
+            }
         }
         else if (gameState == GameState::WorldSelect)
         {
@@ -766,6 +771,13 @@ int main(int argc, char **argv)
                 frames = 0;
             }
         }
+        else if (gameState == GameState::VersionInfo)
+        {
+            if (down & KEY_B)
+            {
+                mmEffectEx(&sndClick);
+            }
+        }
         ++frames;
 
         //--------------------------------------------------
@@ -846,7 +858,7 @@ int main(int argc, char **argv)
             }
 
             glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(4));
-            fontSmall.printf(3, 3, "%s%d.%d", VERSION_PREFIX, VERSION_MAJOR, VERSION_MINOR);
+            fontSmall.printf(3, 3, "%s%d.%d.%d", VERSION_PREFIX, VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH);
             glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(4));
 
             if (paused)
@@ -927,13 +939,16 @@ int main(int argc, char **argv)
             fontSmall.printCentered(0, 129, "Built with devkitARM");
 
             glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, bbtn);
+            glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, abtn);
             switch (lang)
             {
             case Language::English:
                 fontSmall.print(15, SCREEN_HEIGHT - 15, "Back");
+                fontSmall.print(15, SCREEN_HEIGHT - 28, "More");
                 break;
             case Language::Russian:
                 fontSmallRu1.print(15, SCREEN_HEIGHT - 15, "Objbf");
+                fontSmallRu1.print(15, SCREEN_HEIGHT - 28, "F~h");
                 break;
             }
         }
@@ -1099,6 +1114,33 @@ int main(int argc, char **argv)
             fontSmall.print(15, SCREEN_HEIGHT - 15, "OK");
 
             font.printCentered(0, 5, "Select language");
+        }
+        else if (gameState == GameState::VersionInfo)
+        {
+            drawMovingBackground(sprDirt, frames);
+            switch (lang)
+            {
+            case Language::English:
+                font.printCentered(0, 5, "Version info");
+                break;
+            case Language::Russian:
+                fontRu.printCentered(0, 5, "Jpwq q dgstkk");
+                break;
+            }
+
+            fontSmall.printfCentered(0, 50, "Compiled on %s, %s", __DATE__, __TIME__);
+            fontSmall.printfCentered(0, 61, "Version %s%d.%d.%d", VERSION_PREFIX, VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH);
+
+            glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, bbtn);
+            switch (lang)
+            {
+            case Language::English:
+                fontSmall.print(15, SCREEN_HEIGHT - 15, "Back");
+                break;
+            case Language::Russian:
+                fontSmallRu1.print(15, SCREEN_HEIGHT - 15, "Objbf");
+                break;
+            }
         }
 
         glEnd2D();
