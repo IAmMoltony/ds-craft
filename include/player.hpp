@@ -68,6 +68,7 @@ public:
     void setY(s16 y);
     void setItem(u8 index, InventoryItem item);
     void restoreHealth(void);
+    void resetInventory(void);
     
     bool moving(s16 oldX);
     bool dead(void);

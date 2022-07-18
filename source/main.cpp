@@ -290,6 +290,10 @@ void loadWorld(const std::string &name)
             {
                 blocks.emplace_back(new SaplingBlock(x, y));
             }
+            else if (id == "bedrock")
+            {
+                blocks.emplace_back(new BedrockBlock(x, y));
+            }
         }
         if (split[0] == "inventory")
         {
@@ -515,6 +519,10 @@ int main(int argc, char **argv)
             {
                 paused = false;
                 saveWorld(worldName);
+                player.setX(0);
+                player.setY(0);
+                player.restoreHealth();
+                player.resetInventory();
                 gameState = GameState::Menu;
                 mmEffectEx(&sndClick);
             }

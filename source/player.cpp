@@ -89,6 +89,11 @@ static mm_sound_effect sndStepSnow2;
 static mm_sound_effect sndStepSnow3;
 static mm_sound_effect sndStepSnow4;
 
+static mm_sound_effect sndStepWood1;
+static mm_sound_effect sndStepWood2;
+static mm_sound_effect sndStepWood3;
+static mm_sound_effect sndStepWood4;
+
 static mm_sound_effect sndHit1;
 static mm_sound_effect sndHit2;
 static mm_sound_effect sndHit3;
@@ -169,6 +174,11 @@ void loadPlayerSounds(void)
     mmLoadEffect(SFX_STEPSNOW3);
     mmLoadEffect(SFX_STEPSNOW4);
 
+    mmLoadEffect(SFX_STEPWOOD1);
+    mmLoadEffect(SFX_STEPWOOD2);
+    mmLoadEffect(SFX_STEPWOOD3);
+    mmLoadEffect(SFX_STEPWOOD4);
+
     mmLoadEffect(SFX_HIT1);
     mmLoadEffect(SFX_HIT2);
     mmLoadEffect(SFX_HIT3);
@@ -234,6 +244,11 @@ void loadPlayerSounds(void)
     sndStepSnow2 = soundEffect(SFX_STEPSNOW2);
     sndStepSnow3 = soundEffect(SFX_STEPSNOW3);
     sndStepSnow4 = soundEffect(SFX_STEPSNOW4);
+
+    sndStepWood1 = soundEffect(SFX_STEPWOOD1);
+    sndStepWood2 = soundEffect(SFX_STEPWOOD2);
+    sndStepWood3 = soundEffect(SFX_STEPWOOD3);
+    sndStepWood4 = soundEffect(SFX_STEPWOOD4);
 
     sndHit1 = soundEffect(SFX_HIT1);
     sndHit2 = soundEffect(SFX_HIT2);
@@ -1099,7 +1114,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
             {
                 // if block touch aim then block break (if b is pressed that is)
                 if (Rect(getRectAim(*camera).x + 1, getRectAim(*camera).y + 1, 14, 14)
-                    .intersects(block->getRect()))
+                    .intersects(block->getRect()) && block->id() != "bedrock")
                 {
                     std::string bid = block->id();
                     u8 effect = rand() % 4;
@@ -1218,10 +1233,10 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                 velY = 0;
                 y = block->getRect().y - 24;
                 //printf("%u\n", airY);
-                if (airY >= 38) // if we fall too much
+                if (airY >= 44) // if we fall too much
                 {
-                    s16 damage = airY / 38;
-                    if (airY - 38 >= 27)
+                    s16 damage = airY / 44;
+                    if (airY - 44 >= 27)
                     {
                         damage += (airY - 38) / 27;
                     }
@@ -1297,6 +1312,10 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                     else if (id == "snowy grass")
                     {
                         playsfx(effect, sndStepSnow1, sndStepSnow2, sndStepSnow3, sndStepSnow4)
+                    }
+                    else if (id == "planks" || id == "door")
+                    {
+                        playsfx(effect, sndStepWood1, sndStepWood2, sndStepWood3, sndStepWood4)
                     }
                 }
             }
@@ -1447,6 +1466,14 @@ void Player::setItem(u8 index, InventoryItem item)
 void Player::restoreHealth(void)
 {
     health = 9;
+}
+
+void Player::resetInventory(void)
+{
+    for (u8 i = 0; i < 20; ++i)
+    {
+        inventory[i] = NULLITEM;
+    }
 }
 
 bool Player::moving(s16 oldX)

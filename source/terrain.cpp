@@ -33,6 +33,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
                 {
                     blocks.emplace_back(new StoneBlock(i, j));
                 }
+                blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
 
                 bool placedTree = false;
                 if (sinceLastTree > treeInterval)
@@ -106,6 +107,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
                 {
                     blocks.emplace_back(new StoneBlock(i, j));
                 }
+                blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
 
                 bool placedCactus = false;
                 if (chance(40) && sinceLastTree > 3)
@@ -147,6 +149,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
                 {
                     blocks.emplace_back(new StoneBlock(i, j));
                 }
+                blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
 
                 bool placedTree = false;
                 if (chance(9) && sinceLastTree > treeInterval)
@@ -220,6 +223,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
                 {
                     blocks.emplace_back(new StoneBlock(i, j));
                 }
+                blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
 
                 if (chance(20) && sinceLastTree > treeInterval)
                 {
