@@ -380,7 +380,23 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             glSprite(64, 46, GL_FLIP_NONE,
                      craftingSelect == 3 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
-            glSpriteScale(68, 50, GL_FLIP_NONE, HALFSIZE, sprCoalBlock);
+            glSpriteScale(68, 50, HALFSIZE, GL_FLIP_NONE, sprCoalBlock);
+
+            switch (craftingSelect)
+            {
+            case 0:
+                fontSmall.print(16, 35, "4 planks - 1 wood");
+                break;
+            case 1:
+                fontSmall.print(16, 35, "Door - 6 planks");
+                break;
+            case 2:
+                fontSmall.print(16, 35, "Stick - 2 planks");
+                break;
+            case 3:
+                fontSmall.print(16, 35, "Coal block - 9 coal");
+                break;
+            }
         }
         else
         {
