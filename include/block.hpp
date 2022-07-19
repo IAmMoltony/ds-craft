@@ -107,6 +107,7 @@ GENERIC_BLOCK_DECL(PlanksBlock)
 GENERIC_BLOCK_DECL(BedrockBlock)
 GENERIC_BLOCK_DECL(CobblestoneBlock)
 GENERIC_BLOCK_DECL(CoalOreBlock)
+GENERIC_BLOCK_DECL(CoalBlock)
 
 // non-generic block declarations
 

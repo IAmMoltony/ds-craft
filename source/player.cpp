@@ -32,6 +32,7 @@ extern glImage sprSnowyGrass[1];
 extern glImage sprSapling[1];
 extern glImage sprCobblestone[1];
 extern glImage sprCoalOre[1];
+extern glImage sprCoalBlock[1];
 
 // sounds
 
@@ -366,6 +367,20 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                      craftingSelect == 2 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
             glSprite(52, 50, GL_FLIP_NONE, sprStick);
+
+            // coal block recipe
+            if (hasItem({InventoryItemID::Coal, 9}))
+            {
+                glColor(RGB15(0, 31, 0));
+            }
+            else
+            {
+                glColor(RGB15(31, 0, 0));
+            }
+            glSprite(64, 46, GL_FLIP_NONE,
+                     craftingSelect == 3 ? sprInventorySlotSelect : sprInventorySlot);
+            glColor(RGB15(31, 31, 31));
+            glSpriteScale(68, 50, GL_FLIP_NONE, HALFSIZE, sprCoalBlock);
         }
         else
         {
@@ -479,6 +494,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                         break;
                     case InventoryItemID::Coal:
                         glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprCoal);
+                        break;
+                    case InventoryItemID::CoalBlock:
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprCoalBlock);
                         break;
                     }
 
@@ -601,6 +619,10 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
                      GL_FLIP_NONE, sprCoalOre);
             break;
+        case InventoryItemID::CoalBlock:
+            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
+                     GL_FLIP_NONE, sprCoalBlock);
+            break;
         }
         // reset the alpha
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(1));
@@ -702,6 +724,11 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 case InventoryItemID::Coal:
                     glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              HALFSIZE, GL_FLIP_NONE, sprCoal);
+                    break;
+                case InventoryItemID::CoalBlock:
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             HALFSIZE, GL_FLIP_NONE, sprCoalBlock);
+                    break;
                 }
 
                 if (amount > 1)
@@ -793,11 +820,17 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                     removeItem(InventoryItemID::Planks, 2);
                     addItem(InventoryItemID::Stick);
                 }
+                // coal block recipe
+                if (craftingSelect == 3 && hasItem({InventoryItemID::Coal, 9}))
+                {
+                    removeItem(InventoryItemID::Coal, 9);
+                    addItem(InventoryItemID::CoalBlock);
+                }
             }
             if (kdown & KEY_R)
             {
                 // when r is pressed advance to the next recipe
-                if (++craftingSelect > 2)
+                if (++craftingSelect > 3)
                 {
                     craftingSelect = 0;
                 }
@@ -1132,6 +1165,11 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                                                               snapToGrid(camera->y + aimY)));
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
                         break;
+                    case InventoryItemID::CoalBlock:
+                        blocks->emplace_back(new CoalBlock(snapToGrid(camera->x + aimX),
+                                                           snapToGrid(camera->y + aimY)));
+                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
+                        break;
                     }
                     if (canPlace)
                     {
@@ -1167,18 +1205,49 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
         bool remove = false; // do we remove or not
         for (auto &block : *blocks)
         {
-            // Skip if block mostly mostly is not visible, which generally 
-            // for the most part is quite significant in a sort of major way. 
-            // If it particularly basically is inside the camera then it basically 
-            // for all intents and purposes is considered visible, and if the block 
-            // generally literally is outside the camera it kind of literally is 
-            // not, which for the most part for the most part is quite significant, 
-            // very contrary to popular belief. This specifically definitely is for
-            // optimization, because definitely more blocks to kind of essentially
-            // update basically actually equals sort of kind of less performance,
-            // and for all intents and purposes fairly less performance for all
-            // intents and purposes equals actually pretty bad experience for players
-            // in a very sort of big way in a really major way.
+            // Skip if block mostly mostly kind of particularly for the most part literally
+            // is not visible, which generally for the most part kind of specifically for
+            // all intents and purposes mostly is quite significant in a sort of very definitely
+            // particularly major way, or so they actually thought, which basically generally
+            // essentially is quite significant, which basically is quite significant. If it
+            // particularly basically for all intents and purposes for all intents and purposes
+            // mostly for all intents and purposes is inside the camera then it basically for
+            // all intents and purposes literally specifically particularly generally is
+            // considered visible, and if the block generally literally mostly kind of essentially
+            // essentially is outside the camera it kind of literally mostly mostly generally
+            // is not, which for the most part for the most part basically for the most part
+            // actually specifically is quite significant, very for all intents and purposes kind
+            // of actually fairly contrary to popular belief in a basically sort of for all intents
+            // and purposes very major way in a sort of pretty generally major way in a kind of
+            // generally big way, demonstrating that for all intents and purposes skip if block
+            // mostly mostly kind of particularly for the most part specifically is not visible,
+            // which generally for the most part kind of specifically for all intents and purposes
+            // generally is quite significant in a sort of very definitely kind of major way, or so
+            // they actually thought, which basically generally specifically is quite significant,
+            // pretty contrary to popular belief. This specifically definitely definitely literally
+            // really literally is for optimization, because definitely pretty very pretty much sort
+            // of pretty much pretty much more blocks to kind of essentially literally kind of
+            // basically really update basically actually for the most part for the most part
+            // actually equals sort of kind of definitely generally sort of less performance, and for
+            // all intents and purposes fairly kind of generally fairly much less performance for all
+            // intents and purposes basically really literally definitely equals actually pretty for
+            // all intents and purposes basically very bad experience for players in a very sort of
+            // generally very particularly really big way in a really particularly really definitely
+            // particularly major way, which actually essentially basically actually is quite
+            // significant in a fairly generally major way in a sort of very major way, demonstrating
+            // how this specifically definitely definitely literally really particularly is for
+            // optimization, because definitely pretty very basically much sort of basically much sort
+            // of more blocks to kind of essentially literally kind of basically particularly update
+            // basically actually for the most part for the most part for the most part equals sort of
+            // kind of definitely generally generally less performance, and for all intents and purposes
+            // fairly kind of generally generally much kind of less performance for all intents and
+            // purposes basically really literally generally equals actually pretty for all intents
+            // and purposes basically for all intents and purposes bad experience for players in a very
+            // sort of generally very particularly very big way in a really particularly really definitely
+            // actually major way, which actually essentially basically essentially is quite significant
+            // in a fairly very major way in a sort of pretty major way, or so they actually thought.
+
+            // To sum it all up, we skip blocks we cant see. thats it.
             if (block->getRect().x - camera->x < -16 ||
                 block->getRect().y - camera->y < -16)
             {
@@ -1293,7 +1362,12 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                     else if (bid == "coal ore")
                     {
                         addItem(InventoryItemID::Coal);
-                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
+                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
+                    }
+                    else if (bid == "coal block")
+                    {
+                        addItem(InventoryItemID::CoalBlock);
+                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
                     }
 
                     remove = true;
@@ -1393,7 +1467,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                         playsfx(effect, sndStepGravel1, sndStepGravel2, sndStepGravel3, sndStepGravel4)
                     }
                     else if (id == "stone" || id == "sandstone" || id == "cobblestone" ||
-                             id == "coal ore")
+                             id == "coal ore" || id == "coal block")
                     {
                         playsfx(effect, sndStepStone1, sndStepStone2, sndStepStone3, sndStepStone4)
                     }

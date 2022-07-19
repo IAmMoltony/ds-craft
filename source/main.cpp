@@ -171,6 +171,9 @@ void saveWorld(const std::string &name)
         case InventoryItemID::Coal:
             id = "coal";
             break;
+        case InventoryItemID::CoalBlock:
+            id = "coalblock";
+            break;
         }
 
         wld += "inventory " + std::to_string(i) + " " + id + " " + std::to_string(playerInventory[i].amount) + "\n";
@@ -202,6 +205,10 @@ void saveWorld(const std::string &name)
             else if (id == "coal ore")
             {
                 wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " coalore\n";
+            }
+            else if (id == "coal block")
+            {
+                wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " coalblock\n";
             }
             // every other block
             else
@@ -337,6 +344,10 @@ void loadWorld(const std::string &name)
             {
                 blocks.emplace_back(new CoalOreBlock(x, y));
             }
+            else if (id == "coalblock")
+            {
+                blocks.emplace_back(new CoalBlock(x, y));
+            }
         }
         if (split[0] == "inventory") // key inventory item (inventory <index> <amount> <id>)
         {
@@ -424,6 +435,10 @@ void loadWorld(const std::string &name)
             else if (sid == "coal")
             {
                 id = InventoryItemID::Coal;
+            }
+            else if (sid == "coalblock")
+            {
+                id = InventoryItemID::CoalBlock;
             }
             
             player.setItem(i, {id, amount});
