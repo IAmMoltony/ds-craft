@@ -727,12 +727,25 @@ int main(int argc, char **argv)
             }
             else if (down & KEY_X)
             {
-                worldName = wsWorlds[wsSelected].name;
-                loadWorld(worldName);
-                camera.x = player.getX() - SCREEN_WIDTH / 2;
-                camera.y = player.getY() - SCREEN_HEIGHT / 2;
-                mmEffectEx(&sndClick);
-                gameState = GameState::Game;
+                if (!wsWorlds.empty())
+                {
+                    worldName = wsWorlds[wsSelected].name;
+
+                    // loading screen
+                    glBegin2D();
+                    drawMovingBackground(sprDirt, frames);
+                    fontSmall.printCentered(0, 50, "Loading...");
+                    glEnd2D();
+                    glFlush(0);
+
+                    loadWorld(worldName);
+                    camera.x = player.getX() - SCREEN_WIDTH / 2;
+                    camera.y = player.getY() - SCREEN_HEIGHT / 2;
+                    mmEffectEx(&sndClick);
+                    gameState = GameState::Game;
+                    swiWaitForVBlank();
+                    continue;
+                }
             }
             else if (down & KEY_Y)
             {
