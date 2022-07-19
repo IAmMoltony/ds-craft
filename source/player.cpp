@@ -6,7 +6,10 @@
 // gui images
 static glImage sprInventorySlot[1];
 static glImage sprInventorySlotSelect[1];
+
 static glImage sprStick[1];
+static glImage sprCoal[1];
+
 static glImage sprHeartOutline[1];
 static glImage sprHalfHeart[1];
 static glImage sprHalfHeart2[1];
@@ -123,7 +126,8 @@ void loadPlayerGUI(void)
     loadImage(sprInventorySlot, 16, 16, inventory_slotBitmap);
     loadImage(sprInventorySlotSelect, 16, 16, inventory_slot_selectBitmap);
 
-    loadImageAlpha(sprStick, 8, 8, stickPal, stickBitmap);
+    loadImageAlpha(sprStick, 8, 8, stickPal, stickBitmap); // TODO make stick its ok size
+    loadImageAlpha(sprCoal, 16, 16, coalPal, coalBitmap);
     loadImageAlpha(sprHeartOutline, 16, 16, heart_outlinePal, heart_outlineBitmap);
     loadImageAlpha(sprHalfHeart, 8, 8, half_heartPal, half_heartBitmap);
     loadImageAlpha(sprHalfHeart2, 8, 8, half_heart2Pal, half_heart2Bitmap);
@@ -473,6 +477,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                     case InventoryItemID::CoalOre:
                         glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprCoalOre);
                         break;
+                    case InventoryItemID::Coal:
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprCoal);
+                        break;
                     }
 
                     if (amount > 1)
@@ -692,6 +699,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                     glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              HALFSIZE, GL_FLIP_NONE, sprCoalOre);
                     break;
+                case InventoryItemID::Coal:
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             HALFSIZE, GL_FLIP_NONE, sprCoal);
                 }
 
                 if (amount > 1)
@@ -1282,7 +1292,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                     }
                     else if (bid == "coal ore")
                     {
-                        addItem(InventoryItemID::CoalOre);
+                        addItem(InventoryItemID::Coal);
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
                     }
 

@@ -168,6 +168,9 @@ void saveWorld(const std::string &name)
         case InventoryItemID::CoalOre:
             id = "coalore";
             break;
+        case InventoryItemID::Coal:
+            id = "coal";
+            break;
         }
 
         wld += "inventory " + std::to_string(i) + " " + id + " " + std::to_string(playerInventory[i].amount) + "\n";
@@ -417,6 +420,10 @@ void loadWorld(const std::string &name)
             else if (sid == "coalore")
             {
                 id = InventoryItemID::CoalOre;
+            }
+            else if (sid == "coal")
+            {
+                id = InventoryItemID::Coal;
             }
             
             player.setItem(i, {id, amount});

@@ -20,6 +20,7 @@
 #include <bedrock_img.h>
 #include <cobblestone_img.h>
 #include <coal_ore_img.h>
+#include <coal_img.h>
 #include <placeholder_logo_img.h>
 #include <logo_img.h>
 #include <abtn_img.h>
