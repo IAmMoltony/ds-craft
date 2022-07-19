@@ -29,71 +29,86 @@ extern glImage sprSnowyGrass[1];
 extern glImage sprSapling[1];
 
 // sounds
+
+// grass break/place
 static mm_sound_effect sndGrass1;
 static mm_sound_effect sndGrass2;
 static mm_sound_effect sndGrass3;
 static mm_sound_effect sndGrass4;
 
+// dirt break/place
 static mm_sound_effect sndDirt1;
 static mm_sound_effect sndDirt2;
 static mm_sound_effect sndDirt3;
 static mm_sound_effect sndDirt4;
 
+// stone break/place
 static mm_sound_effect sndStone1;
 static mm_sound_effect sndStone2;
 static mm_sound_effect sndStone3;
 static mm_sound_effect sndStone4;
 
+// wood break/place
 static mm_sound_effect sndWood1;
 static mm_sound_effect sndWood2;
 static mm_sound_effect sndWood3;
 static mm_sound_effect sndWood4;
 
+// sand break/place
 static mm_sound_effect sndSand1;
 static mm_sound_effect sndSand2;
 static mm_sound_effect sndSand3;
 static mm_sound_effect sndSand4;
 
+// wool break/place
 static mm_sound_effect sndCloth1;
 static mm_sound_effect sndCloth2;
 static mm_sound_effect sndCloth3;
 static mm_sound_effect sndCloth4;
 
+// snow break/place
 static mm_sound_effect sndSnow1;
 static mm_sound_effect sndSnow2;
 static mm_sound_effect sndSnow3;
 static mm_sound_effect sndSnow4;
 
+// grass step
 static mm_sound_effect sndStepGrass1;
 static mm_sound_effect sndStepGrass2;
 static mm_sound_effect sndStepGrass3;
 static mm_sound_effect sndStepGrass4;
 
+// dirt step
 static mm_sound_effect sndStepGravel1;
 static mm_sound_effect sndStepGravel2;
 static mm_sound_effect sndStepGravel3;
 static mm_sound_effect sndStepGravel4;
 
+// stone step
 static mm_sound_effect sndStepStone1;
 static mm_sound_effect sndStepStone2;
 static mm_sound_effect sndStepStone3;
 static mm_sound_effect sndStepStone4;
 
+// sand step
 static mm_sound_effect sndStepSand1;
 static mm_sound_effect sndStepSand2;
 static mm_sound_effect sndStepSand3;
 static mm_sound_effect sndStepSand4;
 
+// snow step
 static mm_sound_effect sndStepSnow1;
 static mm_sound_effect sndStepSnow2;
 static mm_sound_effect sndStepSnow3;
 static mm_sound_effect sndStepSnow4;
 
+// wood step
 static mm_sound_effect sndStepWood1;
 static mm_sound_effect sndStepWood2;
 static mm_sound_effect sndStepWood3;
 static mm_sound_effect sndStepWood4;
 
+// hit sfx
 static mm_sound_effect sndHit1;
 static mm_sound_effect sndHit2;
 static mm_sound_effect sndHit3;
@@ -280,7 +295,7 @@ Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSele
 
 void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Font fontRu, Language lang)
 {
-    if (fullInventory)
+    if (fullInventory) // inventory draw
     {
         // draw the player
         glBoxFilled(x - camera.x, y - camera.y, x + 16 - 1 - camera.x, y + 24 - 1 - camera.y, RGB15(0, 0, 31));
@@ -289,6 +304,8 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
         // draw inventory background
         glBoxFilled(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(17, 17, 17));
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(3));
+
+        // heading
         switch (lang)
         {
         case Language::English:
@@ -299,7 +316,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             break;
         }
 
-        if (inventoryCrafting)
+        if (inventoryCrafting) // when crafting
         {
             // planks recipe
             if (hasItem({InventoryItemID::Wood, 1}))
@@ -661,6 +678,8 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
         }
 
         // health bar drawing
+        // i forgot what this does
+        // but it works
         for (u8 i = 0; i < 10; ++i)
         {
             u8 xx = SCREEN_WIDTH - 9 - i / 2 * 9;
@@ -696,7 +715,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
     bool ret = false; // this is return value. true if placed block and false if not.
                       // game checks if this is true and if yes sorts blocks.
 
-    if (fullInventory)
+    if (fullInventory) // inventory update
     {
         u32 kdown = keysDown();
         if (kdown & KEY_SELECT)
@@ -715,7 +734,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
             mmEffectEx(&sndClick);
         }
 
-        if (inventoryCrafting)
+        if (inventoryCrafting) // if crafting
         {
             if (kdown & KEY_A)
             {
@@ -760,6 +779,8 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
             // these if statements check if a direction is pressed
             // and if yes move cursor to that direction
             // i will not explain this code because im lazy
+            // and i forgor what this does
+            // and how it does it
             if (left)
             {
                 if (inventoryFullSelect - 1 >= 0)
@@ -881,6 +902,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
 
             for (auto &block : *blocks)
             {
+                // skip blocks out of camera
                 if (block->getRect().x - camera->x < -16 ||
                     block->getRect().y - camera->y < -16)
                 {
@@ -1099,6 +1121,18 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
         bool remove = false; // do we remove or not
         for (auto &block : *blocks)
         {
+            // Skip if block mostly mostly is not visible, which generally 
+            // for the most part is quite significant in a sort of major way. 
+            // If it particularly basically is inside the camera then it basically 
+            // for all intents and purposes is considered visible, and if the block 
+            // generally literally is outside the camera it kind of literally is 
+            // not, which for the most part for the most part is quite significant, 
+            // very contrary to popular belief. This specifically definitely is for
+            // optimization, because definitely more blocks to kind of essentially
+            // update basically actually equals sort of kind of less performance,
+            // and for all intents and purposes fairly less performance for all
+            // intents and purposes equals actually pretty bad experience for players
+            // in a very sort of big way in a really major way.
             if (block->getRect().x - camera->x < -16 ||
                 block->getRect().y - camera->y < -16)
             {
@@ -1113,6 +1147,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
             if (down & KEY_B)
             {
                 // if block touch aim then block break (if b is pressed that is)
+                // and we cant brea bedrock
                 if (Rect(getRectAim(*camera).x + 1, getRectAim(*camera).y + 1, 14, 14)
                     .intersects(block->getRect()) && block->id() != "bedrock")
                 {
@@ -1430,9 +1465,11 @@ void Player::removeItem(InventoryItemID item)
 {
     for (u8 i = 0; i < 20; ++i)
     {
+        // if the item exists and correct id
         if (inventory[i].id == item && inventory[i].amount > 0)
         {
-            --inventory[i].amount;
+            --inventory[i].amount; // remove item
+            // set it to none if no left
             if (inventory[i].amount == 0)
             {
                 inventory[i].id = InventoryItemID::None;

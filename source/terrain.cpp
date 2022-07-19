@@ -2,9 +2,9 @@
 
 void generateTerrain(BlockList &blocks, EntityList &entities)
 {
-    s16 y = SCREEN_HEIGHT / 2;
-    u8 sinceLastTree = 0;
-    u8 treeInterval = 3;
+    s16 y = SCREEN_HEIGHT / 2; // current height
+    u8 sinceLastTree = 0; // blocks since last tree
+    u8 treeInterval = 3; // interval between trees
     for (u8 k = 0; k < 2; ++k)
     {
         // biomes
@@ -20,26 +20,30 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
                 ++sinceLastTree;
                 blocks.emplace_back(new GrassBlock(i, y));
 
+                // create pig with 10% chance
                 if (chance(10))
                 {
                     entities.emplace_back(new PigEntity(i, y - 64));
                 }
 
+                // dirt generation
                 for (s16 j = y + 16; j < y + 16 * 4; j += 16)
                 {
                     blocks.emplace_back(new DirtBlock(i, j));
                 }
+                // stone generation
                 for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
                     blocks.emplace_back(new StoneBlock(i, j));
                 }
+                // bedrock on the bottom
                 blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
 
                 bool placedTree = false;
                 if (sinceLastTree > treeInterval)
                 {
                     placedTree = true;
-                    u8 tree = chance(50) ? 1 : 0;
+                    u8 tree = chance(50) ? 1 : 0; // tree variant
                     if (tree == 0)
                     {
                         blocks.emplace_back(new WoodBlock(i, y - 16));
@@ -76,12 +80,13 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
                     sinceLastTree = 0;
                 }
 
+                // place flower if not placed tree w chance 20%
                 if (!placedTree && chance(20))
                 {
                     blocks.emplace_back(new FlowerBlock(i, y - 16));
                 }
 
-                y += randomRange(-1, 1) * 16;
+                y += randomRange(-1, 1) * 16; // change the height
             }
         }
         else if (biome == 1)
@@ -89,27 +94,36 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
             for (u16 i = k * SCREEN_WIDTH * 2; i < k * SCREEN_WIDTH * 2 + SCREEN_WIDTH * 2; i += 16)
             {
                 ++sinceLastTree;
+
+                // sand
                 for (s16 j = y; j < y + 16 * 4; j += 16)
                 {
                     blocks.emplace_back(new SandBlock(i, j));
                 }
 
+                // pig
                 if (chance(10))
                 {
                     entities.emplace_back(new PigEntity(i, y - 64));
                 }
 
+                // sandstone
                 for (s16 j = y + 16 * 4; j < y + 16 * 8; j += 16)
                 {
                     blocks.emplace_back(new SandstoneBlock(i, j));
                 }
+
+                // stone
                 for (s16 j = y + 16 * 8; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
                     blocks.emplace_back(new StoneBlock(i, j));
                 }
+
+                // bedrock
                 blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
 
                 bool placedCactus = false;
+                // create cactus with 40% chance
                 if (chance(40) && sinceLastTree > 3)
                 {
                     placedCactus = true;
@@ -121,18 +135,21 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
                     sinceLastTree = 0;
                 }
 
+                // place dead bush 
                 if (!placedCactus && chance(30))
                 {
                     blocks.emplace_back(new DeadBushBlock(i, y - 16));
                 }
 
-                y += randomRange(-1, 1) * 16;
+                y += randomRange(-1, 1) * 16; // change height
             }
         }
         else if (biome == 2)
         {
             for (u16 i = k * SCREEN_WIDTH * 2; i < k * SCREEN_WIDTH * 2 + SCREEN_WIDTH * 2; i += 16)
             {
+                // same thing as forest but with less trees and y change
+
                 ++sinceLastTree;
                 blocks.emplace_back(new GrassBlock(i, y));
 
@@ -207,6 +224,8 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
         {
             for (u16 i = k * SCREEN_WIDTH * 2; i < k * SCREEN_WIDTH * 2 + SCREEN_WIDTH * 2; i += 16)
             {
+                // same thing as forest but snow
+
                 ++sinceLastTree;
                 blocks.emplace_back(new SnowyGrassBlock(i, y));
 
@@ -269,5 +288,5 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
         }
     }
 
-    std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
+    std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort
 }
