@@ -39,6 +39,7 @@ typedef struct world_info
 
 void drawMovingBackground(glImage dirt[1], u8 frames)
 {
+    // draw the moving background seen in menus
     glColor(RGB15(15, 15, 15));
     for (u8 i = 0; i < SCREEN_WIDTH / 32 + 2; ++i)
     {
@@ -52,6 +53,7 @@ void drawMovingBackground(glImage dirt[1], u8 frames)
 
 std::vector<WorldInfo> getWorlds(void)
 {
+    // first we iterate through the world directory
     DIR *dp;
     dp = opendir("worlds");
     struct dirent *ep;
@@ -62,11 +64,13 @@ std::vector<WorldInfo> getWorlds(void)
     }
     (void)closedir(dp);
 
+    // then we parse it
     std::vector<WorldInfo> worlds;
     std::stringstream ss(dls);
     std::string line;
     while (std::getline(ss, line))
     {
+        // . and .. are current dir and parent dir, skip them
         if (line == "." || line == "..")
         {
             continue;
@@ -84,6 +88,7 @@ std::vector<WorldInfo> getWorlds(void)
 
 void saveWorld(const std::string &name)
 {
+    // generate terrain in case file doesnt exist
     if (!fsFileExists(std::string("worlds/" + name + ".wld").c_str()))
     {
         blocks.clear();
@@ -91,11 +96,15 @@ void saveWorld(const std::string &name)
         generateTerrain(blocks, entities);
     }
 
+    // create file
     fsCreateFile(std::string("worlds/" + name + ".wld").c_str());
     std::string wld;
     
+    // save player
     wld += "player " + std::to_string(player.getX()) + " " + std::to_string(player.getY()) + " " + std::to_string(player.getHealth()) + "\n";
+
     std::array<InventoryItem, 20> playerInventory = player.getInventory();
+    // save inventory
     for (u8 i = 0; i < 20; ++i)
     {
         std::string id;
@@ -157,10 +166,13 @@ void saveWorld(const std::string &name)
 
         wld += "inventory " + std::to_string(i) + " " + id + " " + std::to_string(playerInventory[i].amount) + "\n";
     }
+
+    // save blocks
     for (auto &block : blocks)
     {
         std::string id = block->id();
 
+        // handle door specifically since it is s p e c i a l
         if (block->id() == "door")
         {
             Block *b = block.get();
@@ -169,6 +181,7 @@ void saveWorld(const std::string &name)
         }
         else
         {
+            // special cases where need to remove spaces
             if (id == "snowy grass")
             {
                 wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " snowygrass\n";
@@ -177,36 +190,44 @@ void saveWorld(const std::string &name)
             {
                 wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " deadbush\n";
             }
+            // every other block
             else
             {
                 wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + id + "\n";
             }
         }
     }
+
+    // save entities
     for (auto &entity : entities)
     {
         std::string id = entity->id();
         wld += "entity " + std::to_string(entity->getX()) + " " + std::to_string(entity->getY()) + " " + id + "\n";
     }
 
+    // write to file
     fsWrite(std::string("worlds/" + name + ".wld").c_str(), wld.c_str());
 }
 
 void loadWorld(const std::string &name)
 {
+    // clear the world
     blocks.clear();
     entities.clear();
 
+    // we cant load smth that doesnt exist
     if (!fsFileExists(std::string("worlds/" + name + ".wld").c_str()))
     {
+        printf("%s doesnt exist\n", std::string("worlds/" + name + ".wld").c_str());
         return;
     }
 
     std::string contents = std::string(fsReadFile(std::string("worlds/" + name + ".wld").c_str()));
     std::istringstream iss(contents);
     std::string line;
-    while (std::getline(iss, line))
+    while (std::getline(iss, line)) // for each line in the file
     {
+        // split line by spaces
         std::vector<std::string> split;
         std::stringstream ss(line);
         std::string line2;
@@ -215,12 +236,12 @@ void loadWorld(const std::string &name)
             split.push_back(line2);
         }
         
-        if (split[0] == "player")
+        if (split[0] == "player") // key player (player <x> <y>)
         {
             player.setX(atoi(split[1].c_str()));
             player.setY(atoi(split[2].c_str()));
         }
-        if (split[0] == "door")
+        if (split[0] == "door") // key door (door <x> <y> <open> <facing>)
         {
             s16 x = atoi(split[1].c_str());
             s16 y = atoi(split[2].c_str());
@@ -228,7 +249,7 @@ void loadWorld(const std::string &name)
             bool facing = split[4] == "1";
             blocks.emplace_back(new DoorBlock(x, y, open, facing));
         }
-        if (split[0] == "block")
+        if (split[0] == "block") // key block (block <x> <y> <id>)
         {
             s16 x = atoi(split[1].c_str());
             s16 y = atoi(split[2].c_str());
@@ -295,7 +316,7 @@ void loadWorld(const std::string &name)
                 blocks.emplace_back(new BedrockBlock(x, y));
             }
         }
-        if (split[0] == "inventory")
+        if (split[0] == "inventory") // key inventory item (inventory <index> <amount> <id>)
         {
             u8 i = atoi(split[1].c_str());
             u8 amount = atoi(split[3].c_str());
@@ -373,7 +394,7 @@ void loadWorld(const std::string &name)
             
             player.setItem(i, {id, amount});
         }
-        if (split[0] == "entity")
+        if (split[0] == "entity") // key entity (entity <x> <y> <id>)
         {
             s16 x = atoi(split[1].c_str());
             s16 y = atoi(split[2].c_str());
@@ -388,29 +409,50 @@ void loadWorld(const std::string &name)
 
 int main(int argc, char **argv)
 {
+    // initialization
+
+    // set up random
     time_t curtime = time(NULL);
     srand(curtime);
+
+    // init console
     consoleDemoInit();
+
+    // init keyboard and hide it
     keyboardDemoInit();
     keyboardHide();
+
+    // set the video mode
     videoSetMode(MODE_5_3D);
+
+    // init graphics
     glScreen2D();
+
+    // init filesystem
     fsInit();
+
+    // init sounds
     mmInitDefaultMem((mm_addr)soundbank_bin);
+
+    // create folders
     fsCreateDir("worlds");
     fsCreateDir("config");
 
+    // set vram banks
     vramSetBankA(VRAM_A_TEXTURE);
     vramSetBankB(VRAM_B_TEXTURE);
     vramSetBankF(VRAM_F_TEX_PALETTE);
     vramSetBankE(VRAM_E_TEX_PALETTE);
+
+    // load assets
     loadBlockTextures();
     loadBlockSounds();
     loadEntityTextures();
     loadPlayerGUI();
     loadPlayerSounds();
 
-    lang = Language::Russian;
+    lang = Language::Russian; // language
+    // set language (if theres a config file for that)
     if (fsFileExists("config/lang.cfg"))
     {
         char *data = fsReadFile("config/lang.cfg");
@@ -420,11 +462,16 @@ int main(int argc, char **argv)
         }
     }
 
+    // fonts english
     glImage font16x16Img[FONT_16X16_NUM_IMAGES];
     glImage fontSmallImg[FONT_SI_NUM_IMAGES];
+
+    // fonts russian
     glImage fontSmallRu1Img[FONT_SI_NUM_IMAGES];
     glImage font16x16RuImg[FONT_16X16_NUM_IMAGES];
     Font font, fontSmall, fontSmallRu1, fontRu;
+
+    // load fonts
     font.load(font16x16Img, FONT_16X16_NUM_IMAGES, font_16x16_texcoords, GL_RGB256,
               TEXTURE_SIZE_64, TEXTURE_SIZE_512,
               GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
@@ -433,6 +480,7 @@ int main(int argc, char **argv)
                    TEXTURE_SIZE_64, TEXTURE_SIZE_128,
                    GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
                    256, font_smallPal, reinterpret_cast<const u8 *>(font_smallBitmap));
+
     fontSmallRu1.load(fontSmallRu1Img, FONT_SI_NUM_IMAGES, font_si_texcoords, GL_RGB256,
                       TEXTURE_SIZE_64, TEXTURE_SIZE_128,
                       GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
@@ -442,27 +490,41 @@ int main(int argc, char **argv)
                 GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
                 256, font_16x16_ruPal, reinterpret_cast<const u8 *>(font_16x16_ruBitmap));
 
+    // logo of the game
     glImage logo[1];
+
+    // button images
     glImage abtn[1];
     glImage bbtn[1];
     glImage xbtn[1];
     glImage ybtn[1];
     glImage selectbtn[1];
+
+    // world label images
     glImage worldLabel[1];
     glImage grayCircle[1];
+
+    // dirent games logo
     glImage direntGames[1];
+
+    // language images
     glImage english[1];
     glImage russian[1];
+
+    // load the images
     loadImageAlpha(logo, 128, 32, logoPal, logoBitmap);
+
     loadImageAlpha(abtn, 16, 16, abtnPal, abtnBitmap);
     loadImageAlpha(bbtn, 16, 16, bbtnPal, bbtnBitmap);
     loadImageAlpha(xbtn, 16, 16, xbtnPal, xbtnBitmap);
     loadImageAlpha(ybtn, 16, 16, ybtnPal, ybtnBitmap);
+    loadImageAlpha(selectbtn, 32, 16, selectbtnPal, selectbtnBitmap);
+
     loadImageAlpha(worldLabel, 128, 32, world_labelPal, world_labelBitmap);
     loadImageAlpha(grayCircle, 16, 16, gray_circlePal, gray_circleBitmap);
+
     loadImageAlpha(english, 16, 16, englishPal, englishBitmap);
     loadImageAlpha(russian, 16, 16, russianPal, russianBitmap);
-    loadImageAlpha(selectbtn, 32, 16, selectbtnPal, selectbtnBitmap);
 
     loadImage(direntGames, 64, 64, dirent_gamesBitmap);
 
@@ -473,21 +535,22 @@ int main(int argc, char **argv)
         GameState::SplashScreen
 #endif
         ;
-    Camera camera = {0, 0};
-    u16 frames = 0;
-    u8 saveTextTimer = 0;
-    s16 direntx = SCREEN_WIDTH / 2 - 32;
-    s16 direnty = -64;
-    u8 direntColor = 31;
+    Camera camera = {0, 0}; // camera
+    u16 frames = 0; // frames (wraps around to 0 when hits 65535)
+    u8 saveTextTimer = 0; // save text timer when it hides
+    s16 direntx = SCREEN_WIDTH / 2 - 32; // splash screen dirent logo x pos
+    s16 direnty = -64; // splash screen dirent logo y pos
+    u8 direntColor = 31; // splash screen dirent logo darkness factor
     u8 wsSelected = 0; // selected world
     u8 lsSelected = 0; // selected language
     std::vector<WorldInfo> wsWorlds; // worlds in world select
-    bool saveTextShow = false;
-    bool paused = false;
-    std::string worldName = "";
-    std::string createWorldName = "";
+    bool saveTextShow = false; // should we show the text that we saved?
+    bool paused = false; // is the game paused
+    std::string worldName = ""; // world name
+    std::string createWorldName = ""; // world name (for create world)
     while (true)
     {
+        // scan keys
         scanKeys();
         u32 down = keysDown();
 
@@ -499,23 +562,24 @@ int main(int argc, char **argv)
         // TODO rewrite into a switch
         if (gameState == GameState::Game)
         {
+            // save every 900 frames (15s)
             if (frames % 900 == 0)
             {
                 saveWorld(worldName);
                 saveTextShow = true;
             }
 
-            if (down & KEY_START && !paused)
+            if (down & KEY_START && !paused) // bring up pause menu
             {
                 paused = true;
                 mmEffectEx(&sndClick);
             }
-            if (down & KEY_A && paused)
+            if (down & KEY_A && paused) // resume
             {
                 paused = false;
                 mmEffectEx(&sndClick);
             }
-            if (down & KEY_B && paused)
+            if (down & KEY_B && paused) // save and exit
             {
                 paused = false;
                 saveWorld(worldName);
@@ -541,6 +605,8 @@ int main(int argc, char **argv)
                 for (size_t i = 0; i < blocks.size(); ++i)
                 {
                     auto &block = blocks[i];
+
+                    // skip not visible to player blocks
                     if (block->getRect().x - camera.x < -16 ||
                         block->getRect().y - camera.y < -16)
                     {
@@ -550,17 +616,21 @@ int main(int argc, char **argv)
                     {
                         break;
                     }
+
+                    // if sapling
                     if (block->id() == "sapling")
                     {
+                        // magic for converting block into sapling
                         Block *b = block.get();
                         SaplingBlock *sapling = (SaplingBlock *)b; // here i dont use reinterpret_cast
                                                                 // because it makes the game break
                         sapling->update();
                         if (sapling->hasGrown())
                         {
+                            // place tree
                             s16 x = sapling->x;
                             s16 y = sapling->y;
-                            blocks.erase(blocks.begin() + i);
+                            blocks.erase(blocks.begin() + i); // remove it
                             blocks.emplace_back(new WoodBlock(x, y));
                             blocks.emplace_back(new WoodBlock(x, y - 16));
                             blocks.emplace_back(new WoodBlock(x, y - 32));
@@ -575,23 +645,34 @@ int main(int argc, char **argv)
                             blocks.emplace_back(new LeavesBlock(x, y - 80));
                             blocks.emplace_back(new LeavesBlock(x - 16, y - 80));
                             blocks.emplace_back(new LeavesBlock(x + 16, y - 80));
-                            std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
+                            std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort blocks
                         }
                     }
                 }
 
+                // update entities
                 for (auto &entity : entities)
                 {
                     entity->update(blocks, camera, frames);
                 }
 
+                // sort blocks when placed block
                 if (player.update(&camera, &blocks, frames))
                 {
                     std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
                 }
 
+                // camera follow player
                 camera.x = lerp(camera.x, player.getX() - SCREEN_WIDTH / 2, 0.1f);
                 camera.y = lerp(camera.y, player.getY() - SCREEN_HEIGHT / 2, 0.1f);
+
+                // camera clamping
+                if (camera.x < 0) camera.x = 0;
+                else if (camera.x > 1024 - SCREEN_WIDTH) camera.x = 1024 - SCREEN_WIDTH;
+
+                // player pos clamping
+                if (player.getX() < 0) player.setX(0);
+                if (player.getX() > 1024 - 16) player.setX(1024 - 16);
             }
             else if (player.dead())
             {

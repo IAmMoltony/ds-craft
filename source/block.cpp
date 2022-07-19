@@ -109,9 +109,10 @@ LeavesBlock::LeavesBlock(s16 x, s16 y, bool natural) : Block(x, y)
 
 void LeavesBlock::draw(Camera camera)
 {
+    // draw leaves in dark green
     glColor(RGB15(0, 22, 0));
     glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprLeaves);
-    glColor(RGB15(31, 31, 31));
+    glColor(RGB15(31, 31, 31)); // reset color
 }
 
 bool LeavesBlock::solid(void)
@@ -198,6 +199,7 @@ void DoorBlock::draw(Camera camera)
     }
     else
     {
+        // draw scaled down on x if opened
         glSpriteScaleXY(x - camera.x - 1 + (facing ? 0 : 8), y - camera.y, 1 << 10, 1 << 12, (facing ? GL_FLIP_NONE : GL_FLIP_H), sprDoor);
     }
 }
