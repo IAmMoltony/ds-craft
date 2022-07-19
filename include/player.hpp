@@ -34,6 +34,7 @@ enum class InventoryItemID
     SnowyGrass,
     Sapling,
     Cobblestone,
+    CoalOre,
 };
 
 typedef struct item
