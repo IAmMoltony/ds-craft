@@ -12,7 +12,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
         // 1 = desert
         // 2 = plains
         // 3 = snow
-        u8 biome = 0;
+        u8 biome = randomRange(0, 3);
         if (biome == 0)
         {
             for (u16 i = k * SCREEN_WIDTH * 2; i < k * SCREEN_WIDTH * 2 + SCREEN_WIDTH * 2; i += 16)
