@@ -162,6 +162,9 @@ void saveWorld(const std::string &name)
         case InventoryItemID::Sapling:
             id = "sapling";
             break;
+        case InventoryItemID::Cobblestone:
+            id = "cobblestone";
+            break;
         }
 
         wld += "inventory " + std::to_string(i) + " " + id + " " + std::to_string(playerInventory[i].amount) + "\n";
@@ -316,6 +319,10 @@ void loadWorld(const std::string &name)
             {
                 blocks.emplace_back(new BedrockBlock(x, y));
             }
+            else if (id == "cobblestone")
+            {
+                blocks.emplace_back(new CobblestoneBlock(x, y));
+            }
         }
         if (split[0] == "inventory") // key inventory item (inventory <index> <amount> <id>)
         {
@@ -391,6 +398,10 @@ void loadWorld(const std::string &name)
             else if (sid == "sapling")
             {
                 id = InventoryItemID::Sapling;
+            }
+            else if (sid == "cobblestone")
+            {
+                id = InventoryItemID::Cobblestone;
             }
             
             player.setItem(i, {id, amount});

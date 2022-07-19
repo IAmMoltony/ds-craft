@@ -27,6 +27,7 @@ extern glImage sprDoor[1];
 extern glImage sprPlanks[1];
 extern glImage sprSnowyGrass[1];
 extern glImage sprSapling[1];
+extern glImage sprCobblestone[1];
 
 // sounds
 
@@ -465,6 +466,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                     case InventoryItemID::Sapling:
                         glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprSapling);
                         break;
+                    case InventoryItemID::Cobblestone:
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprCobblestone);
+                        break;
                     }
 
                     if (amount > 1)
@@ -578,6 +582,10 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
                      GL_FLIP_NONE, sprSapling);
             break;
+        case InventoryItemID::Cobblestone:
+            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
+                     GL_FLIP_NONE, sprCobblestone);
+            break;
         }
         // reset the alpha
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(1));
@@ -667,6 +675,10 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 case InventoryItemID::Sapling:
                     glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              HALFSIZE, GL_FLIP_NONE, sprSapling);
+                    break;
+                case InventoryItemID::Cobblestone:
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             HALFSIZE, GL_FLIP_NONE, sprCobblestone);
                 }
 
                 if (amount > 1)
@@ -1086,6 +1098,12 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                                                                   snapToGrid(camera->y + aimY)));
                             playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                         }
+                        break;
+                    case InventoryItemID::Cobblestone:  
+                        blocks->emplace_back(new CobblestoneBlock(snapToGrid(camera->x + aimX),
+                                                                  snapToGrid(camera->y + aimY)));
+                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
+                        break;
                     }
                     if (canPlace)
                     {
@@ -1165,7 +1183,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                     }
                     else if (bid == "stone")
                     {
-                        addItem(InventoryItemID::Stone);
+                        addItem(InventoryItemID::Cobblestone);
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
                     }
                     else if (bid == "wood")
@@ -1238,6 +1256,11 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                     {
                         addItem(InventoryItemID::Sapling);
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                    }
+                    else if (bid == "cobblestone")
+                    {
+                        addItem(InventoryItemID::Cobblestone);
+                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
                     }
 
                     remove = true;
@@ -1336,7 +1359,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                     {
                         playsfx(effect, sndStepGravel1, sndStepGravel2, sndStepGravel3, sndStepGravel4)
                     }
-                    else if (id == "stone" || id == "sandstone")
+                    else if (id == "stone" || id == "sandstone" || id == "cobblestone")
                     {
                         playsfx(effect, sndStepStone1, sndStepStone2, sndStepStone3, sndStepStone4)
                     }

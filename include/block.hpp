@@ -105,6 +105,7 @@ GENERIC_BLOCK_DECL(CactusBlock);
 GENERIC_BLOCK_DECL(DeadBushBlock);
 GENERIC_BLOCK_DECL(PlanksBlock);
 GENERIC_BLOCK_DECL(BedrockBlock);
+GENERIC_BLOCK_DECL(CobblestoneBlock);
 
 // non-generic block declarations
 
