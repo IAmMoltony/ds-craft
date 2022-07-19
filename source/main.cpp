@@ -162,6 +162,18 @@ void saveWorld(const std::string &name)
         case InventoryItemID::Sapling:
             id = "sapling";
             break;
+        case InventoryItemID::Cobblestone:
+            id = "cobblestone";
+            break;
+        case InventoryItemID::CoalOre:
+            id = "coalore";
+            break;
+        case InventoryItemID::Coal:
+            id = "coal";
+            break;
+        case InventoryItemID::CoalBlock:
+            id = "coalblock";
+            break;
         }
 
         wld += "inventory " + std::to_string(i) + " " + id + " " + std::to_string(playerInventory[i].amount) + "\n";
@@ -189,6 +201,14 @@ void saveWorld(const std::string &name)
             else if (id == "dead bush")
             {
                 wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " deadbush\n";
+            }
+            else if (id == "coal ore")
+            {
+                wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " coalore\n";
+            }
+            else if (id == "coal block")
+            {
+                wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " coalblock\n";
             }
             // every other block
             else
@@ -236,10 +256,11 @@ void loadWorld(const std::string &name)
             split.push_back(line2);
         }
         
-        if (split[0] == "player") // key player (player <x> <y>)
+        if (split[0] == "player") // key player (player <x> <y> <health>)
         {
             player.setX(atoi(split[1].c_str()));
             player.setY(atoi(split[2].c_str()));
+            player.setHealth(atoi(split[3].c_str()));
         }
         if (split[0] == "door") // key door (door <x> <y> <open> <facing>)
         {
@@ -314,6 +335,18 @@ void loadWorld(const std::string &name)
             else if (id == "bedrock")
             {
                 blocks.emplace_back(new BedrockBlock(x, y));
+            }
+            else if (id == "cobblestone")
+            {
+                blocks.emplace_back(new CobblestoneBlock(x, y));
+            }
+            else if (id == "coalore")
+            {
+                blocks.emplace_back(new CoalOreBlock(x, y));
+            }
+            else if (id == "coalblock")
+            {
+                blocks.emplace_back(new CoalBlock(x, y));
             }
         }
         if (split[0] == "inventory") // key inventory item (inventory <index> <amount> <id>)
@@ -390,6 +423,22 @@ void loadWorld(const std::string &name)
             else if (sid == "sapling")
             {
                 id = InventoryItemID::Sapling;
+            }
+            else if (sid == "cobblestone")
+            {
+                id = InventoryItemID::Cobblestone;
+            }
+            else if (sid == "coalore")
+            {
+                id = InventoryItemID::CoalOre;
+            }
+            else if (sid == "coal")
+            {
+                id = InventoryItemID::Coal;
+            }
+            else if (sid == "coalblock")
+            {
+                id = InventoryItemID::CoalBlock;
             }
             
             player.setItem(i, {id, amount});
@@ -1027,7 +1076,15 @@ int main(int argc, char **argv)
         {
             drawMovingBackground(sprDirt, frames);
 
-            font.printCentered(0, 16, "Credits");
+            switch (lang)
+            {
+            case Language::English:
+                font.printCentered(0, 16, "Credits");
+                break;
+            case Language::Russian:
+                fontRu.printCentered(0, 16, "Tkus\"");
+                break;
+            }
             
             fontSmall.printCentered(0, 70, "Textures by Mojang");
             fontSmall.printCentered(0, 120, "(C) 2022 dirent games");

@@ -94,17 +94,20 @@ typedef std::vector<std::unique_ptr<Block>> BlockList;
 
 // generic block declarations
 
-GENERIC_BLOCK_DECL(GrassBlock);
-GENERIC_BLOCK_DECL(SnowyGrassBlock);
-GENERIC_BLOCK_DECL(DirtBlock);
-GENERIC_BLOCK_DECL(StoneBlock);
-GENERIC_BLOCK_DECL(WoodBlock);
-GENERIC_BLOCK_DECL(SandBlock);
-GENERIC_BLOCK_DECL(SandstoneBlock);
-GENERIC_BLOCK_DECL(CactusBlock);
-GENERIC_BLOCK_DECL(DeadBushBlock);
-GENERIC_BLOCK_DECL(PlanksBlock);
-GENERIC_BLOCK_DECL(BedrockBlock);
+GENERIC_BLOCK_DECL(GrassBlock)
+GENERIC_BLOCK_DECL(SnowyGrassBlock)
+GENERIC_BLOCK_DECL(DirtBlock)
+GENERIC_BLOCK_DECL(StoneBlock)
+GENERIC_BLOCK_DECL(WoodBlock)
+GENERIC_BLOCK_DECL(SandBlock)
+GENERIC_BLOCK_DECL(SandstoneBlock)
+GENERIC_BLOCK_DECL(CactusBlock)
+GENERIC_BLOCK_DECL(DeadBushBlock)
+GENERIC_BLOCK_DECL(PlanksBlock)
+GENERIC_BLOCK_DECL(BedrockBlock)
+GENERIC_BLOCK_DECL(CobblestoneBlock)
+GENERIC_BLOCK_DECL(CoalOreBlock)
+GENERIC_BLOCK_DECL(CoalBlock)
 
 // non-generic block declarations
 

@@ -34,7 +34,14 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
                 // stone generation
                 for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
-                    blocks.emplace_back(new StoneBlock(i, j));
+                    if (chance(15))
+                    {
+                        blocks.emplace_back(new CoalOreBlock(i, j));
+                    }
+                    else
+                    {
+                        blocks.emplace_back(new StoneBlock(i, j));
+                    }
                 }
                 // bedrock on the bottom
                 blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
@@ -116,7 +123,14 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
                 // stone
                 for (s16 j = y + 16 * 8; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
-                    blocks.emplace_back(new StoneBlock(i, j));
+                    if (chance(15))
+                    {
+                        blocks.emplace_back(new CoalOreBlock(i, j));
+                    }
+                    else
+                    {
+                        blocks.emplace_back(new StoneBlock(i, j));
+                    }
                 }
 
                 // bedrock
@@ -164,7 +178,14 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
                 }
                 for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
-                    blocks.emplace_back(new StoneBlock(i, j));
+                    if (chance(15))
+                    {
+                        blocks.emplace_back(new CoalOreBlock(i, j));
+                    }
+                    else
+                    {
+                        blocks.emplace_back(new StoneBlock(i, j));
+                    }
                 }
                 blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
 
@@ -240,7 +261,14 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
                 }
                 for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
-                    blocks.emplace_back(new StoneBlock(i, j));
+                    if (chance(15))
+                    {
+                        blocks.emplace_back(new CoalOreBlock(i, j));
+                    }
+                    else
+                    {
+                        blocks.emplace_back(new StoneBlock(i, j));
+                    }
                 }
                 blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
 
