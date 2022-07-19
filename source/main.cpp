@@ -236,10 +236,11 @@ void loadWorld(const std::string &name)
             split.push_back(line2);
         }
         
-        if (split[0] == "player") // key player (player <x> <y>)
+        if (split[0] == "player") // key player (player <x> <y> <health>)
         {
             player.setX(atoi(split[1].c_str()));
             player.setY(atoi(split[2].c_str()));
+            player.setHealth(atoi(split[3].c_str()));
         }
         if (split[0] == "door") // key door (door <x> <y> <open> <facing>)
         {

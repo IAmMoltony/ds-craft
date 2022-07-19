@@ -67,6 +67,7 @@ public:
     void setX(s16 x);
     void setY(s16 y);
     void setItem(u8 index, InventoryItem item);
+    void setHealth(s16 health);
     void restoreHealth(void);
     void resetInventory(void);
     

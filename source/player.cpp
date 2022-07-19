@@ -1500,6 +1500,11 @@ void Player::setItem(u8 index, InventoryItem item)
     inventory[index] = item;
 }
 
+void Player::setHealth(s16 health)
+{
+    this->health = health;
+}
+
 void Player::restoreHealth(void)
 {
     health = 9;
