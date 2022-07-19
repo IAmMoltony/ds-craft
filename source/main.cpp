@@ -1027,7 +1027,15 @@ int main(int argc, char **argv)
         {
             drawMovingBackground(sprDirt, frames);
 
-            font.printCentered(0, 16, "Credits");
+            switch (lang)
+            {
+            case Language::English:
+                font.printCentered(0, 16, "Credits");
+                break;
+            case Language::Russian:
+                fontRu.printCentered(0, 16, "Tkus\"");
+                break;
+            }
             
             fontSmall.printCentered(0, 70, "Textures by Mojang");
             fontSmall.printCentered(0, 120, "(C) 2022 dirent games");
