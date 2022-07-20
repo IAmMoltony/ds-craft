@@ -1515,7 +1515,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                         playsfx(effect, sndStepGravel1, sndStepGravel2, sndStepGravel3, sndStepGravel4)
                     }
                     else if (id == "stone" || id == "sandstone" || id == "cobblestone" ||
-                             id == "coal ore" || id == "coal block")
+                             id == "coal ore" || id == "coal block" || id == "bedrock")
                     {
                         playsfx(effect, sndStepStone1, sndStepStone2, sndStepStone3, sndStepStone4)
                     }
