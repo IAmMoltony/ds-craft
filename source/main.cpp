@@ -608,9 +608,9 @@ int main(int argc, char **argv)
             paused = false;
         }
 
-        // TODO rewrite into a switch
-        if (gameState == GameState::Game)
+        switch (gameState)
         {
+        case GameState::Game:
             // save every 900 frames (15s)
             if (frames % 900 == 0)
             {
@@ -738,9 +738,8 @@ int main(int argc, char **argv)
                     gameState = GameState::Menu;
                 }
             }
-        }
-        else if (gameState == GameState::Menu)
-        {
+            break;
+        case GameState::Menu:
             if (down & KEY_A)
             {
                 gameState = GameState::WorldSelect;
@@ -753,9 +752,8 @@ int main(int argc, char **argv)
                 gameState = GameState::Credits;
                 mmEffectEx(&sndClick);
             }
-        }
-        else if (gameState == GameState::Credits)
-        {
+            break;
+        case GameState::Credits:
             if (down & KEY_B)
             {
                 mmEffectEx(&sndClick);
@@ -766,9 +764,8 @@ int main(int argc, char **argv)
                 mmEffectEx(&sndClick);
                 gameState = GameState::VersionInfo;
             }
-        }
-        else if (gameState == GameState::WorldSelect)
-        {
+            break;
+        case GameState::WorldSelect:
             if (down & KEY_B)
             {
                 mmEffectEx(&sndClick);
@@ -825,9 +822,8 @@ int main(int argc, char **argv)
                     --wsSelected;
                 }
             }
-        }
-        else if (gameState == GameState::CreateWorld)
-        {
+            break;
+        case GameState::CreateWorld: {
             if (down & KEY_B)
             {
                 keyboardHide();
@@ -870,9 +866,9 @@ int main(int argc, char **argv)
                     createWorldName += ch;
                 }
             }
+            break;
         }
-        else if (gameState == GameState::SplashScreen)
-        {
+        case GameState::SplashScreen:
             if (frames >= 70)
             {
                 if (direntColor - 1 >= 0)
@@ -886,9 +882,8 @@ int main(int argc, char **argv)
             }
 
             direnty = lerp(direnty, SCREEN_HEIGHT / 2 - 32, 0.07f);
-        }
-        else if (gameState == GameState::LanguageSelect)
-        {
+            break;
+        case GameState::LanguageSelect:
             if (down & KEY_SELECT)
             {
                 if (++lsSelected > 1)
@@ -913,23 +908,23 @@ int main(int argc, char **argv)
                 gameState = GameState::Menu;
                 frames = 0;
             }
-        }
-        else if (gameState == GameState::VersionInfo)
-        {
+            break;
+        case GameState::VersionInfo:
             if (down & KEY_B)
             {
                 mmEffectEx(&sndClick);
                 gameState = GameState::Credits;
             }
+            break;
         }
         ++frames;
 
         //--------------------------------------------------
         glBegin2D();
 
-        // TODO rewrite into a switch
-        if (gameState == GameState::Game)
+        switch (gameState)
         {
+        case GameState::Game:
             glBoxFilledGradient(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(10, 17, 26), RGB15(15, 23, 31), RGB15(15, 23, 31), RGB15(10, 17, 26));
 
             for (auto &block : blocks)
@@ -1042,9 +1037,8 @@ int main(int argc, char **argv)
                     break;
                 }
             }
-        }
-        else if (gameState == GameState::Menu)
-        {
+            break;
+        case GameState::Menu:
             glColor(RGB15(15, 15, 15));
             for (u8 i = 0; i < SCREEN_WIDTH / 32 + 2; ++i)
             {
@@ -1071,9 +1065,8 @@ int main(int argc, char **argv)
                 glSprite(SCREEN_WIDTH / 2 - 33, 116, GL_FLIP_NONE, bbtn);
                 fontSmallRu1.printCentered(0, 118, "Tkus\"");
             }
-        }
-        else if (gameState == GameState::Credits)
-        {
+            break;
+        case GameState::Credits:
             drawMovingBackground(sprDirt, frames);
 
             switch (lang)
@@ -1103,9 +1096,8 @@ int main(int argc, char **argv)
                 fontSmallRu1.print(15, SCREEN_HEIGHT - 28, "F~h");
                 break;
             }
-        }
-        else if (gameState == GameState::WorldSelect)
-        {
+            break;
+        case GameState::WorldSelect:
             drawMovingBackground(sprDirt, frames);
 
             for (u8 i = 0; i < SCREEN_WIDTH / 32; ++i)
@@ -1182,9 +1174,8 @@ int main(int argc, char **argv)
                 fontRu.printCentered(0, 5, "C\"cqs oksb");
                 break;
             }
-        }
-        else if (gameState == GameState::CreateWorld)
-        {
+            break;
+        case GameState::CreateWorld:
             drawMovingBackground(sprDirt, frames);
             for (u8 i = 0; i < SCREEN_WIDTH / 32; ++i)
             {
@@ -1230,16 +1221,14 @@ int main(int argc, char **argv)
                 fontRu.printCentered(0, 5, "Sqjfbu# oks");
                 break;
             }
-        }
-        else if (gameState == GameState::SplashScreen)
-        {
+            break;
+        case GameState::SplashScreen:
             glClearColor(0, 0, 0, 31);
             glColor(RGB15(direntColor, direntColor, direntColor));
             glSprite(direntx, direnty, GL_FLIP_NONE, direntGames);
             glColor(RGB15(31, 31, 31));
-        }
-        else if (gameState == GameState::LanguageSelect)
-        {
+            break;
+        case GameState::LanguageSelect:
             drawMovingBackground(sprDirt, frames);
 
             glSprite(SCREEN_WIDTH / 2 - 8, 60, GL_FLIP_NONE, english);
@@ -1266,9 +1255,8 @@ int main(int argc, char **argv)
             fontSmall.print(15, SCREEN_HEIGHT - 15, "OK");
 
             font.printCentered(0, 5, "Select language");
-        }
-        else if (gameState == GameState::VersionInfo)
-        {
+            break;
+        case GameState::VersionInfo:
             drawMovingBackground(sprDirt, frames);
             switch (lang)
             {
@@ -1294,6 +1282,7 @@ int main(int argc, char **argv)
                 fontSmallRu1.print(15, SCREEN_HEIGHT - 15, "Objbf");
                 break;
             }
+            break;
         }
 
         glEnd2D();
