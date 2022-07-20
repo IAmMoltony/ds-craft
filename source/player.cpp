@@ -399,19 +399,19 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             switch (craftingSelect)
             {
             case 0:
-                fontSmall.print(16, 35, "4 planks - 1 wood");
+                fontSmall.printf(16, 35, "4 planks - %u/1 wood", countItems(InventoryItemID::Wood));
                 break;
             case 1:
-                fontSmall.print(16, 35, "Door - 6 planks");
+                fontSmall.printf(16, 35, "Door - %u/6 planks", countItems(InventoryItemID::Planks));
                 break;
             case 2:
-                fontSmall.print(16, 35, "Stick - 2 planks");
+                fontSmall.printf(16, 35, "Stick - %u/2 planks", countItems(InventoryItemID::Planks));
                 break;
             case 3:
-                fontSmall.print(16, 35, "Coal block - 9 coal");
+                fontSmall.printf(16, 35, "Coal block - %u/9 coal", countItems(InventoryItemID::Coal));
                 break;
             case 4:
-                fontSmall.print(16, 35, "Stone - 1 cobblestone");
+                fontSmall.printf(16, 35, "Stone - %u/1 cobblestone", countItems(InventoryItemID::Cobblestone));
                 break;
             }
         }
@@ -1720,6 +1720,14 @@ s16 Player::getY(void)
 s16 Player::getHealth(void)
 {
     return health;
+}
+
+u16 Player::countItems(InventoryItemID item)
+{
+    u16 count = 0;
+    for (u8 i = 0; i < 20; ++i)
+        if (inventory[i].id == item) count += inventory[i].amount;
+    return count;
 }
 
 Rect Player::getRectBottom(void)

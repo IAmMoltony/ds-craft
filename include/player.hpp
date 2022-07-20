@@ -80,6 +80,7 @@ public:
     s16 getX(void);
     s16 getY(void);
     s16 getHealth(void);
+    u16 countItems(InventoryItemID item);
     Rect getRectBottom(void);
     Rect getRectTop(void);
     Rect getRectLeft(void);
