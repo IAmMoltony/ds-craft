@@ -392,7 +392,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 glColor(RGB15(31, 0, 0));
             }
             glSprite(80, 46, GL_FLIP_NONE,
-                     craftingSelect == 3 ? sprInventorySlotSelect : sprInventorySlot);
+                     craftingSelect == 4 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
             glSpriteScale(84, 50, HALFSIZE, GL_FLIP_NONE, sprStone);
 
@@ -411,7 +411,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 fontSmall.print(16, 35, "Coal block - 9 coal");
                 break;
             case 4:
-                fontSmall.print(16, 25, "Stone - 1 cobblestone");
+                fontSmall.print(16, 35, "Stone - 1 cobblestone");
                 break;
             }
         }
