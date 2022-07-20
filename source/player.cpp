@@ -382,6 +382,20 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             glColor(RGB15(31, 31, 31));
             glSpriteScale(68, 50, HALFSIZE, GL_FLIP_NONE, sprCoalBlock);
 
+            // stone recipe
+            if (hasItem({InventoryItemID::Cobblestone, 1}))
+            {
+                glColor(RGB15(0, 31, 0));
+            }
+            else
+            {
+                glColor(RGB15(31, 0, 0));
+            }
+            glSprite(80, 46, GL_FLIP_NONE,
+                     craftingSelect == 3 ? sprInventorySlotSelect : sprInventorySlot);
+            glColor(RGB15(31, 31, 31));
+            glSpriteScale(84, 50, HALFSIZE, GL_FLIP_NONE, sprStone);
+
             switch (craftingSelect)
             {
             case 0:
@@ -395,6 +409,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 break;
             case 3:
                 fontSmall.print(16, 35, "Coal block - 9 coal");
+                break;
+            case 4:
+                fontSmall.print(16, 25, "Stone - 1 cobblestone");
                 break;
             }
         }
@@ -842,11 +859,18 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                     removeItem(InventoryItemID::Coal, 9);
                     addItem(InventoryItemID::CoalBlock);
                 }
+                // stone block recipe
+                if (craftingSelect == 4 && hasItem({InventoryItemID::Cobblestone, 1}))
+                {
+                    removeItem(InventoryItemID::Cobblestone);
+                    addItem(InventoryItemID::Stone);
+                }
             }
             if (kdown & KEY_R)
             {
                 // when r is pressed advance to the next recipe
-                if (++craftingSelect > 3)
+                // (and wrap around too)
+                if (++craftingSelect > 4)
                 {
                     craftingSelect = 0;
                 }
