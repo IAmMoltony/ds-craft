@@ -780,7 +780,15 @@ int main(int argc, char **argv)
                     // loading screen
                     glBegin2D();
                     drawMovingBackground(sprDirt, frames);
-                    fontSmall.printCentered(0, 50, "Loading...");
+                    switch (lang)
+                    {
+                    case Language::English:
+                        fontSmall.printCentered(0, 50, "Loading...");
+                        break;
+                    case Language::Russian:
+                        fontSmallRu1.printCentered(0, 50, "Ibesvjmb...");
+                        break;
+                    }
                     glEnd2D();
                     glFlush(0);
 
