@@ -295,9 +295,7 @@ Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSele
 
     // initialize inventory with null items
     for (u8 i = 0; i < 20; ++i)
-    {
         inventory[i] = NULLITEM;
-    }
 }
 
 void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Font fontRu, Language lang)
@@ -327,13 +325,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
         {
             // planks recipe
             if (hasItem({InventoryItemID::Wood, 1}))
-            {
                 glColor(RGB15(0, 31, 0));
-            }
             else
-            {
                 glColor(RGB15(31, 0, 0));
-            }
             glSprite(16, 46, GL_FLIP_NONE,
                      craftingSelect == 0 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
@@ -342,13 +336,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
 
             // door recipe
             if (hasItem({InventoryItemID::Planks, 6}))
-            {
                 glColor(RGB15(0, 31, 0));
-            }
             else
-            {
                 glColor(RGB15(31, 0, 0));
-            }
             glSprite(32, 46, GL_FLIP_NONE,
                      craftingSelect == 1 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
@@ -356,13 +346,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
 
             // stick recipe
             if (hasItem({InventoryItemID::Planks, 2}))
-            {
                 glColor(RGB15(0, 31, 0));
-            }
             else
-            {
                 glColor(RGB15(31, 0, 0));
-            }
             glSprite(48, 46, GL_FLIP_NONE,
                      craftingSelect == 2 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
@@ -370,13 +356,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
 
             // coal block recipe
             if (hasItem({InventoryItemID::Coal, 9}))
-            {
                 glColor(RGB15(0, 31, 0));
-            }
             else
-            {
                 glColor(RGB15(31, 0, 0));
-            }
             glSprite(64, 46, GL_FLIP_NONE,
                      craftingSelect == 3 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
@@ -384,13 +366,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
 
             // stone recipe
             if (hasItem({InventoryItemID::Cobblestone, 1}))
-            {
                 glColor(RGB15(0, 31, 0));
-            }
             else
-            {
                 glColor(RGB15(31, 0, 0));
-            }
             glSprite(80, 46, GL_FLIP_NONE,
                      craftingSelect == 4 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
@@ -448,9 +426,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
 
                 // highlight the slot with green if move-selected
                 if (inventoryMoveSelect == i)
-                {
                     glColor(RGB15(0, 31, 0));
-                }
                 // draw the slot
                 glSprite(xx, yy, GL_FLIP_NONE,
                         (inventoryFullSelect == i ? sprInventorySlotSelect : sprInventorySlot));
@@ -534,9 +510,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                     }
 
                     if (amount > 1)
-                    {
                         fontSmall.printfShadow(xx, yy - 8, "%u", amount);
-                    }
                 }
             }
             switch (lang)
@@ -765,10 +739,8 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 }
 
                 if (amount > 1)
-                {
                     fontSmall.printfShadow(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)),
-                                    SCREEN_HEIGHT - 16 - 8, "%u", amount);
-                }
+                                           SCREEN_HEIGHT - 16 - 8, "%u", amount);
             }
         }
 
@@ -788,17 +760,13 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             if (i % 2 != 0)
             {
                 if (health >= i)
-                {
                     glSprite(xx, yy, GL_FLIP_NONE, sprHalfHeart);
-                }
             }
             else
             {
                 glSprite(xx, yy, GL_FLIP_NONE, sprHeartOutline);
                 if (health >= i)
-                {
                     glSprite(xx + 1, yy, GL_FLIP_H, sprHalfHeart2);
-                }
             }
         }
     }
@@ -879,9 +847,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                 // when r is pressed advance to the next recipe
                 // (and wrap around too)
                 if (++craftingSelect > 4)
-                {
                     craftingSelect = 0;
-                }
             }
         }
         else
@@ -904,9 +870,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                     if (inventoryFullSelect - 1 != 4 &&
                         inventoryFullSelect - 1 != 9 &&
                         inventoryFullSelect - 1 != 14)
-                    {
                         --inventoryFullSelect;
-                    }
                 }
             }
             else if (right)
@@ -916,35 +880,27 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                     if (inventoryFullSelect + 1 != 5 &&
                         inventoryFullSelect + 1 != 10 &&
                         inventoryFullSelect + 1 != 15)
-                    {
                         ++inventoryFullSelect;
-                    }
                 }
             }
             else if (up)
             {
                 if (inventoryFullSelect - 5 >= 0)
-                {
                     inventoryFullSelect -= 5;
-                }
             }
             else if (down)
             {
                 if (inventoryFullSelect + 5 < 20)
-                {
                     inventoryFullSelect += 5;
-                }
             }
 
             if (kdown & KEY_A)
             {
                 // when a pressed
                 if (inventoryMoveSelect == 20)
-                {
                     // if nothing is move-selected then
                     // move-select current selected slot
                     inventoryMoveSelect = inventoryFullSelect;
-                }
                 else
                 {
                     // move item (or stack)
@@ -1003,10 +959,8 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
             velY += 0.3f;
             ++airY;
             if (velY > 5)
-            {
                 // cap fall speed
                 velY = 5;
-            }
         }
 
         u32 down = keysDown();
@@ -1021,13 +975,9 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                 // skip blocks out of camera
                 if (block->getRect().x - camera->x < -16 ||
                     block->getRect().y - camera->y < -16)
-                {
                     continue;
-                }
                 if (block->getRect().x - camera->x > SCREEN_WIDTH + 48)
-                {
                     break;
-                }
 
                 // if there is block at aim
                 if (Rect(getRectAim(*camera).x + 1, getRectAim(*camera).y + 1, 14, 14)
@@ -1098,9 +1048,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                                 blocks->at(i)->x == getRectAim(*camera).x && (
                                 blocks->at(i)->id() == "sand" ||
                                 blocks->at(i)->id() == "cactus"))
-                            {
                                 canPlace = true;
-                            }
                         }
                         if (canPlace)
                         {
@@ -1116,9 +1064,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                             if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
                                 blocks->at(i)->x == getRectAim(*camera).x && (
                                 blocks->at(i)->id() == "sand"))
-                            {
                                 canPlace = true;
-                            }
                         }
                         if (canPlace)
                         {
@@ -1136,9 +1082,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                                 blocks->at(i)->id() == "grass" ||
                                 blocks->at(i)->id() == "dirt" ||
                                 blocks->at(i)->id() == "snowy grass"))
-                            {
                                 canPlace = true;
-                            }
                         }
                         if (canPlace)
                         {
@@ -1156,9 +1100,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                                 blocks->at(i)->id() == "grass" ||
                                 blocks->at(i)->id() == "dirt" ||
                                 blocks->at(i)->id() == "snowy grass"))
-                            {
                                 canPlace = true;
-                            }
                         }
                         if (canPlace)
                         {
@@ -1192,9 +1134,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                                 blocks->at(i)->id() == "grass" ||
                                 blocks->at(i)->id() == "dirt" ||
                                 blocks->at(i)->id() == "snowy grass"))
-                            {
                                 canPlace = true;
-                            }
                         }
                         if (canPlace)
                         {
@@ -1223,9 +1163,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                     {
                         --inventory[inventorySelect].amount;
                         if (inventory[inventorySelect].amount == 0)
-                        {
                             inventory[inventorySelect].id = InventoryItemID::None;
-                        }
                     }
                     ret = true;
                 }
@@ -1236,9 +1174,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
             // when r pressed go to next hotbar slot
             ++inventorySelect;
             if (inventorySelect > 4)
-            {
                 inventorySelect = 0;
-            }
         }
         if (down & KEY_SELECT)
         {
@@ -1303,9 +1239,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                 continue;
             }
             if (block->getRect().x - camera->x > SCREEN_WIDTH + 48)
-            {
                 break;
-            }
 
             if (down & KEY_B)
             {
@@ -1347,9 +1281,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                             Block *b = block.get();
                             LeavesBlock *l = reinterpret_cast<LeavesBlock *>(b);
                             if (l->isNatural())
-                            {
                                 addItem(InventoryItemID::Sapling);
-                            }
                         }
                     }
                     else if (bid == "sand")
@@ -1450,9 +1382,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                 {
                     s16 damage = airY / 44;
                     if (airY - 44 >= 27)
-                    {
                         damage += (airY - 38) / 27;
-                    }
                     if (damage > 0)
                     {
                         health -= damage;
@@ -1488,13 +1418,9 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
             {
                 // door collision is hard coded
                 if (block->id() == "door")
-                {
                     x = block->getRect().x + 4;
-                }
                 else
-                {
                     x = block->getRect().x + 16;
-                }
             }
 
             if (block->getRect().intersects(Rect(getRectBottom().x, getRectBottom().y + 1,
@@ -1507,44 +1433,28 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                     u8 effect = rand() % 4;
                     std::string id = block->id();
                     if (id == "grass")
-                    {
                         playsfx(effect, sndStepGrass1, sndStepGrass2, sndStepGrass3, sndStepGrass4)
-                    }
                     else if (id == "dirt")
-                    {
                         playsfx(effect, sndStepGravel1, sndStepGravel2, sndStepGravel3, sndStepGravel4)
-                    }
                     else if (id == "stone" || id == "sandstone" || id == "cobblestone" ||
                              id == "coal ore" || id == "coal block" || id == "bedrock")
-                    {
                         playsfx(effect, sndStepStone1, sndStepStone2, sndStepStone3, sndStepStone4)
-                    }
                     else if (id == "sand")
-                    {
                         playsfx(effect, sndStepSand1, sndStepSand2, sndStepSand3, sndStepSand4)
-                    }
                     else if (id == "snowy grass")
-                    {
                         playsfx(effect, sndStepSnow1, sndStepSnow2, sndStepSnow3, sndStepSnow4)
-                    }
                     else if (id == "planks" || id == "door")
-                    {
                         playsfx(effect, sndStepWood1, sndStepWood2, sndStepWood3, sndStepWood4)
-                    }
                 }
             }
 
             if (block->getRect().intersects(getRectRight()))
-            {
                 x = block->getRect().x - 16;
-            }
             ++i;
         }
         // remove block if remove block
         if (remove)
-        {
             blocks->erase(blocks->begin() + removei);
-        }
 
         // controls
         u32 keys = keysHeld();
@@ -1576,18 +1486,12 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
 
         // horizontla movemtn
         if (left && !right)
-        {
             velX = -2;
-        }
         if (right && !left)
-        {
             velX = 2;
-        }
         // STOP YOU VIOLATED THE LAW!!!!!!
         if ((right && left) || (!right && !left))
-        {
             velX = 0;
-        }
     }
 
     return ret; // yes
@@ -1610,9 +1514,7 @@ void Player::addItem(InventoryItemID item)
     {
         // if theres 64 items, skip
         if (inventory[i].amount >= 64)
-        {
             continue;
-        }
 
         if (inventory[i].id == item)
         {
@@ -1650,9 +1552,7 @@ void Player::removeItem(InventoryItemID item)
             --inventory[i].amount; // remove item
             // set it to none if no left
             if (inventory[i].amount == 0)
-            {
                 inventory[i].id = InventoryItemID::None;
-            }
             return;
         }
     }
@@ -1759,8 +1659,6 @@ std::array<InventoryItem, 20> Player::getInventory(void)
 {
     std::array<InventoryItem, 20> inv;
     for (u8 i = 0; i < 20; ++i)
-    {
         inv[i] = inventory[i];
-    }
     return inv;
 }

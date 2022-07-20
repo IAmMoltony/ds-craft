@@ -22,26 +22,18 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
 
                 // create pig with 10% chance
                 if (chance(10))
-                {
                     entities.emplace_back(new PigEntity(i, y - 64));
-                }
 
                 // dirt generation
                 for (s16 j = y + 16; j < y + 16 * 4; j += 16)
-                {
                     blocks.emplace_back(new DirtBlock(i, j));
-                }
                 // stone generation
                 for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
                     if (chance(15))
-                    {
                         blocks.emplace_back(new CoalOreBlock(i, j));
-                    }
                     else
-                    {
                         blocks.emplace_back(new StoneBlock(i, j));
-                    }
                 }
                 // bedrock on the bottom
                 blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
@@ -89,9 +81,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
 
                 // place flower if not placed tree w chance 20%
                 if (!placedTree && chance(20))
-                {
                     blocks.emplace_back(new FlowerBlock(i, y - 16));
-                }
 
                 y += randomRange(-1, 1) * 16; // change the height
             }
@@ -104,33 +94,23 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
 
                 // sand
                 for (s16 j = y; j < y + 16 * 4; j += 16)
-                {
                     blocks.emplace_back(new SandBlock(i, j));
-                }
 
                 // pig
                 if (chance(10))
-                {
                     entities.emplace_back(new PigEntity(i, y - 64));
-                }
 
                 // sandstone
                 for (s16 j = y + 16 * 4; j < y + 16 * 8; j += 16)
-                {
                     blocks.emplace_back(new SandstoneBlock(i, j));
-                }
 
                 // stone
                 for (s16 j = y + 16 * 8; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
                     if (chance(15))
-                    {
                         blocks.emplace_back(new CoalOreBlock(i, j));
-                    }
                     else
-                    {
                         blocks.emplace_back(new StoneBlock(i, j));
-                    }
                 }
 
                 // bedrock
@@ -143,17 +123,13 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
                     placedCactus = true;
                     u8 len = randomRange(0, 3);
                     for (int l = 0; l < len; ++l)
-                    {
                         blocks.emplace_back(new CactusBlock(i, y - l * 16 - 16));
-                    }
                     sinceLastTree = 0;
                 }
 
                 // place dead bush 
                 if (!placedCactus && chance(30))
-                {
                     blocks.emplace_back(new DeadBushBlock(i, y - 16));
-                }
 
                 y += randomRange(-1, 1) * 16; // change height
             }
@@ -168,24 +144,16 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
                 blocks.emplace_back(new GrassBlock(i, y));
 
                 if (chance(10))
-                {
                     entities.emplace_back(new PigEntity(i, y - 64));
-                }
 
                 for (s16 j = y + 16; j < y + 16 * 4; j += 16)
-                {
                     blocks.emplace_back(new DirtBlock(i, j));
-                }
                 for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
                     if (chance(15))
-                    {
                         blocks.emplace_back(new CoalOreBlock(i, j));
-                    }
                     else
-                    {
                         blocks.emplace_back(new StoneBlock(i, j));
-                    }
                 }
                 blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
 
@@ -231,14 +199,10 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
                 }
 
                 if (!placedTree && chance(20))
-                {
                     blocks.emplace_back(new FlowerBlock(i, y - 16));
-                }
 
                 if (chance(8))
-                {
                     y += randomRange(-1, 1) * 16;
-                }
             }
         }
         else if (biome == 3)
@@ -251,24 +215,16 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
                 blocks.emplace_back(new SnowyGrassBlock(i, y));
 
                 if (chance(10))
-                {
                     entities.emplace_back(new PigEntity(i, y - 64));
-                }
 
                 for (s16 j = y + 16; j < y + 16 * 4; j += 16)
-                {
                     blocks.emplace_back(new DirtBlock(i, j));
-                }
                 for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
                     if (chance(15))
-                    {
                         blocks.emplace_back(new CoalOreBlock(i, j));
-                    }
                     else
-                    {
                         blocks.emplace_back(new StoneBlock(i, j));
-                    }
                 }
                 blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
 

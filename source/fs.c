@@ -44,9 +44,7 @@ void fsCreateDir(const char *name)
 {
     struct stat st = {0};
     if (stat(name, &st) == -1)
-    {
         mkdir(name, 0700);
-    }
 }
 
 void fsCreateFile(const char *name)

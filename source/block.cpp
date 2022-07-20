@@ -204,14 +204,10 @@ DoorBlock::DoorBlock(s16 x, s16 y, bool open, bool facing) : Block(x, y)
 void DoorBlock::draw(Camera camera)
 {
     if (open)
-    {
         glSprite(x - camera.x - 1, y - camera.y, GL_FLIP_NONE, sprDoor);
-    }
     else
-    {
         // draw scaled down on x if opened
         glSpriteScaleXY(x - camera.x - 1 + (facing ? 0 : 8), y - camera.y, 1 << 10, 1 << 12, (facing ? GL_FLIP_NONE : GL_FLIP_H), sprDoor);
-    }
 }
 
 bool DoorBlock::solid(void)
@@ -271,9 +267,7 @@ std::string DoorBlock::id(void)
 Rect DoorBlock::getRect(void) const
 {
     if (open)
-    {
         return Rect(x, y, 16, 32);
-    }
     return Rect(x + (facing ? 0 : 11), y, 4, 32);
 }
 
@@ -326,11 +320,7 @@ bool SaplingBlock::hasGrown(void)
 void SaplingBlock::update(void)
 {
     if (!grown)
-    {
         --growTime;
-    }
     if (growTime == 0)
-    {
         grown = true;
-    }
 }

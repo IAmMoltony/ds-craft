@@ -42,9 +42,7 @@ void PigEntity::draw(Camera camera)
 void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
 {
     if (x - camera.x < -38 || x - camera.x > SCREEN_WIDTH + 37)
-    {
         return;
-    }
 
     x += velX;
     y += velY;
@@ -53,22 +51,16 @@ void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
     {
         velY += 0.3f;
         if (velY > 5)
-        {
             velY = 5;
-        }
     }
 
     if (x < 0)
-    {
         x = 0;
-    }
 
     velX = moving ? (facing == Facing::Right ? 1 : -1) : 0;
 
     if (rand() % 250 == 1)
-    {
         facing = facing == Facing::Right ? Facing::Left : Facing::Right;
-    }
     if (chance(8))
     {
         if (!jumping)
@@ -77,10 +69,8 @@ void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
             velY = -4;
         }
     }
-    if (chance(2))
-    {
+    if (chance(3))
         moving = !moving;
-    }
 
     if (frames % 4 == 0)
     {
@@ -89,18 +79,12 @@ void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
             if (block->getRect().x - camera.x < -40 ||
                 block->getRect().y - camera.y < -40 ||
                 block->y - camera.y > SCREEN_HEIGHT + 48)
-            {
                 continue;
-            }
             if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
-            {
                 break;
-            }
 
             if (!block->solid())
-            {
                 continue;
-            }
 
             if (block->getRect().intersects(getRectBottom()))
             {
@@ -109,9 +93,7 @@ void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
                 y = block->y - 24;
             }
             else
-            {
                 falling = true;
-            }
 
             if (block->getRect().intersects(getRectTop()))
             {
