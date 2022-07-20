@@ -834,37 +834,45 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
             if (kdown & KEY_A)
             {
                 // when a is pressed, craft
+                bool crafted = false;
 
                 // planks recipe
                 if (craftingSelect == 0 && hasItem({InventoryItemID::Wood, 1}))
                 {
                     removeItem(InventoryItemID::Wood);
                     addItem(InventoryItemID::Planks, 4);
+                    crafted = true;
                 }
                 // door recipe
-                if (craftingSelect == 1 && hasItem({InventoryItemID::Planks, 6}))
+                else if (craftingSelect == 1 && hasItem({InventoryItemID::Planks, 6}))
                 {
                     removeItem(InventoryItemID::Planks, 6);
                     addItem(InventoryItemID::Door);
+                    crafted = true;
                 }
                 // stick recipe
-                if (craftingSelect == 2 && hasItem({InventoryItemID::Planks, 2}))
+                else if (craftingSelect == 2 && hasItem({InventoryItemID::Planks, 2}))
                 {
                     removeItem(InventoryItemID::Planks, 2);
                     addItem(InventoryItemID::Stick);
+                    crafted = true;
                 }
                 // coal block recipe
-                if (craftingSelect == 3 && hasItem({InventoryItemID::Coal, 9}))
+                else if (craftingSelect == 3 && hasItem({InventoryItemID::Coal, 9}))
                 {
                     removeItem(InventoryItemID::Coal, 9);
                     addItem(InventoryItemID::CoalBlock);
+                    crafted = true;
                 }
                 // stone block recipe
-                if (craftingSelect == 4 && hasItem({InventoryItemID::Cobblestone, 1}))
+                else if (craftingSelect == 4 && hasItem({InventoryItemID::Cobblestone, 1}))
                 {
                     removeItem(InventoryItemID::Cobblestone);
                     addItem(InventoryItemID::Stone);
+                    crafted = true;
                 }
+
+                if (crafted) mmEffectEx(&sndClick);
             }
             if (kdown & KEY_R)
             {
