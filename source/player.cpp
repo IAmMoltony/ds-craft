@@ -8,11 +8,13 @@ static glImage sprInventorySlot[1];
 static glImage sprInventorySlotSelect[1];
 
 static glImage sprStick[1];
-static glImage sprCoal[1];
+glImage sprCoal[1];
 
 static glImage sprHeartOutline[1];
 static glImage sprHalfHeart[1];
 static glImage sprHalfHeart2[1];
+
+static glImage sprPlayer[1];
 
 // these images are loaded in block.cpp
 extern glImage sprGrass[1];
@@ -132,6 +134,11 @@ void loadPlayerGUI(void)
     loadImageAlpha(sprHeartOutline, 16, 16, heart_outlinePal, heart_outlineBitmap);
     loadImageAlpha(sprHalfHeart, 8, 8, half_heartPal, half_heartBitmap);
     loadImageAlpha(sprHalfHeart2, 8, 8, half_heart2Pal, half_heart2Bitmap);
+}
+
+void loadPlayerTextures(void)
+{
+    loadImageAlpha(sprPlayer, 16, 32, guyPal, guyBitmap);
 }
 
 void loadPlayerSounds(void)
@@ -292,6 +299,7 @@ Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSele
     inventoryCrafting = false;
     aimX = SCREEN_WIDTH / 2;
     aimY = SCREEN_HEIGHT / 2;
+    facing = Facing::Right;
 
     // initialize inventory with null items
     for (u8 i = 0; i < 20; ++i)
@@ -303,7 +311,8 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
     if (fullInventory) // inventory draw
     {
         // draw the player
-        glBoxFilled(x - camera.x, y - camera.y, x + 16 - 1 - camera.x, y + 24 - 1 - camera.y, RGB15(0, 0, 31));
+        glSprite(x - 1 - camera.x - (facing == Facing::Right ? 0 : 3), y - camera.y,
+                 (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayer);
         glPolyFmt(POLY_ALPHA(20) | POLY_CULL_NONE | POLY_ID(3));
 
         // draw inventory background
@@ -530,7 +539,8 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
     else
     {
         // draw the player
-        glBoxFilled(x - camera.x, y - camera.y, x + 16 - 1 - camera.x, y + 24 - 1 - camera.y, RGB15(0, 0, 31));
+        glSprite(x - 1 - camera.x - (facing == Facing::Right ? 0 : 3), y - camera.y,
+                 (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayer);
         glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(1));
 
         // draw the aim as green square or a half-transparent
@@ -770,9 +780,14 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             }
         }
     }
+
+    // getRectBottom().draw(camera, RGB15(31, 0, 0));
+    // getRectTop().draw(camera, RGB15(0, 31, 0));
+    // getRectLeft().draw(camera, RGB15(0, 0, 31));
+    // getRectRight().draw(camera, RGB15(31, 31, 0));
 }
 
-bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
+bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, const u16 &frames)
 {
     s16 oldX = x;
     bool ret = false; // this is return value. true if placed block and false if not.
@@ -1252,27 +1267,27 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                     u8 effect = rand() % 4;
                     if (bid == "grass")
                     {
-                        addItem(InventoryItemID::Grass);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "grass"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                     }
                     else if (bid == "dirt")
                     {
-                        addItem(InventoryItemID::Dirt);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "dirt"));
                         playsfx(effect, sndDirt1, sndDirt2, sndDirt3, sndDirt4)
                     }
                     else if (bid == "stone")
                     {
-                        addItem(InventoryItemID::Cobblestone);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "cobblestone"));
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
                     }
                     else if (bid == "wood")
                     {
-                        addItem(InventoryItemID::Wood);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "wood"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
                     }
                     else if (bid == "leaves")
                     {
-                        addItem(InventoryItemID::Leaves);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "leaves"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                         if (chance(10))
                         {
@@ -1281,72 +1296,72 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                             Block *b = block.get();
                             LeavesBlock *l = reinterpret_cast<LeavesBlock *>(b);
                             if (l->isNatural())
-                                addItem(InventoryItemID::Sapling);
+                                entities->emplace_back(new DropEntity(block->x, block->y, "sapling"));
                         }
                     }
                     else if (bid == "sand")
                     {
-                        addItem(InventoryItemID::Sand);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "sand"));
                         playsfx(effect, sndSand1, sndSand2, sndSand3, sndSand4)
                     }
                     else if (bid == "sandstone")
                     {
-                        addItem(InventoryItemID::Sandstone);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "sandstone"));
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
                     }
                     else if (bid == "cactus")
                     {
-                        addItem(InventoryItemID::Cactus);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "cactus"));
                         playsfx(effect, sndCloth1, sndCloth2, sndCloth3, sndCloth4)
                     }
                     else if (bid == "dead bush")
                     {
-                        addItem(InventoryItemID::DeadBush);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "deadbush"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                     }
                     else if (bid == "poppy")
                     {
-                        addItem(InventoryItemID::Poppy);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "poppy"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                     }
                     else if (bid == "dandelion")
                     {
-                        addItem(InventoryItemID::Dandelion);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "dandelion"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                     }
                     else if (bid == "door")
                     {
-                        addItem(InventoryItemID::Door);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "door"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
                     }
                     else if (bid == "planks")
                     {
-                        addItem(InventoryItemID::Planks);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "planks"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
                     }
                     else if (bid == "snowy grass")
                     {
-                        addItem(InventoryItemID::SnowyGrass);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "snowygrass"));
                         playsfx(effect, sndSnow1, sndSnow2, sndSnow3, sndSnow4)
                     }
                     else if (bid == "sapling")
                     {
-                        addItem(InventoryItemID::Sapling);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "sapling"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                     }
                     else if (bid == "cobblestone")
                     {
-                        addItem(InventoryItemID::Cobblestone);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "cobblestone"));
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
                     }
                     else if (bid == "coal ore")
                     {
-                        addItem(InventoryItemID::Coal);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "coal"));
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
                     }
                     else if (bid == "coal block")
                     {
-                        addItem(InventoryItemID::CoalBlock);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "coalblock"));
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
                     }
 
@@ -1376,7 +1391,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
             {
                 falling = jumping = false;
                 velY = 0;
-                y = block->getRect().y - 24;
+                y = block->getRect().y - 32;
                 //printf("%u\n", airY);
                 if (airY >= 44) // if we fall too much
                 {
@@ -1449,7 +1464,7 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
             }
 
             if (block->getRect().intersects(getRectRight()))
-                x = block->getRect().x - 16;
+                x = block->getRect().x - 12;
             ++i;
         }
         // remove block if remove block
@@ -1486,9 +1501,15 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
 
         // horizontla movemtn
         if (left && !right)
+        {
             velX = -2;
+            facing = Facing::Left;
+        }
         if (right && !left)
+        {
             velX = 2;
+            facing = Facing::Right;
+        }
         // STOP YOU VIOLATED THE LAW!!!!!!
         if ((right && left) || (!right && !left))
             velX = 0;
@@ -1509,6 +1530,9 @@ bool Player::hasItem(InventoryItem item)
 
 void Player::addItem(InventoryItemID item)
 {
+    if (isInventoryFull())
+        return;
+
     // find the stack
     for (u8 i = 0; i < 20; ++i)
     {
@@ -1538,6 +1562,9 @@ void Player::addItem(InventoryItemID item)
 
 void Player::addItem(InventoryItemID item, u8 amount)
 {
+    if (isInventoryFull())
+        return;
+
     for (u8 _ = 0; _ < amount; ++_)
         addItem(item);
 }
@@ -1607,6 +1634,29 @@ bool Player::dead(void)
     return health < 0;
 }
 
+bool Player::isInventoryFull(void)
+{
+    for (u8 i = 0; i < 20; ++i)
+        if (inventory[i].amount < 64)
+            return false;
+
+    return true;
+}
+
+bool Player::canAddItem(InventoryItemID item)
+{
+    for (u8 i = 0; i < 20; ++i)
+    {
+        if (inventory[i].id == InventoryItemID::None && inventory[i].amount == 0)
+            return true;
+        
+        if (inventory[i].id == item && inventory[i].amount < 64)
+            return true;
+    }
+
+    return false;
+}
+
 s16 Player::getX(void)
 {
     return x;
@@ -1632,22 +1682,22 @@ u16 Player::countItems(InventoryItemID item)
 
 Rect Player::getRectBottom(void)
 {
-    return Rect(x + 8 - 4, y + 12, 8, 12);
+    return Rect(x + PLAYER_WIDTH / 2 - PLAYER_WIDTH / 2 / 2, y + PLAYER_HEIGHT / 2, PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2);
 }
 
 Rect Player::getRectTop(void)
 {
-    return Rect(x + 8 - 4, y, 8, 12);
+    return Rect(x + PLAYER_WIDTH / 2 - PLAYER_WIDTH / 2 / 2, y, PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2);
 }
 
 Rect Player::getRectLeft(void)
 {
-    return Rect(x, y + 3, 3, 19);
+    return Rect(x, y + 3, 4, PLAYER_HEIGHT - 6);
 }
 
 Rect Player::getRectRight(void)
 {
-    return Rect(x + 16 - 3, y + 3, 3, 19);
+    return Rect(x + PLAYER_WIDTH - 4, y + 4, 4, PLAYER_HEIGHT - 6);
 }
 
 Rect Player::getRectAim(Camera camera)

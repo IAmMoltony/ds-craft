@@ -27,6 +27,8 @@ extern glImage sprDirt[1]; // from block.cpp
 
 extern mm_sound_effect sndClick; // from player.cpp
 
+static mm_sound_effect sndPop;
+
 BlockList blocks;
 EntityList entities;
 Player player;
@@ -121,7 +123,11 @@ int main(int argc, char **argv)
     loadBlockSounds();
     loadEntityTextures();
     loadPlayerGUI();
+    loadPlayerTextures();
     loadPlayerSounds();
+
+    mmLoadEffect(SFX_POP);
+    sndPop = soundEffect(SFX_POP);
 
     lang = Language::Russian; // language
     // set language (if theres a config file for that)
@@ -313,11 +319,71 @@ int main(int argc, char **argv)
                 }
 
                 // update entities
-                for (auto &entity : entities)
+                for (size_t i = 0; i < entities.size(); ++i)
+                {
+                    auto &entity = entities[i];
+
                     entity->update(blocks, camera, frames);
+                    if (entity->id().rfind("drop", 0) == 0 && Rect(player.getX(), player.getY(), 16, 24)
+                        .intersects(entity->getRectBottom()))
+                    {
+                        std::vector<std::string> split;
+                        std::string temp;
+                        std::stringstream ss(entity->id());
+                        while (std::getline(ss, temp, ' '))
+                            split.push_back(temp);
+                        
+                        bool ok = true;
+                        std::string blockid = split[1];
+                        if (blockid == "grass" && player.canAddItem(InventoryItemID::Grass))
+                            player.addItem(InventoryItemID::Grass);
+                        else if (blockid == "dirt" && player.canAddItem(InventoryItemID::Dirt))
+                            player.addItem(InventoryItemID::Dirt);
+                        else if (blockid == "stone" && player.canAddItem(InventoryItemID::Stone))
+                            player.addItem(InventoryItemID::Stone);
+                        else if (blockid == "wood" && player.canAddItem(InventoryItemID::Wood))
+                            player.addItem(InventoryItemID::Wood);
+                        else if (blockid == "leaves" && player.canAddItem(InventoryItemID::Leaves))
+                            player.addItem(InventoryItemID::Leaves);
+                        else if (blockid == "sand" && player.canAddItem(InventoryItemID::Sand))
+                            player.addItem(InventoryItemID::Sand);
+                        else if (blockid == "sandstone" && player.canAddItem(InventoryItemID::Sandstone))
+                            player.addItem(InventoryItemID::Sandstone);
+                        else if (blockid == "cactus" && player.canAddItem(InventoryItemID::Cactus))
+                            player.addItem(InventoryItemID::Cactus);
+                        else if (blockid == "deadbush" && player.canAddItem(InventoryItemID::DeadBush))
+                            player.addItem(InventoryItemID::DeadBush);
+                        else if (blockid == "poppy" && player.canAddItem(InventoryItemID::Poppy))
+                            player.addItem(InventoryItemID::Poppy);
+                        else if (blockid == "dandelion" && player.canAddItem(InventoryItemID::Dandelion))
+                            player.addItem(InventoryItemID::Dandelion);
+                        else if (blockid == "door" && player.canAddItem(InventoryItemID::Door))
+                            player.addItem(InventoryItemID::Door);
+                        else if (blockid == "planks" && player.canAddItem(InventoryItemID::Planks))
+                            player.addItem(InventoryItemID::Planks);
+                        else if (blockid == "snowygrass" && player.canAddItem(InventoryItemID::SnowyGrass))
+                            player.addItem(InventoryItemID::SnowyGrass);
+                        else if (blockid == "sapling" && player.canAddItem(InventoryItemID::Sapling))
+                            player.addItem(InventoryItemID::Sapling);
+                        else if (blockid == "cobblestone" && player.canAddItem(InventoryItemID::Cobblestone))
+                            player.addItem(InventoryItemID::Cobblestone);
+                        else if (blockid == "coalore" && player.canAddItem(InventoryItemID::CoalOre))
+                            player.addItem(InventoryItemID::CoalOre);
+                        else if (blockid == "coalblock" && player.canAddItem(InventoryItemID::CoalBlock))
+                            player.addItem(InventoryItemID::CoalBlock);
+                        else
+                            ok = false;
+                        
+                        if (ok)
+                        {
+                            mmEffectEx(&sndPop);
+                            entities.erase(entities.begin() + i);
+                        }
+                    }
+                }
 
                 // sort blocks when placed block
-                if (player.update(&camera, &blocks, frames))
+                if (player.update(&camera, &blocks, &entities, frames))
                     std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
 
                 // camera follow player

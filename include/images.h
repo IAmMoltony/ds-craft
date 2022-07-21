@@ -23,6 +23,8 @@
 #include <coal_img.h>
 #include <coal_block_img.h>
 #include <placeholder_logo_img.h>
+#include <placeholder_guy_img.h>
+#include <guy_img.h>
 #include <logo_img.h>
 #include <abtn_img.h>
 #include <bbtn_img.h>

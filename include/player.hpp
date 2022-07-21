@@ -11,8 +11,11 @@
 #include <block.hpp>
 #include <font.hpp>
 #include <lang.hpp>
+#include <entity.hpp>
 #include <array>
 #define NULLITEM {InventoryItemID::None, 0}
+#define PLAYER_WIDTH 12
+#define PLAYER_HEIGHT 32
 
 enum class InventoryItemID
 {
@@ -46,6 +49,7 @@ typedef struct item
 } InventoryItem;
 
 void loadPlayerGUI(void);
+void loadPlayerTextures(void);
 void loadPlayerSounds(void);
 
 class Player
@@ -56,13 +60,14 @@ private:
     u8 inventorySelect, inventoryFullSelect, inventoryMoveSelect, craftingSelect;
     float velX, velY;
     bool falling, jumping, fullInventory, inventoryCrafting;
+    Facing facing;
     InventoryItem inventory[20];
 
 public:
     Player();
 
     void draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Font fontRu, Language lang);
-    bool update(Camera *camera, BlockList *blocks, const u16 &frames);
+    bool update(Camera *camera, BlockList *blocks, EntityList *entities, const u16 &frames);
     bool hasItem(InventoryItem item);
     void addItem(InventoryItemID item);
     void addItem(InventoryItemID item, u8 amount);
@@ -77,6 +82,8 @@ public:
     
     bool moving(s16 oldX);
     bool dead(void);
+    bool isInventoryFull(void);
+    bool canAddItem(InventoryItemID item);
     s16 getX(void);
     s16 getY(void);
     s16 getHealth(void);
