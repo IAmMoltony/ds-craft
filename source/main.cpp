@@ -332,46 +332,52 @@ int main(int argc, char **argv)
                         while (std::getline(ss, temp, ' '))
                             split.push_back(temp);
                         
+                        bool ok = true;
                         std::string blockid = split[1];
-                        if (blockid == "grass")
+                        if (blockid == "grass" && player.canAddItem(InventoryItemID::Grass))
                             player.addItem(InventoryItemID::Grass);
-                        else if (blockid == "dirt")
+                        else if (blockid == "dirt" && player.canAddItem(InventoryItemID::Dirt))
                             player.addItem(InventoryItemID::Dirt);
-                        else if (blockid == "stone")
+                        else if (blockid == "stone" && player.canAddItem(InventoryItemID::Stone))
                             player.addItem(InventoryItemID::Stone);
-                        else if (blockid == "wood")
+                        else if (blockid == "wood" && player.canAddItem(InventoryItemID::Wood))
                             player.addItem(InventoryItemID::Wood);
-                        else if (blockid == "leaves")
+                        else if (blockid == "leaves" && player.canAddItem(InventoryItemID::Leaves))
                             player.addItem(InventoryItemID::Leaves);
-                        else if (blockid == "sand")
+                        else if (blockid == "sand" && player.canAddItem(InventoryItemID::Sand))
                             player.addItem(InventoryItemID::Sand);
-                        else if (blockid == "sandstone")
+                        else if (blockid == "sandstone" && player.canAddItem(InventoryItemID::Sandstone))
                             player.addItem(InventoryItemID::Sandstone);
-                        else if (blockid == "cactus")
+                        else if (blockid == "cactus" && player.canAddItem(InventoryItemID::Cactus))
                             player.addItem(InventoryItemID::Cactus);
-                        else if (blockid == "deadbush")
+                        else if (blockid == "deadbush" && player.canAddItem(InventoryItemID::DeadBush))
                             player.addItem(InventoryItemID::DeadBush);
-                        else if (blockid == "poppy")
+                        else if (blockid == "poppy" && player.canAddItem(InventoryItemID::Poppy))
                             player.addItem(InventoryItemID::Poppy);
-                        else if (blockid == "dandelion")
+                        else if (blockid == "dandelion" && player.canAddItem(InventoryItemID::Dandelion))
                             player.addItem(InventoryItemID::Dandelion);
-                        else if (blockid == "door")
+                        else if (blockid == "door" && player.canAddItem(InventoryItemID::Door))
                             player.addItem(InventoryItemID::Door);
-                        else if (blockid == "planks")
+                        else if (blockid == "planks" && player.canAddItem(InventoryItemID::Planks))
                             player.addItem(InventoryItemID::Planks);
-                        else if (blockid == "snowygrass")
+                        else if (blockid == "snowygrass" && player.canAddItem(InventoryItemID::SnowyGrass))
                             player.addItem(InventoryItemID::SnowyGrass);
-                        else if (blockid == "sapling")
+                        else if (blockid == "sapling" && player.canAddItem(InventoryItemID::Sapling))
                             player.addItem(InventoryItemID::Sapling);
-                        else if (blockid == "cobblestone")
+                        else if (blockid == "cobblestone" && player.canAddItem(InventoryItemID::Cobblestone))
                             player.addItem(InventoryItemID::Cobblestone);
-                        else if (blockid == "coalore")
+                        else if (blockid == "coalore" && player.canAddItem(InventoryItemID::CoalOre))
                             player.addItem(InventoryItemID::CoalOre);
-                        else if (blockid == "coalblock")
+                        else if (blockid == "coalblock" && player.canAddItem(InventoryItemID::CoalBlock))
                             player.addItem(InventoryItemID::CoalBlock);
+                        else
+                            ok = false;
                         
-                        mmEffectEx(&sndPop);
-                        entities.erase(entities.begin() + i);
+                        if (ok)
+                        {
+                            mmEffectEx(&sndPop);
+                            entities.erase(entities.begin() + i);
+                        }
                     }
                 }
 

@@ -78,6 +78,8 @@ public:
     
     bool moving(s16 oldX);
     bool dead(void);
+    bool isInventoryFull(void);
+    bool canAddItem(InventoryItemID item);
     s16 getX(void);
     s16 getY(void);
     s16 getHealth(void);

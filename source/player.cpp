@@ -1509,6 +1509,9 @@ bool Player::hasItem(InventoryItem item)
 
 void Player::addItem(InventoryItemID item)
 {
+    if (isInventoryFull())
+        return;
+
     // find the stack
     for (u8 i = 0; i < 20; ++i)
     {
@@ -1538,6 +1541,9 @@ void Player::addItem(InventoryItemID item)
 
 void Player::addItem(InventoryItemID item, u8 amount)
 {
+    if (isInventoryFull())
+        return;
+
     for (u8 _ = 0; _ < amount; ++_)
         addItem(item);
 }
@@ -1605,6 +1611,29 @@ bool Player::moving(s16 oldX)
 bool Player::dead(void)
 {
     return health < 0;
+}
+
+bool Player::isInventoryFull(void)
+{
+    for (u8 i = 0; i < 20; ++i)
+        if (inventory[i].amount < 64)
+            return false;
+
+    return true;
+}
+
+bool Player::canAddItem(InventoryItemID item)
+{
+    for (u8 i = 0; i < 20; ++i)
+    {
+        if (inventory[i].id == InventoryItemID::None && inventory[i].amount == 0)
+            return true;
+        
+        if (inventory[i].id == item && inventory[i].amount < 64)
+            return true;
+    }
+
+    return false;
 }
 
 s16 Player::getX(void)
