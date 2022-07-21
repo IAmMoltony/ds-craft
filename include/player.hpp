@@ -14,6 +14,8 @@
 #include <entity.hpp>
 #include <array>
 #define NULLITEM {InventoryItemID::None, 0}
+#define PLAYER_WIDTH 12
+#define PLAYER_HEIGHT 32
 
 enum class InventoryItemID
 {
@@ -58,6 +60,7 @@ private:
     u8 inventorySelect, inventoryFullSelect, inventoryMoveSelect, craftingSelect;
     float velX, velY;
     bool falling, jumping, fullInventory, inventoryCrafting;
+    Facing facing;
     InventoryItem inventory[20];
 
 public:

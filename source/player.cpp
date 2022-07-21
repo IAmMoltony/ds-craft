@@ -299,6 +299,7 @@ Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSele
     inventoryCrafting = false;
     aimX = SCREEN_WIDTH / 2;
     aimY = SCREEN_HEIGHT / 2;
+    facing = Facing::Right;
 
     // initialize inventory with null items
     for (u8 i = 0; i < 20; ++i)
@@ -310,7 +311,8 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
     if (fullInventory) // inventory draw
     {
         // draw the player
-        glSprite(x - 1 - camera.x, y - camera.y, GL_FLIP_NONE, sprPlayer);
+        glSprite(x - 1 - camera.x - (facing == Facing::Right ? 0 : 3), y - camera.y,
+                 (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayer);
         glPolyFmt(POLY_ALPHA(20) | POLY_CULL_NONE | POLY_ID(3));
 
         // draw inventory background
@@ -537,7 +539,8 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
     else
     {
         // draw the player
-        glSprite(x - 1 - camera.x, y - camera.y, GL_FLIP_NONE, sprPlayer);
+        glSprite(x - 1 - camera.x - (facing == Facing::Right ? 0 : 3), y - camera.y,
+                 (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayer);
         glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(1));
 
         // draw the aim as green square or a half-transparent
@@ -777,6 +780,11 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             }
         }
     }
+
+    getRectBottom().draw(camera, RGB15(31, 0, 0));
+    getRectTop().draw(camera, RGB15(0, 31, 0));
+    getRectLeft().draw(camera, RGB15(0, 0, 31));
+    getRectRight().draw(camera, RGB15(31, 31, 0));
 }
 
 bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, const u16 &frames)
@@ -1493,9 +1501,15 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
 
         // horizontla movemtn
         if (left && !right)
+        {
             velX = -2;
+            facing = Facing::Left;
+        }
         if (right && !left)
+        {
             velX = 2;
+            facing = Facing::Right;
+        }
         // STOP YOU VIOLATED THE LAW!!!!!!
         if ((right && left) || (!right && !left))
             velX = 0;
@@ -1668,22 +1682,22 @@ u16 Player::countItems(InventoryItemID item)
 
 Rect Player::getRectBottom(void)
 {
-    return Rect(x + 8 - 4, y + 12, 8, 12);
+    return Rect(x + 6 - 3, y + 16, 6, 16);
 }
 
 Rect Player::getRectTop(void)
 {
-    return Rect(x + 8 - 4, y, 8, 12);
+    return Rect(x + 6 - 3, y, 6, 16);
 }
 
 Rect Player::getRectLeft(void)
 {
-    return Rect(x, y + 3, 3, 19);
+    return Rect(x, y + 4, 3, 24);
 }
 
 Rect Player::getRectRight(void)
 {
-    return Rect(x + 16 - 3, y + 3, 3, 19);
+    return Rect(x + 12 - 3, y + 4, 3, 19);
 }
 
 Rect Player::getRectAim(Camera camera)
