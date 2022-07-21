@@ -53,7 +53,8 @@ public:
 class DropEntity : public Entity
 {
 private:
-    std::string blockid;
+    std::string blockid; // this is called *block*id because i forgor that block
+                         // can drop stuff not blocks and im lazy to change
 
 public:
     DropEntity(s16 x, s16 y, std::string blockid);
