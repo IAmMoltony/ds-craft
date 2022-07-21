@@ -2,6 +2,26 @@
 
 static glImage sprPig[1];
 
+extern glImage sprGrass[1];
+extern glImage sprDirt[1];
+extern glImage sprStone[1];
+extern glImage sprWood[1];
+extern glImage sprLeaves[1];
+extern glImage sprSand[1];
+extern glImage sprSandstone[1];
+extern glImage sprCactus[1];
+extern glImage sprDeadBush[1];
+extern glImage sprPoppy[1];
+extern glImage sprDandelion[1];
+extern glImage sprDoor[1];
+extern glImage sprPlanks[1];
+extern glImage sprSnowyGrass[1];
+extern glImage sprSapling[1];
+extern glImage sprCobblestone[1];
+extern glImage sprCoalOre[1];
+extern glImage sprCoalBlock[1];
+extern glImage sprCoal[1];
+
 void loadEntityTextures(void)
 {
     loadImageAlpha(sprPig, 32, 32, pigPal, pigBitmap);
@@ -147,4 +167,82 @@ Rect PigEntity::getRectRight(void)
 std::string PigEntity::id(void)
 {
     return "pig";
+}
+
+//----------------------------------------
+
+DropEntity::DropEntity(s16 x, s16 y, std::string blockid) : Entity(x, y)
+{
+    this->blockid = blockid;
+}
+
+void DropEntity::draw(Camera camera)
+{
+    if (blockid == "grass")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprGrass);
+    else if (blockid == "dirt")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprDirt);
+    else if (blockid == "stone")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprStone);
+    else if (blockid == "wood")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprWood);
+    else if (blockid == "leaves")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprLeaves);
+    else if (blockid == "sand")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprSand);
+    else if (blockid == "sandstone")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprSandstone);
+    else if (blockid == "cactus")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprCactus);
+    else if (blockid == "deadbush")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprDeadBush);
+    else if (blockid == "poppy")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprPoppy);
+    else if (blockid == "dandelion")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprDandelion);
+    else if (blockid == "door")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
+    else if (blockid == "planks")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprPlanks);
+    else if (blockid == "snowygrass")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprSnowyGrass);
+    else if (blockid == "sapling")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprSapling);
+    else if (blockid == "cobblestone")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprCobblestone);
+    else if (blockid == "coalore")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprCoalOre);
+    else if (blockid == "coalblock")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprDirt);
+    else if (blockid == "coal")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprCoal);
+}
+
+void DropEntity::update(BlockList &blocks, Camera camera, u16 frames)
+{
+}
+
+Rect DropEntity::getRectBottom(void)
+{
+    return Rect(x + 4, y + 4, 8, 8);
+}
+
+Rect DropEntity::getRectTop(void)
+{
+    return getRectBottom();
+}
+
+Rect DropEntity::getRectLeft(void)
+{
+    return getRectBottom();
+}
+
+Rect DropEntity::getRectRight(void)
+{
+    return getRectBottom();
+}
+
+std::string DropEntity::id(void)
+{
+    return "drop " + blockid;
 }

@@ -50,4 +50,20 @@ public:
     std::string id(void) override;
 };
 
+class DropEntity : public Entity
+{
+private:
+    std::string blockid;
+
+public:
+    DropEntity(s16 x, s16 y, std::string blockid);
+    void draw(Camera camera) override;
+    void update(BlockList &blocks, Camera camera, u16 frames) override;
+    Rect getRectBottom(void) override;
+    Rect getRectTop(void) override;
+    Rect getRectLeft(void) override;
+    Rect getRectRight(void) override;
+    std::string id(void) override;
+};
+
 typedef std::vector<std::unique_ptr<Entity>> EntityList;

@@ -8,7 +8,7 @@ static glImage sprInventorySlot[1];
 static glImage sprInventorySlotSelect[1];
 
 static glImage sprStick[1];
-static glImage sprCoal[1];
+glImage sprCoal[1];
 
 static glImage sprHeartOutline[1];
 static glImage sprHalfHeart[1];
@@ -772,7 +772,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
     }
 }
 
-bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
+bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, const u16 &frames)
 {
     s16 oldX = x;
     bool ret = false; // this is return value. true if placed block and false if not.
@@ -1252,27 +1252,27 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                     u8 effect = rand() % 4;
                     if (bid == "grass")
                     {
-                        addItem(InventoryItemID::Grass);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "grass"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                     }
                     else if (bid == "dirt")
                     {
-                        addItem(InventoryItemID::Dirt);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "dirt"));
                         playsfx(effect, sndDirt1, sndDirt2, sndDirt3, sndDirt4)
                     }
                     else if (bid == "stone")
                     {
-                        addItem(InventoryItemID::Cobblestone);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "cobblestone"));
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
                     }
                     else if (bid == "wood")
                     {
-                        addItem(InventoryItemID::Wood);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "wood"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
                     }
                     else if (bid == "leaves")
                     {
-                        addItem(InventoryItemID::Leaves);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "leaves"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                         if (chance(10))
                         {
@@ -1281,72 +1281,72 @@ bool Player::update(Camera *camera, BlockList *blocks, const u16 &frames)
                             Block *b = block.get();
                             LeavesBlock *l = reinterpret_cast<LeavesBlock *>(b);
                             if (l->isNatural())
-                                addItem(InventoryItemID::Sapling);
+                                entities->emplace_back(new DropEntity(block->x, block->y, "sapling"));
                         }
                     }
                     else if (bid == "sand")
                     {
-                        addItem(InventoryItemID::Sand);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "sand"));
                         playsfx(effect, sndSand1, sndSand2, sndSand3, sndSand4)
                     }
                     else if (bid == "sandstone")
                     {
-                        addItem(InventoryItemID::Sandstone);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "sandstone"));
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
                     }
                     else if (bid == "cactus")
                     {
-                        addItem(InventoryItemID::Cactus);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "cactus"));
                         playsfx(effect, sndCloth1, sndCloth2, sndCloth3, sndCloth4)
                     }
                     else if (bid == "dead bush")
                     {
-                        addItem(InventoryItemID::DeadBush);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "deadbush"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                     }
                     else if (bid == "poppy")
                     {
-                        addItem(InventoryItemID::Poppy);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "poppy"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                     }
                     else if (bid == "dandelion")
                     {
-                        addItem(InventoryItemID::Dandelion);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "dandelion"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                     }
                     else if (bid == "door")
                     {
-                        addItem(InventoryItemID::Door);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "door"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
                     }
                     else if (bid == "planks")
                     {
-                        addItem(InventoryItemID::Planks);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "planks"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
                     }
                     else if (bid == "snowy grass")
                     {
-                        addItem(InventoryItemID::SnowyGrass);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "snowygrass"));
                         playsfx(effect, sndSnow1, sndSnow2, sndSnow3, sndSnow4)
                     }
                     else if (bid == "sapling")
                     {
-                        addItem(InventoryItemID::Sapling);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "sapling"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                     }
                     else if (bid == "cobblestone")
                     {
-                        addItem(InventoryItemID::Cobblestone);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "cobblestone"));
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
                     }
                     else if (bid == "coal ore")
                     {
-                        addItem(InventoryItemID::Coal);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "coal"));
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
                     }
                     else if (bid == "coal block")
                     {
-                        addItem(InventoryItemID::CoalBlock);
+                        entities->emplace_back(new DropEntity(block->x, block->y, "coalblock"));
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
                     }
 
