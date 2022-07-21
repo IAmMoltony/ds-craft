@@ -780,6 +780,11 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             }
         }
     }
+
+    // getRectBottom().draw(camera, RGB15(31, 0, 0));
+    // getRectTop().draw(camera, RGB15(0, 31, 0));
+    // getRectLeft().draw(camera, RGB15(0, 0, 31));
+    // getRectRight().draw(camera, RGB15(31, 31, 0));
 }
 
 bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, const u16 &frames)
@@ -1379,7 +1384,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             if (block->getRect().intersects(getRectTop()))
             {
                 velY = 0;
-                y = block->getRect().y + 33;
+                y = block->getRect().y + 17;
             }
 
             if (block->getRect().intersects(getRectBottom()))
