@@ -47,6 +47,7 @@ typedef struct item
 } InventoryItem;
 
 void loadPlayerGUI(void);
+void loadPlayerTextures(void);
 void loadPlayerSounds(void);
 
 class Player

@@ -14,6 +14,8 @@ static glImage sprHeartOutline[1];
 static glImage sprHalfHeart[1];
 static glImage sprHalfHeart2[1];
 
+static glImage sprPlayer[1];
+
 // these images are loaded in block.cpp
 extern glImage sprGrass[1];
 extern glImage sprDirt[1];
@@ -132,6 +134,11 @@ void loadPlayerGUI(void)
     loadImageAlpha(sprHeartOutline, 16, 16, heart_outlinePal, heart_outlineBitmap);
     loadImageAlpha(sprHalfHeart, 8, 8, half_heartPal, half_heartBitmap);
     loadImageAlpha(sprHalfHeart2, 8, 8, half_heart2Pal, half_heart2Bitmap);
+}
+
+void loadPlayerTextures(void)
+{
+    loadImageAlpha(sprPlayer, 16, 32, placeholder_guyPal, placeholder_guyBitmap);
 }
 
 void loadPlayerSounds(void)
@@ -303,7 +310,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
     if (fullInventory) // inventory draw
     {
         // draw the player
-        glBoxFilled(x - camera.x, y - camera.y, x + 16 - 1 - camera.x, y + 24 - 1 - camera.y, RGB15(0, 0, 31));
+        glSprite(x - 1 - camera.x, y - camera.y, GL_FLIP_NONE, sprPlayer);
         glPolyFmt(POLY_ALPHA(20) | POLY_CULL_NONE | POLY_ID(3));
 
         // draw inventory background
@@ -530,7 +537,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
     else
     {
         // draw the player
-        glBoxFilled(x - camera.x, y - camera.y, x + 16 - 1 - camera.x, y + 24 - 1 - camera.y, RGB15(0, 0, 31));
+        glSprite(x - 1 - camera.x, y - camera.y, GL_FLIP_NONE, sprPlayer);
         glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(1));
 
         // draw the aim as green square or a half-transparent

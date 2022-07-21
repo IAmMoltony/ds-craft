@@ -123,6 +123,7 @@ int main(int argc, char **argv)
     loadBlockSounds();
     loadEntityTextures();
     loadPlayerGUI();
+    loadPlayerTextures();
     loadPlayerSounds();
 
     mmLoadEffect(SFX_POP);
