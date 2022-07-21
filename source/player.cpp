@@ -780,11 +780,6 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             }
         }
     }
-
-    getRectBottom().draw(camera, RGB15(31, 0, 0));
-    getRectTop().draw(camera, RGB15(0, 31, 0));
-    getRectLeft().draw(camera, RGB15(0, 0, 31));
-    getRectRight().draw(camera, RGB15(31, 31, 0));
 }
 
 bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, const u16 &frames)
@@ -1384,14 +1379,14 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             if (block->getRect().intersects(getRectTop()))
             {
                 velY = 0;
-                y = block->getRect().y + 17;
+                y = block->getRect().y + 33;
             }
 
             if (block->getRect().intersects(getRectBottom()))
             {
                 falling = jumping = false;
                 velY = 0;
-                y = block->getRect().y - 24;
+                y = block->getRect().y - 32;
                 //printf("%u\n", airY);
                 if (airY >= 44) // if we fall too much
                 {
@@ -1464,7 +1459,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             }
 
             if (block->getRect().intersects(getRectRight()))
-                x = block->getRect().x - 16;
+                x = block->getRect().x - 12;
             ++i;
         }
         // remove block if remove block
@@ -1682,22 +1677,22 @@ u16 Player::countItems(InventoryItemID item)
 
 Rect Player::getRectBottom(void)
 {
-    return Rect(x + 6 - 3, y + 16, 6, 16);
+    return Rect(x + PLAYER_WIDTH / 2 - PLAYER_WIDTH / 2 / 2, y + PLAYER_HEIGHT / 2, PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2);
 }
 
 Rect Player::getRectTop(void)
 {
-    return Rect(x + 6 - 3, y, 6, 16);
+    return Rect(x + PLAYER_WIDTH / 2 - PLAYER_WIDTH / 2 / 2, y, PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2);
 }
 
 Rect Player::getRectLeft(void)
 {
-    return Rect(x, y + 4, 3, 24);
+    return Rect(x, y + 3, 4, PLAYER_HEIGHT - 6);
 }
 
 Rect Player::getRectRight(void)
 {
-    return Rect(x + 12 - 3, y + 4, 3, 19);
+    return Rect(x + PLAYER_WIDTH - 4, y + 4, 4, PLAYER_HEIGHT - 6);
 }
 
 Rect Player::getRectAim(Camera camera)
