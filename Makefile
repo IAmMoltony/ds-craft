@@ -16,7 +16,7 @@ GAME_SUBTITLE2 := Version alpha1.10
 # this is the melonDS path change it if needed
 # and tbh this can be any emulator as long
 # as you can launch it with <path> ds-craft.nds
-MELONDS_PATH := E:\MelonDS\melonDS.exe
+MELONDS_PATH := D:\MelonDS\melonDS.exe
 
 include $(DEVKITARM)/ds_rules
 
