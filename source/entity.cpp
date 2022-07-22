@@ -72,7 +72,10 @@ void PigEntity::draw(Camera camera)
 
 void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
 {
-    if (x - camera.x < -38 || x - camera.x > SCREEN_WIDTH + 37)
+    if (x - camera.x < -20 ||
+        x - camera.x > SCREEN_WIDTH ||
+        y - camera.y < -40 ||
+        y - camera.y > SCREEN_HEIGHT + 32)
         return;
 
     x += velX;

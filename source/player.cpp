@@ -984,7 +984,22 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             if (entity->getRect().intersects(getRectAim(*camera)) &&
                 down & KEY_B &&
                 entity->id().rfind("drop", 0) != 0)
+            {
                 entity->damage(1);
+                u8 effect = rand() % 3;
+                switch (effect)
+                {
+                case 0:
+                    mmEffectEx(&sndHit1);
+                    break;
+                case 1:
+                    mmEffectEx(&sndHit2);
+                    break;
+                case 2:
+                    mmEffectEx(&sndHit3);
+                    break;
+                }
+            }
         }
         if (down & KEY_A)
         {
