@@ -371,6 +371,8 @@ int main(int argc, char **argv)
                             player.addItem(InventoryItemID::CoalOre);
                         else if (blockid == "coalblock" && player.canAddItem(InventoryItemID::CoalBlock))
                             player.addItem(InventoryItemID::CoalBlock);
+                        else if (blockid == "coal" && player.canAddItem(InventoryItemID::Coal))
+                            player.addItem(InventoryItemID::Coal);
                         else
                             ok = false;
                         
