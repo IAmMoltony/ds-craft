@@ -46,6 +46,16 @@ s16 Entity::getY(void)
     return y;
 }
 
+bool Entity::dead(void)
+{
+    return health < 0;
+}
+
+void Entity::damage(u8 amount)
+{
+    health -= amount;
+}
+
 //----------------------------------------
 
 PigEntity::PigEntity(s16 x, s16 y) : Entity(x, y)
@@ -164,6 +174,11 @@ Rect PigEntity::getRectRight(void)
     return Rect(x + 22 - 3, y + 2, 4, 20);
 }
 
+Rect PigEntity::getRect(void)
+{
+    return Rect(x, y, 18, 18);
+}
+
 std::string PigEntity::id(void)
 {
     return "pig";
@@ -238,6 +253,11 @@ Rect DropEntity::getRectLeft(void)
 }
 
 Rect DropEntity::getRectRight(void)
+{
+    return getRectBottom();
+}
+
+Rect DropEntity::getRect(void)
 {
     return getRectBottom();
 }

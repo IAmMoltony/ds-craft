@@ -19,6 +19,7 @@ public:
     s16 x, y;
     float velX, velY;
     bool falling, jumping;
+    s8 health;
 
     Entity(s16 x, s16 y);
     virtual void draw(Camera camera) = 0;
@@ -27,10 +28,13 @@ public:
     virtual Rect getRectTop(void) = 0;
     virtual Rect getRectLeft(void) = 0;
     virtual Rect getRectRight(void) = 0;
+    virtual Rect getRect(void) = 0;
     virtual std::string id(void) = 0;
 
     s16 getX(void);
     s16 getY(void);
+    bool dead(void);
+    void damage(u8 amount);
 };
 
 class PigEntity : public Entity
@@ -47,6 +51,7 @@ public:
     Rect getRectTop(void) override;
     Rect getRectLeft(void) override;
     Rect getRectRight(void) override;
+    Rect getRect(void) override;
     std::string id(void) override;
 };
 
@@ -64,6 +69,7 @@ public:
     Rect getRectTop(void) override;
     Rect getRectLeft(void) override;
     Rect getRectRight(void) override;
+    Rect getRect(void) override;
     std::string id(void) override;
 };
 
