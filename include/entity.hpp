@@ -30,6 +30,7 @@ public:
     virtual Rect getRectRight(void) = 0;
     virtual Rect getRect(void) = 0;
     virtual std::string id(void) = 0;
+    virtual void afterDealDamage(void);
 
     s16 getX(void);
     s16 getY(void);
@@ -42,6 +43,7 @@ class PigEntity : public Entity
 private:
     Facing facing;
     bool moving;
+    u8 damageOverlayTimer;
 
 public:
     PigEntity(s16 x, s16 y);
@@ -53,6 +55,7 @@ public:
     Rect getRectRight(void) override;
     Rect getRect(void) override;
     std::string id(void) override;
+    void afterDealDamage(void) override;
 };
 
 class DropEntity : public Entity

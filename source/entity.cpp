@@ -1,6 +1,7 @@
 #include <entity.hpp>
 
 static glImage sprPig[1];
+static glImage sprPigDamage[1];
 
 extern glImage sprGrass[1];
 extern glImage sprDirt[1];
@@ -25,6 +26,7 @@ extern glImage sprCoal[1];
 void loadEntityTextures(void)
 {
     loadImageAlpha(sprPig, 32, 32, pigPal, pigBitmap);
+    loadImageAlpha(sprPigDamage, 32, 32, pig_damagePal, pig_damageBitmap);
 }
 
 Entity::Entity(s16 x, s16 y)
@@ -54,6 +56,11 @@ bool Entity::dead(void)
 void Entity::damage(u8 amount)
 {
     health -= amount;
+    afterDealDamage();
+}
+
+void Entity::afterDealDamage(void)
+{
 }
 
 //----------------------------------------
@@ -63,11 +70,22 @@ PigEntity::PigEntity(s16 x, s16 y) : Entity(x, y)
     facing = Facing::Right;
     moving = true;
     health = 4;
+    damageOverlayTimer = 255;
 }
 
 void PigEntity::draw(Camera camera)
 {
-    glSpriteScale(x - camera.x - (facing == Facing::Left ? 17 : 0), y - camera.y, (1 << 12) * 1.25f, facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H, sprPig);
+    glSpriteScale(x - camera.x - (facing == Facing::Left ? 17 : 0), y - camera.y,
+                  (1 << 12) * 1.25f, facing == Facing::Right ? GL_FLIP_NONE :
+                  GL_FLIP_H, sprPig);
+    if (damageOverlayTimer != 255)
+    {
+        glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(9));
+        glSpriteScale(x - camera.x - (facing == Facing::Left ? 17 : 0), y - camera.y,
+                    (1 << 12) * 1.25f, facing == Facing::Right ? GL_FLIP_NONE :
+                    GL_FLIP_H, sprPigDamage);
+        glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(9));
+    }
 }
 
 void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
@@ -77,6 +95,13 @@ void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
         y - camera.y < -40 ||
         y - camera.y > SCREEN_HEIGHT + 32)
         return;
+
+    if (damageOverlayTimer != 255)
+    {
+        ++damageOverlayTimer;
+        if (damageOverlayTimer == 20)
+            damageOverlayTimer = 255;
+    }
 
     x += velX;
     y += velY;
@@ -186,6 +211,11 @@ Rect PigEntity::getRect(void)
 std::string PigEntity::id(void)
 {
     return "pig";
+}
+
+void PigEntity::afterDealDamage(void)
+{
+    damageOverlayTimer = 0;
 }
 
 //----------------------------------------
