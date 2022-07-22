@@ -382,6 +382,9 @@ int main(int argc, char **argv)
                             entities.erase(entities.begin() + i);
                         }
                     }
+
+                    if (entity->id().rfind("drop", 0) != 0 && entity->dead())
+                        entities.erase(entities.begin() + i);
                 }
 
                 // sort blocks when placed block

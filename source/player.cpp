@@ -979,6 +979,13 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
         }
 
         u32 down = keysDown();
+        for (auto &entity : *entities)
+        {
+            if (entity->getRect().intersects(getRectAim(*camera)) &&
+                down & KEY_B &&
+                entity->id().rfind("drop", 0) != 0)
+                entity->damage(1);
+        }
         if (down & KEY_A)
         {
             // when a pressed, either interact or place block

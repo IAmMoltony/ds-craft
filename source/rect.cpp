@@ -18,6 +18,11 @@ bool Rect::intersects(Rect other)
     );
 }
 
+bool Rect::isPointInside(int _x, int _y)
+{
+    return Rect(_x, _y, 1, 1).intersects(*this);
+}
+
 void Rect::draw(Camera camera, int color)
 {
     glBoxStroke(x - camera.x, y - camera.y, w, h, color);

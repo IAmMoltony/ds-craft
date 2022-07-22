@@ -62,6 +62,7 @@ PigEntity::PigEntity(s16 x, s16 y) : Entity(x, y)
 {
     facing = Facing::Right;
     moving = true;
+    health = 4;
 }
 
 void PigEntity::draw(Camera camera)
@@ -189,6 +190,7 @@ std::string PigEntity::id(void)
 DropEntity::DropEntity(s16 x, s16 y, std::string blockid) : Entity(x, y)
 {
     this->blockid = blockid;
+    health = 255;
 }
 
 void DropEntity::draw(Camera camera)
