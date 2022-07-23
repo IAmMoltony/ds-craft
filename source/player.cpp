@@ -1014,204 +1014,214 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
         {
             // when a pressed, either interact or place block
             // and interact if there is a block, place if there isnt
-            bool interact = false;
-
-            for (auto &block : *blocks)
+            // but if we are holding an item that we can use
+            // then use it
+            if (inventory[inventorySelect].id == InventoryItemID::RawPorkchop)
             {
-                // skip blocks out of camera
-                if (block->getRect().x - camera->x < -16 ||
-                    block->getRect().y - camera->y < -16)
-                    continue;
-                if (block->getRect().x - camera->x > SCREEN_WIDTH + 48)
-                    break;
-
-                // if there is block at aim
-                if (Rect(getRectAim(*camera).x + 1, getRectAim(*camera).y + 1, 14, 14)
-                    .intersects(block->getRect()))
-                {
-                    // interact
-                    interact = true;
-                    block->interact();
-                    break;
-                }
+                health += 2;
+                if (health > 9)
+                    health = 9;
             }
-
-            if (!interact)
+            else
             {
-                // place a block if we didnt interact
-                // some blocks you can only place on other
-                // certain blocks
-                // eg flowers can only be placed on grass
-                // dirt and snow and cactus can only be placed
-                // on cactus and sand
-                if (inventory[inventorySelect].amount > 0)
+                bool interact = false;
+                for (auto &block : *blocks)
                 {
-                    InventoryItemID id = inventory[inventorySelect].id; // id
-                    u8 effect = rand() % 4; // sound effect 2 play
-                    bool canPlace = true; // can place block?????
-                    switch (id)
+                    // skip blocks out of camera
+                    if (block->getRect().x - camera->x < -16 ||
+                        block->getRect().y - camera->y < -16)
+                        continue;
+                    if (block->getRect().x - camera->x > SCREEN_WIDTH + 48)
+                        break;
+
+                    // if there is block at aim
+                    if (Rect(getRectAim(*camera).x + 1, getRectAim(*camera).y + 1, 14, 14)
+                        .intersects(block->getRect()))
                     {
-                    case InventoryItemID::Grass:
-                        blocks->emplace_back(new GrassBlock(snapToGrid(camera->x + aimX),
-                                                            snapToGrid(camera->y + aimY)));
-                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        // interact
+                        interact = true;
+                        block->interact();
                         break;
-                    case InventoryItemID::Dirt:
-                        blocks->emplace_back(new DirtBlock(snapToGrid(camera->x + aimX),
-                                                           snapToGrid(camera->y + aimY)));
-                        playsfx(effect, sndDirt1, sndDirt2, sndDirt3, sndDirt4)
-                        break;
-                    case InventoryItemID::Stone:
-                        blocks->emplace_back(new StoneBlock(snapToGrid(camera->x + aimX),
-                                                            snapToGrid(camera->y + aimY)));
-                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
-                        break;
-                    case InventoryItemID::Wood:
-                        blocks->emplace_back(new WoodBlock(snapToGrid(camera->x + aimX),
-                                                           snapToGrid(camera->y + aimY)));
-                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
-                        break;
-                    case InventoryItemID::Leaves:
-                        blocks->emplace_back(new LeavesBlock(snapToGrid(camera->x + aimX),
-                                                             snapToGrid(camera->y + aimY), false));
-                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
-                        break;
-                    case InventoryItemID::Sand:
-                        blocks->emplace_back(new SandBlock(snapToGrid(camera->x + aimX),
-                                                           snapToGrid(camera->y + aimY)));
-                        playsfx(effect, sndSand1, sndSand2, sndSand3, sndSand4)
-                        break;
-                    case InventoryItemID::Sandstone:
-                        blocks->emplace_back(new SandstoneBlock(snapToGrid(camera->x + aimX),
+                    }
+                }
+
+                if (!interact)
+                {
+                    // place a block if we didnt interact
+                    // some blocks you can only place on other
+                    // certain blocks
+                    // eg flowers can only be placed on grass
+                    // dirt and snow and cactus can only be placed
+                    // on cactus and sand
+                    if (inventory[inventorySelect].amount > 0)
+                    {
+                        InventoryItemID id = inventory[inventorySelect].id; // id
+                        u8 effect = rand() % 4; // sound effect 2 play
+                        bool canPlace = true; // can place block?????
+                        switch (id)
+                        {
+                        case InventoryItemID::Grass:
+                            blocks->emplace_back(new GrassBlock(snapToGrid(camera->x + aimX),
                                                                 snapToGrid(camera->y + aimY)));
-                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
-                        break;
-                    case InventoryItemID::Cactus:
-                        canPlace = false;
-                        for (size_t i = 0; i < blocks->size(); ++i)
-                        {
-                            if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
-                                blocks->at(i)->x == getRectAim(*camera).x && (
-                                blocks->at(i)->id() == "sand" ||
-                                blocks->at(i)->id() == "cactus"))
-                                canPlace = true;
-                        }
-                        if (canPlace)
-                        {
-                            blocks->emplace_back(new CactusBlock(snapToGrid(camera->x + aimX),
-                                                                 snapToGrid(camera->y + aimY)));
-                            playsfx(effect, sndCloth1, sndCloth2, sndCloth3, sndCloth4)
-                        }
-                        break;
-                    case InventoryItemID::DeadBush:
-                        canPlace = false;
-                        for (size_t i = 0; i < blocks->size(); ++i)
-                        {
-                            if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
-                                blocks->at(i)->x == getRectAim(*camera).x && (
-                                blocks->at(i)->id() == "sand"))
-                                canPlace = true;
-                        }
-                        if (canPlace)
-                        {
-                            blocks->emplace_back(new DeadBushBlock(snapToGrid(camera->x + aimX),
-                                                                   snapToGrid(camera->y + aimY)));
                             playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
-                        }
-                        break;
-                    case InventoryItemID::Poppy:
-                        canPlace = false;
-                        for (size_t i = 0; i < blocks->size(); ++i)
-                        {
-                            if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
-                                blocks->at(i)->x == getRectAim(*camera).x && (
-                                blocks->at(i)->id() == "grass" ||
-                                blocks->at(i)->id() == "dirt" ||
-                                blocks->at(i)->id() == "snowy grass"))
-                                canPlace = true;
+                            break;
+                        case InventoryItemID::Dirt:
+                            blocks->emplace_back(new DirtBlock(snapToGrid(camera->x + aimX),
+                                                            snapToGrid(camera->y + aimY)));
+                            playsfx(effect, sndDirt1, sndDirt2, sndDirt3, sndDirt4)
+                            break;
+                        case InventoryItemID::Stone:
+                            blocks->emplace_back(new StoneBlock(snapToGrid(camera->x + aimX),
+                                                                snapToGrid(camera->y + aimY)));
+                            playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
+                            break;
+                        case InventoryItemID::Wood:
+                            blocks->emplace_back(new WoodBlock(snapToGrid(camera->x + aimX),
+                                                            snapToGrid(camera->y + aimY)));
+                            playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
+                            break;
+                        case InventoryItemID::Leaves:
+                            blocks->emplace_back(new LeavesBlock(snapToGrid(camera->x + aimX),
+                                                                snapToGrid(camera->y + aimY), false));
+                            playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                            break;
+                        case InventoryItemID::Sand:
+                            blocks->emplace_back(new SandBlock(snapToGrid(camera->x + aimX),
+                                                            snapToGrid(camera->y + aimY)));
+                            playsfx(effect, sndSand1, sndSand2, sndSand3, sndSand4)
+                            break;
+                        case InventoryItemID::Sandstone:
+                            blocks->emplace_back(new SandstoneBlock(snapToGrid(camera->x + aimX),
+                                                                    snapToGrid(camera->y + aimY)));
+                            playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
+                            break;
+                        case InventoryItemID::Cactus:
+                            canPlace = false;
+                            for (size_t i = 0; i < blocks->size(); ++i)
+                            {
+                                if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
+                                    blocks->at(i)->x == getRectAim(*camera).x && (
+                                    blocks->at(i)->id() == "sand" ||
+                                    blocks->at(i)->id() == "cactus"))
+                                    canPlace = true;
+                            }
+                            if (canPlace)
+                            {
+                                blocks->emplace_back(new CactusBlock(snapToGrid(camera->x + aimX),
+                                                                    snapToGrid(camera->y + aimY)));
+                                playsfx(effect, sndCloth1, sndCloth2, sndCloth3, sndCloth4)
+                            }
+                            break;
+                        case InventoryItemID::DeadBush:
+                            canPlace = false;
+                            for (size_t i = 0; i < blocks->size(); ++i)
+                            {
+                                if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
+                                    blocks->at(i)->x == getRectAim(*camera).x && (
+                                    blocks->at(i)->id() == "sand"))
+                                    canPlace = true;
+                            }
+                            if (canPlace)
+                            {
+                                blocks->emplace_back(new DeadBushBlock(snapToGrid(camera->x + aimX),
+                                                                    snapToGrid(camera->y + aimY)));
+                                playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                            }
+                            break;
+                        case InventoryItemID::Poppy:
+                            canPlace = false;
+                            for (size_t i = 0; i < blocks->size(); ++i)
+                            {
+                                if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
+                                    blocks->at(i)->x == getRectAim(*camera).x && (
+                                    blocks->at(i)->id() == "grass" ||
+                                    blocks->at(i)->id() == "dirt" ||
+                                    blocks->at(i)->id() == "snowy grass"))
+                                    canPlace = true;
+                            }
+                            if (canPlace)
+                            {
+                                blocks->emplace_back(new FlowerBlock(snapToGrid(camera->x + aimX),
+                                                                    snapToGrid(camera->y + aimY), FlowerType::Poppy));
+                                playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                            }
+                            break;
+                        case InventoryItemID::Dandelion:
+                            canPlace = false;
+                            for (size_t i = 0; i < blocks->size(); ++i)
+                            {
+                                if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
+                                    blocks->at(i)->x == getRectAim(*camera).x && (
+                                    blocks->at(i)->id() == "grass" ||
+                                    blocks->at(i)->id() == "dirt" ||
+                                    blocks->at(i)->id() == "snowy grass"))
+                                    canPlace = true;
+                            }
+                            if (canPlace)
+                            {
+                                blocks->emplace_back(new FlowerBlock(snapToGrid(camera->x + aimX),
+                                                                    snapToGrid(camera->y + aimY),
+                                                                    FlowerType::Dandelion));
+                                playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                            }
+                            break;
+                        case InventoryItemID::Door:
+                            blocks->emplace_back(new DoorBlock(snapToGrid(camera->x + aimX),
+                                                            snapToGrid(camera->y + aimY), x));
+                            playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
+                            break;
+                        case InventoryItemID::Planks:
+                            blocks->emplace_back(new PlanksBlock(snapToGrid(camera->x + aimX),
+                                                                snapToGrid(camera->y + aimY)));
+                            playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
+                            break;
+                        case InventoryItemID::SnowyGrass:
+                            blocks->emplace_back(new SnowyGrassBlock(snapToGrid(camera->x + aimX),
+                                                                    snapToGrid(camera->y + aimY)));
+                            playsfx(effect, sndSnow1, sndSnow2, sndSnow3, sndSnow4)
+                            break;
+                        case InventoryItemID::Sapling:
+                            canPlace = false;
+                            for (size_t i = 0; i < blocks->size(); ++i)
+                            {
+                                if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
+                                    blocks->at(i)->x == getRectAim(*camera).x && (
+                                    blocks->at(i)->id() == "grass" ||
+                                    blocks->at(i)->id() == "dirt" ||
+                                    blocks->at(i)->id() == "snowy grass"))
+                                    canPlace = true;
+                            }
+                            if (canPlace)
+                            {
+                                blocks->emplace_back(new SaplingBlock(snapToGrid(camera->x + aimX),
+                                                                    snapToGrid(camera->y + aimY)));
+                                playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                            }
+                            break;
+                        case InventoryItemID::Cobblestone:  
+                            blocks->emplace_back(new CobblestoneBlock(snapToGrid(camera->x + aimX),
+                                                                    snapToGrid(camera->y + aimY)));
+                            playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
+                            break;
+                        case InventoryItemID::CoalOre:
+                            blocks->emplace_back(new CoalOreBlock(snapToGrid(camera->x + aimX),
+                                                                snapToGrid(camera->y + aimY)));
+                            playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
+                            break;
+                        case InventoryItemID::CoalBlock:
+                            blocks->emplace_back(new CoalBlock(snapToGrid(camera->x + aimX),
+                                                            snapToGrid(camera->y + aimY)));
+                            playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
+                            break;
                         }
                         if (canPlace)
                         {
-                            blocks->emplace_back(new FlowerBlock(snapToGrid(camera->x + aimX),
-                                                                 snapToGrid(camera->y + aimY), FlowerType::Poppy));
-                            playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                            --inventory[inventorySelect].amount;
+                            if (inventory[inventorySelect].amount == 0)
+                                inventory[inventorySelect].id = InventoryItemID::None;
                         }
-                        break;
-                    case InventoryItemID::Dandelion:
-                        canPlace = false;
-                        for (size_t i = 0; i < blocks->size(); ++i)
-                        {
-                            if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
-                                blocks->at(i)->x == getRectAim(*camera).x && (
-                                blocks->at(i)->id() == "grass" ||
-                                blocks->at(i)->id() == "dirt" ||
-                                blocks->at(i)->id() == "snowy grass"))
-                                canPlace = true;
-                        }
-                        if (canPlace)
-                        {
-                            blocks->emplace_back(new FlowerBlock(snapToGrid(camera->x + aimX),
-                                                                 snapToGrid(camera->y + aimY),
-                                                                 FlowerType::Dandelion));
-                            playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
-                        }
-                        break;
-                    case InventoryItemID::Door:
-                        blocks->emplace_back(new DoorBlock(snapToGrid(camera->x + aimX),
-                                                           snapToGrid(camera->y + aimY), x));
-                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
-                        break;
-                    case InventoryItemID::Planks:
-                        blocks->emplace_back(new PlanksBlock(snapToGrid(camera->x + aimX),
-                                                             snapToGrid(camera->y + aimY)));
-                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
-                        break;
-                    case InventoryItemID::SnowyGrass:
-                        blocks->emplace_back(new SnowyGrassBlock(snapToGrid(camera->x + aimX),
-                                                                 snapToGrid(camera->y + aimY)));
-                        playsfx(effect, sndSnow1, sndSnow2, sndSnow3, sndSnow4)
-                        break;
-                    case InventoryItemID::Sapling:
-                        canPlace = false;
-                        for (size_t i = 0; i < blocks->size(); ++i)
-                        {
-                            if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
-                                blocks->at(i)->x == getRectAim(*camera).x && (
-                                blocks->at(i)->id() == "grass" ||
-                                blocks->at(i)->id() == "dirt" ||
-                                blocks->at(i)->id() == "snowy grass"))
-                                canPlace = true;
-                        }
-                        if (canPlace)
-                        {
-                            blocks->emplace_back(new SaplingBlock(snapToGrid(camera->x + aimX),
-                                                                  snapToGrid(camera->y + aimY)));
-                            playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
-                        }
-                        break;
-                    case InventoryItemID::Cobblestone:  
-                        blocks->emplace_back(new CobblestoneBlock(snapToGrid(camera->x + aimX),
-                                                                  snapToGrid(camera->y + aimY)));
-                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
-                        break;
-                    case InventoryItemID::CoalOre:
-                        blocks->emplace_back(new CoalOreBlock(snapToGrid(camera->x + aimX),
-                                                              snapToGrid(camera->y + aimY)));
-                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
-                        break;
-                    case InventoryItemID::CoalBlock:
-                        blocks->emplace_back(new CoalBlock(snapToGrid(camera->x + aimX),
-                                                           snapToGrid(camera->y + aimY)));
-                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
-                        break;
+                        ret = true;
                     }
-                    if (canPlace)
-                    {
-                        --inventory[inventorySelect].amount;
-                        if (inventory[inventorySelect].amount == 0)
-                            inventory[inventorySelect].id = InventoryItemID::None;
-                    }
-                    ret = true;
                 }
             }
         }
