@@ -1018,6 +1018,9 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             // then use it
             if (inventory[inventorySelect].id == InventoryItemID::RawPorkchop)
             {
+                if (health != 9)
+                    removeItem(InventoryItemID::RawPorkchop);
+
                 health += 2;
                 if (health > 9)
                     health = 9;
