@@ -373,6 +373,8 @@ int main(int argc, char **argv)
                             player.addItem(InventoryItemID::CoalBlock);
                         else if (blockid == "coal" && player.canAddItem(InventoryItemID::Coal))
                             player.addItem(InventoryItemID::Coal);
+                        else if (blockid == "rawporkchop" && player.canAddItem(InventoryItemID::RawPorkchop))
+                            player.addItem(InventoryItemID::RawPorkchop);
                         else
                             ok = false;
                         
@@ -381,6 +383,11 @@ int main(int argc, char **argv)
                             mmEffectEx(&sndPop);
                             entities.erase(entities.begin() + i);
                         }
+                    }
+                    else if (entity->id() == "pig")
+                    {
+                        if (entity->dead())
+                            entities.emplace_back(new DropEntity(entity->getX(), entity->getY(), "rawporkchop"));
                     }
 
                     if (entity->id().rfind("drop", 0) != 0 && entity->dead())

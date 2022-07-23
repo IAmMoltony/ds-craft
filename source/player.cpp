@@ -9,6 +9,7 @@ static glImage sprInventorySlotSelect[1];
 
 static glImage sprStick[1];
 glImage sprCoal[1];
+glImage sprRawPorkchop[1];
 
 static glImage sprHeartOutline[1];
 static glImage sprHalfHeart[1];
@@ -131,6 +132,7 @@ void loadPlayerGUI(void)
 
     loadImageAlpha(sprStick, 8, 8, stickPal, stickBitmap); // TODO make stick its ok size
     loadImageAlpha(sprCoal, 16, 16, coalPal, coalBitmap);
+    loadImageAlpha(sprRawPorkchop, 16, 16, porkchopPal, porkchopBitmap);
     loadImageAlpha(sprHeartOutline, 16, 16, heart_outlinePal, heart_outlineBitmap);
     loadImageAlpha(sprHalfHeart, 8, 8, half_heartPal, half_heartBitmap);
     loadImageAlpha(sprHalfHeart2, 8, 8, half_heart2Pal, half_heart2Bitmap);
@@ -516,6 +518,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                     case InventoryItemID::CoalBlock:
                         glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprCoalBlock);
                         break;
+                    case InventoryItemID::RawPorkchop:
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprRawPorkchop);
+                        break;
                     }
 
                     if (amount > 1)
@@ -745,6 +750,10 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 case InventoryItemID::CoalBlock:
                     glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              HALFSIZE, GL_FLIP_NONE, sprCoalBlock);
+                    break;
+                case InventoryItemID::RawPorkchop:
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             HALFSIZE, GL_FLIP_NONE, sprRawPorkchop);
                     break;
                 }
 

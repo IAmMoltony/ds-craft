@@ -22,6 +22,7 @@ extern glImage sprCobblestone[1];
 extern glImage sprCoalOre[1];
 extern glImage sprCoalBlock[1];
 extern glImage sprCoal[1];
+extern glImage sprRawPorkchop[1];
 
 void loadEntityTextures(void)
 {
@@ -266,6 +267,8 @@ void DropEntity::draw(Camera camera)
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprDirt);
     else if (blockid == "coal")
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprCoal);
+    else if (blockid == "rawporkchop")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprRawPorkchop);
 }
 
 void DropEntity::update(BlockList &blocks, Camera camera, u16 frames)
