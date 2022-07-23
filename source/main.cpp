@@ -387,11 +387,11 @@ int main(int argc, char **argv)
                     else if (entity->id() == "pig")
                     {
                         if (entity->dead())
+                        {
                             entities.emplace_back(new DropEntity(entity->getX(), entity->getY(), "rawporkchop"));
+                            entities.erase(entities.begin() + i);
+                        }
                     }
-
-                    if (entity->id().rfind("drop", 0) != 0 && entity->dead())
-                        entities.erase(entities.begin() + i);
                 }
 
                 // sort blocks when placed block
