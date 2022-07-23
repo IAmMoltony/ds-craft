@@ -122,6 +122,11 @@ static mm_sound_effect sndHit1;
 static mm_sound_effect sndHit2;
 static mm_sound_effect sndHit3;
 
+// eat sfx
+static mm_sound_effect sndEat1;
+static mm_sound_effect sndEat2;
+static mm_sound_effect sndEat3;
+
 // sounds that will be used in other files
 mm_sound_effect sndClick;
 
@@ -214,6 +219,10 @@ void loadPlayerSounds(void)
     mmLoadEffect(SFX_HIT2);
     mmLoadEffect(SFX_HIT3);
 
+    mmLoadEffect(SFX_EAT1);
+    mmLoadEffect(SFX_EAT2);
+    mmLoadEffect(SFX_EAT3);
+
     mmLoadEffect(SFX_CLICK);
 
     sndGrass1 = soundEffect(SFX_GRASS1);
@@ -284,6 +293,10 @@ void loadPlayerSounds(void)
     sndHit1 = soundEffect(SFX_HIT1);
     sndHit2 = soundEffect(SFX_HIT2);
     sndHit3 = soundEffect(SFX_HIT3);
+
+    sndEat1 = soundEffect(SFX_EAT1);
+    sndEat2 = soundEffect(SFX_EAT2);
+    sndEat3 = soundEffect(SFX_EAT3);
 
     sndClick = soundEffect(SFX_CLICK);
 }
@@ -1019,7 +1032,22 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             if (inventory[inventorySelect].id == InventoryItemID::RawPorkchop)
             {
                 if (health != 9)
+                {
                     removeItem(InventoryItemID::RawPorkchop);
+                    u8 effect = rand() % 3;
+                    switch (effect)
+                    {
+                    case 0:
+                        mmEffectEx(&sndEat1);
+                        break;
+                    case 1:
+                        mmEffectEx(&sndEat2);
+                        break;
+                    case 2:
+                        mmEffectEx(&sndEat3);
+                        break;
+                    }
+                }
 
                 health += 2;
                 if (health > 9)
