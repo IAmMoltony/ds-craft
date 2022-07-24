@@ -1564,7 +1564,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
         // jumpign
         if (up)
         {
-            if (!jumping)
+            if (!jumping && airY <= 5)
             {
                 jumping = true;
                 velY = -4;
