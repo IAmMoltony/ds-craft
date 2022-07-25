@@ -1002,13 +1002,16 @@ int main(int argc, char **argv)
             glColor(RGB15(31, 31, 31));
 
             glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, bbtn);
+            glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, abtn);
             switch (lang)
             {
             case Language::English:
                 fontSmall.print(15, SCREEN_HEIGHT - 15, "Back");
+                fontSmall.print(15, SCREEN_HEIGHT - 28, "Change");
                 break;
             case Language::Russian:
                 fontSmallRu1.print(15, SCREEN_HEIGHT - 15, "Objbf");
+                fontSmall.print(15, SCREEN_HEIGHT - 28, "Jjogpku#");
                 break;
             }
 
