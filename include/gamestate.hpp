@@ -10,4 +10,5 @@ enum class GameState
     SplashScreen,
     LanguageSelect,
     VersionInfo,
+    Settings,
 };
