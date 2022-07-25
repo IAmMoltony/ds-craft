@@ -224,6 +224,7 @@ int main(int argc, char **argv)
     bool paused = false; // is the game paused
     std::string worldName = ""; // world name
     std::string createWorldName = ""; // world name (for create world)
+    u8 settingsSelect = 0; // selected sttting
     while (true)
     {
         // scan keys
@@ -437,6 +438,11 @@ int main(int argc, char **argv)
                 gameState = GameState::Credits;
                 mmEffectEx(&sndClick);
             }
+            else if (down & KEY_X)
+            {
+                gameState = GameState::Settings;
+                mmEffectEx(&sndClick);
+            }
             break;
         case GameState::Credits:
             if (down & KEY_B)
@@ -593,6 +599,33 @@ int main(int argc, char **argv)
                 gameState = GameState::Credits;
             }
             break;
+        case GameState::Settings:
+            if (down & KEY_B)
+            {
+                mmEffectEx(&sndClick);
+                gameState = GameState::Menu;
+            }
+            else if (down & KEY_A)
+            {
+                switch (settingsSelect)
+                {
+                case 0:
+                    switch (lang)
+                    {
+                    case Language::Russian:
+                        lang = Language::English;
+                        fsWrite("config/lang.cfg", "0");
+                        break;
+                    case Language::English:
+                        lang = Language::Russian;
+                        fsWrite("config/lang.cfg", "1");
+                        break;
+                    }
+                    break;
+                }
+                mmEffectEx(&sndClick);
+            }
+            break;
         }
         ++frames;
 
@@ -645,7 +678,7 @@ int main(int argc, char **argv)
                     fontSmall.printCentered(0, 118, "Quit");
                     break;
                 case Language::Russian:
-                    glSprite(SCREEN_WIDTH / 2 - 37, 96, GL_FLIP_NONE, abtn);
+                    glSprite(SCREEN_WIDTH / 2 - 57, 96, GL_FLIP_NONE, abtn);
                     fontSmallRu1.printCentered(0, 98, "Cqjsqfku#t&");
                     glSprite(SCREEN_WIDTH / 2 - 33, 116, GL_FLIP_NONE, bbtn);
                     fontSmallRu1.printCentered(0, 118, "C\"luk");
@@ -723,12 +756,16 @@ int main(int argc, char **argv)
                 fontSmall.printCentered(0, 98, "Play");
                 glSprite(SCREEN_WIDTH / 2 - 41, 116, GL_FLIP_NONE, bbtn);
                 fontSmall.printCentered(0, 118, "Credits");
+                glSprite(SCREEN_WIDTH / 2 - 45, 136, GL_FLIP_NONE, xbtn);
+                fontSmall.printCentered(0, 138, "Settings");
                 break;
             case Language::Russian:
                 glSprite(SCREEN_WIDTH / 2 - 37, 96, GL_FLIP_NONE, abtn);
                 fontSmallRu1.printCentered(0, 98, "Jesbu#");
                 glSprite(SCREEN_WIDTH / 2 - 33, 116, GL_FLIP_NONE, bbtn);
                 fontSmallRu1.printCentered(0, 118, "Tkus\"");
+                glSprite(SCREEN_WIDTH / 2 - 49, 136, GL_FLIP_NONE, xbtn);
+                fontSmallRu1.printCentered(0, 138, "Obtusqlmk");
             }
             break;
         case GameState::Credits:
@@ -946,6 +983,47 @@ int main(int argc, char **argv)
                 break;
             }
             break;
+        case GameState::Settings:
+            drawMovingBackground(sprDirt, frames);
+
+            if (settingsSelect == 0)
+            {
+                glColor(RGB15(0, 31, 0));
+            }
+            switch (lang)
+            {
+            case Language::English:
+                fontSmall.print(17, 48, "Language: english");
+                break;
+            case Language::Russian:
+                fontSmallRu1.print(17, 48, "aj\"m: svttmkl");
+                break;
+            }
+            glColor(RGB15(31, 31, 31));
+
+            glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, bbtn);
+            glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, abtn);
+            switch (lang)
+            {
+            case Language::English:
+                fontSmall.print(15, SCREEN_HEIGHT - 15, "Back");
+                fontSmall.print(15, SCREEN_HEIGHT - 28, "Change");
+                break;
+            case Language::Russian:
+                fontSmallRu1.print(15, SCREEN_HEIGHT - 15, "Objbf");
+                fontSmall.print(15, SCREEN_HEIGHT - 28, "Jjogpku#");
+                break;
+            }
+
+            switch (lang)
+            {
+            case Language::English:
+                font.printCentered(0, 5, "Settings");
+                break;
+            case Language::Russian:
+                fontRu.printCentered(0, 5, "Obtusqlmk");
+                break;
+            }
         }
 
         glEnd2D();

@@ -11,12 +11,12 @@ endif
 GAME_ICON      := ../icon.bmp
 GAME_TITLE     := DS-Craft
 GAME_SUBTITLE1 := Minecraft clone for NDS
-GAME_SUBTITLE2 := Version alpha1.11
+GAME_SUBTITLE2 := Version alpha1.12
 
 # this is the melonDS path change it if needed
 # and tbh this can be any emulator as long
 # as you can launch it with <path> ds-craft.nds
-MELONDS_PATH := D:\MelonDS\melonDS.exe
+MELONDS_PATH := E:\MelonDS\melonDS.exe
 
 include $(DEVKITARM)/ds_rules
 
