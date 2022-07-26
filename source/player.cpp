@@ -1276,49 +1276,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
         bool remove = false; // do we remove or not
         for (auto &block : *blocks)
         {
-            // Skip if block mostly mostly kind of particularly for the most part literally
-            // is not visible, which generally for the most part kind of specifically for
-            // all intents and purposes mostly is quite significant in a sort of very definitely
-            // particularly major way, or so they actually thought, which basically generally
-            // essentially is quite significant, which basically is quite significant. If it
-            // particularly basically for all intents and purposes for all intents and purposes
-            // mostly for all intents and purposes is inside the camera then it basically for
-            // all intents and purposes literally specifically particularly generally is
-            // considered visible, and if the block generally literally mostly kind of essentially
-            // essentially is outside the camera it kind of literally mostly mostly generally
-            // is not, which for the most part for the most part basically for the most part
-            // actually specifically is quite significant, very for all intents and purposes kind
-            // of actually fairly contrary to popular belief in a basically sort of for all intents
-            // and purposes very major way in a sort of pretty generally major way in a kind of
-            // generally big way, demonstrating that for all intents and purposes skip if block
-            // mostly mostly kind of particularly for the most part specifically is not visible,
-            // which generally for the most part kind of specifically for all intents and purposes
-            // generally is quite significant in a sort of very definitely kind of major way, or so
-            // they actually thought, which basically generally specifically is quite significant,
-            // pretty contrary to popular belief. This specifically definitely definitely literally
-            // really literally is for optimization, because definitely pretty very pretty much sort
-            // of pretty much pretty much more blocks to kind of essentially literally kind of
-            // basically really update basically actually for the most part for the most part
-            // actually equals sort of kind of definitely generally sort of less performance, and for
-            // all intents and purposes fairly kind of generally fairly much less performance for all
-            // intents and purposes basically really literally definitely equals actually pretty for
-            // all intents and purposes basically very bad experience for players in a very sort of
-            // generally very particularly really big way in a really particularly really definitely
-            // particularly major way, which actually essentially basically actually is quite
-            // significant in a fairly generally major way in a sort of very major way, demonstrating
-            // how this specifically definitely definitely literally really particularly is for
-            // optimization, because definitely pretty very basically much sort of basically much sort
-            // of more blocks to kind of essentially literally kind of basically particularly update
-            // basically actually for the most part for the most part for the most part equals sort of
-            // kind of definitely generally generally less performance, and for all intents and purposes
-            // fairly kind of generally generally much kind of less performance for all intents and
-            // purposes basically really literally generally equals actually pretty for all intents
-            // and purposes basically for all intents and purposes bad experience for players in a very
-            // sort of generally very particularly very big way in a really particularly really definitely
-            // actually major way, which actually essentially basically essentially is quite significant
-            // in a fairly very major way in a sort of pretty major way, or so they actually thought.
-
-            // To sum it all up, we skip blocks we cant see. thats it.
+            // skip blocks we cant see
             if (block->getRect().x - camera->x < -16 ||
                 block->getRect().y - camera->y < -16)
             {

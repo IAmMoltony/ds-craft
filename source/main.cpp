@@ -1011,7 +1011,7 @@ int main(int argc, char **argv)
                 break;
             case Language::Russian:
                 fontSmallRu1.print(15, SCREEN_HEIGHT - 15, "Objbf");
-                fontSmall.print(15, SCREEN_HEIGHT - 28, "Jjogpku#");
+                fontSmallRu1.print(15, SCREEN_HEIGHT - 28, "Jjogpku#");
                 break;
             }
 
