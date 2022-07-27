@@ -273,6 +273,42 @@ void DropEntity::draw(Camera camera)
 
 void DropEntity::update(BlockList &blocks, Camera camera, u16 frames)
 {
+    if (x - camera.x < -20 ||
+        x - camera.x > SCREEN_WIDTH ||
+        y - camera.y < -40 ||
+        y - camera.y > SCREEN_HEIGHT + 32)
+        return;
+    
+    y += velY;
+    if (falling)
+    {
+        velY += 0.3f;
+        if (velY > 5)
+            velY = 5;
+    }
+
+    if (frames % 4 == 0)
+    {
+        for (auto &block : blocks)
+        {
+            if (block->getRect().x - camera.x < -40 ||
+                block->getRect().y - camera.y < -40 ||
+                block->y - camera.y > SCREEN_HEIGHT + 48)
+                continue;
+            if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
+                break;
+
+            if (!block->solid())
+                continue;
+            
+            if (block->getRect().intersects(getRect()))
+            {
+                velY = 0;
+                falling = false;
+                y = block->y - 16;
+            }
+        }
+    }
 }
 
 Rect DropEntity::getRectBottom(void)
