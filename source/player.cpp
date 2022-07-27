@@ -135,7 +135,7 @@ void loadPlayerGUI(void)
     loadImage(sprInventorySlot, 16, 16, inventory_slotBitmap);
     loadImage(sprInventorySlotSelect, 16, 16, inventory_slot_selectBitmap);
 
-    loadImageAlpha(sprStick, 8, 8, stickPal, stickBitmap); // TODO make stick its ok size
+    loadImageAlpha(sprStick, 16, 16, stickPal, stickBitmap);
     loadImageAlpha(sprCoal, 16, 16, coalPal, coalBitmap);
     loadImageAlpha(sprRawPorkchop, 16, 16, porkchopPal, porkchopBitmap);
     loadImageAlpha(sprHeartOutline, 16, 16, heart_outlinePal, heart_outlineBitmap);
