@@ -376,6 +376,8 @@ int main(int argc, char **argv)
                             player.addItem(InventoryItemID::Coal);
                         else if (blockid == "rawporkchop" && player.canAddItem(InventoryItemID::RawPorkchop))
                             player.addItem(InventoryItemID::RawPorkchop);
+                        else if (blockid == "stick" && player.canAddItem(InventoryItemID::Stick))
+                            player.addItem(InventoryItemID::Stick);
                         else
                             ok = false;
                         

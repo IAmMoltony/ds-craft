@@ -7,7 +7,7 @@
 static glImage sprInventorySlot[1];
 static glImage sprInventorySlotSelect[1];
 
-static glImage sprStick[1];
+glImage sprStick[1];
 glImage sprCoal[1];
 glImage sprRawPorkchop[1];
 
@@ -1346,7 +1346,8 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                     }
                     else if (bid == "dead bush")
                     {
-                        entities->emplace_back(new DropEntity(block->x, block->y, "deadbush"));
+                        entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), "stick"));
+                        entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), "stick"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                     }
                     else if (bid == "poppy")
