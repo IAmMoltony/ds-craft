@@ -37,6 +37,7 @@
 #include <pig_img.h>
 #include <pig_damage_img.h>
 #include <porkchop_img.h>
+#include <cooked_porkchop_img.h>
 #include <heart_outline_img.h>
 #include <half_heart_img.h>
 #include <half_heart2_img.h>
