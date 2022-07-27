@@ -10,6 +10,7 @@ static glImage sprInventorySlotSelect[1];
 glImage sprStick[1];
 glImage sprCoal[1];
 glImage sprRawPorkchop[1];
+glImage sprCookedPorkchop[1];
 
 static glImage sprHeartOutline[1];
 static glImage sprHalfHeart[1];
@@ -138,6 +139,7 @@ void loadPlayerGUI(void)
     loadImageAlpha(sprStick, 16, 16, stickPal, stickBitmap);
     loadImageAlpha(sprCoal, 16, 16, coalPal, coalBitmap);
     loadImageAlpha(sprRawPorkchop, 16, 16, porkchopPal, porkchopBitmap);
+    loadImageAlpha(sprCookedPorkchop, 16, 16, cooked_porkchopPal, cooked_porkchopBitmap);
     loadImageAlpha(sprHeartOutline, 16, 16, heart_outlinePal, heart_outlineBitmap);
     loadImageAlpha(sprHalfHeart, 8, 8, half_heartPal, half_heartBitmap);
     loadImageAlpha(sprHalfHeart2, 8, 8, half_heart2Pal, half_heart2Bitmap);
@@ -376,7 +378,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             glSprite(48, 46, GL_FLIP_NONE,
                      craftingSelect == 2 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
-            glSprite(52, 50, GL_FLIP_NONE, sprStick);
+            glSpriteScale(52, 50, HALFSIZE, GL_FLIP_NONE, sprStick);
 
             // coal block recipe
             if (hasItem({InventoryItemID::Coal, 9}))
@@ -398,6 +400,17 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             glColor(RGB15(31, 31, 31));
             glSpriteScale(84, 50, HALFSIZE, GL_FLIP_NONE, sprStone);
 
+            // cooked porkchop recipe
+            if (hasItem({InventoryItemID::RawPorkchop, 1}) &&
+                hasItem({InventoryItemID::Coal, 1}))
+                glColor(RGB15(0, 31, 0));
+            else
+                glColor(RGB15(31, 0, 0));
+            glSprite(96, 46, GL_FLIP_NONE,
+                     craftingSelect == 5 ? sprInventorySlotSelect : sprInventorySlot);
+            glColor(RGB15(31, 31, 31));
+            glSpriteScale(100, 50, HALFSIZE, GL_FLIP_NONE, sprCookedPorkchop);
+
             switch (craftingSelect)
             {
             case 0:
@@ -414,6 +427,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 break;
             case 4:
                 fontSmall.printf(16, 35, "Stone - %u/1 cobblestone", countItems(InventoryItemID::Cobblestone));
+                break;
+            case 5:
+                fontSmall.printf(16, 35, "Cooked porkchop - %u/1 raw porkchop, %u/1 coal", countItems(InventoryItemID::RawPorkchop), countItems(InventoryItemID::Coal));
                 break;
             }
         }
@@ -533,6 +549,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                         break;
                     case InventoryItemID::RawPorkchop:
                         glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprRawPorkchop);
+                        break;
+                    case InventoryItemID::CookedPorkchop:
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprCookedPorkchop);
                         break;
                     }
 
@@ -768,6 +787,10 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                     glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                              HALFSIZE, GL_FLIP_NONE, sprRawPorkchop);
                     break;
+                case InventoryItemID::CookedPorkchop:
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                             HALFSIZE, GL_FLIP_NONE, sprCookedPorkchop);
+                    break;
                 }
 
                 if (amount > 1)
@@ -876,6 +899,15 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                     addItem(InventoryItemID::Stone);
                     crafted = true;
                 }
+                // cooked porkchop recipe
+                else if (craftingSelect == 5 && hasItem({InventoryItemID::RawPorkchop, 1})
+                         && hasItem({InventoryItemID::Coal, 1}))
+                {
+                    removeItem(InventoryItemID::RawPorkchop);
+                    removeItem(InventoryItemID::Coal);
+                    addItem(InventoryItemID::CookedPorkchop);
+                    crafted = true;
+                }
 
                 if (crafted) mmEffectEx(&sndClick);
             }
@@ -883,7 +915,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             {
                 // when r is pressed advance to the next recipe
                 // (and wrap around too)
-                if (++craftingSelect > 4)
+                if (++craftingSelect > 5)
                     craftingSelect = 0;
             }
         }
@@ -1050,6 +1082,30 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                 }
 
                 health += 2;
+                if (health > 9)
+                    health = 9;
+            }
+            else if (inventory[inventorySelect].id == InventoryItemID::CookedPorkchop)
+            {
+                if (health != 9)
+                {
+                    removeItem(InventoryItemID::CookedPorkchop);
+                    u8 effect = rand() % 3;
+                    switch (effect)
+                    {
+                    case 0:
+                        mmEffectEx(&sndEat1);
+                        break;
+                    case 1:
+                        mmEffectEx(&sndEat2);
+                        break;
+                    case 2:
+                        mmEffectEx(&sndEat3);
+                        break;
+                    }
+                }
+
+                health += 3;
                 if (health > 9)
                     health = 9;
             }

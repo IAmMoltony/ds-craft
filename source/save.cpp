@@ -92,6 +92,9 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         case InventoryItemID::RawPorkchop:
             id = "rawporkchop";
             break;
+        case InventoryItemID::CookedPorkchop:
+            id = "cookedporkchop";
+            break;
         }
 
         wld += "inventory " + std::to_string(i) + " " + id + " " + std::to_string(playerInventory[i].amount) + "\n";
@@ -362,6 +365,10 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             else if (sid == "rawporkchop")
             {
                 id = InventoryItemID::RawPorkchop;
+            }
+            else if (sid == "cookedporkchop")
+            {
+                id = InventoryItemID::CookedPorkchop;
             }
             
             player.setItem(i, {id, amount});

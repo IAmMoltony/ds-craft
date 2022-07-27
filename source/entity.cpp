@@ -310,10 +310,6 @@ void DropEntity::update(BlockList &blocks, Camera camera, u16 frames)
                 falling = false;
                 y = block->y - 16;
             }
-            else
-            {
-                falling = true;
-            }
         }
     }
 }
