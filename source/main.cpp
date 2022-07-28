@@ -96,6 +96,9 @@ int main(int argc, char **argv)
     keyboardDemoInit();
     keyboardHide();
 
+    // set the bottom screen to a nice color
+    BG_PALETTE_SUB[0] = RGB15(2, 2, 2);
+
     // set the video mode
     videoSetMode(MODE_5_3D);
 
