@@ -181,6 +181,7 @@ int main(int argc, char **argv)
 
     // world label images
     glImage worldLabel[1];
+    glImage worldLabelSelect[1];
     glImage grayCircle[1];
 
     // dirent games logo
@@ -200,6 +201,7 @@ int main(int argc, char **argv)
     loadImageAlpha(selectbtn, 32, 16, selectbtnPal, selectbtnBitmap);
 
     loadImageAlpha(worldLabel, 128, 32, world_labelPal, world_labelBitmap);
+    loadImageAlpha(worldLabelSelect, 128, 32, world_label_selectPal, world_label_selectBitmap);
     loadImageAlpha(grayCircle, 16, 16, gray_circlePal, gray_circleBitmap);
 
     loadImageAlpha(english, 16, 16, englishPal, englishBitmap);
@@ -861,12 +863,17 @@ int main(int argc, char **argv)
                 {
                     WorldInfo worldInfo = wsWorlds[i];
                     std::string str = worldInfo.name + " - " + std::string(fsHumanreadFileSize(worldInfo.size));
-                    glSprite(SCREEN_WIDTH / 2 - 121, 48 + i * 40, GL_FLIP_NONE, worldLabel);
-                    glSprite(SCREEN_WIDTH / 2 - 121 + 113, 48 + i * 40, GL_FLIP_H, worldLabel);
-                    fontSmall.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 12, str.c_str());
-
                     if (i == wsSelected)
-                        glSprite(SCREEN_WIDTH / 2 - 121 + 121 * 2 - 24, 48 + i * 40 + 32 / 2 - 8, GL_FLIP_NONE, grayCircle);
+                    {
+                        glSprite(SCREEN_WIDTH / 2 - 121, 48 + i * 40, GL_FLIP_NONE, worldLabelSelect);
+                        glSprite(SCREEN_WIDTH / 2 - 121 + 113, 48 + i * 40, GL_FLIP_H, worldLabelSelect);
+                    }
+                    else
+                    {
+                        glSprite(SCREEN_WIDTH / 2 - 121, 48 + i * 40, GL_FLIP_NONE, worldLabel);
+                        glSprite(SCREEN_WIDTH / 2 - 121 + 113, 48 + i * 40, GL_FLIP_H, worldLabel);
+                    }
+                    fontSmall.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 12, str.c_str());
                 }
             }
 
