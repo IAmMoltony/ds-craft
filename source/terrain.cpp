@@ -1,6 +1,6 @@
 #include <terrain.hpp>
 
-void generateTerrain(BlockList &blocks, EntityList &entities)
+void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
 {
     s16 y = SCREEN_HEIGHT / 2; // current height
     u8 sinceLastTree = 0; // blocks since last tree
@@ -273,4 +273,11 @@ void generateTerrain(BlockList &blocks, EntityList &entities)
     }
 
     std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort
+
+    player.setX(1024 / 2 - 8);
+    s16 maxY = 0;
+    for (auto &block : blocks)
+        if (block->y < maxY)
+            maxY = block->y;
+    player.setY(maxY);
 }

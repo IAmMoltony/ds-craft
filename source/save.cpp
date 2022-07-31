@@ -8,7 +8,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     {
         blocks.clear();
         entities.clear();
-        generateTerrain(blocks, entities);
+        generateTerrain(blocks, entities, player);
     }
 
     // create file
