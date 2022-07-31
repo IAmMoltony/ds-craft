@@ -2,7 +2,11 @@
 
 void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
 {
-    s16 y = SCREEN_HEIGHT / 2; // current height
+    const siv::BasicPerlinNoise<float>::seed_type seed =
+        (siv::BasicPerlinNoise<float>::seed_type)time(NULL);
+    const siv::BasicPerlinNoise<float> noise{seed};
+
+    s16 y = 0; // current height
     u8 sinceLastTree = 0; // blocks since last tree
     u8 treeInterval = 3; // interval between trees
     for (u8 k = 0; k < 2; ++k)
@@ -15,28 +19,31 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
         u8 biome = randomRange(0, 3);
         if (biome == 0)
         {
-            for (u16 i = k * SCREEN_WIDTH * 2; i < k * SCREEN_WIDTH * 2 + SCREEN_WIDTH * 2; i += 16)
+            for (u16 i = k * SCREEN_WIDTH * 2 / 16; i < k * SCREEN_WIDTH * 2 / 16 + SCREEN_WIDTH * 2 / 16; ++i)
             {
+                s16 yn = round(noise.octave1D_01(i, 1.2) * 4.3f) * 16; // y noise
+                y = SCREEN_HEIGHT / 2 - yn;
+
                 ++sinceLastTree;
-                blocks.emplace_back(new GrassBlock(i, y));
+                blocks.emplace_back(new GrassBlock(i * 16, y));
 
                 // create pig with 10% chance
                 if (chance(10))
-                    entities.emplace_back(new PigEntity(i, y - 64));
+                    entities.emplace_back(new PigEntity(i * 16, y - 64));
 
                 // dirt generation
                 for (s16 j = y + 16; j < y + 16 * 4; j += 16)
-                    blocks.emplace_back(new DirtBlock(i, j));
+                    blocks.emplace_back(new DirtBlock(i * 16, j));
                 // stone generation
                 for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
                     if (chance(15))
-                        blocks.emplace_back(new CoalOreBlock(i, j));
+                        blocks.emplace_back(new CoalOreBlock(i * 16, j));
                     else
-                        blocks.emplace_back(new StoneBlock(i, j));
+                        blocks.emplace_back(new StoneBlock(i * 16, j));
                 }
                 // bedrock on the bottom
-                blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
+                blocks.emplace_back(new BedrockBlock(i * 16, y + 16 * 4 + 16 * 9));
 
                 bool placedTree = false;
                 if (sinceLastTree > treeInterval)
@@ -45,35 +52,35 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                     u8 tree = chance(50) ? 1 : 0; // tree variant
                     if (tree == 0)
                     {
-                        blocks.emplace_back(new WoodBlock(i, y - 16));
-                        blocks.emplace_back(new WoodBlock(i, y - 32));
-                        blocks.emplace_back(new WoodBlock(i, y - 48));
-                        blocks.emplace_back(new LeavesBlock(i, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i - 32, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i + 32, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i, y - 96));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 96));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 96));
+                        blocks.emplace_back(new WoodBlock(i * 16, y - 16));
+                        blocks.emplace_back(new WoodBlock(i * 16, y - 32));
+                        blocks.emplace_back(new WoodBlock(i * 16, y - 48));
+                        blocks.emplace_back(new LeavesBlock(i * 16, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i * 16 - 16, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i * 16 - 32, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i * 16 + 16, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i * 16 + 32, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i * 16, y - 80));
+                        blocks.emplace_back(new LeavesBlock(i * 16 - 16, y - 80));
+                        blocks.emplace_back(new LeavesBlock(i * 16 + 16, y - 80));
+                        blocks.emplace_back(new LeavesBlock(i * 16, y - 96));
+                        blocks.emplace_back(new LeavesBlock(i * 16 - 16, y - 96));
+                        blocks.emplace_back(new LeavesBlock(i * 16 + 16, y - 96));
                         treeInterval = 5;
                     }
                     else if (tree == 1)
                     {
-                        blocks.emplace_back(new WoodBlock(i, y - 16));
-                        blocks.emplace_back(new WoodBlock(i, y - 32));
-                        blocks.emplace_back(new LeavesBlock(i, y - 48));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 48));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 48));
-                        blocks.emplace_back(new LeavesBlock(i, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 80));
+                        blocks.emplace_back(new WoodBlock(i * 16, y - 16));
+                        blocks.emplace_back(new WoodBlock(i * 16, y - 32));
+                        blocks.emplace_back(new LeavesBlock(i * 16, y - 48));
+                        blocks.emplace_back(new LeavesBlock(i * 16 - 16, y - 48));
+                        blocks.emplace_back(new LeavesBlock(i * 16 + 16, y - 48));
+                        blocks.emplace_back(new LeavesBlock(i * 16, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i * 16 - 16, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i * 16 + 16, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i * 16, y - 80));
+                        blocks.emplace_back(new LeavesBlock(i * 16 - 16, y - 80));
+                        blocks.emplace_back(new LeavesBlock(i * 16 + 16, y - 80));
                         treeInterval = 3;
                     }
                     sinceLastTree = 0;
@@ -81,40 +88,41 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
 
                 // place flower if not placed tree w chance 20%
                 if (!placedTree && chance(20))
-                    blocks.emplace_back(new FlowerBlock(i, y - 16));
-
-                y += randomRange(-1, 1) * 16; // change the height
+                    blocks.emplace_back(new FlowerBlock(i * 16, y - 16));
             }
         }
         else if (biome == 1)
         {
-            for (u16 i = k * SCREEN_WIDTH * 2; i < k * SCREEN_WIDTH * 2 + SCREEN_WIDTH * 2; i += 16)
+            for (u16 i = k * SCREEN_WIDTH * 2 / 16; i < k * SCREEN_WIDTH * 2 / 16 + SCREEN_WIDTH * 2 / 16; ++i)
             {
+                s16 yn = round(noise.octave1D_01(i, 1) * 4.6f) * 16; // y noise
+                y = SCREEN_HEIGHT / 2 - yn;
+                
                 ++sinceLastTree;
 
                 // sand
                 for (s16 j = y; j < y + 16 * 4; j += 16)
-                    blocks.emplace_back(new SandBlock(i, j));
+                    blocks.emplace_back(new SandBlock(i * 16, j));
 
                 // pig
                 if (chance(10))
-                    entities.emplace_back(new PigEntity(i, y - 64));
+                    entities.emplace_back(new PigEntity(i * 16, y - 64));
 
                 // sandstone
                 for (s16 j = y + 16 * 4; j < y + 16 * 8; j += 16)
-                    blocks.emplace_back(new SandstoneBlock(i, j));
+                    blocks.emplace_back(new SandstoneBlock(i * 16, j));
 
                 // stone
                 for (s16 j = y + 16 * 8; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
                     if (chance(15))
-                        blocks.emplace_back(new CoalOreBlock(i, j));
+                        blocks.emplace_back(new CoalOreBlock(i * 16, j));
                     else
-                        blocks.emplace_back(new StoneBlock(i, j));
+                        blocks.emplace_back(new StoneBlock(i * 16, j));
                 }
 
                 // bedrock
-                blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
+                blocks.emplace_back(new BedrockBlock(i * 16, y + 16 * 4 + 16 * 9));
 
                 bool placedCactus = false;
                 // create cactus with 40% chance
@@ -123,13 +131,13 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                     placedCactus = true;
                     u8 len = randomRange(0, 3);
                     for (int l = 0; l < len; ++l)
-                        blocks.emplace_back(new CactusBlock(i, y - l * 16 - 16));
+                        blocks.emplace_back(new CactusBlock(i * 16, y - l * 16 - 16));
                     sinceLastTree = 0;
                 }
 
                 // place dead bush 
                 if (!placedCactus && chance(30))
-                    blocks.emplace_back(new DeadBushBlock(i, y - 16));
+                    blocks.emplace_back(new DeadBushBlock(i * 16, y - 16));
 
                 y += randomRange(-1, 1) * 16; // change height
             }
@@ -207,67 +215,68 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
         }
         else if (biome == 3)
         {
-            for (u16 i = k * SCREEN_WIDTH * 2; i < k * SCREEN_WIDTH * 2 + SCREEN_WIDTH * 2; i += 16)
+            for (u16 i = k * SCREEN_WIDTH * 2 / 16; i < k * SCREEN_WIDTH * 2 / 16 + SCREEN_WIDTH * 2 / 16; ++i)
             {
                 // same thing as forest but snow
 
+                s16 yn = round(noise.octave1D_01(i, 1.2) * 4.3f) * 16; // y noise
+                y = SCREEN_HEIGHT / 2 - yn;
+
                 ++sinceLastTree;
-                blocks.emplace_back(new SnowyGrassBlock(i, y));
+                blocks.emplace_back(new SnowyGrassBlock(i * 16, y));
 
                 if (chance(10))
-                    entities.emplace_back(new PigEntity(i, y - 64));
+                    entities.emplace_back(new PigEntity(i * 16, y - 64));
 
                 for (s16 j = y + 16; j < y + 16 * 4; j += 16)
-                    blocks.emplace_back(new DirtBlock(i, j));
+                    blocks.emplace_back(new DirtBlock(i * 16, j));
                 for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
                     if (chance(15))
-                        blocks.emplace_back(new CoalOreBlock(i, j));
+                        blocks.emplace_back(new CoalOreBlock(i * 16, j));
                     else
-                        blocks.emplace_back(new StoneBlock(i, j));
+                        blocks.emplace_back(new StoneBlock(i * 16, j));
                 }
-                blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
+                blocks.emplace_back(new BedrockBlock(i * 16, y + 16 * 4 + 16 * 9));
 
                 if (chance(20) && sinceLastTree > treeInterval)
                 {
                     u8 tree = chance(50) ? 1 : 0;
                     if (tree == 0)
                     {
-                        blocks.emplace_back(new WoodBlock(i, y - 16));
-                        blocks.emplace_back(new WoodBlock(i, y - 32));
-                        blocks.emplace_back(new WoodBlock(i, y - 48));
-                        blocks.emplace_back(new LeavesBlock(i, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i - 32, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i + 32, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i, y - 96));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 96));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 96));
+                        blocks.emplace_back(new WoodBlock(i * 16, y - 16));
+                        blocks.emplace_back(new WoodBlock(i * 16, y - 32));
+                        blocks.emplace_back(new WoodBlock(i * 16, y - 48));
+                        blocks.emplace_back(new LeavesBlock(i * 16, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i * 16 - 16, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i * 16 - 32, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i * 16 + 16, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i * 16 + 32, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i * 16, y - 80));
+                        blocks.emplace_back(new LeavesBlock(i * 16 - 16, y - 80));
+                        blocks.emplace_back(new LeavesBlock(i * 16 + 16, y - 80));
+                        blocks.emplace_back(new LeavesBlock(i * 16, y - 96));
+                        blocks.emplace_back(new LeavesBlock(i * 16 - 16, y - 96));
+                        blocks.emplace_back(new LeavesBlock(i * 16 + 16, y - 96));
                         treeInterval = 5;
                     }
                     else if (tree == 1)
                     {
-                        blocks.emplace_back(new WoodBlock(i, y - 16));
-                        blocks.emplace_back(new WoodBlock(i, y - 32));
-                        blocks.emplace_back(new LeavesBlock(i, y - 48));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 48));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 48));
-                        blocks.emplace_back(new LeavesBlock(i, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 64));
-                        blocks.emplace_back(new LeavesBlock(i, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i - 16, y - 80));
-                        blocks.emplace_back(new LeavesBlock(i + 16, y - 80));
+                        blocks.emplace_back(new WoodBlock(i * 16, y - 16));
+                        blocks.emplace_back(new WoodBlock(i * 16, y - 32));
+                        blocks.emplace_back(new LeavesBlock(i * 16, y - 48));
+                        blocks.emplace_back(new LeavesBlock(i * 16 - 16, y - 48));
+                        blocks.emplace_back(new LeavesBlock(i * 16 + 16, y - 48));
+                        blocks.emplace_back(new LeavesBlock(i * 16, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i * 16 - 16, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i * 16 + 16, y - 64));
+                        blocks.emplace_back(new LeavesBlock(i * 16, y - 80));
+                        blocks.emplace_back(new LeavesBlock(i * 16 - 16, y - 80));
+                        blocks.emplace_back(new LeavesBlock(i * 16 + 16, y - 80));
                         treeInterval = 3;
                     }
                     sinceLastTree = 0;
                 }
-
-                y += randomRange(-1, 1) * 16;
             }
         }
     }
