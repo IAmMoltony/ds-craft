@@ -1,0 +1,39 @@
+
+@{{BLOCK(selectbtn)
+
+@=======================================================================
+@
+@	selectbtn, 32x16@4, 
+@	+ palette 16 entries, not compressed
+@	+ bitmap not compressed
+@	Total size: 32 + 256 = 288
+@
+@	Time-stamp: 2022-08-01, 17:53:01
+@	Exported by Cearn's GBA Image Transmogrifier, v0.8.17
+@	( http://www.coranac.com/projects/#grit )
+@
+@=======================================================================
+
+	.section .rodata
+	.align	2
+	.global selectbtnBitmap		@ 256 unsigned chars
+	.hidden selectbtnBitmap
+selectbtnBitmap:
+	.word 0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000
+	.word 0x11111100,0x11111111,0x11111111,0x00000001,0x22222210,0x22222222,0x22222222,0x00000012
+	.word 0x33233310,0x33222323,0x33233323,0x00000013,0x23222310,0x23222322,0x32222322,0x00000012
+	.word 0x33223210,0x33222322,0x32222322,0x00000012,0x33233310,0x33233323,0x32233323,0x00000012
+	.word 0x11111100,0x11111111,0x11111111,0x00000001,0x00000000,0x00000000,0x00000000,0x00000000
+	.word 0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000
+	.word 0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000
+	.word 0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000
+
+	.section .rodata
+	.align	2
+	.global selectbtnPal		@ 32 unsigned chars
+	.hidden selectbtnPal
+selectbtnPal:
+	.hword 0x0000,0x0C63,0x0421,0x7FFF,0x0000,0x0000,0x0000,0x0000
+	.hword 0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000
+
+@}}BLOCK(selectbtn)
