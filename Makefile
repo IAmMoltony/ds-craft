@@ -41,12 +41,12 @@ EMULATOR := D:\melonds\melonds.exe
 #---------------------------------------------------------------------------------
 ARCH		:=	-mthumb -mthumb-interwork
 
-CFLAGS	:=	-g -Wall -O2\
+CFLAGS	:=	-g -Wall -Wextra -O2\
  			-march=armv5te -mtune=arm946e-s \
-			$(ARCH) -I../include -Wno-switch -Wno-reorder
+			$(ARCH) -I../include -Wno-switch
 
 CFLAGS	+=	$(INCLUDE) -DARM9
-CXXFLAGS	:=	$(CFLAGS) -fno-rtti -fno-exceptions
+CXXFLAGS	:=	$(CFLAGS) -fno-rtti -fno-exceptions -Wno-reorder
 
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=ds_arm9.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
