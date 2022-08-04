@@ -1595,17 +1595,16 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             }
         }
 
+        if (aimX < SCREEN_WIDTH / 2)
+            facing = Facing::Left;
+        else
+            facing = Facing::Right;
+
         // horizontla movemtn
         if (left && !right)
-        {
             velX = -2;
-            facing = Facing::Left;
-        }
         if (right && !left)
-        {
             velX = 2;
-            facing = Facing::Right;
-        }
         // STOP YOU VIOLATED THE LAW!!!!!!
         if ((right && left) || (!right && !left))
             velX = 0;
