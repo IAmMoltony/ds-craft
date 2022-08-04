@@ -617,20 +617,17 @@ int main(int argc, char **argv)
                 switch (settingsSelect)
                 {
                 case 0:
-                    switch (lang)
-                    {
-                    case Language::Russian:
-                        lang = Language::English;
-                        fsWrite("config/lang.cfg", "0");
-                        break;
-                    case Language::English:
-                        lang = Language::Russian;
-                        fsWrite("config/lang.cfg", "1");
-                        break;
-                    }
+                    gameState = GameState::LanguageSelect;
                     break;
                 }
                 mmEffectEx(&sndClick);
+            }
+            else if (down & KEY_SELECT)
+            {
+                if (++settingsSelect > 0)
+                {
+                    settingsSelect = 0;
+                }
             }
             break;
         }
@@ -1005,10 +1002,10 @@ int main(int argc, char **argv)
             switch (lang)
             {
             case Language::English:
-                fontSmall.print(17, 48, "Language: english");
+                fontSmall.printCentered(0, 48, "Change language");
                 break;
             case Language::Russian:
-                fontSmallRu1.print(17, 48, "aj\"m: svttmkl");
+                fontSmallRu1.printCentered(0, 48, "C\"csbu# &j\"m");
                 break;
             }
             glColor(RGB15(31, 31, 31));
@@ -1019,11 +1016,11 @@ int main(int argc, char **argv)
             {
             case Language::English:
                 fontSmall.print(15, SCREEN_HEIGHT - 15, "Back");
-                fontSmall.print(15, SCREEN_HEIGHT - 28, "Change");
+                fontSmall.print(15, SCREEN_HEIGHT - 28, "Select");
                 break;
             case Language::Russian:
                 fontSmallRu1.print(15, SCREEN_HEIGHT - 15, "Objbf");
-                fontSmallRu1.print(15, SCREEN_HEIGHT - 28, "Jjogpku#");
+                fontSmallRu1.print(15, SCREEN_HEIGHT - 28, "C\"csbu#");
                 break;
             }
 

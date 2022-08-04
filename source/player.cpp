@@ -147,7 +147,7 @@ void loadPlayerGUI(void)
 
 void loadPlayerTextures(void)
 {
-    loadImageAlpha(sprPlayer, 16, 32, guyPal, guyBitmap);
+    loadImageAlpha(sprPlayer, 16, 32, guy0Pal, guy0Bitmap);
 }
 
 void loadPlayerSounds(void)
