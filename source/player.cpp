@@ -17,6 +17,7 @@ static glImage sprHalfHeart[1];
 static glImage sprHalfHeart2[1];
 
 static glImage sprPlayer[1];
+static glImage sprPlayerHead[1];
 
 // these images are loaded in block.cpp
 extern glImage sprGrass[1];
@@ -147,7 +148,9 @@ void loadPlayerGUI(void)
 
 void loadPlayerTextures(void)
 {
-    loadImageAlpha(sprPlayer, 16, 32, guy0Pal, guy0Bitmap);
+    loadImageAlpha(sprPlayer, 16, 32, guyPal, guyBitmap);
+    loadImageAlpha(sprPlayerHead, 16, 16, guy_headPal, guy_headBitmap);
+    // TODO change "guy" to "steve" because it bothers me
 }
 
 void loadPlayerSounds(void)
@@ -330,6 +333,8 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
         // draw the player
         glSprite(x - 1 - camera.x - (facing == Facing::Right ? 0 : 3), y - camera.y,
                  (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayer);
+        glSprite(x - camera.x - (facing == Facing::Right ? 0 : 5), y - camera.y,
+                (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayerHead);
         glPolyFmt(POLY_ALPHA(20) | POLY_CULL_NONE | POLY_ID(3));
 
         // draw inventory background
@@ -575,9 +580,13 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
     }
     else
     {
+        glEnable(GL_ANTIALIAS);
         // draw the player
         glSprite(x - 1 - camera.x - (facing == Facing::Right ? 0 : 3), y - camera.y,
-                 (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayer);
+                (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayer);
+        glSpriteRotate(x + 5 - camera.x, y + 6 - camera.y,
+                       randomRange(-2000, 2000), (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H),
+                       sprPlayerHead);
         glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(1));
 
         // draw the aim as green square or a half-transparent

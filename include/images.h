@@ -24,7 +24,8 @@
 #include <coal_block.h>
 #include <placeholder_logo.h>
 #include <placeholder_guy.h>
-#include <guy0.h>
+#include <guy.h>
+#include <guy_head.h>
 #include <logo.h>
 #include <abtn.h>
 #include <bbtn.h>
