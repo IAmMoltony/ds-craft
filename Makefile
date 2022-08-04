@@ -34,7 +34,7 @@ INCLUDES	:=	include
 GRAPHICS	:=	gfx
 AUDIO       :=  audio
 
-EMULATOR := D:\melonds\melonds.exe
+EMULATOR := E:\melonds\melonds.exe
 
 #---------------------------------------------------------------------------------
 # options for code generation
