@@ -21,8 +21,7 @@ Press r to select next crafting recipe. Press a to craft the item (if you have t
 
 ## How to build
 
-1. `makegfx` (if building for the first time or if images in gfx folder were updated)
-2. `make`
+`make`
 
 ## Credits
 
