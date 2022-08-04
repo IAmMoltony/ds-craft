@@ -43,7 +43,8 @@ ARCH		:=	-mthumb -mthumb-interwork
 
 CFLAGS	:=	-g -Wall -Wextra -O2\
  			-march=armv5te -mtune=arm946e-s \
-			$(ARCH) -I../include -Wno-switch
+			$(ARCH) -I../include -Wno-switch -Wno-ignored-qualifiers \
+			-Wno-unused-parameter
 
 CFLAGS	+=	$(INCLUDE) -DARM9
 CXXFLAGS	:=	$(CFLAGS) -fno-rtti -fno-exceptions -Wno-reorder
