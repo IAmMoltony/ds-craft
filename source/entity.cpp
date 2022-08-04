@@ -239,7 +239,11 @@ void DropEntity::draw(Camera camera)
     else if (blockid == "wood")
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprWood);
     else if (blockid == "leaves")
+    {
+        glColor(RGB15(0, 22, 0));
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprLeaves);
+        glColor(RGB15(31, 31, 31));
+    }
     else if (blockid == "sand")
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprSand);
     else if (blockid == "sandstone")
