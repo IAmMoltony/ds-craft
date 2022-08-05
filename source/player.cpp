@@ -580,7 +580,6 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
     }
     else
     {
-        glEnable(GL_ANTIALIAS);
         // draw the player
         glSprite(x - 1 - camera.x - (facing == Facing::Right ? 0 : 3), y - camera.y,
                 (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayer);
