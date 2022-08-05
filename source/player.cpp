@@ -585,8 +585,8 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
         glSprite(x - 1 - camera.x - (facing == Facing::Right ? 0 : 3), y - camera.y,
                 (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayer);
         glSpriteRotate(x + 5 - camera.x, y + 6 - camera.y,
-                       randomRange(-2000, 2000), (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H),
-                       sprPlayerHead);
+                       atan2(y + 6 - camera.y - aimY, x + 5 - camera.x - aimX) * 180 / M_PI * 40,
+                       (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayerHead);
         glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(1));
 
         // draw the aim as green square or a half-transparent
