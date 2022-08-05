@@ -3,7 +3,7 @@
 void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
 {
     const siv::BasicPerlinNoise<float>::seed_type seed =
-        (siv::BasicPerlinNoise<float>::seed_type)time(NULL);
+          (siv::BasicPerlinNoise<float>::seed_type)time(NULL);
     const siv::BasicPerlinNoise<float> noise{seed};
 
     s16 y = 0; // current height
