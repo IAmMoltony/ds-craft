@@ -132,13 +132,13 @@ int main(int argc, char **argv)
     mmLoadEffect(SFX_POP);
     sndPop = soundEffect(SFX_POP);
 
-    lang = Language::Russian; // language
+    lang = Language::English; // language
     // set language (if theres a config file for that)
     if (fsFileExists("config/lang.cfg"))
     {
         char *data = fsReadFile("config/lang.cfg");
-        if (data[0] == '0')
-            lang = Language::English;
+        if (data[0] == '1')
+            lang = Language::Russian;
     }
 
     // fonts english
