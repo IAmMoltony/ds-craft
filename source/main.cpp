@@ -81,22 +81,6 @@ std::vector<WorldInfo> getWorlds(void)
     return worlds;
 }
 
-bool wnCharOk(char ch)
-{
-    // this method checks if the character can be used in a world name
-
-    if (ch == '\b')
-        return true;
-    
-    if (std::isdigit(ch))
-        return true;
-
-    if (std::islower(ch))
-        return true;
-
-    return false;
-}
-
 int main(int argc, char **argv)
 {
     // initialization
@@ -570,7 +554,7 @@ int main(int argc, char **argv)
             }
 
             char ch = keyboardUpdate();
-            if (ch > 0 && ch != 255 && wnCharOk(ch))
+            if (ch > 0 && ch != 255 && (ch == '\b' || std::isdigit(ch) || std::islower(ch)))
             {
                 if (ch == '\b')
                 {
