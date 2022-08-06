@@ -918,17 +918,6 @@ int main(int argc, char **argv)
                 break;
             }
 
-            switch (lang)
-            {
-            case Language::English:
-                fontSmall.printCentered(0, 71, "World name:");
-                break;
-            case Language::Russian:
-                fontSmallRu.printCentered(0, 71, "Cdgfkug ko&:");
-                break;
-            }
-            fontSmall.printCentered(0, 80, std::string(createWorldName + "_").c_str());
-
             if (createWorldDuplError)
             {
                 glColor(RGB15(31, 0, 0));
@@ -943,6 +932,17 @@ int main(int argc, char **argv)
                 }
                 glColor(RGB15(31, 31, 31));
             }
+
+            switch (lang)
+            {
+            case Language::English:
+                fontSmall.printCentered(0, 71, "World name:");
+                break;
+            case Language::Russian:
+                fontSmallRu.printCentered(0, 71, "Cdgfkug ko&:");
+                break;
+            }
+            fontSmall.printCentered(0, 80, std::string(createWorldName + "_").c_str());
 
             switch (lang)
             {
