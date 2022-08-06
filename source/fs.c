@@ -10,9 +10,7 @@ void fsInit(void)
         printf("FAT init failed! :(\n");
         printf("This error is most likely caused by:\n");
         printf(" - ROM is not patched\n - SD card is missing.");
-        while (true)
-        {
-        }
+        while (true);
     }
 }
 
