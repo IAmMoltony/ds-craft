@@ -26,13 +26,22 @@ void fsCreateDir(const char *name)
 void fsCreateFile(const char *name)
 {
     FILE *fp = fopen(name, "w");
+#if FS_ERROR_MESSAGES
+    if (fp == NULL)
+        printf("fsCreateFile failed\n");
+#endif
     fclose(fp);
 }
 
 void fsWrite(const char *file, const char *data)
 {
     FILE *fp = fopen(file, "w");
+#if FS_ERROR_MESSAGES
+    if (fputs(data, fp) < 0)
+        printf("fsWrite: fputs failed\n");
+#else
     fputs(data, fp);
+#endif
     fclose(fp);
 }
 
@@ -68,6 +77,10 @@ char *fsReadFile(const char *name)
         }
         fclose(fp);
     }
+#if FS_ERROR_MESSAGES
+    else
+        printf("fsReadFile: fopen failed\n");
+#endif
 
     return buf;
 }
