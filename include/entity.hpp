@@ -65,7 +65,7 @@ private:
                          // can drop stuff not blocks and im lazy to change
 
 public:
-    DropEntity(s16 x, s16 y, std::string blockid);
+    DropEntity(s16 x, s16 y, const std::string &blockid);
     void draw(Camera camera) override;
     void update(BlockList &blocks, Camera camera, u16 frames) override;
     Rect getRectBottom(void) override;

@@ -75,7 +75,7 @@ std::vector<WorldInfo> getWorlds(void)
         size_t li = line.find_last_of(".");
         int size = fsGetFileSize(line.c_str());
         std::string noext = line.substr(0, li);
-        worlds.push_back({noext.c_str(), size});
+        worlds.push_back({noext, size});
     }
 
     return worlds;
