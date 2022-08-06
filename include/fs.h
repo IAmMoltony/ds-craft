@@ -5,7 +5,6 @@ extern "C" {
 #endif
 
 #include <nds.h>
-#include <nds/arm9/input.h>
 #include <fat.h>
 #include <stdio.h>
 #include <sys/types.h>
