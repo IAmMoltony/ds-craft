@@ -544,13 +544,20 @@ int main(int argc, char **argv)
                     return !std::isspace(ch);
                 }).base(), createWorldName.end());
 
-                keyboardHide();
-                worldName = createWorldName.c_str();
-                saveWorld(worldName, blocks, entities, player);
-                gameState = GameState::WorldSelect;
-                wsWorlds = getWorlds();
-                frames = 0;
-                mmEffectEx(&sndClick);
+                if (fsFileExists(std::string("worlds/" + createWorldName + ".wld").c_str()))
+                {
+                    printf("aw hell nah\n");
+                }
+                else
+                {
+                    keyboardHide();
+                    worldName = createWorldName.c_str();
+                    saveWorld(worldName, blocks, entities, player);
+                    gameState = GameState::WorldSelect;
+                    wsWorlds = getWorlds();
+                    frames = 0;
+                    mmEffectEx(&sndClick);
+                }
             }
 
             char ch = keyboardUpdate();
