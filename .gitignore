@@ -29,6 +29,6 @@ mctex.zip
 desktop.ini
 melonDS.ini
 
-# yes
+# cppcheck stuff
 ds-craft.cppcheck
 ds-craft-cppcheck-build-dir/
