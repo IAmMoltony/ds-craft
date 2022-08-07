@@ -3,12 +3,12 @@
 void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
 {
     const siv::BasicPerlinNoise<float>::seed_type seed =
-          (siv::BasicPerlinNoise<float>::seed_type)time(NULL);
+        (siv::BasicPerlinNoise<float>::seed_type)time(NULL);
     const siv::BasicPerlinNoise<float> noise{seed};
 
-    s16 y = 0; // current height
+    s16 y = 0;            // current height
     u8 sinceLastTree = 0; // blocks since last tree
-    u8 treeInterval = 3; // interval between trees
+    u8 treeInterval = 3;  // interval between trees
     for (u8 k = 0; k < 2; ++k)
     {
         // biomes
@@ -97,7 +97,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
             {
                 s16 yn = round(noise.octave1D_01(i, 1) * 4.6f) * 16; // y noise
                 y = SCREEN_HEIGHT / 2 - yn;
-                
+
                 ++sinceLastTree;
 
                 // sand
@@ -135,7 +135,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                     sinceLastTree = 0;
                 }
 
-                // place dead bush 
+                // place dead bush
                 if (!placedCactus && chance(30))
                     blocks.emplace_back(new DeadBushBlock(i * 16, y - 16));
 
