@@ -38,6 +38,7 @@ Entity::Entity(s16 x, s16 y)
     velX = 0;
     velY = 0;
     falling = jumping = true;
+    health = 1;
 }
 
 s16 Entity::getX(void)
@@ -67,12 +68,11 @@ void Entity::afterDealDamage(void)
 
 //----------------------------------------
 
-PigEntity::PigEntity(s16 x, s16 y) : Entity(x, y)
+PigEntity::PigEntity(s16 x, s16 y) : Entity(x, y), damageOverlayTimer(255)
 {
     facing = Facing::Right;
     moving = true;
     health = 4;
-    damageOverlayTimer = 255;
 }
 
 void PigEntity::draw(Camera camera)
@@ -222,7 +222,7 @@ void PigEntity::afterDealDamage(void)
 
 //----------------------------------------
 
-DropEntity::DropEntity(s16 x, s16 y, std::string blockid) : Entity(x, y)
+DropEntity::DropEntity(s16 x, s16 y, const std::string &blockid) : Entity(x, y)
 {
     this->blockid = blockid;
     health = 255;
@@ -239,7 +239,11 @@ void DropEntity::draw(Camera camera)
     else if (blockid == "wood")
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprWood);
     else if (blockid == "leaves")
+    {
+        glColor(RGB15(0, 22, 0));
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprLeaves);
+        glColor(RGB15(31, 31, 31));
+    }
     else if (blockid == "sand")
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprSand);
     else if (blockid == "sandstone")

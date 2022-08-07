@@ -34,19 +34,20 @@ INCLUDES	:=	include
 GRAPHICS	:=	gfx
 AUDIO       :=  audio
 
-EMULATOR := D:\melonds\melonds.exe
+EMULATOR := E:\melonds\melonds.exe
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 ARCH		:=	-mthumb -mthumb-interwork
 
-CFLAGS	:=	-g -Wall -O2\
+CFLAGS	:=	-g -Wall -Wextra -O2\
  			-march=armv5te -mtune=arm946e-s \
-			$(ARCH) -I../include -Wno-switch -Wno-reorder
+			$(ARCH) -I../include -Wno-switch -Wno-ignored-qualifiers \
+			-Wno-unused-parameter
 
 CFLAGS	+=	$(INCLUDE) -DARM9
-CXXFLAGS	:=	$(CFLAGS) -fno-rtti -fno-exceptions
+CXXFLAGS	:=	$(CFLAGS) -fno-rtti -fno-exceptions -Wno-reorder
 
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=ds_arm9.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
@@ -87,7 +88,7 @@ BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*))) soundbank.bi
 BMPFILES	:=	$(foreach dir,$(GRAPHICS),$(notdir $(wildcard $(dir)/*.bmp)))
 PNGFILES	:=	$(foreach dir,$(GRAPHICS),$(notdir $(wildcard $(dir)/*.png)))
 
-export AUDIOFILES := $(foreach dir,$(notdir $(wildcard $(AUDIO)/*.*)),$(CURDIR)/$(AUDIO)/$(dir))
+export AUDIOFILES := $(foreach dir,$(notdir $(wildcard $(AUDIO)/*.wav)),$(CURDIR)/$(AUDIO)/$(dir))
 
 #---------------------------------------------------------------------------------
 # use CXX for linking C++ projects, CC for standard C
@@ -159,7 +160,7 @@ $(OUTPUT).elf	:	$(OFILES)
 	@$(bin2o)
 
 soundbank.bin: $(AUDIOFILES)
-	@mmutil $^ -osoundbank.bin -hsoundbank.h
+	@mmutil $^ -osoundbank.bin -hsoundbank.h -d
 
 #---------------------------------------------------------------------------------
 # This rule creates assembly source files using grit

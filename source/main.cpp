@@ -75,7 +75,7 @@ std::vector<WorldInfo> getWorlds(void)
         size_t li = line.find_last_of(".");
         int size = fsGetFileSize(line.c_str());
         std::string noext = line.substr(0, li);
-        worlds.push_back({noext.c_str(), size});
+        worlds.push_back({noext, size});
     }
 
     return worlds;
@@ -132,13 +132,13 @@ int main(int argc, char **argv)
     mmLoadEffect(SFX_POP);
     sndPop = soundEffect(SFX_POP);
 
-    lang = Language::Russian; // language
+    lang = Language::English; // language
     // set language (if theres a config file for that)
     if (fsFileExists("config/lang.cfg"))
     {
         char *data = fsReadFile("config/lang.cfg");
-        if (data[0] == '0')
-            lang = Language::English;
+        if (data[0] == '1')
+            lang = Language::Russian;
     }
 
     // fonts english
@@ -146,9 +146,9 @@ int main(int argc, char **argv)
     glImage fontSmallImg[FONT_SI_NUM_IMAGES];
 
     // fonts russian
-    glImage fontSmallRu1Img[FONT_SI_NUM_IMAGES];
+    glImage fontSmallRuImg[FONT_SI_NUM_IMAGES];
     glImage font16x16RuImg[FONT_16X16_NUM_IMAGES];
-    Font font, fontSmall, fontSmallRu1, fontRu;
+    Font font, fontSmall, fontSmallRu, fontRu;
 
     // load fonts
     font.load(font16x16Img, FONT_16X16_NUM_IMAGES, font_16x16_texcoords, GL_RGB256,
@@ -160,7 +160,7 @@ int main(int argc, char **argv)
                    GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
                    256, font_smallPal, reinterpret_cast<const u8 *>(font_smallBitmap));
 
-    fontSmallRu1.load(fontSmallRu1Img, FONT_SI_NUM_IMAGES, font_si_texcoords, GL_RGB256,
+    fontSmallRu.load(fontSmallRuImg, FONT_SI_NUM_IMAGES, font_si_texcoords, GL_RGB256,
                       TEXTURE_SIZE_64, TEXTURE_SIZE_128,
                       GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
                       256, font_small_ru1Pal, reinterpret_cast<const u8 *>(font_small_ru1Bitmap));
@@ -229,6 +229,7 @@ int main(int argc, char **argv)
     bool paused = false; // is the game paused
     std::string worldName = ""; // world name
     std::string createWorldName = ""; // world name (for create world)
+    bool createWorldDuplError = false; // show duplicate world name error in create world?
     u8 settingsSelect = 0; // selected sttting
     while (true)
     {
@@ -484,7 +485,7 @@ int main(int argc, char **argv)
                         fontSmall.printCentered(0, 50, "Loading...");
                         break;
                     case Language::Russian:
-                        fontSmallRu1.printCentered(0, 50, "Ibesvjmb...");
+                        fontSmallRu.printCentered(0, 50, "Ibesvjmb...");
                         break;
                     }
                     glEnd2D();
@@ -528,6 +529,7 @@ int main(int argc, char **argv)
         case GameState::CreateWorld: {
             if (down & KEY_B)
             {
+                createWorldDuplError = false;
                 keyboardHide();
                 gameState = GameState::WorldSelect;
                 mmEffectEx(&sndClick);
@@ -544,17 +546,23 @@ int main(int argc, char **argv)
                     return !std::isspace(ch);
                 }).base(), createWorldName.end());
 
-                keyboardHide();
-                worldName = createWorldName.c_str();
-                saveWorld(worldName, blocks, entities, player);
-                gameState = GameState::WorldSelect;
-                wsWorlds = getWorlds();
-                frames = 0;
-                mmEffectEx(&sndClick);
+                if (fsFileExists(std::string("worlds/" + createWorldName + ".wld").c_str()))
+                    createWorldDuplError = true;
+                else
+                {
+                    createWorldDuplError = false;
+                    keyboardHide();
+                    worldName = createWorldName.c_str();
+                    saveWorld(worldName, blocks, entities, player);
+                    gameState = GameState::WorldSelect;
+                    wsWorlds = getWorlds();
+                    frames = 0;
+                    mmEffectEx(&sndClick);
+                }
             }
 
             char ch = keyboardUpdate();
-            if (ch > 0 && ch != 255)
+            if (ch > 0 && ch != 255 && (ch == '\b' || std::isdigit(ch) || std::islower(ch)))
             {
                 if (ch == '\b')
                 {
@@ -617,20 +625,17 @@ int main(int argc, char **argv)
                 switch (settingsSelect)
                 {
                 case 0:
-                    switch (lang)
-                    {
-                    case Language::Russian:
-                        lang = Language::English;
-                        fsWrite("config/lang.cfg", "0");
-                        break;
-                    case Language::English:
-                        lang = Language::Russian;
-                        fsWrite("config/lang.cfg", "1");
-                        break;
-                    }
+                    gameState = GameState::LanguageSelect;
                     break;
                 }
                 mmEffectEx(&sndClick);
+            }
+            else if (down & KEY_SELECT)
+            {
+                if (++settingsSelect > 0)
+                {
+                    settingsSelect = 0;
+                }
             }
             break;
         }
@@ -659,7 +664,7 @@ int main(int argc, char **argv)
                 entity->draw(camera);
 
             if (!player.dead())
-                player.draw(camera, fontSmall, font, fontSmallRu1, fontRu, lang);
+                player.draw(camera, fontSmall, font, fontSmallRu, fontRu, lang);
             else
             {
                 glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(8));
@@ -686,9 +691,9 @@ int main(int argc, char **argv)
                     break;
                 case Language::Russian:
                     glSprite(SCREEN_WIDTH / 2 - 57, 96, GL_FLIP_NONE, abtn);
-                    fontSmallRu1.printCentered(0, 98, "Cqjsqfku#t&");
+                    fontSmallRu.printCentered(0, 98, "Cqjsqfku#t&");
                     glSprite(SCREEN_WIDTH / 2 - 33, 116, GL_FLIP_NONE, bbtn);
-                    fontSmallRu1.printCentered(0, 118, "C\"luk");
+                    fontSmallRu.printCentered(0, 118, "C\"luk");
                 }
             }
 
@@ -700,7 +705,7 @@ int main(int argc, char **argv)
                     fontSmall.printfShadow(2, SCREEN_HEIGHT - 11, "Saved!");
                     break;
                 case Language::Russian:
-                    fontSmallRu1.printfShadow(2, SCREEN_HEIGHT - 11, "Sqxsbpgpq");
+                    fontSmallRu.printfShadow(2, SCREEN_HEIGHT - 11, "Sqxsbpgpq");
                     break;
                 }
             }
@@ -729,10 +734,10 @@ int main(int argc, char **argv)
                     break;
                 case Language::Russian:
                     glSprite(SCREEN_WIDTH / 2 - 54, 84, GL_FLIP_NONE, abtn);
-                    fontSmallRu1.printCentered(0, 86, "Qsqfqniku#");
+                    fontSmallRu.printCentered(0, 86, "Qsqfqniku#");
 
                     glSprite(SCREEN_WIDTH / 2 - 82, 100, GL_FLIP_NONE, bbtn);
-                    fontSmallRu1.printCentered(0, 102, "Sqxsbpku# k d\"luk");
+                    fontSmallRu.printCentered(0, 102, "Sqxsbpku# k d\"luk");
                     break;
                 }
 
@@ -768,11 +773,11 @@ int main(int argc, char **argv)
                 break;
             case Language::Russian:
                 glSprite(SCREEN_WIDTH / 2 - 37, 96, GL_FLIP_NONE, abtn);
-                fontSmallRu1.printCentered(0, 98, "Jesbu#");
+                fontSmallRu.printCentered(0, 98, "Jesbu#");
                 glSprite(SCREEN_WIDTH / 2 - 33, 116, GL_FLIP_NONE, bbtn);
-                fontSmallRu1.printCentered(0, 118, "Tkus\"");
+                fontSmallRu.printCentered(0, 118, "Tkus\"");
                 glSprite(SCREEN_WIDTH / 2 - 49, 136, GL_FLIP_NONE, xbtn);
-                fontSmallRu1.printCentered(0, 138, "Obtusqlmk");
+                fontSmallRu.printCentered(0, 138, "Obtusqlmk");
             }
             break;
         case GameState::Credits:
@@ -801,8 +806,8 @@ int main(int argc, char **argv)
                 fontSmall.print(15, SCREEN_HEIGHT - 28, "More");
                 break;
             case Language::Russian:
-                fontSmallRu1.print(15, SCREEN_HEIGHT - 15, "Objbf");
-                fontSmallRu1.print(15, SCREEN_HEIGHT - 28, "F~h");
+                fontSmallRu.print(15, SCREEN_HEIGHT - 15, "Objbf");
+                fontSmallRu.print(15, SCREEN_HEIGHT - 28, "F~h");
                 break;
             }
             break;
@@ -832,16 +837,16 @@ int main(int argc, char **argv)
                 break;
             case Language::Russian:
                 glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, bbtn);
-                fontSmallRu1.print(15, SCREEN_HEIGHT - 28, "Objbf");
+                fontSmallRu.print(15, SCREEN_HEIGHT - 28, "Objbf");
 
                 glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, abtn);
-                fontSmallRu1.print(15, SCREEN_HEIGHT - 15, "Oqd\"l oks");
+                fontSmallRu.print(15, SCREEN_HEIGHT - 15, "Oqd\"l oks");
 
                 glSprite(93, SCREEN_HEIGHT - 30, GL_FLIP_NONE, xbtn);
-                fontSmallRu1.print(106, SCREEN_HEIGHT - 28, "Jesbu#");
+                fontSmallRu.print(106, SCREEN_HEIGHT - 28, "Jesbu#");
 
                 glSprite(93, SCREEN_HEIGHT - 17, GL_FLIP_NONE, ybtn);
-                fontSmallRu1.print(106, SCREEN_HEIGHT - 15, "Ufbnku#");
+                fontSmallRu.print(106, SCREEN_HEIGHT - 15, "Ufbnku#");
                 break;
             }
 
@@ -853,7 +858,7 @@ int main(int argc, char **argv)
                     fontSmall.printCentered(0, 100, "No worlds yet...");
                     break;
                 case Language::Russian:
-                    fontSmallRu1.printCentered(0, 100, "Qqmb pgu oksqd...");
+                    fontSmallRu.printCentered(0, 100, "Qqmb pgu oksqd...");
                     break;
                 }
             }
@@ -906,11 +911,26 @@ int main(int argc, char **argv)
                 break;
             case Language::Russian:
                 glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, abtn);
-                fontSmallRu1.print(15, SCREEN_HEIGHT - 28, "Sqjfbu#");
+                fontSmallRu.print(15, SCREEN_HEIGHT - 28, "Sqjfbu#");
 
                 glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, bbtn);
-                fontSmallRu1.print(15, SCREEN_HEIGHT - 15, "Objbf");
+                fontSmallRu.print(15, SCREEN_HEIGHT - 15, "Objbf");
                 break;
+            }
+
+            if (createWorldDuplError)
+            {
+                glColor(RGB15(31, 0, 0));
+                switch (lang)
+                {
+                case Language::English:
+                    fontSmall.printCentered(0, 198, "World already exists");
+                    break;
+                case Language::Russian:
+                    fontSmallRu.printCentered(0, 198, "Nks vig tv~gtudvgu");
+                    break;
+                }
+                glColor(RGB15(31, 31, 31));
             }
 
             switch (lang)
@@ -919,7 +939,7 @@ int main(int argc, char **argv)
                 fontSmall.printCentered(0, 71, "World name:");
                 break;
             case Language::Russian:
-                fontSmallRu1.printCentered(0, 71, "Cdgfkug ko&:");
+                fontSmallRu.printCentered(0, 71, "Cdgfkug ko&:");
                 break;
             }
             fontSmall.printCentered(0, 80, std::string(createWorldName + "_").c_str());
@@ -947,7 +967,7 @@ int main(int argc, char **argv)
             fontSmall.printCentered(0, 71, "English");
 
             glSprite(SCREEN_WIDTH / 2 - 8, 90, GL_FLIP_NONE, russian);
-            fontSmallRu1.printCentered(0, 101, "Rvttmkl");
+            fontSmallRu.printCentered(0, 101, "Rvttmkl");
 
             switch (lsSelected)
             {
@@ -961,7 +981,7 @@ int main(int argc, char **argv)
 
             glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, selectbtn);
             fontSmall.print(30, SCREEN_HEIGHT - 28, "Select (");
-            fontSmallRu1.print(97, SCREEN_HEIGHT - 28, "C\"csbu#)");
+            fontSmallRu.print(97, SCREEN_HEIGHT - 28, "C\"csbu#)");
     
             glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, abtn);
             fontSmall.print(15, SCREEN_HEIGHT - 15, "OK");
@@ -991,7 +1011,7 @@ int main(int argc, char **argv)
                 fontSmall.print(15, SCREEN_HEIGHT - 15, "Back");
                 break;
             case Language::Russian:
-                fontSmallRu1.print(15, SCREEN_HEIGHT - 15, "Objbf");
+                fontSmallRu.print(15, SCREEN_HEIGHT - 15, "Objbf");
                 break;
             }
             break;
@@ -1005,10 +1025,10 @@ int main(int argc, char **argv)
             switch (lang)
             {
             case Language::English:
-                fontSmall.print(17, 48, "Language: english");
+                fontSmall.printCentered(0, 48, "Change language");
                 break;
             case Language::Russian:
-                fontSmallRu1.print(17, 48, "aj\"m: svttmkl");
+                fontSmallRu.printCentered(0, 48, "C\"csbu# &j\"m");
                 break;
             }
             glColor(RGB15(31, 31, 31));
@@ -1019,11 +1039,11 @@ int main(int argc, char **argv)
             {
             case Language::English:
                 fontSmall.print(15, SCREEN_HEIGHT - 15, "Back");
-                fontSmall.print(15, SCREEN_HEIGHT - 28, "Change");
+                fontSmall.print(15, SCREEN_HEIGHT - 28, "Select");
                 break;
             case Language::Russian:
-                fontSmallRu1.print(15, SCREEN_HEIGHT - 15, "Objbf");
-                fontSmallRu1.print(15, SCREEN_HEIGHT - 28, "Jjogpku#");
+                fontSmallRu.print(15, SCREEN_HEIGHT - 15, "Objbf");
+                fontSmallRu.print(15, SCREEN_HEIGHT - 28, "C\"csbu#");
                 break;
             }
 
