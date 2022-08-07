@@ -5,7 +5,9 @@ glImage sprSnowyGrass[1];
 glImage sprDirt[1];
 glImage sprStone[1];
 glImage sprWood[1];
+glImage sprBirchWood[1];
 glImage sprLeaves[1];
+glImage sprBirchLeaves[1];
 glImage sprSand[1];
 glImage sprSandstone[1];
 glImage sprCactus[1];
@@ -37,7 +39,9 @@ void loadBlockTextures(void)
     loadImage(sprDirt, 16, 16, dirtBitmap);
     loadImage(sprStone, 16, 16, stoneBitmap);
     loadImage(sprWood, 16, 16, oak_logBitmap);
+    loadImage(sprBirchWood, 16, 16, birch_logBitmap);
     loadImage(sprLeaves, 16, 16, oak_leavesBitmap);
+    loadImage(sprBirchLeaves, 16, 16, birch_leavesBitmap);
     loadImage(sprSand, 16, 16, sandBitmap);
     loadImage(sprSandstone, 16, 16, sandstoneBitmap);
     loadImage(sprPlanks, 16, 16, planksBitmap);
@@ -159,8 +163,7 @@ FlowerBlock::FlowerBlock(s16 x, s16 y, FlowerType type) : Block(x, y)
 
 void FlowerBlock::draw(Camera camera)
 {
-    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, type == FlowerType::Dandelion ?
-                                                       sprDandelion : sprPoppy);
+    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, type == FlowerType::Dandelion ? sprDandelion : sprPoppy);
 }
 
 bool FlowerBlock::solid(void)
@@ -174,7 +177,7 @@ std::string FlowerBlock::id(void)
     {
     default:
         return "";
-    
+
     case FlowerType::Poppy:
         return "poppy";
     case FlowerType::Dandelion:
