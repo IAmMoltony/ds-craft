@@ -1578,7 +1578,6 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                     std::string id = block->id();
                     if (id == "grass")
                     {
-                        // omg my formatter is going crazy
                         playsfx(effect, sndStepGrass1, sndStepGrass2, sndStepGrass3, sndStepGrass4);
                     }
                     else if (id == "dirt")
