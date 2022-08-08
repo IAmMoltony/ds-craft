@@ -527,7 +527,7 @@ int main(int argc, char **argv)
             }
             else if (down & KEY_DOWN)
             {
-                if ((std::vector<WorldInfo>::size_type)(wsSelected + 1) < wsWorlds.size())
+                if ((size_t)(wsSelected + 1) < wsWorlds.size())
                     ++wsSelected;
             }
             else if (down & KEY_UP)
