@@ -548,9 +548,10 @@ int main(int argc, char **argv)
             else if (down & KEY_A)
             {
                 // trim the string
-                createWorldName.erase(createWorldName.begin(), std::find_if(createWorldName.begin(),
-                                                                            createWorldName.end(), [](unsigned char ch)
-                                                                            { return !std::isspace(ch); }));
+                createWorldName.erase(createWorldName.begin(),
+                                      std::find_if(createWorldName.begin(),
+                                                   createWorldName.end(), [](unsigned char ch)
+                                                   { return !std::isspace(ch); }));
                 createWorldName.erase(std::find_if(createWorldName.rbegin(), createWorldName.rend(),
                                                    [](unsigned char ch)
                                                    {
