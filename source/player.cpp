@@ -614,8 +614,6 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                            (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayerHead);
         glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(1));
 
-        printf("%d\n", aimY);
-
         // draw the aim as green square or a half-transparent
         // version of the block
         InventoryItemID currid = inventory[inventorySelect].id;
