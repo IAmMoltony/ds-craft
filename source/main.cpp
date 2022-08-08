@@ -211,6 +211,9 @@ int main(int argc, char **argv)
 
     loadImage(direntGames, 64, 64, dirent_gamesBitmap);
 
+    loadImageAlpha(sprBirchLeaves, 16, 16, birch_leaves_aPal, birch_leaves_aBitmap);
+    loadImageAlpha(sprLeaves, 16, 16, oak_leaves_aPal, oak_leaves_aBitmap);
+
     GameState gameState =
 #if SKIP_SPLASH_SCREEN
         fsFileExists("config/lang.cfg") ? GameState::Menu : GameState::LanguageSelect
