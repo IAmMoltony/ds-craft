@@ -23,9 +23,11 @@
 #include <algorithm>
 #include <sstream>
 
-extern glImage sprDirt[1]; // from block.cpp
+extern glImage sprDirt[1];
+extern glImage sprLeaves[1];
+extern glImage sprBirchLeaves[1];
 
-extern mm_sound_effect sndClick; // from player.cpp
+extern mm_sound_effect sndClick;
 
 static mm_sound_effect sndPop;
 
