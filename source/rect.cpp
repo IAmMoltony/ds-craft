@@ -14,13 +14,7 @@ bool Rect::intersects(Rect other)
         other.x > x + w ||
         other.x + other.w < x ||
         other.y > y + h ||
-        other.y + other.h < y
-    );
-}
-
-bool Rect::isPointInside(int _x, int _y)
-{
-    return Rect(_x, _y, 1, 1).intersects(*this);
+        other.y + other.h < y);
 }
 
 void Rect::draw(Camera camera, int color)
