@@ -248,7 +248,7 @@ void DropEntity::draw(Camera camera)
     }
     else if (blockid == "birchleaves")
     {
-        glColor(RGB15(0, 22, 0));
+        glColor(RGB15(20, 26, 19));
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
         glColor(RGB15(31, 31, 31));
     }

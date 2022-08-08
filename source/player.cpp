@@ -511,7 +511,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                         glColor(RGB15(31, 31, 31));
                         break;
                     case InventoryItemID::BirchLeaves:
-                        glColor(RGB15(0, 22, 0));
+                        glColor(RGB15(20, 26, 19));
                         glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
                         glColor(RGB15(31, 31, 31));
                         break;
@@ -642,7 +642,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             break;
 
         case InventoryItemID::BirchLeaves:
-            glColor(RGB15(0, 22, 0));
+            glColor(RGB15(20, 26, 19));
             glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
                      GL_FLIP_NONE, sprBirchLeaves);
             glColor(RGB15(31, 31, 31));
@@ -759,7 +759,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                     glColor(RGB15(31, 31, 31));
                     break;
                 case InventoryItemID::BirchLeaves:
-                    glColor(RGB15(0, 22, 0));
+                    glColor(RGB15(20, 26, 19));
                     glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                                   HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
                     glColor(RGB15(31, 31, 31));
