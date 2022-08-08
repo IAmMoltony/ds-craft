@@ -605,13 +605,16 @@ int main(int argc, char **argv)
 
             if (down & KEY_A)
             {
-                if (!lsSelected)
+                if (lsSelected == 0)
                 {
                     lang = Language::English;
                     fsWrite("config/lang.cfg", "0");
                 }
                 else
+                {
+                    lang = Language::Russian;
                     fsWrite("config/lang.cfg", "1");
+                }
 
                 mmEffectEx(&sndClick);
                 gameState = GameState::Menu;
