@@ -31,6 +31,8 @@ extern mm_sound_effect sndClick;
 
 static mm_sound_effect sndPop;
 
+static bool transparentLeaves = false;
+
 BlockList blocks;
 EntityList entities;
 Player player;
@@ -141,15 +143,33 @@ int main(int argc, char **argv)
         char *data = fsReadFile("config/lang.cfg");
         if (data[0] == '1')
             lang = Language::Russian;
+        else if (data[0] != '0') // invalid lang
+        {
+            printf("invalid language code %c ", data[0]);
+            while (true)
+                ;
+        }
     }
 
-    // fonts english
+    transparentLeaves = false;
+    if (fsFileExists("config/trleaves.cfg"))
+    {
+        char *data = fsReadFile("config/trleaves.cfg");
+        transparentLeaves = data[0] == '1';
+        if (data[0] != '0')
+            fsWrite("config/trleaves.cfg", "0");
+    }
+    else
+        fsWrite("config/trleaves.cfg", "0");
+
+    // fonts english iumages
     glImage font16x16Img[FONT_16X16_NUM_IMAGES];
     glImage fontSmallImg[FONT_SI_NUM_IMAGES];
 
-    // fonts russian
+    // fonts russian images
     glImage fontSmallRuImg[FONT_SI_NUM_IMAGES];
     glImage font16x16RuImg[FONT_16X16_NUM_IMAGES];
+
     Font font, fontSmall, fontSmallRu, fontRu;
 
     // load fonts
@@ -211,8 +231,11 @@ int main(int argc, char **argv)
 
     loadImage(direntGames, 64, 64, dirent_gamesBitmap);
 
-    loadImageAlpha(sprBirchLeaves, 16, 16, birch_leaves_aPal, birch_leaves_aBitmap);
-    loadImageAlpha(sprLeaves, 16, 16, oak_leaves_aPal, oak_leaves_aBitmap);
+    if (transparentLeaves)
+    {
+        loadImageAlpha(sprBirchLeaves, 16, 16, birch_leaves_aPal, birch_leaves_aBitmap);
+        loadImageAlpha(sprLeaves, 16, 16, oak_leaves_aPal, oak_leaves_aBitmap);
+    }
 
     GameState gameState =
 #if SKIP_SPLASH_SCREEN
@@ -647,12 +670,26 @@ int main(int argc, char **argv)
                 case 0:
                     gameState = GameState::LanguageSelect;
                     break;
+                case 1:
+                    transparentLeaves = !transparentLeaves;
+                    if (transparentLeaves)
+                    {
+                        loadImageAlpha(sprBirchLeaves, 16, 16, birch_leaves_aPal, birch_leaves_aBitmap);
+                        loadImageAlpha(sprLeaves, 16, 16, oak_leaves_aPal, oak_leaves_aBitmap);
+                    }
+                    else
+                    {
+                        loadImage(sprLeaves, 16, 16, oak_leavesBitmap);
+                        loadImage(sprBirchLeaves, 16, 16, birch_leavesBitmap);
+                    }
+                    fsWrite("config/trleaves.cfg", transparentLeaves ? "1" : "0");
+                    break;
                 }
                 mmEffectEx(&sndClick);
             }
             else if (down & KEY_SELECT)
             {
-                if (++settingsSelect > 0)
+                if (++settingsSelect > 1)
                 {
                     settingsSelect = 0;
                 }
@@ -1039,9 +1076,7 @@ int main(int argc, char **argv)
             drawMovingBackground(sprDirt, frames);
 
             if (settingsSelect == 0)
-            {
                 glColor(RGB15(0, 31, 0));
-            }
             switch (lang)
             {
             case Language::English:
@@ -1049,6 +1084,25 @@ int main(int argc, char **argv)
                 break;
             case Language::Russian:
                 fontSmallRu.printCentered(0, 48, "C\"csbu# &j\"m");
+                break;
+            }
+            glColor(RGB15(31, 31, 31));
+
+            if (settingsSelect == 1)
+                glColor(RGB15(0, 31, 0));
+            switch (lang)
+            {
+            case Language::English:
+                if (transparentLeaves)
+                    fontSmall.printCentered(0, 59, "Transparent leaves ON");
+                else
+                    fontSmall.printCentered(0, 59, "Transparent leaves OFF");
+                break;
+            case Language::Russian:
+                if (transparentLeaves)
+                    fontSmallRu.printCentered(0, 59, "Qsqjsbzp\"g nktu#& CLM");
+                else
+                    fontSmallRu.printCentered(0, 59, "Qsqjsbzp\"g nktu#& C]LM");
                 break;
             }
             glColor(RGB15(31, 31, 31));
