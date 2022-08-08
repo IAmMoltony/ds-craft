@@ -140,8 +140,8 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             {
                 std::string lid = "leaves";
                 Block *b = block.get();
-                LeavesBlock *leaves = (LeavesBlock *)b;
-                if (leaves->type == LeavesType::Birch)
+                LeavesBlock *l = reinterpret_cast<LeavesBlock *>(b);
+                if (l->type == LeavesType::Birch)
                     lid = "birchleaves";
 
                 wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + lid + "\n";
