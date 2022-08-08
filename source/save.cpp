@@ -41,8 +41,14 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         case InventoryItemID::Wood:
             id = "wood";
             break;
+        case InventoryItemID::BirchWood:
+            id = "birchwood";
+            break;
         case InventoryItemID::Leaves:
             id = "leaves";
+            break;
+        case InventoryItemID::BirchLeaves:
+            id = "birchleaves";
             break;
         case InventoryItemID::Sand:
             id = "sand";
@@ -321,9 +327,17 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             {
                 id = InventoryItemID::Wood;
             }
+            else if (sid == "birchwood")
+            {
+                id = InventoryItemID::BirchWood;
+            }
             else if (sid == "leaves")
             {
                 id = InventoryItemID::Leaves;
+            }
+            else if (sid == "birchleaves")
+            {
+                id = InventoryItemID::BirchLeaves;
             }
             else if (sid == "sand")
             {
