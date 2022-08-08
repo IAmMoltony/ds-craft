@@ -8,7 +8,11 @@
 #include <inventory_slot.h>
 #include <inventory_slot_select.h>
 #include <oak_leaves.h>
+#include <oak_leaves_a.h>
+#include <birch_leaves.h>
+#include <birch_leaves_a.h>
 #include <oak_log.h>
+#include <birch_log.h>
 #include <planks.h>
 #include <poppy.h>
 #include <sand.h>

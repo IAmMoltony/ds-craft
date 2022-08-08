@@ -13,7 +13,10 @@
 #include <lang.hpp>
 #include <entity.hpp>
 #include <array>
-#define NULLITEM {InventoryItemID::None, 0}
+#define NULLITEM                 \
+    {                            \
+        InventoryItemID::None, 0 \
+    }
 #define PLAYER_WIDTH 12
 #define PLAYER_HEIGHT 32
 
@@ -24,7 +27,9 @@ enum class InventoryItemID
     Dirt,
     Stone,
     Wood,
+    BirchWood,
     Leaves,
+    BirchLeaves,
     Sand,
     Sandstone,
     Cactus,
@@ -81,7 +86,7 @@ public:
     void setHealth(s16 health);
     void restoreHealth(void);
     void resetInventory(void);
-    
+
     bool moving(s16 oldX);
     bool dead(void);
     bool isInventoryFull(void);

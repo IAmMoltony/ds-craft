@@ -10,7 +10,8 @@ void fsInit(void)
         printf("FAT init failed! :(\n");
         printf("This error is most likely caused by:\n");
         printf(" - ROM is not patched\n - SD card is missing.");
-        while (true);
+        while (true)
+            ;
     }
 }
 
@@ -64,7 +65,7 @@ char *fsReadFile(const char *name)
         fseek(fp, 0, SEEK_END);
         ssize = ftell(fp);
         rewind(fp);
-        buf = (char*)malloc(sizeof(char) * (ssize + 1));
+        buf = (char *)malloc(sizeof(char) * (ssize + 1));
         rsize = fread(buf, sizeof(char), ssize, fp);
         buf[ssize] = '\0';
 
@@ -95,7 +96,10 @@ char *fsHumanreadFileSize(double size)
     char *buf = (char *)malloc(10 * sizeof(char));
     int i = 0;
     static const char *units[] = {
-        "B", "KB", "MB", "GB",
+        "B",
+        "KB",
+        "MB",
+        "GB",
     };
     while (size > 1024)
     {

@@ -11,9 +11,14 @@
                 "/mnt/d/devkitPro/devkitARM/arm-none-eabi/include/**",
                 "D:/devkitPro/libnds/include/",
                 "D:/devkitPro/libnds/include/**",
-                "D:/devkitPro/devkitARM/arm-none-eabi/include/"
+                "D:/devkitPro/devkitARM/arm-none-eabi/include/",
+                "E:/devkitPro/libnds/include/",
+                "E:/devkitPro/libnds/include/**",
+                "E:/devkitPro/devkitARM/arm-none-eabi/include/"
             ],
-            "defines": ["ARM9"],
+            "defines": [
+                "ARM9"
+            ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "gnu17",
             "cppStandard": "gnu++14",

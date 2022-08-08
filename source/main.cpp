@@ -23,11 +23,15 @@
 #include <algorithm>
 #include <sstream>
 
-extern glImage sprDirt[1]; // from block.cpp
+extern glImage sprDirt[1];
+extern glImage sprLeaves[1];
+extern glImage sprBirchLeaves[1];
 
-extern mm_sound_effect sndClick; // from player.cpp
+extern mm_sound_effect sndClick;
 
 static mm_sound_effect sndPop;
+
+static bool transparentLeaves = false;
 
 BlockList blocks;
 EntityList entities;
@@ -139,15 +143,33 @@ int main(int argc, char **argv)
         char *data = fsReadFile("config/lang.cfg");
         if (data[0] == '1')
             lang = Language::Russian;
+        else if (data[0] != '0') // invalid lang
+        {
+            printf("invalid language code %c ", data[0]);
+            while (true)
+                ;
+        }
     }
 
-    // fonts english
+    transparentLeaves = false;
+    if (fsFileExists("config/trleaves.cfg"))
+    {
+        char *data = fsReadFile("config/trleaves.cfg");
+        transparentLeaves = data[0] == '1';
+        if (data[0] != '0')
+            fsWrite("config/trleaves.cfg", "0");
+    }
+    else
+        fsWrite("config/trleaves.cfg", "0");
+
+    // fonts english iumages
     glImage font16x16Img[FONT_16X16_NUM_IMAGES];
     glImage fontSmallImg[FONT_SI_NUM_IMAGES];
 
-    // fonts russian
+    // fonts russian images
     glImage fontSmallRuImg[FONT_SI_NUM_IMAGES];
     glImage font16x16RuImg[FONT_16X16_NUM_IMAGES];
+
     Font font, fontSmall, fontSmallRu, fontRu;
 
     // load fonts
@@ -161,9 +183,9 @@ int main(int argc, char **argv)
                    256, font_smallPal, reinterpret_cast<const u8 *>(font_smallBitmap));
 
     fontSmallRu.load(fontSmallRuImg, FONT_SI_NUM_IMAGES, font_si_texcoords, GL_RGB256,
-                      TEXTURE_SIZE_64, TEXTURE_SIZE_128,
-                      GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
-                      256, font_small_ru1Pal, reinterpret_cast<const u8 *>(font_small_ru1Bitmap));
+                     TEXTURE_SIZE_64, TEXTURE_SIZE_128,
+                     GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
+                     256, font_small_ru1Pal, reinterpret_cast<const u8 *>(font_small_ru1Bitmap));
     fontRu.load(font16x16RuImg, FONT_16X16_NUM_IMAGES, font_16x16_texcoords, GL_RGB256,
                 TEXTURE_SIZE_64, TEXTURE_SIZE_512,
                 GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
@@ -209,28 +231,34 @@ int main(int argc, char **argv)
 
     loadImage(direntGames, 64, 64, dirent_gamesBitmap);
 
-    GameState gameState = 
+    if (transparentLeaves)
+    {
+        loadImageAlpha(sprBirchLeaves, 16, 16, birch_leaves_aPal, birch_leaves_aBitmap);
+        loadImageAlpha(sprLeaves, 16, 16, oak_leaves_aPal, oak_leaves_aBitmap);
+    }
+
+    GameState gameState =
 #if SKIP_SPLASH_SCREEN
         fsFileExists("config/lang.cfg") ? GameState::Menu : GameState::LanguageSelect
 #else
         GameState::SplashScreen
 #endif
         ;
-    Camera camera = {0, 0}; // camera
-    u16 frames = 0; // frames (wraps around to 0 when hits 65535)
-    u8 saveTextTimer = 0; // save text timer when it hides
+    Camera camera = {0, 0};              // camera
+    u16 frames = 0;                      // frames (wraps around to 0 when hits 65535)
+    u8 saveTextTimer = 0;                // save text timer when it hides
     s16 direntx = SCREEN_WIDTH / 2 - 32; // splash screen dirent logo x pos
-    s16 direnty = -64; // splash screen dirent logo y pos
-    u8 direntColor = 31; // splash screen dirent logo darkness factor
-    u8 wsSelected = 0; // selected world
-    u8 lsSelected = 0; // selected language
-    std::vector<WorldInfo> wsWorlds; // worlds in world select
-    bool saveTextShow = false; // should we show the text that we saved?
-    bool paused = false; // is the game paused
-    std::string worldName = ""; // world name
-    std::string createWorldName = ""; // world name (for create world)
-    bool createWorldDuplError = false; // show duplicate world name error in create world?
-    u8 settingsSelect = 0; // selected sttting
+    s16 direnty = -64;                   // splash screen dirent logo y pos
+    u8 direntColor = 31;                 // splash screen dirent logo darkness factor
+    u8 wsSelected = 0;                   // selected world
+    u8 lsSelected = 0;                   // selected language
+    std::vector<WorldInfo> wsWorlds;     // worlds in world select
+    bool saveTextShow = false;           // should we show the text that we saved?
+    bool paused = false;                 // is the game paused
+    std::string worldName = "";          // world name
+    std::string createWorldName = "";    // world name (for create world)
+    bool createWorldDuplError = false;   // show duplicate world name error in create world?
+    u8 settingsSelect = 0;               // selected sttting
     while (true)
     {
         // scan keys
@@ -298,7 +326,7 @@ int main(int argc, char **argv)
                         // magic for converting block into sapling
                         Block *b = block.get();
                         SaplingBlock *sapling = (SaplingBlock *)b; // here i dont use reinterpret_cast
-                                                                // because it makes the game break
+                                                                   // because it makes the game break
                         sapling->update();
                         if (sapling->hasGrown())
                         {
@@ -309,17 +337,17 @@ int main(int argc, char **argv)
                             blocks.emplace_back(new WoodBlock(x, y));
                             blocks.emplace_back(new WoodBlock(x, y - 16));
                             blocks.emplace_back(new WoodBlock(x, y - 32));
-                            blocks.emplace_back(new LeavesBlock(x, y - 48));
-                            blocks.emplace_back(new LeavesBlock(x - 16, y - 48));
-                            blocks.emplace_back(new LeavesBlock(x - 32, y - 48));
-                            blocks.emplace_back(new LeavesBlock(x + 16, y - 48));
-                            blocks.emplace_back(new LeavesBlock(x + 32, y - 48));
-                            blocks.emplace_back(new LeavesBlock(x, y - 64));
-                            blocks.emplace_back(new LeavesBlock(x - 16, y - 64));
-                            blocks.emplace_back(new LeavesBlock(x + 16, y - 64));
-                            blocks.emplace_back(new LeavesBlock(x, y - 80));
-                            blocks.emplace_back(new LeavesBlock(x - 16, y - 80));
-                            blocks.emplace_back(new LeavesBlock(x + 16, y - 80));
+                            blocks.emplace_back(new LeavesBlock(x, y - 48, LeavesType::Oak));
+                            blocks.emplace_back(new LeavesBlock(x - 16, y - 48, LeavesType::Oak));
+                            blocks.emplace_back(new LeavesBlock(x - 32, y - 48, LeavesType::Oak));
+                            blocks.emplace_back(new LeavesBlock(x + 16, y - 48, LeavesType::Oak));
+                            blocks.emplace_back(new LeavesBlock(x + 32, y - 48, LeavesType::Oak));
+                            blocks.emplace_back(new LeavesBlock(x, y - 64, LeavesType::Oak));
+                            blocks.emplace_back(new LeavesBlock(x - 16, y - 64, LeavesType::Oak));
+                            blocks.emplace_back(new LeavesBlock(x + 16, y - 64, LeavesType::Oak));
+                            blocks.emplace_back(new LeavesBlock(x, y - 80, LeavesType::Oak));
+                            blocks.emplace_back(new LeavesBlock(x - 16, y - 80, LeavesType::Oak));
+                            blocks.emplace_back(new LeavesBlock(x + 16, y - 80, LeavesType::Oak));
                             std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort blocks
                         }
                     }
@@ -332,14 +360,14 @@ int main(int argc, char **argv)
 
                     entity->update(blocks, camera, frames);
                     if (entity->id().rfind("drop", 0) == 0 && Rect(player.getX(), player.getY(), 16, 24)
-                        .intersects(entity->getRectBottom()))
+                                                                  .intersects(entity->getRectBottom()))
                     {
                         std::vector<std::string> split;
                         std::string temp;
                         std::stringstream ss(entity->id());
                         while (std::getline(ss, temp, ' '))
                             split.push_back(temp);
-                        
+
                         bool ok = true;
                         std::string blockid = split[1];
                         if (blockid == "grass" && player.canAddItem(InventoryItemID::Grass))
@@ -350,8 +378,12 @@ int main(int argc, char **argv)
                             player.addItem(InventoryItemID::Stone);
                         else if (blockid == "wood" && player.canAddItem(InventoryItemID::Wood))
                             player.addItem(InventoryItemID::Wood);
+                        else if (blockid == "birchwood" && player.canAddItem(InventoryItemID::BirchWood))
+                            player.addItem(InventoryItemID::BirchWood);
                         else if (blockid == "leaves" && player.canAddItem(InventoryItemID::Leaves))
                             player.addItem(InventoryItemID::Leaves);
+                        else if (blockid == "birchleaves" && player.canAddItem(InventoryItemID::BirchLeaves))
+                            player.addItem(InventoryItemID::BirchLeaves);
                         else if (blockid == "sand" && player.canAddItem(InventoryItemID::Sand))
                             player.addItem(InventoryItemID::Sand);
                         else if (blockid == "sandstone" && player.canAddItem(InventoryItemID::Sandstone))
@@ -386,7 +418,7 @@ int main(int argc, char **argv)
                             player.addItem(InventoryItemID::Stick);
                         else
                             ok = false;
-                        
+
                         if (ok)
                         {
                             mmEffectEx(&sndPop);
@@ -412,12 +444,16 @@ int main(int argc, char **argv)
                 camera.y = lerp(camera.y, player.getY() - SCREEN_HEIGHT / 2, 0.1f);
 
                 // camera clamping
-                if (camera.x < 0) camera.x = 0;
-                else if (camera.x > 1024 - SCREEN_WIDTH) camera.x = 1024 - SCREEN_WIDTH;
+                if (camera.x < 0)
+                    camera.x = 0;
+                else if (camera.x > 1024 - SCREEN_WIDTH)
+                    camera.x = 1024 - SCREEN_WIDTH;
 
                 // player pos clamping
-                if (player.getX() < 0) player.setX(0);
-                if (player.getX() > 1024 - 16) player.setX(1024 - 16);
+                if (player.getX() < 0)
+                    player.setX(0);
+                if (player.getX() > 1024 - 16)
+                    player.setX(1024 - 16);
             }
             else if (player.dead())
             {
@@ -517,7 +553,7 @@ int main(int argc, char **argv)
             }
             else if (down & KEY_DOWN)
             {
-                if ((std::vector<WorldInfo>::size_type)(wsSelected + 1) < wsWorlds.size())
+                if ((size_t)(wsSelected + 1) < wsWorlds.size())
                     ++wsSelected;
             }
             else if (down & KEY_UP)
@@ -526,7 +562,8 @@ int main(int argc, char **argv)
                     --wsSelected;
             }
             break;
-        case GameState::CreateWorld: {
+        case GameState::CreateWorld:
+        {
             if (down & KEY_B)
             {
                 createWorldDuplError = false;
@@ -537,14 +574,17 @@ int main(int argc, char **argv)
             else if (down & KEY_A)
             {
                 // trim the string
-                createWorldName.erase(createWorldName.begin(), std::find_if(createWorldName.begin(),
-                                      createWorldName.end(), [](unsigned char ch) {
-                    return !std::isspace(ch);
-                }));
+                createWorldName.erase(createWorldName.begin(),
+                                      std::find_if(createWorldName.begin(),
+                                                   createWorldName.end(), [](unsigned char ch)
+                                                   { return !std::isspace(ch); }));
                 createWorldName.erase(std::find_if(createWorldName.rbegin(), createWorldName.rend(),
-                                      [](unsigned char ch) {
-                    return !std::isspace(ch);
-                }).base(), createWorldName.end());
+                                                   [](unsigned char ch)
+                                                   {
+                                                       return !std::isspace(ch);
+                                                   })
+                                          .base(),
+                                      createWorldName.end());
 
                 if (fsFileExists(std::string("worlds/" + createWorldName + ".wld").c_str()))
                     createWorldDuplError = true;
@@ -594,13 +634,16 @@ int main(int argc, char **argv)
 
             if (down & KEY_A)
             {
-                if (!lsSelected)
+                if (lsSelected == 0)
                 {
                     lang = Language::English;
                     fsWrite("config/lang.cfg", "0");
                 }
                 else
+                {
+                    lang = Language::Russian;
                     fsWrite("config/lang.cfg", "1");
+                }
 
                 mmEffectEx(&sndClick);
                 gameState = GameState::Menu;
@@ -627,12 +670,26 @@ int main(int argc, char **argv)
                 case 0:
                     gameState = GameState::LanguageSelect;
                     break;
+                case 1:
+                    transparentLeaves = !transparentLeaves;
+                    if (transparentLeaves)
+                    {
+                        loadImageAlpha(sprBirchLeaves, 16, 16, birch_leaves_aPal, birch_leaves_aBitmap);
+                        loadImageAlpha(sprLeaves, 16, 16, oak_leaves_aPal, oak_leaves_aBitmap);
+                    }
+                    else
+                    {
+                        loadImage(sprLeaves, 16, 16, oak_leavesBitmap);
+                        loadImage(sprBirchLeaves, 16, 16, birch_leavesBitmap);
+                    }
+                    fsWrite("config/trleaves.cfg", transparentLeaves ? "1" : "0");
+                    break;
                 }
                 mmEffectEx(&sndClick);
             }
             else if (down & KEY_SELECT)
             {
-                if (++settingsSelect > 0)
+                if (++settingsSelect > 1)
                 {
                     settingsSelect = 0;
                 }
@@ -792,7 +849,7 @@ int main(int argc, char **argv)
                 fontRu.printCentered(0, 16, "Tkus\"");
                 break;
             }
-            
+
             fontSmall.printCentered(0, 70, "Textures by Mojang");
             fontSmall.printCentered(0, 120, "(C) 2022 dirent games");
             fontSmall.printCentered(0, 129, "Built with devkitARM");
@@ -982,7 +1039,7 @@ int main(int argc, char **argv)
             glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, selectbtn);
             fontSmall.print(30, SCREEN_HEIGHT - 28, "Select (");
             fontSmallRu.print(97, SCREEN_HEIGHT - 28, "C\"csbu#)");
-    
+
             glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, abtn);
             fontSmall.print(15, SCREEN_HEIGHT - 15, "OK");
 
@@ -1019,9 +1076,7 @@ int main(int argc, char **argv)
             drawMovingBackground(sprDirt, frames);
 
             if (settingsSelect == 0)
-            {
                 glColor(RGB15(0, 31, 0));
-            }
             switch (lang)
             {
             case Language::English:
@@ -1029,6 +1084,25 @@ int main(int argc, char **argv)
                 break;
             case Language::Russian:
                 fontSmallRu.printCentered(0, 48, "C\"csbu# &j\"m");
+                break;
+            }
+            glColor(RGB15(31, 31, 31));
+
+            if (settingsSelect == 1)
+                glColor(RGB15(0, 31, 0));
+            switch (lang)
+            {
+            case Language::English:
+                if (transparentLeaves)
+                    fontSmall.printCentered(0, 59, "Transparent leaves ON");
+                else
+                    fontSmall.printCentered(0, 59, "Transparent leaves OFF");
+                break;
+            case Language::Russian:
+                if (transparentLeaves)
+                    fontSmallRu.printCentered(0, 59, "Qsqjsbzp\"g nktu#& CLM");
+                else
+                    fontSmallRu.printCentered(0, 59, "Qsqjsbzp\"g nktu#& C]LM");
                 break;
             }
             glColor(RGB15(31, 31, 31));

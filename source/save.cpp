@@ -14,7 +14,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     // create file
     fsCreateFile(std::string("worlds/" + name + ".wld").c_str());
     std::string wld;
-    
+
     // save player
     wld += "player " + std::to_string(player.getX()) + " " + std::to_string(player.getY()) + " " + std::to_string(player.getHealth()) + "\n";
 
@@ -41,8 +41,14 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         case InventoryItemID::Wood:
             id = "wood";
             break;
+        case InventoryItemID::BirchWood:
+            id = "birchwood";
+            break;
         case InventoryItemID::Leaves:
             id = "leaves";
+            break;
+        case InventoryItemID::BirchLeaves:
+            id = "birchleaves";
             break;
         case InventoryItemID::Sand:
             id = "sand";
@@ -131,6 +137,21 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             {
                 wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " coalblock\n";
             }
+            else if (id == "birch wood")
+            {
+                wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " birchwood\n";
+            }
+            // leaves
+            else if (id == "leaves")
+            {
+                std::string lid = "leaves";
+                Block *b = block.get();
+                LeavesBlock *l = reinterpret_cast<LeavesBlock *>(b);
+                if (l->type == LeavesType::Birch)
+                    lid = "birchleaves";
+
+                wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + lid + "\n";
+            }
             // every other block
             else
             {
@@ -177,7 +198,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         {
             split.push_back(line2);
         }
-        
+
         if (split[0] == "player") // key player (player <x> <y> <health>)
         {
             player.setX(atoi(split[1].c_str()));
@@ -214,9 +235,17 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             {
                 blocks.emplace_back(new WoodBlock(x, y));
             }
+            else if (id == "birchwood")
+            {
+                blocks.emplace_back(new BirchWoodBlock(x, y));
+            }
             else if (id == "leaves")
             {
-                blocks.emplace_back(new LeavesBlock(x, y));
+                blocks.emplace_back(new LeavesBlock(x, y, LeavesType::Oak));
+            }
+            else if (id == "birchleaves")
+            {
+                blocks.emplace_back(new LeavesBlock(x, y, LeavesType::Birch));
             }
             else if (id == "sand")
             {
@@ -298,9 +327,17 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             {
                 id = InventoryItemID::Wood;
             }
+            else if (sid == "birchwood")
+            {
+                id = InventoryItemID::BirchWood;
+            }
             else if (sid == "leaves")
             {
                 id = InventoryItemID::Leaves;
+            }
+            else if (sid == "birchleaves")
+            {
+                id = InventoryItemID::BirchLeaves;
             }
             else if (sid == "sand")
             {
@@ -370,7 +407,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             {
                 id = InventoryItemID::CookedPorkchop;
             }
-            
+
             player.setItem(i, {id, amount});
         }
         if (split[0] == "entity") // key entity (entity <x> <y> <id>)
