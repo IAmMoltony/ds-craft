@@ -761,7 +761,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 case InventoryItemID::BirchLeaves:
                     glColor(RGB15(0, 22, 0));
                     glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprLeaves);
+                                  HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
                     glColor(RGB15(31, 31, 31));
                     break;
                 case InventoryItemID::Sand:
