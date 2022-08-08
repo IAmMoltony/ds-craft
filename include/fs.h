@@ -1,7 +1,8 @@
 #pragma once
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #include <nds.h>
@@ -13,15 +14,15 @@ extern "C" {
 #include <dirent.h>
 #include <defines.h>
 
-void fsInit(void);
-void fsCreateDir(const char *name);
-void fsCreateFile(const char *name);
-void fsWrite(const char *file, const char *data);
-void fsDeleteFile(const char *name);
-bool fsFileExists(const char *name);
-char *fsReadFile(const char *name);
-int fsGetFileSize(const char *name); // in bytes
-char *fsHumanreadFileSize(double size);
+    void fsInit(void);
+    void fsCreateDir(const char *name);
+    void fsCreateFile(const char *name);
+    void fsWrite(const char *file, const char *data);
+    void fsDeleteFile(const char *name);
+    bool fsFileExists(const char *name);
+    char *fsReadFile(const char *name);
+    int fsGetFileSize(const char *name); // in bytes
+    char *fsHumanreadFileSize(double size);
 
 #ifdef __cplusplus
 }

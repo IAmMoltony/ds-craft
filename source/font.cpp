@@ -17,7 +17,7 @@ void Font::print(int x, int y, const char *str)
     u8 ch;
     while (*str) // iterate through string
     {
-        ch = (*str++) - 32; // get the subimage index
+        ch = (*str++) - 32;                     // get the subimage index
         glSprite(x, y, GL_FLIP_NONE, &spr[ch]); // draw the image
         x += spr[ch].width;
     }
