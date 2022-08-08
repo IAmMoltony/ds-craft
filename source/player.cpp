@@ -1577,14 +1577,31 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                     u8 effect = rand() % 4;
                     std::string id = block->id();
                     if (id == "grass")
+                    {
                         // omg my formatter is going crazy
-                        playsfx(effect, sndStepGrass1, sndStepGrass2, sndStepGrass3, sndStepGrass4) else if (id == "dirt")
-                            playsfx(effect, sndStepGravel1, sndStepGravel2, sndStepGravel3, sndStepGravel4) else if (id == "stone" || id == "sandstone" || id == "cobblestone" ||
-                                                                                                                     id == "coal ore" || id == "coal block" || id == "bedrock")
-                                playsfx(effect, sndStepStone1, sndStepStone2, sndStepStone3, sndStepStone4) else if (id == "sand")
-                                    playsfx(effect, sndStepSand1, sndStepSand2, sndStepSand3, sndStepSand4) else if (id == "snowy grass")
-                                        playsfx(effect, sndStepSnow1, sndStepSnow2, sndStepSnow3, sndStepSnow4) else if (id == "planks" || id == "door")
-                                            playsfx(effect, sndStepWood1, sndStepWood2, sndStepWood3, sndStepWood4)
+                        playsfx(effect, sndStepGrass1, sndStepGrass2, sndStepGrass3, sndStepGrass4);
+                    }
+                    else if (id == "dirt")
+                    {
+                        playsfx(effect, sndStepGravel1, sndStepGravel2, sndStepGravel3, sndStepGravel4);
+                    }
+                    else if (id == "stone" || id == "sandstone" || id == "cobblestone" ||
+                             id == "coal ore" || id == "coal block" || id == "bedrock")
+                    {
+                        playsfx(effect, sndStepStone1, sndStepStone2, sndStepStone3, sndStepStone4);
+                    }
+                    else if (id == "sand")
+                    {
+                        playsfx(effect, sndStepSand1, sndStepSand2, sndStepSand3, sndStepSand4);
+                    }
+                    else if (id == "snowy grass")
+                    {
+                        playsfx(effect, sndStepSnow1, sndStepSnow2, sndStepSnow3, sndStepSnow4);
+                    }
+                    else if (id == "planks" || id == "door")
+                    {
+                        playsfx(effect, sndStepWood1, sndStepWood2, sndStepWood3, sndStepWood4);
+                    }
                 }
             }
 
