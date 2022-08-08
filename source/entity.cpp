@@ -7,7 +7,9 @@ extern glImage sprGrass[1];
 extern glImage sprDirt[1];
 extern glImage sprStone[1];
 extern glImage sprWood[1];
+extern glImage sprBirchWood[1];
 extern glImage sprLeaves[1];
+extern glImage sprBirchLeaves[1];
 extern glImage sprSand[1];
 extern glImage sprSandstone[1];
 extern glImage sprCactus[1];
@@ -78,14 +80,12 @@ PigEntity::PigEntity(s16 x, s16 y) : Entity(x, y), damageOverlayTimer(255)
 void PigEntity::draw(Camera camera)
 {
     glSpriteScale(x - camera.x - (facing == Facing::Left ? 17 : 0), y - camera.y,
-                  (1 << 12) * 1.25f, facing == Facing::Right ? GL_FLIP_NONE :
-                  GL_FLIP_H, sprPig);
+                  (1 << 12) * 1.25f, facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H, sprPig);
     if (damageOverlayTimer != 255)
     {
         glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(9));
         glSpriteScale(x - camera.x - (facing == Facing::Left ? 17 : 0), y - camera.y,
-                    (1 << 12) * 1.25f, facing == Facing::Right ? GL_FLIP_NONE :
-                    GL_FLIP_H, sprPigDamage);
+                      (1 << 12) * 1.25f, facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H, sprPigDamage);
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(9));
     }
 }
@@ -238,10 +238,18 @@ void DropEntity::draw(Camera camera)
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprStone);
     else if (blockid == "wood")
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprWood);
+    else if (blockid == "birchwood")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprBirchWood);
     else if (blockid == "leaves")
     {
         glColor(RGB15(0, 22, 0));
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprLeaves);
+        glColor(RGB15(31, 31, 31));
+    }
+    else if (blockid == "birchleaves")
+    {
+        glColor(RGB15(0, 22, 0));
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
         glColor(RGB15(31, 31, 31));
     }
     else if (blockid == "sand")
@@ -285,7 +293,7 @@ void DropEntity::update(BlockList &blocks, Camera camera, u16 frames)
         y - camera.y < -40 ||
         y - camera.y > SCREEN_HEIGHT + 32)
         return;
-    
+
     y += velY;
     if (falling)
     {
@@ -307,7 +315,7 @@ void DropEntity::update(BlockList &blocks, Camera camera, u16 frames)
 
             if (!block->solid())
                 continue;
-            
+
             if (block->getRect().intersects(getRect()))
             {
                 velY = 0;

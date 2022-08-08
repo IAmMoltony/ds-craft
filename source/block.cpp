@@ -111,21 +111,31 @@ GENERIC_BLOCK_IMPL(CoalOreBlock, sprCoalOre, "coal ore")
 GENERIC_BLOCK_IMPL(CoalBlock, sprCoalBlock, "coal block")
 
 NONSOLID_BLOCK_IMPL(WoodBlock, sprWood, "wood")
+NONSOLID_BLOCK_IMPL(BirchWoodBlock, sprBirchWood, "birch wood")
 NONSOLID_BLOCK_IMPL(CactusBlock, sprCactus, "cactus")
 NONSOLID_BLOCK_IMPL(DeadBushBlock, sprDeadBush, "dead bush");
 
 // non-generic implementations
 
-LeavesBlock::LeavesBlock(s16 x, s16 y, bool natural) : Block(x, y)
+LeavesBlock::LeavesBlock(s16 x, s16 y, LeavesType type, bool natural) : Block(x, y)
 {
     this->natural = natural;
+    this->type = type;
 }
 
 void LeavesBlock::draw(Camera camera)
 {
-    // draw leaves in dark green
-    glColor(RGB15(0, 22, 0));
-    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprLeaves);
+    switch (type)
+    {
+    case LeavesType::Oak:
+        glColor(RGB15(0, 22, 0));
+        glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprLeaves);
+        break;
+    case LeavesType::Birch:
+        glColor(RGB15(20, 26, 19));
+        glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprBirchLeaves);
+        break;
+    }
     glColor(RGB15(31, 31, 31)); // reset color
 }
 
