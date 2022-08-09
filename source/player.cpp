@@ -1669,7 +1669,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             velX = 0;
     }
 
-    if (y > 1100)
+    if (y > 860)
     {
         // die when fall under the world
         health = -1;
