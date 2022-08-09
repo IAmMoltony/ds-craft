@@ -1669,6 +1669,25 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             velX = 0;
     }
 
+    if (y > 1100)
+    {
+        // die when fall under the world
+        health = -1;
+        u8 effect = randomRange(0, 2);
+        switch (effect)
+        {
+        case 0:
+            mmEffectEx(&sndHit1);
+            break;
+        case 1:
+            mmEffectEx(&sndHit2);
+            break;
+        case 2:
+            mmEffectEx(&sndHit3);
+            break;
+        }
+    }
+
     return ret; // yes
 }
 
