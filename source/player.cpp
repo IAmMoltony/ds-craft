@@ -1654,7 +1654,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             }
         }
 
-        if (aimX < SCREEN_WIDTH / 2)
+        if (aimX < x - camera->x + sprPlayer->width / 2)
             facing = Facing::Left;
         else
             facing = Facing::Right;
