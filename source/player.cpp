@@ -1539,8 +1539,8 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                 if (airY >= 44) // if we fall too much
                 {
                     s16 damage = airY / 44;
-                    if (airY - 44 >= 27)
-                        damage += (airY - 38) / 27;
+                    if (airY - 44 >= 9)
+                        damage += (airY - 38) / 9;
                     if (damage > 0)
                     {
                         health -= damage;
