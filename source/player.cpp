@@ -606,7 +606,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
         int angle = angleRad * 180 / M_PI * 40;
         glSprite(x - 1 - camera.x - (facing == Facing::Right ? 0 : 3), y - camera.y,
                  (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayer);
-        if (aimY >= 97 && aimY <= 102 && facing == Facing::Right)
+        if (((aimY >= 97 && aimY <= 102) || aimY == 107) && facing == Facing::Right)
             glSprite(x - 2 - camera.x, y - 1 - camera.y, GL_FLIP_NONE, sprPlayerHead);
         else
             glSpriteRotate(x + 5 - camera.x, y + 6 - camera.y,
@@ -1688,7 +1688,6 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             break;
         }
     }
-
     return ret; // yes
 }
 
