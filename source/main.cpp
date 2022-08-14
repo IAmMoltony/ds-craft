@@ -2,6 +2,7 @@
 #include <gl2d.h>
 #include <maxmod9.h>
 #include <fat.h>
+#include <filesystem.h>
 #include <images.h>
 #include <fs.h>
 #include <uvcoord_font_16x16.h>
@@ -20,6 +21,7 @@
 #include <entity.hpp>
 #include <lang.hpp>
 #include <save.hpp>
+#include <rapidjson/document.h>
 #include <algorithm>
 #include <sstream>
 
@@ -111,6 +113,18 @@ int main(int argc, char **argv)
 
     // init filesystem
     fsInit();
+    nitroFSInit(NULL);
+
+    char *testJson = fsReadFile("nitro:/jsontest.json");
+    rapidjson::Document doc;
+    doc.Parse(testJson);
+    printf("test: %s\n", doc["test"].GetString());
+    printf("number: %d\n", doc["number"].GetInt());
+    printf("pi: %f\n", doc["pi"].GetFloat());
+    printf("names[0]: %s\n", doc["names"][0].GetString());
+    printf("names[1]: %s\n", doc["names"][1].GetString());
+    printf("obj.prop1: %d\n", doc["obj"]["prop1"].GetInt());
+    printf("obj.prop2: %d\n", doc["obj"]["prop2"].GetInt());
 
     // init sounds
     mmInitDefaultMem((mm_addr)soundbank_bin);

@@ -1,0 +1,13 @@
+{
+    "test": "some test text",
+    "number": 49,
+    "pi": 3.14,
+    "names": [
+        "john",
+        "janne"
+    ],
+    "obj": {
+        "prop1": 4,
+        "prop2": 9
+    }
+}
