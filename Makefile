@@ -33,7 +33,6 @@ DATA		:=	data
 INCLUDES	:=	include
 GRAPHICS	:=	gfx
 AUDIO       :=  audio
-NITRODATA   :=  nitrofs
 
 EMULATOR := E:\melonds\melonds.exe
 
@@ -84,9 +83,6 @@ export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
 
 export DEPSDIR	:=	$(CURDIR)/$(BUILD)
 
-ifneq ($(strip $(NITRODATA)),)
-	export NITRO_FILES	:=	$(CURDIR)/$(NITRODATA)
-endif
 CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
 CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
 SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
