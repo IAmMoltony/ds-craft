@@ -1673,6 +1673,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
     {
         // die when fall under the world
         health = -1;
+        airY = 0;
         u8 effect = randomRange(0, 2);
         switch (effect)
         {
