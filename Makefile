@@ -147,7 +147,6 @@ DEPENDS	:=	$(OFILES:.o=.d)
 # main targets
 #---------------------------------------------------------------------------------
 $(OUTPUT).nds	: 	$(OUTPUT).elf
-$(OUTPUT).nds	: 	$(shell find $(TOPDIR)/$(NITRODATA))
 $(OUTPUT).elf	:	$(OFILES)
 
 
