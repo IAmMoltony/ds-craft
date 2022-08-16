@@ -266,6 +266,7 @@ int main(int argc, char **argv)
     u8 direntColor = 31;                 // splash screen dirent logo darkness factor
     u8 wsSelected = 0;                   // selected world
     u8 lsSelected = 0;                   // selected language
+    u8 dwSelected = 0;                   // selected world (delete world)
     std::vector<WorldInfo> wsWorlds;     // worlds in world select
     bool saveTextShow = false;           // should we show the text that we saved?
     bool paused = false;                 // is the game paused
@@ -552,11 +553,8 @@ int main(int argc, char **argv)
             }
             else if (down & KEY_Y)
             {
-                // TODO add a confirmation screen for delete
-                wsSelected = 0;
-                fsDeleteFile(std::string("worlds/" + wsWorlds[wsSelected].name + ".wld").c_str());
-                wsWorlds = getWorlds();
-                mmEffectEx(&sndClick);
+                dwSelected = wsSelected;
+                gameState = GameState::DeleteWorld;
             }
             else if (down & KEY_A)
             {
@@ -707,6 +705,20 @@ int main(int argc, char **argv)
                 {
                     settingsSelect = 0;
                 }
+            }
+            break;
+        case GameState::DeleteWorld:
+            if (down & KEY_A)
+            {
+                wsSelected = 0;
+                fsDeleteFile(std::string("worlds/" + wsWorlds[wsSelected].name + ".wld").c_str());
+                wsWorlds = getWorlds();
+                mmEffectEx(&sndClick);
+            }
+            else if (down & KEY_B)
+            {
+                gameState = GameState::WorldSelect;
+                mmEffectEx(&sndClick);
             }
             break;
         }
@@ -1144,6 +1156,18 @@ int main(int argc, char **argv)
                 fontRu.printCentered(0, 5, "Obtusqlmk");
                 break;
             }
+            break;
+        case GameState::DeleteWorld:
+            drawMovingBackground(sprDirt, frames);
+
+            switch (lang)
+            {
+            case Language::English:
+                fontSmall.printfCentered(0, 30, "Are sure you want to delete");
+                break;
+            }
+
+            break;
         }
 
         glEnd2D();

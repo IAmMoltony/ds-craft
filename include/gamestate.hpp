@@ -11,4 +11,5 @@ enum class GameState
     LanguageSelect,
     VersionInfo,
     Settings,
+    DeleteWorld,
 };
