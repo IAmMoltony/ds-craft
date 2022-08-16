@@ -1150,6 +1150,32 @@ int main(int argc, char **argv)
             {
             case Language::English:
                 fontSmall.printfCentered(0, 30, "Are sure you want to delete");
+                glColor(RGB15(31, 0, 0));
+                fontSmall.printCentered(0, 52, "You cannot undo this action!");
+                glColor(RGB15(31, 31, 31));
+                break;
+            case Language::Russian:
+                fontSmallRu.printfCentered(0, 30, "C\" uqzpq xqukug vfbnku#");
+                glColor(RGB15(31, 0, 0));
+                fontSmallRu.printCentered(0, 52, "_uq pgn#j& cvfgu quogpku#<");
+                glColor(RGB15(31, 31, 31));
+                break;
+            }
+            fontSmall.printfCentered(0, 41, "'%s'?", wsWorlds[dwSelected].name.c_str());
+
+            switch (lang)
+            {
+            case Language::English:
+                glSprite(SCREEN_WIDTH / 2 - 25, 96, GL_FLIP_NONE, abtn);
+                glSprite(SCREEN_WIDTH / 2 - 21, 116, GL_FLIP_NONE, bbtn);
+                fontSmall.printCentered(0, 98, "Yes");
+                fontSmall.printCentered(0, 118, "No");
+                break;
+            case Language::Russian:
+                glSprite(SCREEN_WIDTH / 2 - 21, 96, GL_FLIP_NONE, abtn);
+                glSprite(SCREEN_WIDTH / 2 - 25, 116, GL_FLIP_NONE, bbtn);
+                fontSmallRu.printCentered(0, 98, "Eb");
+                fontSmallRu.printCentered(0, 118, "Ogu");
                 break;
             }
 
