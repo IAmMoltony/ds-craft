@@ -14,12 +14,20 @@ void Font::load(glImage *fspr, const u32 frames, const unsigned int *texCoords, 
 
 void Font::print(int x, int y, const char *str)
 {
+    int startX = x;
     u8 ch;
     while (*str) // iterate through string
     {
         ch = (*str++) - 32;                     // get the subimage index
         glSprite(x, y, GL_FLIP_NONE, &spr[ch]); // draw the image
         x += spr[ch].width;
+
+        // word go to next line if off screen
+        if (x > SCREEN_WIDTH - spr[ch].width)
+        {
+            x = startX;
+            y += spr[ch].height;
+        }
     }
 }
 
@@ -41,7 +49,7 @@ void Font::printCentered(int x, int y, const char *str)
     x = (SCREEN_WIDTH - tw) / 2;
 
     str = ostr;
-    // this is essentially print
+    // at this point, it's print
     while (*str)
     {
         ch = (*str++) - 32;
