@@ -774,7 +774,7 @@ int main(int argc, char **argv)
                     fontSmall.printfShadow(2, SCREEN_HEIGHT - 11, "Saved!");
                     break;
                 case Language::Russian:
-                    fontSmallRu.printfShadow(2, SCREEN_HEIGHT - 11, "Sqxsbpgpq");
+                    fontSmallRu.printfShadow(2, SCREEN_HEIGHT - 11, "Sqxsbpgpq<");
                     break;
                 }
             }
