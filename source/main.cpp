@@ -434,11 +434,11 @@ int main(int argc, char **argv)
                             entities.erase(entities.begin() + i);
                         }
                     }
-
-                    // sort blocks when placed block
-                    if (player.update(&camera, &blocks, &entities, frames))
-                        std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
                 }
+
+                // sort blocks when placed block
+                if (player.update(&camera, &blocks, &entities, frames))
+                    std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
 
                 // camera follow player
                 camera.x = lerp(camera.x, player.getX() - SCREEN_WIDTH / 2, 0.1f);
