@@ -1042,7 +1042,6 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                         // stacking (same id)
                         if (msid == fsid)
                         {
-                            // TODO actually make this work
                             // stacking >64 items
                             if (fsa + msa > 64)
                             {
