@@ -418,25 +418,53 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             glColor(RGB15(31, 31, 31));
             glSpriteScale(100, 64, HALFSIZE, GL_FLIP_NONE, sprCookedPorkchop);
 
-            switch (craftingSelect)
+            switch (lang)
             {
-            case 0:
-                fontSmall.printf(16, 35, "4 planks - %u/1 wood", countItems(InventoryItemID::Wood));
+            case Language::English:
+                switch (craftingSelect)
+                {
+                case 0:
+                    fontSmall.printf(16, 35, "4 planks - %u/1 wood", countItems(InventoryItemID::Wood));
+                    break;
+                case 1:
+                    fontSmall.printf(16, 35, "Door - %u/6 planks", countItems(InventoryItemID::Planks));
+                    break;
+                case 2:
+                    fontSmall.printf(16, 35, "Stick - %u/2 planks", countItems(InventoryItemID::Planks));
+                    break;
+                case 3:
+                    fontSmall.printf(16, 35, "Coal block - %u/9 coal", countItems(InventoryItemID::Coal));
+                    break;
+                case 4:
+                    fontSmall.printf(16, 35, "Stone - %u/1 cobblestone", countItems(InventoryItemID::Cobblestone));
+                    break;
+                case 5:
+                    fontSmall.printf(16, 35, "Cooked porkchop - %u/1 raw porkchop; %u/1 coal", countItems(InventoryItemID::RawPorkchop), countItems(InventoryItemID::Coal));
+                    break;
+                }
                 break;
-            case 1:
-                fontSmall.printf(16, 35, "Door - %u/6 planks", countItems(InventoryItemID::Planks));
-                break;
-            case 2:
-                fontSmall.printf(16, 35, "Stick - %u/2 planks", countItems(InventoryItemID::Planks));
-                break;
-            case 3:
-                fontSmall.printf(16, 35, "Coal block - %u/9 coal", countItems(InventoryItemID::Coal));
-                break;
-            case 4:
-                fontSmall.printf(16, 35, "Stone - %u/1 cobblestone", countItems(InventoryItemID::Cobblestone));
-                break;
-            case 5:
-                fontSmall.printf(16, 35, "Cooked porkchop - %u/1 raw porkchop; %u/1 coal", countItems(InventoryItemID::RawPorkchop), countItems(InventoryItemID::Coal));
+            case Language::Russian:
+                switch (craftingSelect)
+                {
+                case 0:
+                    fontSmallRu.printf(16, 35, "4 fqtmk - %u/1 fgsgdq", countItems(InventoryItemID::Wood));
+                    break;
+                case 1:
+                    fontSmallRu.printf(16, 35, "Edgs# - %u/6 fqtmk", countItems(InventoryItemID::Planks));
+                    break;
+                case 2:
+                    fontSmallRu.printf(16, 35, "Qbnmb - %u/2 fqtmk", countItems(InventoryItemID::Planks));
+                    break;
+                case 3:
+                    fontSmallRu.printf(16, 35, "Bnqm ven& - %u/9 veqn#", countItems(InventoryItemID::Coal));
+                    break;
+                case 4:
+                    fontSmallRu.printf(16, 35, "Lbogp# - %u/1 cvn\"ipkm", countItems(InventoryItemID::Cobblestone));
+                    break;
+                case 5:
+                    fontSmallRu.printf(16, 35, "Hbsgpb& tdkpkpb - %u/1 t\"sb& tdkpkpb; %u/1 veqn#", countItems(InventoryItemID::RawPorkchop), countItems(InventoryItemID::Coal));
+                    break;
+                }
                 break;
             }
         }
