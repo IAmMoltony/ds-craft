@@ -308,6 +308,113 @@ void loadPlayerSounds(void)
     sndClick = soundEffect(SFX_CLICK);
 }
 
+const char *getItemStr(Language lang, InventoryItemID iid)
+{
+    switch (lang)
+    {
+    case Language::English:
+        switch (iid)
+        {
+        case InventoryItemID::Grass:
+            return "Grass";
+        case InventoryItemID::Dirt:
+            return "Dirt";
+        case InventoryItemID::Stone:
+            return "Stone";
+        case InventoryItemID::Wood:
+            return "Oak Wood";
+        case InventoryItemID::BirchWood:
+            return "Birch Wood";
+        case InventoryItemID::Sand:
+            return "Sand";
+        case InventoryItemID::Sandstone:
+            return "Sandstone";
+        case InventoryItemID::Cactus:
+            return "Cactus";
+        case InventoryItemID::DeadBush:
+            return "Dead Bush";
+        case InventoryItemID::Poppy:
+            return "Poppy";
+        case InventoryItemID::Dandelion:
+            return "Dandelion";
+        case InventoryItemID::Door:
+            return "Door";
+        case InventoryItemID::Planks:
+            return "Planks";
+        case InventoryItemID::Stick:
+            return "Stick";
+        case InventoryItemID::SnowyGrass:
+            return "Snowy Grass";
+        case InventoryItemID::Sapling:
+            return "Oak Sapling";
+        case InventoryItemID::Cobblestone:
+            return "Cobblestone";
+        case InventoryItemID::CoalOre:
+            return "Coal Ore";
+        case InventoryItemID::Coal:
+            return "Coal";
+        case InventoryItemID::CoalBlock:
+            return "Coal Block";
+        case InventoryItemID::RawPorkchop:
+            return "Raw Porkchop";
+        case InventoryItemID::CookedPorkchop:
+            return "Cooked Porkchop";
+        }
+        break;
+    case Language::Russian:
+        switch (iid)
+        {
+        case InventoryItemID::Grass:
+            return "Tsbdb";
+        case InventoryItemID::Dirt:
+            return "Ds&j#";
+        case InventoryItemID::Stone:
+            return "Lbogp#";
+        case InventoryItemID::Wood:
+            return "Evcqdqg fgsgdq";
+        case InventoryItemID::BirchWood:
+            return "Bgshjqdqg fgsgdq";
+        case InventoryItemID::Sand:
+            return "Qgtqm";
+        case InventoryItemID::Sandstone:
+            return "Qgtzbpkm";
+        case InventoryItemID::Cactus:
+            return "Lbmuvt";
+        case InventoryItemID::DeadBush:
+            return "Nhsud\"l mvtu";
+        case InventoryItemID::Poppy:
+            return "Nbm";
+        case InventoryItemID::Dandelion:
+            return "Pfvdbpzkm";
+        case InventoryItemID::Door:
+            return "Edgs#";
+        case InventoryItemID::Planks:
+            return "Eqtmk";
+        case InventoryItemID::Stick:
+            return "Qbnmb";
+        case InventoryItemID::SnowyGrass:
+            return "Spgipb& usbdb";
+        case InventoryItemID::Sapling:
+            return "Sbigpgy fvcb";
+        case InventoryItemID::Cobblestone:
+            return "Bvn\"ipkm";
+        case InventoryItemID::CoalOre:
+            return "Ueqn#pb& svfb";
+        case InventoryItemID::Coal:
+            return "Ueqn#";
+        case InventoryItemID::CoalBlock:
+            return "Ueqn#p\"l cnqm";
+        case InventoryItemID::RawPorkchop:
+            return "S\"sb& tdkpkpb";
+        case InventoryItemID::CookedPorkchop:
+            return "Hbsgpb& tdkpkpb";
+        }
+        break;
+    }
+
+    return "";
+}
+
 Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSelect(20),
                    craftingSelect(0), health(9), airY(0)
 {
@@ -602,16 +709,19 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                         fontSmall.printfShadow(xx, yy - 8, "%u", amount);
                 }
             }
+
             switch (lang)
             {
             case Language::English:
-                fontSmall.print(16, 46 + 48 + 27 + 20, "Press L to see crafting menu");
+                fontSmall.printShadow(110, 46, getItemStr(Language::English, inventory[inventoryFullSelect].id));
+                fontSmall.printShadow(16, 46 + 48 + 27 + 20, "Press L to see crafting menu");
                 break;
             case Language::Russian:
-                fontSmallRu.print(16, 46 + 48 + 27 + 20, "Obiokug");
-                fontSmall.print(81, 46 + 48 + 27 + 20, "L");
-                fontSmallRu.print(81 + 18, 46 + 48 + 27 + 20, "zuqc\" rgsgluk");
-                fontSmallRu.print(16, 46 + 48 + 27 + 29, "d ogp% tqjfbpk&");
+                fontSmallRu.printShadow(110, 46, getItemStr(Language::Russian, inventory[inventoryFullSelect].id));
+                fontSmallRu.printShadow(16, 46 + 48 + 27 + 20, "Obiokug");
+                fontSmall.printShadow(81, 46 + 48 + 27 + 20, "L");
+                fontSmallRu.printShadow(81 + 18, 46 + 48 + 27 + 20, "zuqc\" rgsgluk");
+                fontSmallRu.printShadow(16, 46 + 48 + 27 + 29, "d ogp% tqjfbpk&");
                 break;
             }
         }

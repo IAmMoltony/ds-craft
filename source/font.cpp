@@ -98,6 +98,17 @@ void Font::printf(int x, int y, const char *format, ...)
     va_end(args);
 }
 
+void Font::printShadow(int x, int y, const char *str)
+{
+    glColor(RGB15(0, 0, 0));
+    glPolyFmt(POLY_ALPHA(14) | POLY_CULL_NONE | POLY_ID(2));
+    print(x + 1, y + 1, str);
+    glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(2));
+    glColor(RGB15(31, 31, 31));
+
+    print(x, y, str);
+}
+
 void Font::printfShadow(int x, int y, const char *format, ...)
 {
     va_list args;
@@ -107,15 +118,7 @@ void Font::printfShadow(int x, int y, const char *format, ...)
     char *str = reinterpret_cast<char *>(malloc(150 * sizeof(char)));
     vsprintf(str, format, args);
 
-    // draw shadow
-    glColor(RGB15(0, 0, 0));
-    glPolyFmt(POLY_ALPHA(14) | POLY_CULL_NONE | POLY_ID(2));
-    print(x + 1, y + 1, str);
-    glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(2));
-    glColor(RGB15(31, 31, 31));
-
-    // draw normal
-    print(x, y, str);
+    printShadow(x, y, str);
 
     // dont need any more
     free(str);
