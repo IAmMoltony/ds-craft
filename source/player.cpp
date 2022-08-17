@@ -361,51 +361,51 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 glColor(RGB15(0, 31, 0));
             else
                 glColor(RGB15(31, 0, 0));
-            glSprite(16, 46, GL_FLIP_NONE,
+            glSprite(16, 60, GL_FLIP_NONE,
                      craftingSelect == 0 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
-            glSpriteScale(20, 50, HALFSIZE, GL_FLIP_NONE, sprPlanks);
-            fontSmall.printfShadow(16, 46, "4");
+            glSpriteScale(20, 64, HALFSIZE, GL_FLIP_NONE, sprPlanks);
+            fontSmall.printfShadow(16, 60, "4");
 
             // door recipe
             if (hasItem({InventoryItemID::Planks, 6}))
                 glColor(RGB15(0, 31, 0));
             else
                 glColor(RGB15(31, 0, 0));
-            glSprite(32, 46, GL_FLIP_NONE,
+            glSprite(32, 60, GL_FLIP_NONE,
                      craftingSelect == 1 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
-            glSpriteScale(37, 50, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
+            glSpriteScale(37, 64, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
 
             // stick recipe
             if (hasItem({InventoryItemID::Planks, 2}))
                 glColor(RGB15(0, 31, 0));
             else
                 glColor(RGB15(31, 0, 0));
-            glSprite(48, 46, GL_FLIP_NONE,
+            glSprite(48, 60, GL_FLIP_NONE,
                      craftingSelect == 2 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
-            glSpriteScale(52, 50, HALFSIZE, GL_FLIP_NONE, sprStick);
+            glSpriteScale(52, 64, HALFSIZE, GL_FLIP_NONE, sprStick);
 
             // coal block recipe
             if (hasItem({InventoryItemID::Coal, 9}))
                 glColor(RGB15(0, 31, 0));
             else
                 glColor(RGB15(31, 0, 0));
-            glSprite(64, 46, GL_FLIP_NONE,
+            glSprite(64, 60, GL_FLIP_NONE,
                      craftingSelect == 3 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
-            glSpriteScale(68, 50, HALFSIZE, GL_FLIP_NONE, sprCoalBlock);
+            glSpriteScale(68, 64, HALFSIZE, GL_FLIP_NONE, sprCoalBlock);
 
             // stone recipe
             if (hasItem({InventoryItemID::Cobblestone, 1}))
                 glColor(RGB15(0, 31, 0));
             else
                 glColor(RGB15(31, 0, 0));
-            glSprite(80, 46, GL_FLIP_NONE,
+            glSprite(80, 60, GL_FLIP_NONE,
                      craftingSelect == 4 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
-            glSpriteScale(84, 50, HALFSIZE, GL_FLIP_NONE, sprStone);
+            glSpriteScale(84, 64, HALFSIZE, GL_FLIP_NONE, sprStone);
 
             // cooked porkchop recipe
             if (hasItem({InventoryItemID::RawPorkchop, 1}) &&
@@ -413,10 +413,10 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 glColor(RGB15(0, 31, 0));
             else
                 glColor(RGB15(31, 0, 0));
-            glSprite(96, 46, GL_FLIP_NONE,
+            glSprite(96, 60, GL_FLIP_NONE,
                      craftingSelect == 5 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
-            glSpriteScale(100, 50, HALFSIZE, GL_FLIP_NONE, sprCookedPorkchop);
+            glSpriteScale(100, 64, HALFSIZE, GL_FLIP_NONE, sprCookedPorkchop);
 
             switch (craftingSelect)
             {
@@ -436,7 +436,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 fontSmall.printf(16, 35, "Stone - %u/1 cobblestone", countItems(InventoryItemID::Cobblestone));
                 break;
             case 5:
-                fontSmall.printf(16, 35, "Cooked porkchop - %u/1 raw porkchop, %u/1 coal", countItems(InventoryItemID::RawPorkchop), countItems(InventoryItemID::Coal));
+                fontSmall.printf(16, 35, "Cooked porkchop - %u/1 raw porkchop; %u/1 coal", countItems(InventoryItemID::RawPorkchop), countItems(InventoryItemID::Coal));
                 break;
             }
         }
