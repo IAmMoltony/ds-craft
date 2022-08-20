@@ -308,6 +308,113 @@ void loadPlayerSounds(void)
     sndClick = soundEffect(SFX_CLICK);
 }
 
+const char *getItemStr(Language lang, InventoryItemID iid)
+{
+    switch (lang)
+    {
+    case Language::English:
+        switch (iid)
+        {
+        case InventoryItemID::Grass:
+            return "Grass";
+        case InventoryItemID::Dirt:
+            return "Dirt";
+        case InventoryItemID::Stone:
+            return "Stone";
+        case InventoryItemID::Wood:
+            return "Oak Wood";
+        case InventoryItemID::BirchWood:
+            return "Birch Wood";
+        case InventoryItemID::Sand:
+            return "Sand";
+        case InventoryItemID::Sandstone:
+            return "Sandstone";
+        case InventoryItemID::Cactus:
+            return "Cactus";
+        case InventoryItemID::DeadBush:
+            return "Dead Bush";
+        case InventoryItemID::Poppy:
+            return "Poppy";
+        case InventoryItemID::Dandelion:
+            return "Dandelion";
+        case InventoryItemID::Door:
+            return "Door";
+        case InventoryItemID::Planks:
+            return "Planks";
+        case InventoryItemID::Stick:
+            return "Stick";
+        case InventoryItemID::SnowyGrass:
+            return "Snowy Grass";
+        case InventoryItemID::Sapling:
+            return "Oak Sapling";
+        case InventoryItemID::Cobblestone:
+            return "Cobblestone";
+        case InventoryItemID::CoalOre:
+            return "Coal Ore";
+        case InventoryItemID::Coal:
+            return "Coal";
+        case InventoryItemID::CoalBlock:
+            return "Coal Block";
+        case InventoryItemID::RawPorkchop:
+            return "Raw Porkchop";
+        case InventoryItemID::CookedPorkchop:
+            return "Cooked Porkchop";
+        }
+        break;
+    case Language::Russian:
+        switch (iid)
+        {
+        case InventoryItemID::Grass:
+            return "Tsbdb";
+        case InventoryItemID::Dirt:
+            return "Ds&j#";
+        case InventoryItemID::Stone:
+            return "Lbogp#";
+        case InventoryItemID::Wood:
+            return "Evcqdqg fgsgdq";
+        case InventoryItemID::BirchWood:
+            return "Bgshjqdqg fgsgdq";
+        case InventoryItemID::Sand:
+            return "Qgtqm";
+        case InventoryItemID::Sandstone:
+            return "Qgtzbpkm";
+        case InventoryItemID::Cactus:
+            return "Lbmuvt";
+        case InventoryItemID::DeadBush:
+            return "Nhsud\"l mvtu";
+        case InventoryItemID::Poppy:
+            return "Nbm";
+        case InventoryItemID::Dandelion:
+            return "Pfvdbpzkm";
+        case InventoryItemID::Door:
+            return "Edgs#";
+        case InventoryItemID::Planks:
+            return "Eqtmk";
+        case InventoryItemID::Stick:
+            return "Qbnmb";
+        case InventoryItemID::SnowyGrass:
+            return "Spgipb& usbdb";
+        case InventoryItemID::Sapling:
+            return "Sbigpgy fvcb";
+        case InventoryItemID::Cobblestone:
+            return "Bvn\"ipkm";
+        case InventoryItemID::CoalOre:
+            return "Ueqn#pb& svfb";
+        case InventoryItemID::Coal:
+            return "Ueqn#";
+        case InventoryItemID::CoalBlock:
+            return "Ueqn#p\"l cnqm";
+        case InventoryItemID::RawPorkchop:
+            return "S\"sb& tdkpkpb";
+        case InventoryItemID::CookedPorkchop:
+            return "Hbsgpb& tdkpkpb";
+        }
+        break;
+    }
+
+    return "";
+}
+
 Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSelect(20),
                    craftingSelect(0), health(9), airY(0)
 {
@@ -361,51 +468,51 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 glColor(RGB15(0, 31, 0));
             else
                 glColor(RGB15(31, 0, 0));
-            glSprite(16, 46, GL_FLIP_NONE,
+            glSprite(16, 60, GL_FLIP_NONE,
                      craftingSelect == 0 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
-            glSpriteScale(20, 50, HALFSIZE, GL_FLIP_NONE, sprPlanks);
-            fontSmall.printfShadow(16, 46, "4");
+            glSpriteScale(20, 64, HALFSIZE, GL_FLIP_NONE, sprPlanks);
+            fontSmall.printfShadow(16, 60, "4");
 
             // door recipe
             if (hasItem({InventoryItemID::Planks, 6}))
                 glColor(RGB15(0, 31, 0));
             else
                 glColor(RGB15(31, 0, 0));
-            glSprite(32, 46, GL_FLIP_NONE,
+            glSprite(32, 60, GL_FLIP_NONE,
                      craftingSelect == 1 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
-            glSpriteScale(37, 50, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
+            glSpriteScale(37, 64, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
 
             // stick recipe
             if (hasItem({InventoryItemID::Planks, 2}))
                 glColor(RGB15(0, 31, 0));
             else
                 glColor(RGB15(31, 0, 0));
-            glSprite(48, 46, GL_FLIP_NONE,
+            glSprite(48, 60, GL_FLIP_NONE,
                      craftingSelect == 2 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
-            glSpriteScale(52, 50, HALFSIZE, GL_FLIP_NONE, sprStick);
+            glSpriteScale(52, 64, HALFSIZE, GL_FLIP_NONE, sprStick);
 
             // coal block recipe
             if (hasItem({InventoryItemID::Coal, 9}))
                 glColor(RGB15(0, 31, 0));
             else
                 glColor(RGB15(31, 0, 0));
-            glSprite(64, 46, GL_FLIP_NONE,
+            glSprite(64, 60, GL_FLIP_NONE,
                      craftingSelect == 3 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
-            glSpriteScale(68, 50, HALFSIZE, GL_FLIP_NONE, sprCoalBlock);
+            glSpriteScale(68, 64, HALFSIZE, GL_FLIP_NONE, sprCoalBlock);
 
             // stone recipe
             if (hasItem({InventoryItemID::Cobblestone, 1}))
                 glColor(RGB15(0, 31, 0));
             else
                 glColor(RGB15(31, 0, 0));
-            glSprite(80, 46, GL_FLIP_NONE,
+            glSprite(80, 60, GL_FLIP_NONE,
                      craftingSelect == 4 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
-            glSpriteScale(84, 50, HALFSIZE, GL_FLIP_NONE, sprStone);
+            glSpriteScale(84, 64, HALFSIZE, GL_FLIP_NONE, sprStone);
 
             // cooked porkchop recipe
             if (hasItem({InventoryItemID::RawPorkchop, 1}) &&
@@ -413,30 +520,58 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 glColor(RGB15(0, 31, 0));
             else
                 glColor(RGB15(31, 0, 0));
-            glSprite(96, 46, GL_FLIP_NONE,
+            glSprite(96, 60, GL_FLIP_NONE,
                      craftingSelect == 5 ? sprInventorySlotSelect : sprInventorySlot);
             glColor(RGB15(31, 31, 31));
-            glSpriteScale(100, 50, HALFSIZE, GL_FLIP_NONE, sprCookedPorkchop);
+            glSpriteScale(100, 64, HALFSIZE, GL_FLIP_NONE, sprCookedPorkchop);
 
-            switch (craftingSelect)
+            switch (lang)
             {
-            case 0:
-                fontSmall.printf(16, 35, "4 planks - %u/1 wood", countItems(InventoryItemID::Wood));
+            case Language::English:
+                switch (craftingSelect)
+                {
+                case 0:
+                    fontSmall.printf(16, 35, "4 planks - %u/1 wood", countItems(InventoryItemID::Wood));
+                    break;
+                case 1:
+                    fontSmall.printf(16, 35, "Door - %u/6 planks", countItems(InventoryItemID::Planks));
+                    break;
+                case 2:
+                    fontSmall.printf(16, 35, "Stick - %u/2 planks", countItems(InventoryItemID::Planks));
+                    break;
+                case 3:
+                    fontSmall.printf(16, 35, "Coal block - %u/9 coal", countItems(InventoryItemID::Coal));
+                    break;
+                case 4:
+                    fontSmall.printf(16, 35, "Stone - %u/1 cobblestone", countItems(InventoryItemID::Cobblestone));
+                    break;
+                case 5:
+                    fontSmall.printf(16, 35, "Cooked porkchop - %u/1 raw porkchop; %u/1 coal", countItems(InventoryItemID::RawPorkchop), countItems(InventoryItemID::Coal));
+                    break;
+                }
                 break;
-            case 1:
-                fontSmall.printf(16, 35, "Door - %u/6 planks", countItems(InventoryItemID::Planks));
-                break;
-            case 2:
-                fontSmall.printf(16, 35, "Stick - %u/2 planks", countItems(InventoryItemID::Planks));
-                break;
-            case 3:
-                fontSmall.printf(16, 35, "Coal block - %u/9 coal", countItems(InventoryItemID::Coal));
-                break;
-            case 4:
-                fontSmall.printf(16, 35, "Stone - %u/1 cobblestone", countItems(InventoryItemID::Cobblestone));
-                break;
-            case 5:
-                fontSmall.printf(16, 35, "Cooked porkchop - %u/1 raw porkchop, %u/1 coal", countItems(InventoryItemID::RawPorkchop), countItems(InventoryItemID::Coal));
+            case Language::Russian:
+                switch (craftingSelect)
+                {
+                case 0:
+                    fontSmallRu.printf(16, 35, "4 fqtmk - %u/1 fgsgdq", countItems(InventoryItemID::Wood));
+                    break;
+                case 1:
+                    fontSmallRu.printf(16, 35, "Edgs# - %u/6 fqtmk", countItems(InventoryItemID::Planks));
+                    break;
+                case 2:
+                    fontSmallRu.printf(16, 35, "Qbnmb - %u/2 fqtmk", countItems(InventoryItemID::Planks));
+                    break;
+                case 3:
+                    fontSmallRu.printf(16, 35, "Bnqm ven& - %u/9 veqn#", countItems(InventoryItemID::Coal));
+                    break;
+                case 4:
+                    fontSmallRu.printf(16, 35, "Lbogp# - %u/1 cvn\"ipkm", countItems(InventoryItemID::Cobblestone));
+                    break;
+                case 5:
+                    fontSmallRu.printf(16, 35, "Hbsgpb& tdkpkpb - %u/1 t\"sb& tdkpkpb; %u/1 veqn#", countItems(InventoryItemID::RawPorkchop), countItems(InventoryItemID::Coal));
+                    break;
+                }
                 break;
             }
         }
@@ -574,16 +709,19 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                         fontSmall.printfShadow(xx, yy - 8, "%u", amount);
                 }
             }
+
             switch (lang)
             {
             case Language::English:
-                fontSmall.print(16, 46 + 48 + 27 + 20, "Press L to see crafting menu");
+                fontSmall.printShadow(110, 46, getItemStr(Language::English, inventory[inventoryFullSelect].id));
+                fontSmall.printShadow(16, 46 + 48 + 27 + 20, "Press L to see crafting menu");
                 break;
             case Language::Russian:
-                fontSmallRu.print(16, 46 + 48 + 27 + 20, "Obiokug");
-                fontSmall.print(81, 46 + 48 + 27 + 20, "L");
-                fontSmallRu.print(81 + 18, 46 + 48 + 27 + 20, "zuqc\" rgsgluk");
-                fontSmallRu.print(16, 46 + 48 + 27 + 29, "d ogp% tqjfbpk&");
+                fontSmallRu.printShadow(110, 46, getItemStr(Language::Russian, inventory[inventoryFullSelect].id));
+                fontSmallRu.printShadow(16, 46 + 48 + 27 + 20, "Obiokug");
+                fontSmall.printShadow(81, 46 + 48 + 27 + 20, "L");
+                fontSmallRu.printShadow(81 + 18, 46 + 48 + 27 + 20, "zuqc\" rgsgluk");
+                fontSmallRu.printShadow(16, 46 + 48 + 27 + 29, "d ogp% tqjfbpk&");
                 break;
             }
         }
@@ -606,7 +744,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
         int angle = angleRad * 180 / M_PI * 40;
         glSprite(x - 1 - camera.x - (facing == Facing::Right ? 0 : 3), y - camera.y,
                  (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayer);
-        if (aimY >= 97 && aimY <= 102 && facing == Facing::Right)
+        if (((aimY >= 97 && aimY <= 102) || aimY == 107) && facing == Facing::Right)
             glSprite(x - 2 - camera.x, y - 1 - camera.y, GL_FLIP_NONE, sprPlayerHead);
         else
             glSpriteRotate(x + 5 - camera.x, y + 6 - camera.y,
@@ -1042,7 +1180,6 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                         // stacking (same id)
                         if (msid == fsid)
                         {
-                            // TODO actually make this work
                             // stacking >64 items
                             if (fsa + msa > 64)
                             {
@@ -1536,12 +1673,11 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                 falling = jumping = false;
                 velY = 0;
                 y = block->getRect().y - 32;
-                // printf("%u\n", airY);
                 if (airY >= 44) // if we fall too much
                 {
                     s16 damage = airY / 44;
-                    if (airY - 44 >= 27)
-                        damage += (airY - 38) / 27;
+                    if (airY - 44 >= 9)
+                        damage += (airY - 38) / 9;
                     if (damage > 0)
                     {
                         health -= damage;
@@ -1655,7 +1791,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             }
         }
 
-        if (aimX < SCREEN_WIDTH / 2)
+        if (aimX < x - camera->x + sprPlayer->width / 2)
             facing = Facing::Left;
         else
             facing = Facing::Right;
@@ -1670,6 +1806,25 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             velX = 0;
     }
 
+    if (y > 860)
+    {
+        // die when fall under the world
+        health = -1;
+        airY = 0;
+        u8 effect = randomRange(0, 2);
+        switch (effect)
+        {
+        case 0:
+            mmEffectEx(&sndHit1);
+            break;
+        case 1:
+            mmEffectEx(&sndHit2);
+            break;
+        case 2:
+            mmEffectEx(&sndHit3);
+            break;
+        }
+    }
     return ret; // yes
 }
 

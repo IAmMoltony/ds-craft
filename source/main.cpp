@@ -252,6 +252,7 @@ int main(int argc, char **argv)
     u8 direntColor = 31;                 // splash screen dirent logo darkness factor
     u8 wsSelected = 0;                   // selected world
     u8 lsSelected = 0;                   // selected language
+    u8 dwSelected = 0;                   // selected world (delete world)
     std::vector<WorldInfo> wsWorlds;     // worlds in world select
     bool saveTextShow = false;           // should we show the text that we saved?
     bool paused = false;                 // is the game paused
@@ -538,11 +539,8 @@ int main(int argc, char **argv)
             }
             else if (down & KEY_Y)
             {
-                // TODO add a confirmation screen for delete
-                wsSelected = 0;
-                fsDeleteFile(std::string("worlds/" + wsWorlds[wsSelected].name + ".wld").c_str());
-                wsWorlds = getWorlds();
-                mmEffectEx(&sndClick);
+                dwSelected = wsSelected;
+                gameState = GameState::DeleteWorld;
             }
             else if (down & KEY_A)
             {
@@ -695,6 +693,20 @@ int main(int argc, char **argv)
                 }
             }
             break;
+        case GameState::DeleteWorld:
+            if (down & KEY_A)
+            {
+                wsSelected = 0;
+                fsDeleteFile(std::string("worlds/" + wsWorlds[wsSelected].name + ".wld").c_str());
+                wsWorlds = getWorlds();
+                mmEffectEx(&sndClick);
+            }
+            else if (down & KEY_B)
+            {
+                gameState = GameState::WorldSelect;
+                mmEffectEx(&sndClick);
+            }
+            break;
         }
         ++frames;
 
@@ -762,7 +774,7 @@ int main(int argc, char **argv)
                     fontSmall.printfShadow(2, SCREEN_HEIGHT - 11, "Saved!");
                     break;
                 case Language::Russian:
-                    fontSmallRu.printfShadow(2, SCREEN_HEIGHT - 11, "Sqxsbpgpq");
+                    fontSmallRu.printfShadow(2, SCREEN_HEIGHT - 11, "Sqxsbpgpq<");
                     break;
                 }
             }
@@ -1130,6 +1142,44 @@ int main(int argc, char **argv)
                 fontRu.printCentered(0, 5, "Obtusqlmk");
                 break;
             }
+            break;
+        case GameState::DeleteWorld:
+            drawMovingBackground(sprDirt, frames);
+
+            switch (lang)
+            {
+            case Language::English:
+                fontSmall.printfCentered(0, 30, "Are sure you want to delete");
+                glColor(RGB15(31, 0, 0));
+                fontSmall.printCentered(0, 52, "You cannot undo this action!");
+                glColor(RGB15(31, 31, 31));
+                break;
+            case Language::Russian:
+                fontSmallRu.printfCentered(0, 30, "C\" uqzpq xqukug vfbnku#");
+                glColor(RGB15(31, 0, 0));
+                fontSmallRu.printCentered(0, 52, "_uq pgn#j& cvfgu quogpku#<");
+                glColor(RGB15(31, 31, 31));
+                break;
+            }
+            fontSmall.printfCentered(0, 41, "'%s'?", wsWorlds[dwSelected].name.c_str());
+
+            switch (lang)
+            {
+            case Language::English:
+                glSprite(SCREEN_WIDTH / 2 - 25, 96, GL_FLIP_NONE, abtn);
+                glSprite(SCREEN_WIDTH / 2 - 21, 116, GL_FLIP_NONE, bbtn);
+                fontSmall.printCentered(0, 98, "Yes");
+                fontSmall.printCentered(0, 118, "No");
+                break;
+            case Language::Russian:
+                glSprite(SCREEN_WIDTH / 2 - 21, 96, GL_FLIP_NONE, abtn);
+                glSprite(SCREEN_WIDTH / 2 - 25, 116, GL_FLIP_NONE, bbtn);
+                fontSmallRu.printCentered(0, 98, "Eb");
+                fontSmallRu.printCentered(0, 118, "Ogu");
+                break;
+            }
+
+            break;
         }
 
         glEnd2D();

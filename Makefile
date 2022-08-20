@@ -9,7 +9,7 @@ endif
 GAME_ICON      := ../icon.bmp
 GAME_TITLE     := DS-Craft
 GAME_SUBTITLE1 := Minecraft clone for NDS
-GAME_SUBTITLE2 := Version alpha2.0
+GAME_SUBTITLE2 := Version alpha2.1
 
 include $(DEVKITARM)/ds_rules
 
@@ -39,12 +39,14 @@ EMULATOR := E:\melonds\melonds.exe
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
-ARCH		:=	-mthumb -mthumb-interwork
+ARCH		:=	-mthumb -mthumb-interwork -march=armv5te -mtune=arm946e-s
 
 CFLAGS	:=	-g -Wall -Wextra -O2\
  			-march=armv5te -mtune=arm946e-s \
 			$(ARCH) -I../include -Wno-switch -Wno-ignored-qualifiers \
-			-Wno-unused-parameter
+			-Wno-unused-parameter\
+			-fomit-frame-pointer\
+			-ffast-math
 
 CFLAGS	+=	$(INCLUDE) -DARM9
 CXXFLAGS	:=	$(CFLAGS) -fno-rtti -fno-exceptions -Wno-reorder
@@ -55,7 +57,7 @@ LDFLAGS	=	-specs=ds_arm9.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS	:= -lmm9 -lfat -lnds9
+LIBS	:= -lmm9 -lfat -lnds9 -lfilesystem -lnds9d
  
  
 #---------------------------------------------------------------------------------
@@ -123,7 +125,7 @@ export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 #---------------------------------------------------------------------------------
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
-	@make BUILDDIR=`cd $(BUILD) && pwd` --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+	@$(MAKE) BUILDDIR=`cd $(BUILD) && pwd` --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
 #---------------------------------------------------------------------------------
 clean:
