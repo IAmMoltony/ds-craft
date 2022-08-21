@@ -1,3 +1,5 @@
+// leaves textures suffixed with _a are transparent
+
 #pragma once
 #include <cactus_side.h>
 #include <dandelion.h>
@@ -14,6 +16,7 @@
 #include <oak_log.h>
 #include <birch_log.h>
 #include <planks.h>
+#include <birch_planks.h>
 #include <poppy.h>
 #include <sand.h>
 #include <sandstone.h>

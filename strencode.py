@@ -1,5 +1,6 @@
 # strencode.py
 # String encoder from russian to what game can understand
+# Usage python strencode.py <string in russian>
 
 import sys
 

@@ -18,6 +18,7 @@ extern glImage sprPoppy[1];
 extern glImage sprDandelion[1];
 extern glImage sprDoor[1];
 extern glImage sprPlanks[1];
+extern glImage sprBirchPlanks[1];
 extern glImage sprSnowyGrass[1];
 extern glImage sprSapling[1];
 extern glImage sprCobblestone[1];
@@ -268,6 +269,8 @@ void DropEntity::draw(Camera camera)
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
     else if (blockid == "planks")
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprPlanks);
+    else if (blockid == "birchplanks")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprBirchPlanks);
     else if (blockid == "snowygrass")
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprSnowyGrass);
     else if (blockid == "sapling")

@@ -401,6 +401,8 @@ int main(int argc, char **argv)
                             player.addItem(InventoryItemID::Door);
                         else if (blockid == "planks" && player.canAddItem(InventoryItemID::Planks))
                             player.addItem(InventoryItemID::Planks);
+                        else if (blockid == "birchplanks" && player.canAddItem(InventoryItemID::BirchPlanks))
+                            player.addItem(InventoryItemID::BirchPlanks);
                         else if (blockid == "snowygrass" && player.canAddItem(InventoryItemID::SnowyGrass))
                             player.addItem(InventoryItemID::SnowyGrass);
                         else if (blockid == "sapling" && player.canAddItem(InventoryItemID::Sapling))
@@ -699,6 +701,7 @@ int main(int argc, char **argv)
                 wsSelected = 0;
                 fsDeleteFile(std::string("worlds/" + wsWorlds[wsSelected].name + ".wld").c_str());
                 wsWorlds = getWorlds();
+                gameState - GameState::WorldSelect;
                 mmEffectEx(&sndClick);
             }
             else if (down & KEY_B)

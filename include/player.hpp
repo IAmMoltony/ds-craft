@@ -38,6 +38,7 @@ enum class InventoryItemID
     Dandelion,
     Door,
     Planks,
+    BirchPlanks,
     Stick,
     SnowyGrass,
     Sapling,
@@ -49,7 +50,7 @@ enum class InventoryItemID
     CookedPorkchop,
 };
 
-typedef struct item
+typedef struct inventory_item
 {
     InventoryItemID id;
     u8 amount;

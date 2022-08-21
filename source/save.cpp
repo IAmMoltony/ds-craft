@@ -74,6 +74,9 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         case InventoryItemID::Planks:
             id = "planks";
             break;
+        case InventoryItemID::BirchPlanks:
+            id = "birchplanks";
+            break;
         case InventoryItemID::Stick:
             id = "stick";
             break;
@@ -140,6 +143,10 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             else if (id == "birch wood")
             {
                 wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " birchwood\n";
+            }
+            else if (id == "birch planks")
+            {
+                wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " birchplanks\n";
             }
             // leaves
             else if (id == "leaves")
@@ -275,6 +282,10 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             {
                 blocks.emplace_back(new PlanksBlock(x, y));
             }
+            else if (id == "birchplanks")
+            {
+                blocks.emplace_back(new BirchPlanksBlock(x, y));
+            }
             else if (id == "snowygrass")
             {
                 blocks.emplace_back(new SnowyGrassBlock(x, y));
@@ -304,7 +315,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         {
             u8 i = atoi(split[1].c_str());
             u8 amount = atoi(split[3].c_str());
-            std::string sid = split[2];
+            std::string sid = split[2]; // i think s in sid stands for string (i dont rember)
             InventoryItemID id = InventoryItemID::None;
             // not again
             if (sid == "none")
@@ -370,6 +381,10 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             else if (sid == "planks")
             {
                 id = InventoryItemID::Planks;
+            }
+            else if (sid == "birchplanks")
+            {
+                id = InventoryItemID::BirchPlanks;
             }
             else if (sid == "stick")
             {

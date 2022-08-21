@@ -32,3 +32,6 @@ melonDS.ini
 # cppcheck stuff
 ds-craft.cppcheck
 ds-craft-cppcheck-build-dir/
+
+# pycach folder
+__pycache__/

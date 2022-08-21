@@ -35,6 +35,7 @@ extern glImage sprPoppy[1];
 extern glImage sprDandelion[1];
 extern glImage sprDoor[1];
 extern glImage sprPlanks[1];
+extern glImage sprBirchPlanks[1];
 extern glImage sprSnowyGrass[1];
 extern glImage sprSapling[1];
 extern glImage sprCobblestone[1];
@@ -321,6 +322,10 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Dirt";
         case InventoryItemID::Stone:
             return "Stone";
+        case InventoryItemID::Leaves:
+            return "Oak Leaves";
+        case InventoryItemID::BirchLeaves:
+            return "Birch Leaves";
         case InventoryItemID::Wood:
             return "Oak Wood";
         case InventoryItemID::BirchWood:
@@ -340,7 +345,9 @@ const char *getItemStr(Language lang, InventoryItemID iid)
         case InventoryItemID::Door:
             return "Door";
         case InventoryItemID::Planks:
-            return "Planks";
+            return "Oak Planks";
+        case InventoryItemID::BirchPlanks:
+            return "Birch Planks";
         case InventoryItemID::Stick:
             return "Stick";
         case InventoryItemID::SnowyGrass:
@@ -370,6 +377,10 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Ds&j#";
         case InventoryItemID::Stone:
             return "Lbogp#";
+        case InventoryItemID::Leaves:
+            return "Evcqd\"g nktu#&";
+        case InventoryItemID::BirchLeaves:
+            return "Bgshjqd\"g nktu#&";
         case InventoryItemID::Wood:
             return "Evcqdqg fgsgdq";
         case InventoryItemID::BirchWood:
@@ -389,7 +400,9 @@ const char *getItemStr(Language lang, InventoryItemID iid)
         case InventoryItemID::Door:
             return "Edgs#";
         case InventoryItemID::Planks:
-            return "Eqtmk";
+            return "Evcqd\"g fqtmk";
+        case InventoryItemID::BirchPlanks:
+            return "Bgshjqd\"g fqtmk";
         case InventoryItemID::Stick:
             return "Qbnmb";
         case InventoryItemID::SnowyGrass:
@@ -525,16 +538,26 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             glColor(RGB15(31, 31, 31));
             glSpriteScale(100, 64, HALFSIZE, GL_FLIP_NONE, sprCookedPorkchop);
 
+            // birch planks recipe
+            if (hasItem({InventoryItemID::BirchWood, 1}))
+                glColor(RGB15(0, 31, 0));
+            else
+                glColor(RGB15(31, 0, 0));
+            glSprite(112, 60, GL_FLIP_NONE,
+                     craftingSelect == 6 ? sprInventorySlotSelect : sprInventorySlot);
+            glColor(RGB15(31, 31, 31));
+            glSpriteScale(116, 64, HALFSIZE, GL_FLIP_NONE, sprBirchPlanks);
+
             switch (lang)
             {
             case Language::English:
                 switch (craftingSelect)
                 {
                 case 0:
-                    fontSmall.printf(16, 35, "4 planks - %u/1 wood", countItems(InventoryItemID::Wood));
+                    fontSmall.printf(16, 35, "4 oak planks - %u/1 oak wood", countItems(InventoryItemID::Wood));
                     break;
                 case 1:
-                    fontSmall.printf(16, 35, "Door - %u/6 planks", countItems(InventoryItemID::Planks));
+                    fontSmall.printf(16, 35, "Oak door - %u/6 oak planks", countItems(InventoryItemID::Planks));
                     break;
                 case 2:
                     fontSmall.printf(16, 35, "Stick - %u/2 planks", countItems(InventoryItemID::Planks));
@@ -548,16 +571,19 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 case 5:
                     fontSmall.printf(16, 35, "Cooked porkchop - %u/1 raw porkchop; %u/1 coal", countItems(InventoryItemID::RawPorkchop), countItems(InventoryItemID::Coal));
                     break;
+                case 6:
+                    fontSmall.printf(26, 35, "4 birch planks - %u/1 birch wood", countItems(InventoryItemID::BirchWood));
+                    break;
                 }
                 break;
             case Language::Russian:
                 switch (craftingSelect)
                 {
                 case 0:
-                    fontSmallRu.printf(16, 35, "4 fqtmk - %u/1 fgsgdq", countItems(InventoryItemID::Wood));
+                    fontSmallRu.printf(16, 35, "4 fvcqd\"x fqtmk - %u/1 fvcqdqg fgsgdq", countItems(InventoryItemID::Wood));
                     break;
                 case 1:
-                    fontSmallRu.printf(16, 35, "Edgs# - %u/6 fqtmk", countItems(InventoryItemID::Planks));
+                    fontSmallRu.printf(16, 35, "Evcqdb& fdgs# - %u/6 fqtmk", countItems(InventoryItemID::Planks));
                     break;
                 case 2:
                     fontSmallRu.printf(16, 35, "Qbnmb - %u/2 fqtmk", countItems(InventoryItemID::Planks));
@@ -570,6 +596,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                     break;
                 case 5:
                     fontSmallRu.printf(16, 35, "Hbsgpb& tdkpkpb - %u/1 t\"sb& tdkpkpb; %u/1 veqn#", countItems(InventoryItemID::RawPorkchop), countItems(InventoryItemID::Coal));
+                    break;
+                case 6:
+                    fontSmallRu.printf(16, 35, "4 cgshjqd\"g fqtmk - %u/1 cgshjqdqg fgsgdq", countItems(InventoryItemID::BirchWood));
                     break;
                 }
                 break;
@@ -675,6 +704,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                         break;
                     case InventoryItemID::Planks:
                         glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprPlanks);
+                        break;
+                    case InventoryItemID::BirchPlanks:
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprBirchPlanks);
                         break;
                     case InventoryItemID::Stick:
                         glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprStick);
@@ -841,6 +873,11 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                      GL_FLIP_NONE, sprPlanks);
             break;
 
+        case InventoryItemID::BirchPlanks:
+            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
+                     GL_FLIP_NONE, sprBirchPlanks);
+            break;
+
         case InventoryItemID::SnowyGrass:
             glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
                      GL_FLIP_NONE, sprSnowyGrass);
@@ -948,6 +985,10 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 case InventoryItemID::Planks:
                     glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                                   HALFSIZE, GL_FLIP_NONE, sprPlanks);
+                    break;
+                case InventoryItemID::BirchPlanks:
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                                  HALFSIZE, GL_FLIP_NONE, sprBirchPlanks);
                     break;
                 case InventoryItemID::Stick:
                     glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
@@ -1058,6 +1099,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                 // when a is pressed, craft
                 bool crafted = false;
 
+                // TODO make a better crafting recipe system
                 // planks recipe
                 if (craftingSelect == 0 && hasItem({InventoryItemID::Wood, 1}))
                 {
@@ -1101,6 +1143,12 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                     addItem(InventoryItemID::CookedPorkchop);
                     crafted = true;
                 }
+                // birch planks recipe
+                else if (craftingSelect == 6 && hasItem({InventoryItemID::BirchWood, 1}))
+                {
+                    removeItem(InventoryItemID::BirchWood);
+                    addItem(InventoryItemID::BirchPlanks, 4);
+                }
 
                 if (crafted)
                     mmEffectEx(&sndClick);
@@ -1108,8 +1156,8 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             if (kdown & KEY_R)
             {
                 // when r is pressed advance to the next recipe
-                // (and wrap around too)
-                if (++craftingSelect > 5)
+                // (and wrap around too, thats pretty important)
+                if (++craftingSelect > 6)
                     craftingSelect = 0;
             }
         }
@@ -1333,11 +1381,12 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                     // eg flowers can only be placed on grass
                     // dirt and snow and cactus can only be placed
                     // on cactus and sand
-                    if (inventory[inventorySelect].amount > 0)
+                    InventoryItemID id = inventory[inventorySelect].id;
+                    if (inventory[inventorySelect].amount > 0 &&
+                        id != InventoryItemID::Stick)
                     {
-                        InventoryItemID id = inventory[inventorySelect].id; // id
-                        u8 effect = rand() % 4;                             // sound effect 2 play
-                        bool canPlace = true;                               // can place block?????
+                        u8 effect = rand() % 4; // sound effect 2 play
+                        bool canPlace = true;   // can place block?????
                         switch (id)
                         {
                         case InventoryItemID::Grass:
@@ -1446,6 +1495,10 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                         case InventoryItemID::Planks:
                             blocks->emplace_back(new PlanksBlock(snapToGrid(camera->x + aimX),
                                                                  snapToGrid(camera->y + aimY)));
+                            playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4) break;
+                        case InventoryItemID::BirchPlanks:
+                            blocks->emplace_back(new BirchPlanksBlock(snapToGrid(camera->x + aimX),
+                                                                      snapToGrid(camera->y + aimY)));
                             playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4) break;
                         case InventoryItemID::SnowyGrass:
                             blocks->emplace_back(new SnowyGrassBlock(snapToGrid(camera->x + aimX),
@@ -1620,6 +1673,11 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                         entities->emplace_back(new DropEntity(block->x, block->y, "planks"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
                     }
+                    else if (bid == "birch planks")
+                    {
+                        entities->emplace_back(new DropEntity(block->x, block->y, "birchplanks"));
+                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
+                    }
                     else if (bid == "snowy grass")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "snowygrass"));
@@ -1748,7 +1806,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                     {
                         playsfx(effect, sndStepSnow1, sndStepSnow2, sndStepSnow3, sndStepSnow4);
                     }
-                    else if (id == "planks" || id == "door")
+                    else if (id == "planks" || id == "door" || id == "birch planks")
                     {
                         playsfx(effect, sndStepWood1, sndStepWood2, sndStepWood3, sndStepWood4);
                     }
@@ -1825,6 +1883,8 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             break;
         }
     }
+    if (keysDown() & KEY_Y)
+        addItem(InventoryItemID::BirchPlanks);
     return ret; // yes
 }
 
@@ -2023,3 +2083,5 @@ std::array<InventoryItem, 20> Player::getInventory(void)
         inv[i] = inventory[i];
     return inv;
 }
+
+// wait when did this file reach 2000 LINES???
