@@ -7,6 +7,7 @@ extern "C"
 
 #include <nds.h>
 #include <fat.h>
+#include <filesystem.h>
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>

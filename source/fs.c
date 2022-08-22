@@ -1,6 +1,3 @@
-// this is not documented because
-// i have no idea what modt of the
-// things do here
 #include <fs.h>
 
 void fsInit(void)
@@ -8,8 +5,15 @@ void fsInit(void)
     if (!fatInitDefault())
     {
         printf("FAT init failed! :(\n");
-        printf("This error is most likely caused by:\n");
+        printf("This error is probably caused by:\n");
         printf(" - ROM is not patched\n - SD card is missing.");
+        while (true)
+            ;
+    }
+    if (!nitroFSInit(NULL))
+    {
+        printf("Nitrofs init failed!\n");
+        printf("please make sure it is set up correctly");
         while (true)
             ;
     }

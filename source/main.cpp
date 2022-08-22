@@ -20,6 +20,7 @@
 #include <entity.hpp>
 #include <lang.hpp>
 #include <save.hpp>
+#include <toml.hpp>
 #include <algorithm>
 #include <sstream>
 

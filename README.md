@@ -17,7 +17,6 @@ Press r to select next crafting recipe. Press a to craft the item (if you have t
 ## Dependencies
 
  - devkitPro libnds installed
- - &lt;devkitPro folder&gt;/tools/bin in PATH variable.
 
 ## How to build
 

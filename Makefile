@@ -33,8 +33,9 @@ DATA		:=	data
 INCLUDES	:=	include
 GRAPHICS	:=	gfx
 AUDIO       :=  audio
+NITRODATA   :=  nitrofs
 
-EMULATOR := d:\melonds\melonds.exe
+EMULATOR := e:\melonds\melonds.exe
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -72,9 +73,9 @@ LIBDIRS	:=	$(LIBNDS)
 #---------------------------------------------------------------------------------
 
 
-ifneq ($(BUILDDIR), $(CURDIR))
+ifneq ($(BUILDDIR),$(CURDIR))
 #---------------------------------------------------------------------------------
- 
+export TOPDIR   :=  $(CURDIR)
 export OUTPUT	:=	$(CURDIR)/$(TARGET)
  
 export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
@@ -82,6 +83,10 @@ export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
 					$(foreach dir,$(GRAPHICS),$(CURDIR)/$(dir))
 
 export DEPSDIR	:=	$(CURDIR)/$(BUILD)
+
+ifneq ($(strip $(NITRODATA)),)
+	export NITRO_FILES  :=  $(CURDIR)/$(NITRODATA)
+endif
 
 CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
 CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
@@ -147,6 +152,7 @@ DEPENDS	:=	$(OFILES:.o=.d)
 # main targets
 #---------------------------------------------------------------------------------
 $(OUTPUT).nds	: 	$(OUTPUT).elf
+$(OUTPUT).nds   :   $(shell find ../$(NITRODATA))
 $(OUTPUT).elf	:	$(OFILES)
 
 

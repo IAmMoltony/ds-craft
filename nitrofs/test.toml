@@ -1,0 +1,8 @@
+# this is a comment
+
+hello = "world"
+number = 19
+float = 9.4
+array = [
+    "test1", "test2", "test3"
+]
