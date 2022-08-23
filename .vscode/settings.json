@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "*.h": "c",
+        "*.rcp": "plaintext",
         "vector": "cpp",
         "array": "cpp",
         "atomic": "cpp",
@@ -51,6 +52,8 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "cinttypes": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "charconv": "cpp",
+        "iomanip": "cpp"
     }
 }

@@ -202,9 +202,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         std::stringstream ss(line);
         std::string line2;
         while (std::getline(ss, line2, ' '))
-        {
             split.push_back(line2);
-        }
 
         if (split[0] == "player") // key player (player <x> <y> <health>)
         {

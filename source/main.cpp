@@ -20,7 +20,7 @@
 #include <entity.hpp>
 #include <lang.hpp>
 #include <save.hpp>
-#include <toml.hpp>
+#include <crafting.hpp>
 #include <algorithm>
 #include <sstream>
 
@@ -120,6 +120,9 @@ int main(int argc, char **argv)
     fsCreateDir("worlds");
     fsCreateDir("config");
 
+    // init player crafting
+    playerInitCrafting();
+
     // set vram banks
     vramSetBankA(VRAM_A_TEXTURE);
     vramSetBankB(VRAM_B_TEXTURE);
@@ -134,6 +137,7 @@ int main(int argc, char **argv)
     loadPlayerTextures();
     loadPlayerSounds();
 
+    // pop sound effect init
     mmLoadEffect(SFX_POP);
     sndPop = soundEffect(SFX_POP);
 

@@ -2,22 +2,29 @@
 // there is a lot of bad code (probably)
 
 #include <player.hpp>
+#include <crafting.hpp>
 
 // gui images
 static glImage sprInventorySlot[1];
 static glImage sprInventorySlotSelect[1];
 
+// item images
 glImage sprStick[1];
 glImage sprCoal[1];
 glImage sprRawPorkchop[1];
 glImage sprCookedPorkchop[1];
 
+// health images
 static glImage sprHeartOutline[1];
 static glImage sprHalfHeart[1];
 static glImage sprHalfHeart2[1];
 
+// player images
 static glImage sprPlayer[1];
 static glImage sprPlayerHead[1];
+
+// d u m m y
+static glImage sprDummy[1];
 
 // these images are loaded in block.cpp
 extern glImage sprGrass[1];
@@ -139,6 +146,7 @@ void loadPlayerGUI(void)
 {
     loadImage(sprInventorySlot, 16, 16, inventory_slotBitmap);
     loadImage(sprInventorySlotSelect, 16, 16, inventory_slot_selectBitmap);
+    loadImage(sprDummy, 16, 16, dummyBitmap);
 
     loadImageAlpha(sprStick, 16, 16, stickPal, stickBitmap);
     loadImageAlpha(sprCoal, 16, 16, coalPal, coalBitmap);
@@ -476,133 +484,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
 
         if (inventoryCrafting) // when crafting
         {
-            // planks recipe
-            if (hasItem({InventoryItemID::Wood, 1}))
-                glColor(RGB15(0, 31, 0));
-            else
-                glColor(RGB15(31, 0, 0));
-            glSprite(16, 60, GL_FLIP_NONE,
-                     craftingSelect == 0 ? sprInventorySlotSelect : sprInventorySlot);
-            glColor(RGB15(31, 31, 31));
-            glSpriteScale(20, 64, HALFSIZE, GL_FLIP_NONE, sprPlanks);
-            fontSmall.printfShadow(16, 60, "4");
-
-            // door recipe
-            if (hasItem({InventoryItemID::Planks, 6}))
-                glColor(RGB15(0, 31, 0));
-            else
-                glColor(RGB15(31, 0, 0));
-            glSprite(32, 60, GL_FLIP_NONE,
-                     craftingSelect == 1 ? sprInventorySlotSelect : sprInventorySlot);
-            glColor(RGB15(31, 31, 31));
-            glSpriteScale(37, 64, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
-
-            // stick recipe
-            if (hasItem({InventoryItemID::Planks, 2}))
-                glColor(RGB15(0, 31, 0));
-            else
-                glColor(RGB15(31, 0, 0));
-            glSprite(48, 60, GL_FLIP_NONE,
-                     craftingSelect == 2 ? sprInventorySlotSelect : sprInventorySlot);
-            glColor(RGB15(31, 31, 31));
-            glSpriteScale(52, 64, HALFSIZE, GL_FLIP_NONE, sprStick);
-
-            // coal block recipe
-            if (hasItem({InventoryItemID::Coal, 9}))
-                glColor(RGB15(0, 31, 0));
-            else
-                glColor(RGB15(31, 0, 0));
-            glSprite(64, 60, GL_FLIP_NONE,
-                     craftingSelect == 3 ? sprInventorySlotSelect : sprInventorySlot);
-            glColor(RGB15(31, 31, 31));
-            glSpriteScale(68, 64, HALFSIZE, GL_FLIP_NONE, sprCoalBlock);
-
-            // stone recipe
-            if (hasItem({InventoryItemID::Cobblestone, 1}))
-                glColor(RGB15(0, 31, 0));
-            else
-                glColor(RGB15(31, 0, 0));
-            glSprite(80, 60, GL_FLIP_NONE,
-                     craftingSelect == 4 ? sprInventorySlotSelect : sprInventorySlot);
-            glColor(RGB15(31, 31, 31));
-            glSpriteScale(84, 64, HALFSIZE, GL_FLIP_NONE, sprStone);
-
-            // cooked porkchop recipe
-            if (hasItem({InventoryItemID::RawPorkchop, 1}) &&
-                hasItem({InventoryItemID::Coal, 1}))
-                glColor(RGB15(0, 31, 0));
-            else
-                glColor(RGB15(31, 0, 0));
-            glSprite(96, 60, GL_FLIP_NONE,
-                     craftingSelect == 5 ? sprInventorySlotSelect : sprInventorySlot);
-            glColor(RGB15(31, 31, 31));
-            glSpriteScale(100, 64, HALFSIZE, GL_FLIP_NONE, sprCookedPorkchop);
-
-            // birch planks recipe
-            if (hasItem({InventoryItemID::BirchWood, 1}))
-                glColor(RGB15(0, 31, 0));
-            else
-                glColor(RGB15(31, 0, 0));
-            glSprite(112, 60, GL_FLIP_NONE,
-                     craftingSelect == 6 ? sprInventorySlotSelect : sprInventorySlot);
-            glColor(RGB15(31, 31, 31));
-            glSpriteScale(116, 64, HALFSIZE, GL_FLIP_NONE, sprBirchPlanks);
-
-            switch (lang)
-            {
-            case Language::English:
-                switch (craftingSelect)
-                {
-                case 0:
-                    fontSmall.printf(16, 35, "4 oak planks - %u/1 oak wood", countItems(InventoryItemID::Wood));
-                    break;
-                case 1:
-                    fontSmall.printf(16, 35, "Oak door - %u/6 oak planks", countItems(InventoryItemID::Planks));
-                    break;
-                case 2:
-                    fontSmall.printf(16, 35, "Stick - %u/2 planks", countItems(InventoryItemID::Planks));
-                    break;
-                case 3:
-                    fontSmall.printf(16, 35, "Coal block - %u/9 coal", countItems(InventoryItemID::Coal));
-                    break;
-                case 4:
-                    fontSmall.printf(16, 35, "Stone - %u/1 cobblestone", countItems(InventoryItemID::Cobblestone));
-                    break;
-                case 5:
-                    fontSmall.printf(16, 35, "Cooked porkchop - %u/1 raw porkchop; %u/1 coal", countItems(InventoryItemID::RawPorkchop), countItems(InventoryItemID::Coal));
-                    break;
-                case 6:
-                    fontSmall.printf(26, 35, "4 birch planks - %u/1 birch wood", countItems(InventoryItemID::BirchWood));
-                    break;
-                }
-                break;
-            case Language::Russian:
-                switch (craftingSelect)
-                {
-                case 0:
-                    fontSmallRu.printf(16, 35, "4 fvcqd\"x fqtmk - %u/1 fvcqdqg fgsgdq", countItems(InventoryItemID::Wood));
-                    break;
-                case 1:
-                    fontSmallRu.printf(16, 35, "Evcqdb& fdgs# - %u/6 fqtmk", countItems(InventoryItemID::Planks));
-                    break;
-                case 2:
-                    fontSmallRu.printf(16, 35, "Qbnmb - %u/2 fqtmk", countItems(InventoryItemID::Planks));
-                    break;
-                case 3:
-                    fontSmallRu.printf(16, 35, "Bnqm ven& - %u/9 veqn#", countItems(InventoryItemID::Coal));
-                    break;
-                case 4:
-                    fontSmallRu.printf(16, 35, "Lbogp# - %u/1 cvn\"ipkm", countItems(InventoryItemID::Cobblestone));
-                    break;
-                case 5:
-                    fontSmallRu.printf(16, 35, "Hbsgpb& tdkpkpb - %u/1 t\"sb& tdkpkpb; %u/1 veqn#", countItems(InventoryItemID::RawPorkchop), countItems(InventoryItemID::Coal));
-                    break;
-                case 6:
-                    fontSmallRu.printf(16, 35, "4 cgshjqd\"g fqtmk - %u/1 cgshjqdqg fgsgdq", countItems(InventoryItemID::BirchWood));
-                    break;
-                }
-                break;
-            }
+            drawCrafting(fontSmall, fontSmallRu);
         }
         else
         {
@@ -1094,72 +976,8 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
 
         if (inventoryCrafting) // if crafting
         {
-            if (kdown & KEY_A)
-            {
-                // when a is pressed, craft
-                bool crafted = false;
-
-                // TODO make a better crafting recipe system
-                // planks recipe
-                if (craftingSelect == 0 && hasItem({InventoryItemID::Wood, 1}))
-                {
-                    removeItem(InventoryItemID::Wood);
-                    addItem(InventoryItemID::Planks, 4);
-                    crafted = true;
-                }
-                // door recipe
-                else if (craftingSelect == 1 && hasItem({InventoryItemID::Planks, 6}))
-                {
-                    removeItem(InventoryItemID::Planks, 6);
-                    addItem(InventoryItemID::Door);
-                    crafted = true;
-                }
-                // stick recipe
-                else if (craftingSelect == 2 && hasItem({InventoryItemID::Planks, 2}))
-                {
-                    removeItem(InventoryItemID::Planks, 2);
-                    addItem(InventoryItemID::Stick);
-                    crafted = true;
-                }
-                // coal block recipe
-                else if (craftingSelect == 3 && hasItem({InventoryItemID::Coal, 9}))
-                {
-                    removeItem(InventoryItemID::Coal, 9);
-                    addItem(InventoryItemID::CoalBlock);
-                    crafted = true;
-                }
-                // stone block recipe
-                else if (craftingSelect == 4 && hasItem({InventoryItemID::Cobblestone, 1}))
-                {
-                    removeItem(InventoryItemID::Cobblestone);
-                    addItem(InventoryItemID::Stone);
-                    crafted = true;
-                }
-                // cooked porkchop recipe
-                else if (craftingSelect == 5 && hasItem({InventoryItemID::RawPorkchop, 1}) && hasItem({InventoryItemID::Coal, 1}))
-                {
-                    removeItem(InventoryItemID::RawPorkchop);
-                    removeItem(InventoryItemID::Coal);
-                    addItem(InventoryItemID::CookedPorkchop);
-                    crafted = true;
-                }
-                // birch planks recipe
-                else if (craftingSelect == 6 && hasItem({InventoryItemID::BirchWood, 1}))
-                {
-                    removeItem(InventoryItemID::BirchWood);
-                    addItem(InventoryItemID::BirchPlanks, 4);
-                }
-
-                if (crafted)
-                    mmEffectEx(&sndClick);
-            }
-            if (kdown & KEY_R)
-            {
-                // when r is pressed advance to the next recipe
-                // (and wrap around too, thats pretty important)
-                if (++craftingSelect > 6)
-                    craftingSelect = 0;
-            }
+            updateCrafting(); // i thought this is so compilcated that
+                              // i needed to give it its own functiopns
         }
         else
         {
@@ -2084,4 +1902,163 @@ std::array<InventoryItem, 20> Player::getInventory(void)
     return inv;
 }
 
-// wait when did this file reach 2000 LINES???
+static std::vector<CraftingRecipe> recipes;
+
+struct RecipeCompareKey
+{
+    inline bool operator()(const CraftingRecipe &r1, const CraftingRecipe &r2)
+    {
+        return r1.getID() < r2.getID();
+    }
+};
+
+void playerInitCrafting(void)
+{
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir("nitro:/crafting")) != NULL)
+    {
+        while ((ent = readdir(dir)) != NULL)
+        {
+            std::string str = std::string(ent->d_name);
+            std::string ending = ".rcp";
+            if (str == "." || str == "..")
+                continue;
+            if (std::equal(ending.rbegin(), ending.rend(), str.rbegin()))
+            {
+                for (u8 i = 0; i < 4; ++i)
+                    str.pop_back();
+                recipes.push_back(CraftingRecipe(str.c_str()));
+                //printf("loaded recipe %s\n", str.c_str());
+            }
+        }
+        closedir(dir);
+    }
+    else
+    {
+        printf("Cannot open folder nitro:/crafting");
+        while (true);
+    }
+    std::sort(recipes.begin(), recipes.end(), RecipeCompareKey());
+}
+
+static bool canCraft(Player *pThis, CraftingRecipe recipe)
+{
+    std::vector<InventoryItem> *rvec = recipe.getRecipe();
+    for (auto item : *rvec)
+    {
+        u16 pcount = pThis->countItems(item.id);
+        u8 rcount = item.amount;
+        if (pcount < rcount)
+            return false;
+    }
+    return true;
+}
+
+void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
+{
+    for (size_t i = 0; i < recipes.size(); ++i)
+    {
+        CraftingRecipe recipe = recipes[i];
+
+        bool cc = canCraft(this, recipe);
+        glColor(cc ? RGB15(0, 31, 0) : RGB15(31, 0, 0));
+        glSprite(16 + i * 16, 60, GL_FLIP_NONE,
+                 craftingSelect == i ? sprInventorySlotSelect : sprInventorySlot);
+        glColor(RGB15(31, 31, 31));
+
+        switch (recipe.getTexID())
+        {
+        default: // usually -1
+            glSprite(16 + i * 16, 60, GL_FLIP_NONE, sprDummy);
+            break;
+        case 0:
+            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprPlanks);
+            break;
+        case 1:
+            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprBirchPlanks);
+            break;
+        case 2:
+            glSpriteScale(16 + i * 16 + 4, 64, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
+            break;
+        case 3:
+            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprStick);
+            break;
+        }
+
+        if (recipe.getCount() > 1)
+            fontSmall.printfShadow(16 + i * 16, 67, "%d", recipe.getCount());
+    }
+}
+
+void Player::updateCrafting(void)
+{
+    u32 kdown = keysDown();
+    if (kdown & KEY_A)
+    {
+        // when a is pressed, craft
+        bool crafted = false;
+
+        // planks recipe
+        if (craftingSelect == 0 && hasItem({InventoryItemID::Wood, 1}))
+        {
+            removeItem(InventoryItemID::Wood);
+            addItem(InventoryItemID::Planks, 4);
+            crafted = true;
+        }
+        // door recipe
+        else if (craftingSelect == 1 && hasItem({InventoryItemID::Planks, 6}))
+        {
+            removeItem(InventoryItemID::Planks, 6);
+            addItem(InventoryItemID::Door);
+            crafted = true;
+        }
+        // stick recipe
+        else if (craftingSelect == 2 && hasItem({InventoryItemID::Planks, 2}))
+        {
+            removeItem(InventoryItemID::Planks, 2);
+            addItem(InventoryItemID::Stick);
+            crafted = true;
+        }
+        // coal block recipe
+        else if (craftingSelect == 3 && hasItem({InventoryItemID::Coal, 9}))
+        {
+            removeItem(InventoryItemID::Coal, 9);
+            addItem(InventoryItemID::CoalBlock);
+            crafted = true;
+        }
+        // stone block recipe
+        else if (craftingSelect == 4 && hasItem({InventoryItemID::Cobblestone, 1}))
+        {
+            removeItem(InventoryItemID::Cobblestone);
+            addItem(InventoryItemID::Stone);
+            crafted = true;
+        }
+        // cooked porkchop recipe
+        else if (craftingSelect == 5 && hasItem({InventoryItemID::RawPorkchop, 1}) && hasItem({InventoryItemID::Coal, 1}))
+        {
+            removeItem(InventoryItemID::RawPorkchop);
+            removeItem(InventoryItemID::Coal);
+            addItem(InventoryItemID::CookedPorkchop);
+            crafted = true;
+        }
+        // birch planks recipe
+        else if (craftingSelect == 6 && hasItem({InventoryItemID::BirchWood, 1}))
+        {
+            removeItem(InventoryItemID::BirchWood);
+            addItem(InventoryItemID::BirchPlanks, 4);
+        }
+
+        if (crafted)
+            mmEffectEx(&sndClick);
+    }
+    if (kdown & KEY_R)
+    {
+        // when r is pressed advance to the next recipe
+        // (and wrap around too, thats pretty important)
+        if (++craftingSelect > 6)
+            craftingSelect = 0;
+    }
+}
+
+// wait when did this file reach more than 2000 LINES???

@@ -8,6 +8,7 @@
 #include <images.h>
 #include <math.h>
 #include <stdio.h>
+#include <fs.h>
 #include <block.hpp>
 #include <font.hpp>
 #include <lang.hpp>
@@ -59,6 +60,8 @@ typedef struct inventory_item
 void loadPlayerGUI(void);
 void loadPlayerTextures(void);
 void loadPlayerSounds(void);
+void playerInitCrafting(void);
+const char *getItemStr(Language lang, InventoryItemID iid);
 
 class Player
 {
@@ -75,7 +78,9 @@ public:
     Player();
 
     void draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Font fontRu, Language lang);
+    void drawCrafting(Font fontSmall, Font fontSmallRu);
     bool update(Camera *camera, BlockList *blocks, EntityList *entities, const u16 &frames);
+    void updateCrafting(void);
     bool hasItem(InventoryItem item);
     void addItem(InventoryItemID item);
     void addItem(InventoryItemID item, u8 amount);
