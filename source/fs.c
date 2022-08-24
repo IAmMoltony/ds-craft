@@ -30,8 +30,11 @@ void fsCreateFile(const char *name)
 {
     FILE *fp = fopen(name, "w");
 #if FS_ERROR_MESSAGES
-    if (fp == NULL)
+    if (!fp)
+    {
         printf("fsCreateFile failed\n");
+        return;
+    }
 #endif
     fclose(fp);
 }
