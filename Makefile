@@ -42,7 +42,7 @@ EMULATOR := e:\melonds\melonds.exe
 #---------------------------------------------------------------------------------
 ARCH		:=	-mthumb -mthumb-interwork -march=armv5te -mtune=arm946e-s
 
-CFLAGS	:=	-g -Wall -Wextra -O2\
+CFLAGS	:=	-g -Wall -Wextra -O2 -Oz\
  			-march=armv5te -mtune=arm946e-s \
 			$(ARCH) -I../include -Wno-switch -Wno-ignored-qualifiers \
 			-Wno-unused-parameter\
