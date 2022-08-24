@@ -2019,7 +2019,7 @@ void Player::updateCrafting(void)
     {
         // when r is pressed advance to the next recipe
         // (and wrap around too, thats pretty important)
-        if (++craftingSelect > 6)
+        if (++craftingSelect > recipes.size() - 1)
             craftingSelect = 0;
     }
 }
