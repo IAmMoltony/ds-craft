@@ -33,6 +33,7 @@ extern mm_sound_effect sndClick;
 static mm_sound_effect sndPop;
 
 static bool transparentLeaves = false;
+static bool autoSave = true;
 
 BlockList blocks;
 EntityList entities;
@@ -161,11 +162,18 @@ int main(int argc, char **argv)
     {
         char *data = fsReadFile("config/trleaves.cfg");
         transparentLeaves = data[0] == '1';
-        if (data[0] != '0')
-            fsWrite("config/trleaves.cfg", "0");
     }
     else
         fsWrite("config/trleaves.cfg", "0");
+    
+    autoSave = true;
+    if (fsFileExists("config/autosave.cfg"))
+    {
+        char *data = fsReadFile("config/autosave.cfg");
+        autoSave = data[0] == '1';
+    }
+    else
+        fsWrite("config/autosave.cfg", "1");
 
     // fonts english iumages
     glImage font16x16Img[FONT_16X16_NUM_IMAGES];
@@ -277,8 +285,8 @@ int main(int argc, char **argv)
         switch (gameState)
         {
         case GameState::Game:
-            // save every 900 frames (15s)
-            if (frames % 900 == 0)
+            // save every 900 frames (15s) and if user wants to auto save
+            if (frames % 900 == 0 && autoSave)
             {
                 saveWorld(worldName, blocks, entities, player);
                 saveTextShow = true;
@@ -689,15 +697,16 @@ int main(int argc, char **argv)
                     }
                     fsWrite("config/trleaves.cfg", transparentLeaves ? "1" : "0");
                     break;
+                case 2:
+                    autoSave = !autoSave;
+                    break;
                 }
                 mmEffectEx(&sndClick);
             }
             else if (down & KEY_SELECT)
             {
-                if (++settingsSelect > 1)
-                {
+                if (++settingsSelect > 2)
                     settingsSelect = 0;
-                }
             }
             break;
         case GameState::DeleteWorld:
@@ -1123,6 +1132,25 @@ int main(int argc, char **argv)
                     fontSmallRu.printCentered(0, 59, "Qsqjsbzp\"g nktu#& CLM");
                 else
                     fontSmallRu.printCentered(0, 59, "Qsqjsbzp\"g nktu#& C]LM");
+                break;
+            }
+            glColor(RGB15(31, 31, 31));
+
+            if (settingsSelect == 2)
+                glColor(RGB15(0, 31, 0));
+            switch (lang)
+            {
+            case Language::English:
+                if (autoSave)
+                    fontSmall.printCentered(0, 70, "Auto save ON");
+                else
+                    fontSmall.printCentered(0, 70, "Auto save OFF");
+                break;
+            case Language::Russian:
+                if (autoSave)
+                    fontSmallRu.printCentered(0, 70, "Aduq tqxsbpgpkg CLM");
+                else
+                    fontSmallRu.printCentered(0, 70, "Aduq tqxsbpgpkg C]LM");
                 break;
             }
             glColor(RGB15(31, 31, 31));
