@@ -2010,6 +2010,9 @@ void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
         case 4:
             glSpriteScale(16 + i * 16 + 4, 64, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
             break;
+        case 5:
+            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprStone);
+            break;
         }
 
         if (recipe.getCount() > 1)
