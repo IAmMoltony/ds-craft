@@ -170,6 +170,25 @@ public:
     bool getFacing(void);
 };
 
+class BirchDoorBlock : public Block
+{
+private:
+    bool open, facing;
+
+public:
+    BirchDoorBlock(s16 x, s16 y, s16 px);
+    BirchDoorBlock(s16 x, s16 y, bool open, bool facing);
+
+    void draw(Camera camera) override;
+    bool solid(void) override;
+    void interact(void) override;
+    std::string id(void) override;
+    Rect getRect(void) const override;
+
+    bool isOpen(void);
+    bool getFacing(void);
+};
+
 class SaplingBlock : public Block
 {
 private:

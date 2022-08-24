@@ -2,7 +2,7 @@ id 4
 nameEn Birch door
 nameRu Bgshjqdb& fdgs#
 count 1
-texid -1
+texid 4
 output birchdoor
 RECIPE
 birchplanks 6

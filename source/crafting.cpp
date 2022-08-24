@@ -26,6 +26,8 @@ InventoryItemID strToIID(const std::string &sid)
         return InventoryItemID::Dandelion;
     else if (sid == "door")
         return InventoryItemID::Door;
+    else if (sid == "birchdoor")
+        return InventoryItemID::BirchDoor;
     else if (sid == "planks")
         return InventoryItemID::Planks;
     else if (sid == "birchplanks")

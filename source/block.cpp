@@ -15,6 +15,7 @@ glImage sprDeadBush[1];
 glImage sprDandelion[1];
 glImage sprPoppy[1];
 glImage sprDoor[1];
+glImage sprBirchDoor[1];
 glImage sprPlanks[1];
 glImage sprBirchPlanks[1];
 glImage sprSapling[1];
@@ -57,6 +58,7 @@ void loadBlockTextures(void)
     loadImageAlpha(sprDandelion, 16, 16, dandelionPal, dandelionBitmap);
     loadImageAlpha(sprPoppy, 16, 16, poppyPal, poppyBitmap);
     loadImageAlpha(sprDoor, 32, 32, doorPal, doorBitmap);
+    loadImageAlpha(sprBirchDoor, 32, 32, birchdoorPal, birchdoorBitmap);
     loadImageAlpha(sprSapling, 16, 16, oak_saplingPal, oak_saplingBitmap);
 }
 
@@ -293,6 +295,100 @@ bool DoorBlock::isOpen(void)
 }
 
 bool DoorBlock::getFacing(void)
+{
+    return facing;
+}
+
+//-----------------------------------------
+
+BirchDoorBlock::BirchDoorBlock(s16 x, s16 y, s16 px) : Block(x, y)
+{
+    open = true;
+    facing = px > x;
+}
+
+BirchDoorBlock::BirchDoorBlock(s16 x, s16 y, bool open, bool facing) : Block(x, y)
+{
+    this->open = open;
+    this->facing = facing;
+}
+
+void BirchDoorBlock::draw(Camera camera)
+{
+    if (open)
+        glSprite(x - camera.x - 1, y - camera.y, GL_FLIP_NONE, sprBirchDoor);
+    else
+        // draw scaled down on x if opened
+        glSpriteScaleXY(x - camera.x - 1 + (facing ? 0 : 8), y - camera.y, 1 << 10, 1 << 12, (facing ? GL_FLIP_NONE : GL_FLIP_H), sprBirchDoor);
+}
+
+bool BirchDoorBlock::solid(void)
+{
+    return !open;
+}
+
+void BirchDoorBlock::interact(void)
+{
+    if (open)
+    {
+        open = false;
+        u8 effect = rand() % 4;
+        switch (effect)
+        {
+        case 0:
+            mmEffectEx(&sndDoorClose1);
+            break;
+        case 1:
+            mmEffectEx(&sndDoorClose2);
+            break;
+        case 2:
+            mmEffectEx(&sndDoorClose3);
+            break;
+        case 3:
+            mmEffectEx(&sndDoorClose4);
+            break;
+        }
+    }
+    else
+    {
+        open = true;
+        u8 effect = rand() % 4;
+        switch (effect)
+        {
+        case 0:
+            mmEffectEx(&sndDoorOpen1);
+            break;
+        case 1:
+            mmEffectEx(&sndDoorOpen2);
+            break;
+        case 2:
+            mmEffectEx(&sndDoorOpen3);
+            break;
+        case 3:
+            mmEffectEx(&sndDoorOpen4);
+            break;
+        }
+    }
+}
+
+std::string BirchDoorBlock::id(void)
+{
+    return "birchdoor";
+}
+
+Rect BirchDoorBlock::getRect(void) const
+{
+    if (open)
+        return Rect(x, y, 16, 32);
+    return Rect(x + (facing ? 0 : 11), y, 4, 32);
+}
+
+bool BirchDoorBlock::isOpen(void)
+{
+    return open;
+}
+
+bool BirchDoorBlock::getFacing(void)
 {
     return facing;
 }

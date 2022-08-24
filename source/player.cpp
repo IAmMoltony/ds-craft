@@ -41,6 +41,7 @@ extern glImage sprDeadBush[1];
 extern glImage sprPoppy[1];
 extern glImage sprDandelion[1];
 extern glImage sprDoor[1];
+extern glImage sprBirchDoor[1];
 extern glImage sprPlanks[1];
 extern glImage sprBirchPlanks[1];
 extern glImage sprSnowyGrass[1];
@@ -352,6 +353,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Dandelion";
         case InventoryItemID::Door:
             return "Door";
+        case InventoryItemID::BirchDoor:
+            return "Birch Door";
         case InventoryItemID::Planks:
             return "Oak Planks";
         case InventoryItemID::BirchPlanks:
@@ -407,6 +410,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Pfvdbpzkm";
         case InventoryItemID::Door:
             return "Edgs#";
+        case InventoryItemID::BirchDoor:
+            return "Bgshjqdb& fdgs#";
         case InventoryItemID::Planks:
             return "Evcqd\"g fqtmk";
         case InventoryItemID::BirchPlanks:
@@ -483,9 +488,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
         }
 
         if (inventoryCrafting) // when crafting
-        {
             drawCrafting(fontSmall, fontSmallRu);
-        }
         else
         {
             for (u8 i = 0; i < 20; ++i)
@@ -583,6 +586,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                         // door is 4 times smaller since it is bigger than a
                         // normal block
                         glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
+                        break;
+                    case InventoryItemID::BirchDoor:
+                        glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
                         break;
                     case InventoryItemID::Planks:
                         glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprPlanks);
@@ -749,6 +755,11 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             glSprite(getRectAim(camera).x - camera.x - 1, getRectAim(camera).y - camera.y,
                      GL_FLIP_NONE, sprDoor);
             break;
+        
+        case InventoryItemID::BirchDoor:
+            glSprite(getRectAim(camera).x - camera.x - 1, getRectAim(camera).y - camera.y,
+                     GL_FLIP_NONE, sprBirchDoor);
+            break;
 
         case InventoryItemID::Planks:
             glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
@@ -863,6 +874,10 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 case InventoryItemID::Door:
                     glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 5, SCREEN_HEIGHT - 16 + 4,
                                   (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
+                    break;
+                case InventoryItemID::BirchDoor:
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 5, SCREEN_HEIGHT - 16 + 4,
+                                  (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
                     break;
                 case InventoryItemID::Planks:
                     glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
@@ -1310,6 +1325,10 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                             blocks->emplace_back(new DoorBlock(snapToGrid(camera->x + aimX),
                                                                snapToGrid(camera->y + aimY), x));
                             playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4) break;
+                        case InventoryItemID::BirchDoor:
+                            blocks->emplace_back(new BirchDoorBlock(snapToGrid(camera->x + aimX),
+                                                               snapToGrid(camera->y + aimY), x));
+                            playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4) break;
                         case InventoryItemID::Planks:
                             blocks->emplace_back(new PlanksBlock(snapToGrid(camera->x + aimX),
                                                                  snapToGrid(camera->y + aimY)));
@@ -1486,6 +1505,11 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                         entities->emplace_back(new DropEntity(block->x, block->y, "door"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
                     }
+                    else if (bid == "birchdoor")
+                    {
+                        entities->emplace_back(new DropEntity(block->x, block->y, "birchdoor"));
+                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
+                    }
                     else if (bid == "planks")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "planks"));
@@ -1588,7 +1612,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             if (block->getRect().intersects(getRectLeft()))
             {
                 // door collision is hard coded
-                if (block->id() == "door")
+                if (block->id() == "door" || block->id() == "birchdoor")
                     x = block->getRect().x + 4;
                 else
                     x = block->getRect().x + 16;
@@ -1624,7 +1648,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                     {
                         playsfx(effect, sndStepSnow1, sndStepSnow2, sndStepSnow3, sndStepSnow4);
                     }
-                    else if (id == "planks" || id == "door" || id == "birch planks")
+                    else if (id == "planks" || id == "door" || id == "birchdoor" || id == "birch planks")
                     {
                         playsfx(effect, sndStepWood1, sndStepWood2, sndStepWood3, sndStepWood4);
                     }
@@ -1984,6 +2008,9 @@ void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
             break;
         case 3:
             glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprStick);
+            break;
+        case 4:
+            glSpriteScale(16 + i * 16 + 4, 64, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
             break;
         }
 

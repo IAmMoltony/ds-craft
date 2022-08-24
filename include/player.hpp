@@ -38,6 +38,7 @@ enum class InventoryItemID
     Poppy,
     Dandelion,
     Door,
+    BirchDoor,
     Planks,
     BirchPlanks,
     Stick,

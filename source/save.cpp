@@ -121,6 +121,13 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             DoorBlock *door = reinterpret_cast<DoorBlock *>(b);
             wld += "door " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(door->isOpen()) + " " + std::to_string(door->getFacing()) + "\n";
         }
+        // birch door too
+        else if (block->id() == "birchdoor")
+        {
+            Block *b = block.get();
+            BirchDoorBlock *bdoor = reinterpret_cast<BirchDoorBlock *>(b);
+            wld += "birchdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(bdoor->isOpen()) + " " + std::to_string(bdoor->getFacing()) + "\n";
+        }
         else
         {
             // special cases where need to remove spaces
@@ -217,6 +224,14 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             bool open = split[3] == "1";
             bool facing = split[4] == "1";
             blocks.emplace_back(new DoorBlock(x, y, open, facing));
+        }
+        if (split[0] == "birchdoor") // key birchdoor (birchdoor <x> <y> <open> <facing>)
+        {
+            s16 x = atoi(split[1].c_str());
+            s16 y = atoi(split[2].c_str());
+            bool open = split[3] == "1";
+            bool facing = split[4] == "1";
+            blocks.emplace_back(new BirchDoorBlock(x, y, open, facing));
         }
         if (split[0] == "block") // key block (block <x> <y> <id>)
         {
@@ -375,6 +390,10 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             else if (sid == "door")
             {
                 id = InventoryItemID::Door;
+            }
+            else if (sid == "birchdoor")
+            {
+                id = InventoryItemID::BirchDoor;
             }
             else if (sid == "planks")
             {
