@@ -699,6 +699,7 @@ int main(int argc, char **argv)
                     break;
                 case 2:
                     autoSave = !autoSave;
+                    fsWrite("config/autosave.cfg", autoSave ? "1" : "0");
                     break;
                 }
                 mmEffectEx(&sndClick);
