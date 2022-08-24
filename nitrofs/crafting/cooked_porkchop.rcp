@@ -1,0 +1,9 @@
+id 7
+nameEn Cooked Porkchop
+nameRu Hbsgpb& tdkpkpb
+count 1
+texid 6
+output cookedporkchop
+RECIPE
+rawporkchop 1
+coal 1

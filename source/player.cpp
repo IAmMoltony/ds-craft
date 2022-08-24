@@ -2014,6 +2014,9 @@ void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
         case 5:
             glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprStone);
             break;
+        case 6:
+            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprCookedPorkchop);
+            break;
         }
 
         if (recipe.getCount() > 1)
