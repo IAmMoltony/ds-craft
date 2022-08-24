@@ -1725,8 +1725,6 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             break;
         }
     }
-    if (keysDown() & KEY_Y)
-        addItem(InventoryItemID::BirchPlanks);
     return ret; // yes
 }
 
