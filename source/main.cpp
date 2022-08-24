@@ -1157,15 +1157,18 @@ int main(int argc, char **argv)
 
             glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, bbtn);
             glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, abtn);
+            glSprite(93, SCREEN_HEIGHT - 17, GL_FLIP_NONE, selectbtn);
             switch (lang)
             {
             case Language::English:
                 fontSmall.print(15, SCREEN_HEIGHT - 15, "Back");
-                fontSmall.print(15, SCREEN_HEIGHT - 28, "Select");
+                fontSmall.print(15, SCREEN_HEIGHT - 28, "Edit");
+                fontSmall.print(120, SCREEN_HEIGHT - 15, "Select");
                 break;
             case Language::Russian:
                 fontSmallRu.print(15, SCREEN_HEIGHT - 15, "Objbf");
-                fontSmallRu.print(15, SCREEN_HEIGHT - 28, "C\"csbu#");
+                fontSmallRu.print(15, SCREEN_HEIGHT - 28, "Jjogpku#");
+                fontSmallRu.print(120, SCREEN_HEIGHT - 15, "C\"csbu#");
                 break;
             }
 
