@@ -1924,6 +1924,7 @@ void playerInitCrafting(void)
             std::string ending = ".rcp";
             if (str == "." || str == "..")
                 continue;
+            // check if begins with .rcp
             if (std::equal(ending.rbegin(), ending.rend(), str.rbegin()))
             {
                 for (u8 i = 0; i < 4; ++i)
@@ -1939,7 +1940,7 @@ void playerInitCrafting(void)
         printf("Cannot open folder nitro:/crafting");
         while (true);
     }
-    std::sort(recipes.begin(), recipes.end(), RecipeCompareKey());
+    std::sort(recipes.begin(), recipes.end(), RecipeCompareKey()); // sort
 }
 
 static bool canCraft(Player *pThis, CraftingRecipe recipe)
@@ -1996,57 +1997,19 @@ void Player::updateCrafting(void)
     u32 kdown = keysDown();
     if (kdown & KEY_A)
     {
-        // when a is pressed, craft
+        // when a is pressed, craft (if can)
         bool crafted = false;
+        
+        CraftingRecipe recipe = recipes[craftingSelect];
 
-        // planks recipe
-        if (craftingSelect == 0 && hasItem({InventoryItemID::Wood, 1}))
+        bool cc = canCraft(this, recipe);
+        if (cc)
         {
-            removeItem(InventoryItemID::Wood);
-            addItem(InventoryItemID::Planks, 4);
             crafted = true;
-        }
-        // door recipe
-        else if (craftingSelect == 1 && hasItem({InventoryItemID::Planks, 6}))
-        {
-            removeItem(InventoryItemID::Planks, 6);
-            addItem(InventoryItemID::Door);
-            crafted = true;
-        }
-        // stick recipe
-        else if (craftingSelect == 2 && hasItem({InventoryItemID::Planks, 2}))
-        {
-            removeItem(InventoryItemID::Planks, 2);
-            addItem(InventoryItemID::Stick);
-            crafted = true;
-        }
-        // coal block recipe
-        else if (craftingSelect == 3 && hasItem({InventoryItemID::Coal, 9}))
-        {
-            removeItem(InventoryItemID::Coal, 9);
-            addItem(InventoryItemID::CoalBlock);
-            crafted = true;
-        }
-        // stone block recipe
-        else if (craftingSelect == 4 && hasItem({InventoryItemID::Cobblestone, 1}))
-        {
-            removeItem(InventoryItemID::Cobblestone);
-            addItem(InventoryItemID::Stone);
-            crafted = true;
-        }
-        // cooked porkchop recipe
-        else if (craftingSelect == 5 && hasItem({InventoryItemID::RawPorkchop, 1}) && hasItem({InventoryItemID::Coal, 1}))
-        {
-            removeItem(InventoryItemID::RawPorkchop);
-            removeItem(InventoryItemID::Coal);
-            addItem(InventoryItemID::CookedPorkchop);
-            crafted = true;
-        }
-        // birch planks recipe
-        else if (craftingSelect == 6 && hasItem({InventoryItemID::BirchWood, 1}))
-        {
-            removeItem(InventoryItemID::BirchWood);
-            addItem(InventoryItemID::BirchPlanks, 4);
+            addItem(recipe.getOutput(), recipe.getCount());
+            std::vector<InventoryItem> *rvec = recipe.getRecipe();
+            for (auto item : *rvec)
+                removeItem(item.id, item.amount);
         }
 
         if (crafted)
