@@ -6,6 +6,7 @@
 #include <dead_bush.h>
 #include <dirt.h>
 #include <door.h>
+#include <birchdoor.h>
 #include <grass.h>
 #include <inventory_slot.h>
 #include <inventory_slot_select.h>
