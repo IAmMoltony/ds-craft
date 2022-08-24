@@ -21,7 +21,7 @@ private:
 public:
     explicit CraftingRecipe(const char *recipeFile);
 
-    std::string getFullName(Language lang);
+    std::string getFullName(Language lang, Player *pThis);
     u8 getID(void) const;
     s8 getTexID(void);
     u8 getCount(void);

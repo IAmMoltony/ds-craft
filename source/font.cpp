@@ -12,21 +12,21 @@ void Font::load(glImage *fspr, const u32 frames, const unsigned int *texCoords, 
     glLoadSpriteSet(spr, frames, texCoords, type, sizeX, sizeY, par, palWidth, pal, bitmap);
 }
 
-void Font::print(int x, int y, const char *str)
+void Font::print(int x, int y, const char *str, int xoff, int yoff)
 {
     int startX = x;
     u8 ch;
     while (*str) // iterate through string
     {
         ch = (*str++) - 32;                     // get the subimage index
-        glSprite(x, y, GL_FLIP_NONE, &spr[ch]); // draw the image
+        glSprite(x + xoff, y + yoff, GL_FLIP_NONE, &spr[ch]); // draw the image
         x += spr[ch].width;
 
         // word go to next line if off screen
         if (x > SCREEN_WIDTH - spr[ch].width)
         {
             x = startX;
-            y += spr[ch].height;
+            y += spr[ch].height + 1;
         }
     }
 }
@@ -102,7 +102,7 @@ void Font::printShadow(int x, int y, const char *str)
 {
     glColor(RGB15(0, 0, 0));
     glPolyFmt(POLY_ALPHA(14) | POLY_CULL_NONE | POLY_ID(2));
-    print(x + 1, y + 1, str);
+    print(x, y, str, 1, 1);
     glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(2));
     glColor(RGB15(31, 31, 31));
 
@@ -120,7 +120,7 @@ void Font::printfShadow(int x, int y, const char *format, ...)
 
     printShadow(x, y, str);
 
-    // dont need any more
+    // dont need anymore
     free(str);
 
     va_end(args);

@@ -144,7 +144,7 @@ CraftingRecipe::CraftingRecipe(const char *recipeFile)
     }
 }
 
-std::string CraftingRecipe::getFullName(Language lang)
+std::string CraftingRecipe::getFullName(Language lang, Player *pThis)
 {
     // get name
     std::string nm = nameEn;
@@ -159,7 +159,9 @@ std::string CraftingRecipe::getFullName(Language lang)
     // create item strings
     std::vector<std::string> itemVec;
     for (auto item : recipe)
-        itemVec.push_back(std::to_string((int)item.id) + " " + std::string(getItemStr(lang, item.id)));
+        itemVec.push_back( 
+            std::to_string(pThis->countItems(item.id)) + "/" + std::to_string(item.amount) +
+            " " + std::string(getItemStr(lang, item.id)));
 
     // join with semicolon and space
     const char* const delim = "; ";

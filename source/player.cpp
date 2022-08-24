@@ -1978,6 +1978,7 @@ static bool canCraft(Player *pThis, CraftingRecipe recipe)
     return true;
 }
 
+extern Language lang;
 void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
 {
     for (size_t i = 0; i < recipes.size(); ++i)
@@ -2017,6 +2018,17 @@ void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
 
         if (recipe.getCount() > 1)
             fontSmall.printfShadow(16 + i * 16, 67, "%d", recipe.getCount());
+    }
+
+    CraftingRecipe recipe = recipes[craftingSelect];
+    switch (lang)
+    {
+    case Language::English:
+        fontSmall.printfShadow(16, 35, recipe.getFullName(lang, this).c_str());
+        break;
+    case Language::Russian:
+        fontSmallRu.printfShadow(16, 35, recipe.getFullName(lang, this).c_str());
+        break;
     }
 }
 
