@@ -88,11 +88,21 @@ char *fsReadFile(const char *name)
     return buf;
 }
 
-int fsGetFileSize(const char *name)
+long fsGetFileSize(const char *name)
 {
-    struct stat st;
-    stat(name, &st);
-    return st.st_size * 1000;
+    FILE *fp = fopen(name, "r");
+    if (!fp)
+    {
+#if FS_ERROR_MESSAGES
+        printf("fsGetFileSize: fopen failed\n");
+#endif
+        return -1;
+    }
+
+    fseek(fp, 0L, SEEK_END);
+    long size = ftell(fp);
+    fclose(fp);
+    return size;
 }
 
 char *fsHumanreadFileSize(double size)
