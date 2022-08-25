@@ -134,6 +134,7 @@ int main(int argc, char **argv)
     loadBlockTextures();
     loadBlockSounds();
     loadEntityTextures();
+    loadEntitySounds();
     loadPlayerGUI();
     loadPlayerTextures();
     loadPlayerSounds();

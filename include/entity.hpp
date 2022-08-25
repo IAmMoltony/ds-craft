@@ -6,6 +6,7 @@
 #include <block.hpp>
 
 void loadEntityTextures(void);
+void loadEntitySounds(void);
 
 enum class Facing
 {

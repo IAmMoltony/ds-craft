@@ -28,10 +28,25 @@ extern glImage sprCoal[1];
 extern glImage sprRawPorkchop[1];
 extern glImage sprStick[1];
 
+static mm_sound_effect sndPigSay1;
+static mm_sound_effect sndPigSay2;
+static mm_sound_effect sndPigSay3;
+
 void loadEntityTextures(void)
 {
     loadImageAlpha(sprPig, 32, 32, pigPal, pigBitmap);
     loadImageAlpha(sprPigDamage, 32, 32, pig_damagePal, pig_damageBitmap);
+}
+
+void loadEntitySounds(void)
+{
+    mmLoadEffect(SFX_PIGSAY1);
+    mmLoadEffect(SFX_PIGSAY2);
+    mmLoadEffect(SFX_PIGSAY3);
+
+    sndPigSay1 = soundEffect(SFX_PIGSAY1);
+    sndPigSay2 = soundEffect(SFX_PIGSAY2);
+    sndPigSay3 = soundEffect(SFX_PIGSAY3);
 }
 
 Entity::Entity(s16 x, s16 y)
@@ -182,6 +197,23 @@ void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
                     jumping = true;
                 }
             }
+        }
+    }
+
+    if (chance(1) && chance(51))
+    {
+        u8 effect = rand() % 3;
+        switch (effect)
+        {
+        case 0:
+            mmEffectEx(&sndPigSay1);
+            break;
+        case 1:
+            mmEffectEx(&sndPigSay2);
+            break;
+        case 2:
+            mmEffectEx(&sndPigSay3);
+            break;
         }
     }
 }
