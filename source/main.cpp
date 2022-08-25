@@ -737,7 +737,7 @@ int main(int argc, char **argv)
             if (down & KEY_A)
             {
                 wsSelected = 0;
-                fsDeleteFile(std::string("worlds/" + wsWorlds[wsSelected].name + ".wld").c_str());
+                fsDeleteFile(std::string("worlds/" + wsWorlds[dwSelected].name + ".wld").c_str());
                 wsWorlds = getWorlds();
                 gameState = GameState::WorldSelect;
                 mmEffectEx(&sndClick);
