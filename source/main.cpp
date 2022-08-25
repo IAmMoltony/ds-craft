@@ -1034,10 +1034,10 @@ int main(int argc, char **argv)
                 switch (lang)
                 {
                 case Language::English:
-                    fontSmall.printCentered(0, 198, "World already exists");
+                    fontSmall.printCentered(0, 108, "World already exists!");
                     break;
                 case Language::Russian:
-                    fontSmallRu.printCentered(0, 198, "Nks vig tv~gtudvgu");
+                    fontSmallRu.printCentered(0, 108, "Nks vig tv~gtudvgu<");
                     break;
                 }
                 glColor(RGB15(31, 31, 31));
