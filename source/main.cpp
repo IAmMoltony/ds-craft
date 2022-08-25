@@ -34,6 +34,7 @@ static mm_sound_effect sndPop;
 
 static bool transparentLeaves = false;
 static bool autoSave = true;
+static bool smoothCam = true;
 
 BlockList blocks;
 EntityList entities;
@@ -175,6 +176,15 @@ int main(int argc, char **argv)
     }
     else
         fsWrite("config/autosave.cfg", "1");
+    
+    smoothCam = true;
+    if (fsFileExists("config/smoothcam.cfg"))
+    {
+        char *data = fsReadFile("config/smoothcam.cfg");
+        smoothCam = data[0] == '1';
+    }
+    else
+        fsWrite("config/cmoothcam.cfg", "1");
 
     // fonts english iumages
     glImage font16x16Img[FONT_16X16_NUM_IMAGES];
@@ -457,8 +467,16 @@ int main(int argc, char **argv)
                     std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
 
                 // camera follow player
-                camera.x = lerp(camera.x, player.getX() - SCREEN_WIDTH / 2, 0.1f);
-                camera.y = lerp(camera.y, player.getY() - SCREEN_HEIGHT / 2, 0.1f);
+                if (smoothCam)
+                {
+                    camera.x = lerp(camera.x, player.getX() - SCREEN_WIDTH / 2, 0.1f);
+                    camera.y = lerp(camera.y, player.getY() - SCREEN_HEIGHT / 2, 0.1f);
+                }
+                else
+                {
+                    camera.x = player.getX() - SCREEN_WIDTH / 2;
+                    camera.y = player.getY() - SCREEN_HEIGHT / 2;
+                }
 
                 // camera clamping
                 if (camera.x < 0)
@@ -702,12 +720,16 @@ int main(int argc, char **argv)
                     autoSave = !autoSave;
                     fsWrite("config/autosave.cfg", autoSave ? "1" : "0");
                     break;
+                case 3:
+                    smoothCam = !smoothCam;
+                    fsWrite("config/smoothcam.cfg", smoothCam ? "1" : "0");
+                    break;
                 }
                 mmEffectEx(&sndClick);
             }
             else if (down & KEY_SELECT)
             {
-                if (++settingsSelect > 2)
+                if (++settingsSelect > 3)
                     settingsSelect = 0;
             }
             break;
@@ -1153,6 +1175,25 @@ int main(int argc, char **argv)
                     fontSmallRu.printCentered(0, 70, "Aduq tqxsbpgpkg CLM");
                 else
                     fontSmallRu.printCentered(0, 70, "Aduq tqxsbpgpkg C]LM");
+                break;
+            }
+            glColor(RGB15(31, 31, 31));
+
+            if (settingsSelect == 3)
+                glColor(RGB15(0, 31, 0));
+            switch (lang)
+            {
+            case Language::English:
+                if (smoothCam)
+                    fontSmall.printCentered(0, 81, "Smooth camera ON");
+                else
+                    fontSmall.printCentered(0, 81, "Smooth camera OFF");
+                break;
+            case Language::Russian:
+                if (smoothCam)
+                    fontSmallRu.printCentered(0, 81, "Qnbdpb& mbogsb CLM");
+                else
+                    fontSmallRu.printCentered(0, 81, "Qnbdpb& mbogsb C]LM");
                 break;
             }
             glColor(RGB15(31, 31, 31));
