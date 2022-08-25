@@ -35,9 +35,9 @@
 #define VERSION_PREFIX "alpha"
 #define VERSION_MAJOR 2
 #define VERSION_MINOR 1
-#define VERSION_PATCH 0
+#define VERSION_PATCH 1
 #define SKIP_SPLASH_SCREEN 0
-#define FS_ERROR_MESSAGES 0
+#define FS_ERROR_MESSAGES 1
 
 #define HALFSIZE ((1 << 12) / 2)
 
