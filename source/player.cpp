@@ -1394,6 +1394,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             mmEffectEx(&sndClick);
         }
 
+        u32 rdown = keysDownRepeat();
         // breaking blocks
         size_t removei = 0;  // remove index
         size_t i = 0;        // index
@@ -1410,7 +1411,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             if (block->getRect().x - camera->x > SCREEN_WIDTH + 48)
                 break;
 
-            if (down & KEY_B)
+            if (rdown & KEY_B)
             {
                 // if block touch aim then block break (if b is pressed that is)
                 // and we cant brea bedrock
