@@ -25,6 +25,7 @@
 #include <stone.h>
 #include <snowy_grass.h>
 #include <oak_sapling.h>
+#include <birch_sapling.h>
 #include <bedrock.h>
 #include <cobblestone.h>
 #include <coal_ore.h>
