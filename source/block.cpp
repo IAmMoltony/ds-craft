@@ -19,6 +19,7 @@ glImage sprBirchDoor[1];
 glImage sprPlanks[1];
 glImage sprBirchPlanks[1];
 glImage sprSapling[1];
+glImage sprBirchSapling[1];
 glImage sprBedrock[1];
 glImage sprCobblestone[1];
 glImage sprCoalOre[1];
@@ -60,6 +61,7 @@ void loadBlockTextures(void)
     loadImageAlpha(sprDoor, 32, 32, doorPal, doorBitmap);
     loadImageAlpha(sprBirchDoor, 32, 32, birchdoorPal, birchdoorBitmap);
     loadImageAlpha(sprSapling, 16, 16, oak_saplingPal, oak_saplingBitmap);
+    loadImageAlpha(sprBirchSapling, 16, 16, birch_saplingPal, birch_saplingBitmap);
 }
 
 void loadBlockSounds(void)
@@ -430,6 +432,50 @@ bool SaplingBlock::hasGrown(void)
 }
 
 void SaplingBlock::update(void)
+{
+    if (!grown)
+        --growTime;
+    if (growTime == 0)
+        grown = true;
+}
+
+//---------------------------------------------
+
+BirchSaplingBlock::BirchSaplingBlock(s16 x, s16 y) : Block(x, y), growTime(1200)
+{
+    grown = false;
+}
+
+void BirchSaplingBlock::draw(Camera camera)
+{
+    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprBirchSapling);
+}
+
+bool BirchSaplingBlock::solid(void)
+{
+    return false;
+}
+
+void BirchSaplingBlock::interact(void)
+{
+}
+
+std::string BirchSaplingBlock::id(void)
+{
+    return "birchsapling";
+}
+
+Rect BirchSaplingBlock::getRect(void) const
+{
+    return Rect(x, y, 16, 16);
+}
+
+bool BirchSaplingBlock::hasGrown(void)
+{
+    return grown;
+}
+
+void BirchSaplingBlock::update(void)
 {
     if (!grown)
         --growTime;

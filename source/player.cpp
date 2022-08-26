@@ -46,6 +46,7 @@ extern glImage sprPlanks[1];
 extern glImage sprBirchPlanks[1];
 extern glImage sprSnowyGrass[1];
 extern glImage sprSapling[1];
+extern glImage sprBirchSapling[1];
 extern glImage sprCobblestone[1];
 extern glImage sprCoalOre[1];
 extern glImage sprCoalBlock[1];
@@ -365,6 +366,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Snowy Grass";
         case InventoryItemID::Sapling:
             return "Oak Sapling";
+        case InventoryItemID::BirchSapling:
+            return "Birch Sapling";
         case InventoryItemID::Cobblestone:
             return "Cobblestone";
         case InventoryItemID::CoalOre:
@@ -422,6 +425,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Spgipb& usbdb";
         case InventoryItemID::Sapling:
             return "Sbigpgy fvcb";
+        case InventoryItemID::BirchSapling:
+            return "Sbigpgy Bgshj\"";
         case InventoryItemID::Cobblestone:
             return "Bvn\"ipkm";
         case InventoryItemID::CoalOre:
@@ -605,6 +610,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                     case InventoryItemID::Sapling:
                         glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprSapling);
                         break;
+                    case InventoryItemID::BirchSapling:
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprBirchSapling);
+                        break;
                     case InventoryItemID::Cobblestone:
                         glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprCobblestone);
                         break;
@@ -779,6 +787,10 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
                      GL_FLIP_NONE, sprSapling);
             break;
+        case InventoryItemID::BirchSapling:
+            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
+                     GL_FLIP_NONE, sprBirchSapling);
+            break;
         case InventoryItemID::Cobblestone:
             glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
                      GL_FLIP_NONE, sprCobblestone);
@@ -898,6 +910,10 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 case InventoryItemID::Sapling:
                     glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
                                   HALFSIZE, GL_FLIP_NONE, sprSapling);
+                    break;
+                case InventoryItemID::BirchSapling:
+                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
+                                  HALFSIZE, GL_FLIP_NONE, sprBirchSapling);
                     break;
                 case InventoryItemID::Cobblestone:
                     glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
@@ -1356,6 +1372,21 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                                 playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                             }
                             break;
+                        case InventoryItemID::BirchSapling:
+                            canPlace = false;
+                            for (size_t i = 0; i < blocks->size(); ++i)
+                            {
+                                if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
+                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == "grass" || blocks->at(i)->id() == "dirt" || blocks->at(i)->id() == "snowy grass"))
+                                    canPlace = true;
+                            }
+                            if (canPlace)
+                            {
+                                blocks->emplace_back(new BirchSaplingBlock(snapToGrid(camera->x + aimX),
+                                                                      snapToGrid(camera->y + aimY)));
+                                playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                            }
+                            break;
                         case InventoryItemID::Cobblestone:
                             blocks->emplace_back(new CobblestoneBlock(snapToGrid(camera->x + aimX),
                                                                       snapToGrid(camera->y + aimY)));
@@ -1467,7 +1498,17 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                             // get a spling eith 10% chance if leaves werent
                             // placed by player
                             if (l->isNatural())
-                                entities->emplace_back(new DropEntity(block->x, block->y, "sapling"));
+                            {
+                                switch (l->type)
+                                {
+                                case LeavesType::Oak:
+                                    entities->emplace_back(new DropEntity(block->x, block->y, "sapling"));
+                                    break;
+                                case LeavesType::Birch:
+                                    entities->emplace_back(new DropEntity(block->x, block->y, "birchsapling"));
+                                    break;
+                                }
+                            }
                         }
                     }
                     else if (bid == "sand")
@@ -1529,6 +1570,11 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                     else if (bid == "sapling")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "sapling"));
+                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                    }
+                    else if (bid == "birchsapling")
+                    {
+                        entities->emplace_back(new DropEntity(block->x, block->y, "birchsapling"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                     }
                     else if (bid == "cobblestone")

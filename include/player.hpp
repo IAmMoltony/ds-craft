@@ -44,6 +44,7 @@ enum class InventoryItemID
     Stick,
     SnowyGrass,
     Sapling,
+    BirchSapling,
     Cobblestone,
     CoalOre,
     Coal,

@@ -208,6 +208,25 @@ public:
     void update(void);
 };
 
+class BirchSaplingBlock : public Block
+{
+private:
+    u16 growTime;
+    bool grown;
+
+public:
+    BirchSaplingBlock(s16 x, s16 y);
+
+    void draw(Camera camera) override;
+    bool solid(void) override;
+    void interact(void) override;
+    std::string id(void) override;
+    Rect getRect(void) const override;
+
+    bool hasGrown(void);
+    void update(void);
+};
+
 struct BlockCompareKey
 {
     inline bool operator()(const std::unique_ptr<Block> &b1, const std::unique_ptr<Block> &b2)

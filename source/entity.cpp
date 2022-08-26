@@ -17,10 +17,12 @@ extern glImage sprDeadBush[1];
 extern glImage sprPoppy[1];
 extern glImage sprDandelion[1];
 extern glImage sprDoor[1];
+extern glImage sprBirchDoor[1];
 extern glImage sprPlanks[1];
 extern glImage sprBirchPlanks[1];
 extern glImage sprSnowyGrass[1];
 extern glImage sprSapling[1];
+extern glImage sprBirchSapling[1];
 extern glImage sprCobblestone[1];
 extern glImage sprCoalOre[1];
 extern glImage sprCoalBlock[1];
@@ -299,6 +301,8 @@ void DropEntity::draw(Camera camera)
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprDandelion);
     else if (blockid == "door")
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
+    else if (blockid == "birchdoor")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
     else if (blockid == "planks")
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprPlanks);
     else if (blockid == "birchplanks")
@@ -307,6 +311,8 @@ void DropEntity::draw(Camera camera)
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprSnowyGrass);
     else if (blockid == "sapling")
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprSapling);
+    else if (blockid == "birchsapling")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprBirchSapling);
     else if (blockid == "cobblestone")
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprCobblestone);
     else if (blockid == "coalore")

@@ -86,6 +86,9 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         case InventoryItemID::Sapling:
             id = "sapling";
             break;
+        case InventoryItemID::BirchSapling:
+            id = "birchsapling";
+            break;
         case InventoryItemID::Cobblestone:
             id = "cobblestone";
             break;
@@ -307,6 +310,10 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             {
                 blocks.emplace_back(new SaplingBlock(x, y));
             }
+            else if (id == "birchsapling")
+            {
+                blocks.emplace_back(new BirchSaplingBlock(x, y));
+            }
             else if (id == "bedrock")
             {
                 blocks.emplace_back(new BedrockBlock(x, y));
@@ -414,6 +421,10 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             else if (sid == "sapling")
             {
                 id = InventoryItemID::Sapling;
+            }
+            else if (sid == "birchsapling")
+            {
+                id = InventoryItemID::BirchSapling;
             }
             else if (sid == "cobblestone")
             {

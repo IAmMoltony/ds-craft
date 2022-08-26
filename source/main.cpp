@@ -376,6 +376,35 @@ int main(int argc, char **argv)
                             std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort blocks
                         }
                     }
+                    else if (block->id() == "birchsapling")
+                    {
+                        // magic for converting block into sapling
+                        Block *b = block.get();
+                        BirchSaplingBlock *sapling = (BirchSaplingBlock *)b;
+                        sapling->update();
+                        if (sapling->hasGrown())
+                        {
+                            // place tree
+                            s16 x = sapling->x;
+                            s16 y = sapling->y;
+                            blocks.erase(blocks.begin() + i); // remove it
+                            blocks.emplace_back(new BirchWoodBlock(x, y));
+                            blocks.emplace_back(new BirchWoodBlock(x, y - 16));
+                            blocks.emplace_back(new BirchWoodBlock(x, y - 32));
+                            blocks.emplace_back(new LeavesBlock(x, y - 48, LeavesType::Birch));
+                            blocks.emplace_back(new LeavesBlock(x - 16, y - 48, LeavesType::Birch));
+                            blocks.emplace_back(new LeavesBlock(x - 32, y - 48, LeavesType::Birch));
+                            blocks.emplace_back(new LeavesBlock(x + 16, y - 48, LeavesType::Birch));
+                            blocks.emplace_back(new LeavesBlock(x + 32, y - 48, LeavesType::Birch));
+                            blocks.emplace_back(new LeavesBlock(x, y - 64, LeavesType::Birch));
+                            blocks.emplace_back(new LeavesBlock(x - 16, y - 64, LeavesType::Birch));
+                            blocks.emplace_back(new LeavesBlock(x + 16, y - 64, LeavesType::Birch));
+                            blocks.emplace_back(new LeavesBlock(x, y - 80, LeavesType::Birch));
+                            blocks.emplace_back(new LeavesBlock(x - 16, y - 80, LeavesType::Birch));
+                            blocks.emplace_back(new LeavesBlock(x + 16, y - 80, LeavesType::Birch));
+                            std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort blocks
+                        }
+                    }
                 }
 
                 // update entities
@@ -431,6 +460,8 @@ int main(int argc, char **argv)
                             player.addItem(InventoryItemID::SnowyGrass);
                         else if (blockid == "sapling" && player.canAddItem(InventoryItemID::Sapling))
                             player.addItem(InventoryItemID::Sapling);
+                        else if (blockid == "birchsapling" && player.canAddItem(InventoryItemID::BirchSapling))
+                            player.addItem(InventoryItemID::BirchSapling);
                         else if (blockid == "cobblestone" && player.canAddItem(InventoryItemID::Cobblestone))
                             player.addItem(InventoryItemID::Cobblestone);
                         else if (blockid == "coalore" && player.canAddItem(InventoryItemID::CoalOre))
