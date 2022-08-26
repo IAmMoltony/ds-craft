@@ -359,20 +359,7 @@ int main(int argc, char **argv)
                             s16 x = sapling->x;
                             s16 y = sapling->y;
                             blocks.erase(blocks.begin() + i); // remove it
-                            blocks.emplace_back(new WoodBlock(x, y));
-                            blocks.emplace_back(new WoodBlock(x, y - 16));
-                            blocks.emplace_back(new WoodBlock(x, y - 32));
-                            blocks.emplace_back(new LeavesBlock(x, y - 48, LeavesType::Oak));
-                            blocks.emplace_back(new LeavesBlock(x - 16, y - 48, LeavesType::Oak));
-                            blocks.emplace_back(new LeavesBlock(x - 32, y - 48, LeavesType::Oak));
-                            blocks.emplace_back(new LeavesBlock(x + 16, y - 48, LeavesType::Oak));
-                            blocks.emplace_back(new LeavesBlock(x + 32, y - 48, LeavesType::Oak));
-                            blocks.emplace_back(new LeavesBlock(x, y - 64, LeavesType::Oak));
-                            blocks.emplace_back(new LeavesBlock(x - 16, y - 64, LeavesType::Oak));
-                            blocks.emplace_back(new LeavesBlock(x + 16, y - 64, LeavesType::Oak));
-                            blocks.emplace_back(new LeavesBlock(x, y - 80, LeavesType::Oak));
-                            blocks.emplace_back(new LeavesBlock(x - 16, y - 80, LeavesType::Oak));
-                            blocks.emplace_back(new LeavesBlock(x + 16, y - 80, LeavesType::Oak));
+                            spawnTree(blocks, x, y, TreeType::Oak);
                             std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort blocks
                         }
                     }
@@ -388,20 +375,7 @@ int main(int argc, char **argv)
                             s16 x = sapling->x;
                             s16 y = sapling->y;
                             blocks.erase(blocks.begin() + i); // remove it
-                            blocks.emplace_back(new BirchWoodBlock(x, y));
-                            blocks.emplace_back(new BirchWoodBlock(x, y - 16));
-                            blocks.emplace_back(new BirchWoodBlock(x, y - 32));
-                            blocks.emplace_back(new LeavesBlock(x, y - 48, LeavesType::Birch));
-                            blocks.emplace_back(new LeavesBlock(x - 16, y - 48, LeavesType::Birch));
-                            blocks.emplace_back(new LeavesBlock(x - 32, y - 48, LeavesType::Birch));
-                            blocks.emplace_back(new LeavesBlock(x + 16, y - 48, LeavesType::Birch));
-                            blocks.emplace_back(new LeavesBlock(x + 32, y - 48, LeavesType::Birch));
-                            blocks.emplace_back(new LeavesBlock(x, y - 64, LeavesType::Birch));
-                            blocks.emplace_back(new LeavesBlock(x - 16, y - 64, LeavesType::Birch));
-                            blocks.emplace_back(new LeavesBlock(x + 16, y - 64, LeavesType::Birch));
-                            blocks.emplace_back(new LeavesBlock(x, y - 80, LeavesType::Birch));
-                            blocks.emplace_back(new LeavesBlock(x - 16, y - 80, LeavesType::Birch));
-                            blocks.emplace_back(new LeavesBlock(x + 16, y - 80, LeavesType::Birch));
+                            spawnTree(blocks, x, y, TreeType::Birch);
                             std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort blocks
                         }
                     }
