@@ -4,6 +4,8 @@
 #include <player.hpp>
 #include <crafting.hpp>
 
+extern u8 touchToMove;
+
 // gui images
 static glImage sprInventorySlot[1];
 static glImage sprInventorySlotSelect[1];
@@ -1126,7 +1128,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
         for (auto &entity : *entities)
         {
             if (entity->getRect().intersects(getRectAim(*camera)) &&
-                down & KEY_B &&
+                down & ((touchToMove == 2) ? KEY_DOWN : KEY_B) &&
                 entity->id().rfind("drop", 0) != 0)
             {
                 entity->damage(1);
@@ -1145,7 +1147,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                 }
             }
         }
-        if (down & KEY_A)
+        if (down & ((touchToMove == 2) ? KEY_RIGHT : KEY_A))
         {
             // when a pressed, either interact or place block
             // and interact if there is a block, place if there isnt
@@ -1442,7 +1444,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             if (block->getRect().x - camera->x > SCREEN_WIDTH + 48)
                 break;
 
-            if (rdown & KEY_B)
+            if (rdown & ((touchToMove == 2) ? KEY_DOWN : KEY_B))
             {
                 // if block touch aim then block break (if b is pressed that is)
                 // and we cant brea bedrock
@@ -1712,9 +1714,9 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
 
         // controls
         u32 keys = keysHeld();
-        bool up = keys & KEY_UP;
-        bool left = keys & KEY_LEFT;
-        bool right = keys & KEY_RIGHT;
+        bool up = (touchToMove == 2) ? keys & KEY_X : keys & KEY_UP;
+        bool left = (touchToMove == 2) ? keys & KEY_Y : keys & KEY_LEFT;
+        bool right = (touchToMove == 2) ? keys & KEY_A : keys & KEY_RIGHT;
 
         if (keys & KEY_TOUCH)
         {
@@ -1727,21 +1729,26 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                 aimY = touchPos.py;
 
                 // touch to move
-                if (!(keys & KEY_X))
+                if (!(keys & ((touchToMove == 2) ? KEY_UP : KEY_X)))
                 {
-                    if (aimX < SCREEN_WIDTH / 2)
-                    {
-                        left = true;
-                        right = false;
-                    }
+                    if (touchToMove == 0)
+                        ;
                     else
                     {
-                        right = true;
-                        left = false;
-                    }
+                        if (aimX < SCREEN_WIDTH / 2)
+                        {
+                            left = true;
+                            right = false;
+                        }
+                        else
+                        {
+                            right = true;
+                            left = false;
+                        }
 
-                    if (aimY < SCREEN_HEIGHT / 2 - 10)
-                        up = true;
+                        if (aimY < SCREEN_HEIGHT / 2 - 10)
+                            up = true;
+                    }
                 }
             }
         }

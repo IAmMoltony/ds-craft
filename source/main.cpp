@@ -36,6 +36,11 @@ static bool transparentLeaves = false;
 static bool autoSave = true;
 static bool smoothCam = true;
 
+// 0 = off
+// 1 = left handed (buttons=abxy)
+// 2 = right handed (buttons=dpad)
+u8 touchToMove = 0;
+
 BlockList blocks;
 EntityList entities;
 Player player;
@@ -144,8 +149,8 @@ int main(int argc, char **argv)
     mmLoadEffect(SFX_POP);
     sndPop = soundEffect(SFX_POP);
 
-    lang = Language::English; // language
-    // set language (if theres a config file for that)
+    // language setting
+    lang = Language::English;
     if (fsFileExists("config/lang.cfg"))
     {
         char *data = fsReadFile("config/lang.cfg");
@@ -159,6 +164,7 @@ int main(int argc, char **argv)
         }
     }
 
+    // transparent leaves setting
     transparentLeaves = false;
     if (fsFileExists("config/trleaves.cfg"))
     {
@@ -168,6 +174,7 @@ int main(int argc, char **argv)
     else
         fsWrite("config/trleaves.cfg", "0");
     
+    // auto save serttintg (icnt spell)
     autoSave = true;
     if (fsFileExists("config/autosave.cfg"))
     {
@@ -177,6 +184,7 @@ int main(int argc, char **argv)
     else
         fsWrite("config/autosave.cfg", "1");
     
+    // smooth camera setting
     smoothCam = true;
     if (fsFileExists("config/smoothcam.cfg"))
     {
@@ -185,6 +193,31 @@ int main(int argc, char **argv)
     }
     else
         fsWrite("config/cmoothcam.cfg", "1");
+
+    // touch to move setting
+    touchToMove = 0;
+    if (fsFileExists("config/touchtomove.cfg"))
+    {
+        char *data = fsReadFile("config/touchtomove.cfg");
+        switch (data[0])
+        {
+        case '0': // off
+            touchToMove = 0;
+            break;
+        case '1': // left handed
+            touchToMove = 1;
+            break;
+        case '2': // right handed
+            touchToMove = 2;
+            break;
+        default:
+            printf("unknown touchtomove.cfg value %c", data[0]);
+            while (true);
+            break;
+        }
+    }
+    else
+        fsWrite("config/touchtomove.cfg", "0");
 
     // fonts english iumages
     glImage font16x16Img[FONT_16X16_NUM_IMAGES];
@@ -729,12 +762,29 @@ int main(int argc, char **argv)
                     smoothCam = !smoothCam;
                     fsWrite("config/smoothcam.cfg", smoothCam ? "1" : "0");
                     break;
+                case 4:
+                    if (touchToMove == 0)
+                    {
+                        touchToMove = 1;
+                        fsWrite("config/touchtomove.cfg", "1");
+                    }
+                    else if (touchToMove == 1)
+                    {
+                        touchToMove = 2;
+                        fsWrite("config/touchtomove.cfg", "2");
+                    }
+                    else
+                    {
+                        touchToMove = 0;
+                        fsWrite("config/touchtomove.cfg", "0");
+                    }
+                    break;
                 }
                 mmEffectEx(&sndClick);
             }
             else if (down & KEY_SELECT)
             {
-                if (++settingsSelect > 3)
+                if (++settingsSelect > 4)
                     settingsSelect = 0;
             }
             break;
@@ -1199,6 +1249,46 @@ int main(int argc, char **argv)
                     fontSmallRu.printCentered(0, 81, "Qnbdpb& mbogsb CLM");
                 else
                     fontSmallRu.printCentered(0, 81, "Qnbdpb& mbogsb C]LM");
+                break;
+            }
+            glColor(RGB15(31, 31, 31));
+
+            if (settingsSelect == 4)
+                glColor(RGB15(0, 31, 0));
+            switch (touchToMove)
+            {
+            case 0: // off
+                switch (lang)
+                {
+                case Language::English:
+                    fontSmall.printCentered(0, 92, "Touch to move: off");
+                    break;
+                case Language::Russian:
+                    fontSmallRu.printCentered(0, 92, "Edkigpkg mbtbpkgo: d\"mn.");
+                    break;
+                }
+                break;
+            case 1: // left handed
+                switch (lang)
+                {
+                case Language::English:
+                    fontSmall.printCentered(0, 92, "Touch to move: left-handed");
+                    break;
+                case Language::Russian:
+                    fontSmallRu.printCentered(0, 92, "Edkigpkg mbtbpkgo: ngd}b");
+                    break;
+                }
+                break;
+            case 2: // right handed
+                switch (lang)
+                {
+                case Language::English:
+                    fontSmall.printCentered(0, 92, "Touch to move: right-handed");
+                    break;
+                case Language::Russian:
+                    fontSmallRu.printCentered(0, 92, "Edkigpkg mbtbpkgo: rsbd}b");
+                    break;
+                }
                 break;
             }
             glColor(RGB15(31, 31, 31));
