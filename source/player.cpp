@@ -1718,13 +1718,31 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
 
         if (keys & KEY_TOUCH)
         {
-            // aiming when touch bottom scren
             touchPosition touchPos;
             touchRead(&touchPos);
             if (touchPos.px != 0 && touchPos.py != 0)
             {
+                // aiming
                 aimX = touchPos.px;
                 aimY = touchPos.py;
+
+                // touch to move
+                if (!(keys & KEY_X))
+                {
+                    if (aimX < SCREEN_WIDTH / 2)
+                    {
+                        left = true;
+                        right = false;
+                    }
+                    else
+                    {
+                        right = true;
+                        left = false;
+                    }
+
+                    if (aimY < SCREEN_HEIGHT / 2 - 10)
+                        up = true;
+                }
             }
         }
 
