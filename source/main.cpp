@@ -1303,13 +1303,13 @@ int main(int argc, char **argv)
                 fontSmall.print(15, SCREEN_HEIGHT - 15, "Back");
                 fontSmall.print(15, SCREEN_HEIGHT - 28, "Edit");
                 fontSmall.print(120, SCREEN_HEIGHT - 15, "Select");
-                fontSmall.print(120, SCREEN_HEIGHT - 28, "Help");
+                fontSmall.print(106, SCREEN_HEIGHT - 28, "Help");
                 break;
             case Language::Russian:
                 fontSmallRu.print(15, SCREEN_HEIGHT - 15, "Objbf");
                 fontSmallRu.print(15, SCREEN_HEIGHT - 28, "Jjogpku#");
                 fontSmallRu.print(120, SCREEN_HEIGHT - 15, "C\"csbu#");
-                fontSmallRu.print(120, SCREEN_HEIGHT - 28, "Qqoq~#");
+                fontSmallRu.print(106, SCREEN_HEIGHT - 28, "Qqoq~#");
                 break;
             }
 
