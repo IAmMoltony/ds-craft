@@ -4,17 +4,10 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/mnt/e/devkitPro/libnds/include/",
                 "/mnt/e/devkitPro/libnds/include/**",
-                "/mnt/e/devkitPro/devkitARM/arm-none-eabi/include/",
-                "/mnt/d/devkitPro/libnds/include/**",
-                "/mnt/d/devkitPro/devkitARM/arm-none-eabi/include/**",
-                "D:/devkitPro/libnds/include/",
-                "D:/devkitPro/libnds/include/**",
-                "D:/devkitPro/devkitARM/arm-none-eabi/include/",
-                "E:/devkitPro/libnds/include/",
-                "E:/devkitPro/libnds/include/**",
-                "E:/devkitPro/devkitARM/arm-none-eabi/include/"
+                "/mnt/e/devkitPro/devkitARM/arm-none-eabi/include/**",
+                "/opt/devkitpro/libnds/include/**",
+                "/opt/devkitpro/devkitARM/arm-none-eabi/include/**"
             ],
             "defines": [
                 "ARM9"
