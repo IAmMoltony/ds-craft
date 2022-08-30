@@ -1,6 +1,5 @@
 {
     "files.associations": {
-        "*.h": "c",
         "*.rcp": "plaintext",
         "vector": "cpp",
         "array": "cpp",

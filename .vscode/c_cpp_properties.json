@@ -3,19 +3,18 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**",
-                "/mnt/e/devkitPro/libnds/include/**",
-                "/mnt/e/devkitPro/devkitARM/arm-none-eabi/include/**",
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/build",
                 "/opt/devkitpro/libnds/include/**",
-                "/opt/devkitpro/devkitARM/arm-none-eabi/include/**"
+                "/opt/devkitpro/devkitARM/**"
             ],
             "defines": [
                 "ARM9"
             ],
-            "compilerPath": "/usr/bin/gcc",
+            "compilerPath": "/opt/devkitpro/devkitARM/bin/arm-none-eabi-gcc",
             "cStandard": "gnu17",
             "cppStandard": "gnu++17",
-            "intelliSenseMode": "linux-gcc-x64"
+            "intelliSenseMode": "linux-gcc-arm"
         }
     ],
     "version": 4
