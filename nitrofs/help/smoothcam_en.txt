@@ -1,0 +1,3 @@
+Smooth camera
+On: camera is following the player smoothly.
+Off: camera instantly focuses on the player.

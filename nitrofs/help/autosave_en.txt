@@ -1,0 +1,2 @@
+Auto save
+If on, saves the game every 15 seconds while you are playing.

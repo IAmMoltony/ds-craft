@@ -35,14 +35,14 @@ GRAPHICS	:=	gfx
 AUDIO       :=  audio
 NITRODATA   :=  nitrofs
 
-EMULATOR := ~/melonDS
+EMULATOR := e:\melonds\melonds.exe
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 ARCH		:=	-mthumb -mthumb-interwork -march=armv5te -mtune=arm946e-s
 
-CFLAGS	:=	-g -Wall -Wextra -O3 -Os\
+CFLAGS	:=	-g -Wall -Wextra -Wno-free-nonheap-object -O3 -Os\
  			-march=armv5te -mtune=arm946e-s \
 			$(ARCH) -I../include -Wno-switch -Wno-ignored-qualifiers \
 			-Wno-unused-parameter\
