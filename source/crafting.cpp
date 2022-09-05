@@ -79,7 +79,7 @@ CraftingRecipe::CraftingRecipe(const char *recipeFile)
             split.push_back(line2);
         
         // switch to recipe mode
-        if (line2 == "RECIPE")
+        if (line.rfind("RECIPE", 0) == 0)
         {
             recipeMode = true;
             continue;
@@ -137,7 +137,7 @@ CraftingRecipe::CraftingRecipe(const char *recipeFile)
             else
             {
                 // oof
-                printf("unknown key in recipe %s: %s", recipeFile, key.c_str());
+                printf("unknown key in recipe %s: %s (line: \"%s\")", recipeFile, key.c_str(), line.c_str());
                 while (true);
             }
         }
