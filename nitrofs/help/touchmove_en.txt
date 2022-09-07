@@ -1,5 +1,4 @@
 Touch to move
-
 Off: standard controls.
 Left-handed: you can use the touch screen to move.
 Right-handed: same as left-handed, only D-Pad and ABXY buttons are switched.

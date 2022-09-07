@@ -54,5 +54,6 @@
         "typeinfo": "cpp",
         "charconv": "cpp",
         "iomanip": "cpp"
-    }
+    },
+    "editor.formatOnSave":true
 }

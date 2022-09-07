@@ -21,6 +21,7 @@
 #include <lang.hpp>
 #include <save.hpp>
 #include <crafting.hpp>
+#include <help.hpp>
 #include <algorithm>
 #include <sstream>
 
@@ -173,7 +174,7 @@ int main(int argc, char **argv)
     }
     else
         fsWrite("config/trleaves.cfg", "0");
-    
+
     // auto save serttintg (icnt spell)
     autoSave = true;
     if (fsFileExists("config/autosave.cfg"))
@@ -183,7 +184,7 @@ int main(int argc, char **argv)
     }
     else
         fsWrite("config/autosave.cfg", "1");
-    
+
     // smooth camera setting
     smoothCam = true;
     if (fsFileExists("config/smoothcam.cfg"))
@@ -212,7 +213,8 @@ int main(int argc, char **argv)
             break;
         default:
             printf("unknown touchtomove.cfg value %c", data[0]);
-            while (true);
+            while (true)
+                ;
             break;
         }
     }
@@ -781,6 +783,28 @@ int main(int argc, char **argv)
                     break;
                 }
                 mmEffectEx(&sndClick);
+            }
+            else if (down & KEY_Y)
+            {
+                mmEffectEx(&sndClick);
+                switch (settingsSelect)
+                {
+                case 0:
+                    showHelp("changelang", lang, font, fontRu, fontSmall, fontSmallRu, frames);
+                    break;
+                case 1:
+                    showHelp("trleaves", lang, font, fontRu, fontSmall, fontSmallRu, frames);
+                    break;
+                case 2:
+                    showHelp("autosave", lang, font, fontRu, fontSmall, fontSmallRu, frames);
+                    break;
+                case 3:
+                    showHelp("smoothcam", lang, font, fontRu, fontSmall, fontSmallRu, frames);
+                    break;
+                case 4:
+                    showHelp("touchmove", lang, font, fontRu, fontSmall, fontSmallRu, frames);
+                    break;
+                }
             }
             else if (down & KEY_SELECT)
             {
