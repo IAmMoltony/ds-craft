@@ -53,7 +53,7 @@ extern glImage sprCobblestone[1];
 extern glImage sprCoalOre[1];
 extern glImage sprCoalBlock[1];
 
-// sounds
+#pragma region sounds
 
 // grass break/place
 static mm_sound_effect sndGrass1;
@@ -321,6 +321,8 @@ void loadPlayerSounds(void)
     sndClick = soundEffect(SFX_CLICK);
 }
 
+#pragma endregion
+
 const char *getItemStr(Language lang, InventoryItemID iid)
 {
     switch (lang)
@@ -448,6 +450,69 @@ const char *getItemStr(Language lang, InventoryItemID iid)
     return "";
 }
 
+glImage *getItemImage(InventoryItemID item)
+{
+    switch (item)
+    {
+    case InventoryItemID::Grass:
+        return sprGrass;
+    case InventoryItemID::Dirt:
+        return sprDirt;
+    case InventoryItemID::Stone:
+        return sprStone;
+    case InventoryItemID::Wood:
+        return sprWood;
+    case InventoryItemID::BirchWood:
+        return sprBirchWood;
+    case InventoryItemID::Leaves:
+        return sprLeaves;
+    case InventoryItemID::BirchLeaves:
+        return sprBirchLeaves;
+    case InventoryItemID::Sand:
+        return sprSand;
+    case InventoryItemID::Sandstone:
+        return sprSandstone;
+    case InventoryItemID::Cactus:
+        return sprCactus;
+    case InventoryItemID::DeadBush:
+        return sprDeadBush;
+    case InventoryItemID::Poppy:
+        return sprPoppy;
+    case InventoryItemID::Dandelion:
+        return sprDandelion;
+    case InventoryItemID::Door:
+        return sprDoor;
+    case InventoryItemID::BirchDoor:
+        return sprBirchDoor;
+    case InventoryItemID::Planks:
+        return sprPlanks;
+    case InventoryItemID::BirchPlanks:
+        return sprBirchPlanks;
+    case InventoryItemID::Stick:
+        return sprStick;
+    case InventoryItemID::SnowyGrass:
+        return sprSnowyGrass;
+    case InventoryItemID::Sapling:
+        return sprSapling;
+    case InventoryItemID::BirchSapling:
+        return sprBirchSapling;
+    case InventoryItemID::Cobblestone:
+        return sprCobblestone;
+    case InventoryItemID::CoalOre:
+        return sprCoalOre;
+    case InventoryItemID::Coal:
+        return sprCoal;
+    case InventoryItemID::CoalBlock:
+        return sprCoalBlock;
+    case InventoryItemID::RawPorkchop:
+        return sprRawPorkchop;
+    case InventoryItemID::CookedPorkchop:
+        return sprCookedPorkchop;
+    }
+
+    return sprDummy; // something has gon wrong
+}
+
 Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSelect(20),
                    craftingSelect(0), health(9), airY(0)
 {
@@ -543,24 +608,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                     u8 amount = inventory[i].amount;
                     InventoryItemID id = inventory[i].id;
 
-                    // draw the half-sized version of the item
                     switch (id)
                     {
-                    case InventoryItemID::Grass:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprGrass);
-                        break;
-                    case InventoryItemID::Dirt:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprDirt);
-                        break;
-                    case InventoryItemID::Stone:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprStone);
-                        break;
-                    case InventoryItemID::Wood:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprWood);
-                        break;
-                    case InventoryItemID::BirchWood:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprBirchWood);
-                        break;
+                    // some special cases
                     case InventoryItemID::Leaves:
                         glColor(RGB15(0, 22, 0));
                         glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprLeaves);
@@ -571,67 +621,15 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                         glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
                         glColor(RGB15(31, 31, 31));
                         break;
-                    case InventoryItemID::Sand:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprSand);
-                        break;
-                    case InventoryItemID::Sandstone:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprSandstone);
-                        break;
-                    case InventoryItemID::Cactus:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprCactus);
-                        break;
-                    case InventoryItemID::DeadBush:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprDeadBush);
-                        break;
-                    case InventoryItemID::Poppy:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprPoppy);
-                        break;
-                    case InventoryItemID::Dandelion:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprDandelion);
-                        break;
                     case InventoryItemID::Door:
-                        // door is 4 times smaller since it is bigger than a
-                        // normal block
                         glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
                         break;
                     case InventoryItemID::BirchDoor:
                         glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
                         break;
-                    case InventoryItemID::Planks:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprPlanks);
-                        break;
-                    case InventoryItemID::BirchPlanks:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprBirchPlanks);
-                        break;
-                    case InventoryItemID::Stick:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprStick);
-                        break;
-                    case InventoryItemID::SnowyGrass:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprSnowyGrass);
-                        break;
-                    case InventoryItemID::Sapling:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprSapling);
-                        break;
-                    case InventoryItemID::BirchSapling:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprBirchSapling);
-                        break;
-                    case InventoryItemID::Cobblestone:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprCobblestone);
-                        break;
-                    case InventoryItemID::CoalOre:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprCoalOre);
-                        break;
-                    case InventoryItemID::Coal:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprCoal);
-                        break;
-                    case InventoryItemID::CoalBlock:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprCoalBlock);
-                        break;
-                    case InventoryItemID::RawPorkchop:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprRawPorkchop);
-                        break;
-                    case InventoryItemID::CookedPorkchop:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprCookedPorkchop);
+                    // default
+                    default:
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, getItemImage(id));
                         break;
                     }
 
@@ -682,130 +680,43 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                            (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayerHead);
         glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(1));
 
-        // draw the aim as green square or a half-transparent
+        // draw the aim as green square (not block) or a half-transparent
         // version of the block
+
         InventoryItemID currid = inventory[inventorySelect].id;
-        switch (currid)
-        {
-        default:
+
+        if (currid == InventoryItemID::None ||
+            currid == InventoryItemID::Stick ||
+            currid == InventoryItemID::Coal ||
+            currid == InventoryItemID::RawPorkchop ||
+            currid == InventoryItemID::CookedPorkchop)
             glBoxFilled(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
                         getRectAim(camera).x - camera.x + 15, getRectAim(camera).y - camera.y + 15, RGB15(0, 31, 0));
-            break;
+        else
+        {
+            int xx = getRectAim(camera).x - camera.x;
+            int yy = getRectAim(camera).y - camera.y;
 
-        case InventoryItemID::Grass:
-            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
-                     GL_FLIP_NONE, sprGrass);
-            break;
-
-        case InventoryItemID::Dirt:
-            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
-                     GL_FLIP_NONE, sprDirt);
-            break;
-
-        case InventoryItemID::Stone:
-            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
-                     GL_FLIP_NONE, sprStone);
-            break;
-
-        case InventoryItemID::Wood:
-            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
-                     GL_FLIP_NONE, sprWood);
-            break;
-
-        case InventoryItemID::BirchWood:
-            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
-                     GL_FLIP_NONE, sprBirchWood);
-            break;
-
-        case InventoryItemID::Leaves:
-            glColor(RGB15(0, 22, 0));
-            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
-                     GL_FLIP_NONE, sprLeaves);
-            glColor(RGB15(31, 31, 31));
-            break;
-
-        case InventoryItemID::BirchLeaves:
-            glColor(RGB15(20, 26, 19));
-            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
-                     GL_FLIP_NONE, sprBirchLeaves);
-            glColor(RGB15(31, 31, 31));
-            break;
-
-        case InventoryItemID::Sand:
-            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
-                     GL_FLIP_NONE, sprSand);
-            break;
-
-        case InventoryItemID::Sandstone:
-            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
-                     GL_FLIP_NONE, sprSandstone);
-            break;
-
-        case InventoryItemID::Cactus:
-            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
-                     GL_FLIP_NONE, sprCactus);
-            break;
-
-        case InventoryItemID::DeadBush:
-            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
-                     GL_FLIP_NONE, sprDeadBush);
-            break;
-
-        case InventoryItemID::Poppy:
-            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
-                     GL_FLIP_NONE, sprPoppy);
-            break;
-
-        case InventoryItemID::Dandelion:
-            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
-                     GL_FLIP_NONE, sprDandelion);
-            break;
-
-        case InventoryItemID::Door:
-            glSprite(getRectAim(camera).x - camera.x - 1, getRectAim(camera).y - camera.y,
-                     GL_FLIP_NONE, sprDoor);
-            break;
-        
-        case InventoryItemID::BirchDoor:
-            glSprite(getRectAim(camera).x - camera.x - 1, getRectAim(camera).y - camera.y,
-                     GL_FLIP_NONE, sprBirchDoor);
-            break;
-
-        case InventoryItemID::Planks:
-            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
-                     GL_FLIP_NONE, sprPlanks);
-            break;
-
-        case InventoryItemID::BirchPlanks:
-            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
-                     GL_FLIP_NONE, sprBirchPlanks);
-            break;
-
-        case InventoryItemID::SnowyGrass:
-            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
-                     GL_FLIP_NONE, sprSnowyGrass);
-            break;
-        case InventoryItemID::Sapling:
-            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
-                     GL_FLIP_NONE, sprSapling);
-            break;
-        case InventoryItemID::BirchSapling:
-            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
-                     GL_FLIP_NONE, sprBirchSapling);
-            break;
-        case InventoryItemID::Cobblestone:
-            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
-                     GL_FLIP_NONE, sprCobblestone);
-            break;
-        case InventoryItemID::CoalOre:
-            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
-                     GL_FLIP_NONE, sprCoalOre);
-            break;
-        case InventoryItemID::CoalBlock:
-            glSprite(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
-                     GL_FLIP_NONE, sprCoalBlock);
-            break;
+            switch (currid)
+            {
+            // some special cases
+            case InventoryItemID::Leaves:
+                glColor(RGB15(0, 22, 0));
+                glSprite(xx, yy, GL_FLIP_NONE, sprLeaves);
+                glColor(RGB15(31, 31, 31));
+                break;
+            case InventoryItemID::BirchLeaves:
+                glColor(RGB15(20, 26, 19));
+                glSprite(xx, yy, GL_FLIP_NONE, sprBirchLeaves);
+                glColor(RGB15(31, 31, 31));
+                break;
+            // default
+            default:
+                glSprite(xx, yy, GL_FLIP_NONE, getItemImage(currid));
+                break;
+            }
         }
+
         // reset the alpha
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(1));
 
@@ -826,120 +737,31 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 InventoryItemID id = inventory[i].id;
                 u8 amount = inventory[i].amount;
 
-                // draw the smaller version of that item
+                int xx = i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2));
+                int yy = SCREEN_HEIGHT - 16;
+
                 switch (id)
                 {
-                case InventoryItemID::Grass:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprGrass);
-                    break;
-                case InventoryItemID::Dirt:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprDirt);
-                    break;
-                case InventoryItemID::Stone:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprStone);
-                    break;
-                case InventoryItemID::Wood:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprWood);
-                    break;
-                case InventoryItemID::BirchWood:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprBirchWood);
-                    break;
+                // some special cases
                 case InventoryItemID::Leaves:
                     glColor(RGB15(0, 22, 0));
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprLeaves);
+                    glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprLeaves);
                     glColor(RGB15(31, 31, 31));
                     break;
                 case InventoryItemID::BirchLeaves:
                     glColor(RGB15(20, 26, 19));
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
+                    glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
                     glColor(RGB15(31, 31, 31));
                     break;
-                case InventoryItemID::Sand:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprSand);
-                    break;
-                case InventoryItemID::Sandstone:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprSandstone);
-                    break;
-                case InventoryItemID::Cactus:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprCactus);
-                    break;
-                case InventoryItemID::DeadBush:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprDeadBush);
-                    break;
-                case InventoryItemID::Poppy:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprPoppy);
-                    break;
-                case InventoryItemID::Dandelion:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprDandelion);
-                    break;
                 case InventoryItemID::Door:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 5, SCREEN_HEIGHT - 16 + 4,
-                                  (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
+                    glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
                     break;
                 case InventoryItemID::BirchDoor:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 5, SCREEN_HEIGHT - 16 + 4,
-                                  (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
+                    glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
                     break;
-                case InventoryItemID::Planks:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprPlanks);
-                    break;
-                case InventoryItemID::BirchPlanks:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprBirchPlanks);
-                    break;
-                case InventoryItemID::Stick:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprStick);
-                    break;
-                case InventoryItemID::SnowyGrass:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprSnowyGrass);
-                    break;
-                case InventoryItemID::Sapling:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprSapling);
-                    break;
-                case InventoryItemID::BirchSapling:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprBirchSapling);
-                    break;
-                case InventoryItemID::Cobblestone:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprCobblestone);
-                    break;
-                case InventoryItemID::CoalOre:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprCoalOre);
-                    break;
-                case InventoryItemID::Coal:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprCoal);
-                    break;
-                case InventoryItemID::CoalBlock:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprCoalBlock);
-                    break;
-                case InventoryItemID::RawPorkchop:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprRawPorkchop);
-                    break;
-                case InventoryItemID::CookedPorkchop:
-                    glSpriteScale(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 4, SCREEN_HEIGHT - 16 + 4,
-                                  HALFSIZE, GL_FLIP_NONE, sprCookedPorkchop);
+                // default
+                default:
+                    glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, getItemImage(id));
                     break;
                 }
 
@@ -1345,7 +1167,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                             playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4) break;
                         case InventoryItemID::BirchDoor:
                             blocks->emplace_back(new BirchDoorBlock(snapToGrid(camera->x + aimX),
-                                                               snapToGrid(camera->y + aimY), x));
+                                                                    snapToGrid(camera->y + aimY), x));
                             playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4) break;
                         case InventoryItemID::Planks:
                             blocks->emplace_back(new PlanksBlock(snapToGrid(camera->x + aimX),
@@ -1385,7 +1207,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                             if (canPlace)
                             {
                                 blocks->emplace_back(new BirchSaplingBlock(snapToGrid(camera->x + aimX),
-                                                                      snapToGrid(camera->y + aimY)));
+                                                                           snapToGrid(camera->y + aimY)));
                                 playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
                             }
                             break;
@@ -2024,7 +1846,7 @@ void playerInitCrafting(void)
                 for (u8 i = 0; i < 4; ++i)
                     str.pop_back();
                 recipes.push_back(CraftingRecipe(str.c_str()));
-                //printf("loaded recipe %s\n", str.c_str());
+                // printf("loaded recipe %s\n", str.c_str());
             }
         }
         closedir(dir);
@@ -2032,7 +1854,8 @@ void playerInitCrafting(void)
     else
     {
         printf("Cannot open folder nitro:/crafting");
-        while (true);
+        while (true)
+            ;
     }
     std::sort(recipes.begin(), recipes.end(), RecipeCompareKey()); // sort
 }
@@ -2117,7 +1940,7 @@ void Player::updateCrafting(void)
     {
         // when a is pressed, craft (if can)
         bool crafted = false;
-        
+
         CraftingRecipe recipe = recipes[craftingSelect];
 
         bool cc = canCraft(this, recipe);
@@ -2143,3 +1966,4 @@ void Player::updateCrafting(void)
 }
 
 // wait when did this file reach more than 2000 LINES???
+// update: i removed some redundant code, but it still sits at about 2000 lines...

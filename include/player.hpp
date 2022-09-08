@@ -37,11 +37,12 @@ enum class InventoryItemID
     DeadBush,
     Poppy,
     Dandelion,
+    // TODO add moar flowers!
     Door,
     BirchDoor,
     Planks,
     BirchPlanks,
-    Stick,
+    Stick, // TODO stick is literally useless right now, i need to fix that
     SnowyGrass,
     Sapling,
     BirchSapling,
