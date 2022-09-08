@@ -1,5 +1,5 @@
 // WARNING!! this code is a complete mess
-// there is a lot of bad code (probably)
+// there is a lot of bad code (probably.. no, DEFINITELY)
 
 #include <player.hpp>
 #include <crafting.hpp>
@@ -535,16 +535,33 @@ Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSele
 
 void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Font fontRu, Language lang)
 {
+    // draw the player
+    double angleRad = atan2(y + 6 - camera.y - aimY, x + 5 - camera.x - aimX);
+    if (facing == Facing::Right)
+    {
+        if (aimY > SCREEN_HEIGHT / 2)
+        {
+            angleRad += 3.14;
+        }
+        else
+        {
+            angleRad -= 3.14;
+        }
+    }
+    int angle = angleRad * 180 / M_PI * 40;
+    glSprite(x - 1 - camera.x - (facing == Facing::Right ? 0 : 3), y - camera.y,
+             (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayer);
+    if (((aimY >= 97 && aimY <= 102) || aimY == 107) && facing == Facing::Right)
+        glSprite(x - 2 - camera.x, y - 1 - camera.y, GL_FLIP_NONE, sprPlayerHead);
+    else
+        glSpriteRotate(x + 5 - camera.x, y + 6 - camera.y,
+                       angle,
+                       (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayerHead);
+
     if (fullInventory) // inventory draw
     {
-        // draw the player
-        glSprite(x - 1 - camera.x - (facing == Facing::Right ? 0 : 3), y - camera.y,
-                 (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayer);
-        glSprite(x - camera.x - (facing == Facing::Right ? 0 : 5), y - camera.y,
-                 (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayerHead);
-        glPolyFmt(POLY_ALPHA(20) | POLY_CULL_NONE | POLY_ID(3));
-
         // draw inventory background
+        glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(3));
         glBoxFilled(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(17, 17, 17));
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(3));
 
@@ -656,28 +673,6 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
     }
     else
     {
-        // draw the player
-        double angleRad = atan2(y + 6 - camera.y - aimY, x + 5 - camera.x - aimX);
-        if (facing == Facing::Right)
-        {
-            if (aimY > SCREEN_HEIGHT / 2)
-            {
-                angleRad += 3.14;
-            }
-            else
-            {
-                angleRad -= 3.14;
-            }
-        }
-        int angle = angleRad * 180 / M_PI * 40;
-        glSprite(x - 1 - camera.x - (facing == Facing::Right ? 0 : 3), y - camera.y,
-                 (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayer);
-        if (((aimY >= 97 && aimY <= 102) || aimY == 107) && facing == Facing::Right)
-            glSprite(x - 2 - camera.x, y - 1 - camera.y, GL_FLIP_NONE, sprPlayerHead);
-        else
-            glSpriteRotate(x + 5 - camera.x, y + 6 - camera.y,
-                           angle,
-                           (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayerHead);
         glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(1));
 
         // draw the aim as green square (not block) or a half-transparent
