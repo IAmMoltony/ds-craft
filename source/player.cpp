@@ -554,8 +554,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
     if (((aimY >= 97 && aimY <= 102) || aimY == 107) && facing == Facing::Right)
         glSprite(x - 2 - camera.x, y - 1 - camera.y, GL_FLIP_NONE, sprPlayerHead);
     else
-        glSpriteRotate(x + 5 - camera.x, y + 6 - camera.y,
-                       angle,
+        glSpriteRotate(x + 5 - camera.x, y + 6 - camera.y, angle,
                        (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayerHead);
 
     if (fullInventory) // inventory draw
