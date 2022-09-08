@@ -1888,7 +1888,8 @@ void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
 
         switch (recipe.getTexID())
         {
-        default: // usually -1
+        default: // usually -1, useful for making a reciipe for an item i dont have
+                 // texture for yet
             glSprite(16 + i * 16, 60, GL_FLIP_NONE, sprDummy);
             break;
         case 0:
