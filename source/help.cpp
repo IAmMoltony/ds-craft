@@ -7,13 +7,15 @@ extern mm_sound_effect sndClick;
 void showHelp(const std::string &file, Language lang, Font font, Font fontRu, Font fontSmall,
               Font fontSmallRu, u8 frames)
 {
-    const std::string filename = "nitro:/help/" + file + "_en.txt"; // TODO change _en according to lnguage
+    const std::string filename = "nitro:/help/" + file + "_" +
+                                 ((lang == Language::English) ? "en" : "ru") + ".txt";
     if (!fsFileExists(filename.c_str()))
     {
         // oops
         printf("Error loading help file %s\nPress start to return", filename.c_str());
         while (true)
         {
+            scanKeys();
             if (keysDown() & KEY_START)
                 break;
             swiWaitForVBlank();
@@ -62,7 +64,7 @@ void showHelp(const std::string &file, Language lang, Font font, Font fontRu, Fo
             fontSmallRu.printCentered(0, 25, title.c_str());
             glColor(RGB15(31, 31, 31));
             fontSmallRu.print(10, 50, content.c_str());
-            fontSmall.printCentered(0, SCREEN_HEIGHT - 19, "Obiokug n%cv% mpqrmv...");
+            fontSmallRu.printCentered(0, SCREEN_HEIGHT - 19, "Obiokug n%cv% mpqrmv...");
             break;
         }
 

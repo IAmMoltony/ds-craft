@@ -1,6 +1,6 @@
 # strencode.py
 # String encoder from russian to what game can understand
-# Usage python strencode.py <string in russian>
+# Usage python strencode.py <string in russian> or --file <file to convert>
 
 import sys
 
@@ -74,21 +74,41 @@ letter_map = {
     " ": " ",
     ".": ".",
     ":": ":",
+    ",": "@",
+    "\n": "\n",
+    "1": "1",
+    "2": "2",
+    "3": "3",
+    "4": "4",
+    "5": "5",
+    "6": "6",
+    "7": "7",
+    "8": "8",
+    "9": "9",
+    "0": "0",
 }
+
 
 def main():
     argv = sys.argv
     argc = len(argv)
     if argc < 2:
-        print("Usage: python strencode.py <string in russian>")
+        print("Usage: python strencode.py <string to convert> or --file <file to convert>")
         exit(1)
-    
+
+    content = ''
+    if argv[1] == '--file':
+        with open(argv[2], 'r', encoding='utf-8') as f:
+            content = f.read()
+    else:
+        content = " ".join(argv[1:])
+
     newstr = ""
-    str = " ".join(argv[1:])
-    for c in str:
+    for c in content:
         newstr += letter_map[c]
-    
+
     print(newstr)
+
 
 if __name__ == "__main__":
     main()
