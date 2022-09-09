@@ -557,6 +557,36 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
         glSpriteRotate(x + 5 - camera.x, y + 6 - camera.y, angle,
                        (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayerHead);
 
+    if (inventory[inventorySelect].id != InventoryItemID::None)
+    {
+        int xx = x - camera.x - (facing == Facing::Left ? 3 : -6);
+        int yy = y - camera.y + 17;
+        switch (inventory[inventorySelect].id)
+        {
+        // some special cases
+        case InventoryItemID::Leaves:
+            glColor(RGB15(0, 22, 0));
+            glSpriteScale(xx, yy, HALFSIZE, GL_FLIP_NONE, sprLeaves);
+            glColor(RGB15(31, 31, 31));
+            break;
+        case InventoryItemID::BirchLeaves:
+            glColor(RGB15(20, 26, 19));
+            glSpriteScale(xx, yy, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
+            glColor(RGB15(31, 31, 31));
+            break;
+        case InventoryItemID::Door:
+            glSpriteScale(xx, yy, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
+            break;
+        case InventoryItemID::BirchDoor:
+            glSpriteScale(xx, yy, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
+            break;
+        // default
+        default:
+            glSpriteScale(xx, yy, HALFSIZE, GL_FLIP_NONE, getItemImage(inventory[inventorySelect].id));
+            break;
+        }
+    }
+
     if (fullInventory) // inventory draw
     {
         // draw inventory background
