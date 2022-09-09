@@ -1,7 +1,9 @@
 #include <crafting.hpp>
+#include <algorithm>
 
-InventoryItemID strToIID(const std::string &sid)
+InventoryItemID strToIID(std::string &sid)
 {
+    sid.erase(std::remove_if(sid.begin(), sid.end(), ::isspace), sid.end());
     if (sid == "grass")
         return InventoryItemID::Grass;
     else if (sid == "dirt")
@@ -50,6 +52,8 @@ InventoryItemID strToIID(const std::string &sid)
         return InventoryItemID::RawPorkchop;
     else if (sid == "cookedporkchop")
         return InventoryItemID::CookedPorkchop;
+    else
+        printf("among us");
 
     return InventoryItemID::None;
 }
@@ -62,7 +66,8 @@ CraftingRecipe::CraftingRecipe(const char *recipeFile)
     if (!fsFileExists(path.c_str()))
     {
         printf("crafting recipe %s not found (full path: %s)", recipeFile, path.c_str());
-        while (true);
+        while (true)
+            ;
     }
 
     std::string contents = std::string(fsReadFile(path.c_str()));
@@ -77,7 +82,7 @@ CraftingRecipe::CraftingRecipe(const char *recipeFile)
         std::string line2;
         while (std::getline(ss, line2, ' '))
             split.push_back(line2);
-        
+
         // switch to recipe mode
         if (line.rfind("RECIPE", 0) == 0)
         {
@@ -102,7 +107,7 @@ CraftingRecipe::CraftingRecipe(const char *recipeFile)
             else if (key == "nameEn")
             {
                 split.erase(split.begin()); // remove key
-                const char* const delim = " ";
+                const char *const delim = " ";
 
                 // implode name with space as delim
                 std::ostringstream imploded;
@@ -116,7 +121,7 @@ CraftingRecipe::CraftingRecipe(const char *recipeFile)
             {
                 // same as nameEn
                 split.erase(split.begin());
-                const char* const delim = " ";
+                const char *const delim = " ";
 
                 std::ostringstream imploded;
                 std::copy(split.begin(), split.end(),
@@ -138,7 +143,8 @@ CraftingRecipe::CraftingRecipe(const char *recipeFile)
             {
                 // oof
                 printf("unknown key in recipe %s: %s (line: \"%s\")", recipeFile, key.c_str(), line.c_str());
-                while (true);
+                while (true)
+                    ;
             }
         }
     }
@@ -159,15 +165,15 @@ std::string CraftingRecipe::getFullName(Language lang, Player *pThis)
     // create item strings
     std::vector<std::string> itemVec;
     for (auto item : recipe)
-        itemVec.push_back( 
+        itemVec.push_back(
             std::to_string(pThis->countItems(item.id)) + "/" + std::to_string(item.amount) +
             " " + std::string(getItemStr(lang, item.id)));
 
     // join with semicolon and space
-    const char* const delim = "; ";
+    const char *const delim = "; ";
     std::ostringstream imploded;
     std::copy(itemVec.begin(), itemVec.end(),
-                std::ostream_iterator<std::string>(imploded, delim));
+              std::ostream_iterator<std::string>(imploded, delim));
     std::string recipeStr = imploded.str();
 
     // remove last '; '

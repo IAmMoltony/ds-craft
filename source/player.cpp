@@ -325,6 +325,7 @@ void loadPlayerSounds(void)
 
 const char *getItemStr(Language lang, InventoryItemID iid)
 {
+    // TODO for some reason this adds a weird character at the end (need to fix)
     switch (lang)
     {
     case Language::English:

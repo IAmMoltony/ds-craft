@@ -7,7 +7,7 @@
 #include <fs.h>
 #include <sstream>
 
-InventoryItemID strToIID(const std::string &sid);
+InventoryItemID strToIID(std::string &sid);
 
 class CraftingRecipe
 {
