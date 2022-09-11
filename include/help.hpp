@@ -9,4 +9,4 @@
 #include <sstream>
 
 void showHelp(const std::string &file, Language lang, Font font, Font fontRu, Font fontSmal,
-              Font fontSmallRu, u8 frames);
+              Font fontSmallRu, u16 &frames);

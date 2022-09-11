@@ -5,23 +5,46 @@ extern glImage sprDirt[1];
 extern mm_sound_effect sndClick;
 
 void showHelp(const std::string &file, Language lang, Font font, Font fontRu, Font fontSmall,
-              Font fontSmallRu, u8 frames)
+              Font fontSmallRu, u16 &frames)
 {
     const std::string filename = "nitro:/help/" + file + "_" +
                                  ((lang == Language::English) ? "en" : "ru") + ".txt";
     if (!fsFileExists(filename.c_str()))
     {
         // oops
-        printf("Error loading help file %s\nPress start to return", filename.c_str());
         while (true)
         {
             scanKeys();
-            if (keysDown() & KEY_START)
+            if (keysDown() != 0 && !(keysDown() & KEY_TOUCH))
+                return;
+
+            ++frames;
+
+            glBegin2D();
+            drawMovingBackground(sprDirt, frames);
+
+            switch (lang)
+            {
+            case Language::English:
+                font.printCentered(0, 5, "oops");
+                fontSmall.print(10, 40, "This help entry could not be  found.");
+                fontSmall.print(10, 64, "Please check that the file \nexists:");
+                fontSmall.printCentered(0, SCREEN_HEIGHT - 19, "Press any button...");
                 break;
+            case Language::Russian:
+                fontRu.printCentered(0, 5, "ql");
+                fontSmallRu.print(10, 40, "_ub jbrkt# trsbdmk pg oqigu   c\"u# pblfgpb.");
+                fontSmallRu.print(10, 64, "Ucgfkugt#@ zuq $uqu wbln tv~gtudvgu:");
+                fontSmallRu.printCentered(0, SCREEN_HEIGHT - 19, "Obiokug n%cv% mpqrmv...");
+                break;
+            }
+            fontSmall.print(10, 96, filename.c_str());
+
+            glEnd2D();
+            glFlush(0);
+
             swiWaitForVBlank();
         }
-        consoleClear();
-        return;
     }
 
     std::string fileData = std::string(fsReadFile(filename.c_str()));
@@ -45,7 +68,6 @@ void showHelp(const std::string &file, Language lang, Font font, Font fontRu, Fo
         ++frames;
 
         glBegin2D();
-
         drawMovingBackground(sprDirt, frames);
 
         switch (lang)
