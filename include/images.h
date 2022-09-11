@@ -53,6 +53,7 @@
 #include <half_heart.h>
 #include <half_heart2.h>
 #include <dummy.h>
+#include <apple.h>
 #include <english.h>
 #include <russian.h>
 #include <font_16x16.h>
