@@ -1941,6 +1941,9 @@ void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
         case 7:
             glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprCoalBlock);
             break;
+        case 8:
+            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprSandstone);
+            break;
         }
 
         if (recipe.getCount() > 1)
