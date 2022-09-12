@@ -72,9 +72,8 @@ void loadPlayerGUI(void)
 
 void loadPlayerTextures(void)
 {
-    loadImageAlpha(sprPlayer, 16, 32, guyPal, guyBitmap);
-    loadImageAlpha(sprPlayerHead, 16, 16, guy_headPal, guy_headBitmap);
-    // TODO change "guy" to "steve" because aughh
+    loadImageAlpha(sprPlayer, 16, 32, stevePal, steveBitmap);
+    loadImageAlpha(sprPlayerHead, 16, 16, steve_headPal, steve_headBitmap);
 }
 
 #pragma region sounds
