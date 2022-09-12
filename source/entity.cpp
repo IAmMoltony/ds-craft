@@ -28,7 +28,9 @@ extern glImage sprCoalOre[1];
 extern glImage sprCoalBlock[1];
 extern glImage sprCoal[1];
 extern glImage sprRawPorkchop[1];
+extern glImage sprCookedPorkchop[1];
 extern glImage sprStick[1];
+extern glImage sprApple[1];
 
 static mm_sound_effect sndPigSay1;
 static mm_sound_effect sndPigSay2;
@@ -323,8 +325,12 @@ void DropEntity::draw(Camera camera)
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprCoal);
     else if (blockid == "rawporkchop")
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprRawPorkchop);
+    else if (blockid == "cookedporkchop")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprCookedPorkchop);
     else if (blockid == "stick")
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprStick);
+    else if (blockid == "apple")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprApple);
 }
 
 void DropEntity::update(BlockList &blocks, Camera camera, u16 frames)

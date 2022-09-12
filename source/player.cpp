@@ -15,6 +15,7 @@ glImage sprStick[1];
 glImage sprCoal[1];
 glImage sprRawPorkchop[1];
 glImage sprCookedPorkchop[1];
+glImage sprApple[1];
 
 // health images
 static glImage sprHeartOutline[1];
@@ -52,6 +53,29 @@ extern glImage sprBirchSapling[1];
 extern glImage sprCobblestone[1];
 extern glImage sprCoalOre[1];
 extern glImage sprCoalBlock[1];
+
+void loadPlayerGUI(void)
+{
+    loadImage(sprInventorySlot, 16, 16, inventory_slotBitmap);
+    loadImage(sprInventorySlotSelect, 16, 16, inventory_slot_selectBitmap);
+    loadImage(sprDummy, 16, 16, dummyBitmap);
+
+    loadImageAlpha(sprStick, 16, 16, stickPal, stickBitmap);
+    loadImageAlpha(sprCoal, 16, 16, coalPal, coalBitmap);
+    loadImageAlpha(sprRawPorkchop, 16, 16, porkchopPal, porkchopBitmap);
+    loadImageAlpha(sprCookedPorkchop, 16, 16, cooked_porkchopPal, cooked_porkchopBitmap);
+    loadImageAlpha(sprApple, 16, 16, applePal, appleBitmap);
+    loadImageAlpha(sprHeartOutline, 16, 16, heart_outlinePal, heart_outlineBitmap);
+    loadImageAlpha(sprHalfHeart, 8, 8, half_heartPal, half_heartBitmap);
+    loadImageAlpha(sprHalfHeart2, 8, 8, half_heart2Pal, half_heart2Bitmap);
+}
+
+void loadPlayerTextures(void)
+{
+    loadImageAlpha(sprPlayer, 16, 32, guyPal, guyBitmap);
+    loadImageAlpha(sprPlayerHead, 16, 16, guy_headPal, guy_headBitmap);
+    // TODO change "guy" to "steve" because aughh
+}
 
 #pragma region sounds
 
@@ -143,30 +167,8 @@ static mm_sound_effect sndEat1;
 static mm_sound_effect sndEat2;
 static mm_sound_effect sndEat3;
 
-// sounds that will be used in other files
+// sounds that is be used in other files
 mm_sound_effect sndClick;
-
-void loadPlayerGUI(void)
-{
-    loadImage(sprInventorySlot, 16, 16, inventory_slotBitmap);
-    loadImage(sprInventorySlotSelect, 16, 16, inventory_slot_selectBitmap);
-    loadImage(sprDummy, 16, 16, dummyBitmap);
-
-    loadImageAlpha(sprStick, 16, 16, stickPal, stickBitmap);
-    loadImageAlpha(sprCoal, 16, 16, coalPal, coalBitmap);
-    loadImageAlpha(sprRawPorkchop, 16, 16, porkchopPal, porkchopBitmap);
-    loadImageAlpha(sprCookedPorkchop, 16, 16, cooked_porkchopPal, cooked_porkchopBitmap);
-    loadImageAlpha(sprHeartOutline, 16, 16, heart_outlinePal, heart_outlineBitmap);
-    loadImageAlpha(sprHalfHeart, 8, 8, half_heartPal, half_heartBitmap);
-    loadImageAlpha(sprHalfHeart2, 8, 8, half_heart2Pal, half_heart2Bitmap);
-}
-
-void loadPlayerTextures(void)
-{
-    loadImageAlpha(sprPlayer, 16, 32, guyPal, guyBitmap);
-    loadImageAlpha(sprPlayerHead, 16, 16, guy_headPal, guy_headBitmap);
-    // TODO change "guy" to "steve" because it bothers me
-}
 
 void loadPlayerSounds(void)
 {
@@ -325,7 +327,6 @@ void loadPlayerSounds(void)
 
 const char *getItemStr(Language lang, InventoryItemID iid)
 {
-    // TODO for some reason this adds a weird character at the end (need to fix)
     switch (lang)
     {
     case Language::English:
@@ -385,6 +386,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Raw Porkchop";
         case InventoryItemID::CookedPorkchop:
             return "Cooked Porkchop";
+        case InventoryItemID::Apple:
+            return "Apple";
         }
         break;
     case Language::Russian:
@@ -444,6 +447,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "S\"sb& tdkpkpb";
         case InventoryItemID::CookedPorkchop:
             return "Hbsgpb& tdkpkpb";
+        case InventoryItemID::Apple:
+            return "acnqmq";
         }
         break;
     }
@@ -509,9 +514,11 @@ glImage *getItemImage(InventoryItemID item)
         return sprRawPorkchop;
     case InventoryItemID::CookedPorkchop:
         return sprCookedPorkchop;
+    case InventoryItemID::Apple:
+        return sprApple;
     }
 
-    return sprDummy; // something has gon wrong
+    return sprDummy;
 }
 
 Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSelect(20),
@@ -541,13 +548,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
     if (facing == Facing::Right)
     {
         if (aimY > SCREEN_HEIGHT / 2)
-        {
             angleRad += 3.14;
-        }
         else
-        {
             angleRad -= 3.14;
-        }
     }
     int angle = angleRad * 180 / M_PI * 40;
     glSprite(x - 1 - camera.x - (facing == Facing::Right ? 0 : 3), y - camera.y,
@@ -714,7 +717,8 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             currid == InventoryItemID::Stick ||
             currid == InventoryItemID::Coal ||
             currid == InventoryItemID::RawPorkchop ||
-            currid == InventoryItemID::CookedPorkchop)
+            currid == InventoryItemID::CookedPorkchop ||
+            currid == InventoryItemID::Apple) // TODO make a function that checks if the given id is an item not a block
             glBoxFilled(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
                         getRectAim(camera).x - camera.x + 15, getRectAim(camera).y - camera.y + 15, RGB15(0, 31, 0));
         else
@@ -1000,8 +1004,12 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             // and interact if there is a block, place if there isnt
             // but if we are holding an item that we can use
             // then use it
-            if (inventory[inventorySelect].id == InventoryItemID::RawPorkchop)
+            // TODO turn this into a switch statemtn
+
+            InventoryItemID itemid = inventory[inventorySelect].id;
+            if (itemid == InventoryItemID::RawPorkchop)
             {
+                // TODO i probably should put the food eating into its own function or something
                 if (health != 9)
                 {
                     removeItem(InventoryItemID::RawPorkchop);
@@ -1024,7 +1032,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                 if (health > 9)
                     health = 9;
             }
-            else if (inventory[inventorySelect].id == InventoryItemID::CookedPorkchop)
+            else if (itemid == InventoryItemID::CookedPorkchop)
             {
                 if (health != 9)
                 {
@@ -1044,7 +1052,31 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                     }
                 }
 
-                health += 3;
+                health += 4;
+                if (health > 9)
+                    health = 9;
+            }
+            else if (itemid == InventoryItemID::Apple)
+            {
+                if (health != 9)
+                {
+                    removeItem(InventoryItemID::Apple);
+                    u8 effect = rand() % 3;
+                    switch (effect)
+                    {
+                    case 0:
+                        mmEffectEx(&sndEat1);
+                        break;
+                    case 1:
+                        mmEffectEx(&sndEat2);
+                        break;
+                    case 2:
+                        mmEffectEx(&sndEat3);
+                        break;
+                    }
+                }
+
+                health += 2;
                 if (health > 9)
                     health = 9;
             }
@@ -1342,11 +1374,10 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                         // here i add semicolon because my formatter places
                         // the if on the same line
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
-                        if (chance(10))
+                        if (l->isNatural())
                         {
-                            // get a spling eith 10% chance if leaves werent
-                            // placed by player
-                            if (l->isNatural())
+                            // get a sapling with 10% chance
+                            if (chance(10))
                             {
                                 switch (l->type)
                                 {
@@ -1358,6 +1389,9 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                                     break;
                                 }
                             }
+                            // get an apple with 6% chance
+                            if (chance(6))
+                                entities->emplace_back(new DropEntity(block->x, block->y, "apple"));
                         }
                     }
                     else if (bid == "sand")
@@ -1993,6 +2027,3 @@ void Player::updateCrafting(void)
             craftingSelect = 0;
     }
 }
-
-// wait when did this file reach more than 2000 LINES???
-// update: i removed some redundant code, but it still sits at about 2000 lines...

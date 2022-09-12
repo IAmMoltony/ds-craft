@@ -481,10 +481,16 @@ int main(int argc, char **argv)
                             player.addItem(InventoryItemID::Coal);
                         else if (blockid == "rawporkchop" && player.canAddItem(InventoryItemID::RawPorkchop))
                             player.addItem(InventoryItemID::RawPorkchop);
+                        else if (blockid == "cookedporkchop" && player.canAddItem(InventoryItemID::CookedPorkchop))
+                            player.addItem(InventoryItemID::CookedPorkchop);
                         else if (blockid == "stick" && player.canAddItem(InventoryItemID::Stick))
                             player.addItem(InventoryItemID::Stick);
+                        else if (blockid == "apple" && player.canAddItem(InventoryItemID::Apple))
+                            player.addItem(InventoryItemID::Apple);
                         else
                             ok = false;
+
+                        // why did i put this in here?
 
                         if (ok)
                         {
