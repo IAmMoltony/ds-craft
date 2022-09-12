@@ -1108,12 +1108,8 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                                           Rect(snapToGrid(camera->x + aimX),
                                                snapToGrid(camera->y + aimY), 16, 16)))
                 {
-                    // place a block if we didnt interact
-                    // some blocks you can only place on other
-                    // certain blocks
-                    // eg flowers can only be placed on grass
-                    // dirt and snow and cactus can only be placed
-                    // on cactus and sand
+                    // place a block or interact
+                    // some blocks can only be placed on certain other blocks
                     InventoryItemID id = inventory[inventorySelect].id;
                     if (inventory[inventorySelect].amount > 0 &&
                         id != InventoryItemID::Stick)
