@@ -1080,10 +1080,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                     health = 9;
             }
             // block placing
-            else if (!Rect(x, y, 16, 32)
-                          .intersects(
-                              Rect(snapToGrid(camera->x + aimX),
-                                   snapToGrid(camera->y + aimY), 16, 16)))
+            else
             {
                 bool interact = false;
                 for (auto &block : *blocks)
@@ -1106,7 +1103,10 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                     }
                 }
 
-                if (!interact)
+                if (!interact && !Rect(x, y, 12, 32)
+                                      .intersects(
+                                          Rect(snapToGrid(camera->x + aimX),
+                                               snapToGrid(camera->y + aimY), 16, 16)))
                 {
                     // place a block if we didnt interact
                     // some blocks you can only place on other
