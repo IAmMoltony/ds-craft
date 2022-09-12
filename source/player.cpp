@@ -520,6 +520,15 @@ glImage *getItemImage(InventoryItemID item)
     return sprDummy;
 }
 
+bool isItem(InventoryItemID id)
+{
+    return id == InventoryItemID::Stick ||
+           id == InventoryItemID::Coal ||
+           id == InventoryItemID::RawPorkchop ||
+           id == InventoryItemID::CookedPorkchop ||
+           id == InventoryItemID::Apple;
+}
+
 Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSelect(20),
                    craftingSelect(0), health(9), airY(0)
 {
@@ -713,11 +722,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
         InventoryItemID currid = inventory[inventorySelect].id;
 
         if (currid == InventoryItemID::None ||
-            currid == InventoryItemID::Stick ||
-            currid == InventoryItemID::Coal ||
-            currid == InventoryItemID::RawPorkchop ||
-            currid == InventoryItemID::CookedPorkchop ||
-            currid == InventoryItemID::Apple) // TODO make a function that checks if the given id is an item not a block
+            isItem(currid))
             glBoxFilled(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
                         getRectAim(camera).x - camera.x + 15, getRectAim(camera).y - camera.y + 15, RGB15(0, 31, 0));
         else
