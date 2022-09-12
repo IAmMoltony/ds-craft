@@ -1008,11 +1008,11 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             // and interact if there is a block, place if there isnt
             // but if we are holding an item that we can use
             // then use it
-            // TODO turn this into a switch statemtn
 
             InventoryItemID itemid = inventory[inventorySelect].id;
-            if (itemid == InventoryItemID::RawPorkchop)
+            switch (itemid)
             {
+            case InventoryItemID::RawPorkchop:
                 // TODO i probably should put the food eating into its own function or something
                 if (health != 9)
                 {
@@ -1035,9 +1035,8 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                 health += 2;
                 if (health > 9)
                     health = 9;
-            }
-            else if (itemid == InventoryItemID::CookedPorkchop)
-            {
+                break;
+            case InventoryItemID::CookedPorkchop:
                 if (health != 9)
                 {
                     removeItem(InventoryItemID::CookedPorkchop);
@@ -1059,9 +1058,8 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                 health += 4;
                 if (health > 9)
                     health = 9;
-            }
-            else if (itemid == InventoryItemID::Apple)
-            {
+                break;
+            case InventoryItemID::Apple:
                 if (health != 9)
                 {
                     removeItem(InventoryItemID::Apple);
@@ -1083,10 +1081,9 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                 health += 2;
                 if (health > 9)
                     health = 9;
-            }
+                break;
             // block placing
-            else
-            {
+            default:
                 bool interact = false;
                 for (auto &block : *blocks)
                 {
@@ -1294,6 +1291,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                         ret = true;
                     }
                 }
+                break;
             }
         }
         if (down & KEY_R)
