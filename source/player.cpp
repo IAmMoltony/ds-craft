@@ -1079,7 +1079,11 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                 if (health > 9)
                     health = 9;
             }
-            else
+            // block placing
+            else if (!Rect(x, y, 16, 32)
+                          .intersects(
+                              Rect(snapToGrid(camera->x + aimX),
+                                   snapToGrid(camera->y + aimY), 16, 16)))
             {
                 bool interact = false;
                 for (auto &block : *blocks)
