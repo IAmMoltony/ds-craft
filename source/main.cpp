@@ -1009,6 +1009,41 @@ int main(int argc, char **argv)
         case GameState::WorldSelect:
             drawMovingBackground(sprDirt, frames);
 
+            if (wsWorlds.size() == 0)
+            {
+                switch (lang)
+                {
+                case Language::English:
+                    fontSmall.printCentered(0, 100, "No worlds yet...");
+                    break;
+                case Language::Russian:
+                    fontSmallRu.printCentered(0, 100, "Qqmb pgu oksqd...");
+                    break;
+                }
+            }
+            else
+            {
+                for (size_t i = 0; i < wsWorlds.size(); ++i)
+                {
+                    u32 offset = (wsSelected - 1) * 40;
+                    if (wsSelected < 2)
+                        offset = 0;
+                    WorldInfo worldInfo = wsWorlds[i];
+                    std::string str = worldInfo.name + " - " + std::string(fsHumanreadFileSize(worldInfo.size));
+                    if (i == wsSelected)
+                    {
+                        glSprite(SCREEN_WIDTH / 2 - 121, 48 + i * 40 - offset, GL_FLIP_NONE, worldLabelSelect);
+                        glSprite(SCREEN_WIDTH / 2 - 121 + 113, 48 + i * 40 - offset, GL_FLIP_H, worldLabelSelect);
+                    }
+                    else
+                    {
+                        glSprite(SCREEN_WIDTH / 2 - 121, 48 + i * 40 - offset, GL_FLIP_NONE, worldLabel);
+                        glSprite(SCREEN_WIDTH / 2 - 121 + 113, 48 + i * 40 - offset, GL_FLIP_H, worldLabel);
+                    }
+                    fontSmall.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 12 - offset, str.c_str());
+                }
+            }
+
             for (u8 i = 0; i < SCREEN_WIDTH / 32; ++i)
             {
                 glSpriteScale(i * 32, 0, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
@@ -1043,38 +1078,6 @@ int main(int argc, char **argv)
                 glSprite(93, SCREEN_HEIGHT - 17, GL_FLIP_NONE, ybtn);
                 fontSmallRu.print(106, SCREEN_HEIGHT - 15, "Ufbnku#");
                 break;
-            }
-
-            if (wsWorlds.size() == 0)
-            {
-                switch (lang)
-                {
-                case Language::English:
-                    fontSmall.printCentered(0, 100, "No worlds yet...");
-                    break;
-                case Language::Russian:
-                    fontSmallRu.printCentered(0, 100, "Qqmb pgu oksqd...");
-                    break;
-                }
-            }
-            else
-            {
-                for (size_t i = 0; i < wsWorlds.size(); ++i)
-                {
-                    WorldInfo worldInfo = wsWorlds[i];
-                    std::string str = worldInfo.name + " - " + std::string(fsHumanreadFileSize(worldInfo.size));
-                    if (i == wsSelected)
-                    {
-                        glSprite(SCREEN_WIDTH / 2 - 121, 48 + i * 40, GL_FLIP_NONE, worldLabelSelect);
-                        glSprite(SCREEN_WIDTH / 2 - 121 + 113, 48 + i * 40, GL_FLIP_H, worldLabelSelect);
-                    }
-                    else
-                    {
-                        glSprite(SCREEN_WIDTH / 2 - 121, 48 + i * 40, GL_FLIP_NONE, worldLabel);
-                        glSprite(SCREEN_WIDTH / 2 - 121 + 113, 48 + i * 40, GL_FLIP_H, worldLabel);
-                    }
-                    fontSmall.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 12, str.c_str());
-                }
             }
 
             switch (lang)
