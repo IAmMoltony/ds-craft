@@ -37,7 +37,7 @@ enum class InventoryItemID
     DeadBush,
     Poppy,
     Dandelion,
-    // TODO add moar flowers!
+    RedTulip,
     Door,
     BirchDoor,
     Planks,

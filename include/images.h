@@ -3,6 +3,7 @@
 #pragma once
 #include <cactus_side.h>
 #include <dandelion.h>
+#include <red_tulip.h>
 #include <dead_bush.h>
 #include <dirt.h>
 #include <door.h>
