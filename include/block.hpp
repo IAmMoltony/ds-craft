@@ -75,6 +75,7 @@ enum class FlowerType
 {
     Dandelion,
     Poppy,
+    RedTulip,
 };
 
 enum class LeavesType
