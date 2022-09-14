@@ -32,6 +32,7 @@
 #include <coal_ore.h>
 #include <coal.h>
 #include <coal_block.h>
+#include <glass.h>
 #include <placeholder_logo.h>
 #include <placeholder_guy.h>
 #include <steve.h>
