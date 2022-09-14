@@ -1,3 +1,4 @@
+// TODO maybe i should use numbers instead of strings for block ids?
 #include <block.hpp>
 
 glImage sprGrass[1];
@@ -14,6 +15,7 @@ glImage sprCactus[1];
 glImage sprDeadBush[1];
 glImage sprDandelion[1];
 glImage sprPoppy[1];
+glImage sprRedTulip[1];
 glImage sprDoor[1];
 glImage sprBirchDoor[1];
 glImage sprPlanks[1];
@@ -58,6 +60,7 @@ void loadBlockTextures(void)
     loadImageAlpha(sprDeadBush, 16, 16, dead_bushPal, dead_bushBitmap);
     loadImageAlpha(sprDandelion, 16, 16, dandelionPal, dandelionBitmap);
     loadImageAlpha(sprPoppy, 16, 16, poppyPal, poppyBitmap);
+    loadImageAlpha(sprRedTulip, 16, 16, red_tulipPal, red_tulipBitmap);
     loadImageAlpha(sprDoor, 32, 32, doorPal, doorBitmap);
     loadImageAlpha(sprBirchDoor, 32, 32, birchdoorPal, birchdoorBitmap);
     loadImageAlpha(sprSapling, 16, 16, oak_saplingPal, oak_saplingBitmap);
@@ -170,7 +173,18 @@ bool LeavesBlock::isNatural(void)
 
 FlowerBlock::FlowerBlock(s16 x, s16 y) : Block(x, y)
 {
-    type = chance(50) ? FlowerType::Dandelion : FlowerType::Poppy;
+    switch (randomRange(1, 3))
+    {
+    case 1:
+        type = FlowerType::Poppy;
+        break;
+    case 2:
+        type = FlowerType::Dandelion;
+        break;
+    case 3:
+        type = FlowerType::RedTulip;
+        break;
+    }
 }
 
 FlowerBlock::FlowerBlock(s16 x, s16 y, FlowerType type) : Block(x, y)
@@ -180,7 +194,18 @@ FlowerBlock::FlowerBlock(s16 x, s16 y, FlowerType type) : Block(x, y)
 
 void FlowerBlock::draw(Camera camera)
 {
-    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, type == FlowerType::Dandelion ? sprDandelion : sprPoppy);
+    switch (type)
+    {
+    case FlowerType::Dandelion:
+        glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprDandelion);
+        break;
+    case FlowerType::Poppy:
+        glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprPoppy);
+        break;
+    case FlowerType::RedTulip:
+        glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprRedTulip);
+        break;
+    }
 }
 
 bool FlowerBlock::solid(void)
@@ -194,11 +219,12 @@ std::string FlowerBlock::id(void)
     {
     default:
         return "";
-
     case FlowerType::Poppy:
         return "poppy";
     case FlowerType::Dandelion:
         return "dandelion";
+    case FlowerType::RedTulip:
+        return "redtulip";
     }
 }
 
@@ -241,41 +267,13 @@ void DoorBlock::interact(void)
     {
         open = false;
         u8 effect = rand() % 4;
-        switch (effect)
-        {
-        case 0:
-            mmEffectEx(&sndDoorClose1);
-            break;
-        case 1:
-            mmEffectEx(&sndDoorClose2);
-            break;
-        case 2:
-            mmEffectEx(&sndDoorClose3);
-            break;
-        case 3:
-            mmEffectEx(&sndDoorClose4);
-            break;
-        }
+        playsfx(effect, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4);
     }
     else
     {
         open = true;
         u8 effect = rand() % 4;
-        switch (effect)
-        {
-        case 0:
-            mmEffectEx(&sndDoorOpen1);
-            break;
-        case 1:
-            mmEffectEx(&sndDoorOpen2);
-            break;
-        case 2:
-            mmEffectEx(&sndDoorOpen3);
-            break;
-        case 3:
-            mmEffectEx(&sndDoorOpen4);
-            break;
-        }
+        playsfx(effect, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4);
     }
 }
 
@@ -335,41 +333,13 @@ void BirchDoorBlock::interact(void)
     {
         open = false;
         u8 effect = rand() % 4;
-        switch (effect)
-        {
-        case 0:
-            mmEffectEx(&sndDoorClose1);
-            break;
-        case 1:
-            mmEffectEx(&sndDoorClose2);
-            break;
-        case 2:
-            mmEffectEx(&sndDoorClose3);
-            break;
-        case 3:
-            mmEffectEx(&sndDoorClose4);
-            break;
-        }
+        playsfx(effect, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4);
     }
     else
     {
         open = true;
         u8 effect = rand() % 4;
-        switch (effect)
-        {
-        case 0:
-            mmEffectEx(&sndDoorOpen1);
-            break;
-        case 1:
-            mmEffectEx(&sndDoorOpen2);
-            break;
-        case 2:
-            mmEffectEx(&sndDoorOpen3);
-            break;
-        case 3:
-            mmEffectEx(&sndDoorOpen4);
-            break;
-        }
+        playsfx(effect, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4);
     }
 }
 

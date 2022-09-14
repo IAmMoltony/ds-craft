@@ -1,5 +1,6 @@
 // WARNING!! this code is a complete mess
 // there is a lot of bad code (probably.. no, DEFINITELY)
+// ima need to rewrite some of it
 
 #include <player.hpp>
 #include <crafting.hpp>
@@ -43,6 +44,7 @@ extern glImage sprCactus[1];
 extern glImage sprDeadBush[1];
 extern glImage sprPoppy[1];
 extern glImage sprDandelion[1];
+extern glImage sprRedTulip[1];
 extern glImage sprDoor[1];
 extern glImage sprBirchDoor[1];
 extern glImage sprPlanks[1];
@@ -357,6 +359,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Poppy";
         case InventoryItemID::Dandelion:
             return "Dandelion";
+        case InventoryItemID::RedTulip:
+            return "Red Tulip";
         case InventoryItemID::Door:
             return "Door";
         case InventoryItemID::BirchDoor:
@@ -418,6 +422,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Nbm";
         case InventoryItemID::Dandelion:
             return "Pfvdbpzkm";
+        case InventoryItemID::RedTulip:
+            return "Lsbtp\"l u%n#rbp";
         case InventoryItemID::Door:
             return "Edgs#";
         case InventoryItemID::BirchDoor:
@@ -485,6 +491,8 @@ glImage *getItemImage(InventoryItemID item)
         return sprPoppy;
     case InventoryItemID::Dandelion:
         return sprDandelion;
+    case InventoryItemID::RedTulip:
+        return sprRedTulip;
     case InventoryItemID::Door:
         return sprDoor;
     case InventoryItemID::BirchDoor:
@@ -1123,41 +1131,50 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                         case InventoryItemID::Grass:
                             blocks->emplace_back(new GrassBlock(snapToGrid(camera->x + aimX),
                                                                 snapToGrid(camera->y + aimY)));
-                            playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4) break;
+                            playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
+                            break;
                         case InventoryItemID::Dirt:
                             blocks->emplace_back(new DirtBlock(snapToGrid(camera->x + aimX),
                                                                snapToGrid(camera->y + aimY)));
-                            playsfx(effect, sndDirt1, sndDirt2, sndDirt3, sndDirt4) break;
+                            playsfx(effect, sndDirt1, sndDirt2, sndDirt3, sndDirt4);
+                            break;
                         case InventoryItemID::Stone:
                             blocks->emplace_back(new StoneBlock(snapToGrid(camera->x + aimX),
                                                                 snapToGrid(camera->y + aimY)));
-                            playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4) break;
+                            playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
+                            break;
                         case InventoryItemID::Wood:
                             blocks->emplace_back(new WoodBlock(snapToGrid(camera->x + aimX),
                                                                snapToGrid(camera->y + aimY)));
-                            playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4) break;
+                            playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                            break;
                         case InventoryItemID::BirchWood:
                             blocks->emplace_back(new BirchWoodBlock(snapToGrid(camera->x + aimX),
                                                                     snapToGrid(camera->y + aimY)));
-                            playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4) break;
+                            playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                            break;
                         case InventoryItemID::Leaves:
                             blocks->emplace_back(new LeavesBlock(snapToGrid(camera->x + aimX),
                                                                  snapToGrid(camera->y + aimY),
                                                                  LeavesType::Oak, false));
-                            playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4) break;
+                            playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
+                            break;
                         case InventoryItemID::BirchLeaves:
                             blocks->emplace_back(new LeavesBlock(snapToGrid(camera->x + aimX),
                                                                  snapToGrid(camera->y + aimY),
                                                                  LeavesType::Birch, false));
-                            playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4) break;
+                            playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
+                            break;
                         case InventoryItemID::Sand:
                             blocks->emplace_back(new SandBlock(snapToGrid(camera->x + aimX),
                                                                snapToGrid(camera->y + aimY)));
-                            playsfx(effect, sndSand1, sndSand2, sndSand3, sndSand4) break;
+                            playsfx(effect, sndSand1, sndSand2, sndSand3, sndSand4);
+                            break;
                         case InventoryItemID::Sandstone:
                             blocks->emplace_back(new SandstoneBlock(snapToGrid(camera->x + aimX),
                                                                     snapToGrid(camera->y + aimY)));
-                            playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4) break;
+                            playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
+                            break;
                         case InventoryItemID::Cactus:
                             canPlace = false;
                             for (size_t i = 0; i < blocks->size(); ++i)
@@ -1170,7 +1187,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                             {
                                 blocks->emplace_back(new CactusBlock(snapToGrid(camera->x + aimX),
                                                                      snapToGrid(camera->y + aimY)));
-                                playsfx(effect, sndCloth1, sndCloth2, sndCloth3, sndCloth4)
+                                playsfx(effect, sndCloth1, sndCloth2, sndCloth3, sndCloth4);
                             }
                             break;
                         case InventoryItemID::DeadBush:
@@ -1185,7 +1202,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                             {
                                 blocks->emplace_back(new DeadBushBlock(snapToGrid(camera->x + aimX),
                                                                        snapToGrid(camera->y + aimY)));
-                                playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                                playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
                             }
                             break;
                         case InventoryItemID::Poppy:
@@ -1200,7 +1217,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                             {
                                 blocks->emplace_back(new FlowerBlock(snapToGrid(camera->x + aimX),
                                                                      snapToGrid(camera->y + aimY), FlowerType::Poppy));
-                                playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                                playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
                             }
                             break;
                         case InventoryItemID::Dandelion:
@@ -1216,29 +1233,50 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                                 blocks->emplace_back(new FlowerBlock(snapToGrid(camera->x + aimX),
                                                                      snapToGrid(camera->y + aimY),
                                                                      FlowerType::Dandelion));
-                                playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                                playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
+                            }
+                            break;
+                        case InventoryItemID::RedTulip:
+                            canPlace = false;
+                            for (size_t i = 0; i < blocks->size(); ++i)
+                            {
+                                if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
+                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == "grass" || blocks->at(i)->id() == "dirt" || blocks->at(i)->id() == "snowy grass"))
+                                    canPlace = true;
+                            }
+                            if (canPlace)
+                            {
+                                blocks->emplace_back(new FlowerBlock(snapToGrid(camera->x + aimX),
+                                                                     snapToGrid(camera->y + aimY),
+                                                                     FlowerType::RedTulip));
+                                playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
                             }
                             break;
                         case InventoryItemID::Door:
                             blocks->emplace_back(new DoorBlock(snapToGrid(camera->x + aimX),
                                                                snapToGrid(camera->y + aimY), x));
-                            playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4) break;
+                            playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                            break;
                         case InventoryItemID::BirchDoor:
                             blocks->emplace_back(new BirchDoorBlock(snapToGrid(camera->x + aimX),
                                                                     snapToGrid(camera->y + aimY), x));
-                            playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4) break;
+                            playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                            break;
                         case InventoryItemID::Planks:
                             blocks->emplace_back(new PlanksBlock(snapToGrid(camera->x + aimX),
                                                                  snapToGrid(camera->y + aimY)));
-                            playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4) break;
+                            playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                            break;
                         case InventoryItemID::BirchPlanks:
                             blocks->emplace_back(new BirchPlanksBlock(snapToGrid(camera->x + aimX),
                                                                       snapToGrid(camera->y + aimY)));
-                            playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4) break;
+                            playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                            break;
                         case InventoryItemID::SnowyGrass:
                             blocks->emplace_back(new SnowyGrassBlock(snapToGrid(camera->x + aimX),
                                                                      snapToGrid(camera->y + aimY)));
-                            playsfx(effect, sndSnow1, sndSnow2, sndSnow3, sndSnow4) break;
+                            playsfx(effect, sndSnow1, sndSnow2, sndSnow3, sndSnow4);
+                            break;
                         case InventoryItemID::Sapling:
                             canPlace = false;
                             for (size_t i = 0; i < blocks->size(); ++i)
@@ -1251,7 +1289,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                             {
                                 blocks->emplace_back(new SaplingBlock(snapToGrid(camera->x + aimX),
                                                                       snapToGrid(camera->y + aimY)));
-                                playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                                playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
                             }
                             break;
                         case InventoryItemID::BirchSapling:
@@ -1266,21 +1304,24 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                             {
                                 blocks->emplace_back(new BirchSaplingBlock(snapToGrid(camera->x + aimX),
                                                                            snapToGrid(camera->y + aimY)));
-                                playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                                playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
                             }
                             break;
                         case InventoryItemID::Cobblestone:
                             blocks->emplace_back(new CobblestoneBlock(snapToGrid(camera->x + aimX),
                                                                       snapToGrid(camera->y + aimY)));
-                            playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4) break;
+                            playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
+                            break;
                         case InventoryItemID::CoalOre:
                             blocks->emplace_back(new CoalOreBlock(snapToGrid(camera->x + aimX),
                                                                   snapToGrid(camera->y + aimY)));
-                            playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4) break;
+                            playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
+                            break;
                         case InventoryItemID::CoalBlock:
                             blocks->emplace_back(new CoalBlock(snapToGrid(camera->x + aimX),
                                                                snapToGrid(camera->y + aimY)));
-                            playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4) break;
+                            playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
+                            break;
                         }
                         if (canPlace)
                         {
@@ -1338,27 +1379,27 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                     if (bid == "grass")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "grass"));
-                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
                     }
                     else if (bid == "dirt")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "dirt"));
-                        playsfx(effect, sndDirt1, sndDirt2, sndDirt3, sndDirt4)
+                        playsfx(effect, sndDirt1, sndDirt2, sndDirt3, sndDirt4);
                     }
                     else if (bid == "stone")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "cobblestone"));
-                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
+                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
                     }
                     else if (bid == "wood")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "wood"));
-                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
+                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
                     }
                     else if (bid == "birch wood")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "birchwood"));
-                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
+                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
                     }
                     else if (bid == "leaves")
                     {
@@ -1399,83 +1440,88 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                     else if (bid == "sand")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "sand"));
-                        playsfx(effect, sndSand1, sndSand2, sndSand3, sndSand4)
+                        playsfx(effect, sndSand1, sndSand2, sndSand3, sndSand4);
                     }
                     else if (bid == "sandstone")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "sandstone"));
-                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
+                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
                     }
                     else if (bid == "cactus")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "cactus"));
-                        playsfx(effect, sndCloth1, sndCloth2, sndCloth3, sndCloth4)
+                        playsfx(effect, sndCloth1, sndCloth2, sndCloth3, sndCloth4);
                     }
                     else if (bid == "dead bush")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), "stick"));
                         entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), "stick"));
-                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
                     }
                     else if (bid == "poppy")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "poppy"));
-                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
                     }
                     else if (bid == "dandelion")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "dandelion"));
-                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
+                    }
+                    else if (bid == "redtulip")
+                    {
+                        entities->emplace_back(new DropEntity(block->x, block->y, "redtulip"));
+                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
                     }
                     else if (bid == "door")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "door"));
-                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
+                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
                     }
                     else if (bid == "birchdoor")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "birchdoor"));
-                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
+                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
                     }
                     else if (bid == "planks")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "planks"));
-                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
+                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
                     }
                     else if (bid == "birch planks")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "birchplanks"));
-                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4)
+                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
                     }
                     else if (bid == "snowy grass")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "snowygrass"));
-                        playsfx(effect, sndSnow1, sndSnow2, sndSnow3, sndSnow4)
+                        playsfx(effect, sndSnow1, sndSnow2, sndSnow3, sndSnow4);
                     }
                     else if (bid == "sapling")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "sapling"));
-                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
                     }
                     else if (bid == "birchsapling")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "birchsapling"));
-                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4)
+                        playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
                     }
                     else if (bid == "cobblestone")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "cobblestone"));
-                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
+                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
                     }
                     else if (bid == "coal ore")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "coal"));
-                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
+                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
                     }
                     else if (bid == "coal block")
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "coalblock"));
-                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4)
+                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
                     }
 
                     remove = true;
@@ -1580,7 +1626,8 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                     {
                         playsfx(effect, sndStepSnow1, sndStepSnow2, sndStepSnow3, sndStepSnow4);
                     }
-                    else if (id == "planks" || id == "door" || id == "birchdoor" || id == "birch planks")
+                    else if (id == "planks" || id == "door" || id == "birchdoor" ||
+                             id == "birch planks")
                     {
                         playsfx(effect, sndStepWood1, sndStepWood2, sndStepWood3, sndStepWood4);
                     }

@@ -459,6 +459,8 @@ int main(int argc, char **argv)
                             player.addItem(InventoryItemID::Poppy);
                         else if (blockid == "dandelion" && player.canAddItem(InventoryItemID::Dandelion))
                             player.addItem(InventoryItemID::Dandelion);
+                        else if (blockid == "redtulip" && player.canAddItem(InventoryItemID::RedTulip))
+                            player.addItem(InventoryItemID::RedTulip);
                         else if (blockid == "door" && player.canAddItem(InventoryItemID::Door))
                             player.addItem(InventoryItemID::Door);
                         else if (blockid == "planks" && player.canAddItem(InventoryItemID::Planks))
@@ -490,7 +492,7 @@ int main(int argc, char **argv)
                         else
                             ok = false;
 
-                        // why did i put this in here?
+                        // TODO put into player.cpp
 
                         if (ok)
                         {

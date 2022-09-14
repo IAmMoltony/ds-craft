@@ -16,6 +16,7 @@ extern glImage sprCactus[1];
 extern glImage sprDeadBush[1];
 extern glImage sprPoppy[1];
 extern glImage sprDandelion[1];
+extern glImage sprRedTulip[1];
 extern glImage sprDoor[1];
 extern glImage sprBirchDoor[1];
 extern glImage sprPlanks[1];
@@ -301,6 +302,8 @@ void DropEntity::draw(Camera camera)
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprPoppy);
     else if (blockid == "dandelion")
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprDandelion);
+    else if (blockid == "redtulip")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprRedTulip);
     else if (blockid == "door")
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
     else if (blockid == "birchdoor")

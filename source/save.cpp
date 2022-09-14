@@ -294,6 +294,10 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             {
                 blocks.emplace_back(new FlowerBlock(x, y, FlowerType::Dandelion));
             }
+            else if (id == "redtulip")
+            {
+                blocks.emplace_back(new FlowerBlock(x, y, FlowerType::RedTulip));
+            }
             else if (id == "planks")
             {
                 blocks.emplace_back(new PlanksBlock(x, y));
