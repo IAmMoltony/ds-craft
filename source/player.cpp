@@ -55,6 +55,7 @@ extern glImage sprBirchSapling[1];
 extern glImage sprCobblestone[1];
 extern glImage sprCoalOre[1];
 extern glImage sprCoalBlock[1];
+extern glImage sprGlass[1];
 
 void loadPlayerGUI(void)
 {
@@ -391,6 +392,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Cooked Porkchop";
         case InventoryItemID::Apple:
             return "Apple";
+        case InventoryItemID::Glass:
+            return "Glass";
         }
         break;
     case Language::Russian:
@@ -454,6 +457,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Hbsgpb& tdkpkpb";
         case InventoryItemID::Apple:
             return "acnqmq";
+        case InventoryItemID::Glass:
+            return "Sugmnq";
         }
         break;
     }
@@ -523,6 +528,8 @@ glImage *getItemImage(InventoryItemID item)
         return sprCookedPorkchop;
     case InventoryItemID::Apple:
         return sprApple;
+    case InventoryItemID::Glass:
+        return sprGlass;
     }
 
     return sprDummy;
@@ -599,6 +606,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             break;
         case InventoryItemID::BirchDoor:
             glSpriteScale(xx, yy, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
+            break;
+        case InventoryItemID::Glass:
+            glSpriteScale(xx - 1, yy, HALFSIZE, GL_FLIP_NONE, sprGlass);
             break;
         // default
         default:
@@ -693,6 +703,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                     case InventoryItemID::BirchDoor:
                         glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
                         break;
+                    case InventoryItemID::Glass:
+                        glSpriteScale(xx + 3, yy + 4, HALFSIZE, GL_FLIP_NONE, sprGlass);
+                        break;
                     // default
                     default:
                         glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, getItemImage(id));
@@ -751,6 +764,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 glSprite(xx, yy, GL_FLIP_NONE, sprBirchLeaves);
                 glColor(RGB15(31, 31, 31));
                 break;
+            case InventoryItemID::Glass:
+                glSpriteScale(xx - 1, yy, HALFSIZE, GL_FLIP_NONE, sprGlass);
+                break;
             // default
             default:
                 glSprite(xx, yy, GL_FLIP_NONE, getItemImage(currid));
@@ -799,6 +815,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                     break;
                 case InventoryItemID::BirchDoor:
                     glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
+                    break;
+                case InventoryItemID::Glass:
+                    glSpriteScale(xx - 1, yy, HALFSIZE, GL_FLIP_NONE, sprGlass);
                     break;
                 // default
                 default:
@@ -1322,6 +1341,11 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                                                                snapToGrid(camera->y + aimY)));
                             playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
                             break;
+                        case InventoryItemID::Glass:
+                            blocks->emplace_back(new GlassBlock(snapToGrid(camera->x + aimX),
+                                                                snapToGrid(camera->y + aimY)));
+                            playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4); // TODO add glass sfx
+                            break;
                         }
                         if (canPlace)
                         {
@@ -1523,6 +1547,11 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                         entities->emplace_back(new DropEntity(block->x, block->y, "coalblock"));
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
                     }
+                    else if (bid == "glass")
+                    {
+                        entities->emplace_back(new DropEntity(block->x, block->y, "glass"));
+                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
+                    }
 
                     remove = true;
                     removei = i;
@@ -1614,7 +1643,8 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                         playsfx(effect, sndStepGravel1, sndStepGravel2, sndStepGravel3, sndStepGravel4);
                     }
                     else if (id == "stone" || id == "sandstone" || id == "cobblestone" ||
-                             id == "coal ore" || id == "coal block" || id == "bedrock")
+                             id == "coal ore" || id == "coal block" || id == "bedrock" ||
+                             id == "glass")
                     {
                         playsfx(effect, sndStepStone1, sndStepStone2, sndStepStone3, sndStepStone4);
                     }
@@ -2026,6 +2056,9 @@ void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
             break;
         case 8:
             glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprSandstone);
+            break;
+        case 9:
+            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprGlass);
             break;
         }
 

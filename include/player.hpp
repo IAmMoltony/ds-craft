@@ -53,6 +53,7 @@ enum class InventoryItemID
     RawPorkchop,
     CookedPorkchop,
     Apple,
+    Glass,
 };
 
 typedef struct inventory_item

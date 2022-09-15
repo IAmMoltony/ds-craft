@@ -26,6 +26,7 @@ glImage sprBedrock[1];
 glImage sprCobblestone[1];
 glImage sprCoalOre[1];
 glImage sprCoalBlock[1];
+glImage sprGlass[1];
 
 static mm_sound_effect sndDoorOpen1;
 static mm_sound_effect sndDoorOpen2;
@@ -65,6 +66,7 @@ void loadBlockTextures(void)
     loadImageAlpha(sprBirchDoor, 32, 32, birchdoorPal, birchdoorBitmap);
     loadImageAlpha(sprSapling, 16, 16, oak_saplingPal, oak_saplingBitmap);
     loadImageAlpha(sprBirchSapling, 16, 16, birch_saplingPal, birch_saplingBitmap);
+    loadImageAlpha(sprGlass, 32, 16, glassPal, glassBitmap);
 }
 
 void loadBlockSounds(void)
@@ -73,6 +75,7 @@ void loadBlockSounds(void)
     mmLoadEffect(SFX_OPEN2);
     mmLoadEffect(SFX_OPEN3);
     mmLoadEffect(SFX_OPEN4);
+
     mmLoadEffect(SFX_CLOSE);
     mmLoadEffect(SFX_CLOSE2);
     mmLoadEffect(SFX_CLOSE3);
@@ -82,6 +85,7 @@ void loadBlockSounds(void)
     sndDoorOpen2 = soundEffect(SFX_OPEN2);
     sndDoorOpen3 = soundEffect(SFX_OPEN3);
     sndDoorOpen4 = soundEffect(SFX_OPEN4);
+
     sndDoorClose1 = soundEffect(SFX_CLOSE);
     sndDoorClose2 = soundEffect(SFX_CLOSE2);
     sndDoorClose3 = soundEffect(SFX_CLOSE3);
@@ -451,4 +455,30 @@ void BirchSaplingBlock::update(void)
         --growTime;
     if (growTime == 0)
         grown = true;
+}
+
+//---------------------------------------------
+
+GlassBlock::GlassBlock(s16 x, s16 y) : Block(x, y)
+{
+}
+
+void GlassBlock::draw(Camera camera)
+{
+    glSprite(x - camera.x - 1, y - camera.y, GL_FLIP_NONE, sprGlass);
+}
+
+std::string GlassBlock::id(void)
+{
+    return "glass";
+}
+
+Rect GlassBlock::getRect(void) const
+{
+    return Rect(x, y, 16, 16);
+}
+
+bool GlassBlock::solid(void)
+{
+    return true;
 }

@@ -52,8 +52,12 @@ InventoryItemID strToIID(std::string &sid)
         return InventoryItemID::RawPorkchop;
     else if (sid == "cookedporkchop")
         return InventoryItemID::CookedPorkchop;
+    else if (sid == "apple")
+        return InventoryItemID::Apple;
+    else if (sid == "glass")
+        return InventoryItemID::Glass;
     else
-        printf("among us");
+        printf("%s not a valid item string id\n");
 
     return InventoryItemID::None;
 }
