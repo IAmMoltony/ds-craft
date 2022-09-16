@@ -826,8 +826,8 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 }
 
                 if (amount > 1)
-                    fontSmall.printfShadow(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)),
-                                           SCREEN_HEIGHT - 16 - 8, "%u", amount);
+                    fontSmall.printfShadow(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 1,
+                                           SCREEN_HEIGHT - 9, "%u", amount);
             }
         }
 
