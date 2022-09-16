@@ -4,7 +4,6 @@
 #include <fat.h>
 #include <images.h>
 #include <fs.h>
-#include <gamever.h>
 #include <uvcoord_font_16x16.h>
 #include <uvcoord_font_si.h>
 #include <soundbank.h>
@@ -121,9 +120,6 @@ int main(int argc, char **argv)
 
     // init filesystem
     fsInit();
-
-    // init gamever
-    gameverInit();
 
     // init sounds
     mmInitDefaultMem((mm_addr)soundbank_bin);
@@ -912,7 +908,7 @@ int main(int argc, char **argv)
             }
 
             glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(4));
-            fontSmall.printf(3, 3, "%s", getVersionString());
+            fontSmall.printf(3, 3, "%s%d.%d.%d", VERSION_PREFIX, VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH);
             glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(4));
 
             if (paused)
@@ -1206,7 +1202,7 @@ int main(int argc, char **argv)
 
             fontSmall.printCentered(0, 50, "Compiled on:");
             fontSmall.printfCentered(0, 61, "%s %s", __DATE__, __TIME__);
-            fontSmall.printfCentered(0, 83, "Version %s", getVersionString());
+            fontSmall.printfCentered(0, 83, "Version %s%d.%d.%d", VERSION_PREFIX, VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH);
 
             glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, bbtn);
             switch (lang)
