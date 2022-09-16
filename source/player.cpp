@@ -79,6 +79,7 @@ void loadPlayerTextures(void)
     loadImageAlpha(sprPlayerHead, 16, 16, steve_headPal, steve_headBitmap);
 }
 
+// TODO move sound initing, loading and declaring into #defines
 #pragma region sounds
 
 // grass break/place
@@ -159,6 +160,11 @@ static mm_sound_effect sndStepWood2;
 static mm_sound_effect sndStepWood3;
 static mm_sound_effect sndStepWood4;
 
+// glass sfx
+static mm_sound_effect sndGlass1;
+static mm_sound_effect sndGlass2;
+static mm_sound_effect sndGlass3;
+
 // hit sfx
 static mm_sound_effect sndHit1;
 static mm_sound_effect sndHit2;
@@ -174,6 +180,8 @@ mm_sound_effect sndClick;
 
 void loadPlayerSounds(void)
 {
+    // TODO add unloading sfx
+
     mmLoadEffect(SFX_GRASS1);
     mmLoadEffect(SFX_GRASS2);
     mmLoadEffect(SFX_GRASS3);
@@ -238,6 +246,10 @@ void loadPlayerSounds(void)
     mmLoadEffect(SFX_STEPWOOD2);
     mmLoadEffect(SFX_STEPWOOD3);
     mmLoadEffect(SFX_STEPWOOD4);
+
+    mmLoadEffect(SFX_GLASS1);
+    mmLoadEffect(SFX_GLASS2);
+    mmLoadEffect(SFX_GLASS3);
 
     mmLoadEffect(SFX_HIT1);
     mmLoadEffect(SFX_HIT2);
@@ -313,6 +325,10 @@ void loadPlayerSounds(void)
     sndStepWood2 = soundEffect(SFX_STEPWOOD2);
     sndStepWood3 = soundEffect(SFX_STEPWOOD3);
     sndStepWood4 = soundEffect(SFX_STEPWOOD4);
+
+    sndGlass1 = soundEffect(SFX_GLASS1);
+    sndGlass2 = soundEffect(SFX_GLASS2);
+    sndGlass3 = soundEffect(SFX_GLASS3);
 
     sndHit1 = soundEffect(SFX_HIT1);
     sndHit2 = soundEffect(SFX_HIT2);
@@ -1344,7 +1360,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                         case InventoryItemID::Glass:
                             blocks->emplace_back(new GlassBlock(snapToGrid(camera->x + aimX),
                                                                 snapToGrid(camera->y + aimY)));
-                            playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4); // TODO add glass sfx
+                            playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
                             break;
                         }
                         if (canPlace)
@@ -1548,10 +1564,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
                     }
                     else if (bid == "glass")
-                    {
-                        entities->emplace_back(new DropEntity(block->x, block->y, "glass"));
-                        playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
-                    }
+                        playsfx(effect, sndGlass1, sndGlass2, sndGlass3, sndGlass1);
 
                     remove = true;
                     removei = i;
