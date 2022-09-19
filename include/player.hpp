@@ -65,6 +65,7 @@ typedef struct inventory_item
 void loadPlayerGUI(void);
 void loadPlayerTextures(void);
 void loadPlayerSounds(void);
+void unloadPlayerSounds(void);
 void playerInitCrafting(void);
 const char *getItemStr(Language lang, InventoryItemID iid);
 

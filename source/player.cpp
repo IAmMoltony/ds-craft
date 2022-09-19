@@ -175,13 +175,10 @@ static mm_sound_effect sndEat1;
 static mm_sound_effect sndEat2;
 static mm_sound_effect sndEat3;
 
-// sounds that is be used in other files
-mm_sound_effect sndClick;
+extern mm_sound_effect sndClick; // click
 
 void loadPlayerSounds(void)
 {
-    // TODO add unloading sfx
-
     mmLoadEffect(SFX_GRASS1);
     mmLoadEffect(SFX_GRASS2);
     mmLoadEffect(SFX_GRASS3);
@@ -259,8 +256,6 @@ void loadPlayerSounds(void)
     mmLoadEffect(SFX_EAT2);
     mmLoadEffect(SFX_EAT3);
 
-    mmLoadEffect(SFX_CLICK);
-
     sndGrass1 = soundEffect(SFX_GRASS1);
     sndGrass2 = soundEffect(SFX_GRASS2);
     sndGrass3 = soundEffect(SFX_GRASS3);
@@ -337,8 +332,86 @@ void loadPlayerSounds(void)
     sndEat1 = soundEffect(SFX_EAT1);
     sndEat2 = soundEffect(SFX_EAT2);
     sndEat3 = soundEffect(SFX_EAT3);
+}
 
-    sndClick = soundEffect(SFX_CLICK);
+void unloadPlayerSounds(void)
+{
+    mmUnloadEffect(SFX_GRASS1);
+    mmUnloadEffect(SFX_GRASS2);
+    mmUnloadEffect(SFX_GRASS3);
+    mmUnloadEffect(SFX_GRASS4);
+
+    mmUnloadEffect(SFX_GRAVEL1);
+    mmUnloadEffect(SFX_GRAVEL2);
+    mmUnloadEffect(SFX_GRAVEL3);
+    mmUnloadEffect(SFX_GRAVEL4);
+
+    mmUnloadEffect(SFX_STONE1);
+    mmUnloadEffect(SFX_STONE2);
+    mmUnloadEffect(SFX_STONE3);
+    mmUnloadEffect(SFX_STONE4);
+
+    mmUnloadEffect(SFX_WOOD1);
+    mmUnloadEffect(SFX_WOOD2);
+    mmUnloadEffect(SFX_WOOD3);
+    mmUnloadEffect(SFX_WOOD4);
+
+    mmUnloadEffect(SFX_SAND1);
+    mmUnloadEffect(SFX_SAND2);
+    mmUnloadEffect(SFX_SAND3);
+    mmUnloadEffect(SFX_SAND4);
+
+    mmUnloadEffect(SFX_CLOTH1);
+    mmUnloadEffect(SFX_CLOTH2);
+    mmUnloadEffect(SFX_CLOTH3);
+    mmUnloadEffect(SFX_CLOTH4);
+
+    mmUnloadEffect(SFX_SNOW1);
+    mmUnloadEffect(SFX_SNOW2);
+    mmUnloadEffect(SFX_SNOW3);
+    mmUnloadEffect(SFX_SNOW4);
+
+    mmUnloadEffect(SFX_STEPGRASS1);
+    mmUnloadEffect(SFX_STEPGRASS2);
+    mmUnloadEffect(SFX_STEPGRASS3);
+    mmUnloadEffect(SFX_STEPGRASS4);
+
+    mmUnloadEffect(SFX_STEPGRAVEL1);
+    mmUnloadEffect(SFX_STEPGRAVEL2);
+    mmUnloadEffect(SFX_STEPGRAVEL3);
+    mmUnloadEffect(SFX_STEPGRAVEL4);
+
+    mmUnloadEffect(SFX_STEPSTONE1);
+    mmUnloadEffect(SFX_STEPSTONE2);
+    mmUnloadEffect(SFX_STEPSTONE3);
+    mmUnloadEffect(SFX_STEPSTONE4);
+
+    mmUnloadEffect(SFX_STEPSAND1);
+    mmUnloadEffect(SFX_STEPSAND2);
+    mmUnloadEffect(SFX_STEPSAND3);
+    mmUnloadEffect(SFX_STEPSAND4);
+
+    mmUnloadEffect(SFX_STEPSNOW1);
+    mmUnloadEffect(SFX_STEPSNOW2);
+    mmUnloadEffect(SFX_STEPSNOW3);
+    mmUnloadEffect(SFX_STEPSNOW4);
+
+    mmUnloadEffect(SFX_STEPWOOD1);
+    mmUnloadEffect(SFX_STEPWOOD2);
+    mmUnloadEffect(SFX_STEPWOOD3);
+    mmUnloadEffect(SFX_STEPWOOD4);
+
+    mmUnloadEffect(SFX_GLASS1);
+    mmUnloadEffect(SFX_GLASS2);
+    mmUnloadEffect(SFX_GLASS3);
+
+    mmUnloadEffect(SFX_HIT1);
+    mmUnloadEffect(SFX_HIT2);
+    mmUnloadEffect(SFX_HIT3);
+
+    mmUnloadEffect(SFX_EAT1);
+    mmUnloadEffect(SFX_EAT2);
+    mmUnloadEffect(SFX_EAT3);
 }
 
 #pragma endregion

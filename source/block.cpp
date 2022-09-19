@@ -1,4 +1,4 @@
-// TODO maybe i should use numbers instead of strings for block ids?
+// TODO i should use numbers instead of strings for block ids
 #include <block.hpp>
 
 glImage sprGrass[1];

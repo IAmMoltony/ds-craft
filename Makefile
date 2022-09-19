@@ -11,8 +11,6 @@ GAME_TITLE     := DS-Craft
 GAME_SUBTITLE1 := Minecraft clone for NDS
 GAME_SUBTITLE2 := Version alpha2.3
 
-include $(DEVKITARM)/ds_rules
-
 #---------------------------------------------------------------------------------
 # TARGET is the name of the output
 # BUILD is the directory where object files & intermediate files will be placed
@@ -36,6 +34,63 @@ AUDIO       :=  audio
 NITRODATA   :=  nitrofs
 
 EMULATOR := e:\melonds\melonds.exe
+SOUNDBANK := ../$(NITRODATA)/soundbank.bin
+
+ifeq ($(strip $(DEVKITPRO)),)
+$(error "Please set DEVKITPRO in your environment. export DEVKITPRO=<path to>devkitPro)
+endif
+
+include $(DEVKITARM)/base_rules
+
+PORTLIBS	:=	$(PORTLIBS_PATH)/nds $(PORTLIBS_PATH)/armv5te
+LIBNDS		:=	$(DEVKITPRO)/libnds
+
+OFILES_FILTER := $(filter-out ../$(NITRODATA)/soundbank.bin.o,$(OFILES))
+
+ifeq ($(strip $(GAME_TITLE)),)
+GAME_TITLE	:=	$(notdir $(OUTPUT))
+endif
+
+ifeq ($(strip $(GAME_SUBTITLE1)),)
+GAME_SUBTITLE1	:=	built with devkitARM
+endif
+
+ifeq ($(strip $(GAME_SUBTITLE2)),)
+GAME_SUBTITLE2	:=	http://devkitpro.org
+endif
+
+ifeq ($(strip $(GAME_ICON)),)
+GAME_ICON      :=      $(DEVKITPRO)/libnds/icon.bmp
+endif
+
+ifneq ($(strip $(NITRO_FILES)),)
+_ADDFILES	:=	-d $(NITRO_FILES)
+endif
+
+#---------------------------------------------------------------------------------
+%.nds: %.arm9
+	$(SILENTCMD)ndstool -c $@ -9 $< -b $(GAME_ICON) "$(GAME_TITLE);$(GAME_SUBTITLE1);$(GAME_SUBTITLE2)" $(_ADDFILES)
+	@echo built ... $(notdir $@)
+
+#---------------------------------------------------------------------------------
+%.nds: %.elf
+	$(SILENTCMD)ndstool -c $@ -9 $< -b $(GAME_ICON) "$(GAME_TITLE);$(GAME_SUBTITLE1);$(GAME_SUBTITLE2)" $(_ADDFILES)
+	$(SILENTMSG) built ... $(notdir $@)
+
+#---------------------------------------------------------------------------------
+%.arm9: %.elf
+	$(SILENTCMD)$(OBJCOPY) -O binary $< $@
+	$(SILENTMSG) built ... $(notdir $@)
+
+#---------------------------------------------------------------------------------
+%.arm7: %.elf
+	$(SILENTCMD)$(OBJCOPY) -O binary $< $@
+	$(SILENTMSG) built ... $(notdir $@)
+
+#---------------------------------------------------------------------------------
+%.elf:
+	$(SILENTMSG) linking $(notdir $@)
+	$(SILENTCMD)$(LD)  $(LDFLAGS) $(OFILES_FILTER) $(LIBPATHS) $(LIBS) -o $@
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -91,7 +146,7 @@ endif
 CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
 CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
 SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
-BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*))) soundbank.bin
+BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*))) $(SOUNDBANK)
 BMPFILES	:=	$(foreach dir,$(GRAPHICS),$(notdir $(wildcard $(dir)/*.bmp)))
 PNGFILES	:=	$(foreach dir,$(GRAPHICS),$(notdir $(wildcard $(dir)/*.png)))
 
@@ -167,8 +222,8 @@ $(OUTPUT).elf	:	$(OFILES)
 	@echo $(notdir $<)
 	@$(bin2o)
 
-soundbank.bin: $(AUDIOFILES)
-	@mmutil $^ -osoundbank.bin -hsoundbank.h -d
+$(SOUNDBANK): $(AUDIOFILES)
+	@mmutil $^ -o$@ -hsoundbank.h -d
 
 #---------------------------------------------------------------------------------
 # This rule creates assembly source files using grit

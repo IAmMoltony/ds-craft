@@ -29,8 +29,7 @@ extern glImage sprDirt[1];
 extern glImage sprLeaves[1];
 extern glImage sprBirchLeaves[1];
 
-extern mm_sound_effect sndClick;
-
+mm_sound_effect sndClick;
 static mm_sound_effect sndPop;
 
 static bool transparentLeaves = false;
@@ -122,7 +121,7 @@ int main(int argc, char **argv)
     fsInit();
 
     // init sounds
-    mmInitDefaultMem((mm_addr)soundbank_bin);
+    mmInitDefault("nitro:/soundbank.bin");
 
     // create folders
     fsCreateDir("worlds");
@@ -137,18 +136,20 @@ int main(int argc, char **argv)
     vramSetBankF(VRAM_F_TEX_PALETTE);
     vramSetBankE(VRAM_E_TEX_PALETTE);
 
-    // load assets
+    // load assets that wont unload
     loadBlockTextures();
     loadBlockSounds();
     loadEntityTextures();
     loadEntitySounds();
     loadPlayerGUI();
     loadPlayerTextures();
-    loadPlayerSounds();
 
-    // pop sound effect init
+    // sfx
     mmLoadEffect(SFX_POP);
+    mmLoadEffect(SFX_CLICK);
+
     sndPop = soundEffect(SFX_POP);
+    sndClick = soundEffect(SFX_CLICK);
 
     // language setting
     lang = Language::English;
@@ -351,7 +352,38 @@ int main(int argc, char **argv)
             if (down & KEY_B && paused) // save and exit
             {
                 paused = false;
+
+                // unload asset screen
+                glBegin2D();
+                switch (lang)
+                {
+                case Language::English:
+                    fontSmall.printCentered(0, 50, "Unloading assets...");
+                    break;
+                case Language::Russian:
+                    fontSmallRu.printCentered(0, 50, "C\"esvjmb sgtvstqd...");
+                    break;
+                }
+                glEnd2D();
+                glFlush(0);
+                unloadPlayerSounds();
+
+                // save world screen
+                glBegin2D();
+                switch (lang)
+                {
+                case Language::English:
+                    fontSmall.printCentered(0, 50, "Saving world...");
+                    break;
+                case Language::Russian:
+                    fontSmallRu.printCentered(0, 50, "Sqxsbpgpkg oksb...");
+                    break;
+                }
+                glEnd2D();
+                glFlush(0);
                 saveWorld(worldName, blocks, entities, player);
+
+                // reset player state
                 player.setX(0);
                 player.setY(0);
                 player.restoreHealth();
@@ -492,7 +524,7 @@ int main(int argc, char **argv)
                         else
                             ok = false;
 
-                        // TODO put into player.cpp
+                        // TODO put into player.cpp (and make less stupid)
 
                         if (ok)
                         {
@@ -595,16 +627,34 @@ int main(int argc, char **argv)
                 {
                     worldName = wsWorlds[wsSelected].name;
 
-                    // loading screen
+                    // loading screen for assets
+
                     glBegin2D();
                     drawMovingBackground(sprDirt, frames);
                     switch (lang)
                     {
                     case Language::English:
-                        fontSmall.printCentered(0, 50, "Loading...");
+                        fontSmall.printCentered(0, 50, "Loading assets...");
                         break;
                     case Language::Russian:
-                        fontSmallRu.printCentered(0, 50, "Ibesvjmb...");
+                        fontSmallRu.printCentered(0, 50, "Ibesvjmb sgtvstqd...");
+                        break;
+                    }
+                    glEnd2D();
+                    glFlush(0);
+
+                    loadPlayerSounds();
+
+                    // loading screen for world
+                    glBegin2D();
+                    drawMovingBackground(sprDirt, frames);
+                    switch (lang)
+                    {
+                    case Language::English:
+                        fontSmall.printCentered(0, 50, "Loading world...");
+                        break;
+                    case Language::Russian:
+                        fontSmallRu.printCentered(0, 50, "Ibesvjmb oksb...");
                         break;
                     }
                     glEnd2D();
