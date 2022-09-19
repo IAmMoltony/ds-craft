@@ -145,7 +145,6 @@ int main(int argc, char **argv)
     loadPlayerTextures();
 
     // sfx
-    mmLoadEffect(SFX_POP);
     mmLoadEffect(SFX_CLICK);
 
     sndPop = soundEffect(SFX_POP);
@@ -367,7 +366,9 @@ int main(int argc, char **argv)
                 }
                 glEnd2D();
                 glFlush(0);
+
                 unloadPlayerSounds();
+                mmUnloadEffect(SFX_POP);
 
                 // save world screen
                 glBegin2D();
@@ -646,6 +647,7 @@ int main(int argc, char **argv)
                     glFlush(0);
 
                     loadPlayerSounds();
+                    mmLoadEffect(SFX_POP);
 
                     // loading screen for world
                     glBegin2D();
