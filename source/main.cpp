@@ -121,7 +121,7 @@ int main(int argc, char **argv)
     fsInit();
 
     // init sounds
-    mmInitDefault((char *)"nitro:/soundbank.bin"); // i dont care
+    mmInitDefault((char *)"nitro:/soundbank.bin"); // i dont care what iso c++ forbids
 
     // create folders
     fsCreateDir("worlds");
