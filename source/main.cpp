@@ -121,7 +121,7 @@ int main(int argc, char **argv)
     fsInit();
 
     // init sounds
-    mmInitDefault("nitro:/soundbank.bin");
+    mmInitDefault((char *)"nitro:/soundbank.bin"); // i dont care
 
     // create folders
     fsCreateDir("worlds");
