@@ -355,6 +355,7 @@ int main(int argc, char **argv)
 
                 // unload asset screen
                 glBegin2D();
+                drawMovingBackground(sprDirt, frames);
                 switch (lang)
                 {
                 case Language::English:
@@ -370,6 +371,7 @@ int main(int argc, char **argv)
 
                 // save world screen
                 glBegin2D();
+                drawMovingBackground(sprDirt, frames);
                 switch (lang)
                 {
                 case Language::English:
