@@ -1288,7 +1288,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                             for (size_t i = 0; i < blocks->size(); ++i)
                             {
                                 if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
-                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == "sand" || blocks->at(i)->id() == "cactus"))
+                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_SAND || blocks->at(i)->id() == BID_CACTUS))
                                     canPlace = true;
                             }
                             if (canPlace)
@@ -1303,7 +1303,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                             for (size_t i = 0; i < blocks->size(); ++i)
                             {
                                 if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
-                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == "sand"))
+                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_SAND))
                                     canPlace = true;
                             }
                             if (canPlace)
@@ -1318,7 +1318,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                             for (size_t i = 0; i < blocks->size(); ++i)
                             {
                                 if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
-                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == "grass" || blocks->at(i)->id() == "dirt" || blocks->at(i)->id() == "snowy grass"))
+                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_GRASS || blocks->at(i)->id() == BID_DIRT || blocks->at(i)->id() == BID_SNOWY_GRASS))
                                     canPlace = true;
                             }
                             if (canPlace)
@@ -1333,7 +1333,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                             for (size_t i = 0; i < blocks->size(); ++i)
                             {
                                 if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
-                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == "grass" || blocks->at(i)->id() == "dirt" || blocks->at(i)->id() == "snowy grass"))
+                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_GRASS || blocks->at(i)->id() == BID_DIRT || blocks->at(i)->id() == BID_SNOWY_GRASS))
                                     canPlace = true;
                             }
                             if (canPlace)
@@ -1349,7 +1349,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                             for (size_t i = 0; i < blocks->size(); ++i)
                             {
                                 if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
-                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == "grass" || blocks->at(i)->id() == "dirt" || blocks->at(i)->id() == "snowy grass"))
+                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_GRASS || blocks->at(i)->id() == BID_DIRT || blocks->at(i)->id() == BID_SNOWY_GRASS))
                                     canPlace = true;
                             }
                             if (canPlace)
@@ -1390,7 +1390,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                             for (size_t i = 0; i < blocks->size(); ++i)
                             {
                                 if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
-                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == "grass" || blocks->at(i)->id() == "dirt" || blocks->at(i)->id() == "snowy grass"))
+                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_GRASS || blocks->at(i)->id() == BID_DIRT || blocks->at(i)->id() == BID_SNOWY_GRASS))
                                     canPlace = true;
                             }
                             if (canPlace)
@@ -1405,7 +1405,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                             for (size_t i = 0; i < blocks->size(); ++i)
                             {
                                 if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
-                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == "grass" || blocks->at(i)->id() == "dirt" || blocks->at(i)->id() == "snowy grass"))
+                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_GRASS || blocks->at(i)->id() == BID_DIRT || blocks->at(i)->id() == BID_SNOWY_GRASS))
                                     canPlace = true;
                             }
                             if (canPlace)
@@ -1485,36 +1485,36 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                 // and we cant brea bedrock
                 if (Rect(getRectAim(*camera).x + 1, getRectAim(*camera).y + 1, 14, 14)
                         .intersects(block->getRect()) &&
-                    block->id() != "bedrock")
+                    block->id() != BID_BEDROCK)
                 {
-                    std::string bid = block->id();
+                    u16 bid = block->id();
                     u8 effect = rand() % 4;
-                    if (bid == "grass")
+                    if (bid == BID_GRASS)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "grass"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
                     }
-                    else if (bid == "dirt")
+                    else if (bid == BID_DIRT)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "dirt"));
                         playsfx(effect, sndDirt1, sndDirt2, sndDirt3, sndDirt4);
                     }
-                    else if (bid == "stone")
+                    else if (bid == BID_STONE)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "cobblestone"));
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
                     }
-                    else if (bid == "wood")
+                    else if (bid == BID_WOOD)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "wood"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
                     }
-                    else if (bid == "birch wood")
+                    else if (bid == BID_BIRCH_WOOD)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "birchwood"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
                     }
-                    else if (bid == "leaves")
+                    else if (bid == BID_LEAVES)
                     {
                         Block *b = block.get();
                         LeavesBlock *l = reinterpret_cast<LeavesBlock *>(b);
@@ -1550,93 +1550,93 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                                 entities->emplace_back(new DropEntity(block->x, block->y, "apple"));
                         }
                     }
-                    else if (bid == "sand")
+                    else if (bid == BID_SAND)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "sand"));
                         playsfx(effect, sndSand1, sndSand2, sndSand3, sndSand4);
                     }
-                    else if (bid == "sandstone")
+                    else if (bid == BID_SANDSTONE)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "sandstone"));
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
                     }
-                    else if (bid == "cactus")
+                    else if (bid == BID_CACTUS)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "cactus"));
                         playsfx(effect, sndCloth1, sndCloth2, sndCloth3, sndCloth4);
                     }
-                    else if (bid == "dead bush")
+                    else if (bid == BID_DEAD_BUSH)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), "stick"));
                         entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), "stick"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
                     }
-                    else if (bid == "poppy")
+                    else if (bid == BID_POPPY)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "poppy"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
                     }
-                    else if (bid == "dandelion")
+                    else if (bid == BID_DANDELION)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "dandelion"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
                     }
-                    else if (bid == "redtulip")
+                    else if (bid == BID_RED_TULIP)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "redtulip"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
                     }
-                    else if (bid == "door")
+                    else if (bid == BID_DOOR)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "door"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
                     }
-                    else if (bid == "birchdoor")
+                    else if (bid == BID_BIRCH_DOOR)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "birchdoor"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
                     }
-                    else if (bid == "planks")
+                    else if (bid == BID_PLANKS)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "planks"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
                     }
-                    else if (bid == "birch planks")
+                    else if (bid == BID_BIRCH_PLANKS)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "birchplanks"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
                     }
-                    else if (bid == "snowy grass")
+                    else if (bid == BID_SNOWY_GRASS)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "snowygrass"));
                         playsfx(effect, sndSnow1, sndSnow2, sndSnow3, sndSnow4);
                     }
-                    else if (bid == "sapling")
+                    else if (bid == BID_SAPLING)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "sapling"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
                     }
-                    else if (bid == "birchsapling")
+                    else if (bid == BID_BIRCH_SAPLING)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "birchsapling"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
                     }
-                    else if (bid == "cobblestone")
+                    else if (bid == BID_COBBLESTONE)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "cobblestone"));
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
                     }
-                    else if (bid == "coal ore")
+                    else if (bid == BID_COAL_ORE)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "coal"));
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
                     }
-                    else if (bid == "coal block")
+                    else if (bid == BID_COAL_BLOCK)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "coalblock"));
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
                     }
-                    else if (bid == "glass")
+                    else if (bid == BID_GLASS)
                         playsfx(effect, sndGlass1, sndGlass2, sndGlass3, sndGlass1);
 
                     remove = true;
@@ -1705,7 +1705,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             if (block->getRect().intersects(getRectLeft()))
             {
                 // door collision is hard coded
-                if (block->id() == "door" || block->id() == "birchdoor")
+                if (block->id() == BID_DOOR || block->id() == BID_BIRCH_DOOR)
                     x = block->getRect().x + 4;
                 else
                     x = block->getRect().x + 16;
@@ -1719,33 +1719,33 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                 if (moving(oldX))
                 {
                     u8 effect = rand() % 4;
-                    std::string id = block->id();
-                    if (id == "grass")
+                    u16 id = block->id();
+                    if (id == BID_GRASS)
                     {
-                        playsfx(effect, sndStepGrass1, sndStepGrass2, sndStepGrass3, sndStepGrass4);
+                        playsfx(effect, sndStepGrass1, sndStepGrass2, sndStepGrass3, sndStepGrass4)
                     }
-                    else if (id == "dirt")
+                    else if (id == BID_DIRT)
                     {
-                        playsfx(effect, sndStepGravel1, sndStepGravel2, sndStepGravel3, sndStepGravel4);
+                        playsfx(effect, sndStepGravel1, sndStepGravel2, sndStepGravel3, sndStepGravel4)
                     }
-                    else if (id == "stone" || id == "sandstone" || id == "cobblestone" ||
-                             id == "coal ore" || id == "coal block" || id == "bedrock" ||
-                             id == "glass")
+                    else if (id == BID_STONE || id == BID_SANDSTONE || id == BID_COBBLESTONE ||
+                             id == BID_COAL_ORE || id == BID_COAL_BLOCK || id == BID_BEDROCK ||
+                             id == BID_GLASS)
                     {
-                        playsfx(effect, sndStepStone1, sndStepStone2, sndStepStone3, sndStepStone4);
+                        playsfx(effect, sndStepStone1, sndStepStone2, sndStepStone3, sndStepStone4)
                     }
-                    else if (id == "sand")
+                    else if (id == BID_SAND)
                     {
-                        playsfx(effect, sndStepSand1, sndStepSand2, sndStepSand3, sndStepSand4);
+                        playsfx(effect, sndStepSand1, sndStepSand2, sndStepSand3, sndStepSand4)
                     }
-                    else if (id == "snowy grass")
+                    else if (id == BID_SNOWY_GRASS)
                     {
-                        playsfx(effect, sndStepSnow1, sndStepSnow2, sndStepSnow3, sndStepSnow4);
+                        playsfx(effect, sndStepSnow1, sndStepSnow2, sndStepSnow3, sndStepSnow4)
                     }
-                    else if (id == "planks" || id == "door" || id == "birchdoor" ||
-                             id == "birch planks")
+                    else if (id == BID_PLANKS || id == BID_DOOR || id == BID_BIRCH_DOOR ||
+                             id == BID_BIRCH_PLANKS)
                     {
-                        playsfx(effect, sndStepWood1, sndStepWood2, sndStepWood3, sndStepWood4);
+                        playsfx(effect, sndStepWood1, sndStepWood2, sndStepWood3, sndStepWood4)
                     }
                 }
             }

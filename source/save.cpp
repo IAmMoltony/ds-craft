@@ -115,17 +115,17 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     // save blocks
     for (auto &block : blocks)
     {
-        std::string id = block->id();
+        u16 id = block->id();
 
         // handle door specifically since it is s p e c i a l
-        if (block->id() == "door")
+        if (block->id() == BID_DOOR)
         {
             Block *b = block.get();
             DoorBlock *door = reinterpret_cast<DoorBlock *>(b);
             wld += "door " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(door->isOpen()) + " " + std::to_string(door->getFacing()) + "\n";
         }
         // birch door too
-        else if (block->id() == "birchdoor")
+        else if (block->id() == BID_BIRCH_DOOR)
         {
             Block *b = block.get();
             BirchDoorBlock *bdoor = reinterpret_cast<BirchDoorBlock *>(b);
@@ -133,46 +133,21 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         }
         else
         {
-            // special cases where need to remove spaces
-            if (id == "snowy grass")
-            {
-                wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " snowygrass\n";
-            }
-            else if (id == "dead bush")
-            {
-                wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " deadbush\n";
-            }
-            else if (id == "coal ore")
-            {
-                wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " coalore\n";
-            }
-            else if (id == "coal block")
-            {
-                wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " coalblock\n";
-            }
-            else if (id == "birch wood")
-            {
-                wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " birchwood\n";
-            }
-            else if (id == "birch planks")
-            {
-                wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " birchplanks\n";
-            }
             // leaves
-            else if (id == "leaves")
+            if (id == BID_LEAVES)
             {
-                std::string lid = "leaves";
+                std::string lid = std::to_string(BID_LEAVES);
                 Block *b = block.get();
                 LeavesBlock *l = reinterpret_cast<LeavesBlock *>(b);
                 if (l->type == LeavesType::Birch)
-                    lid = "birchleaves";
+                    lid = std::to_string(BID_BIRCH_LEAVES);
 
                 wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + lid + "\n";
             }
             // every other block
             else
             {
-                wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + id + "\n";
+                wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(id) + "\n";
             }
         }
     }
@@ -240,99 +215,82 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         {
             s16 x = atoi(split[1].c_str());
             s16 y = atoi(split[2].c_str());
-            std::string id = split[3];
+            u16 id = atoi(split[3].c_str());
             // oh boi
-            if (id == "grass")
+            switch (id)
             {
+            case BID_GRASS:
                 blocks.emplace_back(new GrassBlock(x, y));
-            }
-            else if (id == "dirt")
-            {
+                break;
+            case BID_DIRT:
                 blocks.emplace_back(new DirtBlock(x, y));
-            }
-            else if (id == "stone")
-            {
+                break;
+            case BID_STONE:
                 blocks.emplace_back(new StoneBlock(x, y));
-            }
-            else if (id == "wood")
-            {
+                break;
+            case BID_WOOD:
                 blocks.emplace_back(new WoodBlock(x, y));
-            }
-            else if (id == "birchwood")
-            {
+                break;
+            case BID_BIRCH_WOOD:
                 blocks.emplace_back(new BirchWoodBlock(x, y));
-            }
-            else if (id == "leaves")
-            {
+                break;
+            case BID_LEAVES:
                 blocks.emplace_back(new LeavesBlock(x, y, LeavesType::Oak));
-            }
-            else if (id == "birchleaves")
-            {
+                break;
+            case BID_BIRCH_LEAVES:
                 blocks.emplace_back(new LeavesBlock(x, y, LeavesType::Birch));
-            }
-            else if (id == "sand")
-            {
+                break;
+            case BID_SAND:
                 blocks.emplace_back(new SandBlock(x, y));
-            }
-            else if (id == "sandstone")
-            {
+                break;
+            case BID_SANDSTONE:
                 blocks.emplace_back(new SandstoneBlock(x, y));
-            }
-            else if (id == "cactus")
-            {
+                break;
+            case BID_CACTUS:
                 blocks.emplace_back(new CactusBlock(x, y));
-            }
-            else if (id == "deadbush")
-            {
+                break;
+            case BID_DEAD_BUSH:
                 blocks.emplace_back(new DeadBushBlock(x, y));
-            }
-            else if (id == "poppy")
-            {
+                break;
+            case BID_POPPY:
                 blocks.emplace_back(new FlowerBlock(x, y, FlowerType::Poppy));
-            }
-            else if (id == "dandelion")
-            {
+                break;
+            case BID_DANDELION:
                 blocks.emplace_back(new FlowerBlock(x, y, FlowerType::Dandelion));
-            }
-            else if (id == "redtulip")
-            {
+                break;
+            case BID_RED_TULIP:
                 blocks.emplace_back(new FlowerBlock(x, y, FlowerType::RedTulip));
-            }
-            else if (id == "planks")
-            {
+                break;
+            case BID_PLANKS:
                 blocks.emplace_back(new PlanksBlock(x, y));
-            }
-            else if (id == "birchplanks")
-            {
+                break;
+            case BID_BIRCH_PLANKS:
                 blocks.emplace_back(new BirchPlanksBlock(x, y));
-            }
-            else if (id == "snowygrass")
-            {
+                break;
+            case BID_SNOWY_GRASS:
                 blocks.emplace_back(new SnowyGrassBlock(x, y));
-            }
-            else if (id == "sapling")
-            {
+                break;
+            case BID_SAPLING:
                 blocks.emplace_back(new SaplingBlock(x, y));
-            }
-            else if (id == "birchsapling")
-            {
+                break;
+            case BID_BIRCH_SAPLING:
                 blocks.emplace_back(new BirchSaplingBlock(x, y));
-            }
-            else if (id == "bedrock")
-            {
-                blocks.emplace_back(new BedrockBlock(x, y));
-            }
-            else if (id == "cobblestone")
-            {
+                break;
+            case BID_COBBLESTONE:
                 blocks.emplace_back(new CobblestoneBlock(x, y));
-            }
-            else if (id == "coalore")
-            {
+                break;
+            case BID_COAL_ORE:
                 blocks.emplace_back(new CoalOreBlock(x, y));
-            }
-            else if (id == "coalblock")
-            {
+                break;
+            case BID_COAL_BLOCK:
                 blocks.emplace_back(new CoalBlock(x, y));
+                break;
+            case BID_GLASS:
+                blocks.emplace_back(new GlassBlock(x, y));
+                break;
+            case BID_BEDROCK:
+                blocks.emplace_back(new BedrockBlock(x, y));
+                break;
             }
         }
         if (split[0] == "inventory") // key inventory item (inventory <index> <amount> <id>)

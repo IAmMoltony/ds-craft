@@ -11,6 +11,33 @@
 #include <string>
 #include <algorithm>
 
+#define BID_GRASS 1
+#define BID_DIRT 2
+#define BID_STONE 3
+#define BID_WOOD 4
+#define BID_BIRCH_WOOD 5
+#define BID_LEAVES 6
+#define BID_BIRCH_LEAVES 7
+#define BID_SAND 8
+#define BID_SANDSTONE 9
+#define BID_CACTUS 10
+#define BID_DEAD_BUSH 11
+#define BID_POPPY 12
+#define BID_DANDELION 13
+#define BID_RED_TULIP 14
+#define BID_DOOR 15
+#define BID_BIRCH_DOOR 16
+#define BID_PLANKS 17
+#define BID_BIRCH_PLANKS 18
+#define BID_SNOWY_GRASS 19
+#define BID_SAPLING 20
+#define BID_BIRCH_SAPLING 21
+#define BID_COBBLESTONE 22
+#define BID_COAL_ORE 23
+#define BID_COAL_BLOCK 24
+#define BID_GLASS 25
+#define BID_BEDROCK 26
+
 // Block implementations for blocks that
 // don't have anything really special.
 // They are used to save a lot of typing when
@@ -23,7 +50,7 @@
     {                                                            \
         glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, spr); \
     }                                                            \
-    std::string block::id(void)                                  \
+    u16 block::id(void)                                          \
     {                                                            \
         return id_;                                              \
     }                                                            \
@@ -43,7 +70,7 @@
     {                                                            \
         glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, spr); \
     }                                                            \
-    std::string block::id(void)                                  \
+    u16 block::id(void)                                          \
     {                                                            \
         return id_;                                              \
     }                                                            \
@@ -63,7 +90,7 @@
     public:                                \
         block(s16 x, s16 y);               \
         void draw(Camera camera) override; \
-        std::string id(void) override;     \
+        u16 id(void) override;             \
         Rect getRect(void) const override; \
         bool solid(void) override;         \
     };
@@ -91,7 +118,7 @@ public:
     Block(s16 x, s16 y);
 
     virtual void draw(Camera camera) = 0;
-    virtual std::string id(void) = 0;
+    virtual u16 id(void) = 0;
     virtual void interact(void);
     virtual bool solid(void);
     virtual Rect getRect(void) const = 0;
@@ -133,7 +160,7 @@ public:
 
     void draw(Camera camera) override;
     bool solid(void) override;
-    std::string id(void) override;
+    u16 id(void) override;
     Rect getRect(void) const override;
     bool isNatural(void);
 };
@@ -149,7 +176,7 @@ public:
 
     void draw(Camera camera) override;
     bool solid(void) override;
-    std::string id(void) override;
+    u16 id(void) override;
     Rect getRect(void) const override;
 };
 
@@ -165,7 +192,7 @@ public:
     void draw(Camera camera) override;
     bool solid(void) override;
     void interact(void) override;
-    std::string id(void) override;
+    u16 id(void) override;
     Rect getRect(void) const override;
 
     bool isOpen(void);
@@ -184,7 +211,7 @@ public:
     void draw(Camera camera) override;
     bool solid(void) override;
     void interact(void) override;
-    std::string id(void) override;
+    u16 id(void) override;
     Rect getRect(void) const override;
 
     bool isOpen(void);
@@ -203,7 +230,7 @@ public:
     void draw(Camera camera) override;
     bool solid(void) override;
     void interact(void) override;
-    std::string id(void) override;
+    u16 id(void) override;
     Rect getRect(void) const override;
 
     bool hasGrown(void);
@@ -222,7 +249,7 @@ public:
     void draw(Camera camera) override;
     bool solid(void) override;
     void interact(void) override;
-    std::string id(void) override;
+    u16 id(void) override;
     Rect getRect(void) const override;
 
     bool hasGrown(void);

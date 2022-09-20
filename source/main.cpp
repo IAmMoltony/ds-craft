@@ -416,7 +416,7 @@ int main(int argc, char **argv)
                         break;
 
                     // if sapling
-                    if (block->id() == "sapling")
+                    if (block->id() == BID_SAPLING)
                     {
                         // magic for converting block into sapling
                         Block *b = block.get();
@@ -433,7 +433,7 @@ int main(int argc, char **argv)
                             std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort blocks
                         }
                     }
-                    else if (block->id() == "birchsapling")
+                    else if (block->id() == BID_BIRCH_SAPLING)
                     {
                         // magic for converting block into sapling
                         Block *b = block.get();

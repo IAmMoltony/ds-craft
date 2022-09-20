@@ -1,4 +1,3 @@
-// TODO i should use numbers instead of strings for block ids
 #include <block.hpp>
 
 glImage sprGrass[1];
@@ -111,23 +110,23 @@ bool Block::solid(void)
 
 // generic block implementations
 
-GENERIC_BLOCK_IMPL(GrassBlock, sprGrass, "grass")
-GENERIC_BLOCK_IMPL(SnowyGrassBlock, sprSnowyGrass, "snowy grass")
-GENERIC_BLOCK_IMPL(DirtBlock, sprDirt, "dirt")
-GENERIC_BLOCK_IMPL(StoneBlock, sprStone, "stone")
-GENERIC_BLOCK_IMPL(SandBlock, sprSand, "sand")
-GENERIC_BLOCK_IMPL(SandstoneBlock, sprSandstone, "sandstone")
-GENERIC_BLOCK_IMPL(PlanksBlock, sprPlanks, "planks")
-GENERIC_BLOCK_IMPL(BirchPlanksBlock, sprBirchPlanks, "birch planks")
-GENERIC_BLOCK_IMPL(BedrockBlock, sprBedrock, "bedrock")
-GENERIC_BLOCK_IMPL(CobblestoneBlock, sprCobblestone, "cobblestone")
-GENERIC_BLOCK_IMPL(CoalOreBlock, sprCoalOre, "coal ore")
-GENERIC_BLOCK_IMPL(CoalBlock, sprCoalBlock, "coal block")
+GENERIC_BLOCK_IMPL(GrassBlock, sprGrass, BID_GRASS)
+GENERIC_BLOCK_IMPL(SnowyGrassBlock, sprSnowyGrass, BID_SNOWY_GRASS)
+GENERIC_BLOCK_IMPL(DirtBlock, sprDirt, BID_DIRT)
+GENERIC_BLOCK_IMPL(StoneBlock, sprStone, BID_STONE)
+GENERIC_BLOCK_IMPL(SandBlock, sprSand, BID_SAND)
+GENERIC_BLOCK_IMPL(SandstoneBlock, sprSandstone, BID_SANDSTONE)
+GENERIC_BLOCK_IMPL(PlanksBlock, sprPlanks, BID_PLANKS)
+GENERIC_BLOCK_IMPL(BirchPlanksBlock, sprBirchPlanks, BID_BIRCH_PLANKS)
+GENERIC_BLOCK_IMPL(BedrockBlock, sprBedrock, BID_BEDROCK)
+GENERIC_BLOCK_IMPL(CobblestoneBlock, sprCobblestone, BID_COBBLESTONE)
+GENERIC_BLOCK_IMPL(CoalOreBlock, sprCoalOre, BID_COAL_ORE)
+GENERIC_BLOCK_IMPL(CoalBlock, sprCoalBlock, BID_COAL_BLOCK)
 
-NONSOLID_BLOCK_IMPL(WoodBlock, sprWood, "wood")
-NONSOLID_BLOCK_IMPL(BirchWoodBlock, sprBirchWood, "birch wood")
-NONSOLID_BLOCK_IMPL(CactusBlock, sprCactus, "cactus")
-NONSOLID_BLOCK_IMPL(DeadBushBlock, sprDeadBush, "dead bush");
+NONSOLID_BLOCK_IMPL(WoodBlock, sprWood, BID_WOOD)
+NONSOLID_BLOCK_IMPL(BirchWoodBlock, sprBirchWood, BID_BIRCH_WOOD)
+NONSOLID_BLOCK_IMPL(CactusBlock, sprCactus, BID_CACTUS)
+NONSOLID_BLOCK_IMPL(DeadBushBlock, sprDeadBush, BID_DEAD_BUSH);
 
 // non-generic implementations
 
@@ -158,9 +157,9 @@ bool LeavesBlock::solid(void)
     return false;
 }
 
-std::string LeavesBlock::id(void)
+u16 LeavesBlock::id(void)
 {
-    return "leaves";
+    return BID_LEAVES;
 }
 
 Rect LeavesBlock::getRect(void) const
@@ -217,18 +216,18 @@ bool FlowerBlock::solid(void)
     return false;
 }
 
-std::string FlowerBlock::id(void)
+u16 FlowerBlock::id(void)
 {
     switch (type)
     {
     default:
-        return "";
+        return (u16)-1;
     case FlowerType::Poppy:
-        return "poppy";
+        return BID_POPPY;
     case FlowerType::Dandelion:
-        return "dandelion";
+        return BID_DANDELION;
     case FlowerType::RedTulip:
-        return "redtulip";
+        return BID_RED_TULIP;
     }
 }
 
@@ -281,9 +280,9 @@ void DoorBlock::interact(void)
     }
 }
 
-std::string DoorBlock::id(void)
+u16 DoorBlock::id(void)
 {
-    return "door";
+    return BID_DOOR;
 }
 
 Rect DoorBlock::getRect(void) const
@@ -347,9 +346,9 @@ void BirchDoorBlock::interact(void)
     }
 }
 
-std::string BirchDoorBlock::id(void)
+u16 BirchDoorBlock::id(void)
 {
-    return "birchdoor";
+    return BID_BIRCH_DOOR;
 }
 
 Rect BirchDoorBlock::getRect(void) const
@@ -390,9 +389,9 @@ void SaplingBlock::interact(void)
 {
 }
 
-std::string SaplingBlock::id(void)
+u16 SaplingBlock::id(void)
 {
-    return "sapling";
+    return BID_SAPLING;
 }
 
 Rect SaplingBlock::getRect(void) const
@@ -434,9 +433,9 @@ void BirchSaplingBlock::interact(void)
 {
 }
 
-std::string BirchSaplingBlock::id(void)
+u16 BirchSaplingBlock::id(void)
 {
-    return "birchsapling";
+    return BID_BIRCH_SAPLING;
 }
 
 Rect BirchSaplingBlock::getRect(void) const
@@ -468,9 +467,9 @@ void GlassBlock::draw(Camera camera)
     glSprite(x - camera.x - 1, y - camera.y, GL_FLIP_NONE, sprGlass);
 }
 
-std::string GlassBlock::id(void)
+u16 GlassBlock::id(void)
 {
-    return "glass";
+    return BID_GLASS;
 }
 
 Rect GlassBlock::getRect(void) const
