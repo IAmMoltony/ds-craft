@@ -80,6 +80,8 @@ private:
     Facing facing;
     InventoryItem inventory[20];
 
+    void jump(void);
+
 public:
     Player();
 

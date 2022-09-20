@@ -1,6 +1,6 @@
 // WARNING!! this code is a complete mess
-// there is a lot of bad code (probably.. no, DEFINITELY)
 // ima need to rewrite some of it
+// good thing TODOs and FIXMEs exist =)
 
 #include <player.hpp>
 #include <crafting.hpp>
@@ -953,6 +953,10 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
     // getRectRight().draw(camera, RGB15(31, 31, 0));
 }
 
+// TODO uhh maybe split the draw and update like i did with the crafting? because this is becoming unmanageable
+
+extern bool autoJump;
+
 bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, const u16 &frames)
 {
     s16 oldX = x;
@@ -1709,6 +1713,12 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                     x = block->getRect().x + 4;
                 else
                     x = block->getRect().x + 16;
+
+                if (autoJump && velX < 0)
+                {
+                    --y;
+                    jump();
+                }
             }
 
             if (block->getRect().intersects(Rect(getRectBottom().x, getRectBottom().y + 1,
@@ -1751,7 +1761,14 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             }
 
             if (block->getRect().intersects(getRectRight()))
+            {
                 x = block->getRect().x - 12;
+                if (autoJump && velX > 0)
+                {
+                    --y;
+                    jump();
+                }
+            }
             ++i;
         }
         // remove block if remove block
@@ -1801,13 +1818,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
 
         // jumpign
         if (up)
-        {
-            if (!jumping && airY <= 5)
-            {
-                jumping = true;
-                velY = -4;
-            }
-        }
+            jump();
 
         if (aimX < x - camera->x + sprPlayer->width / 2)
             facing = Facing::Left;
@@ -2193,5 +2204,14 @@ void Player::updateCrafting(void)
         // (and wrap around too, thats pretty important)
         if (++craftingSelect > recipes.size() - 1)
             craftingSelect = 0;
+    }
+}
+
+void Player::jump(void)
+{
+    if (!jumping)
+    {
+        jumping = true;
+        velY = -4;
     }
 }

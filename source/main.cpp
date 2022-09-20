@@ -25,6 +25,8 @@
 #include <algorithm>
 #include <sstream>
 
+#define SHOW_HELP(setting) showHelp(setting, lang, font, fontRu, fontSmall, fontSmallRu, frames)
+
 extern glImage sprDirt[1];
 extern glImage sprLeaves[1];
 extern glImage sprBirchLeaves[1];
@@ -35,6 +37,7 @@ static mm_sound_effect sndPop;
 static bool transparentLeaves = false;
 static bool autoSave = true;
 static bool smoothCam = true;
+bool autoJump = false;
 
 // 0 = off
 // 1 = left handed (buttons=abxy)
@@ -220,6 +223,15 @@ int main(int argc, char **argv)
     }
     else
         fsWrite("config/touchtomove.cfg", "0");
+
+    // auto jump setting i guess...
+    if (fsFileExists("config/autojump.cfg"))
+    {
+        char *data = fsReadFile("config/autojump.cfg");
+        autoJump = data[0] == '1';
+    }
+    else
+        fsWrite("config/autojump.cfg", "0");
 
     // fonts english iumages
     glImage font16x16Img[FONT_16X16_NUM_IMAGES];
@@ -843,6 +855,10 @@ int main(int argc, char **argv)
                         fsWrite("config/touchtomove.cfg", "0");
                     }
                     break;
+                case 5:
+                    autoJump = !autoJump;
+                    fsWrite("config/autojump.cfg", autoJump ? "1" : "0");
+                    break;
                 }
                 mmEffectEx(&sndClick);
             }
@@ -852,25 +868,28 @@ int main(int argc, char **argv)
                 switch (settingsSelect)
                 {
                 case 0:
-                    showHelp("changelang", lang, font, fontRu, fontSmall, fontSmallRu, frames);
+                    SHOW_HELP("changelang");
                     break;
                 case 1:
-                    showHelp("trleaves", lang, font, fontRu, fontSmall, fontSmallRu, frames);
+                    SHOW_HELP("trleaves");
                     break;
                 case 2:
-                    showHelp("autosave", lang, font, fontRu, fontSmall, fontSmallRu, frames);
+                    SHOW_HELP("autosave");
                     break;
                 case 3:
-                    showHelp("smoothcam", lang, font, fontRu, fontSmall, fontSmallRu, frames);
+                    SHOW_HELP("smoothcam");
                     break;
                 case 4:
-                    showHelp("touchmove", lang, font, fontRu, fontSmall, fontSmallRu, frames);
+                    SHOW_HELP("touchmove");
+                    break;
+                case 5:
+                    SHOW_HELP("autojump");
                     break;
                 }
             }
             else if (down & KEY_SELECT)
             {
-                if (++settingsSelect > 4)
+                if (++settingsSelect > 5)
                     settingsSelect = 0;
             }
             break;
@@ -1378,6 +1397,25 @@ int main(int argc, char **argv)
                     fontSmallRu.printCentered(0, 92, "Edkigpkg mbtbpkgo: rsbd}b");
                     break;
                 }
+                break;
+            }
+            glColor(RGB15(31, 31, 31));
+
+            if (settingsSelect == 5)
+                glColor(RGB15(0, 31, 0));
+            switch (lang)
+            {
+            case Language::English:
+                if (autoJump)
+                    fontSmall.printCentered(0, 103, "Auto jump ON");
+                else
+                    fontSmall.printCentered(0, 103, "Auto jump OFF");
+                break;
+            case Language::Russian:
+                if (autoJump)
+                    fontSmallRu.printCentered(0, 103, "Aduq rs\"iqm CLM");
+                else
+                    fontSmallRu.printCentered(0, 103, "Aduq rs\"iqm C]LM");
                 break;
             }
             glColor(RGB15(31, 31, 31));
