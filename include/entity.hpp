@@ -1,9 +1,7 @@
 #pragma once
-#include <nds.h>
-#include <gl2d.h>
-#include <camera.h>
-#include <defines.h>
-#include <block.hpp>
+#include "camera.h"
+#include "defines.h"
+#include "block.hpp"
 
 void loadEntityTextures(void);
 void loadEntitySounds(void);

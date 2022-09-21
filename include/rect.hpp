@@ -1,8 +1,7 @@
 #pragma once
-#include <gl2d.h>
-#include <defines.h>
-#include <camera.h>
-#include <glext.h>
+#include "defines.h"
+#include "camera.h"
+#include "glext.h"
 
 class Rect
 {

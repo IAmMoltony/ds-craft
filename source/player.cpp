@@ -2,8 +2,8 @@
 // ima need to rewrite some of it
 // good thing TODOs and FIXMEs exist =)
 
-#include <player.hpp>
-#include <crafting.hpp>
+#include "player.hpp"
+#include "crafting.hpp"
 
 extern u8 touchToMove;
 

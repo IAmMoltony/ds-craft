@@ -1,11 +1,10 @@
 #pragma once
-#include <nds.h>
-#include <string>
-#include <lang.hpp>
-#include <player.hpp>
-#include <iterator>
-#include <fs.h>
+#include "lang.hpp"
+#include "player.hpp"
+#include "fs.h"
 #include <sstream>
+#include <iterator>
+#include <string>
 
 InventoryItemID strToIID(std::string &sid);
 

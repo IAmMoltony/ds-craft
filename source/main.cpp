@@ -1,29 +1,23 @@
-#include <nds.h>
-#include <gl2d.h>
-#include <maxmod9.h>
-#include <fat.h>
-#include <images.h>
-#include <fs.h>
-#include <uvcoord_font_16x16.h>
-#include <uvcoord_font_si.h>
-#include <soundbank.h>
-#include <soundbank_bin.h>
-#include <camera.h>
-#include <time.h>
-#include <glext.h>
-#include <stdio.h>
-#include <block.hpp>
-#include <player.hpp>
-#include <font.hpp>
-#include <gamestate.hpp>
-#include <terrain.hpp>
-#include <entity.hpp>
-#include <lang.hpp>
-#include <save.hpp>
-#include <crafting.hpp>
-#include <help.hpp>
+// damn thats a lot of includes
+
+#include "images.h"
+#include "fs.h"
+#include "uvcoord_font_16x16.h"
+#include "uvcoord_font_si.h"
+#include "soundbank.h"
+#include "soundbank_bin.h"
+#include "camera.h"
+#include "glext.h"
+#include "player.hpp"
+#include "gamestate.hpp"
+#include "terrain.hpp"
+#include "save.hpp"
+#include "crafting.hpp"
+#include "help.hpp"
 #include <algorithm>
 #include <sstream>
+#include <stdio.h>
+#include <time.h>
 
 #define SHOW_HELP(setting) showHelp(setting, lang, font, fontRu, fontSmall, fontSmallRu, frames)
 

@@ -1,19 +1,16 @@
 #pragma once
-#include <nds.h>
-#include <gl2d.h>
-#include <maxmod9.h>
-#include <soundbank.h>
-#include <defines.h>
-#include <camera.h>
-#include <images.h>
+#include "soundbank.h"
+#include "defines.h"
+#include "camera.h"
+#include "images.h"
+#include "fs.h"
+#include "block.hpp"
+#include "font.hpp"
+#include "lang.hpp"
+#include "entity.hpp"
+#include <array>
 #include <math.h>
 #include <stdio.h>
-#include <fs.h>
-#include <block.hpp>
-#include <font.hpp>
-#include <lang.hpp>
-#include <entity.hpp>
-#include <array>
 #define NULLITEM                 \
     {                            \
         InventoryItemID::None, 0 \

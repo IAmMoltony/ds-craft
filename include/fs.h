@@ -13,7 +13,7 @@ extern "C"
 #include <sys/stat.h>
 #include <unistd.h>
 #include <dirent.h>
-#include <defines.h>
+#include "defines.h"
 
     void fsInit(void);
     void fsCreateDir(const char *name);

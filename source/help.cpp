@@ -1,4 +1,4 @@
-#include <help.hpp>
+#include "help.hpp"
 
 extern void drawMovingBackground(glImage dirt[1], u8 frames);
 extern glImage sprDirt[1];
