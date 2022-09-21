@@ -1650,7 +1650,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                 }
             }
 
-            // if block isnt solid then skip dat boi
+            // if block isnt solid then skip dat blocc boi
             if (!block->solid())
             {
                 ++i;
@@ -1658,7 +1658,6 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             }
 
             // collision yay
-            // i dont wanna put comments here
             if (block->getRect().intersects(getRectTop()))
             {
                 velY = 0;
@@ -1714,7 +1713,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                 else
                     x = block->getRect().x + 16;
 
-                if (autoJump && velX < 0)
+                if (autoJump && velX < 0 && !jumping)
                 {
                     --y;
                     jump();
@@ -1763,7 +1762,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             if (block->getRect().intersects(getRectRight()))
             {
                 x = block->getRect().x - 12;
-                if (autoJump && velX > 0)
+                if (autoJump && velX > 0 && !jumping)
                 {
                     --y;
                     jump();
