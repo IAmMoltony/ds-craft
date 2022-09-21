@@ -79,7 +79,6 @@ void loadPlayerTextures(void)
     loadImageAlpha(sprPlayerHead, 16, 16, steve_headPal, steve_headBitmap);
 }
 
-// TODO move sound initing, loading and declaring into #defines
 #pragma region sounds
 
 declsfx4(Grass);
