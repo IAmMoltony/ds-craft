@@ -2065,9 +2065,9 @@ struct RecipeCompareKey
 void playerInitCrafting(void)
 {
     DIR *dir;
-    struct dirent *ent;
     if ((dir = opendir("nitro:/crafting")) != NULL)
     {
+        struct dirent *ent;
         while ((ent = readdir(dir)) != NULL)
         {
             std::string str = std::string(ent->d_name);
