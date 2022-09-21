@@ -1830,7 +1830,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             velX = -2;
         if (right && !left)
             velX = 2;
-        // STOP YOU VIOLATED THE LAW!!!!!!
+        // STOP YOU VIOLATED THE LAW!!!!!! xd
         if ((right && left) || (!right && !left))
             velX = 0;
     }
