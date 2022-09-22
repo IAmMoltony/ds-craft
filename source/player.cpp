@@ -1965,3 +1965,18 @@ void Player::jump(void)
         velY = -4;
     }
 }
+                                                                                 
+//                                                                           ......             .;cc'        
+//                                                                       .,:lodxxdc.           'lxko'        
+//                                                                     .;dxxxolcc:'.         .;oxxl'         
+//                                                                     .lkxl'.              .lxkd:.          
+// .;c;.  .,:cc:,.  ...           .,,'.                     .;,.';;'.  .okx:.              'okxl'            
+// ,dkd:,cdxxxxkxl'.cdl'         ;dxkxc.                   .lxxxxkkxl. .okxdlllc,.        .lxxl.             
+// ;dkxdxkdl;';dkd:;dkxc;cllc;..'okxxkxc.          ';:::::''lxkkxddxx:.'okkxddddc.       .lxxo'              
+// ,dkkkxc'   .,c;.,dkxdxkxxxxdclxkoldkx;         .cdxxxxdc,cxkxl'.;;..'okxc'...        'okxl.               
+// ,dkkxc.         'dkxxkko;cdkkkkd;'cxkl.         ..'''....:xkd'      .okx;           .lxxl.                
+// ;dkxl.          'dkxxkxc..lkkkxc..:xkl.                  ;xko'      .lkd,          .lxxl.                 
+// ;dkd,           'dkxoc:' .cxkko.  'ld:.                  'ld:.       .;,.         .cxxl'                  
+// ,dkd,           'dkx;.    'coc'    ..                     ..                      .coc.                   
+// .coc.           .ldo'       .                                                      ..                     
+//   .              ...
