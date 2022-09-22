@@ -26,6 +26,7 @@ glImage sprCobblestone[1];
 glImage sprCoalOre[1];
 glImage sprCoalBlock[1];
 glImage sprGlass[1];
+glImage sprOakTrapdoor[1];
 
 static mm_sound_effect sndDoorOpen1;
 static mm_sound_effect sndDoorOpen2;
@@ -66,6 +67,7 @@ void loadBlockTextures(void)
     loadImageAlpha(sprSapling, 16, 16, oak_saplingPal, oak_saplingBitmap);
     loadImageAlpha(sprBirchSapling, 16, 16, birch_saplingPal, birch_saplingBitmap);
     loadImageAlpha(sprGlass, 32, 16, glassPal, glassBitmap);
+    loadImageAlpha(sprOakTrapdoor, 16, 16, oak_trapdoorPal, oak_trapdoorBitmap);
 }
 
 void loadBlockSounds(void)

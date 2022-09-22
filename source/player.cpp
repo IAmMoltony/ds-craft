@@ -56,6 +56,7 @@ extern glImage sprCobblestone[1];
 extern glImage sprCoalOre[1];
 extern glImage sprCoalBlock[1];
 extern glImage sprGlass[1];
+extern glImage sprOakTrapdoor[1];
 
 void loadPlayerGUI(void)
 {
