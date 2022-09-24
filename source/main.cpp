@@ -1,5 +1,3 @@
-// damn thats a lot of includes
-
 #include "images.h"
 #include "fs.h"
 #include "uvcoord_font_16x16.h"
