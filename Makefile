@@ -27,13 +27,13 @@ GAME_SUBTITLE2 := Version alpha2.3
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
 SOURCES		:=	source
-DATA		:=	data  
+DATA		:=	data
 INCLUDES	:=	include
 GRAPHICS	:=	gfx
 AUDIO       :=  audio
 NITRODATA   :=  nitrofs
 
-EMULATOR := e:\melonds\melonds.exe
+EMULATOR := /home/ubuntu/melonDS
 SOUNDBANK := ../$(NITRODATA)/soundbank.bin
 
 ifeq ($(strip $(DEVKITPRO)),)
