@@ -37,6 +37,7 @@
 #define BID_COAL_BLOCK 24
 #define BID_GLASS 25
 #define BID_BEDROCK 26
+#define BID_OAK_TRAPDOOR 27
 
 // Block implementations for blocks that
 // don't have anything really special.
@@ -254,6 +255,24 @@ public:
 
     bool hasGrown(void);
     void update(void);
+};
+
+class OakTrapdoorBlock : public Block
+{
+private:
+    bool open;
+
+public:
+    OakTrapdoorBlock(s16 x, s16 y);
+    OakTrapdoorBlock(s16 x, s16 y, bool open);
+
+    void draw(Camera camera) override;
+    bool solid(void) override;
+    void interact(void) override;
+    u16 id(void) override;
+    Rect getRect(void) const override;
+
+    bool isOpen(void);
 };
 
 struct BlockCompareKey

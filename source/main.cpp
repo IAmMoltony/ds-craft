@@ -528,6 +528,8 @@ int main(int argc, char **argv)
                             player.addItem(InventoryItemID::Stick);
                         else if (blockid == "apple" && player.canAddItem(InventoryItemID::Apple))
                             player.addItem(InventoryItemID::Apple);
+                        else if (blockid == "oaktrapdoor" && player.canAddItem(InventoryItemID::OakTrapdoor))
+                            player.addItem(InventoryItemID::OakTrapdoor);
                         else
                             ok = false;
 
@@ -581,6 +583,7 @@ int main(int argc, char **argv)
             {
                 if (down & KEY_A)
                 {
+                    // TODO add spawn point pos
                     player.setX(0);
                     player.setY(0);
                     player.restoreHealth();
@@ -635,7 +638,6 @@ int main(int argc, char **argv)
                     worldName = wsWorlds[wsSelected].name;
 
                     // loading screen for assets
-
                     glBegin2D();
                     drawMovingBackground(sprDirt, frames);
                     switch (lang)
@@ -671,6 +673,7 @@ int main(int argc, char **argv)
                     loadWorld(worldName, blocks, entities, player);
                     camera.x = player.getX() - SCREEN_WIDTH / 2;
                     camera.y = player.getY() - SCREEN_HEIGHT / 2;
+
                     mmEffectEx(&sndClick);
                     gameState = GameState::Game;
                     swiWaitForVBlank();

@@ -107,6 +107,15 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         case InventoryItemID::CookedPorkchop:
             id = "cookedporkchop";
             break;
+        case InventoryItemID::Apple:
+            id = "apple";
+            break;
+        case InventoryItemID::Glass:
+            id = "glass";
+            break;
+        case InventoryItemID::OakTrapdoor:
+            id = "oaktrapdoor";
+            break;
         }
 
         wld += "inventory " + std::to_string(i) + " " + id + " " + std::to_string(playerInventory[i].amount) + "\n";
@@ -130,6 +139,13 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             Block *b = block.get();
             BirchDoorBlock *bdoor = reinterpret_cast<BirchDoorBlock *>(b);
             wld += "birchdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(bdoor->isOpen()) + " " + std::to_string(bdoor->getFacing()) + "\n";
+        }
+        // lets not forger about trapdoors
+        else if (block->id() == BID_OAK_TRAPDOOR)
+        {
+            Block *b = block.get();
+            OakTrapdoorBlock *td = reinterpret_cast<OakTrapdoorBlock *>(b);
+            wld += "oaktrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(td->isOpen()) + "\n";
         }
         else
         {
@@ -210,6 +226,14 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             bool open = split[3] == "1";
             bool facing = split[4] == "1";
             blocks.emplace_back(new BirchDoorBlock(x, y, open, facing));
+        }
+        if (split[0] == "oaktrapdoor") // key oaktrapdoor (oaktrapdoor <x> <y> <open>)
+        {
+            s16 x = atoi(split[1].c_str());
+            s16 y = atoi(split[2].c_str());
+            bool open = split[3] == "1";
+
+            blocks.emplace_back(new OakTrapdoorBlock(x, y, open));
         }
         if (split[0] == "block") // key block (block <x> <y> <id>)
         {
@@ -412,6 +436,18 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             {
                 id = InventoryItemID::CookedPorkchop;
             }
+            else if (sid == "apple")
+            {
+                id = InventoryItemID::Apple;
+            }
+            else if (sid == "glass")
+            {
+                id = InventoryItemID::Glass;
+            }
+            else if (sid == "oaktrapdoor")
+            {
+                id = InventoryItemID::OakTrapdoor;
+            }
 
             player.setItem(i, {id, amount});
         }
@@ -421,9 +457,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             s16 y = atoi(split[2].c_str());
             std::string id = split[3];
             if (id == "pig")
-            {
                 entities.emplace_back(new PigEntity(x, y));
-            }
         }
     }
 }

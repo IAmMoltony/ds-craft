@@ -28,15 +28,8 @@ glImage sprCoalBlock[1];
 glImage sprGlass[1];
 glImage sprOakTrapdoor[1];
 
-static mm_sound_effect sndDoorOpen1;
-static mm_sound_effect sndDoorOpen2;
-static mm_sound_effect sndDoorOpen3;
-static mm_sound_effect sndDoorOpen4;
-
-static mm_sound_effect sndDoorClose1;
-static mm_sound_effect sndDoorClose2;
-static mm_sound_effect sndDoorClose3;
-static mm_sound_effect sndDoorClose4;
+declsfx4(DoorOpen);
+declsfx4(DoorClose);
 
 void loadBlockTextures(void)
 {
@@ -468,4 +461,58 @@ Rect GlassBlock::getRect(void) const
 bool GlassBlock::solid(void)
 {
     return true;
+}
+
+//---------------------------------------------
+
+OakTrapdoorBlock::OakTrapdoorBlock(s16 x, s16 y) : Block(x, y)
+{
+    open = false;
+}
+
+OakTrapdoorBlock::OakTrapdoorBlock(s16 x, s16 y, bool open) : Block(x, y)
+{
+    this->open = open;
+}
+
+void OakTrapdoorBlock::draw(Camera camera)
+{
+    if (open)
+        glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprOakTrapdoor);
+    else
+        glSpriteScaleXY(x - camera.x, y - camera.y, 1 << 12, 1 << 10, GL_FLIP_NONE, sprOakTrapdoor);
+}
+
+bool OakTrapdoorBlock::solid(void)
+{
+    return !open;
+}
+
+void OakTrapdoorBlock::interact(void)
+{
+    open = !open;
+}
+
+u16 OakTrapdoorBlock::id(void)
+{
+    return BID_OAK_TRAPDOOR;
+}
+
+Rect OakTrapdoorBlock::getRect(void) const
+{
+    return Rect(x, y, 16, open ? 16 : 4);
+    u8 effect = rand() % 4;
+    if (open)
+    {
+        playsfx(effect, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4)
+    }
+    else
+    {
+        playsfx(effect, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4)
+    }
+}
+
+bool OakTrapdoorBlock::isOpen(void)
+{
+    return open;
 }

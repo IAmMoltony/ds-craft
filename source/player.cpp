@@ -80,8 +80,6 @@ void loadPlayerTextures(void)
     loadImageAlpha(sprPlayerHead, 16, 16, steve_headPal, steve_headBitmap);
 }
 
-#pragma region sounds
-
 declsfx4(Grass);
 declsfx4(Dirt);
 declsfx4(Stone);
@@ -153,7 +151,7 @@ void unloadPlayerSounds(void)
     unloadsfx4(SAND);
     unloadsfx4(CLOTH);
     unloadsfx4(SNOW);
-    
+
     unloadsfx4(STEPGRASS);
     unloadsfx4(STEPGRAVEL);
     unloadsfx4(STEPSTONE);
@@ -165,8 +163,6 @@ void unloadPlayerSounds(void)
     unloadsfx3(HIT);
     unloadsfx3(EAT);
 }
-
-#pragma endregion
 
 const char *getItemStr(Language lang, InventoryItemID iid)
 {
@@ -235,6 +231,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Apple";
         case InventoryItemID::Glass:
             return "Glass";
+        case InventoryItemID::OakTrapdoor:
+            return "Oak Trapdoor";
         }
         break;
     case Language::Russian:
@@ -300,6 +298,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "acnqmq";
         case InventoryItemID::Glass:
             return "Sugmnq";
+        case InventoryItemID::OakTrapdoor:
+            return "Evcqd\"l n%m";
         }
         break;
     }
@@ -371,6 +371,8 @@ glImage *getItemImage(InventoryItemID item)
         return sprApple;
     case InventoryItemID::Glass:
         return sprGlass;
+    case InventoryItemID::OakTrapdoor:
+        return sprOakTrapdoor;
     }
 
     return sprDummy;
@@ -735,10 +737,8 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
         }
 
         if (inventoryCrafting) // if crafting
-        {
-            updateCrafting(); // i thought this is so compilcated that
-                              // i needed to give it its own functiopns
-        }
+            updateCrafting();  // i thought this is so compilcated that
+                               // i needed to give it its own functiopns=
         else
         {
             // inventory navigation
@@ -749,9 +749,8 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
 
             // these if statements check if a direction is pressed
             // and if yes move cursor to that direction
-            // i will not explain this code because im lazy
-            // and i forgor what this does
-            // and how it does it
+            // but also check if we are on boundaries
+            // and if we are then dont move
             if (left)
             {
                 if (inventoryFullSelect - 1 >= 0)
@@ -1191,6 +1190,11 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                                                                 snapToGrid(camera->y + aimY)));
                             playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
                             break;
+                        case InventoryItemID::OakTrapdoor:
+                            blocks->emplace_back(new OakTrapdoorBlock(snapToGrid(camera->x + aimX),
+                                                                      snapToGrid(camera->y + aimY)));
+                            playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                            break;
                         }
                         if (canPlace)
                         {
@@ -1245,6 +1249,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                 {
                     u16 bid = block->id();
                     u8 effect = rand() % 4;
+                    // TODO turn inbto switch statement
                     if (bid == BID_GRASS)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "grass"));
@@ -1393,7 +1398,14 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
                     }
                     else if (bid == BID_GLASS)
+                    {
                         playsfx(effect, sndGlass1, sndGlass2, sndGlass3, sndGlass1);
+                    }
+                    else if (bid == BID_OAK_TRAPDOOR)
+                    {
+                        entities->emplace_back(new DropEntity(block->x, block->y, "oaktrapdoor"));
+                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                    }
 
                     remove = true;
                     removei = i;
@@ -1413,7 +1425,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             if (block->getRect().intersects(getRectTop()))
             {
                 velY = 0;
-                y = block->getRect().y + 17;
+                y = block->getRect().y + block->getRect().h + 1;
             }
 
             if (block->getRect().intersects(getRectBottom()))
@@ -1459,11 +1471,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
 
             if (block->getRect().intersects(getRectLeft()))
             {
-                // door collision is hard coded
-                if (block->id() == BID_DOOR || block->id() == BID_BIRCH_DOOR)
-                    x = block->getRect().x + 4;
-                else
-                    x = block->getRect().x + 16;
+                x = block->getRect().x + block->getRect().w;
 
                 if (autoJump && velX < 0 && !jumping)
                 {
@@ -1907,6 +1915,9 @@ void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
             break;
         case 9:
             glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprGlass);
+            break;
+        case 10:
+            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprOakTrapdoor);
             break;
         }
 

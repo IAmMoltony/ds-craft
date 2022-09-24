@@ -56,6 +56,8 @@ InventoryItemID strToIID(std::string &sid)
         return InventoryItemID::Apple;
     else if (sid == "glass")
         return InventoryItemID::Glass;
+    else if (sid == "oaktrapdoor")
+        return InventoryItemID::OakTrapdoor;
     else
         printf("%s not a valid item string id\n", sid.c_str());
 

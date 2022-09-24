@@ -16,21 +16,25 @@
     }
 
 #define playsfx(effect, sfx1, sfx2, sfx3, sfx4) \
-    switch (effect)                             \
+    do                                          \
     {                                           \
-    case 0:                                     \
-        mmEffectEx(&sfx1);                      \
-        break;                                  \
-    case 1:                                     \
-        mmEffectEx(&sfx2);                      \
-        break;                                  \
-    case 2:                                     \
-        mmEffectEx(&sfx3);                      \
-        break;                                  \
-    case 3:                                     \
-        mmEffectEx(&sfx4);                      \
-        break;                                  \
-    }
+        switch (effect)                         \
+        {                                       \
+        case 0:                                 \
+            mmEffectEx(&sfx1);                  \
+            break;                              \
+        case 1:                                 \
+            mmEffectEx(&sfx2);                  \
+            break;                              \
+        case 2:                                 \
+            mmEffectEx(&sfx3);                  \
+            break;                              \
+        case 3:                                 \
+            mmEffectEx(&sfx4);                  \
+            break;                              \
+        }                                       \
+    } while (0);
+
 #define declsfx4(effectname)            \
     mm_sound_effect snd##effectname##1; \
     mm_sound_effect snd##effectname##2; \
@@ -49,12 +53,12 @@
     mmLoadEffect(SFX_##effectname##1); \
     mmLoadEffect(SFX_##effectname##2); \
     mmLoadEffect(SFX_##effectname##3);
-#define unloadsfx4(effectname) \
+#define unloadsfx4(effectname)           \
     mmUnloadEffect(SFX_##effectname##1); \
     mmUnloadEffect(SFX_##effectname##2); \
     mmUnloadEffect(SFX_##effectname##3); \
     mmUnloadEffect(SFX_##effectname##4);
-#define unloadsfx3(effectname) \
+#define unloadsfx3(effectname)           \
     mmUnloadEffect(SFX_##effectname##1); \
     mmUnloadEffect(SFX_##effectname##2); \
     mmUnloadEffect(SFX_##effectname##3);

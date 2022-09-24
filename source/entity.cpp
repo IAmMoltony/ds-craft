@@ -33,6 +33,7 @@ extern glImage sprCookedPorkchop[1];
 extern glImage sprStick[1];
 extern glImage sprApple[1];
 extern glImage sprGlass[1];
+extern glImage sprOakTrapdoor[1];
 
 static mm_sound_effect sndPigSay1;
 static mm_sound_effect sndPigSay2;
@@ -269,6 +270,8 @@ DropEntity::DropEntity(s16 x, s16 y, const std::string &blockid) : Entity(x, y)
 
 void DropEntity::draw(Camera camera)
 {
+    // TODO write a function that turns string item into image
+
     if (blockid == "grass")
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprGrass);
     else if (blockid == "dirt")
@@ -337,6 +340,8 @@ void DropEntity::draw(Camera camera)
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprApple);
     else if (blockid == "glass")
         glSpriteScale(x + 4 - camera.x - 1, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprGlass);
+    else if (blockid == "oaktrapdoor")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprOakTrapdoor);
 }
 
 void DropEntity::update(BlockList &blocks, Camera camera, u16 frames)
