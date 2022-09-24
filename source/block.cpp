@@ -72,25 +72,11 @@ void loadBlockTextures(void)
 
 void loadBlockSounds(void)
 {
-    mmLoadEffect(SFX_OPEN);
-    mmLoadEffect(SFX_OPEN2);
-    mmLoadEffect(SFX_OPEN3);
-    mmLoadEffect(SFX_OPEN4);
+    loadsfx4(DOOROPEN);
+    loadsfx4(DOORCLOSE);
 
-    mmLoadEffect(SFX_CLOSE);
-    mmLoadEffect(SFX_CLOSE2);
-    mmLoadEffect(SFX_CLOSE3);
-    mmLoadEffect(SFX_CLOSE4);
-
-    sndDoorOpen1 = soundEffect(SFX_OPEN);
-    sndDoorOpen2 = soundEffect(SFX_OPEN2);
-    sndDoorOpen3 = soundEffect(SFX_OPEN3);
-    sndDoorOpen4 = soundEffect(SFX_OPEN4);
-
-    sndDoorClose1 = soundEffect(SFX_CLOSE);
-    sndDoorClose2 = soundEffect(SFX_CLOSE2);
-    sndDoorClose3 = soundEffect(SFX_CLOSE3);
-    sndDoorClose4 = soundEffect(SFX_CLOSE4);
+    setsfx4(DoorOpen, DOOROPEN);
+    setsfx4(DoorClose, DOORCLOSE);
 }
 
 //----------------------------------------
