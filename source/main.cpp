@@ -433,7 +433,7 @@ int main(int argc, char **argv)
                             s16 x = sapling->x;
                             s16 y = sapling->y;
                             blocks.erase(blocks.begin() + i); // remove it
-                            spawnTree(blocks, x, y, TreeType::Oak);
+                            spawnTree(blocks, x, y + 16, TreeType::Oak);
                             std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort blocks
                         }
                     }
@@ -449,7 +449,7 @@ int main(int argc, char **argv)
                             s16 x = sapling->x;
                             s16 y = sapling->y;
                             blocks.erase(blocks.begin() + i); // remove it
-                            spawnTree(blocks, x, y, TreeType::Birch);
+                            spawnTree(blocks, x, y + 16, TreeType::Birch);
                             std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort blocks
                         }
                     }

@@ -49,7 +49,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                 if (sinceLastTree > treeInterval)
                 {
                     placedTree = true;
-                    treeInterval = spawnTree(blocks, i, y, (rand() % 2) ? TreeType::Birch : TreeType::Oak);
+                    treeInterval = spawnTree(blocks, i * 16, y, (rand() % 2) ? TreeType::Birch : TreeType::Oak);
                     sinceLastTree = 0;
                 }
 
@@ -136,7 +136,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                 if (chance(9) && sinceLastTree > treeInterval)
                 {
                     placedTree = true;
-                    treeInterval = spawnTree(blocks, i, y, (rand() % 2) ? TreeType::Birch : TreeType::Oak);
+                    treeInterval = spawnTree(blocks, i * 16, y, (rand() % 2) ? TreeType::Birch : TreeType::Oak);
                     sinceLastTree = 0;
                 }
 
@@ -175,7 +175,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
 
                 if (chance(20) && sinceLastTree > treeInterval)
                 {
-                    treeInterval = spawnTree(blocks, i, y, (rand() % 2) ? TreeType::Birch : TreeType::Oak);
+                    treeInterval = spawnTree(blocks, i * 16, y, (rand() % 2) ? TreeType::Birch : TreeType::Oak);
                     sinceLastTree = 0;
                 }
             }
@@ -195,39 +195,40 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
 int spawnTree(BlockList &blocks, s16 x, s16 y, TreeType treeType)
 {
     u8 treeVariant = rand() % 2;
+    printf("x=%d\ny=%d\ntreevariant=%u\n", x, y, treeVariant);
     switch (treeType)
     {
     case TreeType::Oak:
         switch (treeVariant)
         {
         case 0:
-            blocks.emplace_back(new WoodBlock(x * 16, y - 16));
-            blocks.emplace_back(new WoodBlock(x * 16, y - 32));
-            blocks.emplace_back(new WoodBlock(x * 16, y - 48));
-            blocks.emplace_back(new LeavesBlock(x * 16, y - 64, LeavesType::Oak));
-            blocks.emplace_back(new LeavesBlock(x * 16 - 16, y - 64, LeavesType::Oak));
-            blocks.emplace_back(new LeavesBlock(x * 16 - 32, y - 64, LeavesType::Oak));
-            blocks.emplace_back(new LeavesBlock(x * 16 + 16, y - 64, LeavesType::Oak));
-            blocks.emplace_back(new LeavesBlock(x * 16 + 32, y - 64, LeavesType::Oak));
-            blocks.emplace_back(new LeavesBlock(x * 16, y - 80, LeavesType::Oak));
-            blocks.emplace_back(new LeavesBlock(x * 16 - 16, y - 80, LeavesType::Oak));
-            blocks.emplace_back(new LeavesBlock(x * 16 + 16, y - 80, LeavesType::Oak));
-            blocks.emplace_back(new LeavesBlock(x * 16, y - 96, LeavesType::Oak));
-            blocks.emplace_back(new LeavesBlock(x * 16 - 16, y - 96, LeavesType::Oak));
-            blocks.emplace_back(new LeavesBlock(x * 16 + 16, y - 96, LeavesType::Oak));
+            blocks.emplace_back(new WoodBlock(x, y - 16));
+            blocks.emplace_back(new WoodBlock(x, y - 32));
+            blocks.emplace_back(new WoodBlock(x, y - 48));
+            blocks.emplace_back(new LeavesBlock(x, y - 64, LeavesType::Oak));
+            blocks.emplace_back(new LeavesBlock(x - 16, y - 64, LeavesType::Oak));
+            blocks.emplace_back(new LeavesBlock(x - 32, y - 64, LeavesType::Oak));
+            blocks.emplace_back(new LeavesBlock(x + 16, y - 64, LeavesType::Oak));
+            blocks.emplace_back(new LeavesBlock(x + 32, y - 64, LeavesType::Oak));
+            blocks.emplace_back(new LeavesBlock(x, y - 80, LeavesType::Oak));
+            blocks.emplace_back(new LeavesBlock(x - 16, y - 80, LeavesType::Oak));
+            blocks.emplace_back(new LeavesBlock(x + 16, y - 80, LeavesType::Oak));
+            blocks.emplace_back(new LeavesBlock(x, y - 96, LeavesType::Oak));
+            blocks.emplace_back(new LeavesBlock(x - 16, y - 96, LeavesType::Oak));
+            blocks.emplace_back(new LeavesBlock(x + 16, y - 96, LeavesType::Oak));
             return 5;
         case 1:
-            blocks.emplace_back(new WoodBlock(x * 16, y - 16));
-            blocks.emplace_back(new WoodBlock(x * 16, y - 32));
-            blocks.emplace_back(new LeavesBlock(x * 16, y - 48, LeavesType::Oak));
-            blocks.emplace_back(new LeavesBlock(x * 16 - 16, y - 48, LeavesType::Oak));
-            blocks.emplace_back(new LeavesBlock(x * 16 + 16, y - 48, LeavesType::Oak));
-            blocks.emplace_back(new LeavesBlock(x * 16, y - 64, LeavesType::Oak));
-            blocks.emplace_back(new LeavesBlock(x * 16 - 16, y - 64, LeavesType::Oak));
-            blocks.emplace_back(new LeavesBlock(x * 16 + 16, y - 64, LeavesType::Oak));
-            blocks.emplace_back(new LeavesBlock(x * 16, y - 80, LeavesType::Oak));
-            blocks.emplace_back(new LeavesBlock(x * 16 - 16, y - 80, LeavesType::Oak));
-            blocks.emplace_back(new LeavesBlock(x * 16 + 16, y - 80, LeavesType::Oak));
+            blocks.emplace_back(new WoodBlock(x, y - 16));
+            blocks.emplace_back(new WoodBlock(x, y - 32));
+            blocks.emplace_back(new LeavesBlock(x, y - 48, LeavesType::Oak));
+            blocks.emplace_back(new LeavesBlock(x - 16, y - 48, LeavesType::Oak));
+            blocks.emplace_back(new LeavesBlock(x + 16, y - 48, LeavesType::Oak));
+            blocks.emplace_back(new LeavesBlock(x, y - 64, LeavesType::Oak));
+            blocks.emplace_back(new LeavesBlock(x - 16, y - 64, LeavesType::Oak));
+            blocks.emplace_back(new LeavesBlock(x + 16, y - 64, LeavesType::Oak));
+            blocks.emplace_back(new LeavesBlock(x, y - 80, LeavesType::Oak));
+            blocks.emplace_back(new LeavesBlock(x - 16, y - 80, LeavesType::Oak));
+            blocks.emplace_back(new LeavesBlock(x + 16, y - 80, LeavesType::Oak));
             return 3;
         }
         break;
@@ -235,33 +236,33 @@ int spawnTree(BlockList &blocks, s16 x, s16 y, TreeType treeType)
         switch (treeVariant)
         {
         case 0:
-            blocks.emplace_back(new BirchWoodBlock(x * 16, y - 16));
-            blocks.emplace_back(new BirchWoodBlock(x * 16, y - 32));
-            blocks.emplace_back(new BirchWoodBlock(x * 16, y - 48));
-            blocks.emplace_back(new LeavesBlock(x * 16, y - 64, LeavesType::Birch));
-            blocks.emplace_back(new LeavesBlock(x * 16 - 16, y - 64, LeavesType::Birch));
-            blocks.emplace_back(new LeavesBlock(x * 16 - 32, y - 64, LeavesType::Birch));
-            blocks.emplace_back(new LeavesBlock(x * 16 + 16, y - 64, LeavesType::Birch));
-            blocks.emplace_back(new LeavesBlock(x * 16 + 32, y - 64, LeavesType::Birch));
-            blocks.emplace_back(new LeavesBlock(x * 16, y - 80, LeavesType::Birch));
-            blocks.emplace_back(new LeavesBlock(x * 16 - 16, y - 80, LeavesType::Birch));
-            blocks.emplace_back(new LeavesBlock(x * 16 + 16, y - 80, LeavesType::Birch));
-            blocks.emplace_back(new LeavesBlock(x * 16, y - 96, LeavesType::Birch));
-            blocks.emplace_back(new LeavesBlock(x * 16 - 16, y - 96, LeavesType::Birch));
-            blocks.emplace_back(new LeavesBlock(x * 16 + 16, y - 96, LeavesType::Birch));
+            blocks.emplace_back(new BirchWoodBlock(x, y - 16));
+            blocks.emplace_back(new BirchWoodBlock(x, y - 32));
+            blocks.emplace_back(new BirchWoodBlock(x, y - 48));
+            blocks.emplace_back(new LeavesBlock(x, y - 64, LeavesType::Birch));
+            blocks.emplace_back(new LeavesBlock(x - 16, y - 64, LeavesType::Birch));
+            blocks.emplace_back(new LeavesBlock(x - 32, y - 64, LeavesType::Birch));
+            blocks.emplace_back(new LeavesBlock(x + 16, y - 64, LeavesType::Birch));
+            blocks.emplace_back(new LeavesBlock(x + 32, y - 64, LeavesType::Birch));
+            blocks.emplace_back(new LeavesBlock(x, y - 80, LeavesType::Birch));
+            blocks.emplace_back(new LeavesBlock(x - 16, y - 80, LeavesType::Birch));
+            blocks.emplace_back(new LeavesBlock(x + 16, y - 80, LeavesType::Birch));
+            blocks.emplace_back(new LeavesBlock(x, y - 96, LeavesType::Birch));
+            blocks.emplace_back(new LeavesBlock(x - 16, y - 96, LeavesType::Birch));
+            blocks.emplace_back(new LeavesBlock(x + 16, y - 96, LeavesType::Birch));
             return 5;
         case 1:
-            blocks.emplace_back(new BirchWoodBlock(x * 16, y - 16));
-            blocks.emplace_back(new BirchWoodBlock(x * 16, y - 32));
-            blocks.emplace_back(new LeavesBlock(x * 16, y - 48, LeavesType::Birch));
-            blocks.emplace_back(new LeavesBlock(x * 16 - 16, y - 48, LeavesType::Birch));
-            blocks.emplace_back(new LeavesBlock(x * 16 + 16, y - 48, LeavesType::Birch));
-            blocks.emplace_back(new LeavesBlock(x * 16, y - 64, LeavesType::Birch));
-            blocks.emplace_back(new LeavesBlock(x * 16 - 16, y - 64, LeavesType::Birch));
-            blocks.emplace_back(new LeavesBlock(x * 16 + 16, y - 64, LeavesType::Birch));
-            blocks.emplace_back(new LeavesBlock(x * 16, y - 80, LeavesType::Birch));
-            blocks.emplace_back(new LeavesBlock(x * 16 - 16, y - 80, LeavesType::Birch));
-            blocks.emplace_back(new LeavesBlock(x * 16 + 16, y - 80, LeavesType::Birch));
+            blocks.emplace_back(new BirchWoodBlock(x, y - 16));
+            blocks.emplace_back(new BirchWoodBlock(x, y - 32));
+            blocks.emplace_back(new LeavesBlock(x, y - 48, LeavesType::Birch));
+            blocks.emplace_back(new LeavesBlock(x - 16, y - 48, LeavesType::Birch));
+            blocks.emplace_back(new LeavesBlock(x + 16, y - 48, LeavesType::Birch));
+            blocks.emplace_back(new LeavesBlock(x, y - 64, LeavesType::Birch));
+            blocks.emplace_back(new LeavesBlock(x - 16, y - 64, LeavesType::Birch));
+            blocks.emplace_back(new LeavesBlock(x + 16, y - 64, LeavesType::Birch));
+            blocks.emplace_back(new LeavesBlock(x, y - 80, LeavesType::Birch));
+            blocks.emplace_back(new LeavesBlock(x - 16, y - 80, LeavesType::Birch));
+            blocks.emplace_back(new LeavesBlock(x + 16, y - 80, LeavesType::Birch));
             return 3;
         }
         return 0;

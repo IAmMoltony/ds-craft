@@ -354,7 +354,7 @@ bool BirchDoorBlock::getFacing(void)
 
 //-----------------------------------------
 
-SaplingBlock::SaplingBlock(s16 x, s16 y) : Block(x, y), growTime(1200)
+SaplingBlock::SaplingBlock(s16 x, s16 y) : Block(x, y), growTime(5)
 {
     grown = false;
 }
@@ -398,7 +398,7 @@ void SaplingBlock::update(void)
 
 //---------------------------------------------
 
-BirchSaplingBlock::BirchSaplingBlock(s16 x, s16 y) : Block(x, y), growTime(1200)
+BirchSaplingBlock::BirchSaplingBlock(s16 x, s16 y) : Block(x, y), growTime(5)
 {
     grown = false;
 }
