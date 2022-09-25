@@ -52,6 +52,7 @@ enum class InventoryItemID
     Apple,
     Glass,
     OakTrapdoor,
+    Ladder,
 };
 
 typedef struct inventory_item

@@ -30,7 +30,7 @@ static glImage sprPlayerHead[1];
 // d u m m y
 static glImage sprDummy[1];
 
-// these images are loaded in block.cpp
+// block images
 extern glImage sprGrass[1];
 extern glImage sprDirt[1];
 extern glImage sprStone[1];
@@ -57,6 +57,7 @@ extern glImage sprCoalOre[1];
 extern glImage sprCoalBlock[1];
 extern glImage sprGlass[1];
 extern glImage sprOakTrapdoor[1];
+extern glImage sprLadder[1];
 
 void loadPlayerGUI(void)
 {
@@ -233,6 +234,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Glass";
         case InventoryItemID::OakTrapdoor:
             return "Oak Trapdoor";
+        case InventoryItemID::Ladder:
+            return "Ladder";
         }
         break;
     case Language::Russian:
@@ -300,6 +303,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Sugmnq";
         case InventoryItemID::OakTrapdoor:
             return "Evcqd\"l n%m";
+        case InventoryItemID::Ladder:
+            return "Mgtupkyb";
         }
         break;
     }
@@ -373,6 +378,8 @@ glImage *getItemImage(InventoryItemID item)
         return sprGlass;
     case InventoryItemID::OakTrapdoor:
         return sprOakTrapdoor;
+    case InventoryItemID::Ladder:
+        return sprLadder;
     }
 
     return sprDummy;
@@ -1195,6 +1202,11 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                                                                       snapToGrid(camera->y + aimY)));
                             playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
                             break;
+                        case InventoryItemID::Ladder:
+                            blocks->emplace_back(new LadderBlock(snapToGrid(camera->x + aimX),
+                                                                 snapToGrid(camera->y + aimY)));
+                            playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                            break;
                         }
                         if (canPlace)
                         {
@@ -1406,6 +1418,11 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                         entities->emplace_back(new DropEntity(block->x, block->y, "oaktrapdoor"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
                     }
+                    else if (bid == BID_LADDER)
+                    {
+                        entities->emplace_back(new DropEntity(block->x, block->y, "ladder"));
+                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                    }
 
                     remove = true;
                     removei = i;
@@ -1553,7 +1570,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                 // touch to move
                 if (!(keys & ((touchToMove == 2) ? KEY_UP : KEY_X)))
                 {
-                    if (touchToMove == 0)
+                    if (touchToMove == 0) // uhh what??
                         ;
                     else
                     {
@@ -1575,9 +1592,45 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             }
         }
 
-        // jumpign
+        bool collideLadder = false;
+
+        // check if collide with ladder
+        for (auto &block : *blocks)
+        {
+            // optimizaciones
+            if (block->getRect().x - camera->x < -16 ||
+                block->getRect().y - camera->y < -16 ||
+                block->id() != BID_LADDER)
+                continue;
+            if (block->getRect().x - camera->x > SCREEN_WIDTH + 48)
+                break;
+
+            if (Rect(x, y, 12, 32).intersects(block->getRect()))
+            {
+                collideLadder = true;
+                break;
+            }
+        }
+
         if (up)
-            jump();
+        {
+            if (collideLadder)
+            {
+                jumping = true;
+                airY = 0;
+                velY = 0;
+                --y;
+            }
+            else
+                jump();
+        }
+        else if (collideLadder)
+        {
+            jumping = true;
+            ++y;
+            velY = 0;
+            airY = 0;
+        }
 
         if (aimX < x - camera->x + sprPlayer->width / 2)
             facing = Facing::Left;
@@ -1589,6 +1642,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             velX = -2;
         if (right && !left)
             velX = 2;
+
         // STOP YOU VIOLATED THE LAW!!!!!! xd
         if ((right && left) || (!right && !left))
             velX = 0;
@@ -1918,6 +1972,9 @@ void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
             break;
         case 10:
             glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprOakTrapdoor);
+            break;
+        case 11:
+            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprLadder);
             break;
         }
 

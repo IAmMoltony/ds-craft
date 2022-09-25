@@ -116,6 +116,9 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         case InventoryItemID::OakTrapdoor:
             id = "oaktrapdoor";
             break;
+        case InventoryItemID::Ladder:
+            id = "ladder";
+            break;
         }
 
         wld += "inventory " + std::to_string(i) + " " + id + " " + std::to_string(playerInventory[i].amount) + "\n";
@@ -315,6 +318,9 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             case BID_BEDROCK:
                 blocks.emplace_back(new BedrockBlock(x, y));
                 break;
+            case BID_LADDER:
+                blocks.emplace_back(new LadderBlock(x, y));
+                break;
             }
         }
         if (split[0] == "inventory") // key inventory item (inventory <index> <amount> <id>)
@@ -447,6 +453,10 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             else if (sid == "oaktrapdoor")
             {
                 id = InventoryItemID::OakTrapdoor;
+            }
+            else if (sid == "ladder")
+            {
+                id = InventoryItemID::Ladder;
             }
 
             player.setItem(i, {id, amount});
