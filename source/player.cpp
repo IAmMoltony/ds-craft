@@ -1489,8 +1489,8 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                         }
 
                         // s H A K E !! !
-                        camera->x += randomRange(-20, 20);
-                        camera->y += randomRange(-20, 20);
+                        camera->x += randomRange(-50, 50);
+                        camera->y += randomRange(-50, 50);
                     }
                 }
                 airY = 0;
