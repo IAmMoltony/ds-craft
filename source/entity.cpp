@@ -34,10 +34,9 @@ extern glImage sprStick[1];
 extern glImage sprApple[1];
 extern glImage sprGlass[1];
 extern glImage sprOakTrapdoor[1];
+extern glImage sprLadder[1];
 
-static mm_sound_effect sndPigSay1;
-static mm_sound_effect sndPigSay2;
-static mm_sound_effect sndPigSay3;
+declsfx3(PigSay);
 
 void loadEntityTextures(void)
 {
@@ -47,13 +46,8 @@ void loadEntityTextures(void)
 
 void loadEntitySounds(void)
 {
-    mmLoadEffect(SFX_PIGSAY1);
-    mmLoadEffect(SFX_PIGSAY2);
-    mmLoadEffect(SFX_PIGSAY3);
-
-    sndPigSay1 = soundEffect(SFX_PIGSAY1);
-    sndPigSay2 = soundEffect(SFX_PIGSAY2);
-    sndPigSay3 = soundEffect(SFX_PIGSAY3);
+    loadsfx3(PIGSAY);
+    setsfx3(PigSay, PIGSAY);
 }
 
 Entity::Entity(s16 x, s16 y)
@@ -342,6 +336,8 @@ void DropEntity::draw(Camera camera)
         glSpriteScale(x + 4 - camera.x - 1, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprGlass);
     else if (blockid == "oaktrapdoor")
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprOakTrapdoor);
+    else if (blockid == "ladder")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprLadder);
 }
 
 void DropEntity::update(BlockList &blocks, Camera camera, u16 frames)
