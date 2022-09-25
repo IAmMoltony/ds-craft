@@ -983,16 +983,30 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                     }
                 }
 
-                if (!interact && !Rect(x, y, 12, 32)
-                                      .intersects(
-                                          Rect(snapToGrid(camera->x + aimX),
-                                               snapToGrid(camera->y + aimY), 16, 16)))
+                bool check = !Rect(x, y, 12, 32)
+                                  .intersects(
+                                      Rect(snapToGrid(camera->x + aimX),
+                                           snapToGrid(camera->y + aimY), 16, 16));
+                InventoryItemID id = inventory[inventorySelect].id;
+                // nonsolid blocks can be placed inside player
+                if (id == InventoryItemID::Wood ||
+                    id == InventoryItemID::BirchWood ||
+                    id == InventoryItemID::Leaves ||
+                    id == InventoryItemID::BirchLeaves ||
+                    id == InventoryItemID::Sapling ||
+                    id == InventoryItemID::BirchSapling ||
+                    id == InventoryItemID::Poppy ||
+                    id == InventoryItemID::Dandelion ||
+                    id == InventoryItemID::RedTulip ||
+                    id == InventoryItemID::Ladder)
+                    check = true;
+
+                if (!interact && check)
                 {
                     // place a block or interact
                     // some blocks can only be placed on certain other blocks
-                    InventoryItemID id = inventory[inventorySelect].id;
                     if (inventory[inventorySelect].amount > 0 &&
-                        id != InventoryItemID::Stick)
+                        !isItem(id))
                     {
                         u8 effect = rand() % 4; // sound effect 2 play
                         bool canPlace = true;   // can place block?????
