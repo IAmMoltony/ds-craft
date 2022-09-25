@@ -195,7 +195,6 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
 int spawnTree(BlockList &blocks, s16 x, s16 y, TreeType treeType)
 {
     u8 treeVariant = rand() % 2;
-    printf("x=%d\ny=%d\ntreevariant=%u\n", x, y, treeVariant);
     switch (treeType)
     {
     case TreeType::Oak:
