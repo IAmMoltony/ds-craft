@@ -1,9 +1,6 @@
 @echo off
 if not exist "releases" mkdir releases
-if exist "releases\ds-craft.nds" (
-    echo ds-craft.nds exists in releases directory. please delete or move it.
-    exit /B 1
-)
+if exist "releases\ds-craft.nds" del "releases\ds-craft.nds"
 
 if "%1"=="" (
     echo Usage: %0 ^<release version^>
