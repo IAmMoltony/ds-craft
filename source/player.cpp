@@ -1630,7 +1630,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
         {
             if (collideLadder)
             {
-                jumping = true;
+                jumping = false;
                 airY = 0;
                 velY = 0;
                 --y;
@@ -1640,7 +1640,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
         }
         else if (collideLadder)
         {
-            jumping = true;
+            jumping = false;
             ++y;
             velY = 0;
             airY = 0;
