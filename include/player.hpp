@@ -39,7 +39,7 @@ enum class InventoryItemID
     BirchDoor,
     Planks,
     BirchPlanks,
-    Stick, // TODO stick is literally useless right now, i need to fix that
+    Stick,
     SnowyGrass,
     Sapling,
     BirchSapling,

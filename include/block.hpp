@@ -38,6 +38,7 @@
 #define BID_GLASS 25
 #define BID_BEDROCK 26
 #define BID_OAK_TRAPDOOR 27
+#define BID_LADDER 28
 
 // Block implementations for blocks that
 // don't have anything really special.
@@ -146,6 +147,7 @@ GENERIC_BLOCK_DECL(CobblestoneBlock)
 GENERIC_BLOCK_DECL(CoalOreBlock)
 GENERIC_BLOCK_DECL(CoalBlock)
 GENERIC_BLOCK_DECL(GlassBlock)
+GENERIC_BLOCK_DECL(LadderBlock)
 
 // non-generic block declarations
 

@@ -27,6 +27,7 @@ glImage sprCoalOre[1];
 glImage sprCoalBlock[1];
 glImage sprGlass[1];
 glImage sprOakTrapdoor[1];
+glImage sprLadder[1];
 
 declsfx4(DoorOpen);
 declsfx4(DoorClose);
@@ -61,6 +62,7 @@ void loadBlockTextures(void)
     loadImageAlpha(sprBirchSapling, 16, 16, birch_saplingPal, birch_saplingBitmap);
     loadImageAlpha(sprGlass, 32, 16, glassPal, glassBitmap);
     loadImageAlpha(sprOakTrapdoor, 16, 16, oak_trapdoorPal, oak_trapdoorBitmap);
+    loadImageAlpha(sprLadder, 16, 16, ladderPal, ladderBitmap);
 }
 
 void loadBlockSounds(void)
@@ -108,6 +110,7 @@ NONSOLID_BLOCK_IMPL(WoodBlock, sprWood, BID_WOOD)
 NONSOLID_BLOCK_IMPL(BirchWoodBlock, sprBirchWood, BID_BIRCH_WOOD)
 NONSOLID_BLOCK_IMPL(CactusBlock, sprCactus, BID_CACTUS)
 NONSOLID_BLOCK_IMPL(DeadBushBlock, sprDeadBush, BID_DEAD_BUSH);
+NONSOLID_BLOCK_IMPL(LadderBlock, sprLadder, BID_LADDER);
 
 // non-generic implementations
 
@@ -491,6 +494,15 @@ bool OakTrapdoorBlock::solid(void)
 void OakTrapdoorBlock::interact(void)
 {
     open = !open;
+    u8 effect = rand() % 4;
+    if (open)
+    {
+        playsfx(effect, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4)
+    }
+    else
+    {
+        playsfx(effect, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4)
+    }
 }
 
 u16 OakTrapdoorBlock::id(void)
@@ -501,15 +513,6 @@ u16 OakTrapdoorBlock::id(void)
 Rect OakTrapdoorBlock::getRect(void) const
 {
     return Rect(x, y, 16, open ? 16 : 4);
-    u8 effect = rand() % 4;
-    if (open)
-    {
-        playsfx(effect, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4)
-    }
-    else
-    {
-        playsfx(effect, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4)
-    }
 }
 
 bool OakTrapdoorBlock::isOpen(void)

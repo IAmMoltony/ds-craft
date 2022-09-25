@@ -674,6 +674,9 @@ int main(int argc, char **argv)
                     camera.x = player.getX() - SCREEN_WIDTH / 2;
                     camera.y = player.getY() - SCREEN_HEIGHT / 2;
 
+                    blocks.emplace_back(new LadderBlock(0, 0));
+                    std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
+
                     mmEffectEx(&sndClick);
                     gameState = GameState::Game;
                     swiWaitForVBlank();

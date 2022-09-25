@@ -34,6 +34,7 @@
 #include "coal_block.h"
 #include "glass.h"
 #include "oak_trapdoor.h"
+#include "ladder.h"
 #include "placeholder_logo.h"
 #include "placeholder_guy.h"
 #include "steve.h"
