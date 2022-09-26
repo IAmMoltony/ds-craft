@@ -57,6 +57,7 @@ extern glImage sprCoalOre[1];
 extern glImage sprCoalBlock[1];
 extern glImage sprGlass[1];
 extern glImage sprOakTrapdoor[1];
+extern glImage sprBirchTrapdoor[1];
 extern glImage sprLadder[1];
 
 void loadPlayerGUI(void)
@@ -236,6 +237,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Oak Trapdoor";
         case InventoryItemID::Ladder:
             return "Ladder";
+        case InventoryItemID::BirchTrapdoor:
+            return "Birch Trapdoor";
         }
         break;
     case Language::Russian:
@@ -305,6 +308,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Evcqd\"l n%m";
         case InventoryItemID::Ladder:
             return "Mgtupkyb";
+        case InventoryItemID::BirchTrapdoor:
+            return "Bgshjqd\"l n%m";
         }
         break;
     }
@@ -378,11 +383,13 @@ glImage *getItemImage(InventoryItemID item)
         return sprGlass;
     case InventoryItemID::OakTrapdoor:
         return sprOakTrapdoor;
+    case InventoryItemID::BirchTrapdoor:
+        return sprBirchTrapdoor;
     case InventoryItemID::Ladder:
         return sprLadder;
     }
 
-    return sprDummy;
+    return sprDummy; // amogus
 }
 
 bool isItem(InventoryItemID id)
@@ -1216,6 +1223,11 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                                                                       snapToGrid(camera->y + aimY)));
                             playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
                             break;
+                        case InventoryItemID::BirchTrapdoor:
+                            blocks->emplace_back(new BirchTrapdoorBlock(snapToGrid(camera->x + aimX),
+                                                                        snapToGrid(camera->y + aimY)));
+                            playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                            break;
                         case InventoryItemID::Ladder:
                             blocks->emplace_back(new LadderBlock(snapToGrid(camera->x + aimX),
                                                                  snapToGrid(camera->y + aimY)));
@@ -1430,6 +1442,11 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                     else if (bid == BID_OAK_TRAPDOOR)
                     {
                         entities->emplace_back(new DropEntity(block->x, block->y, "oaktrapdoor"));
+                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                    }
+                    else if (bid == BID_BIRCH_TRAPDOOR)
+                    {
+                        entities->emplace_back(new DropEntity(block->x, block->y, "birchtrapdoor"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
                     }
                     else if (bid == BID_LADDER)

@@ -39,6 +39,7 @@
 #define BID_BEDROCK 26
 #define BID_OAK_TRAPDOOR 27
 #define BID_LADDER 28
+#define BID_BIRCH_TRAPDOOR 29
 
 // Block implementations for blocks that
 // don't have anything really special.
@@ -267,6 +268,24 @@ private:
 public:
     OakTrapdoorBlock(s16 x, s16 y);
     OakTrapdoorBlock(s16 x, s16 y, bool open);
+
+    void draw(Camera camera) override;
+    bool solid(void) override;
+    void interact(void) override;
+    u16 id(void) override;
+    Rect getRect(void) const override;
+
+    bool isOpen(void);
+};
+
+class BirchTrapdoorBlock : public Block
+{
+private:
+    bool open;
+
+public:
+    BirchTrapdoorBlock(s16 x, s16 y);
+    BirchTrapdoorBlock(s16 x, s16 y, bool open);
 
     void draw(Camera camera) override;
     bool solid(void) override;

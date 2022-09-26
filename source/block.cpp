@@ -27,6 +27,7 @@ glImage sprCoalOre[1];
 glImage sprCoalBlock[1];
 glImage sprGlass[1];
 glImage sprOakTrapdoor[1];
+glImage sprBirchTrapdoor[1];
 glImage sprLadder[1];
 
 declsfx4(DoorOpen);
@@ -50,6 +51,7 @@ void loadBlockTextures(void)
     loadImage(sprCobblestone, 16, 16, cobblestoneBitmap);
     loadImage(sprCoalOre, 16, 16, coal_oreBitmap);
     loadImage(sprCoalBlock, 16, 16, coal_blockBitmap);
+    loadImage(sprBirchTrapdoor, 16, 16, birch_trapdoorBitmap);
 
     loadImageAlpha(sprCactus, 16, 16, cactus_sidePal, cactus_sideBitmap);
     loadImageAlpha(sprDeadBush, 16, 16, dead_bushPal, dead_bushBitmap);
@@ -516,6 +518,60 @@ Rect OakTrapdoorBlock::getRect(void) const
 }
 
 bool OakTrapdoorBlock::isOpen(void)
+{
+    return open;
+}
+
+//---------------------------------------------
+
+BirchTrapdoorBlock::BirchTrapdoorBlock(s16 x, s16 y) : Block(x, y)
+{
+    open = false;
+}
+
+BirchTrapdoorBlock::BirchTrapdoorBlock(s16 x, s16 y, bool open) : Block(x, y)
+{
+    this->open = open;
+}
+
+void BirchTrapdoorBlock::draw(Camera camera)
+{
+    if (open)
+        glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprBirchTrapdoor);
+    else
+        glSpriteScaleXY(x - camera.x, y - camera.y, 1 << 12, 1 << 10, GL_FLIP_NONE, sprBirchTrapdoor);
+}
+
+bool BirchTrapdoorBlock::solid(void)
+{
+    return !open;
+}
+
+void BirchTrapdoorBlock::interact(void)
+{
+    open = !open;
+    u8 effect = rand() % 4;
+    if (open)
+    {
+        playsfx(effect, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4)
+    }
+    else
+    {
+        playsfx(effect, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4)
+    }
+}
+
+u16 BirchTrapdoorBlock::id(void)
+{
+    return BID_BIRCH_TRAPDOOR;
+}
+
+Rect BirchTrapdoorBlock::getRect(void) const
+{
+    return Rect(x, y, 16, open ? 16 : 4);
+}
+
+bool BirchTrapdoorBlock::isOpen(void)
 {
     return open;
 }

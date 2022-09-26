@@ -52,6 +52,7 @@ enum class InventoryItemID
     Apple,
     Glass,
     OakTrapdoor,
+    BirchTrapdoor,
     Ladder,
 };
 

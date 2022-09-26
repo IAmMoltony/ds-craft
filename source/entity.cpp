@@ -34,6 +34,7 @@ extern glImage sprStick[1];
 extern glImage sprApple[1];
 extern glImage sprGlass[1];
 extern glImage sprOakTrapdoor[1];
+extern glImage sprBirchTrapdoor[1];
 extern glImage sprLadder[1];
 
 declsfx3(PigSay);
@@ -336,6 +337,8 @@ void DropEntity::draw(Camera camera)
         glSpriteScale(x + 4 - camera.x - 1, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprGlass);
     else if (blockid == "oaktrapdoor")
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprOakTrapdoor);
+    else if (blockid == "birchtrapdoor")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprBirchTrapdoor);
     else if (blockid == "ladder")
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprLadder);
 }

@@ -530,6 +530,8 @@ int main(int argc, char **argv)
                             player.addItem(InventoryItemID::Apple);
                         else if (blockid == "oaktrapdoor" && player.canAddItem(InventoryItemID::OakTrapdoor))
                             player.addItem(InventoryItemID::OakTrapdoor);
+                        else if (blockid == "birchtrapdoor" && player.canAddItem(InventoryItemID::BirchTrapdoor))
+                            player.addItem(InventoryItemID::BirchTrapdoor);
                         else if (blockid == "ladder" && player.canAddItem(InventoryItemID::Ladder))
                             player.addItem(InventoryItemID::Ladder);
                         else
