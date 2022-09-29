@@ -33,7 +33,7 @@ GRAPHICS	:=	gfx
 AUDIO       :=  audio
 NITRODATA   :=  nitrofs
 
-EMULATOR := E:\melonds\melonds.exe
+EMULATOR := /home/ubuntu/melonDS
 SOUNDBANK := ../$(NITRODATA)/soundbank.bin
 
 ifeq ($(strip $(DEVKITPRO)),)
