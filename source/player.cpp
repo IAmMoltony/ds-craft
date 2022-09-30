@@ -1681,7 +1681,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
 
     if (y > 860)
     {
-        // die when fall under the world
+        // die when fall under the world (som ehow)
         health = -1;
         airY = 0;
         u8 effect = randomRange(0, 2);
@@ -1828,6 +1828,9 @@ bool Player::isInventoryFull(void)
 
 bool Player::canAddItem(InventoryItemID item)
 {
+    if (isInventoryFull()) // we cant add anything if our inventory is full
+        return false;
+
     for (u8 i = 0; i < 20; ++i)
     {
         if (inventory[i].id == InventoryItemID::None && inventory[i].amount == 0)
@@ -1909,6 +1912,7 @@ struct RecipeCompareKey
 
 void playerInitCrafting(void)
 {
+    static const std::string ending = ".rcp";
     DIR *dir;
     if ((dir = opendir("nitro:/crafting")) != NULL)
     {
@@ -1916,10 +1920,9 @@ void playerInitCrafting(void)
         while ((ent = readdir(dir)) != NULL)
         {
             std::string str = std::string(ent->d_name);
-            std::string ending = ".rcp";
             if (str == "." || str == "..")
                 continue;
-            // check if begins with .rcp
+            // check if ends with .rcp
             if (std::equal(ending.rbegin(), ending.rend(), str.rbegin()))
             {
                 for (u8 i = 0; i < 4; ++i)
@@ -1939,6 +1942,7 @@ void playerInitCrafting(void)
     std::sort(recipes.begin(), recipes.end(), RecipeCompareKey()); // sort
 }
 
+// hmm
 static bool canCraft(Player *pThis, CraftingRecipe recipe)
 {
     std::vector<InventoryItem> *rvec = recipe.getRecipe();
@@ -1965,10 +1969,10 @@ void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
                  craftingSelect == i ? sprInventorySlotSelect : sprInventorySlot);
         glColor(RGB15(31, 31, 31));
 
+        // TODO rewrite.
         switch (recipe.getTexID())
         {
-        default: // usually -1, useful for making a reciipe for an item i dont have
-                 // texture for yet
+        default:
             glSprite(16 + i * 16, 60, GL_FLIP_NONE, sprDummy);
             break;
         case 0:
@@ -2006,6 +2010,9 @@ void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
             break;
         case 11:
             glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprLadder);
+            break;
+        case 12:
+            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprBirchTrapdoor);
             break;
         }
 

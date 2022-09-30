@@ -23,7 +23,6 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     for (u8 i = 0; i < 20; ++i)
     {
         std::string id;
-        // i hate switch statements
         switch (playerInventory[i].id)
         {
         case InventoryItemID::None:
@@ -116,6 +115,9 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         case InventoryItemID::OakTrapdoor:
             id = "oaktrapdoor";
             break;
+        case InventoryItemID::BirchTrapdoor:
+            id = "birchtrapdoor";
+            break;
         case InventoryItemID::Ladder:
             id = "ladder";
             break;
@@ -149,6 +151,13 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             Block *b = block.get();
             OakTrapdoorBlock *td = reinterpret_cast<OakTrapdoorBlock *>(b);
             wld += "oaktrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(td->isOpen()) + "\n";
+        }
+        // birch too
+        else if (block->id() == BID_BIRCH_TRAPDOOR)
+        {
+            Block *b = block.get();
+            BirchTrapdoorBlock *td = reinterpret_cast<BirchTrapdoorBlock *>(b);
+            wld += "birchtrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(td->isOpen()) + "\n";
         }
         else
         {
@@ -237,6 +246,14 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             bool open = split[3] == "1";
 
             blocks.emplace_back(new OakTrapdoorBlock(x, y, open));
+        }
+        if (split[0] == "birchtrapdoor") // key birchtrapdoor (birchtrapdoor <x> <y> <open>)
+        {
+            s16 x = atoi(split[1].c_str());
+            s16 y = atoi(split[2].c_str());
+            bool open = split[3] == "1";
+
+            blocks.emplace_back(new BirchTrapdoorBlock(x, y, open));
         }
         if (split[0] == "block") // key block (block <x> <y> <id>)
         {
@@ -453,6 +470,10 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             else if (sid == "oaktrapdoor")
             {
                 id = InventoryItemID::OakTrapdoor;
+            }
+            else if (sid == "birchtrapdoor")
+            {
+                id = InventoryItemID::BirchTrapdoor;
             }
             else if (sid == "ladder")
             {
