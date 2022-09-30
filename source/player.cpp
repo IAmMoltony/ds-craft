@@ -592,7 +592,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
     }
     else
     {
-        glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(1));
+        glPolyFmt(POLY_ALPHA(10) | POLY_CULL_NONE | POLY_ID(1));
 
         // draw the aim as green square (not block) or a half-transparent
         // version of the block
