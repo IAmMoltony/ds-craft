@@ -9,7 +9,7 @@ endif
 GAME_ICON      := ../icon.bmp
 GAME_TITLE     := DS-Craft
 GAME_SUBTITLE1 := Minecraft clone for NDS
-GAME_SUBTITLE2 := Version alpha2.3.1
+GAME_SUBTITLE2 := Version alpha2.4
 
 #---------------------------------------------------------------------------------
 # TARGET is the name of the output
