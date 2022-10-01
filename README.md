@@ -28,7 +28,7 @@ Press the R button to select the next crafting recipe. Press the A button to cra
 
 ## How to build
 
-If you just want to compile, use `make`. To make and then run, use `make build run` (but you need to modify the emulator in the makefile). To recompile, use `make clean build` and if you want to recompile and runb use `make clean build run`.
+If you just want to compile, use `make`. To make and then run, use `make build run` (but you need to modify the emulator in the makefile). To recompile, use `make clean build` and if you want to recompile and run use `make clean build run`.
 
 ## Credits
 
