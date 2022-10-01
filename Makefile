@@ -6,11 +6,6 @@ ifeq ($(strip $(DEVKITARM)),)
 $(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM")
 endif
 
-GAME_ICON      := ../icon.bmp
-GAME_TITLE     := DS-Craft
-GAME_SUBTITLE1 := Minecraft clone for NDS
-GAME_SUBTITLE2 := Version alpha2.4
-
 #---------------------------------------------------------------------------------
 # TARGET is the name of the output
 # BUILD is the directory where object files & intermediate files will be placed
@@ -33,8 +28,35 @@ GRAPHICS	:=	gfx
 AUDIO       :=  audio
 NITRODATA   :=  nitrofs
 
-EMULATOR := /home/ubuntu/melonDS
+CURDIR_BASENAME := $(shell basename $(CURDIR))
+
+ifeq ($(CURDIR_BASENAME),build)
+VERSION_MAJOR  := $(shell sed '1!d' ../$(NITRODATA)/game.ver)
+VERSION_MINOR  := $(shell sed '2!d' ../$(NITRODATA)/game.ver)
+VERSION_PATCH  := $(shell sed '3!d' ../$(NITRODATA)/game.ver)
+VERSION_PREFIX := $(shell sed '4!d' ../$(NITRODATA)/game.ver)
+else
+VERSION_MAJOR  := $(shell sed '1!d' $(NITRODATA)/game.ver)
+VERSION_MINOR  := $(shell sed '2!d' $(NITRODATA)/game.ver)
+VERSION_PATCH  := $(shell sed '3!d' $(NITRODATA)/game.ver)
+VERSION_PREFIX := $(shell sed '4!d' $(NITRODATA)/game.ver)
+endif
+
+GAME_ICON      := ../icon.bmp
+GAME_TITLE     := DS-Craft
+GAME_SUBTITLE1 := Minecraft clone for NDS
+ifeq ($(strip $(VERSION_PATCH)),0)
+GAME_SUBTITLE2 := Version $(VERSION_PREFIX)$(VERSION_MAJOR).$(VERSION_MINOR)
+else
+GAME_SUBTITLE2 := Version $(VERSION_PREFIX)$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
+endif
+
+EMULATOR := E:/melonds/melonds.exe
+ifeq ($(CURDIR_BASENAME),build)
 SOUNDBANK := ../$(NITRODATA)/soundbank.bin
+else
+SOUNDBANK := $(NITRODATA)/soundbank.bin
+endif
 
 ifeq ($(strip $(DEVKITPRO)),)
 $(error "Please set DEVKITPRO in your environment. export DEVKITPRO=<path to>devkitPro)
@@ -44,8 +66,6 @@ include $(DEVKITARM)/base_rules
 
 PORTLIBS	:=	$(PORTLIBS_PATH)/nds $(PORTLIBS_PATH)/armv5te
 LIBNDS		:=	$(DEVKITPRO)/libnds
-
-OFILES_FILTER := $(filter-out ../$(NITRODATA)/soundbank.bin.o,$(OFILES))
 
 ifeq ($(strip $(GAME_TITLE)),)
 GAME_TITLE	:=	$(notdir $(OUTPUT))
@@ -88,9 +108,9 @@ endif
 	$(SILENTMSG) built ... $(notdir $@)
 
 #---------------------------------------------------------------------------------
-%.elf:
+%.elf: $(SOUNDBANK)
 	$(SILENTMSG) linking $(notdir $@)
-	$(SILENTCMD)$(LD)  $(LDFLAGS) $(OFILES_FILTER) $(LIBPATHS) $(LIBS) -o $@
+	$(SILENTCMD)$(LD) $(LDFLAGS) $(OFILES) $(LIBPATHS) $(LIBS) -o $@
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -146,7 +166,7 @@ endif
 CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
 CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
 SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
-BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*))) $(SOUNDBANK)
+BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
 BMPFILES	:=	$(foreach dir,$(GRAPHICS),$(notdir $(wildcard $(dir)/*.bmp)))
 PNGFILES	:=	$(foreach dir,$(GRAPHICS),$(notdir $(wildcard $(dir)/*.png)))
 
@@ -166,11 +186,12 @@ else
 endif
 #---------------------------------------------------------------------------------
 
-export OFILES_BIN   :=	$(addsuffix .o,$(BINFILES))
-
 export OFILES_SOURCES := $(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o)
 
 export OFILES := $(PNGFILES:.png=.o) $(BMPFILES:.bmp=.o) $(OFILES_BIN) $(OFILES_SOURCES)
+
+#export OFILES_FILTER := $(filter-out $(SOUNDBANK).o,$(OFILES))
+#$(info $(OFILES_FILTER))
 
 export HFILES := $(PNGFILES:.png=.h) $(BMPFILES:.bmp=.h) $(addsuffix .h,$(subst .,_,$(BINFILES)))
  
@@ -223,7 +244,7 @@ $(OUTPUT).elf	:	$(OFILES)
 	@$(bin2o)
 
 $(SOUNDBANK): $(AUDIOFILES)
-	@mmutil $^ -o$@ -hsoundbank.h -d
+	@mmutil $^ -hsoundbank.h -o$@ -d
 
 #---------------------------------------------------------------------------------
 # This rule creates assembly source files using grit

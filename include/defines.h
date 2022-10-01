@@ -72,10 +72,6 @@
     snd##effectname##2 = soundEffect(SFX_##effectid##2); \
     snd##effectname##3 = soundEffect(SFX_##effectid##3);
 
-#define VERSION_PREFIX "alpha"
-#define VERSION_MAJOR 2
-#define VERSION_MINOR 4
-#define VERSION_PATCH 0
 #define SKIP_SPLASH_SCREEN 0
 #define FS_ERROR_MESSAGES 0
 

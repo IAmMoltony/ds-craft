@@ -3,9 +3,9 @@
 #include "uvcoord_font_16x16.h"
 #include "uvcoord_font_si.h"
 #include "soundbank.h"
-#include "soundbank_bin.h"
 #include "camera.h"
 #include "glext.h"
+#include "gamever.hpp"
 #include "player.hpp"
 #include "gamestate.hpp"
 #include "terrain.hpp"
@@ -88,7 +88,7 @@ std::vector<WorldInfo> getWorlds(void)
     return worlds;
 }
 
-int main(int argc, char **argv)
+extern "C" int main(int argc, char **argv)
 {
     // initialization
 
@@ -114,6 +114,9 @@ int main(int argc, char **argv)
 
     // init filesystem
     fsInit();
+
+    // init gamever
+    gameverInit();
 
     // init sounds
     mmInitDefault((char *)"nitro:/soundbank.bin"); // i dont care what iso c++ forbids
@@ -982,7 +985,7 @@ int main(int argc, char **argv)
             }
 
             glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(4));
-            fontSmall.printf(3, 3, "%s%d.%d.%d", VERSION_PREFIX, VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH);
+            fontSmall.printf(3, 3, "%s", getVersionString());
             glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(4));
 
             if (paused)
@@ -1276,7 +1279,7 @@ int main(int argc, char **argv)
 
             fontSmall.printCentered(0, 50, "Compiled on:");
             fontSmall.printfCentered(0, 61, "%s %s", __DATE__, __TIME__);
-            fontSmall.printfCentered(0, 83, "Version %s%d.%d.%d", VERSION_PREFIX, VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH);
+            fontSmall.printfCentered(0, 83, "Version %s", getVersionString());
 
             glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, bbtn);
             switch (lang)
