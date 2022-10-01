@@ -1292,7 +1292,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                     switch (bid)
                     {
                     case BID_GRASS:
-                        entities->emplace_back(new DropEntity(block->x, block->y, "grass"));
+                        entities->emplace_back(new DropEntity(block->x, block->y, "dirt"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
                         break;
                     case BID_DIRT:
@@ -1315,15 +1315,6 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                     {
                         Block *b = block.get();
                         LeavesBlock *l = reinterpret_cast<LeavesBlock *>(b);
-                        switch (l->type)
-                        {
-                        case LeavesType::Oak:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "leaves"));
-                            break;
-                        case LeavesType::Birch:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "birchleaves"));
-                            break;
-                        }
                         // here i add semicolon because my formatter places
                         // the if on the same line
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
