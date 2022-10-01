@@ -10,6 +10,7 @@ extern u8 touchToMove;
 // gui images
 static glImage sprInventorySlot[1];
 static glImage sprInventorySlotSelect[1];
+static glImage sprAim[1];
 
 // item images
 glImage sprStick[1];
@@ -74,6 +75,7 @@ void loadPlayerGUI(void)
     loadImageAlpha(sprHeartOutline, 16, 16, heart_outlinePal, heart_outlineBitmap);
     loadImageAlpha(sprHalfHeart, 8, 8, half_heartPal, half_heartBitmap);
     loadImageAlpha(sprHalfHeart2, 8, 8, half_heart2Pal, half_heart2Bitmap);
+    loadImageAlpha(sprAim, 8, 8, aimPal, aimBitmap);
 }
 
 void loadPlayerTextures(void)
@@ -636,8 +638,10 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
         // reset the alpha
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(1));
 
-        // draw the aim point
-        glBoxFilled(aimX, aimY, aimX + 1, aimY + 1, RGB15(0, 0, 0));
+        // draw the crosshair
+        glColor(RGB15(0, 0, 0));
+        glSprite(aimX - 3, aimY - 3, GL_FLIP_NONE, sprAim);
+        glColor(RGB15(31, 31, 31));
 
         // hotbar drawing
         for (u8 i = 0; i < 5; i++)

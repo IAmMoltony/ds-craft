@@ -57,6 +57,7 @@
 #include "heart_outline.h"
 #include "half_heart.h"
 #include "half_heart2.h"
+#include "aim.h"
 #include "dummy.h"
 #include "apple.h"
 #include "english.h"
