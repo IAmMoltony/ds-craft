@@ -1067,7 +1067,7 @@ extern "C" int main(int argc, char **argv)
                 break;
             }
 
-            fontSmall.printCentered(0, 70, "Textures by Mojang");
+            fontSmall.printCentered(0, 70, "Assets by Mojang");
             fontSmall.printCentered(0, 120, "(C) 2022 dirent games");
             fontSmall.printCentered(0, 129, "Built with devkitARM");
 
