@@ -1554,9 +1554,15 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
 
         // controls
         u32 keys = keysHeld();
-        bool up = (touchToMove == 2) ? keys & KEY_X : keys & KEY_UP;
-        bool left = (touchToMove == 2) ? keys & KEY_Y : keys & KEY_LEFT;
-        bool right = (touchToMove == 2) ? keys & KEY_A : keys & KEY_RIGHT;
+        bool left = false;
+        bool right = false;
+        bool up = false;
+        if (!(keys & KEY_Y))
+        {
+            up = (touchToMove == 2) ? keys & KEY_X : keys & KEY_UP;
+            left = (touchToMove == 2) ? keys & KEY_Y : keys & KEY_LEFT;
+            right = (touchToMove == 2) ? keys & KEY_A : keys & KEY_RIGHT;
+        }
 
         if (keys & KEY_TOUCH)
         {
@@ -1638,6 +1644,20 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
         else
             facing = Facing::Right;
 
+        if (keys & KEY_Y)
+        {
+            u32 kdown = keysDown();
+
+            if (kdown & KEY_UP)
+                aimY -= 16;
+            if (kdown & KEY_DOWN)
+                aimY += 16;
+            if (kdown & KEY_LEFT)
+                aimX -= 16;
+            if (kdown & KEY_RIGHT)
+                aimX += 16;
+        }
+
         // horizontla movemtn
         if (left && !right)
             velX = -2;
@@ -1647,6 +1667,15 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
         // STOP YOU VIOLATED THE LAW!!!!!! xd
         if ((right && left) || (!right && !left))
             velX = 0;
+
+        if (aimX < 0)
+            aimX = 0;
+        if (aimY < 0)
+            aimY = 0;
+        if (aimX > SCREEN_WIDTH)
+            aimX = SCREEN_WIDTH;
+        if (aimY > SCREEN_HEIGHT)
+            aimY = SCREEN_HEIGHT;
     }
 
     if (y > 860)
