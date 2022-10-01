@@ -505,6 +505,8 @@ extern "C" int main(int argc, char **argv)
                             player.addItem(InventoryItemID::RedTulip);
                         else if (blockid == "door" && player.canAddItem(InventoryItemID::Door))
                             player.addItem(InventoryItemID::Door);
+                        else if (blockid == "birchdoor" && player.canAddItem(InventoryItemID::BirchDoor))
+                            player.addItem(InventoryItemID::BirchDoor);
                         else if (blockid == "planks" && player.canAddItem(InventoryItemID::Planks))
                             player.addItem(InventoryItemID::Planks);
                         else if (blockid == "birchplanks" && player.canAddItem(InventoryItemID::BirchPlanks))
