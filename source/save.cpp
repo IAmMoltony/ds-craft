@@ -1,3 +1,5 @@
+// TODO i need to rewrite the save file system.
+
 #include "save.hpp"
 
 void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
@@ -17,6 +19,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
     // save player
     wld += "player " + std::to_string(player.getX()) + " " + std::to_string(player.getY()) + " " + std::to_string(player.getHealth()) + "\n";
+    wld += "spawnpoint " + std::to_string(player.getSpawnX()) + " " + std::to_string(player.getSpawnY()) + "\n";
 
     std::array<InventoryItem, 20> playerInventory = player.getInventory();
     // save inventory
@@ -198,6 +201,9 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     blocks.clear();
     entities.clear();
 
+    // reset spawn point
+    player.setSpawnPoint(0, 0);
+
     // we cant load smth that doesnt exist
     if (!fsFileExists(std::string("worlds/" + name + ".wld").c_str()))
     {
@@ -223,6 +229,8 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             player.setY(atoi(split[2].c_str()));
             player.setHealth(atoi(split[3].c_str()));
         }
+        else if (split[0] == "spawnpoint") // key spawnpoint (spawnpoint <x> <y>)
+            player.setSpawnPoint(atoi(split[1].c_str()), atoi(split[2].c_str()));
         if (split[0] == "door") // key door (door <x> <y> <open> <facing>)
         {
             s16 x = atoi(split[1].c_str());

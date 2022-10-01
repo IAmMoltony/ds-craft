@@ -590,9 +590,8 @@ extern "C" int main(int argc, char **argv)
             {
                 if (down & KEY_A)
                 {
-                    // TODO add spawn point pos
-                    player.setX(0);
-                    player.setY(0);
+                    player.setX(player.getSpawnX());
+                    player.setY(player.getSpawnY());
                     player.restoreHealth();
                     camera.x = player.getX() - SCREEN_WIDTH / 2;
                     camera.y = player.getY() - SCREEN_HEIGHT / 2;

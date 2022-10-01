@@ -190,6 +190,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
         if (block->y < maxY)
             maxY = block->y;
     player.setY(maxY);
+    player.setSpawnPoint(1024 / 2 - 8, maxY);
 }
 
 int spawnTree(BlockList &blocks, s16 x, s16 y, TreeType treeType)

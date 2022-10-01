@@ -408,6 +408,8 @@ Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSele
     y = 0;
     velX = 0;
     velY = 0;
+    spawnX = 0;
+    spawnY = 0;
     falling = true;
     jumping = false;
     fullInventory = false;
@@ -1784,6 +1786,12 @@ void Player::setY(s16 y)
     this->y = y;
 }
 
+void Player::setSpawnPoint(s16 x, s16 y)
+{
+    spawnX = x;
+    spawnY = y;
+}
+
 void Player::setItem(u8 index, InventoryItem item)
 {
     inventory[index] = item;
@@ -1851,6 +1859,16 @@ s16 Player::getX(void)
 s16 Player::getY(void)
 {
     return y;
+}
+
+s16 Player::getSpawnX(void)
+{
+    return spawnX;
+}
+
+s16 Player::getSpawnY(void)
+{
+    return spawnY;
 }
 
 s16 Player::getHealth(void)

@@ -72,7 +72,7 @@ const char *getItemStr(Language lang, InventoryItemID iid);
 class Player
 {
 private:
-    s16 x, y, aimX, aimY, health;
+    s16 x, y, aimX, aimY, spawnX, spawnY, health;
     u16 airY;
     u8 inventorySelect, inventoryFullSelect, inventoryMoveSelect, craftingSelect;
     float velX, velY;
@@ -96,6 +96,7 @@ public:
     void removeItem(InventoryItemID item, u8 amount);
     void setX(s16 x);
     void setY(s16 y);
+    void setSpawnPoint(s16 x, s16 y);
     void setItem(u8 index, InventoryItem item);
     void setHealth(s16 health);
     void restoreHealth(void);
@@ -107,6 +108,8 @@ public:
     bool canAddItem(InventoryItemID item);
     s16 getX(void);
     s16 getY(void);
+    s16 getSpawnX(void);
+    s16 getSpawnY(void);
     s16 getHealth(void);
     u16 countItems(InventoryItemID item);
     Rect getRectBottom(void);
