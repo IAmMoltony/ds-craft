@@ -4,6 +4,7 @@
 #include "camera.h"
 #include "images.h"
 #include "fs.h"
+#include "userinfo.h"
 #include "block.hpp"
 #include "font.hpp"
 #include "lang.hpp"

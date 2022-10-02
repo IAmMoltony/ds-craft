@@ -606,7 +606,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
         if (currid == InventoryItemID::None ||
             isItem(currid))
             glBoxFilled(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
-                        getRectAim(camera).x - camera.x + 15, getRectAim(camera).y - camera.y + 15, RGB15(0, 31, 0));
+                        getRectAim(camera).x - camera.x + 15, getRectAim(camera).y - camera.y + 15, getFavoriteColorRgb());
         else
         {
             int xx = getRectAim(camera).x - camera.x;
