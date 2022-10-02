@@ -296,6 +296,27 @@ public:
     bool isOpen(void);
 };
 
+class ChestBlock : public Block
+{
+private:
+    u16 id; // that means we cant have more than 65536 chests (but whyd you need so many?)
+    InventoryItem items[20];
+
+public:
+    ChestBlock(s16 x, s16 y);
+    ChestBlock(s16 x, s16 y, u16 id);
+
+    void draw(Camera camera) override;
+    bool solid(void) override;
+    void interact(void) override;
+    u16 id(void) override;
+    Rect getRect(void) const override;
+
+    InventoryItem getItem(u8 i);
+    void setItem(u8 i, InventoryItem item);
+    u16 getChestID();
+};
+
 struct BlockCompareKey
 {
     inline bool operator()(const std::unique_ptr<Block> &b1, const std::unique_ptr<Block> &b2)
