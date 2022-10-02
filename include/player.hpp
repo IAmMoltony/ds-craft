@@ -19,50 +19,6 @@
 #define PLAYER_WIDTH 12
 #define PLAYER_HEIGHT 32
 
-enum class InventoryItemID
-{
-    None,
-    Grass,
-    Dirt,
-    Stone,
-    Wood,
-    BirchWood,
-    Leaves,
-    BirchLeaves,
-    Sand,
-    Sandstone,
-    Cactus,
-    DeadBush,
-    Poppy,
-    Dandelion,
-    RedTulip,
-    Door,
-    BirchDoor,
-    Planks,
-    BirchPlanks,
-    Stick,
-    SnowyGrass,
-    Sapling,
-    BirchSapling,
-    Cobblestone,
-    CoalOre,
-    Coal,
-    CoalBlock,
-    RawPorkchop,
-    CookedPorkchop,
-    Apple,
-    Glass,
-    OakTrapdoor,
-    BirchTrapdoor,
-    Ladder,
-};
-
-typedef struct inventory_item
-{
-    InventoryItemID id;
-    u8 amount;
-} InventoryItem;
-
 void loadPlayerGUI(void);
 void loadPlayerTextures(void);
 void loadPlayerSounds(void);

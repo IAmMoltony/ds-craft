@@ -41,6 +41,50 @@
 #define BID_LADDER 28
 #define BID_BIRCH_TRAPDOOR 29
 
+enum class InventoryItemID
+{
+    None,
+    Grass,
+    Dirt,
+    Stone,
+    Wood,
+    BirchWood,
+    Leaves,
+    BirchLeaves,
+    Sand,
+    Sandstone,
+    Cactus,
+    DeadBush,
+    Poppy,
+    Dandelion,
+    RedTulip,
+    Door,
+    BirchDoor,
+    Planks,
+    BirchPlanks,
+    Stick,
+    SnowyGrass,
+    Sapling,
+    BirchSapling,
+    Cobblestone,
+    CoalOre,
+    Coal,
+    CoalBlock,
+    RawPorkchop,
+    CookedPorkchop,
+    Apple,
+    Glass,
+    OakTrapdoor,
+    BirchTrapdoor,
+    Ladder,
+};
+
+typedef struct inventory_item
+{
+    InventoryItemID id;
+    u8 amount;
+} InventoryItem;
+
 // Block implementations for blocks that
 // don't have anything really special.
 // They are used to save a lot of typing when
@@ -299,7 +343,7 @@ public:
 class ChestBlock : public Block
 {
 private:
-    u16 id; // that means we cant have more than 65536 chests (but whyd you need so many?)
+    u16 chid; // that means we cant have more than 65536 chests (but whyd you need so many?)
     InventoryItem items[20];
 
 public:

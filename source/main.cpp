@@ -564,18 +564,6 @@ extern "C" int main(int argc, char **argv)
                 if (player.update(&camera, &blocks, &entities, frames))
                     std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
 
-                // camera follow player
-                if (smoothCam)
-                {
-                    camera.x = lerp(camera.x, player.getX() - SCREEN_WIDTH / 2, 0.1f);
-                    camera.y = lerp(camera.y, player.getY() - SCREEN_HEIGHT / 2, 0.1f);
-                }
-                else
-                {
-                    camera.x = player.getX() - SCREEN_WIDTH / 2;
-                    camera.y = player.getY() - SCREEN_HEIGHT / 2;
-                }
-
                 // camera clamping
                 if (camera.x < 0)
                     camera.x = 0;
@@ -600,6 +588,17 @@ extern "C" int main(int argc, char **argv)
                 }
                 else if (down & KEY_B)
                     gameState = GameState::Menu;
+            }
+            // camera follow player
+            if (smoothCam)
+            {
+                camera.x = lerp(camera.x, player.getX() - SCREEN_WIDTH / 2, 0.1f);
+                camera.y = lerp(camera.y, player.getY() - SCREEN_HEIGHT / 2, 0.1f);
+            }
+            else
+            {
+                camera.x = player.getX() - SCREEN_WIDTH / 2;
+                camera.y = player.getY() - SCREEN_HEIGHT / 2;
             }
             break;
         case GameState::Menu:
