@@ -102,6 +102,7 @@ declsfx4(StepWood);
 declsfx3(Glass);
 declsfx3(Hit);
 declsfx3(Eat);
+declsfx4(Ladder);
 
 extern mm_sound_effect sndClick; // click
 
@@ -125,6 +126,7 @@ void loadPlayerSounds(void)
     loadsfx3(GLASS);
     loadsfx3(HIT);
     loadsfx3(EAT);
+    loadsfx4(LADDER);
 
     setsfx4(Grass, GRASS);
     setsfx4(Dirt, GRAVEL);
@@ -144,6 +146,7 @@ void loadPlayerSounds(void)
     setsfx3(Glass, GLASS);
     setsfx3(Hit, HIT);
     setsfx3(Eat, EAT);
+    setsfx4(Ladder, LADDER);
 }
 
 void unloadPlayerSounds(void)
@@ -166,6 +169,7 @@ void unloadPlayerSounds(void)
     unloadsfx3(GLASS);
     unloadsfx3(HIT);
     unloadsfx3(EAT);
+    unloadsfx4(LADDER);
 }
 
 const char *getItemStr(Language lang, InventoryItemID iid)
@@ -734,6 +738,7 @@ extern bool autoJump;
 bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, const u16 &frames)
 {
     s16 oldX = x;
+    s16 oldY = y;
     bool ret = false; // this is return value. true if placed block and false if not.
                       // game checks if this is true and if yes sorts blocks.
 
@@ -1320,7 +1325,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                         Block *b = block.get();
                         LeavesBlock *l = reinterpret_cast<LeavesBlock *>(b);
                         // here i add semicolon because my formatter places
-                        // the if on the same line
+                        // the if on the same line if i dont
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
                         if (l->isNatural())
                         {
@@ -1641,6 +1646,12 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             ++y;
             velY = 0;
             airY = 0;
+        }
+
+        if (collideLadder && frames % 29 == 0 && oldY != y)
+        {
+            u8 effect = rand() % 4;
+            playsfx(effect, sndLadder1, sndLadder2, sndLadder3, sndLadder4);
         }
 
         if (aimX < x - camera->x + sprPlayer->width / 2)
