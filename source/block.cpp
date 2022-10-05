@@ -29,6 +29,7 @@ glImage sprGlass[1];
 glImage sprOakTrapdoor[1];
 glImage sprBirchTrapdoor[1];
 glImage sprLadder[1];
+glImage sprChest[1];
 
 declsfx4(DoorOpen);
 declsfx4(DoorClose);
@@ -52,6 +53,7 @@ void loadBlockTextures(void)
     loadImage(sprCoalOre, 16, 16, coal_oreBitmap);
     loadImage(sprCoalBlock, 16, 16, coal_blockBitmap);
     loadImage(sprBirchTrapdoor, 16, 16, birch_trapdoorBitmap);
+    loadImage(sprChest, 16, 16, placeholder_chestBitmap);
 
     loadImageAlpha(sprCactus, 16, 16, cactus_sidePal, cactus_sideBitmap);
     loadImageAlpha(sprDeadBush, 16, 16, dead_bushPal, dead_bushBitmap);

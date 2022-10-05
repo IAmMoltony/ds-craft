@@ -1493,6 +1493,9 @@ extern "C" int main(int argc, char **argv)
             break;
         }
 
+        extern glImage sprChest[1];
+        glSprite(0, 0, GL_FLIP_NONE, sprChest);
+
         glEnd2D();
         glFlush(0);
 
