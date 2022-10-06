@@ -40,6 +40,7 @@
 #define BID_OAK_TRAPDOOR 27
 #define BID_LADDER 28
 #define BID_BIRCH_TRAPDOOR 29
+#define BID_CHEST 30
 
 enum class InventoryItemID
 {
@@ -77,13 +78,14 @@ enum class InventoryItemID
     OakTrapdoor,
     BirchTrapdoor,
     Ladder,
+    Chest,
 };
 
-typedef struct inventory_item
+struct InventoryItem
 {
     InventoryItemID id;
     u8 amount;
-} InventoryItem;
+};
 
 // Block implementations for blocks that
 // don't have anything really special.
@@ -346,6 +348,8 @@ private:
     u16 chid; // that means we cant have more than 65536 chests (but whyd you need so many?)
     InventoryItem items[20];
 
+    void initItems(void);
+
 public:
     ChestBlock(s16 x, s16 y);
     ChestBlock(s16 x, s16 y, u16 id);
@@ -358,7 +362,7 @@ public:
 
     InventoryItem getItem(u8 i);
     void setItem(u8 i, InventoryItem item);
-    u16 getChestID();
+    u16 getChestID(void);
 };
 
 struct BlockCompareKey

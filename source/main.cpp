@@ -415,7 +415,7 @@ extern "C" int main(int argc, char **argv)
                 {
                     auto &block = blocks[i];
 
-                    // skip not visible to player blocks
+                    // skip blocks that are off screen
                     if (block->getRect().x - camera.x < -16 ||
                         block->getRect().y - camera.y < -16)
                         continue;
@@ -564,12 +564,6 @@ extern "C" int main(int argc, char **argv)
                 if (player.update(&camera, &blocks, &entities, frames))
                     std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
 
-                // camera clamping
-                if (camera.x < 0)
-                    camera.x = 0;
-                else if (camera.x > 1024 - SCREEN_WIDTH)
-                    camera.x = 1024 - SCREEN_WIDTH;
-
                 // player pos clamping
                 if (player.getX() < 0)
                     player.setX(0);
@@ -600,6 +594,12 @@ extern "C" int main(int argc, char **argv)
                 camera.x = player.getX() - SCREEN_WIDTH / 2;
                 camera.y = player.getY() - SCREEN_HEIGHT / 2;
             }
+
+            // camera clamping
+            if (camera.x < 0)
+                camera.x = 0;
+            else if (camera.x > 1024 - SCREEN_WIDTH)
+                camera.x = 1024 - SCREEN_WIDTH;
             break;
         case GameState::Menu:
             if (down & KEY_A)
@@ -681,7 +681,10 @@ extern "C" int main(int argc, char **argv)
                     camera.x = player.getX() - SCREEN_WIDTH / 2;
                     camera.y = player.getY() - SCREEN_HEIGHT / 2;
 
-                    // std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
+                    blocks.emplace_back(new ChestBlock(0, 0));
+                    blocks.emplace_back(new ChestBlock(16, 0));
+
+                    std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
 
                     mmEffectEx(&sndClick);
                     gameState = GameState::Game;
@@ -752,15 +755,14 @@ extern "C" int main(int argc, char **argv)
             }
 
             char ch = keyboardUpdate();
-            if (ch > 0 && ch != 255 && (ch == '\b' || std::isdigit(ch) || std::islower(ch)))
+            if (ch > 0 && ch != 255 && (std::isdigit(ch) || std::islower(ch)))
             {
-                if (ch == '\b')
-                {
-                    if (createWorldName.size() > 0)
-                        createWorldName.pop_back();
-                }
-                else
-                    createWorldName += ch;
+                createWorldName += ch;
+            }
+            else if (ch == '\b')
+            {
+                if (createWorldName.size() > 0)
+                    createWorldName.pop_back();
             }
             break;
         }
@@ -971,6 +973,10 @@ extern "C" int main(int argc, char **argv)
                 }
             }
 
+            glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(4));
+            fontSmall.printf(3, 3, "%s", getVersionString());
+            glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(4));
+
             if (saveTextShow)
             {
                 switch (lang)
@@ -983,10 +989,6 @@ extern "C" int main(int argc, char **argv)
                     break;
                 }
             }
-
-            glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(4));
-            fontSmall.printf(3, 3, "%s", getVersionString());
-            glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(4));
 
             if (paused)
             {
@@ -1493,9 +1495,9 @@ extern "C" int main(int argc, char **argv)
             break;
         }
 
-        extern glImage sprChest[1];
-        glSprite(0, 0, GL_FLIP_NONE, sprChest);
-
+        int vc = 0;
+        glGetInt(GL_GET_POLYGON_RAM_COUNT, &vc);
+        printf("polygon ram count %d\n", vc);
         glEnd2D();
         glFlush(0);
 

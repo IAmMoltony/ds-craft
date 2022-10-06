@@ -577,3 +577,66 @@ bool BirchTrapdoorBlock::isOpen(void)
 {
     return open;
 }
+
+//---------------------------------------------
+
+static u16 nextChestID = 0;
+
+void ChestBlock::initItems(void)
+{
+    for (u8 i = 0; i < 20; ++i)
+        items[i] = {InventoryItemID::None, 0};
+}
+
+ChestBlock::ChestBlock(s16 x, s16 y) : Block(x, y)
+{
+    chid = nextChestID++;
+    initItems();
+}
+
+ChestBlock::ChestBlock(s16 x, s16 y, u16 id) : Block(x, y)
+{
+    chid = id;
+    nextChestID = id + 1;
+    initItems();
+}
+
+void ChestBlock::draw(Camera camera)
+{
+    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprChest);
+}
+
+bool ChestBlock::solid(void)
+{
+    return false;
+}
+
+void ChestBlock::interact(void)
+{
+    // TODO
+}
+
+u16 ChestBlock::id(void)
+{
+    return BID_CHEST;
+}
+
+Rect ChestBlock::getRect(void) const
+{
+    return Rect(x, y, 16, 16);
+}
+
+InventoryItem ChestBlock::getItem(u8 i)
+{
+    return items[i];
+}
+
+void ChestBlock::setItem(u8 i, InventoryItem item)
+{
+    items[i] = item;
+}
+
+u16 ChestBlock::getChestID(void)
+{
+    return chid;
+}

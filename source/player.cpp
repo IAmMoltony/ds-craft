@@ -408,7 +408,7 @@ bool isItem(InventoryItemID id)
 }
 
 Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSelect(20),
-                   craftingSelect(0), health(9), airY(0)
+                   craftingSelect(0), health(9), airY(0), chestSelect(0)
 {
     x = 0;
     y = 0;
@@ -420,9 +420,11 @@ Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSele
     jumping = false;
     fullInventory = false;
     inventoryCrafting = false;
+    chestOpen = false;
     aimX = SCREEN_WIDTH / 2;
     aimY = SCREEN_HEIGHT / 2;
     facing = Facing::Right;
+    chest = nullptr;
 
     // initialize inventory with null items
     for (u8 i = 0; i < 20; ++i)
@@ -485,9 +487,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
     if (fullInventory) // inventory draw
     {
         // draw inventory background
-        glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(3));
+        glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(15));
         glBoxFilled(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(17, 17, 17));
-        glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(3));
+        glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(31));
 
         // heading
         switch (lang)
@@ -518,19 +520,19 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 else if (i < 10)
                 {
                     xx = (i - 5) * 16 + 16;
-                    yy = 46 + 16 + 9;
+                    yy = 46 + 16;
                 }
                 // 3rd row
                 else if (i < 15)
                 {
                     xx = (i - 10) * 16 + 16;
-                    yy = 46 + 32 + 18;
+                    yy = 46 + 32;
                 }
                 // 4th row
                 else
                 {
                     xx = (i - 15) * 16 + 16;
-                    yy = 46 + 48 + 27;
+                    yy = 46 + 48;
                 }
 
                 // highlight the slot with green if move-selected
@@ -578,7 +580,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                     }
 
                     if (amount > 1)
-                        fontSmall.printfShadow(xx, yy - 8, "%u", amount);
+                        fontSmall.printfShadow(xx, yy + 7, "%u", amount);
                 }
             }
 
@@ -595,6 +597,178 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 fontSmallRu.printShadow(81 + 18, 46 + 48 + 27 + 20, "zuqc\" rgsgluk");
                 fontSmallRu.printShadow(16, 46 + 48 + 27 + 29, "d ogp% tqjfbpk&");
                 break;
+            }
+        }
+    }
+    else if (chestOpen)
+    {
+        // background
+        glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(15));
+        glBoxFilled(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(17, 17, 17));
+        glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(31));
+
+        // heading
+        switch (lang)
+        {
+        case Language::English:
+            font.printfShadow(SCREEN_WIDTH / 2 - (9 * 16 / 2), 12, "Chest");
+            break;
+        case Language::Russian:
+            fontRu.printfShadow(SCREEN_WIDTH / 2 - (9 * 16 / 2), 12, "Svpfvm");
+            break;
+        }
+
+        for (u8 i = 0; i < 20; ++i)
+        {
+            InventoryItem item = chest->getItem(i);
+            u8 xx, yy; // the x and y for the slot
+
+            // 1st row
+            if (i < 5)
+            {
+                xx = i * 16 + 16;
+                yy = 46;
+            }
+            // 2nd row
+            else if (i < 10)
+            {
+                xx = (i - 5) * 16 + 16;
+                yy = 46 + 16;
+            }
+            // 3rd row
+            else if (i < 15)
+            {
+                xx = (i - 10) * 16 + 16;
+                yy = 46 + 32;
+            }
+            // 4th row
+            else
+            {
+                xx = (i - 15) * 16 + 16;
+                yy = 46 + 48;
+            }
+
+            // draw the slot
+            glSprite(xx, yy, GL_FLIP_NONE, sprInventorySlot);
+
+            // draw the item if theres more than 0 and it is not null
+            if (item.amount > 0 && item.id != InventoryItemID::None)
+            {
+                // get the id and amount
+                u8 amount = item.amount;
+                InventoryItemID id = item.id;
+
+                switch (id)
+                {
+                // some special cases
+                case InventoryItemID::Leaves:
+                    glColor(RGB15(0, 22, 0));
+                    glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprLeaves);
+                    glColor(RGB15(31, 31, 31));
+                    break;
+                case InventoryItemID::BirchLeaves:
+                    glColor(RGB15(20, 26, 19));
+                    glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
+                    glColor(RGB15(31, 31, 31));
+                    break;
+                case InventoryItemID::Door:
+                    glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
+                    break;
+                case InventoryItemID::BirchDoor:
+                    glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
+                    break;
+                case InventoryItemID::Glass:
+                    glSpriteScale(xx + 3, yy + 4, HALFSIZE, GL_FLIP_NONE, sprGlass);
+                    break;
+                // default
+                default:
+                    glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, getItemImage(id));
+                    break;
+                }
+
+                if (amount > 1)
+                    fontSmall.printfShadow(xx, yy + 7, "%u", amount);
+            }
+
+            //-------------------------------------------------------------
+
+            for (u8 i = 0; i < 20; ++i)
+            {
+                u8 xx, yy; // the x and y for the slot
+
+                // 1st row
+                if (i < 5)
+                {
+                    xx = i * 16 + 16;
+                    yy = 46;
+                }
+                // 2nd row
+                else if (i < 10)
+                {
+                    xx = (i - 5) * 16 + 16;
+                    yy = 46 + 16;
+                }
+                // 3rd row
+                else if (i < 15)
+                {
+                    xx = (i - 10) * 16 + 16;
+                    yy = 46 + 32;
+                }
+                // 4th row
+                else
+                {
+                    xx = (i - 15) * 16 + 16;
+                    yy = 46 + 48;
+                }
+                xx += 100;
+
+                // highlight the slot with green if move-selected
+                if (inventoryMoveSelect == i)
+                    glColor(RGB15(0, 31, 0));
+                // draw the slot
+                glSprite(xx, yy, GL_FLIP_NONE,
+                         (inventoryFullSelect == i ? sprInventorySlotSelect : sprInventorySlot));
+                // reset color
+                glColor(RGB15(31, 31, 31));
+
+                // draw the item if theres more than 0 and it is not null
+                if (inventory[i].amount > 0 && inventory[i].id != InventoryItemID::None)
+                {
+                    // get the id and amount
+                    u8 amount = inventory[i].amount;
+                    InventoryItemID id = inventory[i].id;
+
+                    switch (id)
+                    {
+                    // some special cases
+                    case InventoryItemID::Leaves:
+                        glColor(RGB15(0, 22, 0));
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprLeaves);
+                        glColor(RGB15(31, 31, 31));
+                        break;
+                    case InventoryItemID::BirchLeaves:
+                        glColor(RGB15(20, 26, 19));
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
+                        glColor(RGB15(31, 31, 31));
+                        break;
+                    case InventoryItemID::Door:
+                        glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
+                        break;
+                    case InventoryItemID::BirchDoor:
+                        glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
+                        break;
+                    case InventoryItemID::Glass:
+                        glSpriteScale(xx + 3, yy + 4, HALFSIZE, GL_FLIP_NONE, sprGlass);
+                        break;
+                    // default
+                    default:
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, getItemImage(id));
+                        break;
+                    }
+
+                    if (amount > 1)
+                        fontSmall.printfShadow(xx, yy + 7, "%u", amount);
+                }
             }
         }
     }
@@ -859,6 +1033,17 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             }
         }
     }
+    else if (chestOpen)
+    {
+        u32 kdown = keysDown();
+
+        if (kdown & KEY_SELECT)
+        {
+            chestOpen = false;
+            chest = nullptr;
+            chestOpen = 0;
+        }
+    }
     else
     {
         // move
@@ -997,6 +1182,13 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                         // interact
                         interact = true;
                         block->interact();
+                        if (block->id() == BID_CHEST)
+                        {
+                            Block *b = block.get();
+                            ChestBlock *chestp = (ChestBlock *)b;
+                            chestOpen = true;
+                            chest = chestp;
+                        }
                         break;
                     }
                 }
@@ -1492,9 +1684,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                 airY = 0;
             }
             else
-            {
                 falling = true;
-            }
 
             if (block->getRect().intersects(getRectLeft()))
             {
@@ -1671,6 +1861,9 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                 aimX -= 16;
             if (kdown & KEY_RIGHT)
                 aimX += 16;
+
+            aimX = snapToGrid(aimX) + 8;
+            aimY = snapToGrid(aimY) + 8;
         }
 
         // horizontla movemtn

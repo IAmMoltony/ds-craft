@@ -31,11 +31,12 @@ class Player
 private:
     s16 x, y, aimX, aimY, spawnX, spawnY, health;
     u16 airY;
-    u8 inventorySelect, inventoryFullSelect, inventoryMoveSelect, craftingSelect;
+    u8 inventorySelect, inventoryFullSelect, inventoryMoveSelect, craftingSelect, chestSelect;
     float velX, velY;
-    bool falling, jumping, fullInventory, inventoryCrafting;
+    bool falling, jumping, fullInventory, inventoryCrafting, chestOpen;
     Facing facing;
     InventoryItem inventory[20];
+    ChestBlock *chest;
 
     void jump(void);
 
