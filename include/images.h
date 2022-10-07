@@ -35,6 +35,7 @@
 #include "oak_trapdoor.h"
 #include "birch_trapdoor.h"
 #include "ladder.h"
+#include "chest.h"
 
 // placeholder textures
 #include "placeholder_logo.h"
