@@ -51,7 +51,7 @@ else
 GAME_SUBTITLE2 := Version $(VERSION_PREFIX)$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
 endif
 
-EMULATOR := /home/ubuntu/melonDS
+EMULATOR := E:\melonds\melonds
 ifeq ($(CURDIR_BASENAME),build)
 SOUNDBANK := ../$(NITRODATA)/soundbank.bin
 else
