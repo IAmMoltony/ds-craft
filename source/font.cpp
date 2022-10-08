@@ -107,13 +107,20 @@ void Font::printf(int x, int y, const char *format, ...)
 
 void Font::printShadow(int x, int y, const char *str)
 {
+    // shadow part
     glColor(RGB15(0, 0, 0));
-    glPolyFmt(POLY_ALPHA(14) | POLY_CULL_NONE | POLY_ID(2));
+    glPolyFmt(POLY_ALPHA(14) | POLY_CULL_NONE);
     print(x, y, str, 1, 1);
-    glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(2));
+    glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
     glColor(RGB15(31, 31, 31));
 
+    // actual text
     print(x, y, str);
+}
+
+void Font::printShadowCentered(int x, int y, const char *str)
+{
+    printShadow(SCREEN_WIDTH / 2 - (strlen(str) / 2 * spr[0].width), y, str);
 }
 
 void Font::printfShadow(int x, int y, const char *format, ...)

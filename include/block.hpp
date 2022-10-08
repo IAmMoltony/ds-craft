@@ -346,7 +346,7 @@ class ChestBlock : public Block
 {
 private:
     u16 chid; // that means we cant have more than 65536 chests (but whyd you need so many?)
-    InventoryItem items[20];
+    InventoryItem items[10];
 
     void initItems(void);
 

@@ -584,7 +584,7 @@ static u16 nextChestID = 0;
 
 void ChestBlock::initItems(void)
 {
-    for (u8 i = 0; i < 20; ++i)
+    for (u8 i = 0; i < 10; ++i)
         items[i] = {InventoryItemID::None, 0};
 }
 
@@ -613,7 +613,6 @@ bool ChestBlock::solid(void)
 
 void ChestBlock::interact(void)
 {
-    // TODO
 }
 
 u16 ChestBlock::id(void)

@@ -495,10 +495,10 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
         switch (lang)
         {
         case Language::English:
-            font.printfShadow(SCREEN_WIDTH / 2 - (9 * 16 / 2), 12, inventoryCrafting ? "Crafting" : "Inventory");
+            font.printShadowCentered(SCREEN_WIDTH / 2 - (9 * 16 / 2), 12, inventoryCrafting ? "Crafting" : "Inventory");
             break;
         case Language::Russian:
-            fontRu.printfShadow(SCREEN_WIDTH / 2 - (9 * 16 / 2), 12, inventoryCrafting ? "Sqjfbpkg" : "Jpdgpubs#");
+            fontRu.printShadowCentered(SCREEN_WIDTH / 2 - (9 * 16 / 2), 12, inventoryCrafting ? "Sqjfbpkg" : "Jpdgpubs#");
             break;
         }
 
@@ -611,87 +611,85 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
         switch (lang)
         {
         case Language::English:
-            font.printfShadow(SCREEN_WIDTH / 2 - (9 * 16 / 2), 12, "Chest");
+            font.printShadowCentered(SCREEN_WIDTH / 2 - (9 * 16 / 2), 12, chestSelect < 20 ? "Chest" : "Inventory");
             break;
         case Language::Russian:
-            fontRu.printfShadow(SCREEN_WIDTH / 2 - (9 * 16 / 2), 12, "Svpfvm");
+            fontRu.printShadowCentered(SCREEN_WIDTH / 2 - (9 * 16 / 2), 12, "Svpfvm");
             break;
         }
+        // TODO add function for drawing an inventory
 
-        for (u8 i = 0; i < 20; ++i)
+        // draw the chest contents
+        if (chestSelect < 20)
         {
-            InventoryItem item = chest->getItem(i);
-            u8 xx, yy; // the x and y for the slot
+            for (u8 i = 0; i < 10; ++i)
+            {
+                InventoryItem item = chest->getItem(i);
+                u8 xx, yy; // the x and y for the slot
 
-            // 1st row
-            if (i < 5)
-            {
-                xx = i * 16 + 16;
-                yy = 46;
-            }
-            // 2nd row
-            else if (i < 10)
-            {
-                xx = (i - 5) * 16 + 16;
-                yy = 46 + 16;
-            }
-            // 3rd row
-            else if (i < 15)
-            {
-                xx = (i - 10) * 16 + 16;
-                yy = 46 + 32;
-            }
-            // 4th row
-            else
-            {
-                xx = (i - 15) * 16 + 16;
-                yy = 46 + 48;
-            }
-
-            // draw the slot
-            glSprite(xx, yy, GL_FLIP_NONE, sprInventorySlot);
-
-            // draw the item if theres more than 0 and it is not null
-            if (item.amount > 0 && item.id != InventoryItemID::None)
-            {
-                // get the id and amount
-                u8 amount = item.amount;
-                InventoryItemID id = item.id;
-
-                switch (id)
+                // 1st row
+                if (i < 5)
                 {
-                // some special cases
-                case InventoryItemID::Leaves:
-                    glColor(RGB15(0, 22, 0));
-                    glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprLeaves);
-                    glColor(RGB15(31, 31, 31));
-                    break;
-                case InventoryItemID::BirchLeaves:
-                    glColor(RGB15(20, 26, 19));
-                    glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
-                    glColor(RGB15(31, 31, 31));
-                    break;
-                case InventoryItemID::Door:
-                    glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
-                    break;
-                case InventoryItemID::BirchDoor:
-                    glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
-                    break;
-                case InventoryItemID::Glass:
-                    glSpriteScale(xx + 3, yy + 4, HALFSIZE, GL_FLIP_NONE, sprGlass);
-                    break;
-                // default
-                default:
-                    glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, getItemImage(id));
-                    break;
+                    xx = i * 16 + 16;
+                    yy = 46;
+                }
+                // 2nd row
+                else
+                {
+                    xx = (i - 5) * 16 + 16;
+                    yy = 46 + 16;
                 }
 
-                if (amount > 1)
-                    fontSmall.printfShadow(xx, yy + 7, "%u", amount);
+                // draw the slot
+                glSprite(xx, yy, GL_FLIP_NONE,
+                         (chestSelect == i) ? sprInventorySlotSelect : sprInventorySlot);
+
+                // draw the item if theres more than 0 and it is not null
+                if (item.amount > 0 && item.id != InventoryItemID::None)
+                {
+                    // get the id and amount
+                    u8 amount = item.amount;
+                    InventoryItemID id = item.id;
+
+                    switch (id)
+                    {
+                    // some special cases
+                    case InventoryItemID::Leaves:
+                        glColor(RGB15(0, 22, 0));
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprLeaves);
+                        glColor(RGB15(31, 31, 31));
+                        break;
+                    case InventoryItemID::BirchLeaves:
+                        glColor(RGB15(20, 26, 19));
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
+                        glColor(RGB15(31, 31, 31));
+                        break;
+                    case InventoryItemID::Door:
+                        glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
+                        break;
+                    case InventoryItemID::BirchDoor:
+                        glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
+                        break;
+                    case InventoryItemID::Glass:
+                        glSpriteScale(xx + 3, yy + 4, HALFSIZE, GL_FLIP_NONE, sprGlass);
+                        break;
+                    // default
+                    default:
+                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, getItemImage(id));
+                        break;
+                    }
+
+                    if (amount > 1)
+                        fontSmall.printfShadow(xx, yy + 7, "%u", amount);
+                }
             }
+        }
 
-            //-------------------------------------------------------------
+        //-------------------------------------------------------------
 
+        // draw the inventory contents
+        else
+        {
             for (u8 i = 0; i < 20; ++i)
             {
                 u8 xx, yy; // the x and y for the slot
@@ -720,14 +718,13 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                     xx = (i - 15) * 16 + 16;
                     yy = 46 + 48;
                 }
-                xx += 100;
 
                 // highlight the slot with green if move-selected
                 if (inventoryMoveSelect == i)
                     glColor(RGB15(0, 31, 0));
                 // draw the slot
                 glSprite(xx, yy, GL_FLIP_NONE,
-                         (inventoryFullSelect == i ? sprInventorySlotSelect : sprInventorySlot));
+                         ((chestSelect - 20) == i ? sprInventorySlotSelect : sprInventorySlot));
                 // reset color
                 glColor(RGB15(31, 31, 31));
 
@@ -935,9 +932,8 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             mmEffectEx(&sndClick);
         }
 
-        if (inventoryCrafting) // if crafting
-            updateCrafting();  // i thought this is so compilcated that
-                               // i needed to give it its own functiopns=
+        if (inventoryCrafting)
+            updateCrafting();
         else
         {
             // inventory navigation
@@ -1041,7 +1037,69 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
         {
             chestOpen = false;
             chest = nullptr;
-            chestOpen = 0;
+            chestSelect = 0;
+        }
+        else if (kdown & KEY_Y)
+        {
+            u8 oldChestSelect = chestSelect;
+
+            if (chestSelect < 20)
+                chestSelect += 20;
+            else
+                chestSelect -= 20;
+
+            if (oldChestSelect >= 20 && chestSelect >= 10)
+                chestSelect -= 10;
+        }
+
+        // inventory navigation
+        bool left = kdown & KEY_LEFT;
+        bool right = kdown & KEY_RIGHT;
+        bool up = kdown & KEY_UP;
+        bool down = kdown & KEY_DOWN;
+
+        if (left || right || up || down)
+        {
+            u8 selectOffset = ((chestSelect < 20) ? 0 : 20);
+            u8 select = chestSelect - selectOffset;
+            u8 maxItems = (selectOffset == 0) ? 10 : 20;
+
+            // these if statements check if a direction is pressed
+            // and if yes move cursor to that direction
+            // but also check if we are on boundaries
+            // and if we are then dont move
+            if (left)
+            {
+                if (select - 1 >= 0)
+                {
+                    if (select - 1 != 4 &&
+                        select - 1 != 9 &&
+                        select - 1 != 14)
+                        --select;
+                }
+            }
+            else if (right)
+            {
+                if (select + 1 < maxItems)
+                {
+                    if (select + 1 != 5 &&
+                        select + 1 != 10 &&
+                        select + 1 != 15)
+                        ++select;
+                }
+            }
+            else if (up)
+            {
+                if (select - 5 >= 0)
+                    select -= 5;
+            }
+            else if (down)
+            {
+                if (select + 5 < maxItems)
+                    select += 5;
+            }
+
+            chestSelect = select + selectOffset;
         }
     }
     else
@@ -2192,7 +2250,7 @@ void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
                  craftingSelect == i ? sprInventorySlotSelect : sprInventorySlot);
         glColor(RGB15(31, 31, 31));
 
-        // TODO rewrite.
+        // REWRITE pls
         switch (recipe.getTexID())
         {
         default:

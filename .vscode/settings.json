@@ -57,5 +57,21 @@
         "iomanip": "cpp"
     },
     "editor.formatOnSave": true,
-    "files.eol": "\n"
+    "files.eol": "\n",
+    "todo-tree.highlights.customHighlight": {
+        "TODO": {
+            "icon": "check"
+        },
+        "FIXME": {
+            "icon": "bug"
+        },
+        "REWRITE": {
+            "icon": "flame"
+        }
+    },
+    "todo-tree.general.tags": [
+        "TODO",
+        "FIXME",
+        "REWRITE"
+    ]
 }
