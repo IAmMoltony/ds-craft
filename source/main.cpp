@@ -1495,9 +1495,10 @@ extern "C" int main(int argc, char **argv)
             break;
         }
 
-        int vc = 0;
-        glGetInt(GL_GET_POLYGON_RAM_COUNT, &vc);
-        printf("polygon ram count %d\n", vc);
+        // int vc = 0;
+        // glGetInt(GL_GET_POLYGON_RAM_COUNT, &vc);
+        // printf("polygon ram count %d\n", vc);
+
         glEnd2D();
         glFlush(0);
 

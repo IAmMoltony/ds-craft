@@ -408,7 +408,7 @@ bool isItem(InventoryItemID id)
 }
 
 Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSelect(20),
-                   craftingSelect(0), health(9), airY(0), chestSelect(0)
+                   craftingSelect(0), health(9), airY(0), chestSelect(0), chestMoveSelect(40)
 {
     x = 0;
     y = 0;
@@ -640,9 +640,12 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                     yy = 46 + 16;
                 }
 
+                if (chestMoveSelect == i)
+                    glColor(RGB15(0, 31, 0));
                 // draw the slot
                 glSprite(xx, yy, GL_FLIP_NONE,
                          (chestSelect == i) ? sprInventorySlotSelect : sprInventorySlot);
+                glColor(RGB15(31, 31, 31));
 
                 // draw the item if theres more than 0 and it is not null
                 if (item.amount > 0 && item.id != InventoryItemID::None)
@@ -720,7 +723,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 }
 
                 // highlight the slot with green if move-selected
-                if (inventoryMoveSelect == i)
+                if (chestMoveSelect - 20 == i)
                     glColor(RGB15(0, 31, 0));
                 // draw the slot
                 glSprite(xx, yy, GL_FLIP_NONE,
@@ -1050,6 +1053,47 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
 
             if (oldChestSelect >= 20 && chestSelect >= 10)
                 chestSelect -= 10;
+        }
+        else if (kdown & KEY_A)
+        {
+            if (chestMoveSelect == 40)
+                chestMoveSelect = chestSelect;
+            else
+            {
+                u8 moveFrom = 0; // 0 = chest, 1 = inventory
+                u8 moveTo = 0;   // same thing as the last one
+
+                if (chestMoveSelect >= 20)
+                    moveFrom = 1;
+                if (chestSelect >= 20)
+                    moveTo = 1;
+
+                InventoryItem toItem = NULLITEM;
+                InventoryItem fromItem = NULLITEM;
+                if (moveFrom)
+                {
+                    fromItem = inventory[chestMoveSelect - 20];
+                    toItem = chest->getItem(chestSelect);
+                }
+                else
+                {
+                    fromItem = chest->getItem(chestMoveSelect);
+                    toItem = inventory[chestSelect - 20];
+                }
+
+                if (moveFrom && !moveTo)
+                {
+                    chest->setItem(chestSelect, fromItem);
+                    inventory[chestMoveSelect - 20] = toItem;
+                }
+                else if (moveTo && !moveFrom)
+                {
+                    inventory[chestSelect - 20] = fromItem;
+                    chest->setItem(chestMoveSelect, toItem);
+                }
+
+                chestMoveSelect = 40;
+            }
         }
 
         // inventory navigation
