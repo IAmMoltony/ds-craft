@@ -88,7 +88,7 @@ std::vector<WorldInfo> getWorlds(void)
     return worlds;
 }
 
-extern "C" int main(int argc, char **argv)
+int main(int argc, char **argv)
 {
     // initialization
 
@@ -96,21 +96,33 @@ extern "C" int main(int argc, char **argv)
     time_t curtime = time(NULL);
     srand(curtime);
 
-    // init console
-    consoleDemoInit();
-
     // init keyboard and hide it
     keyboardDemoInit();
     keyboardHide();
 
-    // set the bottom screen to dark gray
+    // set the bottom screen to drak grey
     BG_PALETTE_SUB[0] = RGB15(1, 1, 1);
 
     // set the video mode
     videoSetMode(MODE_5_3D);
+    videoSetModeSub(MODE_5_2D);
 
     // init graphics
     glScreen2D();
+
+    // set vram banks
+    vramSetBankA(VRAM_A_TEXTURE);
+    vramSetBankC(VRAM_C_SUB_BG_0x06200000);
+    vramSetBankD(VRAM_D_MAIN_BG_0x06000000);
+    vramSetBankB(VRAM_B_TEXTURE);
+    vramSetBankF(VRAM_F_TEX_PALETTE);
+    vramSetBankE(VRAM_E_TEX_PALETTE);
+
+    // init console
+    PrintConsole consoleTop;
+    consoleInit(&consoleTop, 1, BgType_Text4bpp, BgSize_T_256x256, 31, 0, true, true);
+    bgSetPriority(0, 1);
+    consoleSelect(&consoleTop);
 
     // init filesystem
     fsInit();
@@ -127,12 +139,6 @@ extern "C" int main(int argc, char **argv)
 
     // init player crafting
     playerInitCrafting();
-
-    // set vram banks
-    vramSetBankA(VRAM_A_TEXTURE);
-    vramSetBankB(VRAM_B_TEXTURE);
-    vramSetBankF(VRAM_F_TEX_PALETTE);
-    vramSetBankE(VRAM_E_TEX_PALETTE);
 
     // load assets that wont unload
     loadBlockTextures();
