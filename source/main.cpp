@@ -47,13 +47,13 @@ typedef struct world_info
     int size; // in bytes
 } WorldInfo;
 
-void drawMovingBackground(glImage dirt[1], u8 frames)
+void drawMovingBackground(glImage spr[1], u8 frames)
 {
     // draw the moving background seen in menus
     glColor(RGB15(15, 15, 15));
     for (u8 i = 0; i < SCREEN_WIDTH / 32 + 2; ++i)
         for (u8 j = 0; j < SCREEN_HEIGHT / 32 + 1; ++j)
-            glSpriteScale(i * 32 - frames % 64, j * 32, (1 << 12) * 2, GL_FLIP_NONE, dirt);
+            glSpriteScale(i * 32 - frames % 64, j * 32, (1 << 12) * 2, GL_FLIP_NONE, spr);
     glColor(RGB15(31, 31, 31));
 }
 
@@ -1035,11 +1035,7 @@ int main(int argc, char **argv)
             }
             break;
         case GameState::Menu:
-            glColor(RGB15(15, 15, 15));
-            for (u8 i = 0; i < SCREEN_WIDTH / 32 + 2; ++i)
-                for (u8 j = 0; j < SCREEN_HEIGHT / 32 + 1; ++j)
-                    glSpriteScale(i * 32 - frames % 64, j * 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
-            glColor(RGB15(31, 31, 31));
+            drawMovingBackground(sprDirt, frames);
 
             glSpriteScale(SCREEN_WIDTH / 2 - 96, 16, (1 << 12) * 2, GL_FLIP_NONE, logo);
 
