@@ -330,24 +330,23 @@ int main(int argc, char **argv)
         GameState::SplashScreen
 #endif
         ;
-    Camera camera = {0, 0};              // camera
-    u16 frames = 0;                      // frames (wraps around to 0 when hits 65535)
-    u8 saveTextTimer = 0;                // save text timer when it hides
-    s16 direntx = SCREEN_WIDTH / 2 - 32; // splash screen dirent logo x pos
-    s16 direnty = -64;                   // splash screen dirent logo y pos
-    u8 direntColor = 31;                 // splash screen dirent logo darkness factor
-    u8 wsSelected = 0;                   // selected world
-    u8 lsSelected = 0;                   // selected language
-    u8 dwSelected = 0;                   // selected world (delete world)
-    std::vector<WorldInfo> wsWorlds;     // worlds in world select
-    bool saveTextShow = false;           // should we show the text that we saved?
-    bool paused = false;                 // is the game paused
-    std::string worldName = "";          // world name
-    std::string createWorldName = "";    // world name (for create world)
-    bool createWorldDuplError = false;   // show duplicate world name error in create world?
-    u8 settingsSelect = 0;               // selected sttting
-    u16 bgScrollX = 0;                   // bg scroll x
-    bool bottomBgScroll = true;          // do we scroll the bottom background
+    Camera camera = {0, 0};            // camera
+    u16 frames = 0;                    // frames (wraps around to 0 when hits 65535)
+    u8 saveTextTimer = 0;              // save text timer when it hides
+    s16 direnty = -64;                 // splash screen dirent logo y pos
+    u8 direntColor = 31;               // splash screen dirent logo darkness factor
+    u8 wsSelected = 0;                 // selected world
+    u8 lsSelected = 0;                 // selected language
+    u8 dwSelected = 0;                 // selected world (delete world)
+    std::vector<WorldInfo> wsWorlds;   // worlds in world select
+    bool saveTextShow = false;         // should we show the text that we saved?
+    bool paused = false;               // is the game paused
+    std::string worldName = "";        // world name
+    std::string createWorldName = "";  // world name (for create world)
+    bool createWorldDuplError = false; // show duplicate world name error in create world?
+    u8 settingsSelect = 0;             // selected sttting
+    u16 bgScrollX = 0;                 // bg scroll x
+    bool bottomBgScroll = true;        // do we scroll the bottom background
     while (true)
     {
         // scroll background
@@ -1265,7 +1264,7 @@ int main(int argc, char **argv)
         case GameState::SplashScreen:
             glClearColor(0, 0, 0, 31);
             glColor(RGB15(direntColor, direntColor, direntColor));
-            glSprite(direntx, direnty, GL_FLIP_NONE, direntGames);
+            glSprite(SCREEN_WIDTH / 2 - 32, direnty, GL_FLIP_NONE, direntGames);
             glColor(RGB15(31, 31, 31));
             break;
         case GameState::LanguageSelect:
