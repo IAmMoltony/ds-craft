@@ -801,6 +801,7 @@ int main(int argc, char **argv)
             {
                 gameState = fsFileExists("config/lang.cfg") ? GameState::Menu : GameState::LanguageSelect;
                 bottomBg = bottomBackgroundInit();
+                bgSetScroll(bottomBg, bgScrollX = 0, 0);
                 bgShow(bottomBg);
             }
 
