@@ -135,6 +135,8 @@ int main(int argc, char **argv)
 
     // init bottom dirt background
     int bottomBg = bottomBackgroundInit();
+    bgHide(bottomBg);
+    BG_PALETTE_SUB[0] = RGB15(1, 1, 1);
 
     // init filesystem
     fsInit();
@@ -796,7 +798,11 @@ int main(int argc, char **argv)
                     --direntColor;
             }
             if (frames == 135)
+            {
                 gameState = fsFileExists("config/lang.cfg") ? GameState::Menu : GameState::LanguageSelect;
+                bottomBg = bottomBackgroundInit();
+                bgShow(bottomBg);
+            }
 
             direnty = lerp(direnty, SCREEN_HEIGHT / 2 - 32, 0.07f);
             break;
