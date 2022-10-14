@@ -92,7 +92,7 @@ std::vector<WorldInfo> getWorlds(void)
 int bottomBackgroundInit(void)
 {
     int bg = bgInitSub(3, BgType_Bmp8, BgSize_B8_512x256, 0, 0);
-    dmaCopy(bottom_bgBitmap, bgGetGfxPtr(bg), 512 * 256);
+    dmaCopy(bottom_bgBitmap, bgGetGfxPtr(bg), 512 * 192);
     dmaCopy(bottom_bgPal, BG_PALETTE_SUB, 256 * 2);
     return bg;
 }
