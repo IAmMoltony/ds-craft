@@ -10,9 +10,9 @@
 #define chance(percent) (rand() % 100 <= (percent))
 #define lerp(a, b, t) ((a) + (t) * ((b) - (a)))
 #define snapToGrid(x) (round((x) / 16) * 16)
-#define soundEffect(id)                          \
-    {                                            \
-        {id}, (int)(1.0f * (1 << 10)), 0, 255, 0 \
+#define soundEffect(id)                            \
+    {                                              \
+        {id}, (int)(1.0f * (1 << 10)), 0, 255, 128 \
     }
 
 #define playsfx(effect, sfx1, sfx2, sfx3, sfx4) \
