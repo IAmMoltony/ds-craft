@@ -1006,6 +1006,7 @@ int main(int argc, char **argv)
 
             for (auto &block : blocks)
             {
+                // frustum culling™
                 if (block->getRect().x - camera.x < -16 ||
                     block->getRect().y - camera.y < -16)
                     continue;
