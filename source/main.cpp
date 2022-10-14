@@ -820,7 +820,7 @@ int main(int argc, char **argv)
                 else
                 {
                     createWorldDuplError = false;
-                    keyboardHide();
+                    bottomBg = bottomBackgroundInit();
                     worldName = createWorldName.c_str();
                     saveWorld(worldName, blocks, entities, player);
                     gameState = GameState::WorldSelect;
