@@ -14,7 +14,7 @@ endif
 # DATA is a list of directories containing binary data
 # AUDIO is a list of directories containing sound and music files
 # GRAPHICS is a list of directories containing files to be processed by grit
-# NITRODATA is where the nitrofs files are at
+# NITRODATA is where the nitro files (stored in rom) are at
 #
 # All directories are specified relative to the project directory where
 # the makefile is found
