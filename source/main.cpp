@@ -609,7 +609,49 @@ int main(int argc, char **argv)
                     camera.y = player.getY() - SCREEN_HEIGHT / 2;
                 }
                 else if (down & KEY_B)
+                {
+                    // unload asset screen
+                    glBegin2D();
+                    drawMovingBackground(sprDirt, frames);
+                    switch (lang)
+                    {
+                    case Language::English:
+                        fontSmall.printCentered(0, 50, "Unloading assets...");
+                        break;
+                    case Language::Russian:
+                        fontSmallRu.printCentered(0, 50, "C\"esvjmb sgtvstqd...");
+                        break;
+                    }
+                    glEnd2D();
+                    glFlush(0);
+
+                    unloadPlayerSounds();
+                    mmUnloadEffect(SFX_POP);
+
+                    // save world screen
+                    glBegin2D();
+                    drawMovingBackground(sprDirt, frames);
+                    switch (lang)
+                    {
+                    case Language::English:
+                        fontSmall.printCentered(0, 50, "Saving world...");
+                        break;
+                    case Language::Russian:
+                        fontSmallRu.printCentered(0, 50, "Sqxsbpgpkg oksb...");
+                        break;
+                    }
+                    glEnd2D();
+                    glFlush(0);
+                    saveWorld(worldName, blocks, entities, player);
+
+                    // reset player state
+                    player.setX(0);
+                    player.setY(0);
+                    player.restoreHealth();
+                    player.resetInventory();
                     gameState = GameState::Menu;
+                    mmEffectEx(&sndClick);
+                }
             }
             // camera follow player
             if (smoothCam)
