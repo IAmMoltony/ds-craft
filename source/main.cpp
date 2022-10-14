@@ -822,7 +822,23 @@ int main(int argc, char **argv)
                     createWorldDuplError = false;
                     bottomBg = bottomBackgroundInit();
                     worldName = createWorldName.c_str();
+
+                    // creating world screen
+                    glBegin2D();
+                    drawMovingBackground(sprDirt, frames);
+                    switch (lang)
+                    {
+                    case Language::English:
+                        fontSmall.printCentered(0, 50, "Creating world...");
+                        break;
+                    case Language::Russian:
+                        fontSmallRu.printCentered(0, 50, "Sqjfbpkg oksb...");
+                        break;
+                    }
+                    glEnd2D();
+                    glFlush(0);
                     saveWorld(worldName, blocks, entities, player);
+
                     gameState = GameState::WorldSelect;
                     wsWorlds = getWorlds();
                     frames = 0;
