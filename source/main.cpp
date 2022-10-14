@@ -722,8 +722,12 @@ int main(int argc, char **argv)
             }
             else if (down & KEY_Y)
             {
-                dwSelected = wsSelected;
-                gameState = GameState::DeleteWorld;
+                if (wsWorlds.size() > 0)
+                {
+                    mmEffectEx(&sndClick);
+                    dwSelected = wsSelected;
+                    gameState = GameState::DeleteWorld;
+                }
             }
             else if (down & KEY_A)
             {
