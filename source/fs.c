@@ -26,6 +26,12 @@ void fsCreateDir(const char *name)
         mkdir(name, 0700);
 }
 
+void fsChangeDir(const char *name)
+{
+    fsCreateDir(name);
+    chdir(name);
+}
+
 void fsCreateFile(const char *name)
 {
     FILE *fp = fopen(name, "w");

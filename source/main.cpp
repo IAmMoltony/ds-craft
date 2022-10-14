@@ -148,6 +148,7 @@ int main(int argc, char **argv)
     mmInitDefault((char *)"nitro:/soundbank.bin"); // i dont care what iso c++ forbids
 
     // create folders
+    fsChangeDir("dscraft_data");
     fsCreateDir("worlds");
     fsCreateDir("config");
 

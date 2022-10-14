@@ -1,10 +1,5 @@
 #pragma once
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
 #include <nds.h>
 #include <fat.h>
 #include <filesystem.h>
@@ -15,8 +10,14 @@ extern "C"
 #include <dirent.h>
 #include "defines.h"
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
     void fsInit(void);
     void fsCreateDir(const char *name);
+    void fsChangeDir(const char *dir);
     void fsCreateFile(const char *name);
     void fsWrite(const char *file, const char *data);
     void fsDeleteFile(const char *name);
