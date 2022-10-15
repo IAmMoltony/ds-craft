@@ -588,14 +588,14 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             {
             case Language::English:
                 fontSmall.printShadow(110, 46, getItemStr(Language::English, inventory[inventoryFullSelect].id));
-                fontSmall.printShadow(16, 46 + 48 + 27 + 20, "Press L to see crafting menu");
+                fontSmall.printShadow(16, 46 + 48 + 23, "Press L to see crafting menu");
                 break;
             case Language::Russian:
                 fontSmallRu.printShadow(110, 46, getItemStr(Language::Russian, inventory[inventoryFullSelect].id));
-                fontSmallRu.printShadow(16, 46 + 48 + 27 + 20, "Obiokug");
-                fontSmall.printShadow(81, 46 + 48 + 27 + 20, "L");
-                fontSmallRu.printShadow(81 + 18, 46 + 48 + 27 + 20, "zuqc\" rgsgluk");
-                fontSmallRu.printShadow(16, 46 + 48 + 27 + 29, "d ogp% tqjfbpk&");
+                fontSmallRu.printShadow(16, 46 + 48 + 23, "Obiokug");
+                fontSmall.printShadow(81, 46 + 48 + 23, "L");
+                fontSmallRu.printShadow(81 + 18, 46 + 48 + 23, "zuqc\" rgsgluk");
+                fontSmallRu.printShadow(16, 46 + 48 + 23 + 11, "d ogp% tqjfbpk&");
                 break;
             }
         }
