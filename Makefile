@@ -118,7 +118,7 @@ endif
 #---------------------------------------------------------------------------------
 ARCH		:=	-mthumb -mthumb-interwork -march=armv5te -mtune=arm946e-s
 
-CFLAGS	:=	-g -Wall -Wextra -Wno-free-nonheap-object -Wno-unknown-pragmas -O2 -Os\
+CFLAGS	:=	-g -Wall -Wextra -Wno-free-nonheap-object -Wno-unknown-pragmas -Wno-psabi -O2 -Os\
  			-march=armv5te -mtune=arm946e-s \
 			$(ARCH) -I../include -Wno-switch -Wno-ignored-qualifiers \
 			-Wno-unused-parameter\

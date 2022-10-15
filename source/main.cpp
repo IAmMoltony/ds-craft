@@ -13,6 +13,7 @@
 #include "save.hpp"
 #include "crafting.hpp"
 #include "help.hpp"
+#include "uuid.hpp"
 #include <algorithm>
 #include <sstream>
 #include <stdio.h>
@@ -162,6 +163,9 @@ int main(int argc, char **argv)
     loadEntitySounds();
     loadPlayerGUI();
     loadPlayerTextures();
+
+    std::string testUuid = uuidGenerate();
+    printf("%s\n", testUuid.c_str());
 
     // sfx
     mmLoadEffect(SFX_CLICK);
