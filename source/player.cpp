@@ -905,7 +905,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
     // getRectRight().draw(camera, RGB15(31, 31, 0));
 }
 
-// TODO uhh maybe split the draw and update like i did with the crafting? because this is becoming unmanageable
+// TODO split the draw and update like i did with the crafting because this is becoming unmanageable
 
 extern bool autoJump;
 
