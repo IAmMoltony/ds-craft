@@ -339,7 +339,7 @@ int main(int argc, char **argv)
     u16 frames = 0;                    // frames (wraps around to 0 when hits 65535)
     u8 saveTextTimer = 0;              // save text timer when it hides
     s16 direnty = -64;                 // splash screen dirent logo y pos
-    u8 direntColor = 31;               // splash screen dirent logo darkness factor
+    u8 direntColor = 31;               // splash screen dirent logo darkness value
     u8 wsSelected = 0;                 // selected world
     u8 lsSelected = 0;                 // selected language
     u8 dwSelected = 0;                 // selected world (delete world)
