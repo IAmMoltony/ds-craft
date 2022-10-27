@@ -1,12 +1,72 @@
-// REWRITE the save system
-
 #include "save.hpp"
+
+std::string normalizeWorldFileName(const std::string &str)
+{
+    // this function turns world name
+    // into file name
+    // e.g.
+    // mY cOoL wOrLd LoL -> my_cool_world_lol(.wld)
+
+    std::string wfn = str; // world file name
+
+    // replace spaces with underscores
+    std::replace(wfn.begin(), wfn.end(), ' ', '_');
+
+    // make everything lowercase
+    std::transform(wfn.begin(), wfn.end(), wfn.begin(),
+                   [](u8 ch)
+                   { return std::tolower(ch); });
+
+    // done *insert like emoji*
+    return wfn;
+}
+
+std::string getWorldFile(const std::string &name)
+{
+    std::string fn = "worlds/" + normalizeWorldFileName(name) + ".wld";
+
+    if (fsFileExists(fn.c_str()))
+        return fn;
+    return "(NO WORLD FILE)";
+}
+
+std::string getWorldName(const std::string &file)
+{
+    std::ifstream f(file);
+    std::string name = "__error__";
+    if (f.bad())
+    {
+        printf("Cannot open file %s", file.c_str());
+        while (true)
+            ;
+    }
+    std::string line;
+    while (std::getline(f, line))
+    {
+        std::string line2;
+        std::vector<std::string> split;
+        std::stringstream ss(line);
+        while (std::getline(ss, line2, ' '))
+            split.push_back(line2);
+
+        if (split[0] == "name")
+        {
+            line.erase(0, 5);
+            name = line;
+            break;
+        }
+    }
+    f.close();
+    return name;
+}
 
 void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                Player &player)
 {
+    std::string worldFile = "worlds/" + normalizeWorldFileName(name) + ".wld";
+
     // generate terrain in case file doesnt exist
-    if (!fsFileExists(std::string("worlds/" + name + ".wld").c_str()))
+    if (!fsFileExists(worldFile.c_str()))
     {
         blocks.clear();
         entities.clear();
@@ -14,8 +74,11 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     }
 
     // create file
-    fsCreateFile(std::string("worlds/" + name + ".wld").c_str());
+    fsCreateFile(worldFile.c_str());
     std::string wld;
+
+    // save name of  world
+    wld += "name " + name + "\n";
 
     // save player
     wld += "player " + std::to_string(player.getX()) + " " + std::to_string(player.getY()) + " " + std::to_string(player.getHealth()) + "\n";
@@ -191,7 +254,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     }
 
     // write to file
-    fsWrite(std::string("worlds/" + name + ".wld").c_str(), wld.c_str());
+    fsWrite(worldFile.c_str(), wld.c_str());
 }
 
 void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,

@@ -80,11 +80,8 @@ std::vector<WorldInfo> getWorlds(void)
         if (line == "." || line == "..")
             continue;
 
-        // world name = world file name wothout extension
-        size_t li = line.find_last_of(".");
         int size = fsGetFileSize(std::string("worlds/" + line).c_str());
-        std::string noext = line.substr(0, li);
-        worlds.push_back({noext, size});
+        worlds.push_back({getWorldName("worlds/" + line), size});
     }
 
     return worlds;
@@ -163,9 +160,6 @@ int main(int argc, char **argv)
     loadEntitySounds();
     loadPlayerGUI();
     loadPlayerTextures();
-
-    std::string testUuid = uuidGenerate();
-    printf("%s\n", testUuid.c_str());
 
     // sfx
     mmLoadEffect(SFX_CLICK);
@@ -751,7 +745,7 @@ int main(int argc, char **argv)
                     glEnd2D();
                     glFlush(0);
 
-                    loadWorld(worldName, blocks, entities, player);
+                    loadWorld(normalizeWorldFileName(worldName), blocks, entities, player);
                     camera.x = player.getX() - SCREEN_WIDTH / 2;
                     camera.y = player.getY() - SCREEN_HEIGHT / 2;
 
@@ -796,6 +790,8 @@ int main(int argc, char **argv)
             break;
         case GameState::CreateWorld:
         {
+            char ch = kbGetChar();
+
             if (down & KEY_B)
             {
                 createWorldDuplError = false;
@@ -804,7 +800,7 @@ int main(int argc, char **argv)
                 gameState = GameState::WorldSelect;
                 mmEffectEx(&sndClick);
             }
-            else if (down & KEY_A)
+            else if (down & KEY_A || ch == '\n')
             {
                 // trim the string
                 createWorldName.erase(createWorldName.begin(),
@@ -850,7 +846,6 @@ int main(int argc, char **argv)
                 }
             }
 
-            char ch = kbGetChar();
             if (ch == '\b' && createWorldName.size() > 0)
                 createWorldName.pop_back();
             else if (ch)
@@ -999,7 +994,7 @@ int main(int argc, char **argv)
             if (down & KEY_A)
             {
                 wsSelected = 0;
-                fsDeleteFile(std::string("worlds/" + wsWorlds[dwSelected].name + ".wld").c_str());
+                fsDeleteFile(std::string("worlds/" + normalizeWorldFileName(wsWorlds[dwSelected].name) + ".wld").c_str());
                 wsWorlds = getWorlds();
                 gameState = GameState::WorldSelect;
                 mmEffectEx(&sndClick);
