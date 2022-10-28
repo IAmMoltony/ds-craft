@@ -33,7 +33,7 @@ std::string getWorldFile(const std::string &name)
 std::string getWorldName(const std::string &file)
 {
     std::ifstream f(file);
-    std::string name = "__error__";
+    std::string name = "(error)";
     if (f.bad())
     {
         printf("Cannot open file %s", file.c_str());
