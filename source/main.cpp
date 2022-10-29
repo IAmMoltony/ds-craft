@@ -1,4 +1,4 @@
-// TODO change graphics library
+// TODO change graphics library for bottom screen
 
 #include "images.h"
 #include "fs.h"
