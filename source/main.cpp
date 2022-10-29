@@ -747,12 +747,10 @@ int main(int argc, char **argv)
                     glEnd2D();
                     glFlush(0);
 
+                    resetNextChestID();
                     loadWorld(normalizeWorldFileName(worldName), blocks, entities, player);
                     camera.x = player.getX() - SCREEN_WIDTH / 2;
                     camera.y = player.getY() - SCREEN_HEIGHT / 2;
-
-                    blocks.emplace_back(new ChestBlock(0, 0));
-                    blocks.emplace_back(new ChestBlock(16, 0));
 
                     std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
 

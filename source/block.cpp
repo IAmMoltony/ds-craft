@@ -642,3 +642,8 @@ u16 ChestBlock::getChestID(void)
 {
     return chid;
 }
+
+void resetNextChestID(void)
+{
+    nextChestID = 0;
+}

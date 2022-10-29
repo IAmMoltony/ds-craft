@@ -366,6 +366,8 @@ public:
     u16 getChestID(void);
 };
 
+void resetNextChestID(void);
+
 struct BlockCompareKey
 {
     inline bool operator()(const std::unique_ptr<Block> &b1, const std::unique_ptr<Block> &b2)

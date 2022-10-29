@@ -60,6 +60,181 @@ std::string getWorldName(const std::string &file)
     return name;
 }
 
+static std::string iidToString(InventoryItemID iid)
+{
+    std::string id;
+    switch (iid)
+    {
+    case InventoryItemID::None:
+        id = "none";
+        break;
+    case InventoryItemID::Grass:
+        id = "grass";
+        break;
+    case InventoryItemID::Dirt:
+        id = "dirt";
+        break;
+    case InventoryItemID::Stone:
+        id = "stone";
+        break;
+    case InventoryItemID::Wood:
+        id = "wood";
+        break;
+    case InventoryItemID::BirchWood:
+        id = "birchwood";
+        break;
+    case InventoryItemID::Leaves:
+        id = "leaves";
+        break;
+    case InventoryItemID::BirchLeaves:
+        id = "birchleaves";
+        break;
+    case InventoryItemID::Sand:
+        id = "sand";
+        break;
+    case InventoryItemID::Sandstone:
+        id = "sandstone";
+        break;
+    case InventoryItemID::Cactus:
+        id = "cactus";
+        break;
+    case InventoryItemID::DeadBush:
+        id = "deadbush";
+        break;
+    case InventoryItemID::Poppy:
+        id = "poppy";
+        break;
+    case InventoryItemID::Dandelion:
+        id = "dandelion";
+        break;
+    case InventoryItemID::Door:
+        id = "door";
+        break;
+    case InventoryItemID::Planks:
+        id = "planks";
+        break;
+    case InventoryItemID::BirchPlanks:
+        id = "birchplanks";
+        break;
+    case InventoryItemID::Stick:
+        id = "stick";
+        break;
+    case InventoryItemID::SnowyGrass:
+        id = "snowygrass";
+        break;
+    case InventoryItemID::Sapling:
+        id = "sapling";
+        break;
+    case InventoryItemID::BirchSapling:
+        id = "birchsapling";
+        break;
+    case InventoryItemID::Cobblestone:
+        id = "cobblestone";
+        break;
+    case InventoryItemID::CoalOre:
+        id = "coalore";
+        break;
+    case InventoryItemID::Coal:
+        id = "coal";
+        break;
+    case InventoryItemID::CoalBlock:
+        id = "coalblock";
+        break;
+    case InventoryItemID::RawPorkchop:
+        id = "rawporkchop";
+        break;
+    case InventoryItemID::CookedPorkchop:
+        id = "cookedporkchop";
+        break;
+    case InventoryItemID::Apple:
+        id = "apple";
+        break;
+    case InventoryItemID::Glass:
+        id = "glass";
+        break;
+    case InventoryItemID::OakTrapdoor:
+        id = "oaktrapdoor";
+        break;
+    case InventoryItemID::BirchTrapdoor:
+        id = "birchtrapdoor";
+        break;
+    case InventoryItemID::Ladder:
+        id = "ladder";
+        break;
+    }
+    return id;
+}
+
+static InventoryItemID stringToIID(std::string sid)
+{
+    InventoryItemID id = InventoryItemID::None;
+    if (sid == "grass")
+        id = InventoryItemID::Grass;
+    else if (sid == "dirt")
+        id = InventoryItemID::Dirt;
+    else if (sid == "stone")
+        id = InventoryItemID::Stone;
+    else if (sid == "wood")
+        id = InventoryItemID::Wood;
+    else if (sid == "birchwood")
+        id = InventoryItemID::BirchWood;
+    else if (sid == "leaves")
+        id = InventoryItemID::Leaves;
+    else if (sid == "birchleaves")
+        id = InventoryItemID::BirchLeaves;
+    else if (sid == "sand")
+        id = InventoryItemID::Sand;
+    else if (sid == "sandstone")
+        id = InventoryItemID::Sandstone;
+    else if (sid == "cactus")
+        id = InventoryItemID::Cactus;
+    else if (sid == "deadbush")
+        id = InventoryItemID::DeadBush;
+    else if (sid == "poppy")
+        id = InventoryItemID::Poppy;
+    else if (sid == "dandelion")
+        id = InventoryItemID::Dandelion;
+    else if (sid == "door")
+        id = InventoryItemID::Door;
+    else if (sid == "birchdoor")
+        id = InventoryItemID::BirchDoor;
+    else if (sid == "planks")
+        id = InventoryItemID::Planks;
+    else if (sid == "birchplanks")
+        id = InventoryItemID::BirchPlanks;
+    else if (sid == "stick")
+        id = InventoryItemID::Stick;
+    else if (sid == "snowygrass")
+        id = InventoryItemID::SnowyGrass;
+    else if (sid == "sapling")
+        id = InventoryItemID::Sapling;
+    else if (sid == "birchsapling")
+        id = InventoryItemID::BirchSapling;
+    else if (sid == "cobblestone")
+        id = InventoryItemID::Cobblestone;
+    else if (sid == "coalore")
+        id = InventoryItemID::CoalOre;
+    else if (sid == "coal")
+        id = InventoryItemID::Coal;
+    else if (sid == "coalblock")
+        id = InventoryItemID::CoalBlock;
+    else if (sid == "rawporkchop")
+        id = InventoryItemID::RawPorkchop;
+    else if (sid == "cookedporkchop")
+        id = InventoryItemID::CookedPorkchop;
+    else if (sid == "apple")
+        id = InventoryItemID::Apple;
+    else if (sid == "glass")
+        id = InventoryItemID::Glass;
+    else if (sid == "oaktrapdoor")
+        id = InventoryItemID::OakTrapdoor;
+    else if (sid == "birchtrapdoor")
+        id = InventoryItemID::BirchTrapdoor;
+    else if (sid == "ladder")
+        id = InventoryItemID::Ladder;
+    return id;
+}
+
 void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                Player &player)
 {
@@ -87,110 +262,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     std::array<InventoryItem, 20> playerInventory = player.getInventory();
     // save inventory
     for (u8 i = 0; i < 20; ++i)
-    {
-        std::string id;
-        switch (playerInventory[i].id)
-        {
-        case InventoryItemID::None:
-            id = "none";
-            break;
-        case InventoryItemID::Grass:
-            id = "grass";
-            break;
-        case InventoryItemID::Dirt:
-            id = "dirt";
-            break;
-        case InventoryItemID::Stone:
-            id = "stone";
-            break;
-        case InventoryItemID::Wood:
-            id = "wood";
-            break;
-        case InventoryItemID::BirchWood:
-            id = "birchwood";
-            break;
-        case InventoryItemID::Leaves:
-            id = "leaves";
-            break;
-        case InventoryItemID::BirchLeaves:
-            id = "birchleaves";
-            break;
-        case InventoryItemID::Sand:
-            id = "sand";
-            break;
-        case InventoryItemID::Sandstone:
-            id = "sandstone";
-            break;
-        case InventoryItemID::Cactus:
-            id = "cactus";
-            break;
-        case InventoryItemID::DeadBush:
-            id = "deadbush";
-            break;
-        case InventoryItemID::Poppy:
-            id = "poppy";
-            break;
-        case InventoryItemID::Dandelion:
-            id = "dandelion";
-            break;
-        case InventoryItemID::Door:
-            id = "door";
-            break;
-        case InventoryItemID::Planks:
-            id = "planks";
-            break;
-        case InventoryItemID::BirchPlanks:
-            id = "birchplanks";
-            break;
-        case InventoryItemID::Stick:
-            id = "stick";
-            break;
-        case InventoryItemID::SnowyGrass:
-            id = "snowygrass";
-            break;
-        case InventoryItemID::Sapling:
-            id = "sapling";
-            break;
-        case InventoryItemID::BirchSapling:
-            id = "birchsapling";
-            break;
-        case InventoryItemID::Cobblestone:
-            id = "cobblestone";
-            break;
-        case InventoryItemID::CoalOre:
-            id = "coalore";
-            break;
-        case InventoryItemID::Coal:
-            id = "coal";
-            break;
-        case InventoryItemID::CoalBlock:
-            id = "coalblock";
-            break;
-        case InventoryItemID::RawPorkchop:
-            id = "rawporkchop";
-            break;
-        case InventoryItemID::CookedPorkchop:
-            id = "cookedporkchop";
-            break;
-        case InventoryItemID::Apple:
-            id = "apple";
-            break;
-        case InventoryItemID::Glass:
-            id = "glass";
-            break;
-        case InventoryItemID::OakTrapdoor:
-            id = "oaktrapdoor";
-            break;
-        case InventoryItemID::BirchTrapdoor:
-            id = "birchtrapdoor";
-            break;
-        case InventoryItemID::Ladder:
-            id = "ladder";
-            break;
-        }
-
-        wld += "inventory " + std::to_string(i) + " " + id + " " + std::to_string(playerInventory[i].amount) + "\n";
-    }
+        wld += "inventory " + std::to_string(i) + " " + iidToString(playerInventory[i].id) + " " + std::to_string(playerInventory[i].amount) + "\n";
 
     // save blocks
     for (auto &block : blocks)
@@ -225,6 +297,17 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             BirchTrapdoorBlock *td = reinterpret_cast<BirchTrapdoorBlock *>(b);
             wld += "birchtrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(td->isOpen()) + "\n";
         }
+        // chest saving
+        else if (block->id() == BID_CHEST)
+        {
+            Block *b = block.get();
+            ChestBlock *chest = reinterpret_cast<ChestBlock *>(b);
+            wld += "chest " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(chest->getChestID()) + "\n";
+            // save items
+            std::array<InventoryItem, 10> chestItems = chest->getItems();
+            for (u8 i = 0; i < 10; ++i)
+                wld += "chestitem " + std::to_string(i) + " " + iidToString(chestItems[i].id) + " " + std::to_string(chestItems[i].amount) + " " + std::to_string(chest->getChestID()) + "\n";
+        }
         else
         {
             // leaves
@@ -240,9 +323,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             }
             // every other block
             else
-            {
                 wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(id) + "\n";
-            }
         }
     }
 
@@ -286,15 +367,15 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         while (std::getline(ss, line2, ' '))
             split.push_back(line2);
 
-        if (split[0] == "player") // key player (player <x> <y> <health>)
+        if (split[0] == "player") // player <x> <y> <health>
         {
             player.setX(atoi(split[1].c_str()));
             player.setY(atoi(split[2].c_str()));
             player.setHealth(atoi(split[3].c_str()));
         }
-        else if (split[0] == "spawnpoint") // key spawnpoint (spawnpoint <x> <y>)
+        else if (split[0] == "spawnpoint") // spawnpoint <x> <y>
             player.setSpawnPoint(atoi(split[1].c_str()), atoi(split[2].c_str()));
-        if (split[0] == "door") // key door (door <x> <y> <open> <facing>)
+        else if (split[0] == "door") // door <x> <y> <open> <facing>
         {
             s16 x = atoi(split[1].c_str());
             s16 y = atoi(split[2].c_str());
@@ -302,7 +383,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             bool facing = split[4] == "1";
             blocks.emplace_back(new DoorBlock(x, y, open, facing));
         }
-        if (split[0] == "birchdoor") // key birchdoor (birchdoor <x> <y> <open> <facing>)
+        else if (split[0] == "birchdoor") // birchdoor <x> <y> <open> <facing>
         {
             s16 x = atoi(split[1].c_str());
             s16 y = atoi(split[2].c_str());
@@ -310,7 +391,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             bool facing = split[4] == "1";
             blocks.emplace_back(new BirchDoorBlock(x, y, open, facing));
         }
-        if (split[0] == "oaktrapdoor") // key oaktrapdoor (oaktrapdoor <x> <y> <open>)
+        else if (split[0] == "oaktrapdoor") // oaktrapdoor <x> <y> <open>
         {
             s16 x = atoi(split[1].c_str());
             s16 y = atoi(split[2].c_str());
@@ -318,7 +399,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
             blocks.emplace_back(new OakTrapdoorBlock(x, y, open));
         }
-        if (split[0] == "birchtrapdoor") // key birchtrapdoor (birchtrapdoor <x> <y> <open>)
+        else if (split[0] == "birchtrapdoor") // birchtrapdoor <x> <y> <open>
         {
             s16 x = atoi(split[1].c_str());
             s16 y = atoi(split[2].c_str());
@@ -326,7 +407,39 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
             blocks.emplace_back(new BirchTrapdoorBlock(x, y, open));
         }
-        if (split[0] == "block") // key block (block <x> <y> <id>)
+        else if (split[0] == "chest") // chest <x> <y> <id>
+        {
+            s16 x = atoi(split[1].c_str());
+            s16 y = atoi(split[2].c_str());
+            u16 id = atoi(split[3].c_str());
+            ChestBlock *chest = new ChestBlock(x, y, id);
+            blocks.emplace_back(chest);
+
+            // c stands for chest
+            std::istringstream issc(contents);
+            std::string linec;
+            while (std::getline(issc, linec)) // for each line in the file
+            {
+                // split line by spaces
+                std::vector<std::string> splitc;
+                std::stringstream ssc(linec);
+                std::string line2c;
+                while (std::getline(ssc, line2c, ' '))
+                    splitc.push_back(line2c);
+                
+                if (splitc[0] == "chestitem")
+                {
+                    u16 cid = atoi(splitc.back().c_str());
+                    if (cid != id)
+                        continue;
+                    u8 i = atoi(splitc[1].c_str());
+                    InventoryItemID iid = stringToIID(splitc[2]);
+                    u8 amount = atoi(splitc[2].c_str());
+                    chest->setItem(i, {iid, amount});
+                }
+            }
+        }
+        else if (split[0] == "block") // block <x> <y> <id>
         {
             s16 x = atoi(split[1].c_str());
             s16 y = atoi(split[2].c_str());
@@ -411,83 +524,17 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                 break;
             }
         }
-        if (split[0] == "inventory") // key inventory item (inventory <index> <amount> <id>)
+        else if (split[0] == "inventory") // inventory <index> <amount> <id>
         {
             u8 i = atoi(split[1].c_str());
             u8 amount = atoi(split[3].c_str());
             std::string sid = split[2]; // i think s in sid stands for string (i dont rember)
             InventoryItemID id = InventoryItemID::None;
-            // not again
-            if (sid == "none")
-                id = InventoryItemID::None;
-            else if (sid == "grass")
-                id = InventoryItemID::Grass;
-            else if (sid == "dirt")
-                id = InventoryItemID::Dirt;
-            else if (sid == "stone")
-                id = InventoryItemID::Stone;
-            else if (sid == "wood")
-                id = InventoryItemID::Wood;
-            else if (sid == "birchwood")
-                id = InventoryItemID::BirchWood;
-            else if (sid == "leaves")
-                id = InventoryItemID::Leaves;
-            else if (sid == "birchleaves")
-                id = InventoryItemID::BirchLeaves;
-            else if (sid == "sand")
-                id = InventoryItemID::Sand;
-            else if (sid == "sandstone")
-                id = InventoryItemID::Sandstone;
-            else if (sid == "cactus")
-                id = InventoryItemID::Cactus;
-            else if (sid == "deadbush")
-                id = InventoryItemID::DeadBush;
-            else if (sid == "poppy")
-                id = InventoryItemID::Poppy;
-            else if (sid == "dandelion")
-                id = InventoryItemID::Dandelion;
-            else if (sid == "door")
-                id = InventoryItemID::Door;
-            else if (sid == "birchdoor")
-                id = InventoryItemID::BirchDoor;
-            else if (sid == "planks")
-                id = InventoryItemID::Planks;
-            else if (sid == "birchplanks")
-                id = InventoryItemID::BirchPlanks;
-            else if (sid == "stick")
-                id = InventoryItemID::Stick;
-            else if (sid == "snowygrass")
-                id = InventoryItemID::SnowyGrass;
-            else if (sid == "sapling")
-                id = InventoryItemID::Sapling;
-            else if (sid == "birchsapling")
-                id = InventoryItemID::BirchSapling;
-            else if (sid == "cobblestone")
-                id = InventoryItemID::Cobblestone;
-            else if (sid == "coalore")
-                id = InventoryItemID::CoalOre;
-            else if (sid == "coal")
-                id = InventoryItemID::Coal;
-            else if (sid == "coalblock")
-                id = InventoryItemID::CoalBlock;
-            else if (sid == "rawporkchop")
-                id = InventoryItemID::RawPorkchop;
-            else if (sid == "cookedporkchop")
-                id = InventoryItemID::CookedPorkchop;
-            else if (sid == "apple")
-                id = InventoryItemID::Apple;
-            else if (sid == "glass")
-                id = InventoryItemID::Glass;
-            else if (sid == "oaktrapdoor")
-                id = InventoryItemID::OakTrapdoor;
-            else if (sid == "birchtrapdoor")
-                id = InventoryItemID::BirchTrapdoor;
-            else if (sid == "ladder")
-                id = InventoryItemID::Ladder;
+            id = stringToIID(sid);
 
             player.setItem(i, {id, amount});
         }
-        if (split[0] == "entity") // key entity (entity <x> <y> <id>)
+        else if (split[0] == "entity") // entity <x> <y> <id>
         {
             s16 x = atoi(split[1].c_str());
             s16 y = atoi(split[2].c_str());

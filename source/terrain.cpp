@@ -182,6 +182,9 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
         }
     }
 
+    blocks.emplace_back(new ChestBlock(0, 0));
+    blocks.emplace_back(new ChestBlock(0, -16));
+
     std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort
 
     player.setX(1024 / 2 - 8);

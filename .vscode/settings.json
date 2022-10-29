@@ -56,7 +56,7 @@
         "charconv": "cpp",
         "iomanip": "cpp"
     },
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": false,
     "files.eol": "\n",
     "todo-tree.highlights.customHighlight": {
         "TODO": {
