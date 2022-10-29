@@ -789,6 +789,7 @@ static void eatFood(s16 *health, u8 healthAdd)
         mmEffectEx(&sndEat3);
         break;
     }
+
     *health += healthAdd;
     if (*health > 9)
         *health = 9;
