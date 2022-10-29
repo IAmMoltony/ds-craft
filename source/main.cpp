@@ -1,3 +1,5 @@
+// TODO change graphics library
+
 #include "images.h"
 #include "fs.h"
 #include "uvcoord_font_16x16.h"
