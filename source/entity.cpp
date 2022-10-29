@@ -265,7 +265,7 @@ DropEntity::DropEntity(s16 x, s16 y, const std::string &blockid) : Entity(x, y)
 
 void DropEntity::draw(Camera camera)
 {
-    // TODO write a function that turns string item into image
+    // TODO store blockid as InventoryItemID
 
     if (blockid == "grass")
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprGrass);
