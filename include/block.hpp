@@ -8,6 +8,7 @@
 #include <memory>
 #include <string>
 #include <algorithm>
+#include <array>
 #include <gl2d.h>
 #include <maxmod9.h>
 
@@ -360,7 +361,7 @@ public:
     u16 id(void) override;
     Rect getRect(void) const override;
 
-    InventoryItem getItem(u8 i);
+    std::array<InventoryItem, 10> getItems(void);
     void setItem(u8 i, InventoryItem item);
     u16 getChestID(void);
 };

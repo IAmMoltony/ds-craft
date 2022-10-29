@@ -431,6 +431,88 @@ Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSele
         inventory[i] = NULLITEM;
 }
 
+static void drawInventory(InventoryItem inventory[], u8 itemCount, Font font, u8 select,
+                          u8 moveSelect)
+{
+    for (u8 i = 0; i < itemCount; ++i)
+    {
+        u8 xx, yy; // the x and y for the slot
+
+        // 1st row
+        if (i < 5)
+        {
+            xx = i * 16 + 16;
+            yy = 46;
+        }
+        // 2nd row
+        else if (i < 10)
+        {
+            xx = (i - 5) * 16 + 16;
+            yy = 46 + 16;
+        }
+        // 3rd row
+        else if (i < 15)
+        {
+            xx = (i - 10) * 16 + 16;
+            yy = 46 + 32;
+        }
+        // 4th row
+        else
+        {
+            xx = (i - 15) * 16 + 16;
+            yy = 46 + 48;
+        }
+
+        // highlight the slot with green if move-selected
+        if (moveSelect == i)
+            glColor(RGB15(0, 31, 0));
+        // draw the slot
+        glSprite(xx, yy, GL_FLIP_NONE,
+                 (select == i ? sprInventorySlotSelect : sprInventorySlot));
+        // reset color
+        glColor(RGB15(31, 31, 31));
+
+        // draw the item if theres more than 0 and it is not null
+        if (inventory[i].amount > 0 && inventory[i].id != InventoryItemID::None)
+        {
+            // get the id and amount
+            u8 amount = inventory[i].amount;
+            InventoryItemID id = inventory[i].id;
+
+            switch (id)
+            {
+            // some special cases
+            case InventoryItemID::Leaves:
+                glColor(RGB15(0, 22, 0));
+                glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprLeaves);
+                glColor(RGB15(31, 31, 31));
+                break;
+            case InventoryItemID::BirchLeaves:
+                glColor(RGB15(20, 26, 19));
+                glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
+                glColor(RGB15(31, 31, 31));
+                break;
+            case InventoryItemID::Door:
+                glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
+                break;
+            case InventoryItemID::BirchDoor:
+                glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
+                break;
+            case InventoryItemID::Glass:
+                glSpriteScale(xx + 3, yy + 4, HALFSIZE, GL_FLIP_NONE, sprGlass);
+                break;
+            // default
+            default:
+                glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, getItemImage(id));
+                break;
+            }
+
+            if (amount > 1)
+                font.printfShadow(xx, yy + 7, "%u", amount);
+        }
+    }
+}
+
 void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Font fontRu, Language lang)
 {
     // draw the player
@@ -442,11 +524,19 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
         else
             angleRad -= 3.14;
     }
+
+    // calculate head angle
     int angle = angleRad * 180 / M_PI * 40;
+
+    // draw player body
     glSprite(x - 1 - camera.x - (facing == Facing::Right ? 0 : 3), y - camera.y,
              (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayer);
+
+    // head rotates to a weird angle with certain values of aim y
+    // and this fixes it (hopefully)
     if (((aimY >= 97 && aimY <= 102) || aimY == 107) && facing == Facing::Right)
         glSprite(x - 2 - camera.x, y - 1 - camera.y, GL_FLIP_NONE, sprPlayerHead);
+    // otherwise just rotate like normal
     else
         glSpriteRotate(x + 5 - camera.x, y + 6 - camera.y, angle,
                        (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayerHead);
@@ -506,83 +596,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             drawCrafting(fontSmall, fontSmallRu);
         else
         {
-            for (u8 i = 0; i < 20; ++i)
-            {
-                u8 xx, yy; // the x and y for the slot
-
-                // 1st row
-                if (i < 5)
-                {
-                    xx = i * 16 + 16;
-                    yy = 46;
-                }
-                // 2nd row
-                else if (i < 10)
-                {
-                    xx = (i - 5) * 16 + 16;
-                    yy = 46 + 16;
-                }
-                // 3rd row
-                else if (i < 15)
-                {
-                    xx = (i - 10) * 16 + 16;
-                    yy = 46 + 32;
-                }
-                // 4th row
-                else
-                {
-                    xx = (i - 15) * 16 + 16;
-                    yy = 46 + 48;
-                }
-
-                // highlight the slot with green if move-selected
-                if (inventoryMoveSelect == i)
-                    glColor(RGB15(0, 31, 0));
-                // draw the slot
-                glSprite(xx, yy, GL_FLIP_NONE,
-                         (inventoryFullSelect == i ? sprInventorySlotSelect : sprInventorySlot));
-                // reset color
-                glColor(RGB15(31, 31, 31));
-
-                // draw the item if theres more than 0 and it is not null
-                if (inventory[i].amount > 0 && inventory[i].id != InventoryItemID::None)
-                {
-                    // get the id and amount
-                    u8 amount = inventory[i].amount;
-                    InventoryItemID id = inventory[i].id;
-
-                    switch (id)
-                    {
-                    // some special cases
-                    case InventoryItemID::Leaves:
-                        glColor(RGB15(0, 22, 0));
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprLeaves);
-                        glColor(RGB15(31, 31, 31));
-                        break;
-                    case InventoryItemID::BirchLeaves:
-                        glColor(RGB15(20, 26, 19));
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
-                        glColor(RGB15(31, 31, 31));
-                        break;
-                    case InventoryItemID::Door:
-                        glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
-                        break;
-                    case InventoryItemID::BirchDoor:
-                        glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
-                        break;
-                    case InventoryItemID::Glass:
-                        glSpriteScale(xx + 3, yy + 4, HALFSIZE, GL_FLIP_NONE, sprGlass);
-                        break;
-                    // default
-                    default:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, getItemImage(id));
-                        break;
-                    }
-
-                    if (amount > 1)
-                        fontSmall.printfShadow(xx, yy + 7, "%u", amount);
-                }
-            }
+            drawInventory(inventory, 20, fontSmall, inventoryFullSelect, inventoryMoveSelect);
 
             switch (lang)
             {
@@ -617,160 +631,11 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             fontRu.printShadowCentered(SCREEN_WIDTH / 2 - (9 * 16 / 2), 12, "Svpfvm");
             break;
         }
-        // TODO add function for drawing an inventory
 
-        // draw the chest contents
         if (chestSelect < 20)
-        {
-            for (u8 i = 0; i < 10; ++i)
-            {
-                InventoryItem item = chest->getItem(i);
-                u8 xx, yy; // the x and y for the slot
-
-                // 1st row
-                if (i < 5)
-                {
-                    xx = i * 16 + 16;
-                    yy = 46;
-                }
-                // 2nd row
-                else
-                {
-                    xx = (i - 5) * 16 + 16;
-                    yy = 46 + 16;
-                }
-
-                if (chestMoveSelect == i)
-                    glColor(RGB15(0, 31, 0));
-                // draw the slot
-                glSprite(xx, yy, GL_FLIP_NONE,
-                         (chestSelect == i) ? sprInventorySlotSelect : sprInventorySlot);
-                glColor(RGB15(31, 31, 31));
-
-                // draw the item if theres more than 0 and it is not null
-                if (item.amount > 0 && item.id != InventoryItemID::None)
-                {
-                    // get the id and amount
-                    u8 amount = item.amount;
-                    InventoryItemID id = item.id;
-
-                    switch (id)
-                    {
-                    // some special cases
-                    case InventoryItemID::Leaves:
-                        glColor(RGB15(0, 22, 0));
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprLeaves);
-                        glColor(RGB15(31, 31, 31));
-                        break;
-                    case InventoryItemID::BirchLeaves:
-                        glColor(RGB15(20, 26, 19));
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
-                        glColor(RGB15(31, 31, 31));
-                        break;
-                    case InventoryItemID::Door:
-                        glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
-                        break;
-                    case InventoryItemID::BirchDoor:
-                        glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
-                        break;
-                    case InventoryItemID::Glass:
-                        glSpriteScale(xx + 3, yy + 4, HALFSIZE, GL_FLIP_NONE, sprGlass);
-                        break;
-                    // default
-                    default:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, getItemImage(id));
-                        break;
-                    }
-
-                    if (amount > 1)
-                        fontSmall.printfShadow(xx, yy + 7, "%u", amount);
-                }
-            }
-        }
-
-        //-------------------------------------------------------------
-
-        // draw the inventory contents
+            drawInventory(chest->getItems().data(), 10, fontSmall, chestSelect, chestMoveSelect);
         else
-        {
-            for (u8 i = 0; i < 20; ++i)
-            {
-                u8 xx, yy; // the x and y for the slot
-
-                // 1st row
-                if (i < 5)
-                {
-                    xx = i * 16 + 16;
-                    yy = 46;
-                }
-                // 2nd row
-                else if (i < 10)
-                {
-                    xx = (i - 5) * 16 + 16;
-                    yy = 46 + 16;
-                }
-                // 3rd row
-                else if (i < 15)
-                {
-                    xx = (i - 10) * 16 + 16;
-                    yy = 46 + 32;
-                }
-                // 4th row
-                else
-                {
-                    xx = (i - 15) * 16 + 16;
-                    yy = 46 + 48;
-                }
-
-                // highlight the slot with green if move-selected
-                if (chestMoveSelect - 20 == i)
-                    glColor(RGB15(0, 31, 0));
-                // draw the slot
-                glSprite(xx, yy, GL_FLIP_NONE,
-                         ((chestSelect - 20) == i ? sprInventorySlotSelect : sprInventorySlot));
-                // reset color
-                glColor(RGB15(31, 31, 31));
-
-                // draw the item if theres more than 0 and it is not null
-                if (inventory[i].amount > 0 && inventory[i].id != InventoryItemID::None)
-                {
-                    // get the id and amount
-                    u8 amount = inventory[i].amount;
-                    InventoryItemID id = inventory[i].id;
-
-                    switch (id)
-                    {
-                    // some special cases
-                    case InventoryItemID::Leaves:
-                        glColor(RGB15(0, 22, 0));
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprLeaves);
-                        glColor(RGB15(31, 31, 31));
-                        break;
-                    case InventoryItemID::BirchLeaves:
-                        glColor(RGB15(20, 26, 19));
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
-                        glColor(RGB15(31, 31, 31));
-                        break;
-                    case InventoryItemID::Door:
-                        glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
-                        break;
-                    case InventoryItemID::BirchDoor:
-                        glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
-                        break;
-                    case InventoryItemID::Glass:
-                        glSpriteScale(xx + 3, yy + 4, HALFSIZE, GL_FLIP_NONE, sprGlass);
-                        break;
-                    // default
-                    default:
-                        glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, getItemImage(id));
-                        break;
-                    }
-
-                    if (amount > 1)
-                        fontSmall.printfShadow(xx, yy + 7, "%u", amount);
-                }
-            }
-        }
+            drawInventory(inventory, 20, fontSmall, chestSelect - 20, chestMoveSelect - 20);
     }
     else
     {
@@ -1073,11 +938,11 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                 if (moveFrom)
                 {
                     fromItem = inventory[chestMoveSelect - 20];
-                    toItem = chest->getItem(chestSelect);
+                    toItem = chest->getItems()[chestSelect];
                 }
                 else
                 {
-                    fromItem = chest->getItem(chestMoveSelect);
+                    fromItem = chest->getItems()[chestMoveSelect];
                     toItem = inventory[chestSelect - 20];
                 }
 
@@ -2267,7 +2132,6 @@ void playerInitCrafting(void)
     std::sort(recipes.begin(), recipes.end(), RecipeCompareKey()); // sort
 }
 
-// hmm
 static bool canCraft(Player *pThis, CraftingRecipe recipe)
 {
     std::vector<InventoryItem> *rvec = recipe.getRecipe();

@@ -625,9 +625,12 @@ Rect ChestBlock::getRect(void) const
     return Rect(x, y, 16, 16);
 }
 
-InventoryItem ChestBlock::getItem(u8 i)
+std::array<InventoryItem, 10> ChestBlock::getItems(void)
 {
-    return items[i];
+    std::array<InventoryItem, 10> inv;
+    for (u8 i = 0; i < 10; ++i)
+        inv[i] = items[i];
+    return inv;
 }
 
 void ChestBlock::setItem(u8 i, InventoryItem item)
