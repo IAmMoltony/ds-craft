@@ -774,6 +774,26 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
 
 extern bool autoJump;
 
+static void eatFood(s16 *health, u8 healthAdd)
+{
+    u8 effect = rand() % 3;
+    switch (effect)
+    {
+    case 0:
+        mmEffectEx(&sndEat1);
+        break;
+    case 1:
+        mmEffectEx(&sndEat2);
+        break;
+    case 2:
+        mmEffectEx(&sndEat3);
+        break;
+    }
+    *health += healthAdd;
+    if (*health > 9)
+        *health = 9;
+}
+
 bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, const u16 &frames)
 {
     s16 oldX = x;
@@ -1061,74 +1081,25 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
             switch (itemid)
             {
             case InventoryItemID::RawPorkchop:
-                // TODO i probably should put the food eating into its own function or something
                 if (health != 9)
                 {
+                    eatFood(&health, 2);
                     removeItem(InventoryItemID::RawPorkchop);
-                    u8 effect = rand() % 3;
-                    switch (effect)
-                    {
-                    case 0:
-                        mmEffectEx(&sndEat1);
-                        break;
-                    case 1:
-                        mmEffectEx(&sndEat2);
-                        break;
-                    case 2:
-                        mmEffectEx(&sndEat3);
-                        break;
-                    }
                 }
-
-                health += 2;
-                if (health > 9)
-                    health = 9;
                 break;
             case InventoryItemID::CookedPorkchop:
                 if (health != 9)
                 {
+                    eatFood(&health, 4);
                     removeItem(InventoryItemID::CookedPorkchop);
-                    u8 effect = rand() % 3;
-                    switch (effect)
-                    {
-                    case 0:
-                        mmEffectEx(&sndEat1);
-                        break;
-                    case 1:
-                        mmEffectEx(&sndEat2);
-                        break;
-                    case 2:
-                        mmEffectEx(&sndEat3);
-                        break;
-                    }
                 }
-
-                health += 4;
-                if (health > 9)
-                    health = 9;
                 break;
             case InventoryItemID::Apple:
                 if (health != 9)
                 {
+                    eatFood(&health, 2);
                     removeItem(InventoryItemID::Apple);
-                    u8 effect = rand() % 3;
-                    switch (effect)
-                    {
-                    case 0:
-                        mmEffectEx(&sndEat1);
-                        break;
-                    case 1:
-                        mmEffectEx(&sndEat2);
-                        break;
-                    case 2:
-                        mmEffectEx(&sndEat3);
-                        break;
-                    }
                 }
-
-                health += 2;
-                if (health > 9)
-                    health = 9;
                 break;
             // block placing
             default:
