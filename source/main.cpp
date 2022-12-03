@@ -1,5 +1,3 @@
-// TODO change graphics library for bottom screen
-
 #include "images.h"
 #include "fs.h"
 #include "uvcoord_font_16x16.h"
@@ -7,7 +5,6 @@
 #include "soundbank.h"
 #include "camera.h"
 #include "glext.h"
-#include "kb.h"
 #include "gamever.hpp"
 #include "player.hpp"
 #include "gamestate.hpp"
@@ -89,14 +86,6 @@ std::vector<WorldInfo> getWorlds(void)
     return worlds;
 }
 
-int bottomBackgroundInit(void)
-{
-    int bg = bgInitSub(3, BgType_Bmp8, BgSize_B8_512x256, 0, 0);
-    dmaCopy(bottom_bgBitmap, bgGetGfxPtr(bg), 512 * 192);
-    dmaCopy(bottom_bgPal, BG_PALETTE_SUB, 256 * 2);
-    return bg;
-}
-
 int main(int argc, char **argv)
 {
     // initialization
@@ -114,7 +103,6 @@ int main(int argc, char **argv)
 
     // set the video mode
     videoSetMode(MODE_5_3D);
-    videoSetModeSub(MODE_5_2D);
 
     // init graphics
     glScreen2D();
@@ -128,15 +116,7 @@ int main(int argc, char **argv)
     vramSetBankE(VRAM_E_TEX_PALETTE);
 
     // init console
-    PrintConsole consoleTop;
-    consoleInit(&consoleTop, 1, BgType_Text4bpp, BgSize_T_256x256, 31, 0, true, true);
-    bgSetPriority(0, 1);
-    consoleSelect(&consoleTop);
-
-    // init bottom dirt background
-    int bottomBg = bottomBackgroundInit();
-    bgHide(bottomBg);
-    BG_PALETTE_SUB[0] = RGB15(1, 1, 1);
+    consoleDemoInit();
 
     // init filesystem
     fsInit();
@@ -145,7 +125,7 @@ int main(int argc, char **argv)
     gameverInit();
 
     // init sounds
-    mmInitDefault((char *)"nitro:/soundbank.bin"); // i dont care what iso c++ forbids
+    mmInitDefault((char *)"nitro:/soundbank.bin");
 
     // create folders
     fsChangeDir("dscraft_data");
@@ -346,16 +326,8 @@ int main(int argc, char **argv)
     std::string createWorldName = "";  // world name (for create world)
     bool createWorldDuplError = false; // show duplicate world name error in create world?
     u8 settingsSelect = 0;             // selected sttting
-    u16 bgScrollX = 0;                 // bg scroll x
-    bool bottomBgScroll = true;        // do we scroll the bottom background
     while (true)
     {
-        // scroll background
-        if (bottomBgScroll)
-            bgSetScroll(bottomBg, bgScrollX++, 0);
-        if (bgScrollX >= 256)
-            bgScrollX = 0;
-
         // scan keys
         scanKeys();
         u32 down = keysDown();
@@ -771,10 +743,9 @@ int main(int argc, char **argv)
             }
             else if (down & KEY_A)
             {
-                bottomBgScroll = false;
                 gameState = GameState::CreateWorld;
                 createWorldName = "";
-                kbShow();
+                keyboardShow();
                 mmEffectEx(&sndClick);
             }
             else if (down & KEY_DOWN)
@@ -790,13 +761,12 @@ int main(int argc, char **argv)
             break;
         case GameState::CreateWorld:
         {
-            char ch = kbGetChar();
+            char ch = keyboardUpdate();
 
             if (down & KEY_B)
             {
                 createWorldDuplError = false;
-                bottomBg = bottomBackgroundInit();
-                bottomBgScroll = true;
+                keyboardHide();
                 gameState = GameState::WorldSelect;
                 mmEffectEx(&sndClick);
             }
@@ -820,7 +790,7 @@ int main(int argc, char **argv)
                 else
                 {
                     createWorldDuplError = false;
-                    bottomBg = bottomBackgroundInit();
+                    keyboardHide();
                     worldName = createWorldName.c_str();
 
                     // creating world screen
@@ -848,7 +818,7 @@ int main(int argc, char **argv)
 
             if (ch == '\b' && createWorldName.size() > 0)
                 createWorldName.pop_back();
-            else if (ch)
+            else if (ch && ch != 255)
                 createWorldName += ch;
             break;
         }
@@ -861,9 +831,7 @@ int main(int argc, char **argv)
             if (frames == 135)
             {
                 gameState = fsFileExists("config/lang.cfg") ? GameState::Menu : GameState::LanguageSelect;
-                bottomBg = bottomBackgroundInit();
-                bgSetScroll(bottomBg, bgScrollX = 0, 0);
-                bgShow(bottomBg);
+                keyboardHide();
             }
 
             direnty = lerp(direnty, SCREEN_HEIGHT / 2 - 32, 0.07f);
