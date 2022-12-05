@@ -435,8 +435,6 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                     u8 i = atoi(splitc[1].c_str());
                     InventoryItemID iid = stringToIID(splitc[2]);
                     u8 amount = atoi(splitc[3].c_str());
-                    if (amount != 0)
-                        printf("%d=%d x%d\n", i, iid, amount);
                     chest->setItem(i, {iid, amount});
                 }
             }

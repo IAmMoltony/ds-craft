@@ -1132,6 +1132,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                     }
                 }
 
+                // why did i call this variable 'check'
                 bool check = !Rect(x, y, 12, 32)
                                   .intersects(
                                       Rect(snapToGrid(camera->x + aimX),
