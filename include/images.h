@@ -79,10 +79,6 @@
 #include "inventory_slot.h"
 #include "inventory_slot_select.h"
 
-// misc
-#include "bottom_bg.h"
-#include "keyboard.h"
-
 // fonts
 #include "font_16x16.h"
 #include "font_small.h"

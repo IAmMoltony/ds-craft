@@ -954,8 +954,8 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                 if (chestSelect >= 20)
                     moveTo = 1;
 
-                InventoryItem toItem = NULLITEM;
-                InventoryItem fromItem = NULLITEM;
+                InventoryItem toItem;
+                InventoryItem fromItem;
                 if (moveFrom)
                 {
                     fromItem = inventory[chestMoveSelect - 20];
