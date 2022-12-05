@@ -588,15 +588,13 @@ void ChestBlock::initItems(void)
         items[i] = {InventoryItemID::None, 0};
 }
 
-ChestBlock::ChestBlock(s16 x, s16 y) : Block(x, y)
+ChestBlock::ChestBlock(s16 x, s16 y) : Block(x, y), chid(nextChestID++)
 {
-    chid = nextChestID++;
     initItems();
 }
 
-ChestBlock::ChestBlock(s16 x, s16 y, u16 id) : Block(x, y)
+ChestBlock::ChestBlock(s16 x, s16 y, u16 id) : Block(x, y), chid(id)
 {
-    chid = id;
     nextChestID = id + 1;
     initItems();
 }

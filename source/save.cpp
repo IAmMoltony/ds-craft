@@ -165,7 +165,7 @@ static std::string iidToString(InventoryItemID iid)
     return id;
 }
 
-static InventoryItemID stringToIID(std::string sid)
+static InventoryItemID stringToIID(const std::string &sid)
 {
     InventoryItemID id = InventoryItemID::None;
     if (sid == "grass")
