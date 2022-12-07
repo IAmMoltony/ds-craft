@@ -9,7 +9,7 @@ if "%1"=="" (
 )
 
 echo Creating ds-craft-%1.nds in releases...
-make
+make clean build
 copy ds-craft.nds releases
 cd releases
 ren ds-craft.nds ds-craft-%1.nds

@@ -12,6 +12,6 @@ if [ "$1" == "" ]; then
 fi
 
 echo "Creating ds-craft-$1.nds in releases..."
-make
+make clean build
 cp ds-craft.nds releases/ds-craft-$1.nds
 echo "ok!"
