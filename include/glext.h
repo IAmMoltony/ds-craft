@@ -10,6 +10,7 @@ extern "C"
 #endif
 
     void glBoxStroke(int x, int y, int w, int h, int color);
+    void glSpritePart(glImage *image, int x, int y, int xOff, int yOff, int w, int h);
 
 #ifdef __cplusplus
 }
