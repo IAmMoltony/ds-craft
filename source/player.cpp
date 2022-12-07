@@ -1976,6 +1976,16 @@ void Player::resetInventory(void)
     }
 }
 
+void Player::reset(void)
+{
+    restoreHealth();
+    resetInventory();
+    setX(0);
+    setY(0);
+    restoreHealth();
+    resetInventory();
+}
+
 bool Player::moving(s16 oldX)
 {
     return x != oldX;
@@ -2127,7 +2137,7 @@ static bool canCraft(Player *pThis, CraftingRecipe recipe)
     for (auto item : *rvec)
     {
         u16 pcount = pThis->countItems(item.id); // player count
-        u8 rcount = item.amount; // recipe count
+        u8 rcount = item.amount;                 // recipe count
         if (pcount < rcount)
             return false;
     }

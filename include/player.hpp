@@ -60,6 +60,7 @@ public:
     void setHealth(s16 health);
     void restoreHealth(void);
     void resetInventory(void);
+    void reset(void);
 
     bool moving(s16 oldX);
     bool dead(void);

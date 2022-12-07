@@ -393,11 +393,7 @@ int main(int argc, char **argv)
                 saveWorld(worldName, blocks, entities, player);
 
                 // reset player state
-                // TODO create a method in player to do this
-                player.setX(0);
-                player.setY(0);
-                player.restoreHealth();
-                player.resetInventory();
+                player.reset();
 
                 // reset chest id
                 resetNextChestID();
