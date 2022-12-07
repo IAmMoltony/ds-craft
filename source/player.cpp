@@ -60,6 +60,7 @@ extern glImage sprGlass[1];
 extern glImage sprOakTrapdoor[1];
 extern glImage sprBirchTrapdoor[1];
 extern glImage sprLadder[1];
+extern glImage sprChest[1];
 
 void loadPlayerGUI(void)
 {
@@ -245,6 +246,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Ladder";
         case InventoryItemID::BirchTrapdoor:
             return "Birch Trapdoor";
+        case InventoryItemID::Chest:
+            return "Chest";
         }
         break;
     case Language::Russian:
@@ -316,6 +319,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Mgtupkyb";
         case InventoryItemID::BirchTrapdoor:
             return "Bgshjqd\"l n%m";
+        case InventoryItemID::Chest:
+            return "Svpfvm";
         }
         break;
     }
@@ -393,9 +398,11 @@ glImage *getItemImage(InventoryItemID item)
         return sprBirchTrapdoor;
     case InventoryItemID::Ladder:
         return sprLadder;
+    case InventoryItemID::Chest:
+        return sprChest;
     }
 
-    return sprDummy; // amogus
+    return sprDummy;
 }
 
 bool isItem(InventoryItemID id)
@@ -1376,6 +1383,11 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                                                                  snapToGrid(camera->y + aimY)));
                             playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
                             break;
+                        case InventoryItemID::Chest:
+                            blocks->emplace_back(new ChestBlock(snapToGrid(camera->x + aimX),
+                                                                snapToGrid(camera->y + aimY)));
+                            playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                            break;
                         }
                         if (canPlace)
                         {
@@ -1562,6 +1574,10 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                         break;
                     case BID_LADDER:
                         entities->emplace_back(new DropEntity(block->x, block->y, "ladder"));
+                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                        break;
+                    case BID_CHEST:
+                        entities->emplace_back(new DropEntity(block->x, block->y, "chest"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
                         break;
                     }
@@ -2107,11 +2123,11 @@ void playerInitCrafting(void)
 
 static bool canCraft(Player *pThis, CraftingRecipe recipe)
 {
-    std::vector<InventoryItem> *rvec = recipe.getRecipe();
+    std::vector<InventoryItem> *rvec = recipe.getRecipe(); // recipe vector
     for (auto item : *rvec)
     {
-        u16 pcount = pThis->countItems(item.id);
-        u8 rcount = item.amount;
+        u16 pcount = pThis->countItems(item.id); // player count
+        u8 rcount = item.amount; // recipe count
         if (pcount < rcount)
             return false;
     }
@@ -2175,6 +2191,9 @@ void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
             break;
         case 12:
             glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprBirchTrapdoor);
+            break;
+        case 13:
+            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprChest);
             break;
         }
 

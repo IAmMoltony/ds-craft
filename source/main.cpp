@@ -12,7 +12,6 @@
 #include "save.hpp"
 #include "crafting.hpp"
 #include "help.hpp"
-#include "uuid.hpp"
 #include <algorithm>
 #include <sstream>
 #include <stdio.h>
@@ -394,10 +393,16 @@ int main(int argc, char **argv)
                 saveWorld(worldName, blocks, entities, player);
 
                 // reset player state
+                // TODO create a method in player to do this
                 player.setX(0);
                 player.setY(0);
                 player.restoreHealth();
                 player.resetInventory();
+
+                // reset chest id
+                resetNextChestID();
+
+                // go to menu and play a click sound
                 gameState = GameState::Menu;
                 mmEffectEx(&sndClick);
             }
@@ -539,10 +544,12 @@ int main(int argc, char **argv)
                             player.addItem(InventoryItemID::BirchTrapdoor);
                         else if (blockid == "ladder" && player.canAddItem(InventoryItemID::Ladder))
                             player.addItem(InventoryItemID::Ladder);
+                        else if (blockid == "chest" && player.canAddItem(InventoryItemID::Chest))
+                            player.addItem(InventoryItemID::Chest);
                         else
                             ok = false;
 
-                        // TODO put into player.cpp (and make less stupid)
+                        // TODO put into player code
 
                         if (ok)
                         {
