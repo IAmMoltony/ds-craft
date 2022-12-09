@@ -12,6 +12,7 @@
 #include "save.hpp"
 #include "crafting.hpp"
 #include "help.hpp"
+#include "blockparticle.hpp"
 #include <algorithm>
 #include <sstream>
 #include <stdio.h>
@@ -38,6 +39,7 @@ u8 touchToMove = 0;
 
 BlockList blocks;
 EntityList entities;
+BlockParticleList blockParticles;
 Player player;
 Language lang;
 
@@ -563,8 +565,17 @@ int main(int argc, char **argv)
                     }
                 }
 
+                // update block particles
+                for (size_t i = 0; i < blockParticles.size(); ++i)
+                {
+                    std::vector<BlockParticle>::iterator it = blockParticles.begin() + i;
+                    it->update();
+                    if (it->timeUp())
+                        blockParticles.erase(blockParticles.begin() + i);
+                }
+
                 // sort blocks when placed block
-                if (player.update(&camera, &blocks, &entities, frames))
+                if (player.update(&camera, &blocks, &entities, &blockParticles, frames))
                     std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
 
                 // player pos clamping
@@ -981,7 +992,6 @@ int main(int argc, char **argv)
 
         //--------------------------------------------------
         // rendering the game
-        // a lot of this is printing text
         //--------------------------------------------------
         glBegin2D();
 
@@ -1038,6 +1048,9 @@ int main(int argc, char **argv)
                     fontSmallRu.printCentered(0, 118, "C\"luk");
                 }
             }
+
+            for (auto particle : blockParticles)
+                particle.draw(camera);
 
             glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(4));
             fontSmall.printf(3, 3, "%s", getVersionString());

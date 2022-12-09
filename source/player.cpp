@@ -802,7 +802,15 @@ static void eatFood(s16 *health, u8 healthAdd)
         *health = 9;
 }
 
-bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, const u16 &frames)
+static void spawnBlockParticles(BlockParticleList *blockParticles, glImage *image, int x, int y)
+{
+    blockParticles->push_back(BlockParticle(image, 120, x + 1, y + 1, -1, -3));
+    blockParticles->push_back(BlockParticle(image, 120, x + 8, y + 2, -1, -3));
+    blockParticles->push_back(BlockParticle(image, 120, x + 16 - 6, y + 1, 1, -3));
+    blockParticles->push_back(BlockParticle(image, 120, x + 4, y + 2, 1, -3));
+}
+
+bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, BlockParticleList *blockParticles, const u16 &frames)
 {
     s16 oldX = x;
     s16 oldY = y;
@@ -1434,8 +1442,8 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
 
             if (rdown & ((touchToMove == 2) ? KEY_DOWN : KEY_B))
             {
-                // if block touch aim then block break (if b is pressed that is)
-                // and we cant brea bedrock
+                // if block touch aim then block break, if b or down is pressed
+                // and we cant break bedrock
                 if (Rect(getRectAim(*camera).x + 1, getRectAim(*camera).y + 1, 14, 14)
                         .intersects(block->getRect()) &&
                     block->id() != BID_BEDROCK)
@@ -1447,22 +1455,27 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                     case BID_GRASS:
                         entities->emplace_back(new DropEntity(block->x, block->y, "dirt"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
+                        spawnBlockParticles(blockParticles, sprGrass, block->x, block->y);
                         break;
                     case BID_DIRT:
                         entities->emplace_back(new DropEntity(block->x, block->y, "dirt"));
                         playsfx(effect, sndDirt1, sndDirt2, sndDirt3, sndDirt4);
+                        spawnBlockParticles(blockParticles, sprDirt, block->x, block->y);
                         break;
                     case BID_STONE:
                         entities->emplace_back(new DropEntity(block->x, block->y, "cobblestone"));
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
+                        spawnBlockParticles(blockParticles, sprStone, block->x, block->y);
                         break;
                     case BID_WOOD:
                         entities->emplace_back(new DropEntity(block->x, block->y, "wood"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                        spawnBlockParticles(blockParticles, sprWood, block->x, block->y);
                         break;
                     case BID_BIRCH_WOOD:
                         entities->emplace_back(new DropEntity(block->x, block->y, "birchwood"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                        spawnBlockParticles(blockParticles, sprBirchWood, block->x, block->y);
                         break;
                     case BID_LEAVES:
                     {
@@ -1489,6 +1502,12 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, con
                             // get an apple with 6% chance
                             if (chance(6))
                                 entities->emplace_back(new DropEntity(block->x, block->y, "apple"));
+                        }
+                        switch (l->type)
+                        {
+                        case LeavesType::Oak:
+                            spawnBlockParticles(blockParticles, sprLeaves, block->x, block->y);
+                            break;
                         }
                         break;
                     }
