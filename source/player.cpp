@@ -1508,96 +1508,121 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                         case LeavesType::Oak:
                             spawnBlockParticles(blockParticles, sprLeaves, block->x, block->y);
                             break;
+                        case LeavesType::Birch:
+                            spawnBlockParticles(blockParticles, sprBirchLeaves, block->x, block->y);
+                            break;
                         }
                         break;
                     }
                     case BID_SAND:
                         entities->emplace_back(new DropEntity(block->x, block->y, "sand"));
                         playsfx(effect, sndSand1, sndSand2, sndSand3, sndSand4);
+                        spawnBlockParticles(blockParticles, sprSand, block->x, block->y);
                         break;
                     case BID_SANDSTONE:
                         entities->emplace_back(new DropEntity(block->x, block->y, "sandstone"));
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
+                        spawnBlockParticles(blockParticles, sprSandstone, block->x, block->y);
                         break;
                     case BID_CACTUS:
                         entities->emplace_back(new DropEntity(block->x, block->y, "cactus"));
                         playsfx(effect, sndCloth1, sndCloth2, sndCloth3, sndCloth4);
+                        spawnBlockParticles(blockParticles, sprCactus, block->x, block->y);
                         break;
                     case BID_DEAD_BUSH:
                         entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), "stick"));
                         entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), "stick"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
+                        spawnBlockParticles(blockParticles, sprDeadBush, block->x, block->y);
                         break;
                     case BID_POPPY:
                         entities->emplace_back(new DropEntity(block->x, block->y, "poppy"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
+                        spawnBlockParticles(blockParticles, sprPoppy, block->x, block->y);
                         break;
                     case BID_DANDELION:
                         entities->emplace_back(new DropEntity(block->x, block->y, "dandelion"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
+                        spawnBlockParticles(blockParticles, sprDandelion, block->x, block->y);
                         break;
                     case BID_RED_TULIP:
                         entities->emplace_back(new DropEntity(block->x, block->y, "redtulip"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
+                        spawnBlockParticles(blockParticles, sprRedTulip, block->x, block->y);
                         break;
                     case BID_DOOR:
                         entities->emplace_back(new DropEntity(block->x, block->y, "door"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                        spawnBlockParticles(blockParticles, sprDoor, block->x, block->y);
                         break;
                     case BID_BIRCH_DOOR:
                         entities->emplace_back(new DropEntity(block->x, block->y, "birchdoor"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                        spawnBlockParticles(blockParticles, sprBirchDoor, block->x, block->y);
                         break;
                     case BID_PLANKS:
                         entities->emplace_back(new DropEntity(block->x, block->y, "planks"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                        spawnBlockParticles(blockParticles, sprPlanks, block->x, block->y);
                         break;
                     case BID_BIRCH_PLANKS:
                         entities->emplace_back(new DropEntity(block->x, block->y, "birchplanks"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                        spawnBlockParticles(blockParticles, sprBirchPlanks, block->x, block->y);
                         break;
                     case BID_SNOWY_GRASS:
                         entities->emplace_back(new DropEntity(block->x, block->y, "snowygrass"));
                         playsfx(effect, sndSnow1, sndSnow2, sndSnow3, sndSnow4);
+                        spawnBlockParticles(blockParticles, sprSnowyGrass, block->x, block->y);
                         break;
                     case BID_SAPLING:
                         entities->emplace_back(new DropEntity(block->x, block->y, "sapling"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
+                        spawnBlockParticles(blockParticles, sprSapling, block->x, block->y);
                         break;
                     case BID_BIRCH_SAPLING:
                         entities->emplace_back(new DropEntity(block->x, block->y, "birchsapling"));
                         playsfx(effect, sndGrass1, sndGrass2, sndGrass3, sndGrass4);
+                        spawnBlockParticles(blockParticles, sprBirchSapling, block->x, block->y);
                         break;
                     case BID_COBBLESTONE:
                         entities->emplace_back(new DropEntity(block->x, block->y, "cobblestone"));
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
+                        spawnBlockParticles(blockParticles, sprCobblestone, block->x, block->y);
                         break;
                     case BID_COAL_ORE:
                         entities->emplace_back(new DropEntity(block->x, block->y, "coal"));
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
+                        spawnBlockParticles(blockParticles, sprCoalOre, block->x, block->y);
                         break;
                     case BID_COAL_BLOCK:
                         entities->emplace_back(new DropEntity(block->x, block->y, "coalblock"));
                         playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
+                        spawnBlockParticles(blockParticles, sprCoalBlock, block->x, block->y);
                         break;
                     case BID_GLASS:
                         playsfx(effect, sndGlass1, sndGlass2, sndGlass3, sndGlass1);
+                        spawnBlockParticles(blockParticles, sprGlass, block->x, block->y);
                         break;
                     case BID_OAK_TRAPDOOR:
                         entities->emplace_back(new DropEntity(block->x, block->y, "oaktrapdoor"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                        spawnBlockParticles(blockParticles, sprOakTrapdoor, block->x, block->y);
                         break;
                     case BID_BIRCH_TRAPDOOR:
                         entities->emplace_back(new DropEntity(block->x, block->y, "birchtrapdoor"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                        spawnBlockParticles(blockParticles, sprBirchTrapdoor, block->x, block->y);
                         break;
                     case BID_LADDER:
                         entities->emplace_back(new DropEntity(block->x, block->y, "ladder"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                        spawnBlockParticles(blockParticles, sprLadder, block->x, block->y);
                         break;
                     case BID_CHEST:
                         entities->emplace_back(new DropEntity(block->x, block->y, "chest"));
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                        spawnBlockParticles(blockParticles, sprChest, block->x, block->y);
                         break;
                     }
 
