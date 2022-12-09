@@ -2201,53 +2201,16 @@ void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
                  craftingSelect == i ? sprInventorySlotSelect : sprInventorySlot);
         glColor(RGB15(31, 31, 31));
 
-        // REWRITE pls
         switch (recipe.getTexID())
         {
         default:
-            glSprite(16 + i * 16, 60, GL_FLIP_NONE, sprDummy);
-            break;
-        case 0:
-            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprPlanks);
-            break;
-        case 1:
-            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprBirchPlanks);
+            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, getItemImage(recipe.getOutput()));
             break;
         case 2:
             glSpriteScale(16 + i * 16 + 4, 64, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
             break;
-        case 3:
-            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprStick);
-            break;
         case 4:
             glSpriteScale(16 + i * 16 + 4, 64, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
-            break;
-        case 5:
-            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprStone);
-            break;
-        case 6:
-            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprCookedPorkchop);
-            break;
-        case 7:
-            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprCoalBlock);
-            break;
-        case 8:
-            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprSandstone);
-            break;
-        case 9:
-            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprGlass);
-            break;
-        case 10:
-            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprOakTrapdoor);
-            break;
-        case 11:
-            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprLadder);
-            break;
-        case 12:
-            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprBirchTrapdoor);
-            break;
-        case 13:
-            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, sprChest);
             break;
         }
 

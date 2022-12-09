@@ -1,5 +1,6 @@
 #pragma once
 #include "player.hpp"
+#include "crafting.hpp"
 #include "terrain.hpp"
 #include "fs.h"
 #include <string>

@@ -4,7 +4,9 @@
 InventoryItemID strToIID(std::string &sid)
 {
     sid.erase(std::remove_if(sid.begin(), sid.end(), ::isspace), sid.end());
-    if (sid == "grass")
+    if (sid == "none")
+        return InventoryItemID::None;
+    else if (sid == "grass")
         return InventoryItemID::Grass;
     else if (sid == "dirt")
         return InventoryItemID::Dirt;
@@ -64,9 +66,8 @@ InventoryItemID strToIID(std::string &sid)
         return InventoryItemID::Ladder;
     else if (sid == "chest")
         return InventoryItemID::Chest;
-    else
-        printf("%s not a valid item string id\n", sid.c_str());
 
+    printf("%s not a valid item string id\n", sid.c_str());
     return InventoryItemID::None;
 }
 
