@@ -165,76 +165,6 @@ static std::string iidToString(InventoryItemID iid)
     return id;
 }
 
-static InventoryItemID stringToIID(const std::string &sid)
-{
-    InventoryItemID id = InventoryItemID::None;
-    if (sid == "grass")
-        id = InventoryItemID::Grass;
-    else if (sid == "dirt")
-        id = InventoryItemID::Dirt;
-    else if (sid == "stone")
-        id = InventoryItemID::Stone;
-    else if (sid == "wood")
-        id = InventoryItemID::Wood;
-    else if (sid == "birchwood")
-        id = InventoryItemID::BirchWood;
-    else if (sid == "leaves")
-        id = InventoryItemID::Leaves;
-    else if (sid == "birchleaves")
-        id = InventoryItemID::BirchLeaves;
-    else if (sid == "sand")
-        id = InventoryItemID::Sand;
-    else if (sid == "sandstone")
-        id = InventoryItemID::Sandstone;
-    else if (sid == "cactus")
-        id = InventoryItemID::Cactus;
-    else if (sid == "deadbush")
-        id = InventoryItemID::DeadBush;
-    else if (sid == "poppy")
-        id = InventoryItemID::Poppy;
-    else if (sid == "dandelion")
-        id = InventoryItemID::Dandelion;
-    else if (sid == "door")
-        id = InventoryItemID::Door;
-    else if (sid == "birchdoor")
-        id = InventoryItemID::BirchDoor;
-    else if (sid == "planks")
-        id = InventoryItemID::Planks;
-    else if (sid == "birchplanks")
-        id = InventoryItemID::BirchPlanks;
-    else if (sid == "stick")
-        id = InventoryItemID::Stick;
-    else if (sid == "snowygrass")
-        id = InventoryItemID::SnowyGrass;
-    else if (sid == "sapling")
-        id = InventoryItemID::Sapling;
-    else if (sid == "birchsapling")
-        id = InventoryItemID::BirchSapling;
-    else if (sid == "cobblestone")
-        id = InventoryItemID::Cobblestone;
-    else if (sid == "coalore")
-        id = InventoryItemID::CoalOre;
-    else if (sid == "coal")
-        id = InventoryItemID::Coal;
-    else if (sid == "coalblock")
-        id = InventoryItemID::CoalBlock;
-    else if (sid == "rawporkchop")
-        id = InventoryItemID::RawPorkchop;
-    else if (sid == "cookedporkchop")
-        id = InventoryItemID::CookedPorkchop;
-    else if (sid == "apple")
-        id = InventoryItemID::Apple;
-    else if (sid == "glass")
-        id = InventoryItemID::Glass;
-    else if (sid == "oaktrapdoor")
-        id = InventoryItemID::OakTrapdoor;
-    else if (sid == "birchtrapdoor")
-        id = InventoryItemID::BirchTrapdoor;
-    else if (sid == "ladder")
-        id = InventoryItemID::Ladder;
-    return id;
-}
-
 void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                Player &player)
 {
@@ -426,14 +356,14 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                 std::string line2c;
                 while (std::getline(ssc, line2c, ' '))
                     splitc.push_back(line2c);
-                
+
                 if (splitc[0] == "chestitem")
                 {
                     u16 cid = atoi(splitc[4].c_str());
                     if (cid != id)
                         continue;
                     u8 i = atoi(splitc[1].c_str());
-                    InventoryItemID iid = stringToIID(splitc[2]);
+                    InventoryItemID iid = strToIID(splitc[2]);
                     u8 amount = atoi(splitc[3].c_str());
                     chest->setItem(i, {iid, amount});
                 }
@@ -530,7 +460,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             u8 amount = atoi(split[3].c_str());
             std::string sid = split[2]; // i think s in sid stands for string (i dont rember)
             InventoryItemID id = InventoryItemID::None;
-            id = stringToIID(sid);
+            id = strToIID(sid);
 
             player.setItem(i, {id, amount});
         }

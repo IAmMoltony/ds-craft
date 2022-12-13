@@ -80,8 +80,12 @@ std::vector<WorldInfo> getWorlds(void)
         if (line == "." || line == "..")
             continue;
 
+        std::string worldName = getWorldName("worlds/" + line);
+        if (worldName == "(error)")
+            continue; // hide error worlds
+
         int size = fsGetFileSize(std::string("worlds/" + line).c_str());
-        worlds.push_back({getWorldName("worlds/" + line), size});
+        worlds.push_back({worldName, size});
     }
 
     return worlds;
@@ -339,7 +343,7 @@ int main(int argc, char **argv)
         switch (gameState)
         {
         case GameState::Game:
-            // save every 900 frames (15s) and if user wants to auto save
+            // save every 900 frames (15s) and if player wants to auto save
             if (frames % 900 == 0 && autoSave)
             {
                 saveWorld(worldName, blocks, entities, player);
@@ -546,8 +550,6 @@ int main(int argc, char **argv)
                             player.addItem(InventoryItemID::Chest);
                         else
                             ok = false;
-
-                        // TODO put into player code
 
                         if (ok)
                         {
