@@ -12,7 +12,7 @@ If touch-to-move is not off in the settings, you can ose the bottom screen to mo
 
 If touch the move is set to "right-handed" then the D-Pad and ABXY buttons are swapped (if not in inventory). E.g. D-Pad down becomes the B button and vice versa.
 
-You can use the d-pad still, if touch to move is enabled.
+You can use the d-pad still, even if touch to move is enabled.
 
 ### Inventory manipulation
 
