@@ -7,7 +7,10 @@
             "dependsOn": [
                 "Build"
             ],
-            "command": "make run",
+            "command": "make",
+            "args": [
+                "run"
+            ],
             "problemMatcher": [],
             "group": {
                 "kind": "build",
@@ -17,7 +20,10 @@
         {
             "label": "Build",
             "type": "shell",
-            "command": "make build"
+            "command": "make",
+            "args": [
+                "build"
+            ]
         }
     ]
 }
