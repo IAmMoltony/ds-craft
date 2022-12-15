@@ -847,7 +847,7 @@ int main(int argc, char **argv)
             if (frames == 135)
             {
                 gameState = fsFileExists("config/lang.cfg") ? GameState::Menu : GameState::LanguageSelect;
-                keyboardHide();
+                unloadImage(direntGames);
             }
 
             direnty = lerp(direnty, SCREEN_HEIGHT / 2 - 32, 0.07f);
