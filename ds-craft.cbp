@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="ds-craft" />
+		<Option makefile_is_custom="1" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="build">
+				<Option output="./codeblocks_run" prefix_auto="1" extension_auto="1" />
+				<Option object_output="build/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+			<Target title="clean">
+				<Option output="ds-craft" prefix_auto="1" extension_auto="1" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="Makefile">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="README.md" />
+		<Unit filename="audio/wood4.wav">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/bedrock.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/bedrock.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/birch_leaves.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/birch_leaves.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/birch_leaves_a.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/birch_leaves_a.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/birch_log.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/birch_log.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/birch_planks.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/birch_planks.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/birch_sapling.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/birch_sapling.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/birch_trapdoor.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/birch_trapdoor.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/birchdoor.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/birchdoor.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/cactus_side.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/cactus_side.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/chest.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/chest.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/coal_block.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/coal_block.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/coal_ore.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/coal_ore.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/cobblestone.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/cobblestone.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/dandelion.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/dandelion.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/dead_bush.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/dead_bush.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/dirt.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/dirt.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/door.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/door.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/glass.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/glass.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/grass.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/grass.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/ladder.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/ladder.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/oak_leaves.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/oak_leaves.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/oak_leaves_a.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/oak_leaves_a.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/oak_log.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/oak_log.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/oak_sapling.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/oak_sapling.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/oak_trapdoor.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/oak_trapdoor.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/placeholder_chest.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/placeholder_chest.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/planks.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/planks.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/poppy.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/poppy.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/porkchop.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/red_tulip.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/red_tulip.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/sand.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/sand.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/sandstone.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/sandstone.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/selectbtn.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/snowy_grass.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/snowy_grass.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/stone.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/block/stone.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/entity/pig.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/entity/pig.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/entity/pig_damage.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/entity/pig_damage.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/font/font_16x16.bmp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/font/font_16x16.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/font/font_16x16_ru.bmp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/font/font_16x16_ru.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/font/font_small.bmp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/font/font_small.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/font/font_small_ru1.bmp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/font/font_small_ru1.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/abtn.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/abtn.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/bbtn.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/bbtn.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/coal.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/coal.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/cooked_porkchop.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/cooked_porkchop.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/dscraft-logo.psd">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/english.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/english.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/gray_circle.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/gray_circle.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/logo.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/logo.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/placeholder_logo.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/placeholder_logo.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/russian.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/russian.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/selectbtn.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/selectbtn.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/world_label.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/world_label.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/world_label_select.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/world_label_select.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/xbtn.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/xbtn.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/ybtn.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/gui/ybtn.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/item/apple.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/item/apple.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/item/porkchop.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/item/porkchop.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/item/stick.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/item/stick.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/misc/dirent_games.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/misc/dirent_games.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/misc/dummy.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/misc/dummy.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/player/aim.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/player/aim.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/player/half_heart.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/player/half_heart.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/player/half_heart2.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/player/half_heart2.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/player/heart_outline.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/player/heart_outline.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/player/inventory_slot.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/player/inventory_slot.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/player/inventory_slot_select.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/player/inventory_slot_select.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/player/placeholder_guy.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/player/placeholder_guy.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/player/steve.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/player/steve.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/player/steve_head.grit">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="gfx/player/steve_head.png">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="include/PerlinNoise.hpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="include/animsprite.hpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="include/block.hpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="include/blockparticle.hpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="include/camera.h">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="include/crafting.hpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="include/defines.h">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="include/entity.hpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="include/font.hpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="include/fs.h">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="include/gamestate.hpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="include/gamever.hpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="include/glext.h">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="include/help.hpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="include/images.h">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="include/lang.hpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="include/player.hpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="include/rect.hpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="include/save.hpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="include/terrain.hpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="include/userinfo.h">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="include/uvcoord_font_16x16.h">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="include/uvcoord_font_si.h">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/crafting/birch_door.rcp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/crafting/birch_planks.rcp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/crafting/birch_trapdoor.rcp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/crafting/chest.rcp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/crafting/coalblock.rcp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/crafting/cooked_porkchop.rcp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/crafting/glass.rcp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/crafting/ladder.rcp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/crafting/oak_door.rcp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/crafting/oak_planks.rcp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/crafting/oak_trapdoor.rcp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/crafting/sandstone.rcp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/crafting/stick.rcp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/crafting/stone.rcp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/game.ver">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/help/autojump_en.txt">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/help/autojump_ru.txt">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/help/autosave_en.txt">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/help/autosave_ru.txt">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/help/changelang_en.txt">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/help/changelang_ru.txt">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/help/smoothcam_en.txt">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/help/smoothcam_ru.txt">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/help/touchmove_en.txt">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/help/touchmove_ru.txt">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/help/trleaves_en.txt">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/help/trleaves_ru.txt">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/soundbank.bin">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="nitrofs/test.txt">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="source/animsprite.cpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="source/block.cpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="source/blockparticle.cpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="source/crafting.cpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="source/entity.cpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="source/font.cpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="source/fs.c">
+			<Option compilerVar="CC" />
+			<Option target="build" />
+		</Unit>
+		<Unit filename="source/gamever.cpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="source/glext.c">
+			<Option compilerVar="CC" />
+			<Option target="build" />
+		</Unit>
+		<Unit filename="source/help.cpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="source/main.cpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="source/player.cpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="source/rect.cpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="source/save.cpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="source/terrain.cpp">
+			<Option target="build" />
+		</Unit>
+		<Unit filename="source/userinfo.c">
+			<Option compilerVar="CC" />
+			<Option target="build" />
+		</Unit>
+		<Extensions>
+			<code_completion>
+				<search_path add="/opt/devkitpro/devkitARM/arm-none-eabi/include" />
+				<search_path add="/opt/devkitpro/libnds/include" />
+			</code_completion>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
