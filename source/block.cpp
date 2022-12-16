@@ -38,7 +38,6 @@ void loadBlockTextures(void)
 {
     loadImage(sprGrass, 16, 16, grassBitmap);
     loadImage(sprSnowyGrass, 16, 16, snowy_grassBitmap);
-    loadImage(sprDirt, 16, 16, dirtBitmap);
     loadImage(sprStone, 16, 16, stoneBitmap);
     loadImage(sprWood, 16, 16, oak_logBitmap);
     loadImage(sprBirchWood, 16, 16, birch_logBitmap);
@@ -69,6 +68,39 @@ void loadBlockTextures(void)
     loadImageAlpha(sprLadder, 16, 16, ladderPal, ladderBitmap);
 }
 
+void unloadBlockTextures(void)
+{
+    unloadImage(sprGrass);
+    unloadImage(sprSnowyGrass);
+    unloadImage(sprStone);
+    unloadImage(sprWood);
+    unloadImage(sprBirchWood);
+    unloadImage(sprLeaves);
+    unloadImage(sprBirchLeaves);
+    unloadImage(sprSand);
+    unloadImage(sprSandstone);
+    unloadImage(sprCactus);
+    unloadImage(sprDeadBush);
+    unloadImage(sprDandelion);
+    unloadImage(sprPoppy);
+    unloadImage(sprRedTulip);
+    unloadImage(sprDoor);
+    unloadImage(sprBirchDoor);
+    unloadImage(sprPlanks);
+    unloadImage(sprBirchPlanks);
+    unloadImage(sprSapling);
+    unloadImage(sprBirchSapling);
+    unloadImage(sprBedrock);
+    unloadImage(sprCobblestone);
+    unloadImage(sprCoalOre);
+    unloadImage(sprCoalBlock);
+    unloadImage(sprGlass);
+    unloadImage(sprOakTrapdoor);
+    unloadImage(sprBirchTrapdoor);
+    unloadImage(sprLadder);
+    unloadImage(sprChest);
+}
+
 void loadBlockSounds(void)
 {
     loadsfx4(DOOROPEN);
@@ -76,6 +108,12 @@ void loadBlockSounds(void)
 
     setsfx4(DoorOpen, DOOROPEN);
     setsfx4(DoorClose, DOORCLOSE);
+}
+
+void unloadBlockSounds(void)
+{
+    unloadsfx4(DOOROPEN);
+    unloadsfx4(DOORCLOSE);
 }
 
 //----------------------------------------

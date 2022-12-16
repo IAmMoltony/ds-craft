@@ -91,6 +91,137 @@ std::vector<WorldInfo> getWorlds(void)
     return worlds;
 }
 
+void loadGameAssets(void)
+{
+    loadPlayerTextures();
+    loadPlayerGUI();
+    loadPlayerSounds();
+    loadBlockTextures();
+    loadBlockSounds();
+    loadEntityTextures();
+    loadEntitySounds();
+    mmLoadEffect(SFX_POP);
+}
+
+void unloadGameAssets(void)
+{
+    unloadPlayerTextures();
+    unloadPlayerGUI();
+    unloadPlayerSounds();
+    unloadBlockTextures();
+    unloadBlockSounds();
+    unloadEntityTextures();
+    unloadEntitySounds();
+    mmUnloadEffect(SFX_POP);
+}
+
+// logo of the game
+glImage logo[1];
+
+// button images
+glImage abtn[1];
+glImage bbtn[1];
+glImage xbtn[1];
+glImage ybtn[1];
+glImage selectbtn[1];
+
+// world label images
+glImage worldLabel[1];
+glImage worldLabelSelect[1];
+glImage grayCircle[1];
+
+// dirent games logo
+glImage direntGames[1];
+
+// language images
+glImage english[1];
+glImage russian[1];
+
+void loadMenuTextures(void)
+{
+    loadImageAlpha(logo, 128, 32, logoPal, logoBitmap);
+    loadImageAlpha(abtn, 16, 16, abtnPal, abtnBitmap);
+    loadImageAlpha(bbtn, 16, 16, bbtnPal, bbtnBitmap);
+    loadImageAlpha(xbtn, 16, 16, xbtnPal, xbtnBitmap);
+    loadImageAlpha(ybtn, 16, 16, ybtnPal, ybtnBitmap);
+    loadImageAlpha(selectbtn, 32, 16, selectbtnPal, selectbtnBitmap);
+    loadImageAlpha(worldLabel, 128, 32, world_labelPal, world_labelBitmap);
+    loadImageAlpha(worldLabelSelect, 128, 32, world_label_selectPal, world_label_selectBitmap);
+    loadImageAlpha(grayCircle, 16, 16, gray_circlePal, gray_circleBitmap);
+}
+
+void unloadMenuTextures(void)
+{
+    unloadImage(logo);
+    unloadImage(abtn);
+    unloadImage(bbtn);
+    unloadImage(xbtn);
+    unloadImage(ybtn);
+    unloadImage(selectbtn);
+    unloadImage(worldLabel);
+    unloadImage(worldLabelSelect);
+    unloadImage(grayCircle); // TODO gray circle is not used anymore i should just remove it
+}
+
+// unload game assets, load menu assets, save world and quit to menu
+void gameQuit(Font &fontSmall, Font &fontSmallRu, u16 frames, const std::string &worldName, BlockList &blocks, EntityList &entities, Player &player)
+{
+    // unload asset screen
+    glBegin2D();
+    drawMovingBackground(sprDirt, frames);
+    switch (lang)
+    {
+    case Language::English:
+        fontSmall.printCentered(0, 50, "Unloading game assets...");
+        break;
+    case Language::Russian:
+        fontSmallRu.printCentered(0, 50, "C\"esvjmb sgtvstqd kes\"...");
+        break;
+    }
+    glEnd2D();
+    glFlush(0);
+
+    unloadGameAssets();
+
+    glBegin2D();
+    drawMovingBackground(sprDirt, frames);
+    switch (lang)
+    {
+    case Language::English:
+        fontSmall.printCentered(0, 50, "Loading menu assets...");
+        break;
+    case Language::Russian:
+        fontSmall.printCentered(0, 50, "Ibesvjmb sgtvstqd ogp%...");
+        break;
+    }
+    glEnd2D();
+    glFlush(0);
+
+    loadMenuTextures();
+
+    // save world screen
+    glBegin2D();
+    drawMovingBackground(sprDirt, frames);
+    switch (lang)
+    {
+    case Language::English:
+        fontSmall.printCentered(0, 50, "Saving world...");
+        break;
+    case Language::Russian:
+        fontSmallRu.printCentered(0, 50, "Sqxsbpgpkg oksb...");
+        break;
+    }
+    glEnd2D();
+    glFlush(0);
+    saveWorld(worldName, blocks, entities, player);
+
+    // reset player state
+    player.reset();
+
+    // reset chest id
+    resetNextChestID();
+}
+
 int main(int argc, char **argv)
 {
     // initialization
@@ -140,14 +271,6 @@ int main(int argc, char **argv)
     // init player crafting
     playerInitCrafting();
 
-    // load assets that wont unload
-    loadBlockTextures();
-    loadBlockSounds();
-    loadEntityTextures();
-    loadEntitySounds();
-    loadPlayerGUI();
-    loadPlayerTextures();
-
     // sfx
     mmLoadEffect(SFX_CLICK);
 
@@ -163,7 +286,7 @@ int main(int argc, char **argv)
             lang = Language::Russian;
         else if (data[0] != '0') // invalid lang
         {
-            printf("invalid language code %c ", data[0]);
+            printf("invalid language code %c", data[0]);
             while (true)
                 ;
         }
@@ -263,45 +386,11 @@ int main(int argc, char **argv)
                 GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
                 256, font_16x16_ruPal, reinterpret_cast<const u8 *>(font_16x16_ruBitmap));
 
-    // logo of the game
-    glImage logo[1];
-
-    // button images
-    glImage abtn[1];
-    glImage bbtn[1];
-    glImage xbtn[1];
-    glImage ybtn[1];
-    glImage selectbtn[1];
-
-    // world label images
-    glImage worldLabel[1];
-    glImage worldLabelSelect[1];
-    glImage grayCircle[1];
-
-    // dirent games logo
-    glImage direntGames[1];
-
-    // language images
-    glImage english[1];
-    glImage russian[1];
-
-    // load the images
-    loadImageAlpha(logo, 128, 32, logoPal, logoBitmap);
-
-    loadImageAlpha(abtn, 16, 16, abtnPal, abtnBitmap);
-    loadImageAlpha(bbtn, 16, 16, bbtnPal, bbtnBitmap);
-    loadImageAlpha(xbtn, 16, 16, xbtnPal, xbtnBitmap);
-    loadImageAlpha(ybtn, 16, 16, ybtnPal, ybtnBitmap);
-    loadImageAlpha(selectbtn, 32, 16, selectbtnPal, selectbtnBitmap);
-
-    loadImageAlpha(worldLabel, 128, 32, world_labelPal, world_labelBitmap);
-    loadImageAlpha(worldLabelSelect, 128, 32, world_label_selectPal, world_label_selectBitmap);
-    loadImageAlpha(grayCircle, 16, 16, gray_circlePal, gray_circleBitmap);
-
-    loadImageAlpha(english, 16, 16, englishPal, englishBitmap);
-    loadImageAlpha(russian, 16, 16, russianPal, russianBitmap);
+    // load menu images
+    loadMenuTextures();
 
     loadImage(direntGames, 64, 64, dirent_gamesBitmap);
+    loadImage(sprDirt, 16, 16, dirtBitmap);
 
     if (transparentLeaves)
     {
@@ -309,13 +398,7 @@ int main(int argc, char **argv)
         loadImageAlpha(sprLeaves, 16, 16, oak_leaves_aPal, oak_leaves_aBitmap);
     }
 
-    GameState gameState =
-#if SKIP_SPLASH_SCREEN
-        fsFileExists("config/lang.cfg") ? GameState::Menu : GameState::LanguageSelect
-#else
-        GameState::SplashScreen
-#endif
-        ;
+    GameState gameState = GameState::SplashScreen;
     Camera camera = {0, 0};            // camera
     u16 frames = 0;                    // frames (wraps around to 0 when hits 65535)
     u8 saveTextTimer = 0;              // save text timer when it hides
@@ -364,45 +447,7 @@ int main(int argc, char **argv)
             {
                 paused = false;
 
-                // unload asset screen
-                glBegin2D();
-                drawMovingBackground(sprDirt, frames);
-                switch (lang)
-                {
-                case Language::English:
-                    fontSmall.printCentered(0, 50, "Unloading assets...");
-                    break;
-                case Language::Russian:
-                    fontSmallRu.printCentered(0, 50, "C\"esvjmb sgtvstqd...");
-                    break;
-                }
-                glEnd2D();
-                glFlush(0);
-
-                unloadPlayerSounds();
-                mmUnloadEffect(SFX_POP);
-
-                // save world screen
-                glBegin2D();
-                drawMovingBackground(sprDirt, frames);
-                switch (lang)
-                {
-                case Language::English:
-                    fontSmall.printCentered(0, 50, "Saving world...");
-                    break;
-                case Language::Russian:
-                    fontSmallRu.printCentered(0, 50, "Sqxsbpgpkg oksb...");
-                    break;
-                }
-                glEnd2D();
-                glFlush(0);
-                saveWorld(worldName, blocks, entities, player);
-
-                // reset player state
-                player.reset();
-
-                // reset chest id
-                resetNextChestID();
+                gameQuit(fontSmall, fontSmallRu, frames, worldName, blocks, entities, player);
 
                 // go to menu and play a click sound
                 gameState = GameState::Menu;
@@ -598,45 +643,8 @@ int main(int argc, char **argv)
                 }
                 else if (down & KEY_B)
                 {
-                    // unload asset screen
-                    glBegin2D();
-                    drawMovingBackground(sprDirt, frames);
-                    switch (lang)
-                    {
-                    case Language::English:
-                        fontSmall.printCentered(0, 50, "Unloading assets...");
-                        break;
-                    case Language::Russian:
-                        fontSmallRu.printCentered(0, 50, "C\"esvjmb sgtvstqd...");
-                        break;
-                    }
-                    glEnd2D();
-                    glFlush(0);
+                    gameQuit(fontSmall, fontSmallRu, frames, worldName, blocks, entities, player);
 
-                    unloadPlayerSounds();
-                    mmUnloadEffect(SFX_POP);
-
-                    // save world screen
-                    glBegin2D();
-                    drawMovingBackground(sprDirt, frames);
-                    switch (lang)
-                    {
-                    case Language::English:
-                        fontSmall.printCentered(0, 50, "Saving world...");
-                        break;
-                    case Language::Russian:
-                        fontSmallRu.printCentered(0, 50, "Sqxsbpgpkg oksb...");
-                        break;
-                    }
-                    glEnd2D();
-                    glFlush(0);
-                    saveWorld(worldName, blocks, entities, player);
-
-                    // reset player state
-                    player.setX(0);
-                    player.setY(0);
-                    player.restoreHealth();
-                    player.resetInventory();
                     gameState = GameState::Menu;
                     mmEffectEx(&sndClick);
                 }
@@ -717,8 +725,7 @@ int main(int argc, char **argv)
                     glEnd2D();
                     glFlush(0);
 
-                    loadPlayerSounds();
-                    mmLoadEffect(SFX_POP);
+                    loadGameAssets();
 
                     // loading screen for world
                     glBegin2D();
@@ -847,6 +854,11 @@ int main(int argc, char **argv)
             if (frames == 135)
             {
                 gameState = fsFileExists("config/lang.cfg") ? GameState::Menu : GameState::LanguageSelect;
+                if (gameState == GameState::LanguageSelect)
+                {
+                    loadImageAlpha(english, 16, 16, englishPal, englishBitmap);
+                    loadImageAlpha(russian, 16, 16, russianPal, russianBitmap);
+                }
                 unloadImage(direntGames);
             }
 
@@ -874,6 +886,8 @@ int main(int argc, char **argv)
 
                 mmEffectEx(&sndClick);
                 gameState = GameState::Menu;
+                unloadImage(english);
+                unloadImage(russian);
                 frames = 0;
             }
             break;

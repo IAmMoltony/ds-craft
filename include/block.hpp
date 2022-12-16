@@ -146,7 +146,9 @@ struct InventoryItem
     };
 
 void loadBlockTextures(void);
+void unloadBlockTextures(void);
 void loadBlockSounds(void);
+void unloadBlockSounds(void);
 
 enum class FlowerType
 {

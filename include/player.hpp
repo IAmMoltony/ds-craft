@@ -14,6 +14,7 @@
 #include <map>
 #include <math.h>
 #include <stdio.h>
+
 #define NULLITEM                 \
     {                            \
         InventoryItemID::None, 0 \
@@ -22,7 +23,9 @@
 #define PLAYER_HEIGHT 32
 
 void loadPlayerGUI(void);
+void unloadPlayerGUI(void);
 void loadPlayerTextures(void);
+void unloadPlayerTextures(void);
 void loadPlayerSounds(void);
 void unloadPlayerSounds(void);
 void playerInitCrafting(void);

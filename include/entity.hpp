@@ -5,6 +5,8 @@
 
 void loadEntityTextures(void);
 void loadEntitySounds(void);
+void unloadEntityTextures(void);
+void unloadEntitySounds(void);
 
 enum class Facing
 {

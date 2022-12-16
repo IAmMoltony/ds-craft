@@ -42,6 +42,8 @@ InventoryItemID strToIID(std::string &sid)
         return InventoryItemID::SnowyGrass;
     else if (sid == "sapling")
         return InventoryItemID::Sapling;
+    else if (sid == "birchsapling")
+        return InventoryItemID::BirchSapling;
     else if (sid == "cobblestone")
         return InventoryItemID::Cobblestone;
     else if (sid == "coalore")

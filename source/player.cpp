@@ -79,10 +79,32 @@ void loadPlayerGUI(void)
     loadImageAlpha(sprAim, 8, 8, aimPal, aimBitmap);
 }
 
+void unloadPlayerGUI(void)
+{
+    unloadImage(sprInventorySlot);
+    unloadImage(sprInventorySlotSelect);
+    unloadImage(sprDummy);
+    unloadImage(sprStick);
+    unloadImage(sprCoal);
+    unloadImage(sprRawPorkchop);
+    unloadImage(sprCookedPorkchop);
+    unloadImage(sprApple);
+    unloadImage(sprHeartOutline);
+    unloadImage(sprHalfHeart);
+    unloadImage(sprHalfHeart2); // TODO use sprHalfHart with GL_FLIP_H instead of making 2 sprites
+    unloadImage(sprAim);
+}
+
 void loadPlayerTextures(void)
 {
     loadImageAlpha(sprPlayer, 16, 32, stevePal, steveBitmap);
     loadImageAlpha(sprPlayerHead, 16, 16, steve_headPal, steve_headBitmap);
+}
+
+void unloadPlayerTextures(void)
+{
+    unloadImage(sprPlayer);
+    unloadImage(sprPlayerHead);
 }
 
 declsfx4(Grass);

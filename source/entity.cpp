@@ -52,6 +52,17 @@ void loadEntitySounds(void)
     setsfx3(PigSay, PIGSAY);
 }
 
+void unloadEntityTextures(void)
+{
+    unloadImage(sprPig);
+    unloadImage(sprPigDamage);
+}
+
+void unloadEntitySounds(void)
+{
+    unloadsfx3(PIGSAY);
+}
+
 Entity::Entity(s16 x, s16 y)
 {
     this->x = x;
