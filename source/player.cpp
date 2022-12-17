@@ -27,6 +27,7 @@ static glImage sprHalfHeart2[1];
 // player images
 static glImage sprPlayer[1];
 static glImage sprPlayerHead[1];
+static glImage sprPlayerLegs[3][1];
 
 // d u m m y
 static glImage sprDummy[1];
@@ -99,12 +100,18 @@ void loadPlayerTextures(void)
 {
     loadImageAlpha(sprPlayer, 16, 32, stevePal, steveBitmap);
     loadImageAlpha(sprPlayerHead, 16, 16, steve_headPal, steve_headBitmap);
+    loadImageAlpha(sprPlayerLegs[0], 16, 32, steve_legs1Pal, steve_legs1Bitmap);
+    loadImageAlpha(sprPlayerLegs[1], 16, 32, steve_legs2Pal, steve_legs2Bitmap);
+    loadImageAlpha(sprPlayerLegs[2], 16, 32, steve_legs3Pal, steve_legs3Bitmap);
 }
 
 void unloadPlayerTextures(void)
 {
     unloadImage(sprPlayer);
     unloadImage(sprPlayerHead);
+    unloadImage(sprPlayerLegs[0]);
+    unloadImage(sprPlayerLegs[1]);
+    unloadImage(sprPlayerLegs[2]);
 }
 
 declsfx4(Grass);
@@ -427,6 +434,7 @@ glImage *getItemImage(InventoryItemID item)
     return sprDummy;
 }
 
+// check if the item is not a block item
 bool isItem(InventoryItemID id)
 {
     return id == InventoryItemID::Stick ||
@@ -454,6 +462,7 @@ Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSele
     aimY = SCREEN_HEIGHT / 2;
     facing = Facing::Right;
     chest = nullptr;
+    legsSprite = AnimatedSprite(5, AnimatedSpriteMode::ReverseLoop, {sprPlayerLegs[0], sprPlayerLegs[1], sprPlayerLegs[2]});
 
     // initialize inventory with null items
     for (u8 i = 0; i < 20; ++i)
@@ -556,6 +565,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
 
     // calculate head angle
     int angle = angleRad * 180 / M_PI * 40;
+
+    // draw player legs
+    legsSprite.draw(x - camera.x - (facing == Facing::Right ? 2 : 3), y - camera.y, (facing == Facing::Left) ? GL_FLIP_H : GL_FLIP_NONE);
 
     // draw player body
     glSprite(x - 1 - camera.x - (facing == Facing::Right ? 0 : 3), y - camera.y,
@@ -1927,6 +1939,12 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
             break;
         }
     }
+
+    if (moving(oldX) && !fullInventory && !inventoryCrafting && !chestOpen)
+        legsSprite.update();
+    else
+        legsSprite.restart();
+
     return ret; // yes
 }
 

@@ -10,6 +10,7 @@
 #include "lang.hpp"
 #include "entity.hpp"
 #include "blockparticle.hpp"
+#include "animsprite.hpp"
 #include <array>
 #include <map>
 #include <math.h>
@@ -43,6 +44,7 @@ private:
     Facing facing;
     InventoryItem inventory[20];
     ChestBlock *chest;
+    AnimatedSprite legsSprite;
 
     void jump(void);
 

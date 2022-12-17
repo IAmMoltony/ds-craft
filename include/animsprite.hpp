@@ -24,8 +24,10 @@ public:
 
     AnimatedSprite(u8 framesPerImage, AnimatedSpriteMode mode,
                    std::initializer_list<glImage *> images);
+    AnimatedSprite();
 
     void update(void);
     void draw(int x, int y, GL_FLIP_MODE flipMode);
     void draw(int x, int y);
+    void restart(void);
 };

@@ -7,10 +7,16 @@ AnimatedSprite::AnimatedSprite(u8 framesPerImage, AnimatedSpriteMode mode,
 {
     if (frames.size() > SCHAR_MAX)
     {
-        printf("Too many frames (expected <=%d, got %u)", SCHAR_MAX, frames.size());
+        printf("Too many frames (expected less than or equal to %d, got %u)", SCHAR_MAX, frames.size());
         while (true)
             ;
     }
+}
+
+AnimatedSprite::AnimatedSprite()
+    : frames(std::vector<glImage *>()), img(0), frame(0), framesPerImage(0), reverseLoopDirection(1),
+      mode(AnimatedSpriteMode::Normal)
+{
 }
 
 void AnimatedSprite::update(void)
@@ -49,4 +55,11 @@ void AnimatedSprite::draw(int x, int y, GL_FLIP_MODE flipMode)
 void AnimatedSprite::draw(int x, int y)
 {
     draw(x, y, GL_FLIP_NONE);
+}
+
+void AnimatedSprite::restart(void)
+{
+    img = 0;
+    frame = 0;
+    reverseLoopDirection = 1;
 }
