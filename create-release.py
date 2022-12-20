@@ -7,32 +7,53 @@ if __name__ == "__main__":
     argv = sys.argv
     argc = len(argv)
 
-    if argc != 2:
-        print("Usage: create-release.py <version>")
+    if argc < 2:
+        print("Usage: create-release.py <version> [arguments]")
         print("Example: python3 create-release.py alpha2.3")
+        print("Valid arguments are:")
+        print(" --noconfirm: no confirmation screen")
+        print(" --quiet: no output (except for errors and confirmation screen)")
         exit(1)
 
-    filename = f'releases/ds-craft-{argv[1]}.nds'
-    print("Output filename: ", filename)
-    print("Are you sure you want to create this release?")
-    yn = input("[y/n] ")
-    if yn.lower() != "y":
-        print("Aborting creating release.")
-        exit(0)
+    quiet = False
+    noconfirm = False
+    for i in range(2, argc):
+        if argv[i] == "--quiet":
+            quiet = True
+        elif argv[i] == "--noconfirm":
+            noconfirm = True
+        else:
+            print(f"Unknown argument {argv[i]}")
+            exit(1)
 
-    print("Creating releases directory")
+    filename = f'releases/ds-craft-{argv[1]}.nds'
+    if not quiet:
+        print("Output filename: ", filename)
+    if not noconfirm:
+        print("Are you sure you want to create this release?")
+        yn = input("[y/n] ")
+        if yn.lower() != "y":
+            print("Aborting creating release.")
+            exit(0)
+
+    if not quiet:
+        print("Creating releases directory")
     try:
         os.mkdir("releases")
     except FileExistsError:
-        print("releases directory already exists")
+        if not quiet:
+            print("releases directory already exists")
 
-    print("Running: make clean build")
-    result = subprocess.run(["make", "clean", "build"])
+    if not quiet:
+        print("Running: make clean build")
+    result = subprocess.run(["make", "clean", "build"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
     if result.returncode != 0:
         print("An error occured, aborting.")
         exit(1)
-    print("Success, creating the release file")
+    if not quiet:
+        print("Success, creating the release file")
     shutil.copyfile("ds-craft.nds", filename)
-    print("Release created successfully!")
+    if not quiet:
+        print("Release created successfully!")
 else:
     raise "create-release.py should not be imported!"
