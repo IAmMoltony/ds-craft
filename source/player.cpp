@@ -25,9 +25,8 @@ static glImage sprHalfHeart[1];
 static glImage sprHalfHeart2[1];
 
 // player images
-static glImage sprPlayer[1];
 static glImage sprPlayerHead[1];
-static glImage sprPlayerLegs[3][1];
+static glImage sprPlayerBody[3][1];
 
 // d u m m y
 static glImage sprDummy[1];
@@ -98,20 +97,18 @@ void unloadPlayerGUI(void)
 
 void loadPlayerTextures(void)
 {
-    loadImageAlpha(sprPlayer, 16, 32, stevePal, steveBitmap);
     loadImageAlpha(sprPlayerHead, 16, 16, steve_headPal, steve_headBitmap);
-    loadImageAlpha(sprPlayerLegs[0], 16, 32, steve_legs1Pal, steve_legs1Bitmap);
-    loadImageAlpha(sprPlayerLegs[1], 16, 32, steve_legs2Pal, steve_legs2Bitmap);
-    loadImageAlpha(sprPlayerLegs[2], 16, 32, steve_legs3Pal, steve_legs3Bitmap);
+    loadImageAlpha(sprPlayerBody[0], 16, 32, steve_body1Pal, steve_body1Bitmap);
+    loadImageAlpha(sprPlayerBody[1], 16, 32, steve_body2Pal, steve_body2Bitmap);
+    loadImageAlpha(sprPlayerBody[2], 16, 32, steve_body3Pal, steve_body3Bitmap);
 }
 
 void unloadPlayerTextures(void)
 {
-    unloadImage(sprPlayer);
     unloadImage(sprPlayerHead);
-    unloadImage(sprPlayerLegs[0]);
-    unloadImage(sprPlayerLegs[1]);
-    unloadImage(sprPlayerLegs[2]);
+    unloadImage(sprPlayerBody[0]);
+    unloadImage(sprPlayerBody[1]);
+    unloadImage(sprPlayerBody[2]);
 }
 
 declsfx4(Grass);
@@ -462,7 +459,7 @@ Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSele
     aimY = SCREEN_HEIGHT / 2;
     facing = Facing::Right;
     chest = nullptr;
-    legsSprite = AnimatedSprite(5, AnimatedSpriteMode::ReverseLoop, {sprPlayerLegs[0], sprPlayerLegs[1], sprPlayerLegs[2]});
+    bodySprite = AnimatedSprite(5, AnimatedSpriteMode::ReverseLoop, {sprPlayerBody[0], sprPlayerBody[1], sprPlayerBody[2]});
 
     // initialize inventory with null items
     for (u8 i = 0; i < 20; ++i)
@@ -566,12 +563,8 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
     // calculate head angle
     int angle = angleRad * 180 / M_PI * 40;
 
-    // draw player legs
-    legsSprite.draw(x - camera.x - (facing == Facing::Right ? 2 : 3), y - camera.y, (facing == Facing::Left) ? GL_FLIP_H : GL_FLIP_NONE);
-
     // draw player body
-    glSprite(x - 1 - camera.x - (facing == Facing::Right ? 0 : 3), y - camera.y,
-             (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayer);
+    bodySprite.draw(x - camera.x - (facing == Facing::Right ? 2 : 3), y - camera.y, (facing == Facing::Left) ? GL_FLIP_H : GL_FLIP_NONE);
 
     // head rotates to a weird angle with certain values of aim y
     // and this fixes it (hopefully)
@@ -1878,7 +1871,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
             playsfx(effect, sndLadder1, sndLadder2, sndLadder3, sndLadder4);
         }
 
-        if (aimX < x - camera->x + sprPlayer->width / 2)
+        if (aimX < x - camera->x + sprPlayerBody[0]->width / 2)
             facing = Facing::Left;
         else
             facing = Facing::Right;
@@ -1941,9 +1934,9 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
     }
 
     if (moving(oldX) && !fullInventory && !inventoryCrafting && !chestOpen)
-        legsSprite.update();
+        bodySprite.update();
     else
-        legsSprite.restart();
+        bodySprite.restart();
 
     return ret; // yes
 }

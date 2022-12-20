@@ -44,7 +44,7 @@ private:
     Facing facing;
     InventoryItem inventory[20];
     ChestBlock *chest;
-    AnimatedSprite legsSprite;
+    AnimatedSprite bodySprite;
 
     void jump(void);
 

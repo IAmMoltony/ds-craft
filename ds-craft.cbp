@@ -35,417 +35,149 @@
 		<Unit filename="audio/wood4.wav">
 			<Option target="build" />
 		</Unit>
-		<Unit filename="gfx/block/bedrock.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/bedrock.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/birch_leaves.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/birch_leaves.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/birch_leaves_a.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/birch_leaves_a.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/birch_log.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/birch_log.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/birch_planks.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/birch_planks.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/birch_sapling.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/birch_sapling.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/birch_trapdoor.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/birch_trapdoor.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/birchdoor.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/birchdoor.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/cactus_side.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/cactus_side.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/chest.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/chest.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/coal_block.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/coal_block.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/coal_ore.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/coal_ore.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/cobblestone.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/cobblestone.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/dandelion.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/dandelion.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/dead_bush.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/dead_bush.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/dirt.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/dirt.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/door.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/door.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/glass.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/glass.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/grass.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/grass.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/ladder.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/ladder.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/oak_leaves.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/oak_leaves.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/oak_leaves_a.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/oak_leaves_a.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/oak_log.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/oak_log.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/oak_sapling.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/oak_sapling.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/oak_trapdoor.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/oak_trapdoor.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/placeholder_chest.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/placeholder_chest.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/planks.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/planks.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/poppy.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/poppy.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/porkchop.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/red_tulip.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/red_tulip.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/sand.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/sand.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/sandstone.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/sandstone.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/selectbtn.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/snowy_grass.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/snowy_grass.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/stone.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/block/stone.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/entity/pig.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/entity/pig.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/entity/pig_damage.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/entity/pig_damage.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/font/font_16x16.bmp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/font/font_16x16.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/font/font_16x16_ru.bmp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/font/font_16x16_ru.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/font/font_small.bmp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/font/font_small.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/font/font_small_ru1.bmp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/font/font_small_ru1.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/abtn.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/abtn.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/bbtn.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/bbtn.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/coal.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/coal.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/cooked_porkchop.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/cooked_porkchop.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/dscraft-logo.psd">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/english.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/english.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/gray_circle.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/gray_circle.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/logo.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/logo.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/placeholder_logo.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/placeholder_logo.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/russian.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/russian.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/selectbtn.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/selectbtn.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/world_label.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/world_label.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/world_label_select.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/world_label_select.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/xbtn.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/xbtn.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/ybtn.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/gui/ybtn.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/item/apple.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/item/apple.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/item/porkchop.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/item/porkchop.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/item/stick.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/item/stick.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/misc/dirent_games.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/misc/dirent_games.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/misc/dummy.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/misc/dummy.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/player/aim.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/player/aim.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/player/half_heart.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/player/half_heart.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/player/half_heart2.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/player/half_heart2.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/player/heart_outline.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/player/heart_outline.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/player/inventory_slot.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/player/inventory_slot.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/player/inventory_slot_select.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/player/inventory_slot_select.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/player/placeholder_guy.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/player/placeholder_guy.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/player/steve.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/player/steve.png">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/player/steve_head.grit">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="gfx/player/steve_head.png">
-			<Option target="build" />
-		</Unit>
+		<Unit filename="gfx/block/bedrock.grit" />
+		<Unit filename="gfx/block/bedrock.png" />
+		<Unit filename="gfx/block/birch_leaves.grit" />
+		<Unit filename="gfx/block/birch_leaves.png" />
+		<Unit filename="gfx/block/birch_leaves_a.grit" />
+		<Unit filename="gfx/block/birch_leaves_a.png" />
+		<Unit filename="gfx/block/birch_log.grit" />
+		<Unit filename="gfx/block/birch_log.png" />
+		<Unit filename="gfx/block/birch_planks.grit" />
+		<Unit filename="gfx/block/birch_planks.png" />
+		<Unit filename="gfx/block/birch_sapling.grit" />
+		<Unit filename="gfx/block/birch_sapling.png" />
+		<Unit filename="gfx/block/birch_trapdoor.grit" />
+		<Unit filename="gfx/block/birch_trapdoor.png" />
+		<Unit filename="gfx/block/birchdoor.grit" />
+		<Unit filename="gfx/block/birchdoor.png" />
+		<Unit filename="gfx/block/cactus_side.grit" />
+		<Unit filename="gfx/block/cactus_side.png" />
+		<Unit filename="gfx/block/chest.grit" />
+		<Unit filename="gfx/block/chest.png" />
+		<Unit filename="gfx/block/coal_block.grit" />
+		<Unit filename="gfx/block/coal_block.png" />
+		<Unit filename="gfx/block/coal_ore.grit" />
+		<Unit filename="gfx/block/coal_ore.png" />
+		<Unit filename="gfx/block/cobblestone.grit" />
+		<Unit filename="gfx/block/cobblestone.png" />
+		<Unit filename="gfx/block/dandelion.grit" />
+		<Unit filename="gfx/block/dandelion.png" />
+		<Unit filename="gfx/block/dead_bush.grit" />
+		<Unit filename="gfx/block/dead_bush.png" />
+		<Unit filename="gfx/block/dirt.grit" />
+		<Unit filename="gfx/block/dirt.png" />
+		<Unit filename="gfx/block/door.grit" />
+		<Unit filename="gfx/block/door.png" />
+		<Unit filename="gfx/block/glass.grit" />
+		<Unit filename="gfx/block/glass.png" />
+		<Unit filename="gfx/block/grass.grit" />
+		<Unit filename="gfx/block/grass.png" />
+		<Unit filename="gfx/block/ladder.grit" />
+		<Unit filename="gfx/block/ladder.png" />
+		<Unit filename="gfx/block/oak_leaves.grit" />
+		<Unit filename="gfx/block/oak_leaves.png" />
+		<Unit filename="gfx/block/oak_leaves_a.grit" />
+		<Unit filename="gfx/block/oak_leaves_a.png" />
+		<Unit filename="gfx/block/oak_log.grit" />
+		<Unit filename="gfx/block/oak_log.png" />
+		<Unit filename="gfx/block/oak_sapling.grit" />
+		<Unit filename="gfx/block/oak_sapling.png" />
+		<Unit filename="gfx/block/oak_trapdoor.grit" />
+		<Unit filename="gfx/block/oak_trapdoor.png" />
+		<Unit filename="gfx/block/placeholder_chest.grit" />
+		<Unit filename="gfx/block/placeholder_chest.png" />
+		<Unit filename="gfx/block/planks.grit" />
+		<Unit filename="gfx/block/planks.png" />
+		<Unit filename="gfx/block/poppy.grit" />
+		<Unit filename="gfx/block/poppy.png" />
+		<Unit filename="gfx/block/porkchop.grit" />
+		<Unit filename="gfx/block/red_tulip.grit" />
+		<Unit filename="gfx/block/red_tulip.png" />
+		<Unit filename="gfx/block/sand.grit" />
+		<Unit filename="gfx/block/sand.png" />
+		<Unit filename="gfx/block/sandstone.grit" />
+		<Unit filename="gfx/block/sandstone.png" />
+		<Unit filename="gfx/block/selectbtn.grit" />
+		<Unit filename="gfx/block/snowy_grass.grit" />
+		<Unit filename="gfx/block/snowy_grass.png" />
+		<Unit filename="gfx/block/stone.grit" />
+		<Unit filename="gfx/block/stone.png" />
+		<Unit filename="gfx/entity/pig.grit" />
+		<Unit filename="gfx/entity/pig.png" />
+		<Unit filename="gfx/entity/pig_damage.grit" />
+		<Unit filename="gfx/entity/pig_damage.png" />
+		<Unit filename="gfx/font/font_16x16.bmp" />
+		<Unit filename="gfx/font/font_16x16.grit" />
+		<Unit filename="gfx/font/font_16x16_ru.bmp" />
+		<Unit filename="gfx/font/font_16x16_ru.grit" />
+		<Unit filename="gfx/font/font_small.bmp" />
+		<Unit filename="gfx/font/font_small.grit" />
+		<Unit filename="gfx/font/font_small_ru1.bmp" />
+		<Unit filename="gfx/font/font_small_ru1.grit" />
+		<Unit filename="gfx/gui/abtn.grit" />
+		<Unit filename="gfx/gui/abtn.png" />
+		<Unit filename="gfx/gui/bbtn.grit" />
+		<Unit filename="gfx/gui/bbtn.png" />
+		<Unit filename="gfx/gui/coal.grit" />
+		<Unit filename="gfx/gui/coal.png" />
+		<Unit filename="gfx/gui/cooked_porkchop.grit" />
+		<Unit filename="gfx/gui/cooked_porkchop.png" />
+		<Unit filename="gfx/gui/dscraft-logo.psd" />
+		<Unit filename="gfx/gui/english.grit" />
+		<Unit filename="gfx/gui/english.png" />
+		<Unit filename="gfx/gui/gray_circle.grit" />
+		<Unit filename="gfx/gui/gray_circle.png" />
+		<Unit filename="gfx/gui/logo.grit" />
+		<Unit filename="gfx/gui/logo.png" />
+		<Unit filename="gfx/gui/placeholder_logo.grit" />
+		<Unit filename="gfx/gui/placeholder_logo.png" />
+		<Unit filename="gfx/gui/russian.grit" />
+		<Unit filename="gfx/gui/russian.png" />
+		<Unit filename="gfx/gui/selectbtn.grit" />
+		<Unit filename="gfx/gui/selectbtn.png" />
+		<Unit filename="gfx/gui/world_label.grit" />
+		<Unit filename="gfx/gui/world_label.png" />
+		<Unit filename="gfx/gui/world_label_select.grit" />
+		<Unit filename="gfx/gui/world_label_select.png" />
+		<Unit filename="gfx/gui/xbtn.grit" />
+		<Unit filename="gfx/gui/xbtn.png" />
+		<Unit filename="gfx/gui/ybtn.grit" />
+		<Unit filename="gfx/gui/ybtn.png" />
+		<Unit filename="gfx/item/apple.grit" />
+		<Unit filename="gfx/item/apple.png" />
+		<Unit filename="gfx/item/porkchop.grit" />
+		<Unit filename="gfx/item/porkchop.png" />
+		<Unit filename="gfx/item/stick.grit" />
+		<Unit filename="gfx/item/stick.png" />
+		<Unit filename="gfx/misc/dirent_games.grit" />
+		<Unit filename="gfx/misc/dirent_games.png" />
+		<Unit filename="gfx/misc/dummy.grit" />
+		<Unit filename="gfx/misc/dummy.png" />
+		<Unit filename="gfx/player/aim.grit" />
+		<Unit filename="gfx/player/aim.png" />
+		<Unit filename="gfx/player/half_heart.grit" />
+		<Unit filename="gfx/player/half_heart.png" />
+		<Unit filename="gfx/player/half_heart2.grit" />
+		<Unit filename="gfx/player/half_heart2.png" />
+		<Unit filename="gfx/player/heart_outline.grit" />
+		<Unit filename="gfx/player/heart_outline.png" />
+		<Unit filename="gfx/player/inventory_slot.grit" />
+		<Unit filename="gfx/player/inventory_slot.png" />
+		<Unit filename="gfx/player/inventory_slot_select.grit" />
+		<Unit filename="gfx/player/inventory_slot_select.png" />
+		<Unit filename="gfx/player/placeholder_guy.grit" />
+		<Unit filename="gfx/player/placeholder_guy.png" />
+		<Unit filename="gfx/player/steve.grit" />
+		<Unit filename="gfx/player/steve.png" />
+		<Unit filename="gfx/player/steve_body1.grit" />
+		<Unit filename="gfx/player/steve_body1.png" />
+		<Unit filename="gfx/player/steve_body2.grit" />
+		<Unit filename="gfx/player/steve_body2.png" />
+		<Unit filename="gfx/player/steve_body3.grit" />
+		<Unit filename="gfx/player/steve_body3.png" />
+		<Unit filename="gfx/player/steve_head.grit" />
+		<Unit filename="gfx/player/steve_head.png" />
 		<Unit filename="include/PerlinNoise.hpp">
 			<Option target="build" />
 		</Unit>

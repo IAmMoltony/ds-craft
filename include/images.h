@@ -44,11 +44,10 @@
 #include "dummy.h"
 
 // player textures
-#include "steve.h"
 #include "steve_head.h"
-#include "steve_legs1.h"
-#include "steve_legs2.h"
-#include "steve_legs3.h"
+#include "steve_body1.h"
+#include "steve_body2.h"
+#include "steve_body3.h"
 
 // gui
 #include "logo.h"
