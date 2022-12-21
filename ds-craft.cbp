@@ -35,6 +35,8 @@
 		<Unit filename="audio/wood4.wav">
 			<Option target="build" />
 		</Unit>
+		<Unit filename="craftingls.py" />
+		<Unit filename="create-release.py" />
 		<Unit filename="gfx/block/bedrock.grit" />
 		<Unit filename="gfx/block/bedrock.png" />
 		<Unit filename="gfx/block/birch_leaves.grit" />
@@ -385,6 +387,7 @@
 			<Option compilerVar="CC" />
 			<Option target="build" />
 		</Unit>
+		<Unit filename="strencode.py" />
 		<Extensions>
 			<code_completion>
 				<search_path add="/opt/devkitpro/devkitARM/arm-none-eabi/include" />

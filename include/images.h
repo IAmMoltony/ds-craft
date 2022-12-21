@@ -37,6 +37,18 @@
 #include "ladder.h"
 #include "chest.h"
 
+// block breaking stages
+#include "destroy_stage_0.h"
+#include "destroy_stage_1.h"
+#include "destroy_stage_2.h"
+#include "destroy_stage_3.h"
+#include "destroy_stage_4.h"
+#include "destroy_stage_5.h"
+#include "destroy_stage_6.h"
+#include "destroy_stage_7.h"
+#include "destroy_stage_8.h"
+#include "destroy_stage_9.h"
+
 // placeholder textures
 #include "placeholder_logo.h"
 #include "placeholder_guy.h"
