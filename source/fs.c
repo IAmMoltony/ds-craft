@@ -132,3 +132,15 @@ char *fsHumanreadFileSize(double size)
     sprintf(buf, "%.*f %s", i, size, units[i]);
     return buf;
 }
+
+fsDate fsGetFileCreationDate(const char *name)
+{
+    struct stat st;
+    stat(name, &st);
+    struct tm *timeInfo = localtime(&st.st_ctime);
+    fsDate date;
+    date.year = timeInfo->tm_year + 1900;
+    date.month = timeInfo->tm_mon + 1;
+    date.day = timeInfo->tm_mday;
+    return date;
+}

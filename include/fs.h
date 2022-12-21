@@ -15,6 +15,13 @@ extern "C"
 {
 #endif
 
+    typedef struct
+    {
+        u16 year;
+        u8 month;
+        u8 day;
+    } fsDate;
+
     void fsInit(void);
     void fsCreateDir(const char *name);
     void fsChangeDir(const char *dir);
@@ -25,6 +32,7 @@ extern "C"
     char *fsReadFile(const char *name);
     long fsGetFileSize(const char *name); // in bytes
     char *fsHumanreadFileSize(double size);
+    fsDate fsGetFileCreationDate(const char *name);
 
 #ifdef __cplusplus
 }

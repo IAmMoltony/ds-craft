@@ -1201,7 +1201,11 @@ int main(int argc, char **argv)
                     if (wsSelected < 2)
                         offset = 0;
                     WorldInfo worldInfo = wsWorlds[i];
-                    std::string str = worldInfo.name + " - " + std::string(fsHumanreadFileSize(worldInfo.size));
+                    std::string worldInfoName = worldInfo.name;
+                    char *hrfsz = fsHumanreadFileSize(worldInfo.size);
+                    fsDate worldCreationDate = fsGetFileCreationDate(getWorldFile(worldInfoName).c_str());
+                    std::string worldCreationDateString = std::to_string(worldCreationDate.year) + '/' + std::to_string(worldCreationDate.month) + '/' + std::to_string(worldCreationDate.day);
+                    std::string worldInfoString = "Size: " + std::string(hrfsz) + "    " + worldCreationDateString;
                     if (i == wsSelected)
                     {
                         glSprite(SCREEN_WIDTH / 2 - 121, 48 + i * 40 - offset, GL_FLIP_NONE, worldLabelSelect);
@@ -1212,7 +1216,12 @@ int main(int argc, char **argv)
                         glSprite(SCREEN_WIDTH / 2 - 121, 48 + i * 40 - offset, GL_FLIP_NONE, worldLabel);
                         glSprite(SCREEN_WIDTH / 2 - 121 + 113, 48 + i * 40 - offset, GL_FLIP_H, worldLabel);
                     }
-                    fontSmall.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 12 - offset, str.c_str());
+                    fontSmall.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 6 - offset, worldInfoName.c_str());
+                    glColor(RGB15(18, 18, 18));
+                    fontSmall.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 18 - offset, worldInfoString.c_str());
+                    glColor(RGB15(31, 31, 31));
+
+                    free(hrfsz);
                 }
             }
 
