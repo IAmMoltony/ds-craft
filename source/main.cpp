@@ -277,85 +277,93 @@ int main(int argc, char **argv)
     sndPop = soundEffect(SFX_POP);
     sndClick = soundEffect(SFX_CLICK);
 
-    // language setting
+    scanKeys();
+
+    // if down on d-pad is held at this point, then we shouldn't load settings.
+    // i dont know why i did this.
     lang = Language::English;
-    if (fsFileExists("config/lang.cfg"))
-    {
-        char *data = fsReadFile("config/lang.cfg");
-        if (data[0] == '1')
-            lang = Language::Russian;
-        else if (data[0] != '0') // invalid lang
-        {
-            printf("invalid language code %c", data[0]);
-            while (true)
-                ;
-        }
-    }
-
-    // transparent leaves setting
     transparentLeaves = false;
-    if (fsFileExists("config/trleaves.cfg"))
-    {
-        char *data = fsReadFile("config/trleaves.cfg");
-        transparentLeaves = data[0] == '1';
-    }
-    else
-        fsWrite("config/trleaves.cfg", "0");
-
-    // auto save serttintg (icnt spell)
     autoSave = true;
-    if (fsFileExists("config/autosave.cfg"))
-    {
-        char *data = fsReadFile("config/autosave.cfg");
-        autoSave = data[0] == '1';
-    }
-    else
-        fsWrite("config/autosave.cfg", "1");
-
-    // smooth camera setting
     smoothCam = true;
-    if (fsFileExists("config/smoothcam.cfg"))
-    {
-        char *data = fsReadFile("config/smoothcam.cfg");
-        smoothCam = data[0] == '1';
-    }
-    else
-        fsWrite("config/cmoothcam.cfg", "1");
-
-    // touch to move setting
     touchToMove = 0;
-    if (fsFileExists("config/touchtomove.cfg"))
+    autoJump = false;
+    if (!(keysHeld() & KEY_DOWN))
     {
-        char *data = fsReadFile("config/touchtomove.cfg");
-        switch (data[0])
+        // language setting
+        if (fsFileExists("config/lang.cfg"))
         {
-        case '0': // off
-            touchToMove = 0;
-            break;
-        case '1': // left handed
-            touchToMove = 1;
-            break;
-        case '2': // right handed
-            touchToMove = 2;
-            break;
-        default:
-            printf("unknown touchtomove.cfg value %c", data[0]);
-            while (true)
-                ;
-            break;
+            char *data = fsReadFile("config/lang.cfg");
+            if (data[0] == '1')
+                lang = Language::Russian;
+            else if (data[0] != '0') // invalid lang
+            {
+                printf("invalid language code %c", data[0]);
+                while (true)
+                    ;
+            }
         }
-    }
-    else
-        fsWrite("config/touchtomove.cfg", "0");
 
-    // auto jump setting i guess...
-    if (fsFileExists("config/autojump.cfg"))
-    {
-        char *data = fsReadFile("config/autojump.cfg");
-        autoJump = data[0] == '1';
+        // transparent leaves setting
+        if (fsFileExists("config/trleaves.cfg"))
+        {
+            char *data = fsReadFile("config/trleaves.cfg");
+            transparentLeaves = data[0] == '1';
+        }
+        else
+            fsWrite("config/trleaves.cfg", "0");
+
+        // auto save serttintg (icnt spell)
+        if (fsFileExists("config/autosave.cfg"))
+        {
+            char *data = fsReadFile("config/autosave.cfg");
+            autoSave = data[0] == '1';
+        }
+        else
+            fsWrite("config/autosave.cfg", "1");
+
+        // smooth camera setting
+        if (fsFileExists("config/smoothcam.cfg"))
+        {
+            char *data = fsReadFile("config/smoothcam.cfg");
+            smoothCam = data[0] == '1';
+        }
+        else
+            fsWrite("config/cmoothcam.cfg", "1");
+
+        // touch to move setting
+        if (fsFileExists("config/touchtomove.cfg"))
+        {
+            char *data = fsReadFile("config/touchtomove.cfg");
+            switch (data[0])
+            {
+            case '0': // off
+                touchToMove = 0;
+                break;
+            case '1': // left handed
+                touchToMove = 1;
+                break;
+            case '2': // right handed
+                touchToMove = 2;
+                break;
+            default:
+                printf("unknown touchtomove.cfg value %c", data[0]);
+                while (true)
+                    ;
+                break;
+            }
+        }
+        else
+            fsWrite("config/touchtomove.cfg", "0");
+
+        // auto jump setting
+        if (fsFileExists("config/autojump.cfg"))
+        {
+            char *data = fsReadFile("config/autojump.cfg");
+            autoJump = data[0] == '1';
+        }
+        else
+            fsWrite("config/autojump.cfg", "0");
     }
-    else
-        fsWrite("config/autojump.cfg", "0");
 
     // fonts english iumages
     glImage font16x16Img[FONT_16X16_NUM_IMAGES];
@@ -469,7 +477,7 @@ int main(int argc, char **argv)
 
                     // skip blocks that are off screen
                     if (block->getRect().x - camera.x < -16 ||
-                        block->getRect().y - camera.y < -16)
+                            block->getRect().y - camera.y < -16)
                         continue;
                     if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
                         break;
@@ -480,7 +488,7 @@ int main(int argc, char **argv)
                         // magic for converting block into sapling
                         Block *b = block.get();
                         SaplingBlock *sapling = (SaplingBlock *)b; // here i dont use reinterpret_cast
-                                                                   // because it makes the game break
+                        // because it makes the game break
                         sapling->update();
                         if (sapling->hasGrown())
                         {
@@ -517,7 +525,7 @@ int main(int argc, char **argv)
 
                     entity->update(blocks, camera, frames);
                     if (entity->id().rfind("drop", 0) == 0 && Rect(player.getX(), player.getY(), 16, 24)
-                                                                  .intersects(entity->getRectBottom()))
+                            .intersects(entity->getRectBottom()))
                     {
                         std::vector<std::string> split;
                         std::string temp;
@@ -799,14 +807,16 @@ int main(int argc, char **argv)
                 createWorldName.erase(createWorldName.begin(),
                                       std::find_if(createWorldName.begin(),
                                                    createWorldName.end(), [](unsigned char ch)
-                                                   { return !std::isspace(ch); }));
+                {
+                    return !std::isspace(ch);
+                }));
                 createWorldName.erase(std::find_if(createWorldName.rbegin(), createWorldName.rend(),
                                                    [](unsigned char ch)
-                                                   {
-                                                       return !std::isspace(ch);
-                                                   })
-                                          .base(),
-                                      createWorldName.end());
+                {
+                    return !std::isspace(ch);
+                })
+                .base(),
+                createWorldName.end());
 
                 if (fsFileExists(std::string("worlds/" + createWorldName + ".wld").c_str()))
                     createWorldDuplError = true;
@@ -1020,7 +1030,7 @@ int main(int argc, char **argv)
             {
                 // frustum culling™
                 if (block->getRect().x - camera.x < -16 ||
-                    block->getRect().y - camera.y < -16)
+                        block->getRect().y - camera.y < -16)
                     continue;
                 if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
                     break;
