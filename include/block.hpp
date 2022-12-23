@@ -92,8 +92,8 @@ struct InventoryItem
 // don't have anything really special.
 // They are used to save a lot of typing when
 // adding a new block.
-#define GENERIC_BLOCK_IMPL(block, spr, id_)                      \
-    block::block(s16 x, s16 y) : Block(x, y)                     \
+#define GENERIC_BLOCK_IMPL(block, spr, id_, maxBrokenLevel_)                      \
+    block::block(s16 x, s16 y) : Block(x, y, maxBrokenLevel_)                     \
     {                                                            \
     }                                                            \
     void block::draw(Camera camera)                              \
@@ -112,8 +112,8 @@ struct InventoryItem
     {                                                            \
         return true;                                             \
     }
-#define NONSOLID_BLOCK_IMPL(block, spr, id_)                     \
-    block::block(s16 x, s16 y) : Block(x, y)                     \
+#define NONSOLID_BLOCK_IMPL(block, spr, id_, maxBrokenLevel_)                     \
+    block::block(s16 x, s16 y) : Block(x, y, maxBrokenLevel_)                     \
     {                                                            \
     }                                                            \
     void block::draw(Camera camera)                              \
@@ -167,8 +167,10 @@ class Block
 {
 public:
     s16 x, y;
-    Block(s16 x, s16 y);
+    u8 brokenLevel, maxBrokenLevel;
+    Block(s16 x, s16 y, u8 maxBrokenLevel);
 
+    void drawBreaking(Camera camera);
     virtual void draw(Camera camera) = 0;
     virtual u16 id(void) = 0;
     virtual void interact(void);

@@ -30,6 +30,7 @@ glImage sprOakTrapdoor[1];
 glImage sprBirchTrapdoor[1];
 glImage sprLadder[1];
 glImage sprChest[1];
+glImage sprBlockBreak[10][1];
 
 declsfx4(DoorOpen);
 declsfx4(DoorClose);
@@ -66,6 +67,17 @@ void loadBlockTextures(void)
     loadImageAlpha(sprGlass, 32, 16, glassPal, glassBitmap);
     loadImageAlpha(sprOakTrapdoor, 16, 16, oak_trapdoorPal, oak_trapdoorBitmap);
     loadImageAlpha(sprLadder, 16, 16, ladderPal, ladderBitmap);
+
+    loadImageAlpha(sprBlockBreak[0], 16, 16, destroy_stage_0Pal, destroy_stage_0Bitmap);
+    loadImageAlpha(sprBlockBreak[1], 16, 16, destroy_stage_1Pal, destroy_stage_1Bitmap);;
+    loadImageAlpha(sprBlockBreak[2], 16, 16, destroy_stage_2Pal, destroy_stage_2Bitmap);
+    loadImageAlpha(sprBlockBreak[3], 16, 16, destroy_stage_3Pal, destroy_stage_3Bitmap);
+    loadImageAlpha(sprBlockBreak[4], 16, 16, destroy_stage_4Pal, destroy_stage_4Bitmap);
+    loadImageAlpha(sprBlockBreak[5], 16, 16, destroy_stage_5Pal, destroy_stage_5Bitmap);
+    loadImageAlpha(sprBlockBreak[6], 16, 16, destroy_stage_6Pal, destroy_stage_6Bitmap);
+    loadImageAlpha(sprBlockBreak[7], 16, 16, destroy_stage_7Pal, destroy_stage_7Bitmap);
+    loadImageAlpha(sprBlockBreak[8], 16, 16, destroy_stage_8Pal, destroy_stage_8Bitmap);
+    loadImageAlpha(sprBlockBreak[9], 16, 16, destroy_stage_9Pal, destroy_stage_9Bitmap);
 }
 
 void unloadBlockTextures(void)
@@ -99,6 +111,16 @@ void unloadBlockTextures(void)
     unloadImage(sprBirchTrapdoor);
     unloadImage(sprLadder);
     unloadImage(sprChest);
+    unloadImage(sprBlockBreak[0]);
+    unloadImage(sprBlockBreak[1]);
+    unloadImage(sprBlockBreak[2]);
+    unloadImage(sprBlockBreak[3]);
+    unloadImage(sprBlockBreak[4]);
+    unloadImage(sprBlockBreak[5]);
+    unloadImage(sprBlockBreak[6]);
+    unloadImage(sprBlockBreak[7]);
+    unloadImage(sprBlockBreak[8]);
+    unloadImage(sprBlockBreak[9]);
 }
 
 void loadBlockSounds(void)
@@ -118,10 +140,22 @@ void unloadBlockSounds(void)
 
 //----------------------------------------
 
-Block::Block(s16 x, s16 y)
+Block::Block(s16 x, s16 y, u8 maxBrokenLevel)
 {
     this->x = x;
     this->y = y;
+    this->maxBrokenLevel = maxBrokenLevel;
+    brokenLevel = 0;
+}
+
+void Block::drawBreaking(Camera camera)
+{
+    if (brokenLevel == 0)
+        return;
+
+    u8 textureIndex = (brokenLevel / maxBrokenLevel) * 10;
+    textureIndex = std::max(0, std::min((int)textureIndex, 10 - 1));
+    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprBlockBreak[textureIndex]);
 }
 
 void Block::interact(void)
@@ -135,28 +169,28 @@ bool Block::solid(void)
 
 // generic block implementations
 
-GENERIC_BLOCK_IMPL(GrassBlock, sprGrass, BID_GRASS)
-GENERIC_BLOCK_IMPL(SnowyGrassBlock, sprSnowyGrass, BID_SNOWY_GRASS)
-GENERIC_BLOCK_IMPL(DirtBlock, sprDirt, BID_DIRT)
-GENERIC_BLOCK_IMPL(StoneBlock, sprStone, BID_STONE)
-GENERIC_BLOCK_IMPL(SandBlock, sprSand, BID_SAND)
-GENERIC_BLOCK_IMPL(SandstoneBlock, sprSandstone, BID_SANDSTONE)
-GENERIC_BLOCK_IMPL(PlanksBlock, sprPlanks, BID_PLANKS)
-GENERIC_BLOCK_IMPL(BirchPlanksBlock, sprBirchPlanks, BID_BIRCH_PLANKS)
-GENERIC_BLOCK_IMPL(BedrockBlock, sprBedrock, BID_BEDROCK)
-GENERIC_BLOCK_IMPL(CobblestoneBlock, sprCobblestone, BID_COBBLESTONE)
-GENERIC_BLOCK_IMPL(CoalOreBlock, sprCoalOre, BID_COAL_ORE)
-GENERIC_BLOCK_IMPL(CoalBlock, sprCoalBlock, BID_COAL_BLOCK)
+GENERIC_BLOCK_IMPL(GrassBlock, sprGrass, BID_GRASS, 6)
+GENERIC_BLOCK_IMPL(SnowyGrassBlock, sprSnowyGrass, BID_SNOWY_GRASS, 6)
+GENERIC_BLOCK_IMPL(DirtBlock, sprDirt, BID_DIRT, 5)
+GENERIC_BLOCK_IMPL(StoneBlock, sprStone, BID_STONE, 12)
+GENERIC_BLOCK_IMPL(SandBlock, sprSand, BID_SAND, 5)
+GENERIC_BLOCK_IMPL(SandstoneBlock, sprSandstone, BID_SANDSTONE, 12)
+GENERIC_BLOCK_IMPL(PlanksBlock, sprPlanks, BID_PLANKS, 7)
+GENERIC_BLOCK_IMPL(BirchPlanksBlock, sprBirchPlanks, BID_BIRCH_PLANKS, 7)
+GENERIC_BLOCK_IMPL(BedrockBlock, sprBedrock, BID_BEDROCK, (u8)-1)
+GENERIC_BLOCK_IMPL(CobblestoneBlock, sprCobblestone, BID_COBBLESTONE, 11)
+GENERIC_BLOCK_IMPL(CoalOreBlock, sprCoalOre, BID_COAL_ORE, 13)
+GENERIC_BLOCK_IMPL(CoalBlock, sprCoalBlock, BID_COAL_BLOCK, 12)
 
-NONSOLID_BLOCK_IMPL(WoodBlock, sprWood, BID_WOOD)
-NONSOLID_BLOCK_IMPL(BirchWoodBlock, sprBirchWood, BID_BIRCH_WOOD)
-NONSOLID_BLOCK_IMPL(CactusBlock, sprCactus, BID_CACTUS)
-NONSOLID_BLOCK_IMPL(DeadBushBlock, sprDeadBush, BID_DEAD_BUSH);
-NONSOLID_BLOCK_IMPL(LadderBlock, sprLadder, BID_LADDER);
+NONSOLID_BLOCK_IMPL(WoodBlock, sprWood, BID_WOOD, 7)
+NONSOLID_BLOCK_IMPL(BirchWoodBlock, sprBirchWood, BID_BIRCH_WOOD, 7)
+NONSOLID_BLOCK_IMPL(CactusBlock, sprCactus, BID_CACTUS, 4)
+NONSOLID_BLOCK_IMPL(DeadBushBlock, sprDeadBush, BID_DEAD_BUSH, 1);
+NONSOLID_BLOCK_IMPL(LadderBlock, sprLadder, BID_LADDER, 2);
 
 // non-generic implementations
 
-LeavesBlock::LeavesBlock(s16 x, s16 y, LeavesType type, bool natural) : Block(x, y)
+LeavesBlock::LeavesBlock(s16 x, s16 y, LeavesType type, bool natural) : Block(x, y, 5)
 {
     this->natural = natural;
     this->type = type;
@@ -200,7 +234,7 @@ bool LeavesBlock::isNatural(void)
 
 //-----------------------------------------
 
-FlowerBlock::FlowerBlock(s16 x, s16 y) : Block(x, y)
+FlowerBlock::FlowerBlock(s16 x, s16 y) : Block(x, y, 1)
 {
     switch (randomRange(1, 3))
     {
@@ -216,7 +250,7 @@ FlowerBlock::FlowerBlock(s16 x, s16 y) : Block(x, y)
     }
 }
 
-FlowerBlock::FlowerBlock(s16 x, s16 y, FlowerType type) : Block(x, y)
+FlowerBlock::FlowerBlock(s16 x, s16 y, FlowerType type) : Block(x, y, 1)
 {
     this->type = type;
 }
@@ -264,13 +298,13 @@ Rect FlowerBlock::getRect(void) const
 
 //-----------------------------------------
 
-DoorBlock::DoorBlock(s16 x, s16 y, s16 px) : Block(x, y)
+DoorBlock::DoorBlock(s16 x, s16 y, s16 px) : Block(x, y, 7)
 {
     open = true;
     facing = px > x;
 }
 
-DoorBlock::DoorBlock(s16 x, s16 y, bool open, bool facing) : Block(x, y)
+DoorBlock::DoorBlock(s16 x, s16 y, bool open, bool facing) : Block(x, y, 7)
 {
     this->open = open;
     this->facing = facing;
@@ -330,13 +364,13 @@ bool DoorBlock::getFacing(void)
 
 //-----------------------------------------
 
-BirchDoorBlock::BirchDoorBlock(s16 x, s16 y, s16 px) : Block(x, y)
+BirchDoorBlock::BirchDoorBlock(s16 x, s16 y, s16 px) : Block(x, y, 7)
 {
     open = true;
     facing = px > x;
 }
 
-BirchDoorBlock::BirchDoorBlock(s16 x, s16 y, bool open, bool facing) : Block(x, y)
+BirchDoorBlock::BirchDoorBlock(s16 x, s16 y, bool open, bool facing) : Block(x, y, 7)
 {
     this->open = open;
     this->facing = facing;
@@ -396,7 +430,7 @@ bool BirchDoorBlock::getFacing(void)
 
 //-----------------------------------------
 
-SaplingBlock::SaplingBlock(s16 x, s16 y) : Block(x, y), growTime(1200)
+SaplingBlock::SaplingBlock(s16 x, s16 y) : Block(x, y, 1), growTime(1200)
 {
     grown = false;
 }
@@ -440,7 +474,7 @@ void SaplingBlock::update(void)
 
 //---------------------------------------------
 
-BirchSaplingBlock::BirchSaplingBlock(s16 x, s16 y) : Block(x, y), growTime(1200)
+BirchSaplingBlock::BirchSaplingBlock(s16 x, s16 y) : Block(x, y, 1), growTime(1200)
 {
     grown = false;
 }
@@ -484,7 +518,7 @@ void BirchSaplingBlock::update(void)
 
 //---------------------------------------------
 
-GlassBlock::GlassBlock(s16 x, s16 y) : Block(x, y)
+GlassBlock::GlassBlock(s16 x, s16 y) : Block(x, y, 6)
 {
 }
 
@@ -510,12 +544,12 @@ bool GlassBlock::solid(void)
 
 //---------------------------------------------
 
-OakTrapdoorBlock::OakTrapdoorBlock(s16 x, s16 y) : Block(x, y)
+OakTrapdoorBlock::OakTrapdoorBlock(s16 x, s16 y) : Block(x, y, 6)
 {
     open = false;
 }
 
-OakTrapdoorBlock::OakTrapdoorBlock(s16 x, s16 y, bool open) : Block(x, y)
+OakTrapdoorBlock::OakTrapdoorBlock(s16 x, s16 y, bool open) : Block(x, y, 6)
 {
     this->open = open;
 }
@@ -564,12 +598,12 @@ bool OakTrapdoorBlock::isOpen(void)
 
 //---------------------------------------------
 
-BirchTrapdoorBlock::BirchTrapdoorBlock(s16 x, s16 y) : Block(x, y)
+BirchTrapdoorBlock::BirchTrapdoorBlock(s16 x, s16 y) : Block(x, y, 6)
 {
     open = false;
 }
 
-BirchTrapdoorBlock::BirchTrapdoorBlock(s16 x, s16 y, bool open) : Block(x, y)
+BirchTrapdoorBlock::BirchTrapdoorBlock(s16 x, s16 y, bool open) : Block(x, y, 6)
 {
     this->open = open;
 }
@@ -626,12 +660,12 @@ void ChestBlock::initItems(void)
         items[i] = {InventoryItemID::None, 0};
 }
 
-ChestBlock::ChestBlock(s16 x, s16 y) : Block(x, y), chid(nextChestID++)
+ChestBlock::ChestBlock(s16 x, s16 y) : Block(x, y, 7), chid(nextChestID++)
 {
     initItems();
 }
 
-ChestBlock::ChestBlock(s16 x, s16 y, u16 id) : Block(x, y), chid(id)
+ChestBlock::ChestBlock(s16 x, s16 y, u16 id) : Block(x, y, 7), chid(id)
 {
     nextChestID = id + 1;
     initItems();

@@ -2,14 +2,49 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="build" />
+	<File name="include/images.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1047" topLine="33" />
+		</Cursor>
+	</File>
+	<File name="source/main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="37945" topLine="1026" />
+		</Cursor>
+	</File>
+	<File name="Makefile" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="10260" topLine="250" />
+		</Cursor>
+	</File>
+	<File name="source/fs.c" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2431" topLine="126" />
+		</Cursor>
+	</File>
+	<File name="README.md" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1971" topLine="22" />
+		</Cursor>
+	</File>
+	<File name="include/fs.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="757" topLine="19" />
+		</Cursor>
+	</File>
 	<File name="source/animsprite.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="679" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include/images.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include/animsprite.hpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="975" topLine="39" />
+			<Cursor1 position="545" topLine="6" />
+		</Cursor>
+	</File>
+	<File name="include/block.hpp" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3136" topLine="107" />
 		</Cursor>
 	</File>
 	<File name="source/player.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -23,34 +58,14 @@
 			<Collapse line="357" />
 		</Folding>
 	</File>
-	<File name="include/animsprite.hpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="source/block.cpp" open="1" top="1" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="545" topLine="6" />
-		</Cursor>
-	</File>
-	<File name="include/fs.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="757" topLine="19" />
+			<Cursor1 position="5136" topLine="138" />
 		</Cursor>
 	</File>
 	<File name="include/player.hpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1174" topLine="33" />
-		</Cursor>
-	</File>
-	<File name="source/main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="9282" topLine="355" />
-		</Cursor>
-	</File>
-	<File name="source/fs.c" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2431" topLine="126" />
-		</Cursor>
-	</File>
-	<File name="README.md" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1971" topLine="22" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

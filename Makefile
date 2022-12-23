@@ -135,8 +135,8 @@ LDFLAGS	=	-specs=ds_arm9.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
 LIBS	:= -lmm9 -lfat -lnds9 -lfilesystem -lnds9d
- 
- 
+
+
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
 # include and lib
@@ -153,7 +153,7 @@ ifneq ($(BUILDDIR),$(CURDIR))
 #---------------------------------------------------------------------------------
 export TOPDIR   :=  $(CURDIR)
 export OUTPUT	:=	$(CURDIR)/$(TARGET)
- 
+
 export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
 					$(foreach dir,$(DATA),$(CURDIR)/$(dir)) \
 					$(foreach dir,$(GRAPHICS),$(CURDIR)/$(dir))
@@ -195,15 +195,15 @@ export OFILES := $(PNGFILES:.png=.o) $(BMPFILES:.bmp=.o) $(OFILES_BIN) $(OFILES_
 #$(info $(OFILES_FILTER))
 
 export HFILES := $(PNGFILES:.png=.h) $(BMPFILES:.bmp=.h) $(addsuffix .h,$(subst .,_,$(BINFILES)))
- 
+
 export INCLUDE	:=	$(foreach dir,$(INCLUDES),-iquote $(CURDIR)/$(dir)) \
 					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
 					-I$(CURDIR)/$(BUILD) -Iinclude
- 
+
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
 .PHONY: $(BUILD) clean run
- 
+
 #---------------------------------------------------------------------------------
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
@@ -222,9 +222,9 @@ run:
 
 #---------------------------------------------------------------------------------
 else
- 
+
 DEPENDS	:=	$(OFILES:.o=.d)
- 
+
 #---------------------------------------------------------------------------------
 # main targets
 #---------------------------------------------------------------------------------
@@ -251,7 +251,7 @@ $(SOUNDBANK): $(AUDIOFILES)
 # This rule creates assembly source files using grit
 # grit takes an image file and a .grit describing how the file is to be processed
 # add additional rules like this for each image extension
-# you use in the graphics folders 
+# you use in the graphics folders
 #---------------------------------------------------------------------------------
 %.s %.h	: %.bmp %.grit
 #---------------------------------------------------------------------------------
