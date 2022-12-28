@@ -717,3 +717,29 @@ void resetNextChestID(void)
 {
     nextChestID = 0;
 }
+
+//----------------------------------------
+
+OakSlabBlock::OakSlabBlock(s16 x, s16 y) : Block(x, y, 6)
+{
+}
+
+void OakSlabBlock::draw(Camera camera)
+{
+    glSpritePart(sprPlanks, x - camera.x, y - camera.y + 8, 0, 0, 16, 8);
+}
+
+bool OakSlabBlock::solid(void)
+{
+    return true;
+}
+
+u16 OakSlabBlock::id(void)
+{
+    return BID_OAK_SLAB;
+}
+
+Rect OakSlabBlock::getRect(void) const
+{
+    return Rect(x, y + 8, 16, 8);
+}

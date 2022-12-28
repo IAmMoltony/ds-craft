@@ -88,12 +88,20 @@ letter_map = {
     "0": "0",
 }
 
+def print_usage():
+    print("Usage: python strencode.py <string to convert> or --file <file to convert>")
+
+def encode(str_ru: str):
+    newstr = ""
+    for c in str_ru:
+        newstr += letter_map[c]
+    return newstr
 
 def main():
     argv = sys.argv
     argc = len(argv)
     if argc < 2:
-        print("Usage: python strencode.py <string to convert> or --file <file to convert>")
+        print_usage()
         exit(1)
 
     content = ''
@@ -103,12 +111,7 @@ def main():
     else:
         content = " ".join(argv[1:])
 
-    newstr = ""
-    for c in content:
-        newstr += letter_map[c]
-
-    print(newstr)
-
+    print(encode(content))
 
 if __name__ == "__main__":
     main()

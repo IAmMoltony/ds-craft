@@ -28,3 +28,21 @@ void glSpritePart(glImage *image, int x, int y, int xOff, int yOff, int w, int h
     image->width = wOrig;
     image->height = hOrig;
 }
+
+void glSpritePartScale(glImage *image, int x, int y, int xOff, int yOff, int w, int h, s32 scale)
+{
+    int xOffOrig = image->u_off;
+    int yOffOrig = image->v_off;
+    int wOrig = image->width;
+    int hOrig = image->height;
+
+    image->u_off = xOff;
+    image->v_off = yOff;
+    image->width = w;
+    image->height = h;
+    glSpriteScale(x, y, scale, GL_FLIP_NONE, image);
+    image->u_off = xOffOrig;
+    image->v_off = yOffOrig;
+    image->width = wOrig;
+    image->height = hOrig;
+}

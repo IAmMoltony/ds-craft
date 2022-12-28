@@ -11,6 +11,7 @@ class CraftingRecipe:
     name: str
     count: int
     output: str
+    texid: int
 
     def __repr__(self) -> str:
         return f"file: {self.recipe_file}, ID: {self.identifier}, name: {self.name}, count: {self.count}, outputs: {self.output}"
@@ -35,7 +36,7 @@ def get_recipes() -> dict[int, CraftingRecipe]:
                 lsplit = line.split(' ')  # split by space
                 if lsplit[0] == 'id':
                     curr_id = int(lsplit[1])
-                    recipes[curr_id] = CraftingRecipe(file, curr_id, '', 0, '')
+                    recipes[curr_id] = CraftingRecipe(file, curr_id, '', 0, '', 0)
                 elif lsplit[0] == 'nameEn':
                     name = ' '.join(lsplit[1:])
                     recipes[curr_id].name = name
@@ -44,9 +45,11 @@ def get_recipes() -> dict[int, CraftingRecipe]:
                     recipes[curr_id].count = count
                 elif lsplit[0] == 'output':
                     recipes[curr_id].output = lsplit[1]
+                elif lsplit[0] == 'texid':
+                    recipes[curr_id].texid = int(lsplit[1])
         if curr_id == -1:
             raise f"Recipe file {file} does not have an ID field"
-    
+
     recipes_sorted = dict(sorted(recipes.items()))
     return recipes_sorted
 

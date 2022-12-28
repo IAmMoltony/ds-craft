@@ -249,6 +249,7 @@
 		<Unit filename="include/uvcoord_font_si.h">
 			<Option target="build" />
 		</Unit>
+		<Unit filename="newrecipe.py" />
 		<Unit filename="nitrofs/crafting/birch_door.rcp">
 			<Option target="build" />
 		</Unit>

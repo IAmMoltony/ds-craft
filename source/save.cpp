@@ -161,6 +161,9 @@ static std::string iidToString(InventoryItemID iid)
     case InventoryItemID::Ladder:
         id = "ladder";
         break;
+    case InventoryItemID::OakSlab:
+        id = "oakslab";
+        break;
     }
     return id;
 }
@@ -199,6 +202,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     {
         u16 id = block->id();
 
+        // TODO turn into switch statement
         // handle door specifically since it is s p e c i a l
         if (block->id() == BID_DOOR)
         {
@@ -452,13 +456,16 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             case BID_LADDER:
                 blocks.emplace_back(new LadderBlock(x, y));
                 break;
+            case BID_OAK_SLAB:
+                blocks.emplace_back(new OakSlabBlock(x, y));
+                break;
             }
         }
         else if (split[0] == "inventory") // inventory <index> <amount> <id>
         {
             u8 i = atoi(split[1].c_str());
             u8 amount = atoi(split[3].c_str());
-            std::string sid = split[2]; // i think s in sid stands for string (i dont rember)
+            std::string sid = split[2]; // string id
             InventoryItemID id = InventoryItemID::None;
             id = strToIID(sid);
 

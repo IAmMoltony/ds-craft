@@ -42,6 +42,7 @@
 #define BID_LADDER 28
 #define BID_BIRCH_TRAPDOOR 29
 #define BID_CHEST 30
+#define BID_OAK_SLAB 31
 
 enum class InventoryItemID
 {
@@ -80,6 +81,7 @@ enum class InventoryItemID
     BirchTrapdoor,
     Ladder,
     Chest,
+    OakSlab,
 };
 
 struct InventoryItem
@@ -368,6 +370,17 @@ public:
     std::array<InventoryItem, 10> getItems(void);
     void setItem(u8 i, InventoryItem item);
     u16 getChestID(void);
+};
+
+class OakSlabBlock : public Block
+{
+public:
+    OakSlabBlock(s16 x, s16 y);
+
+    void draw(Camera camera) override;
+    bool solid(void) override;
+    u16 id(void) override;
+    Rect getRect(void) const override;
 };
 
 void resetNextChestID(void);

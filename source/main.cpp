@@ -601,8 +601,12 @@ int main(int argc, char **argv)
                             player.addItem(InventoryItemID::Ladder);
                         else if (blockid == "chest" && player.canAddItem(InventoryItemID::Chest))
                             player.addItem(InventoryItemID::Chest);
+                        else if (blockid == "oakslab" && player.canAddItem(InventoryItemID::OakSlab))
+                            player.addItem(InventoryItemID::OakSlab);
                         else
                             ok = false;
+
+                        // TODO move into player.cpp
 
                         if (ok)
                         {

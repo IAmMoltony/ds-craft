@@ -43,6 +43,9 @@ if __name__ == "__main__":
     except FileExistsError:
         if not quiet:
             print("releases directory already exists")
+    except PermissionError:
+        print("Permission error when creating releases directory")
+        exit(1)
 
     if not quiet:
         print("Running: make clean build")
@@ -52,7 +55,11 @@ if __name__ == "__main__":
         exit(1)
     if not quiet:
         print("Success, creating the release file")
-    shutil.copyfile("ds-craft.nds", filename)
+    try:
+        shutil.copyfile("ds-craft.nds", filename)
+    except Exception as exc:
+        print("there was error copying ds-craft.nds into releases folder\n", exc)
+        exit(1)
     if not quiet:
         print("Release created successfully!")
 else:

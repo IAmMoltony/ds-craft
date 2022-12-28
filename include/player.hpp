@@ -83,6 +83,7 @@ public:
     Rect getRectTop(void);
     Rect getRectLeft(void);
     Rect getRectRight(void);
+    Rect getRectSlab(void); // weird name but it is the rect that player collides with to climb a slab
     Rect getRectAim(Camera camera);
     std::array<InventoryItem, 20> getInventory(void);
 };
