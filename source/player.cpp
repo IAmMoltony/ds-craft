@@ -687,20 +687,27 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
     {
         glPolyFmt(POLY_ALPHA(10) | POLY_CULL_NONE | POLY_ID(1));
 
-        // draw the aim as green square (not block) or a half-transparent
+        // draw the aim as user's color in the ds settings-colored square or a half-transparent
         // version of the block
 
         InventoryItemID currid = inventory[inventorySelect].id;
 
+        int ax = getRectAim(camera).x;
+        int ay = getRectAim(camera).y;
+        ax = snapToGrid(ax);
+        if (currid == InventoryItemID::OakSlab)
+            ay = snapToGrid8(ay);
+        else
+            ay = snapToGrid(ay);
+        int xx = ax - camera.x;
+        int yy = ay - camera.y;
+
         if (currid == InventoryItemID::None ||
                 isItem(currid))
-            glBoxFilled(getRectAim(camera).x - camera.x, getRectAim(camera).y - camera.y,
-                        getRectAim(camera).x - camera.x + 15, getRectAim(camera).y - camera.y + 15, getFavoriteColorRgb());
+            glBoxFilled(xx, yy,
+                        xx + 15, yy + 15, getFavoriteColorRgb());
         else
         {
-            int xx = getRectAim(camera).x - camera.x;
-            int yy = getRectAim(camera).y - camera.y;
-
             switch (currid)
             {
             // some special cases
@@ -1194,6 +1201,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                 }
 
                 // why did i call this variable 'check'
+                // anyway this variable indicates if we should place block or not
                 bool check = !Rect(x, y, 12, 32)
                              .intersects(
                                  Rect(snapToGrid(camera->x + aimX),
@@ -1444,7 +1452,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                             break;
                         case InventoryItemID::OakSlab:
                             blocks->emplace_back(new OakSlabBlock(snapToGrid(camera->x + aimX),
-                                                                  snapToGrid(camera->y + aimY)));
+                                                                  snapToGrid8(camera->y + aimY)));
                             playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
                             break;
                         }
@@ -2198,7 +2206,7 @@ Rect Player::getRectSlab(void)
 
 Rect Player::getRectAim(Camera camera)
 {
-    return Rect(snapToGrid(aimX + camera.x), snapToGrid(aimY + camera.y), 16, 16);
+    return Rect((aimX + camera.x), (aimY + camera.y), 16, 16);
 }
 
 std::array<InventoryItem, 20> Player::getInventory(void)
