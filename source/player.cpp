@@ -2343,10 +2343,15 @@ void Player::updateCrafting(void)
         if (crafted)
             mmEffectEx(&sndClick);
     }
-    if (kdown & KEY_R)
+    if (kdown & KEY_LEFT)
     {
-        // when r is pressed advance to the next recipe
-        // (and wrap around too, thats pretty important)
+        if (craftingSelect - 1 < 0)
+            craftingSelect = recipes.size() - 1;
+        else
+            --craftingSelect;
+    }
+    else if (kdown & KEY_RIGHT)
+    {
         if (++craftingSelect > recipes.size() - 1)
             craftingSelect = 0;
     }
