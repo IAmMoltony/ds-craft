@@ -84,6 +84,12 @@ enum class InventoryItemID
     OakSlab,
 };
 
+enum class SlabID
+{
+    Oak,
+    Cobblestone,
+};
+
 struct InventoryItem
 {
     InventoryItemID id;
@@ -146,6 +152,28 @@ struct InventoryItem
         Rect getRect(void) const override; \
         bool solid(void) override;         \
     };
+
+#define SLAB_DECL(slabid)                      \
+    class slabid##SlabBlock : public SlabBlock \
+    {                                          \
+    public:                                    \
+        slabid##SlabBlock(s16 x, s16 y);       \
+        void draw(Camera camera) override;     \
+        u16 id(void) override;                 \
+    };
+
+#define SLAB_IMPL(slabid, spr, bid, maxBrokenLevel_)                                                      \
+    slabid##SlabBlock::slabid##SlabBlock(s16 x, s16 y) : SlabBlock(x, y, SlabID::slabid, maxBrokenLevel_) \
+    {                                                                                                     \
+    }                                                                                                     \
+    void slabid##SlabBlock::draw(Camera camera)                                                           \
+    {                                                                                                     \
+        glSpritePart(spr, x - camera.x, y - camera.y + 8, 0, 0, 16, 8);                                   \
+    }                                                                                                     \
+    u16 slabid##SlabBlock::id(void)                                                                       \
+    {                                                                                                     \
+        return bid;                                                                                       \
+    }
 
 void loadBlockTextures(void);
 void unloadBlockTextures(void);
@@ -372,16 +400,20 @@ public:
     u16 getChestID(void);
 };
 
-class OakSlabBlock : public Block
+class SlabBlock : public Block
 {
-public:
-    OakSlabBlock(s16 x, s16 y);
+private:
+    SlabID slabID;
 
-    void draw(Camera camera) override;
+public:
+    SlabBlock(s16 x, s16 y, SlabID slabID, u8 maxBrokenLevel);
+
     bool solid(void) override;
-    u16 id(void) override;
     Rect getRect(void) const override;
+    SlabID getSlabID(void) const;
 };
+
+SLAB_DECL(Oak)
 
 void resetNextChestID(void);
 

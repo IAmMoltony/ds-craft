@@ -69,7 +69,8 @@ void loadBlockTextures(void)
     loadImageAlpha(sprLadder, 16, 16, ladderPal, ladderBitmap);
 
     loadImageAlpha(sprBlockBreak[0], 16, 16, destroy_stage_0Pal, destroy_stage_0Bitmap);
-    loadImageAlpha(sprBlockBreak[1], 16, 16, destroy_stage_1Pal, destroy_stage_1Bitmap);;
+    loadImageAlpha(sprBlockBreak[1], 16, 16, destroy_stage_1Pal, destroy_stage_1Bitmap);
+    ;
     loadImageAlpha(sprBlockBreak[2], 16, 16, destroy_stage_2Pal, destroy_stage_2Bitmap);
     loadImageAlpha(sprBlockBreak[3], 16, 16, destroy_stage_3Pal, destroy_stage_3Bitmap);
     loadImageAlpha(sprBlockBreak[4], 16, 16, destroy_stage_4Pal, destroy_stage_4Bitmap);
@@ -720,26 +721,23 @@ void resetNextChestID(void)
 
 //----------------------------------------
 
-OakSlabBlock::OakSlabBlock(s16 x, s16 y) : Block(x, y, 6)
+SlabBlock::SlabBlock(s16 x, s16 y, SlabID slabID, u8 maxBrokenLevel) : Block(x, y, maxBrokenLevel), slabID(slabID)
 {
 }
 
-void OakSlabBlock::draw(Camera camera)
-{
-    glSpritePart(sprPlanks, x - camera.x, y - camera.y + 8, 0, 0, 16, 8);
-}
-
-bool OakSlabBlock::solid(void)
+bool SlabBlock::solid(void)
 {
     return true;
 }
 
-u16 OakSlabBlock::id(void)
-{
-    return BID_OAK_SLAB;
-}
-
-Rect OakSlabBlock::getRect(void) const
+Rect SlabBlock::getRect(void) const
 {
     return Rect(x, y + 8, 16, 8);
 }
+
+SlabID SlabBlock::getSlabID(void) const
+{
+    return slabID;
+}
+
+SLAB_IMPL(Oak, sprPlanks, BID_OAK_SLAB, 6)
