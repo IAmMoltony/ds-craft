@@ -1476,6 +1476,18 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
             mmEffectEx(&sndClick);
         }
 
+        // controls
+        u32 keys = keysHeld();
+        bool left = false;
+        bool right = false;
+        bool up = false;
+        if (!(keys & KEY_Y))
+        {
+            up = (touchToMove == 2) ? keys & KEY_X : keys & KEY_UP;
+            left = (touchToMove == 2) ? keys & KEY_Y : keys & KEY_LEFT;
+            right = (touchToMove == 2) ? keys & KEY_A : keys & KEY_RIGHT;
+        }
+
         u32 rdown = keysDownRepeat();
         // breaking blocks
         size_t removei = 0;  // remove index
@@ -1811,7 +1823,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
             Rect rectSlabRight = getRectSlab();
             Rect rectSlabLeft = Rect(rectSlabRight.x - 12, rectSlabRight.y, rectSlabRight.w, rectSlabRight.h);
             if ((block->getRect().intersects(rectSlabRight) || block->getRect().intersects(rectSlabLeft)) &&
-                block->id() == BID_OAK_SLAB && moving(oldX))
+                block->id() == BID_OAK_SLAB && (left || right))
             {
                 y -= 8;
             }
@@ -1820,18 +1832,6 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
         // remove block if remove block
         if (remove)
             blocks->erase(blocks->begin() + removei);
-
-        // controls
-        u32 keys = keysHeld();
-        bool left = false;
-        bool right = false;
-        bool up = false;
-        if (!(keys & KEY_Y))
-        {
-            up = (touchToMove == 2) ? keys & KEY_X : keys & KEY_UP;
-            left = (touchToMove == 2) ? keys & KEY_Y : keys & KEY_LEFT;
-            right = (touchToMove == 2) ? keys & KEY_A : keys & KEY_RIGHT;
-        }
 
         if (keys & KEY_TOUCH)
         {
