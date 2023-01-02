@@ -2278,34 +2278,46 @@ static bool canCraft(Player *pThis, CraftingRecipe recipe)
 extern Language lang;
 void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
 {
-    for (size_t i = 0; i < recipes.size(); ++i)
+    size_t numRecipes = recipes.size();
+
+    for (size_t i = 0; i < numRecipes; ++i)
     {
+        // calculate the position of the current slot
+        // 14 = num slots per row
+        u8 slotX = 16 + (i % 14) * 16;
+        u8 slotY = 60 + (i / 14) * 16;
+
         CraftingRecipe recipe = recipes[i];
 
         bool cc = canCraft(this, recipe);
-        glColor(cc ? RGB15(0, 31, 0) : RGB15(31, 0, 0));
-        glSprite(16 + i * 16, 60, GL_FLIP_NONE,
+        if (cc)
+            glColor(RGB15(0, 31, 0));
+        glSprite(slotX, slotY, GL_FLIP_NONE,
                  craftingSelect == i ? sprInventorySlotSelect : sprInventorySlot);
         glColor(RGB15(31, 31, 31));
+        if (craftingSelect == i)
+            glBoxStroke(slotX, slotY, 16, 16, RGB15(31, 31, 31));
 
         switch (recipe.getTexID())
         {
         default:
-            glSpriteScale(16 + i * 16 + 4, 64, HALFSIZE, GL_FLIP_NONE, getItemImage(recipe.getOutput()));
+            glSpriteScale(slotX + 4, slotY + 4, HALFSIZE, GL_FLIP_NONE, getItemImage(recipe.getOutput()));
             break;
+
+        // special cases
         case 2:
-            glSpriteScale(16 + i * 16 + 4, 64, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
+            glSpriteScale(slotX + 4, slotY + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
             break;
         case 4:
-            glSpriteScale(16 + i * 16 + 4, 64, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
+            glSpriteScale(slotX + 4, slotY + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
             break;
         case 14:
-            glSpritePartScale(sprPlanks, 16 + i * 16 + 4, 64, 0, 0, 16, 8, HALFSIZE);
+            glSpritePartScale(sprPlanks, slotX + 4, slotY + 4, 0, 0, 16, 8, HALFSIZE);
             break;
         }
 
         if (recipe.getCount() > 1)
-            fontSmall.printfShadow(16 + i * 16, 67, "%d", recipe.getCount());
+            fontSmall.printfShadow(slotX, slotY + 3, "%d", recipe.getCount());
     }
 
     CraftingRecipe recipe = recipes[craftingSelect];
