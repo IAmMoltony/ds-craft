@@ -78,5 +78,6 @@
 
 #define HALFSIZE ((1 << 12) / 2)
 
+// i think these are reduntant
 typedef signed short s16;
 typedef signed char s8;

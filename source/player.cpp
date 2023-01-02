@@ -691,15 +691,10 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
 
         InventoryItemID currid = inventory[inventorySelect].id;
 
-        int ax = getRectAim(camera).x;
-        int ay = getRectAim(camera).y;
-        ax = snapToGrid(ax);
+        int xx = getRectAim(camera).x - camera.x;
+        int yy = getRectAim(camera).y - camera.y;
         if (currid == InventoryItemID::OakSlab)
-            ay = snapToGrid8(ay);
-        else
-            ay = snapToGrid(ay);
-        int xx = ax - camera.x;
-        int yy = ay - camera.y;
+            yy = getRectAimY8(camera).y - camera.y;
 
         if (currid == InventoryItemID::None ||
             isItem(currid))
@@ -1502,7 +1497,10 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
             {
                 // if block touch aim then block break, if b or down is pressed
                 // and we cant break bedrock
-                if (Rect(getRectAim(*camera).x + 1, getRectAim(*camera).y + 1, 14, 14)
+                Rect blockBreakRect = getRectAim(*camera);
+                if (block->id() == BID_OAK_SLAB)
+                    blockBreakRect = getRectAimY8(*camera);
+                if (Rect(blockBreakRect.x + 1, blockBreakRect.y + 1, 14, 14)
                         .intersects(block->getRect()) &&
                     block->id() != BID_BEDROCK)
                 {
@@ -1996,6 +1994,7 @@ bool Player::hasItem(InventoryItem item)
     return false;
 }
 
+// TODO make this function return error if it didint add item
 void Player::addItem(InventoryItemID item)
 {
     if (isInventoryFull())
@@ -2205,7 +2204,12 @@ Rect Player::getRectSlab(void)
 
 Rect Player::getRectAim(Camera camera)
 {
-    return Rect((aimX + camera.x), (aimY + camera.y), 16, 16);
+    return Rect(snapToGrid(aimX + camera.x), snapToGrid(aimY + camera.y), 16, 16);
+}
+
+Rect Player::getRectAimY8(Camera camera)
+{
+    return Rect(snapToGrid(aimX + camera.x), snapToGrid8(aimY + camera.y), 16, 16);
 }
 
 std::array<InventoryItem, 20> Player::getInventory(void)
