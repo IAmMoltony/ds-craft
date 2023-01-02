@@ -2367,6 +2367,16 @@ void Player::updateCrafting(void)
         if (++craftingSelect > recipes.size() - 1)
             craftingSelect = 0;
     }
+    else if (kdown & KEY_DOWN)
+    {
+        if (craftingSelect + 14 <= recipes.size() - 1)
+            craftingSelect += 14;
+    }
+    else if (kdown & KEY_UP)
+    {
+        if (craftingSelect - 14 >= 0)
+            craftingSelect -= 14;
+    }
 }
 
 void Player::jump(void)
