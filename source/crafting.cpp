@@ -70,6 +70,8 @@ InventoryItemID strToIID(std::string &sid)
         return InventoryItemID::Chest;
     else if (sid == "oakslab")
         return InventoryItemID::OakSlab;
+    else if (sid == "cobblestoneslab")
+        return InventoryItemID::CobblestoneSlab;
 
     printf("%s not a valid item string id\n", sid.c_str());
     return InventoryItemID::None;
@@ -88,6 +90,12 @@ CraftingRecipe::CraftingRecipe(const char *recipeFile)
     }
 
     std::string contents = std::string(fsReadFile(path.c_str()));
+
+    // support for CLRF line endings
+    size_t pos = 0;
+    while ((pos = contents.find("\r\n", pos)) != std::string::npos)
+        contents.replace(pos, 2, "\n");
+
     std::istringstream iss(contents);
     std::string line;
     bool recipeMode = false;

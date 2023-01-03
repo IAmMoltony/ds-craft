@@ -1,0 +1,8 @@
+id 16
+nameEn Cobblestone Slab
+nameRu Qnkub kj cvn"ipkmb
+count 6
+texid 15
+output cobblestoneslab
+RECIPE
+cobblestone 3

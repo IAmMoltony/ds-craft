@@ -164,6 +164,9 @@ static std::string iidToString(InventoryItemID iid)
     case InventoryItemID::OakSlab:
         id = "oakslab";
         break;
+    case InventoryItemID::CobblestoneSlab:
+        id = "cobblestoneslab";
+        break;
     }
     return id;
 }
@@ -458,6 +461,9 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                 break;
             case BID_OAK_SLAB:
                 blocks.emplace_back(new OakSlabBlock(x, y));
+                break;
+            case BID_COBBLESTONE_SLAB:
+                blocks.emplace_back(new CobblestoneSlabBlock(x, y));
                 break;
             }
         }

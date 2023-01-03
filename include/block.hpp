@@ -43,6 +43,7 @@
 #define BID_BIRCH_TRAPDOOR 29
 #define BID_CHEST 30
 #define BID_OAK_SLAB 31
+#define BID_COBBLESTONE_SLAB 32
 
 enum class InventoryItemID
 {
@@ -82,6 +83,7 @@ enum class InventoryItemID
     Ladder,
     Chest,
     OakSlab,
+    CobblestoneSlab,
 };
 
 enum class SlabID
@@ -205,6 +207,7 @@ public:
     virtual u16 id(void) = 0;
     virtual void interact(void);
     virtual bool solid(void);
+    virtual bool isSlab(void);
     virtual Rect getRect(void) const = 0;
 };
 
@@ -409,11 +412,13 @@ public:
     SlabBlock(s16 x, s16 y, SlabID slabID, u8 maxBrokenLevel);
 
     bool solid(void) override;
+    bool isSlab(void) override;
     Rect getRect(void) const override;
     SlabID getSlabID(void) const;
 };
 
 SLAB_DECL(Oak)
+SLAB_DECL(Cobblestone)
 
 void resetNextChestID(void);
 

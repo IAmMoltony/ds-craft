@@ -168,6 +168,11 @@ bool Block::solid(void)
     return true;
 }
 
+bool Block::isSlab(void)
+{
+    return false;
+}
+
 // generic block implementations
 
 GENERIC_BLOCK_IMPL(GrassBlock, sprGrass, BID_GRASS, 6)
@@ -730,6 +735,11 @@ bool SlabBlock::solid(void)
     return true;
 }
 
+bool SlabBlock::isSlab(void)
+{
+    return true;
+}
+
 Rect SlabBlock::getRect(void) const
 {
     return Rect(x, y + 8, 16, 8);
@@ -741,3 +751,4 @@ SlabID SlabBlock::getSlabID(void) const
 }
 
 SLAB_IMPL(Oak, sprPlanks, BID_OAK_SLAB, 6)
+SLAB_IMPL(Cobblestone, sprCobblestone, BID_COBBLESTONE_SLAB, 12)

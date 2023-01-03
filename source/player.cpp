@@ -275,6 +275,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Chest";
         case InventoryItemID::OakSlab:
             return "Oak Slab";
+        case InventoryItemID::CobblestoneSlab:
+            return "Cobblestone Slab";
         }
         break;
     case Language::Russian:
@@ -350,6 +352,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Svpfvm";
         case InventoryItemID::OakSlab:
             return "Evcqdb& rnkub";
+        case InventoryItemID::CobblestoneSlab:
+            return "Qnkub kj cvn\"ipkmb";
         }
         break;
     }
@@ -431,6 +435,8 @@ glImage *getItemImage(InventoryItemID item)
         return sprChest;
     case InventoryItemID::OakSlab:
         return sprPlanks;
+    case InventoryItemID::CobblestoneSlab:
+        return sprCobblestone;
     }
 
     return sprDummy;
@@ -544,6 +550,9 @@ static void drawInventory(InventoryItem inventory[], u8 itemCount, Font font, u8
             case InventoryItemID::OakSlab:
                 glSpritePartScale(sprPlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALFSIZE);
                 break;
+            case InventoryItemID::CobblestoneSlab:
+                glSpritePartScale(sprCobblestone, xx + 3, yy + 5, 0, 0, 16, 8, HALFSIZE);
+                break;
             // default
             default:
                 glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, getItemImage(id));
@@ -611,6 +620,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             break;
         case InventoryItemID::OakSlab:
             glSpritePartScale(sprPlanks, xx - 1, yy + 2, 0, 0, 16, 8, HALFSIZE);
+            break;
+        case InventoryItemID::CobblestoneSlab:
+            glSpritePartScale(sprCobblestone, xx - 1, yy + 2, 0, 0, 16, 8, HALFSIZE);
             break;
         // default
         default:
@@ -721,6 +733,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             case InventoryItemID::OakSlab:
                 glSpritePart(sprPlanks, xx, yy + 8, 0, 0, 16, 8);
                 break;
+            case InventoryItemID::CobblestoneSlab:
+                glSpritePart(sprCobblestone, xx, yy + 8, 0, 0, 16, 8);
+                break;
             // default
             default:
                 glSprite(xx, yy, GL_FLIP_NONE, getItemImage(currid));
@@ -777,6 +792,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                     break;
                 case InventoryItemID::OakSlab:
                     glSpritePartScale(sprPlanks, xx + 4, yy + 6, 0, 0, 16, 8, HALFSIZE);
+                    break;
+                case InventoryItemID::CobblestoneSlab:
+                    glSpritePartScale(sprCobblestone, xx + 4, yy + 6, 0, 0, 16, 8, HALFSIZE);
                     break;
                 // default
                 default:
@@ -1449,6 +1467,11 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                                                                   snapToGrid8(camera->y + aimY)));
                             playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
                             break;
+                        case InventoryItemID::CobblestoneSlab:
+                            blocks->emplace_back(new CobblestoneSlabBlock(snapToGrid(camera->x + aimX),
+                                                                          snapToGrid8(camera->y + aimY)));
+                            playsfx(effect, sndStone1, sndStone2, sndStone3, sndStone4);
+                            break;
                         }
                         if (canPlace)
                         {
@@ -1697,6 +1720,11 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                         playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
                         spawnBlockParticles(blockParticles, sprPlanks, block->x, block->y);
                         break;
+                    case BID_COBBLESTONE_SLAB:
+                        entities->emplace_back(new DropEntity(block->x, block->y, "oakslab"));
+                        playsfx(effect, sndWood1, sndWood2, sndWood3, sndWood4);
+                        spawnBlockParticles(blockParticles, sprPlanks, block->x, block->y);
+                        break;
                     }
 
                     remove = true;
@@ -1789,7 +1817,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                     }
                     else if (id == BID_STONE || id == BID_SANDSTONE || id == BID_COBBLESTONE ||
                              id == BID_COAL_ORE || id == BID_COAL_BLOCK || id == BID_BEDROCK ||
-                             id == BID_GLASS)
+                             id == BID_GLASS || id == BID_COBBLESTONE_SLAB)
                     {
                         playsfx(effect, sndStepStone1, sndStepStone2, sndStepStone3, sndStepStone4)
                     }
@@ -1820,12 +1848,14 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                 }
             }
 
-            Rect rectSlabRight = getRectSlab();
-            Rect rectSlabLeft = Rect(rectSlabRight.x - 12, rectSlabRight.y, rectSlabRight.w, rectSlabRight.h);
-            if ((block->getRect().intersects(rectSlabRight) || block->getRect().intersects(rectSlabLeft)) &&
-                block->id() == BID_OAK_SLAB && (left || right))
+            if (block->isSlab())
             {
-                y -= 8;
+                Rect rectSlabRight = getRectSlab();
+                Rect rectSlabLeft = Rect(rectSlabRight.x - 12, rectSlabRight.y, rectSlabRight.w, rectSlabRight.h);
+                if ((block->getRect().intersects(rectSlabRight) || block->getRect().intersects(rectSlabLeft)) && (left || right))
+                {
+                    y -= 8;
+                }
             }
             ++i;
         }
@@ -2313,6 +2343,9 @@ void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
             break;
         case 14:
             glSpritePartScale(sprPlanks, slotX + 4, slotY + 4, 0, 0, 16, 8, HALFSIZE);
+            break;
+        case 15:
+            glSpritePartScale(sprCobblestone, slotX + 4, slotY + 4, 0, 0, 16, 8, HALFSIZE);
             break;
         }
 
