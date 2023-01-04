@@ -2305,6 +2305,8 @@ static bool canCraft(Player *pThis, CraftingRecipe recipe)
     return true;
 }
 
+static constexpr u8 RECIPES_PER_ROW = 14;
+
 extern Language lang;
 void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
 {
@@ -2314,19 +2316,17 @@ void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
     {
         // calculate the position of the current slot
         // 14 = num slots per row
-        u8 slotX = 16 + (i % 14) * 16;
-        u8 slotY = 60 + (i / 14) * 16;
+        u8 slotX = 16 + (i % RECIPES_PER_ROW) * 16;
+        u8 slotY = 60 + (i / RECIPES_PER_ROW) * 16;
 
         CraftingRecipe recipe = recipes[i];
 
         bool cc = canCraft(this, recipe);
-        if (cc)
-            glColor(RGB15(0, 31, 0));
+        if (!cc)
+            glColor(RGB15(31, 0, 0));
         glSprite(slotX, slotY, GL_FLIP_NONE,
                  craftingSelect == i ? sprInventorySlotSelect : sprInventorySlot);
         glColor(RGB15(31, 31, 31));
-        if (craftingSelect == i)
-            glBoxStroke(slotX, slotY, 16, 16, RGB15(31, 31, 31));
 
         switch (recipe.getTexID())
         {
