@@ -203,6 +203,8 @@ public:
     Block(s16 x, s16 y, u8 maxBrokenLevel);
 
     void drawBreaking(Camera camera);
+    void hit(void);
+    bool broken(void);
     virtual void draw(Camera camera) = 0;
     virtual u16 id(void) = 0;
     virtual void interact(void);

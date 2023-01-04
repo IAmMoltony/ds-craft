@@ -151,12 +151,22 @@ Block::Block(s16 x, s16 y, u8 maxBrokenLevel)
 
 void Block::drawBreaking(Camera camera)
 {
-    if (brokenLevel == 0)
+    if (!brokenLevel)
         return;
 
-    u8 textureIndex = (brokenLevel / maxBrokenLevel) * 10;
+    float textureIndex = ((float)brokenLevel / (float)maxBrokenLevel) * 10 - 1;
     textureIndex = std::max(0, std::min((int)textureIndex, 10 - 1));
-    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprBlockBreak[textureIndex]);
+    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprBlockBreak[(int)textureIndex]);
+}
+
+void Block::hit(void)
+{
+    ++brokenLevel;
+}
+
+bool Block::broken(void)
+{
+    return brokenLevel >= maxBrokenLevel;
 }
 
 void Block::interact(void)
