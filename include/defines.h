@@ -8,34 +8,10 @@
 #endif
 #define unloadImage(spr) glDeleteTextures(1, &spr->textureID)
 #define randomRange(a, b) ((a) + rand() % (((b) + 1) - (a)))
-#define chance(percent) (rand() % 100 <= (percent))
-#define lerp(a, b, t) ((a) + (t) * ((b) - (a)))
-#define snapToGrid(x) (round((x) / 16) * 16)
-#define snapToGrid8(x) (round((x) / 8) * 8)
 #define soundEffect(id)                            \
     {                                              \
         {id}, (int)(1.0f * (1 << 10)), 0, 255, 128 \
     }
-
-#define playsfx(effect, sfx1, sfx2, sfx3, sfx4) \
-    do                                          \
-    {                                           \
-        switch (effect)                         \
-        {                                       \
-        case 0:                                 \
-            mmEffectEx(&sfx1);                  \
-            break;                              \
-        case 1:                                 \
-            mmEffectEx(&sfx2);                  \
-            break;                              \
-        case 2:                                 \
-            mmEffectEx(&sfx3);                  \
-            break;                              \
-        case 3:                                 \
-            mmEffectEx(&sfx4);                  \
-            break;                              \
-        }                                       \
-    } while (0);
 
 #define declsfx4(effectname)            \
     mm_sound_effect snd##effectname##1; \

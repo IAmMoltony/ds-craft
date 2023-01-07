@@ -345,14 +345,12 @@ void DoorBlock::interact(void)
     if (open)
     {
         open = false;
-        u8 effect = rand() % 4;
-        playsfx(effect, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4);
+        playsfx(4, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4);
     }
     else
     {
         open = true;
-        u8 effect = rand() % 4;
-        playsfx(effect, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4);
+        playsfx(4, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4);
     }
 }
 
@@ -411,14 +409,12 @@ void BirchDoorBlock::interact(void)
     if (open)
     {
         open = false;
-        u8 effect = rand() % 4;
-        playsfx(effect, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4);
+        playsfx(4, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4);
     }
     else
     {
         open = true;
-        u8 effect = rand() % 4;
-        playsfx(effect, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4);
+        playsfx(4, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4);
     }
 }
 
@@ -586,15 +582,10 @@ bool OakTrapdoorBlock::solid(void)
 void OakTrapdoorBlock::interact(void)
 {
     open = !open;
-    u8 effect = rand() % 4;
     if (open)
-    {
-        playsfx(effect, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4)
-    }
+        playsfx(4, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4);
     else
-    {
-        playsfx(effect, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4)
-    }
+        playsfx(4, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4);
 }
 
 u16 OakTrapdoorBlock::id(void)
@@ -640,15 +631,10 @@ bool BirchTrapdoorBlock::solid(void)
 void BirchTrapdoorBlock::interact(void)
 {
     open = !open;
-    u8 effect = rand() % 4;
     if (open)
-    {
-        playsfx(effect, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4)
-    }
+        playsfx(4, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4);
     else
-    {
-        playsfx(effect, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4)
-    }
+        playsfx(4, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4);
 }
 
 u16 BirchTrapdoorBlock::id(void)

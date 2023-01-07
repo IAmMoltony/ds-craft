@@ -5,6 +5,7 @@
 #include "soundbank.h"
 #include "camera.h"
 #include "glext.h"
+#include "util.h"
 #include "gamever.hpp"
 #include "player.hpp"
 #include "gamestate.hpp"

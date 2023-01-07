@@ -1,5 +1,6 @@
 #pragma once
 #include "defines.h"
+#include "util.h"
 #include "soundbank.h"
 #include "images.h"
 #include "camera.h"

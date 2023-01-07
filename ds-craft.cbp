@@ -243,6 +243,7 @@
 		<Unit filename="include/userinfo.h">
 			<Option target="build" />
 		</Unit>
+		<Unit filename="include/util.h" />
 		<Unit filename="include/uvcoord_font_16x16.h">
 			<Option target="build" />
 		</Unit>
@@ -387,6 +388,9 @@
 		<Unit filename="source/userinfo.c">
 			<Option compilerVar="CC" />
 			<Option target="build" />
+		</Unit>
+		<Unit filename="source/util.c">
+			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="strencode.py" />
 		<Extensions>
