@@ -1218,6 +1218,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                              .intersects(
                                  Rect(snapToGrid(camera->x + aimX),
                                       snapToGrid(camera->y + aimY), 16, 16));
+
                 InventoryItemID id = inventory[inventorySelect].id;
                 // nonsolid blocks can be placed inside player
                 if (id == InventoryItemID::Wood ||
@@ -1231,6 +1232,40 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                         id == InventoryItemID::RedTulip ||
                         id == InventoryItemID::Ladder)
                     check = true;
+
+                if (check && id != InventoryItemID::None)
+                {
+                    // also check if there is a block that the block can be placed on
+
+                    int rectHeight = 16;
+                    if (id == InventoryItemID::OakSlab || id == InventoryItemID::CobblestoneSlab)
+                        rectHeight = 8; // slabs have rect height of 8
+                    Rect blockRect(snapToGrid(camera->x + aimX), snapToGrid(camera->y + aimY),
+                                   16, rectHeight);
+                    bool check2 = false;
+
+                    for (auto &block : *blocks)
+                    {
+                        // skip blocks out of camera
+                        if (block->getRect().x - camera->x < -16 ||
+                                block->getRect().y - camera->y < -16)
+                            continue;
+                        if (block->getRect().x - camera->x > SCREEN_WIDTH + 48)
+                            break;
+
+                        bool onRight = (block->x == blockRect.x + 16 && block->y == blockRect.y);
+                        bool onLeft = (block->x == blockRect.x - 16 && block->y == blockRect.y);
+                        bool onTop = (block->x == blockRect.x && block->y == blockRect.y - ((rectHeight == 8) ?
+                                      ((blockRect.y % 8 == 0 && blockRect.y % 16 != 0) ? 8 : 16) : 16));
+                        bool onBottom = (block->x == blockRect.x && block->y == blockRect.y + ((rectHeight == 8) ?
+                                         ((blockRect.y % 8 == 0 && blockRect.y % 16 != 0) ? 8 : 16) : 16));
+                        check2 = onRight || onLeft || onTop || onBottom;
+                        if (check2)
+                            break;
+                    }
+                    if (!check2)
+                        check = false;
+                }
 
                 if (!interact && check)
                 {
