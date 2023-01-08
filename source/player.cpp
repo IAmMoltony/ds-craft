@@ -1543,7 +1543,79 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                     switch (bid)
                     {
                     case BID_GRASS:
-
+                        playsfx(4, &sndStepGrass1, &sndStepGrass2, &sndStepGrass3, &sndStepGrass4);
+                        break;
+                    case BID_DIRT:
+                        playsfx(4, &sndStepGravel1, &sndStepGravel2, &sndStepGravel3, &sndStepGravel4);
+                        break;
+                    case BID_STONE:
+                        playsfx(4, &sndStepStone1, &sndStepStone2, &sndStepStone3, &sndStepStone4);
+                        break;
+                    case BID_WOOD:
+                        playsfx(4, &sndStepWood1, &sndStepWood2, &sndStepWood3, &sndStepWood4);
+                        break;
+                    case BID_BIRCH_WOOD:
+                        playsfx(4, &sndStepWood1, &sndStepWood2, &sndStepWood3, &sndStepWood4);
+                        break;
+                    case BID_LEAVES:
+                        playsfx(4, &sndStepGrass1, &sndStepGrass2, &sndStepGrass3, &sndStepGrass4);
+                        break;
+                    case BID_BIRCH_LEAVES:
+                        playsfx(4, &sndStepGrass1, &sndStepGrass2, &sndStepGrass3, &sndStepGrass4);
+                        break;
+                    case BID_SAND:
+                        playsfx(4, &sndStepSand1, &sndStepSand2, &sndStepSand3, &sndStepSand4);
+                        break;
+                    case BID_SANDSTONE:
+                        playsfx(4, &sndStepStone1, &sndStepStone2, &sndStepStone3, &sndStepStone4);
+                        break;
+                    case BID_CACTUS:
+                        //playsfx(4, &sndStepC);
+                        break;
+                    case BID_DOOR:
+                        playsfx(4, &sndStepWood1, &sndStepWood2, &sndStepWood3, &sndStepWood4);
+                        break;
+                    case BID_BIRCH_DOOR:
+                        playsfx(4, &sndStepWood1, &sndStepWood2, &sndStepWood3, &sndStepWood4);
+                        break;
+                    case BID_PLANKS:
+                        playsfx(4, &sndStepWood1, &sndStepWood2, &sndStepWood3, &sndStepWood4);
+                        break;
+                    case BID_BIRCH_PLANKS:
+                        playsfx(4, &sndStepWood1, &sndStepWood2, &sndStepWood3, &sndStepWood4);
+                        break;
+                    case BID_SNOWY_GRASS:
+                        playsfx(4, &sndStepSnow1, &sndStepSnow2, &sndStepSnow3, &sndStepSnow4);
+                        break;
+                    case BID_COBBLESTONE:
+                        playsfx(4, &sndStepStone1, &sndStepStone2, &sndStepStone3, &sndStepStone4);
+                        break;
+                    case BID_COAL_ORE:
+                        playsfx(4, &sndStepStone1, &sndStepStone2, &sndStepStone3, &sndStepStone4);
+                        break;
+                    case BID_COAL_BLOCK:
+                        playsfx(4, &sndStepStone1, &sndStepStone2, &sndStepStone3, &sndStepStone4);
+                        break;
+                    case BID_GLASS:
+                        playsfx(4, &sndStepStone1, &sndStepStone2, &sndStepStone3, &sndStepStone4);
+                        break;
+                    case BID_OAK_TRAPDOOR:
+                        playsfx(4, &sndStepWood1, &sndStepWood2, &sndStepWood3, &sndStepWood4);
+                        break;
+                    case BID_LADDER:
+                        playsfx(4, &sndStepWood1, &sndStepWood2, &sndStepWood3, &sndStepWood4);
+                        break;
+                    case BID_BIRCH_TRAPDOOR:
+                        playsfx(4, &sndStepWood1, &sndStepWood2, &sndStepWood3, &sndStepWood4);
+                        break;
+                    case BID_CHEST:
+                        playsfx(4, &sndStepWood1, &sndStepWood2, &sndStepWood3, &sndStepWood4);
+                        break;
+                    case BID_OAK_SLAB:
+                        playsfx(4, &sndStepWood1, &sndStepWood2, &sndStepWood3, &sndStepWood4);
+                        break;
+                    case BID_COBBLESTONE_SLAB:
+                        playsfx(4, &sndStepStone1, &sndStepStone2, &sndStepStone3, &sndStepStone4);
                         break;
                     }
                     if (block->broken())

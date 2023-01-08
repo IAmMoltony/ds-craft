@@ -1423,10 +1423,10 @@ int main(int argc, char **argv)
             switch (lang)
             {
             case Language::English:
-                fontSmall.printCentered(0, 48, "Change language");
+                fontSmall.printCentered(0, 48, (settingsSelect == 0) ? "> Change language <" : "Change language");
                 break;
             case Language::Russian:
-                fontSmallRu.printCentered(0, 48, "C\"csbu# &j\"m");
+                fontSmallRu.printCentered(0, 48, (settingsSelect == 0) ? "> C\"csbu# &j\"m '" : "C\"csbu# &j\"m");
                 break;
             }
             glColor(RGB15(31, 31, 31));
@@ -1437,15 +1437,15 @@ int main(int argc, char **argv)
             {
             case Language::English:
                 if (transparentLeaves)
-                    fontSmall.printCentered(0, 59, "Transparent leaves ON");
+                    fontSmall.printCentered(0, 59, (settingsSelect == 1) ? "> Transparent leaves ON <" : "Transparent leaves ON");
                 else
-                    fontSmall.printCentered(0, 59, "Transparent leaves OFF");
+                    fontSmall.printCentered(0, 59, (settingsSelect == 1) ? "> Transparent leaves OFF <" : "Transparent leaves OFF");
                 break;
             case Language::Russian:
                 if (transparentLeaves)
-                    fontSmallRu.printCentered(0, 59, "Qsqjsbzp\"g nktu#& CLM");
+                    fontSmallRu.printCentered(0, 59, (settingsSelect == 1) ? "> Qsqjsbzp\"g nktu#& CLM '" : "Qsqjsbzp\"g nktu#& CLM");
                 else
-                    fontSmallRu.printCentered(0, 59, "Qsqjsbzp\"g nktu#& C]LM");
+                    fontSmallRu.printCentered(0, 59, (settingsSelect == 1) ? "> Qsqjsbzp\"g nktu#& C]LM '" : "Qsqjsbzp\"g nktu#& C]LM");
                 break;
             }
             glColor(RGB15(31, 31, 31));
@@ -1456,15 +1456,15 @@ int main(int argc, char **argv)
             {
             case Language::English:
                 if (autoSave)
-                    fontSmall.printCentered(0, 70, "Auto save ON");
+                    fontSmall.printCentered(0, 70, (settingsSelect == 2) ? "> Auto save ON <" : "Auto save ON");
                 else
-                    fontSmall.printCentered(0, 70, "Auto save OFF");
+                    fontSmall.printCentered(0, 70, (settingsSelect == 2) ? "> Auto select OFF <" :  "Auto save OFF");
                 break;
             case Language::Russian:
                 if (autoSave)
-                    fontSmallRu.printCentered(0, 70, "Aduq tqxsbpgpkg CLM");
+                    fontSmallRu.printCentered(0, 70, (settingsSelect == 2) ? "> Aduq tqxsbpgpkg CLM '" : "Aduq tqxsbpgpkg CLM");
                 else
-                    fontSmallRu.printCentered(0, 70, "Aduq tqxsbpgpkg C]LM");
+                    fontSmallRu.printCentered(0, 70, (settingsSelect == 2) ? "> Aduq tqxsbpgpkg C]LM '" : "Aduq tqxsbpgpkg C]LM");
                 break;
             }
             glColor(RGB15(31, 31, 31));
@@ -1475,15 +1475,15 @@ int main(int argc, char **argv)
             {
             case Language::English:
                 if (smoothCam)
-                    fontSmall.printCentered(0, 81, "Smooth camera ON");
+                    fontSmall.printCentered(0, 81, (settingsSelect == 3) ? "> Smooth camera ON <" : "Smooth camera ON");
                 else
-                    fontSmall.printCentered(0, 81, "Smooth camera OFF");
+                    fontSmall.printCentered(0, 81, (settingsSelect == 3) ? "> Smooth camera OFF <" : "Smooth camera OFF");
                 break;
             case Language::Russian:
                 if (smoothCam)
-                    fontSmallRu.printCentered(0, 81, "Qnbdpb& mbogsb CLM");
+                    fontSmallRu.printCentered(0, 81, (settingsSelect == 3) ? "> Qnbdpb& mbogsb CLM '" : "Qnbdpb& mbogsb CLM");
                 else
-                    fontSmallRu.printCentered(0, 81, "Qnbdpb& mbogsb C]LM");
+                    fontSmallRu.printCentered(0, 81, (settingsSelect == 3) ? "> Qnbdpb& mbogsb C]LM '" : "Qnbdpb& mbogsb C]LM");
                 break;
             }
             glColor(RGB15(31, 31, 31));
@@ -1496,10 +1496,10 @@ int main(int argc, char **argv)
                 switch (lang)
                 {
                 case Language::English:
-                    fontSmall.printCentered(0, 92, "Touch to move: off");
+                    fontSmall.printCentered(0, 92, (settingsSelect == 4) ? "> Touch to move: off <" : "Touch to move: off");
                     break;
                 case Language::Russian:
-                    fontSmallRu.printCentered(0, 92, "Edkigpkg mbtbpkgo: d\"mn.");
+                    fontSmallRu.printCentered(0, 92, (settingsSelect == 4) ? "> Edkigpkg mbtbpkgo: d\"mn. '" : "Edkigpkg mbtbpkgo: d\"mn.");
                     break;
                 }
                 break;
@@ -1507,10 +1507,10 @@ int main(int argc, char **argv)
                 switch (lang)
                 {
                 case Language::English:
-                    fontSmall.printCentered(0, 92, "Touch to move: left-handed");
+                    fontSmall.printCentered(0, 92, (settingsSelect == 4) ? "> Touch to move: left-handed <" : "Touch to move: left-handed");
                     break;
                 case Language::Russian:
-                    fontSmallRu.printCentered(0, 92, "Edkigpkg mbtbpkgo: ngd}b");
+                    fontSmallRu.printCentered(0, 92, (settingsSelect == 4) ? "> Edkigpkg mbtbpkgo: ngd}b '" : "Edkigpkg mbtbpkgo: ngd}b");
                     break;
                 }
                 break;
@@ -1518,10 +1518,10 @@ int main(int argc, char **argv)
                 switch (lang)
                 {
                 case Language::English:
-                    fontSmall.printCentered(0, 92, "Touch to move: right-handed");
+                    fontSmall.printCentered(0, 92, (settingsSelect == 4) ? "> Touch to move: right-handed <" : "Touch to move: right-handed");
                     break;
                 case Language::Russian:
-                    fontSmallRu.printCentered(0, 92, "Edkigpkg mbtbpkgo: rsbd}b");
+                    fontSmallRu.printCentered(0, 92, (settingsSelect == 4) ? "> Edkigpkg mbtbpkgo: rsbd}b '" : "Edkigpkg mbtbpkgo: rsbd}b");
                     break;
                 }
                 break;
@@ -1534,15 +1534,15 @@ int main(int argc, char **argv)
             {
             case Language::English:
                 if (autoJump)
-                    fontSmall.printCentered(0, 103, "Auto jump ON");
+                    fontSmall.printCentered(0, 103, (settingsSelect == 5) ? "> Auto jump ON <" : "Auto jump ON");
                 else
-                    fontSmall.printCentered(0, 103, "Auto jump OFF");
+                    fontSmall.printCentered(0, 103, (settingsSelect == 5) ? "> Auto jump OFF <" : "Auto jump OFF");
                 break;
             case Language::Russian:
                 if (autoJump)
-                    fontSmallRu.printCentered(0, 103, "Aduq rs\"iqm CLM");
+                    fontSmallRu.printCentered(0, 103, (settingsSelect == 5) ? "> Aduq rs\"iqm CLM '" : "Aduq rs\"iqm CLM");
                 else
-                    fontSmallRu.printCentered(0, 103, "Aduq rs\"iqm C]LM");
+                    fontSmallRu.printCentered(0, 103, (settingsSelect == 5) ? "> Aduq rs\"iqm C]LM '" : "Aduq rs\"iqm C]LM");
                 break;
             }
             glColor(RGB15(31, 31, 31));
