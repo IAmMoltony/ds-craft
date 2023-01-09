@@ -16,6 +16,7 @@
 #include "blockparticle.hpp"
 #include <algorithm>
 #include <sstream>
+#include <regex>
 #include <stdio.h>
 #include <time.h>
 
@@ -784,7 +785,18 @@ int main(int argc, char **argv)
             else if (down & KEY_A)
             {
                 gameState = GameState::CreateWorld;
-                createWorldName = "";
+                u32 matches = 0;
+                std::regex defWorldNameRegex("(World\\s?)(\\d*)?");
+                for (auto world : wsWorlds)
+                {
+                    std::string &wn = world.name;
+                    if (std::regex_match(wn, defWorldNameRegex))
+                        ++matches;
+                }
+                if (matches)
+                    createWorldName = "World " + std::to_string(matches + 1);
+                else
+                    createWorldName = "World";
                 keyboardShow();
                 mmEffectEx(&sndClick);
             }
@@ -860,7 +872,7 @@ int main(int argc, char **argv)
 
             if (ch == '\b' && createWorldName.size() > 0)
                 createWorldName.pop_back();
-            else if (ch && ch != 255)
+            else if (isalpha(ch) || isdigit(ch) || ispunct(ch))
                 createWorldName += ch;
             break;
         }
@@ -1616,6 +1628,7 @@ int main(int argc, char **argv)
             break;
         }
 
+        // for debug purposes
         // int vc = 0;
         // glGetInt(GL_GET_POLYGON_RAM_COUNT, &vc);
         // printf("polygon ram count %d\n", vc);
