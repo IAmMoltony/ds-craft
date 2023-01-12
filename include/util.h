@@ -16,6 +16,7 @@ extern "C"
     int snapToGrid(int x);
     int snapToGrid8(int x);
     float lerp(float a, float b, float t);
+    int distBetweenPoints(int p1x, int p1y, int p2x, int p2y);
 
 #ifdef __cplusplus
 }

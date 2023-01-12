@@ -45,6 +45,7 @@ private:
     InventoryItem inventory[20];
     ChestBlock *chest;
     AnimatedSprite bodySprite;
+    int aimDist;
 
     void jump(void);
 

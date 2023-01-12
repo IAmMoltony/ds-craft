@@ -453,7 +453,7 @@ bool isItem(InventoryItemID id)
 }
 
 Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSelect(20),
-    craftingSelect(0), health(9), airY(0), chestSelect(0), chestMoveSelect(40)
+                   craftingSelect(0), health(9), airY(0), chestSelect(0), chestMoveSelect(40)
 {
     x = 0;
     y = 0;
@@ -709,11 +709,14 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             yy = getRectAimY8(camera).y - camera.y;
 
         if (currid == InventoryItemID::None ||
-                isItem(currid))
+            isItem(currid))
             glBoxFilled(xx, yy,
-                        xx + 15, yy + 15, getFavoriteColorRgb());
+                        xx + 15, yy + 15, (aimDist <= 86) ? getFavoriteColorRgb() : RGB15(31, 0, 0));
         else
         {
+            if (aimDist > 86)
+                glColor(RGB15(31, 0, 0));
+
             switch (currid)
             {
             // some special cases
@@ -741,6 +744,8 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 glSprite(xx, yy, GL_FLIP_NONE, getItemImage(currid));
                 break;
             }
+
+            glColor(RGB15(31, 31, 31));
         }
 
         // reset the alpha
@@ -920,8 +925,8 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                 if (inventoryFullSelect - 1 >= 0)
                 {
                     if (inventoryFullSelect - 1 != 4 &&
-                            inventoryFullSelect - 1 != 9 &&
-                            inventoryFullSelect - 1 != 14)
+                        inventoryFullSelect - 1 != 9 &&
+                        inventoryFullSelect - 1 != 14)
                         --inventoryFullSelect;
                 }
             }
@@ -930,8 +935,8 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                 if (inventoryFullSelect + 1 < 20)
                 {
                     if (inventoryFullSelect + 1 != 5 &&
-                            inventoryFullSelect + 1 != 10 &&
-                            inventoryFullSelect + 1 != 15)
+                        inventoryFullSelect + 1 != 10 &&
+                        inventoryFullSelect + 1 != 15)
                         ++inventoryFullSelect;
                 }
             }
@@ -1083,8 +1088,8 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                 if (select - 1 >= 0)
                 {
                     if (select - 1 != 4 &&
-                            select - 1 != 9 &&
-                            select - 1 != 14)
+                        select - 1 != 9 &&
+                        select - 1 != 14)
                         --select;
                 }
             }
@@ -1093,8 +1098,8 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                 if (select + 1 < maxItems)
                 {
                     if (select + 1 != 5 &&
-                            select + 1 != 10 &&
-                            select + 1 != 15)
+                        select + 1 != 10 &&
+                        select + 1 != 15)
                         ++select;
                 }
             }
@@ -1132,8 +1137,8 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
         for (auto &entity : *entities)
         {
             if (entity->getRect().intersects(getRectAim(*camera)) &&
-                    down & ((touchToMove == 2) ? KEY_DOWN : KEY_B) &&
-                    entity->id().rfind("drop", 0) != 0)
+                down & ((touchToMove == 2) ? KEY_DOWN : KEY_B) &&
+                entity->id().rfind("drop", 0) != 0)
             {
                 entity->damage(1);
                 u8 effect = rand() % 3;
@@ -1189,7 +1194,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                 {
                     // skip blocks out of camera
                     if (block->getRect().x - camera->x < -16 ||
-                            block->getRect().y - camera->y < -16)
+                        block->getRect().y - camera->y < -16)
                         continue;
                     if (block->getRect().x - camera->x > SCREEN_WIDTH + 48)
                         break;
@@ -1215,23 +1220,26 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                 // why did i call this variable 'check'
                 // anyway this variable indicates if we should place block or not
                 bool check = !Rect(x, y, 12, 32)
-                             .intersects(
-                                 Rect(snapToGrid(camera->x + aimX),
-                                      snapToGrid(camera->y + aimY), 16, 16));
+                                  .intersects(
+                                      Rect(snapToGrid(camera->x + aimX),
+                                           snapToGrid(camera->y + aimY), 16, 16));
 
                 InventoryItemID id = inventory[inventorySelect].id;
                 // nonsolid blocks can be placed inside player
                 if (id == InventoryItemID::Wood ||
-                        id == InventoryItemID::BirchWood ||
-                        id == InventoryItemID::Leaves ||
-                        id == InventoryItemID::BirchLeaves ||
-                        id == InventoryItemID::Sapling ||
-                        id == InventoryItemID::BirchSapling ||
-                        id == InventoryItemID::Poppy ||
-                        id == InventoryItemID::Dandelion ||
-                        id == InventoryItemID::RedTulip ||
-                        id == InventoryItemID::Ladder)
+                    id == InventoryItemID::BirchWood ||
+                    id == InventoryItemID::Leaves ||
+                    id == InventoryItemID::BirchLeaves ||
+                    id == InventoryItemID::Sapling ||
+                    id == InventoryItemID::BirchSapling ||
+                    id == InventoryItemID::Poppy ||
+                    id == InventoryItemID::Dandelion ||
+                    id == InventoryItemID::RedTulip ||
+                    id == InventoryItemID::Ladder)
                     check = true;
+
+                if (aimDist > 86)
+                    check = false;
 
                 if (check && id != InventoryItemID::None)
                 {
@@ -1248,17 +1256,15 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                     {
                         // skip blocks out of camera
                         if (block->getRect().x - camera->x < -16 ||
-                                block->getRect().y - camera->y < -16)
+                            block->getRect().y - camera->y < -16)
                             continue;
                         if (block->getRect().x - camera->x > SCREEN_WIDTH + 48)
                             break;
 
                         bool onRight = (block->x == blockRect.x + 16 && block->y == blockRect.y);
                         bool onLeft = (block->x == blockRect.x - 16 && block->y == blockRect.y);
-                        bool onTop = (block->x == blockRect.x && block->y == blockRect.y - ((rectHeight == 8) ?
-                                      ((blockRect.y % 8 == 0 && blockRect.y % 16 != 0) ? 8 : 16) : 16));
-                        bool onBottom = (block->x == blockRect.x && block->y == blockRect.y + ((rectHeight == 8) ?
-                                         ((blockRect.y % 8 == 0 && blockRect.y % 16 != 0) ? 8 : 16) : 16));
+                        bool onTop = (block->x == blockRect.x && block->y == blockRect.y - ((rectHeight == 8) ? ((blockRect.y % 8 == 0 && blockRect.y % 16 != 0) ? 8 : 16) : 16));
+                        bool onBottom = (block->x == blockRect.x && block->y == blockRect.y + ((rectHeight == 8) ? ((blockRect.y % 8 == 0 && blockRect.y % 16 != 0) ? 8 : 16) : 16));
                         check2 = onRight || onLeft || onTop || onBottom;
                         if (check2)
                             break;
@@ -1272,9 +1278,9 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                     // place a block or interact
                     // some blocks can only be placed on certain other blocks
                     if (inventory[inventorySelect].amount > 0 &&
-                            !isItem(id))
+                        !isItem(id))
                     {
-                        bool canPlace = true;   // can place block?????
+                        bool canPlace = true; // can place block?????
                         switch (id)
                         {
                         case InventoryItemID::Grass:
@@ -1329,7 +1335,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                             for (size_t i = 0; i < blocks->size(); ++i)
                             {
                                 if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
-                                        blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_SAND || blocks->at(i)->id() == BID_CACTUS))
+                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_SAND || blocks->at(i)->id() == BID_CACTUS))
                                     canPlace = true;
                             }
                             if (canPlace)
@@ -1344,7 +1350,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                             for (size_t i = 0; i < blocks->size(); ++i)
                             {
                                 if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
-                                        blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_SAND))
+                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_SAND))
                                     canPlace = true;
                             }
                             if (canPlace)
@@ -1359,7 +1365,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                             for (size_t i = 0; i < blocks->size(); ++i)
                             {
                                 if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
-                                        blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_GRASS || blocks->at(i)->id() == BID_DIRT || blocks->at(i)->id() == BID_SNOWY_GRASS))
+                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_GRASS || blocks->at(i)->id() == BID_DIRT || blocks->at(i)->id() == BID_SNOWY_GRASS))
                                     canPlace = true;
                             }
                             if (canPlace)
@@ -1374,7 +1380,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                             for (size_t i = 0; i < blocks->size(); ++i)
                             {
                                 if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
-                                        blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_GRASS || blocks->at(i)->id() == BID_DIRT || blocks->at(i)->id() == BID_SNOWY_GRASS))
+                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_GRASS || blocks->at(i)->id() == BID_DIRT || blocks->at(i)->id() == BID_SNOWY_GRASS))
                                     canPlace = true;
                             }
                             if (canPlace)
@@ -1390,7 +1396,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                             for (size_t i = 0; i < blocks->size(); ++i)
                             {
                                 if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
-                                        blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_GRASS || blocks->at(i)->id() == BID_DIRT || blocks->at(i)->id() == BID_SNOWY_GRASS))
+                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_GRASS || blocks->at(i)->id() == BID_DIRT || blocks->at(i)->id() == BID_SNOWY_GRASS))
                                     canPlace = true;
                             }
                             if (canPlace)
@@ -1418,12 +1424,12 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                             break;
                         case InventoryItemID::BirchPlanks:
                             blocks->emplace_back(new BirchPlanksBlock(snapToGrid(camera->x + aimX),
-                                                 snapToGrid(camera->y + aimY)));
+                                                                      snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
                         case InventoryItemID::SnowyGrass:
                             blocks->emplace_back(new SnowyGrassBlock(snapToGrid(camera->x + aimX),
-                                                 snapToGrid(camera->y + aimY)));
+                                                                     snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndSnow1, &sndSnow2, &sndSnow3, &sndSnow4);
                             break;
                         case InventoryItemID::Sapling:
@@ -1431,7 +1437,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                             for (size_t i = 0; i < blocks->size(); ++i)
                             {
                                 if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
-                                        blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_GRASS || blocks->at(i)->id() == BID_DIRT || blocks->at(i)->id() == BID_SNOWY_GRASS))
+                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_GRASS || blocks->at(i)->id() == BID_DIRT || blocks->at(i)->id() == BID_SNOWY_GRASS))
                                     canPlace = true;
                             }
                             if (canPlace)
@@ -1446,19 +1452,19 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                             for (size_t i = 0; i < blocks->size(); ++i)
                             {
                                 if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
-                                        blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_GRASS || blocks->at(i)->id() == BID_DIRT || blocks->at(i)->id() == BID_SNOWY_GRASS))
+                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_GRASS || blocks->at(i)->id() == BID_DIRT || blocks->at(i)->id() == BID_SNOWY_GRASS))
                                     canPlace = true;
                             }
                             if (canPlace)
                             {
                                 blocks->emplace_back(new BirchSaplingBlock(snapToGrid(camera->x + aimX),
-                                                     snapToGrid(camera->y + aimY)));
+                                                                           snapToGrid(camera->y + aimY)));
                                 playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             }
                             break;
                         case InventoryItemID::Cobblestone:
                             blocks->emplace_back(new CobblestoneBlock(snapToGrid(camera->x + aimX),
-                                                 snapToGrid(camera->y + aimY)));
+                                                                      snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             break;
                         case InventoryItemID::CoalOre:
@@ -1478,12 +1484,12 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                             break;
                         case InventoryItemID::OakTrapdoor:
                             blocks->emplace_back(new OakTrapdoorBlock(snapToGrid(camera->x + aimX),
-                                                 snapToGrid(camera->y + aimY)));
+                                                                      snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
                         case InventoryItemID::BirchTrapdoor:
                             blocks->emplace_back(new BirchTrapdoorBlock(snapToGrid(camera->x + aimX),
-                                                 snapToGrid(camera->y + aimY)));
+                                                                        snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
                         case InventoryItemID::Ladder:
@@ -1503,7 +1509,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                             break;
                         case InventoryItemID::CobblestoneSlab:
                             blocks->emplace_back(new CobblestoneSlabBlock(snapToGrid(camera->x + aimX),
-                                                 snapToGrid8(camera->y + aimY)));
+                                                                          snapToGrid8(camera->y + aimY)));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             break;
                         }
@@ -1554,7 +1560,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
         {
             // skip blocks we cant see
             if (block->getRect().x - camera->x < -16 ||
-                    block->getRect().y - camera->y < -16)
+                block->getRect().y - camera->y < -16)
             {
                 ++i;
                 continue;
@@ -1571,7 +1577,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                     blockBreakRect = getRectAimY8(*camera);
                 if (Rect(blockBreakRect.x + 1, blockBreakRect.y + 1, 14, 14)
                         .intersects(block->getRect()) &&
-                        block->id() != BID_BEDROCK)
+                    block->id() != BID_BEDROCK && aimDist <= 86)
                 {
                     u16 bid = block->id();
                     block->hit();
@@ -1605,7 +1611,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                         playsfx(4, &sndStepStone1, &sndStepStone2, &sndStepStone3, &sndStepStone4);
                         break;
                     case BID_CACTUS:
-                        //playsfx(4, &sndStepC);
+                        // playsfx(4, &sndStepC);
                         break;
                     case BID_DOOR:
                         playsfx(4, &sndStepWood1, &sndStepWood2, &sndStepWood3, &sndStepWood4);
@@ -1901,7 +1907,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
 
             if (block->getRect().intersects(Rect(getRectBottom().x, getRectBottom().y + 1,
                                                  getRectBottom().w, getRectBottom().h)) &&
-                    frames % 19 == 0)
+                frames % 19 == 0)
             {
                 // this is for step sounds
                 if (moving(oldX))
@@ -1993,8 +1999,8 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
         {
             // optimizaciones
             if (block->getRect().x - camera->x < -16 ||
-                    block->getRect().y - camera->y < -16 ||
-                    block->id() != BID_LADDER)
+                block->getRect().y - camera->y < -16 ||
+                block->id() != BID_LADDER)
                 continue;
             if (block->getRect().x - camera->x > SCREEN_WIDTH + 48)
                 break;
@@ -2083,6 +2089,8 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
         bodySprite.update();
     else
         bodySprite.restart();
+
+    aimDist = distBetweenPoints(x + 4, y + 8, aimX + camera->x, aimY + camera->y);
 
     return ret; // yes
 }
