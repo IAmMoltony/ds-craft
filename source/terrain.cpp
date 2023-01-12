@@ -2,13 +2,9 @@
 
 void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
 {
-    const siv::BasicPerlinNoise<float>::seed_type seed =
-        (siv::BasicPerlinNoise<float>::seed_type)time(NULL);
-    const siv::BasicPerlinNoise<float> noise{seed};
-
-    s16 y = 0;            // current height
-    u8 sinceLastTree = 0; // blocks since last tree
-    u8 treeInterval = 3;  // interval between trees
+    s16 y = SCREEN_HEIGHT / 2; // current height
+    u8 sinceLastTree = 0;      // blocks since last tree
+    u8 treeInterval = 3;       // interval between trees
     for (u8 k = 0; k < 2; ++k)
     {
         // biomes
@@ -21,9 +17,6 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
         {
             for (u16 i = k * SCREEN_WIDTH * 2 / 16; i < k * SCREEN_WIDTH * 2 / 16 + SCREEN_WIDTH * 2 / 16; ++i)
             {
-                s16 yn = round(noise.octave1D_01(i, 1.2) * 4.3f) * 16; // y noise
-                y = SCREEN_HEIGHT / 2 - yn;
-
                 ++sinceLastTree;
                 blocks.emplace_back(new GrassBlock(i * 16, y));
 
@@ -56,15 +49,14 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                 // place flower if not placed tree w chance 20%
                 if (!placedTree && chance(20))
                     blocks.emplace_back(new FlowerBlock(i * 16, y - 16));
+
+                y += randomRange(-1, 2) * 16;
             }
         }
         else if (biome == 1)
         {
             for (u16 i = k * SCREEN_WIDTH * 2 / 16; i < k * SCREEN_WIDTH * 2 / 16 + SCREEN_WIDTH * 2 / 16; ++i)
             {
-                s16 yn = round(noise.octave1D_01(i, 1) * 4.6f) * 16; // y noise
-                y = SCREEN_HEIGHT / 2 - yn;
-
                 ++sinceLastTree;
 
                 // sand
@@ -106,7 +98,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                 if (!placedCactus && chance(30))
                     blocks.emplace_back(new DeadBushBlock(i * 16, y - 16));
 
-                y += randomRange(-1, 1) * 16; // change height
+                y += randomRange(-1, 1) * 16;
             }
         }
         else if (biome == 2)
@@ -143,7 +135,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                 if (!placedTree && chance(20))
                     blocks.emplace_back(new FlowerBlock(i, y - 16));
 
-                if (chance(8))
+                if (chance(10))
                     y += randomRange(-1, 1) * 16;
             }
         }
@@ -152,9 +144,6 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
             for (u16 i = k * SCREEN_WIDTH * 2 / 16; i < k * SCREEN_WIDTH * 2 / 16 + SCREEN_WIDTH * 2 / 16; ++i)
             {
                 // same thing as forest but snow
-
-                s16 yn = round(noise.octave1D_01(i, 1.2) * 4.3f) * 16; // y noise
-                y = SCREEN_HEIGHT / 2 - yn;
 
                 ++sinceLastTree;
                 blocks.emplace_back(new SnowyGrassBlock(i * 16, y));
@@ -178,6 +167,8 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                     treeInterval = spawnTree(blocks, i * 16, y, (rand() % 2) ? TreeType::Birch : TreeType::Oak);
                     sinceLastTree = 0;
                 }
+
+                y += randomRange(-1, 2) * 16;
             }
         }
     }
