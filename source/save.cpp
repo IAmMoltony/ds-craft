@@ -5,12 +5,16 @@ std::string normalizeWorldFileName(const std::string &str)
     // this function turns world name
     // into file name
     // e.g.
-    // mY cOoL wOrLd LoL -> my_cool_world_lol(.wld)
+    // mY cOoL wOrLd LoL :D -> my_cool_world_lol__d(.wld)
 
     std::string wfn = str; // world file name
 
-    // replace spaces with underscores
-    std::replace(wfn.begin(), wfn.end(), ' ', '_');
+    // replace punctuation and spaces with underscores
+    std::replace_if(
+        wfn.begin(), wfn.end(),
+        [](const char &ch)
+        { return std::ispunct(ch) || ch == ' '; },
+        '_');
 
     // make everything lowercase
     std::transform(wfn.begin(), wfn.end(), wfn.begin(),

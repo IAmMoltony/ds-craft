@@ -483,7 +483,7 @@ int main(int argc, char **argv)
 
                     // skip blocks that are off screen
                     if (block->getRect().x - camera.x < -16 ||
-                            block->getRect().y - camera.y < -16)
+                        block->getRect().y - camera.y < -16)
                         continue;
                     if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
                         break;
@@ -531,7 +531,7 @@ int main(int argc, char **argv)
 
                     entity->update(blocks, camera, frames);
                     if (entity->id().rfind("drop", 0) == 0 && Rect(player.getX(), player.getY(), 16, 24)
-                            .intersects(entity->getRectBottom()))
+                                                                  .intersects(entity->getRectBottom()))
                     {
                         std::vector<std::string> split;
                         std::string temp;
@@ -813,7 +813,8 @@ int main(int argc, char **argv)
             break;
         case GameState::CreateWorld:
         {
-            char ch = keyboardUpdate();
+            int chi = keyboardUpdate();
+            u8 ch = (u8)chi;
 
             if (down & KEY_B)
             {
@@ -828,16 +829,14 @@ int main(int argc, char **argv)
                 createWorldName.erase(createWorldName.begin(),
                                       std::find_if(createWorldName.begin(),
                                                    createWorldName.end(), [](unsigned char ch)
-                {
-                    return !std::isspace(ch);
-                }));
+                                                   { return !std::isspace(ch); }));
                 createWorldName.erase(std::find_if(createWorldName.rbegin(), createWorldName.rend(),
                                                    [](unsigned char ch)
-                {
-                    return !std::isspace(ch);
-                })
-                .base(),
-                createWorldName.end());
+                                                   {
+                                                       return !std::isspace(ch);
+                                                   })
+                                          .base(),
+                                      createWorldName.end());
 
                 if (fsFileExists(std::string("worlds/" + createWorldName + ".wld").c_str()))
                     createWorldDuplError = true;
@@ -872,7 +871,7 @@ int main(int argc, char **argv)
 
             if (ch == '\b' && createWorldName.size() > 0)
                 createWorldName.pop_back();
-            else if (isalpha(ch) || isdigit(ch) || ispunct(ch))
+            else if (chi > 0 && chi != 8)
                 createWorldName += ch;
             break;
         }
@@ -1052,7 +1051,7 @@ int main(int argc, char **argv)
             {
                 // frustum culling™
                 if (block->getRect().x - camera.x < -16 ||
-                        block->getRect().y - camera.y < -16)
+                    block->getRect().y - camera.y < -16)
                     continue;
                 if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
                     break;
@@ -1470,7 +1469,7 @@ int main(int argc, char **argv)
                 if (autoSave)
                     fontSmall.printCentered(0, 70, (settingsSelect == 2) ? "> Auto save ON <" : "Auto save ON");
                 else
-                    fontSmall.printCentered(0, 70, (settingsSelect == 2) ? "> Auto select OFF <" :  "Auto save OFF");
+                    fontSmall.printCentered(0, 70, (settingsSelect == 2) ? "> Auto select OFF <" : "Auto save OFF");
                 break;
             case Language::Russian:
                 if (autoSave)

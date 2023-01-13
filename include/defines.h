@@ -50,7 +50,7 @@
     snd##effectname##2 = soundEffect(SFX_##effectid##2); \
     snd##effectname##3 = soundEffect(SFX_##effectid##3);
 
-#define FS_ERROR_MESSAGES 0
+#define FS_ERROR_MESSAGES 1
 
 #define HALFSIZE ((1 << 12) / 2)
 
