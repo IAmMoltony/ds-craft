@@ -149,7 +149,6 @@ void loadMenuTextures(void)
     loadImageAlpha(selectbtn, 32, 16, selectbtnPal, selectbtnBitmap);
     loadImageAlpha(worldLabel, 128, 32, world_labelPal, world_labelBitmap);
     loadImageAlpha(worldLabelSelect, 128, 32, world_label_selectPal, world_label_selectBitmap);
-    loadImageAlpha(grayCircle, 16, 16, gray_circlePal, gray_circleBitmap);
     loadImageAlpha(english, 16, 16, englishPal, englishBitmap);
     loadImageAlpha(russian, 16, 16, russianPal, russianBitmap);
 }
@@ -164,7 +163,6 @@ void unloadMenuTextures(void)
     unloadImage(selectbtn);
     unloadImage(worldLabel);
     unloadImage(worldLabelSelect);
-    unloadImage(grayCircle); // TODO gray circle is not used anymore i should just remove it
     unloadImage(english);
     unloadImage(russian);
 }
