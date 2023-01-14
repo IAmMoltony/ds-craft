@@ -12,7 +12,7 @@ void fsInit(void)
     }
     if (!nitroFSInit(NULL))
     {
-        printf("Nitrofs init failed!\n");
+        printf("NitroFS init failed!\n");
         printf("please make sure it is set up correctly");
         while (true)
             ;
@@ -26,19 +26,13 @@ void fsCreateDir(const char *name)
         mkdir(name, 0700);
 }
 
-void fsChangeDir(const char *name)
-{
-    fsCreateDir(name);
-    chdir(name);
-}
-
 void fsCreateFile(const char *name)
 {
     FILE *fp = fopen(name, "w");
 #if FS_ERROR_MESSAGES
     if (!fp)
     {
-        printf("fsCreateFile failed\n");
+        printf("fsCreateFile failed (name: %s)\n", name);
         return;
     }
 #endif
@@ -50,7 +44,7 @@ void fsWrite(const char *file, const char *data)
     FILE *fp = fopen(file, "w");
 #if FS_ERROR_MESSAGES
     if (fputs(data, fp) < 0)
-        printf("fsWrite: fputs failed\n");
+        printf("fsWrite failed (name: %s)\n", file);
 #else
     fputs(data, fp);
 #endif
@@ -91,7 +85,7 @@ char *fsReadFile(const char *name)
     }
 #if FS_ERROR_MESSAGES
     else
-        printf("fsReadFile: fopen failed\n");
+        printf("fsReadFile failed (name: %s)\n", name);
 #endif
 
     return buf;
@@ -103,7 +97,7 @@ long fsGetFileSize(const char *name)
     if (!fp)
     {
 #if FS_ERROR_MESSAGES
-        printf("fsGetFileSize: fopen failed\n");
+        printf("fsGetFileSize failed (name: %s)\n", name);
 #endif
         return -1;
     }

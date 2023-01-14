@@ -24,7 +24,6 @@ extern "C"
 
     void fsInit(void);
     void fsCreateDir(const char *name);
-    void fsChangeDir(const char *dir);
     void fsCreateFile(const char *name);
     void fsWrite(const char *file, const char *data);
     void fsDeleteFile(const char *name);

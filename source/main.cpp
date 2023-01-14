@@ -65,7 +65,7 @@ std::vector<WorldInfo> getWorlds(void)
 {
     // first we iterate through the world directory
     DIR *dp;
-    dp = opendir("worlds");
+    dp = opendir("fat:/dscraft_data/worlds");
     struct dirent *ep;
     std::string dls; // directory list string
     while ((ep = readdir(dp)) != NULL)
@@ -82,11 +82,11 @@ std::vector<WorldInfo> getWorlds(void)
         if (line == "." || line == "..")
             continue;
 
-        std::string worldName = getWorldName("worlds/" + line);
+        std::string worldName = getWorldName("fat:/dscraft_data/worlds/" + line);
         if (worldName == "(error)")
             continue; // hide error worlds
 
-        int size = fsGetFileSize(std::string("worlds/" + line).c_str());
+        int size = fsGetFileSize(std::string("fat:/dscraft_data/worlds/" + line).c_str());
         worlds.push_back({worldName, size});
     }
 
@@ -268,9 +268,9 @@ int main(int argc, char **argv)
     mmInitDefault((char *)"nitro:/soundbank.bin");
 
     // create folders
-    fsChangeDir("dscraft_data");
-    fsCreateDir("worlds");
-    fsCreateDir("config");
+    fsCreateDir("fat:/dscraft_data");
+    fsCreateDir("fat:/dscraft_data/worlds");
+    fsCreateDir("fat:/dscraft_data/config");
 
     // init player crafting
     playerInitCrafting();
@@ -294,9 +294,9 @@ int main(int argc, char **argv)
     if (!(keysHeld() & KEY_DOWN))
     {
         // language setting
-        if (fsFileExists("config/lang.cfg"))
+        if (fsFileExists("fat:/dscraft_data/config/lang.cfg"))
         {
-            char *data = fsReadFile("config/lang.cfg");
+            char *data = fsReadFile("fat:/dscraft_data/config/lang.cfg");
             if (data[0] == '1')
                 lang = Language::Russian;
             else if (data[0] != '0') // invalid lang
@@ -308,36 +308,36 @@ int main(int argc, char **argv)
         }
 
         // transparent leaves setting
-        if (fsFileExists("config/trleaves.cfg"))
+        if (fsFileExists("fat:/dscraft_data/config/trleaves.cfg"))
         {
-            char *data = fsReadFile("config/trleaves.cfg");
+            char *data = fsReadFile("fat:/dscraft_data/config/trleaves.cfg");
             transparentLeaves = data[0] == '1';
         }
         else
-            fsWrite("config/trleaves.cfg", "0");
+            fsWrite("fat:/dscraft_data/config/trleaves.cfg", "0");
 
         // auto save serttintg (icnt spell)
-        if (fsFileExists("config/autosave.cfg"))
+        if (fsFileExists("fat:/dscraft_data/config/autosave.cfg"))
         {
-            char *data = fsReadFile("config/autosave.cfg");
+            char *data = fsReadFile("fat:/dscraft_data/config/autosave.cfg");
             autoSave = data[0] == '1';
         }
         else
-            fsWrite("config/autosave.cfg", "1");
+            fsWrite("fat:/dscraft_data/config/autosave.cfg", "1");
 
         // smooth camera setting
-        if (fsFileExists("config/smoothcam.cfg"))
+        if (fsFileExists("fat:/dscraft_data/config/smoothcam.cfg"))
         {
-            char *data = fsReadFile("config/smoothcam.cfg");
+            char *data = fsReadFile("fat:/dscraft_data/config/smoothcam.cfg");
             smoothCam = data[0] == '1';
         }
         else
-            fsWrite("config/cmoothcam.cfg", "1");
+            fsWrite("fat:/dscraft_data/config/cmoothcam.cfg", "1");
 
         // touch to move setting
-        if (fsFileExists("config/touchtomove.cfg"))
+        if (fsFileExists("fat:/dscraft_data/config/touchtomove.cfg"))
         {
-            char *data = fsReadFile("config/touchtomove.cfg");
+            char *data = fsReadFile("fat:/dscraft_data/config/touchtomove.cfg");
             switch (data[0])
             {
             case '0': // off
@@ -357,16 +357,16 @@ int main(int argc, char **argv)
             }
         }
         else
-            fsWrite("config/touchtomove.cfg", "0");
+            fsWrite("fat:/dscraft_data/config/touchtomove.cfg", "0");
 
         // auto jump setting
-        if (fsFileExists("config/autojump.cfg"))
+        if (fsFileExists("fat:/dscraft_data/config/autojump.cfg"))
         {
-            char *data = fsReadFile("config/autojump.cfg");
+            char *data = fsReadFile("fat:/dscraft_data/config/autojump.cfg");
             autoJump = data[0] == '1';
         }
         else
-            fsWrite("config/autojump.cfg", "0");
+            fsWrite("fat:/dscraft_data/config/autojump.cfg", "0");
     }
 
     // fonts english iumages
@@ -836,7 +836,7 @@ int main(int argc, char **argv)
                                           .base(),
                                       createWorldName.end());
 
-                if (fsFileExists(std::string("worlds/" + createWorldName + ".wld").c_str()))
+                if (fsFileExists(std::string("fat:/dscraft_data/worlds/" + createWorldName + ".wld").c_str()))
                     createWorldDuplError = true;
                 else
                 {
@@ -881,7 +881,9 @@ int main(int argc, char **argv)
             }
             if (frames == 135)
             {
-                gameState = fsFileExists("config/lang.cfg") ? GameState::Menu : GameState::LanguageSelect;
+                gameState = fsFileExists("fat:/dscraft_data/config/lang.cfg")
+                                ? GameState::Menu
+                                : GameState::LanguageSelect;
                 if (gameState == GameState::LanguageSelect)
                 {
                     loadImageAlpha(english, 16, 16, englishPal, englishBitmap);
@@ -904,12 +906,12 @@ int main(int argc, char **argv)
                 if (lsSelected == 0)
                 {
                     lang = Language::English;
-                    fsWrite("config/lang.cfg", "0");
+                    fsWrite("fat:/dscraft_data/config/lang.cfg", "0");
                 }
                 else
                 {
                     lang = Language::Russian;
-                    fsWrite("config/lang.cfg", "1");
+                    fsWrite("fat:/dscraft_data/config/lang.cfg", "1");
                 }
 
                 mmEffectEx(&sndClick);
@@ -951,36 +953,36 @@ int main(int argc, char **argv)
                         loadImage(sprLeaves, 16, 16, oak_leavesBitmap);
                         loadImage(sprBirchLeaves, 16, 16, birch_leavesBitmap);
                     }
-                    fsWrite("config/trleaves.cfg", transparentLeaves ? "1" : "0");
+                    fsWrite("fat:/dscraft_data/config/trleaves.cfg", transparentLeaves ? "1" : "0");
                     break;
                 case 2:
                     autoSave = !autoSave;
-                    fsWrite("config/autosave.cfg", autoSave ? "1" : "0");
+                    fsWrite("fat:/dscraft_data/config/autosave.cfg", autoSave ? "1" : "0");
                     break;
                 case 3:
                     smoothCam = !smoothCam;
-                    fsWrite("config/smoothcam.cfg", smoothCam ? "1" : "0");
+                    fsWrite("fat:/dscraft_data/config/smoothcam.cfg", smoothCam ? "1" : "0");
                     break;
                 case 4:
                     if (touchToMove == 0)
                     {
                         touchToMove = 1;
-                        fsWrite("config/touchtomove.cfg", "1");
+                        fsWrite("fat:/dscraft_data/config/touchtomove.cfg", "1");
                     }
                     else if (touchToMove == 1)
                     {
                         touchToMove = 2;
-                        fsWrite("config/touchtomove.cfg", "2");
+                        fsWrite("fat:/dscraft_data/config/touchtomove.cfg", "2");
                     }
                     else
                     {
                         touchToMove = 0;
-                        fsWrite("config/touchtomove.cfg", "0");
+                        fsWrite("fat:/dscraft_data/config/touchtomove.cfg", "0");
                     }
                     break;
                 case 5:
                     autoJump = !autoJump;
-                    fsWrite("config/autojump.cfg", autoJump ? "1" : "0");
+                    fsWrite("fat:/dscraft_data/config/autojump.cfg", autoJump ? "1" : "0");
                     break;
                 }
                 mmEffectEx(&sndClick);
@@ -1020,7 +1022,7 @@ int main(int argc, char **argv)
             if (down & KEY_A)
             {
                 wsSelected = 0;
-                fsDeleteFile(std::string("worlds/" + normalizeWorldFileName(wsWorlds[dwSelected].name) + ".wld").c_str());
+                fsDeleteFile(std::string("fat:/dscraft_data/worlds/" + normalizeWorldFileName(wsWorlds[dwSelected].name) + ".wld").c_str());
                 wsWorlds = getWorlds();
                 gameState = GameState::WorldSelect;
                 mmEffectEx(&sndClick);

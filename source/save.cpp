@@ -27,7 +27,7 @@ std::string normalizeWorldFileName(const std::string &str)
 
 std::string getWorldFile(const std::string &name)
 {
-    std::string fn = "worlds/" + normalizeWorldFileName(name) + ".wld";
+    std::string fn = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(name) + ".wld";
 
     if (fsFileExists(fn.c_str()))
         return fn;
@@ -178,7 +178,7 @@ static std::string iidToString(InventoryItemID iid)
 void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                Player &player)
 {
-    std::string worldFile = "worlds/" + normalizeWorldFileName(name) + ".wld";
+    std::string worldFile = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(name) + ".wld";
 
     // generate terrain in case file doesnt exist
     if (!fsFileExists(worldFile.c_str()))
@@ -290,13 +290,13 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     player.setSpawnPoint(0, 0);
 
     // we cant load smth that doesnt exist
-    if (!fsFileExists(std::string("worlds/" + name + ".wld").c_str()))
+    if (!fsFileExists(std::string("fat:/dscraft_data/worlds/" + name + ".wld").c_str()))
     {
-        printf("%s doesnt exist\n", std::string("worlds/" + name + ".wld").c_str());
+        printf("%s doesnt exist\n", std::string("fat:/dscraft_data/worlds/" + name + ".wld").c_str());
         return;
     }
 
-    std::string contents = std::string(fsReadFile(std::string("worlds/" + name + ".wld").c_str()));
+    std::string contents = std::string(fsReadFile(std::string("fat:/dscraft_data/worlds/" + name + ".wld").c_str()));
     std::istringstream iss(contents);
     std::string line;
     while (std::getline(iss, line)) // for each line in the file
