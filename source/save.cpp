@@ -190,33 +190,33 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
     // create file
     fsCreateFile(worldFile.c_str());
-    std::string wld; // TODO use ostream instead of writing everything into a string
+    std::ofstream wld(worldFile);
 
     // save name of  world
-    wld += "name " + name + "\n";
+    wld << "name " + name + "\n";
 
     // save player
-    wld += "player " + std::to_string(player.getX()) + " " + std::to_string(player.getY()) + " " + std::to_string(player.getHealth()) + "\n";
-    wld += "spawnpoint " + std::to_string(player.getSpawnX()) + " " + std::to_string(player.getSpawnY()) + "\n";
+    wld << "player " + std::to_string(player.getX()) + " " + std::to_string(player.getY()) + " " + std::to_string(player.getHealth()) + "\n";
+    wld << "spawnpoint " + std::to_string(player.getSpawnX()) + " " + std::to_string(player.getSpawnY()) + "\n";
 
     std::array<InventoryItem, 20> playerInventory = player.getInventory();
     // save inventory
     for (u8 i = 0; i < 20; ++i)
-        wld += "inventory " + std::to_string(i) + " " + iidToString(playerInventory[i].id) + " " + std::to_string(playerInventory[i].amount) + "\n";
+        wld << "inventory " + std::to_string(i) + " " + iidToString(playerInventory[i].id) + " " + std::to_string(playerInventory[i].amount) + "\n";
 
     // save blocks
     for (auto &block : blocks)
     {
         u16 id = block->id();
 
-        switch (block->id())
+        switch (id)
         {
         // oak door
         case BID_DOOR:
         {
             Block *b = block.get();
             DoorBlock *door = reinterpret_cast<DoorBlock *>(b);
-            wld += "door " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(door->isOpen()) + " " + std::to_string(door->getFacing()) + "\n";
+            wld << "door " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(door->isOpen()) + " " + std::to_string(door->getFacing()) + "\n";
             break;
         }
         // birch door
@@ -224,7 +224,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         {
             Block *b = block.get();
             BirchDoorBlock *bdoor = reinterpret_cast<BirchDoorBlock *>(b);
-            wld += "birchdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(bdoor->isOpen()) + " " + std::to_string(bdoor->getFacing()) + "\n";
+            wld << "birchdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(bdoor->isOpen()) + " " + std::to_string(bdoor->getFacing()) + "\n";
             break;
         }
         // oak trapdoor
@@ -232,7 +232,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         {
             Block *b = block.get();
             OakTrapdoorBlock *td = reinterpret_cast<OakTrapdoorBlock *>(b);
-            wld += "oaktrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(td->isOpen()) + "\n";
+            wld << "oaktrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(td->isOpen()) + "\n";
             break;
         }
         // birch trapdoor
@@ -240,7 +240,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         {
             Block *b = block.get();
             BirchTrapdoorBlock *td = reinterpret_cast<BirchTrapdoorBlock *>(b);
-            wld += "birchtrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(td->isOpen()) + "\n";
+            wld << "birchtrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(td->isOpen()) + "\n";
             break;
         }
         // chest
@@ -248,11 +248,11 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         {
             Block *b = block.get();
             ChestBlock *chest = reinterpret_cast<ChestBlock *>(b);
-            wld += "chest " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(chest->getChestID()) + "\n";
+            wld << "chest " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(chest->getChestID()) + "\n";
             // save items
             std::array<InventoryItem, 10> chestItems = chest->getItems();
             for (u8 i = 0; i < 10; ++i)
-                wld += "chestitem " + std::to_string(i) + " " + iidToString(chestItems[i].id) + " " + std::to_string(chestItems[i].amount) + " " + std::to_string(chest->getChestID()) + "\n";
+                wld << "chestitem " + std::to_string(i) + " " + iidToString(chestItems[i].id) + " " + std::to_string(chestItems[i].amount) + " " + std::to_string(chest->getChestID()) + "\n";
             break;
         }
         // leaves
@@ -264,13 +264,13 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             if (l->type == LeavesType::Birch)
                 lid = std::to_string(BID_BIRCH_LEAVES);
 
-            wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + lid + "\n";
+            wld << "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + lid + "\n";
             break;
         }
         // every other block
         default:
         {
-            wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(id) + "\n";
+            wld << "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(id) + "\n";
         }
         }
     }
@@ -279,11 +279,10 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     for (auto &entity : entities)
     {
         std::string id = entity->id();
-        wld += "entity " + std::to_string(entity->getX()) + " " + std::to_string(entity->getY()) + " " + id + "\n";
+        wld << "entity " + std::to_string(entity->getX()) + " " + std::to_string(entity->getY()) + " " + id + "\n";
     }
 
-    // write to file
-    fsWrite(worldFile.c_str(), wld.c_str());
+    wld.close();
 }
 
 void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
