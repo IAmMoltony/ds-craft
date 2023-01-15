@@ -85,6 +85,7 @@ enum class InventoryItemID
     Chest,
     OakSlab,
     CobblestoneSlab,
+    AnyPlanks,
 };
 
 enum class SlabID

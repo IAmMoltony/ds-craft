@@ -277,6 +277,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Oak Slab";
         case InventoryItemID::CobblestoneSlab:
             return "Cobblestone Slab";
+        case InventoryItemID::AnyPlanks:
+            return "Any Planks";
         }
         break;
     case Language::Russian:
@@ -354,6 +356,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Evcqdb& rnkub";
         case InventoryItemID::CobblestoneSlab:
             return "Qnkub kj cvn\"ipkmb";
+        case InventoryItemID::AnyPlanks:
+            return "M%c\"g fqtmk";
         }
         break;
     }
@@ -2097,6 +2101,10 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
 
 bool Player::hasItem(InventoryItem item)
 {
+    if (item.id == InventoryItemID::AnyPlanks)
+        return hasItem({InventoryItemID::Planks, item.amount}) ||
+               hasItem({InventoryItemID::BirchPlanks, item.amount});
+
     for (u8 i = 0; i < 20; ++i)
     {
         if (inventory[i].id == item.id && inventory[i].amount >= item.amount)
@@ -2149,6 +2157,22 @@ void Player::addItem(InventoryItemID item, u8 amount)
 
 void Player::removeItem(InventoryItemID item)
 {
+    if (item == InventoryItemID::AnyPlanks)
+    {
+        if (hasItem({InventoryItemID::Planks, 1}))
+        {
+            removeItem(InventoryItemID::Planks);
+            return;
+        }
+        else if (hasItem({InventoryItemID::BirchPlanks, 1}))
+        {
+            removeItem(InventoryItemID::BirchPlanks);
+            return;
+        }
+        else
+            return;
+    }
+
     for (u8 i = 0; i < 20; ++i)
     {
         // if the item exists and correct id
@@ -2281,6 +2305,9 @@ s16 Player::getHealth(void)
 
 u16 Player::countItems(InventoryItemID item)
 {
+    if (item == InventoryItemID::AnyPlanks)
+        return countItems(InventoryItemID::Planks) + countItems(InventoryItemID::BirchPlanks);
+
     u16 count = 0;
     for (u8 i = 0; i < 20; ++i)
         if (inventory[i].id == item)
