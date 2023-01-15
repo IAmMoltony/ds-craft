@@ -190,7 +190,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
     // create file
     fsCreateFile(worldFile.c_str());
-    std::string wld;
+    std::string wld; // TODO use ostream instead of writing everything into a string
 
     // save name of  world
     wld += "name " + name + "\n";
@@ -209,37 +209,42 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     {
         u16 id = block->id();
 
-        // TODO turn into switch statement
-        // handle door specifically since it is s p e c i a l
-        if (block->id() == BID_DOOR)
+        switch (block->id())
+        {
+        // oak door
+        case BID_DOOR:
         {
             Block *b = block.get();
             DoorBlock *door = reinterpret_cast<DoorBlock *>(b);
             wld += "door " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(door->isOpen()) + " " + std::to_string(door->getFacing()) + "\n";
+            break;
         }
-        // birch door too
-        else if (block->id() == BID_BIRCH_DOOR)
+        // birch door
+        case BID_BIRCH_DOOR:
         {
             Block *b = block.get();
             BirchDoorBlock *bdoor = reinterpret_cast<BirchDoorBlock *>(b);
             wld += "birchdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(bdoor->isOpen()) + " " + std::to_string(bdoor->getFacing()) + "\n";
+            break;
         }
-        // lets not forger about trapdoors
-        else if (block->id() == BID_OAK_TRAPDOOR)
+        // oak trapdoor
+        case BID_OAK_TRAPDOOR:
         {
             Block *b = block.get();
             OakTrapdoorBlock *td = reinterpret_cast<OakTrapdoorBlock *>(b);
             wld += "oaktrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(td->isOpen()) + "\n";
+            break;
         }
-        // birch too
-        else if (block->id() == BID_BIRCH_TRAPDOOR)
+        // birch trapdoor
+        case BID_BIRCH_TRAPDOOR:
         {
             Block *b = block.get();
             BirchTrapdoorBlock *td = reinterpret_cast<BirchTrapdoorBlock *>(b);
             wld += "birchtrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(td->isOpen()) + "\n";
+            break;
         }
-        // chest saving
-        else if (block->id() == BID_CHEST)
+        // chest
+        case BID_CHEST:
         {
             Block *b = block.get();
             ChestBlock *chest = reinterpret_cast<ChestBlock *>(b);
@@ -248,23 +253,25 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             std::array<InventoryItem, 10> chestItems = chest->getItems();
             for (u8 i = 0; i < 10; ++i)
                 wld += "chestitem " + std::to_string(i) + " " + iidToString(chestItems[i].id) + " " + std::to_string(chestItems[i].amount) + " " + std::to_string(chest->getChestID()) + "\n";
+            break;
         }
-        else
+        // leaves
+        case BID_LEAVES:
         {
-            // leaves
-            if (id == BID_LEAVES)
-            {
-                std::string lid = std::to_string(BID_LEAVES);
-                Block *b = block.get();
-                LeavesBlock *l = reinterpret_cast<LeavesBlock *>(b);
-                if (l->type == LeavesType::Birch)
-                    lid = std::to_string(BID_BIRCH_LEAVES);
+            std::string lid = std::to_string(BID_LEAVES);
+            Block *b = block.get();
+            LeavesBlock *l = reinterpret_cast<LeavesBlock *>(b);
+            if (l->type == LeavesType::Birch)
+                lid = std::to_string(BID_BIRCH_LEAVES);
 
-                wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + lid + "\n";
-            }
-            // every other block
-            else
-                wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(id) + "\n";
+            wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + lid + "\n";
+            break;
+        }
+        // every other block
+        default:
+        {
+            wld += "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(id) + "\n";
+        }
         }
     }
 
