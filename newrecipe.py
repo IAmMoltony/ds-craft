@@ -6,6 +6,7 @@ from strencode import encode
 from dataclasses import dataclass
 import sys
 
+
 @dataclass
 class CraftingRecipeIngredient:
     item_id: str
@@ -14,8 +15,10 @@ class CraftingRecipeIngredient:
     def __repr__(self) -> str:
         return f"{self.item_id} {self.count}"
 
+
 def print_usage():
     print("Usage: python3 newrecipe.py <file name without .rcp> <english name> <russian name> <outputted item count> <output item id>")
+
 
 def main():
     argv = sys.argv
@@ -47,7 +50,7 @@ def main():
     output = argv[5]
 
     print("New recipe values")
-    print(f"ID: {identifier}");
+    print(f"ID: {identifier}")
     print(f"Texture ID: {texid}")
     print(f"English name: {name_en}")
     print(f"Russian name: {argv[3]} (converted: {name_ru})")
@@ -88,7 +91,7 @@ def main():
 
     to_write = f"id {identifier}\nnameEn {name_en}\nnameRu {name_ru}\ncount {output_count}\ntexid {texid}\noutput {output}\nRECIPE\n"
     for ingr in ingredients:
-        to_write += repr(ingr)
+        to_write += repr(ingr) + "\n"
 
     print(f"This will be written to {argv[1]}.rcp:")
     print(to_write)
@@ -102,6 +105,7 @@ def main():
     with open(f"{argv[1]}.rcp", "w") as f:
         f.write(to_write)
     print("All done!")
+
 
 if __name__ == "__main__":
     main()

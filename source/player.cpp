@@ -17,6 +17,7 @@ glImage sprCoal[1];
 glImage sprRawPorkchop[1];
 glImage sprCookedPorkchop[1];
 glImage sprApple[1];
+glImage sprWoodenPickaxe[1];
 
 // health images
 static glImage sprHeartOutline[1];
@@ -61,6 +62,8 @@ extern glImage sprBirchTrapdoor[1];
 extern glImage sprLadder[1];
 extern glImage sprChest[1];
 
+// TODO create loadPlayerItems and unloadPlayerItems
+
 void loadPlayerGUI(void)
 {
     loadImage(sprInventorySlot, 16, 16, inventory_slotBitmap);
@@ -72,6 +75,7 @@ void loadPlayerGUI(void)
     loadImageAlpha(sprRawPorkchop, 16, 16, porkchopPal, porkchopBitmap);
     loadImageAlpha(sprCookedPorkchop, 16, 16, cooked_porkchopPal, cooked_porkchopBitmap);
     loadImageAlpha(sprApple, 16, 16, applePal, appleBitmap);
+    loadImageAlpha(sprWoodenPickaxe, 16, 16, wooden_pickaxePal, wooden_pickaxeBitmap);
     loadImageAlpha(sprHeartOutline, 16, 16, heart_outlinePal, heart_outlineBitmap);
     loadImageAlpha(sprHalfHeart, 8, 8, half_heartPal, half_heartBitmap);
     loadImageAlpha(sprHalfHeart2, 8, 8, half_heart2Pal, half_heart2Bitmap);
@@ -88,6 +92,7 @@ void unloadPlayerGUI(void)
     unloadImage(sprRawPorkchop);
     unloadImage(sprCookedPorkchop);
     unloadImage(sprApple);
+    unloadImage(sprWoodenPickaxe);
     unloadImage(sprHeartOutline);
     unloadImage(sprHalfHeart);
     unloadImage(sprHalfHeart2);
@@ -279,6 +284,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Cobblestone Slab";
         case InventoryItemID::AnyPlanks:
             return "Any Planks";
+        case InventoryItemID::WoodenPickaxe:
+            return "Wooden Pickaxe";
         }
         break;
     case Language::Russian:
@@ -358,6 +365,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Qnkub kj cvn\"ipkmb";
         case InventoryItemID::AnyPlanks:
             return "M%c\"g fqtmk";
+        case InventoryItemID::WoodenPickaxe:
+            return "Egsgd&ppb& mksmb";
         }
         break;
     }
@@ -441,6 +450,8 @@ glImage *getItemImage(InventoryItemID item)
         return sprPlanks;
     case InventoryItemID::CobblestoneSlab:
         return sprCobblestone;
+    case InventoryItemID::WoodenPickaxe:
+        return sprWoodenPickaxe;
     }
 
     return sprDummy;
@@ -453,7 +464,8 @@ bool isItem(InventoryItemID id)
            id == InventoryItemID::Coal ||
            id == InventoryItemID::RawPorkchop ||
            id == InventoryItemID::CookedPorkchop ||
-           id == InventoryItemID::Apple;
+           id == InventoryItemID::Apple ||
+           id == InventoryItemID::WoodenPickaxe;
 }
 
 Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSelect(20),
@@ -596,6 +608,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
         glSpriteRotate(x + 5 - camera.x, y + 6 - camera.y, angle,
                        (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), sprPlayerHead);
 
+    // draw item in hand
     if (inventory[inventorySelect].id != InventoryItemID::None)
     {
         int xx = x - camera.x - (facing == Facing::Left ? 3 : -6);
@@ -851,7 +864,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
     //    getRectSlab().draw(camera, RGB15(0, 31, 31));
 }
 
-// TODO split the draw and update like i did with the crafting because this is becoming unmanageable
+// TODO split the draw and update like i did with crafting
 
 extern bool autoJump;
 
@@ -2113,27 +2126,34 @@ bool Player::hasItem(InventoryItem item)
     return false;
 }
 
-// TODO make this function return error if it didint add item
+// TODO make this function return error if it didn't add item
 void Player::addItem(InventoryItemID item)
 {
     if (isInventoryFull())
         return;
 
-    // find the stack
-    for (u8 i = 0; i < 20; ++i)
-    {
-        // if theres 64 items, skip
-        if (inventory[i].amount >= 64)
-            continue;
+    u8 maxStack = 64;
+    if (item == InventoryItemID::WoodenPickaxe)
+        maxStack = 1;
 
-        if (inventory[i].id == item)
+    // find the stack (if item is stackable)
+    if (maxStack > 1)
+    {
+        for (u8 i = 0; i < 20; ++i)
         {
-            ++inventory[i].amount;
-            return;
+            // if stack is full, skip
+            if (inventory[i].amount >= maxStack)
+                continue;
+
+            if (inventory[i].id == item)
+            {
+                ++inventory[i].amount;
+                return;
+            }
         }
     }
 
-    // if the stack not found, try to create new stack
+    // if the stack not found (or item not stackable), try to create new stack
     for (u8 i = 0; i < 20; ++i)
     {
         // if slot is empty, then occupy it

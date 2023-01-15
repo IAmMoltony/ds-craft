@@ -171,6 +171,9 @@ static std::string iidToString(InventoryItemID iid)
     case InventoryItemID::CobblestoneSlab:
         id = "cobblestoneslab";
         break;
+    case InventoryItemID::WoodenPickaxe:
+        id = "woodenpickaxe";
+        break;
     }
     return id;
 }

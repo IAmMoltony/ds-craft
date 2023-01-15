@@ -37,6 +37,7 @@ extern glImage sprOakTrapdoor[1];
 extern glImage sprBirchTrapdoor[1];
 extern glImage sprLadder[1];
 extern glImage sprChest[1];
+extern glImage sprWoodenPickaxe[1];
 
 declsfx3(PigSay);
 
@@ -357,6 +358,8 @@ void DropEntity::draw(Camera camera)
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprChest);
     else if (blockid == "oakslab")
         glSpritePartScale(sprPlanks, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALFSIZE);
+    else if (blockid == "woodenpickaxe")
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprWoodenPickaxe);
 }
 
 void DropEntity::update(BlockList &blocks, Camera camera, u16 frames)

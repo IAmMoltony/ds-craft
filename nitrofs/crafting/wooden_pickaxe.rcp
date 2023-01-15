@@ -1,0 +1,9 @@
+id 17
+nameEn Wooden Pickaxe
+nameRu Egsgd&ppb& mksmb
+count 1
+texid 16
+output woodenpickaxe
+RECIPE
+anyplanks 3
+stick 2

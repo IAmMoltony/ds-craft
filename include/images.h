@@ -83,6 +83,7 @@
 #include "cooked_porkchop.h"
 #include "apple.h"
 #include "coal.h"
+#include "wooden_pickaxe.h"
 
 // player gui
 #include "heart_outline.h"

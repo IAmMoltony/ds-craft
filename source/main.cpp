@@ -607,6 +607,8 @@ int main(int argc, char **argv)
                             player.addItem(InventoryItemID::Chest);
                         else if (blockid == "oakslab" && player.canAddItem(InventoryItemID::OakSlab))
                             player.addItem(InventoryItemID::OakSlab);
+                        else if (blockid == "woodenpickaxe" && player.canAddItem(InventoryItemID::WoodenPickaxe))
+                            player.addItem(InventoryItemID::WoodenPickaxe);
                         else
                             ok = false;
 
