@@ -231,8 +231,8 @@ int main(int argc, char **argv)
     // initialization
 
     // set up random
-    time_t curtime = time(NULL);
-    srand(curtime);
+    time_t randomSeed = time(NULL);
+    srand(randomSeed);
 
     // init keyboard and hide it
     keyboardDemoInit();
