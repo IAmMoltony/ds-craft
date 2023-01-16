@@ -613,27 +613,33 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
     {
         int xx = x - camera.x - (facing == Facing::Left ? 3 : -6);
         int yy = y - camera.y + 17;
+        if (inventory[inventorySelect].id == InventoryItemID::WoodenPickaxe)
+        {
+            yy -= 5;
+            xx += (facing == Facing::Left ? 1 : -2);
+        }
+        GL_FLIP_MODE flip = (facing == Facing::Left ? GL_FLIP_H : GL_FLIP_NONE);
         switch (inventory[inventorySelect].id)
         {
         // some special cases
         case InventoryItemID::Leaves:
             glColor(RGB15(0, 22, 0));
-            glSpriteScale(xx, yy, HALFSIZE, GL_FLIP_NONE, sprLeaves);
+            glSpriteScale(xx, yy, HALFSIZE, flip, sprLeaves);
             glColor(RGB15(31, 31, 31));
             break;
         case InventoryItemID::BirchLeaves:
             glColor(RGB15(20, 26, 19));
-            glSpriteScale(xx, yy, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
+            glSpriteScale(xx, yy, HALFSIZE, flip, sprBirchLeaves);
             glColor(RGB15(31, 31, 31));
             break;
         case InventoryItemID::Door:
-            glSpriteScale(xx, yy, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
+            glSpriteScale(xx, yy, (1 << 12) / 4, flip, sprDoor);
             break;
         case InventoryItemID::BirchDoor:
-            glSpriteScale(xx, yy, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
+            glSpriteScale(xx, yy, (1 << 12) / 4, flip, sprBirchDoor);
             break;
         case InventoryItemID::Glass:
-            glSpriteScale(xx - 1, yy, HALFSIZE, GL_FLIP_NONE, sprGlass);
+            glSpriteScale(xx - 1, yy, HALFSIZE, flip, sprGlass);
             break;
         case InventoryItemID::OakSlab:
             glSpritePartScale(sprPlanks, xx - 1, yy + 2, 0, 0, 16, 8, HALFSIZE);
@@ -643,7 +649,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             break;
         // default
         default:
-            glSpriteScale(xx, yy, HALFSIZE, GL_FLIP_NONE, getItemImage(inventory[inventorySelect].id));
+            glSpriteScale(xx, yy, HALFSIZE, flip, getItemImage(inventory[inventorySelect].id));
             break;
         }
     }
