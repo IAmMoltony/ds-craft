@@ -426,6 +426,7 @@ int main(int argc, char **argv)
     std::string createWorldName = "";  // world name (for create world)
     bool createWorldDuplError = false; // show duplicate world name error in create world?
     u8 settingsSelect = 0;             // selected sttting
+    u8 tsSelect = 0;                   // title screen select
     while (true)
     {
         // scan keys
@@ -685,23 +686,40 @@ int main(int argc, char **argv)
             else if (camera.x > 1024 - SCREEN_WIDTH)
                 camera.x = 1024 - SCREEN_WIDTH;
             break;
-        case GameState::Menu:
-            if (down & KEY_A)
+        case GameState::Menu: // TODO rename to TitleScreen
+            if (down & KEY_A || down & KEY_START)
             {
-                gameState = GameState::WorldSelect;
-                wsWorlds = getWorlds();
-                wsSelected = 0;
-                mmEffectEx(&sndClick);
+                switch (tsSelect)
+                {
+                case 0:
+                    gameState = GameState::WorldSelect;
+                    wsWorlds = getWorlds();
+                    wsSelected = 0;
+                    mmEffectEx(&sndClick);
+                    break;
+                case 1:
+                    gameState = GameState::Credits;
+                    mmEffectEx(&sndClick);
+                    break;
+                case 2:
+                    gameState = GameState::Settings;
+                    mmEffectEx(&sndClick);
+                    break;
+                }
             }
-            else if (down & KEY_B)
+
+            if (down & KEY_DOWN)
             {
-                gameState = GameState::Credits;
-                mmEffectEx(&sndClick);
+                ++tsSelect;
+                if (tsSelect > 2)
+                    tsSelect = 0;
             }
-            else if (down & KEY_X)
+            if (down & KEY_UP)
             {
-                gameState = GameState::Settings;
-                mmEffectEx(&sndClick);
+                if (tsSelect - 1 < 0)
+                    tsSelect = 2;
+                else
+                    --tsSelect;
             }
             break;
         case GameState::Credits:
@@ -1162,23 +1180,34 @@ int main(int argc, char **argv)
 
             glSpriteScale(SCREEN_WIDTH / 2 - 96, 16, (1 << 12) * 2, GL_FLIP_NONE, logo);
 
-            switch (lang)
+            for (u8 i = 0; i < 3; ++i)
             {
-            case Language::English:
-                glSprite(SCREEN_WIDTH / 2 - 30, 96, GL_FLIP_NONE, abtn);
-                fontSmall.printCentered(0, 98, "Play");
-                glSprite(SCREEN_WIDTH / 2 - 41, 116, GL_FLIP_NONE, bbtn);
-                fontSmall.printCentered(0, 118, "Credits");
-                glSprite(SCREEN_WIDTH / 2 - 45, 136, GL_FLIP_NONE, xbtn);
-                fontSmall.printCentered(0, 138, "Settings");
-                break;
-            case Language::Russian:
-                glSprite(SCREEN_WIDTH / 2 - 37, 96, GL_FLIP_NONE, abtn);
-                fontSmallRu.printCentered(0, 98, "Jesbu#");
-                glSprite(SCREEN_WIDTH / 2 - 33, 116, GL_FLIP_NONE, bbtn);
-                fontSmallRu.printCentered(0, 118, "Tkus\"");
-                glSprite(SCREEN_WIDTH / 2 - 49, 136, GL_FLIP_NONE, xbtn);
-                fontSmallRu.printCentered(0, 138, "Obtusqlmk");
+                glPolyFmt(POLY_ALPHA(29) | POLY_CULL_NONE);
+                glBoxFilled(SCREEN_WIDTH / 2 - 45, 70 + i * 30, SCREEN_WIDTH / 2 + 45,
+                            92 + i * 30, RGB15(6, 6, 6));
+                glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
+                glBoxStroke(SCREEN_WIDTH / 2 - 45, 70 + i * 30, 90, 22,
+                            tsSelect == i ? RGB15(31, 31, 31) : RGB15(9, 9, 9));
+                switch (i)
+                {
+                case 0:
+                    if (lang == Language::English)
+                        fontSmall.printCentered(0, 77 + i * 30, "Play");
+                    else
+                        fontSmallRu.printCentered(0, 77 + i * 30, "Jesbu#");
+                    break;
+                case 1:
+                    if (lang == Language::English)
+                        fontSmall.printCentered(0, 77 + i * 30, "Credits");
+                    else
+                        fontSmallRu.printCentered(0, 77 + i * 30, "Tkus\"");
+                    break;
+                case 2:
+                    if (lang == Language::English)
+                        fontSmall.printCentered(0, 77 + i * 30, "Settings");
+                    else
+                        fontSmallRu.printCentered(0, 77 + i * 30, "Obtusqlmk");
+                }
             }
             break;
         case GameState::Credits:
