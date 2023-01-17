@@ -529,87 +529,13 @@ int main(int argc, char **argv)
                     auto &entity = entities[i];
 
                     entity->update(blocks, camera, frames);
-                    if (entity->id().rfind("drop", 0) == 0 && Rect(player.getX(), player.getY(), 16, 24)
-                                                                  .intersects(entity->getRectBottom()))
+                    if (entity->id() == "drop" && Rect(player.getX(), player.getY(), 16, 24)
+                                                      .intersects(entity->getRectBottom()))
                     {
-                        std::vector<std::string> split;
-                        std::string temp;
-                        std::stringstream ss(entity->id());
-                        while (std::getline(ss, temp, ' '))
-                            split.push_back(temp);
-
                         bool ok = true;
-                        std::string blockid = split[1];
-                        if (blockid == "grass" && player.canAddItem(InventoryItemID::Grass))
-                            player.addItem(InventoryItemID::Grass);
-                        else if (blockid == "dirt" && player.canAddItem(InventoryItemID::Dirt))
-                            player.addItem(InventoryItemID::Dirt);
-                        else if (blockid == "stone" && player.canAddItem(InventoryItemID::Stone))
-                            player.addItem(InventoryItemID::Stone);
-                        else if (blockid == "wood" && player.canAddItem(InventoryItemID::Wood))
-                            player.addItem(InventoryItemID::Wood);
-                        else if (blockid == "birchwood" && player.canAddItem(InventoryItemID::BirchWood))
-                            player.addItem(InventoryItemID::BirchWood);
-                        else if (blockid == "leaves" && player.canAddItem(InventoryItemID::Leaves))
-                            player.addItem(InventoryItemID::Leaves);
-                        else if (blockid == "birchleaves" && player.canAddItem(InventoryItemID::BirchLeaves))
-                            player.addItem(InventoryItemID::BirchLeaves);
-                        else if (blockid == "sand" && player.canAddItem(InventoryItemID::Sand))
-                            player.addItem(InventoryItemID::Sand);
-                        else if (blockid == "sandstone" && player.canAddItem(InventoryItemID::Sandstone))
-                            player.addItem(InventoryItemID::Sandstone);
-                        else if (blockid == "cactus" && player.canAddItem(InventoryItemID::Cactus))
-                            player.addItem(InventoryItemID::Cactus);
-                        else if (blockid == "deadbush" && player.canAddItem(InventoryItemID::DeadBush))
-                            player.addItem(InventoryItemID::DeadBush);
-                        else if (blockid == "poppy" && player.canAddItem(InventoryItemID::Poppy))
-                            player.addItem(InventoryItemID::Poppy);
-                        else if (blockid == "dandelion" && player.canAddItem(InventoryItemID::Dandelion))
-                            player.addItem(InventoryItemID::Dandelion);
-                        else if (blockid == "redtulip" && player.canAddItem(InventoryItemID::RedTulip))
-                            player.addItem(InventoryItemID::RedTulip);
-                        else if (blockid == "door" && player.canAddItem(InventoryItemID::Door))
-                            player.addItem(InventoryItemID::Door);
-                        else if (blockid == "birchdoor" && player.canAddItem(InventoryItemID::BirchDoor))
-                            player.addItem(InventoryItemID::BirchDoor);
-                        else if (blockid == "planks" && player.canAddItem(InventoryItemID::Planks))
-                            player.addItem(InventoryItemID::Planks);
-                        else if (blockid == "birchplanks" && player.canAddItem(InventoryItemID::BirchPlanks))
-                            player.addItem(InventoryItemID::BirchPlanks);
-                        else if (blockid == "snowygrass" && player.canAddItem(InventoryItemID::SnowyGrass))
-                            player.addItem(InventoryItemID::SnowyGrass);
-                        else if (blockid == "sapling" && player.canAddItem(InventoryItemID::Sapling))
-                            player.addItem(InventoryItemID::Sapling);
-                        else if (blockid == "birchsapling" && player.canAddItem(InventoryItemID::BirchSapling))
-                            player.addItem(InventoryItemID::BirchSapling);
-                        else if (blockid == "cobblestone" && player.canAddItem(InventoryItemID::Cobblestone))
-                            player.addItem(InventoryItemID::Cobblestone);
-                        else if (blockid == "coalore" && player.canAddItem(InventoryItemID::CoalOre))
-                            player.addItem(InventoryItemID::CoalOre);
-                        else if (blockid == "coalblock" && player.canAddItem(InventoryItemID::CoalBlock))
-                            player.addItem(InventoryItemID::CoalBlock);
-                        else if (blockid == "coal" && player.canAddItem(InventoryItemID::Coal))
-                            player.addItem(InventoryItemID::Coal);
-                        else if (blockid == "rawporkchop" && player.canAddItem(InventoryItemID::RawPorkchop))
-                            player.addItem(InventoryItemID::RawPorkchop);
-                        else if (blockid == "cookedporkchop" && player.canAddItem(InventoryItemID::CookedPorkchop))
-                            player.addItem(InventoryItemID::CookedPorkchop);
-                        else if (blockid == "stick" && player.canAddItem(InventoryItemID::Stick))
-                            player.addItem(InventoryItemID::Stick);
-                        else if (blockid == "apple" && player.canAddItem(InventoryItemID::Apple))
-                            player.addItem(InventoryItemID::Apple);
-                        else if (blockid == "oaktrapdoor" && player.canAddItem(InventoryItemID::OakTrapdoor))
-                            player.addItem(InventoryItemID::OakTrapdoor);
-                        else if (blockid == "birchtrapdoor" && player.canAddItem(InventoryItemID::BirchTrapdoor))
-                            player.addItem(InventoryItemID::BirchTrapdoor);
-                        else if (blockid == "ladder" && player.canAddItem(InventoryItemID::Ladder))
-                            player.addItem(InventoryItemID::Ladder);
-                        else if (blockid == "chest" && player.canAddItem(InventoryItemID::Chest))
-                            player.addItem(InventoryItemID::Chest);
-                        else if (blockid == "oakslab" && player.canAddItem(InventoryItemID::OakSlab))
-                            player.addItem(InventoryItemID::OakSlab);
-                        else if (blockid == "woodenpickaxe" && player.canAddItem(InventoryItemID::WoodenPickaxe))
-                            player.addItem(InventoryItemID::WoodenPickaxe);
+                        DropEntity *drop = (DropEntity *)entity.get();
+                        if (player.canAddItem(drop->getItemID()))
+                            player.addItem(drop->getItemID());
                         else
                             ok = false;
 
@@ -625,7 +551,7 @@ int main(int argc, char **argv)
                     {
                         if (entity->dead())
                         {
-                            entities.emplace_back(new DropEntity(entity->getX(), entity->getY(), "rawporkchop"));
+                            entities.emplace_back(new DropEntity(entity->getX(), entity->getY(), InventoryItemID::RawPorkchop));
                             entities.erase(entities.begin() + i);
                         }
                     }

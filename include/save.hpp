@@ -7,6 +7,7 @@
 #include <sstream>
 #include <fstream>
 
+std::string iidToString(InventoryItemID iid);
 std::string normalizeWorldFileName(const std::string &str);
 std::string getWorldFile(const std::string &name);
 std::string getWorldName(const std::string &file);

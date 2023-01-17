@@ -1,4 +1,5 @@
 #include "entity.hpp"
+#include "save.hpp"
 
 static glImage sprPig[1];
 static glImage sprPigDamage[1];
@@ -270,9 +271,9 @@ void PigEntity::afterDealDamage(void)
 
 //----------------------------------------
 
-DropEntity::DropEntity(s16 x, s16 y, const std::string &blockid) : Entity(x, y)
+DropEntity::DropEntity(s16 x, s16 y, InventoryItemID itemid) : Entity(x, y)
 {
-    this->blockid = blockid;
+    this->itemid = itemid;
     health = 255;
 }
 
@@ -280,86 +281,121 @@ void DropEntity::draw(Camera camera)
 {
     // TODO store blockid as InventoryItemID
 
-    if (blockid == "grass")
-        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprGrass);
-    else if (blockid == "dirt")
-        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprDirt);
-    else if (blockid == "stone")
-        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprStone);
-    else if (blockid == "wood")
-        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprWood);
-    else if (blockid == "birchwood")
-        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprBirchWood);
-    else if (blockid == "leaves")
+    switch (itemid)
     {
+    case InventoryItemID::Grass:
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprGrass);
+        break;
+    case InventoryItemID::Dirt:
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprDirt);
+        break;
+    case InventoryItemID::Stone:
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprStone);
+        break;
+    case InventoryItemID::Wood:
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprWood);
+        break;
+    case InventoryItemID::BirchWood:
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprBirchWood);
+        break;
+    case InventoryItemID::Leaves:
         glColor(RGB15(0, 22, 0));
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprLeaves);
         glColor(RGB15(31, 31, 31));
-    }
-    else if (blockid == "birchleaves")
-    {
+        break;
+    case InventoryItemID::BirchLeaves:
         glColor(RGB15(20, 26, 19));
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
         glColor(RGB15(31, 31, 31));
-    }
-    else if (blockid == "sand")
+        break;
+    case InventoryItemID::Sand:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprSand);
-    else if (blockid == "sandstone")
+        break;
+    case InventoryItemID::Sandstone:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprSandstone);
-    else if (blockid == "cactus")
+        break;
+    case InventoryItemID::Cactus:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprCactus);
-    else if (blockid == "deadbush")
+        break;
+    case InventoryItemID::DeadBush:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprDeadBush);
-    else if (blockid == "poppy")
+        break;
+    case InventoryItemID::Poppy:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprPoppy);
-    else if (blockid == "dandelion")
+        break;
+    case InventoryItemID::Dandelion:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprDandelion);
-    else if (blockid == "redtulip")
+        break;
+    case InventoryItemID::RedTulip:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprRedTulip);
-    else if (blockid == "door")
+        break;
+    case InventoryItemID::Door:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
-    else if (blockid == "birchdoor")
+        break;
+    case InventoryItemID::BirchDoor:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
-    else if (blockid == "planks")
+        break;
+    case InventoryItemID::Planks:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprPlanks);
-    else if (blockid == "birchplanks")
+        break;
+    case InventoryItemID::BirchPlanks:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprBirchPlanks);
-    else if (blockid == "snowygrass")
+        break;
+    case InventoryItemID::SnowyGrass:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprSnowyGrass);
-    else if (blockid == "sapling")
+        break;
+    case InventoryItemID::Sapling:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprSapling);
-    else if (blockid == "birchsapling")
+        break;
+    case InventoryItemID::BirchSapling:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprBirchSapling);
-    else if (blockid == "cobblestone")
+        break;
+    case InventoryItemID::Cobblestone:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprCobblestone);
-    else if (blockid == "coalore")
+        break;
+    case InventoryItemID::CoalOre:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprCoalOre);
-    else if (blockid == "coalblock")
+        break;
+    case InventoryItemID::CoalBlock:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprDirt);
-    else if (blockid == "coal")
+        break;
+    case InventoryItemID::Coal:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprCoal);
-    else if (blockid == "rawporkchop")
+        break;
+    case InventoryItemID::RawPorkchop:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprRawPorkchop);
-    else if (blockid == "cookedporkchop")
+        break;
+    case InventoryItemID::CookedPorkchop:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprCookedPorkchop);
-    else if (blockid == "stick")
+        break;
+    case InventoryItemID::Stick:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprStick);
-    else if (blockid == "apple")
+        break;
+    case InventoryItemID::Apple:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprApple);
-    else if (blockid == "glass")
+        break;
+    case InventoryItemID::Glass:
         glSpriteScale(x + 4 - camera.x - 1, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprGlass);
-    else if (blockid == "oaktrapdoor")
+        break;
+    case InventoryItemID::OakTrapdoor:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprOakTrapdoor);
-    else if (blockid == "birchtrapdoor")
+        break;
+    case InventoryItemID::BirchTrapdoor:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprBirchTrapdoor);
-    else if (blockid == "ladder")
+        break;
+    case InventoryItemID::Ladder:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprLadder);
-    else if (blockid == "chest")
+        break;
+    case InventoryItemID::Chest:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprChest);
-    else if (blockid == "oakslab")
+        break;
+    case InventoryItemID::OakSlab:
         glSpritePartScale(sprPlanks, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALFSIZE);
-    else if (blockid == "woodenpickaxe")
+        break;
+    case InventoryItemID::WoodenPickaxe:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprWoodenPickaxe);
+        break;
+    }
 }
 
 void DropEntity::update(BlockList &blocks, Camera camera, u16 frames)
@@ -429,5 +465,10 @@ Rect DropEntity::getRect(void)
 
 std::string DropEntity::id(void)
 {
-    return "drop " + blockid;
+    return "drop";
+}
+
+InventoryItemID DropEntity::getItemID(void)
+{
+    return itemid;
 }

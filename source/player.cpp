@@ -1687,27 +1687,27 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                         switch (bid)
                         {
                         case BID_GRASS:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "dirt"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Dirt));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             spawnBlockParticles(blockParticles, sprGrass, block->x, block->y);
                             break;
                         case BID_DIRT:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "dirt"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Dirt));
                             playsfx(4, &sndDirt1, &sndDirt2, &sndDirt3, &sndDirt4);
                             spawnBlockParticles(blockParticles, sprDirt, block->x, block->y);
                             break;
                         case BID_STONE:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "cobblestone"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Cobblestone));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             spawnBlockParticles(blockParticles, sprStone, block->x, block->y);
                             break;
                         case BID_WOOD:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "wood"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Wood));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             spawnBlockParticles(blockParticles, sprWood, block->x, block->y);
                             break;
                         case BID_BIRCH_WOOD:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "birchwood"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::BirchWood));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             spawnBlockParticles(blockParticles, sprBirchWood, block->x, block->y);
                             break;
@@ -1724,16 +1724,16 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                                     switch (l->type)
                                     {
                                     case LeavesType::Oak:
-                                        entities->emplace_back(new DropEntity(block->x, block->y, "sapling"));
+                                        entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Sapling));
                                         break;
                                     case LeavesType::Birch:
-                                        entities->emplace_back(new DropEntity(block->x, block->y, "birchsapling"));
+                                        entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::BirchSapling));
                                         break;
                                     }
                                 }
                                 // get an apple with 6% chance
                                 if (chance(6))
-                                    entities->emplace_back(new DropEntity(block->x, block->y, "apple"));
+                                    entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Apple));
                             }
                             switch (l->type)
                             {
@@ -1747,88 +1747,88 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                             break;
                         }
                         case BID_SAND:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "sand"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Sand));
                             playsfx(4, &sndSand1, &sndSand2, &sndSand3, &sndSand4);
                             spawnBlockParticles(blockParticles, sprSand, block->x, block->y);
                             break;
                         case BID_SANDSTONE:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "sandstone"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Sandstone));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             spawnBlockParticles(blockParticles, sprSandstone, block->x, block->y);
                             break;
                         case BID_CACTUS:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "cactus"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Cactus));
                             playsfx(4, &sndCloth1, &sndCloth2, &sndCloth3, &sndCloth4);
                             spawnBlockParticles(blockParticles, sprCactus, block->x, block->y);
                             break;
                         case BID_DEAD_BUSH:
-                            entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), "stick"));
-                            entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), "stick"));
+                            entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), InventoryItemID::Stick));
+                            entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), InventoryItemID::Stick));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             spawnBlockParticles(blockParticles, sprDeadBush, block->x, block->y);
                             break;
                         case BID_POPPY:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "poppy"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Poppy));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             spawnBlockParticles(blockParticles, sprPoppy, block->x, block->y);
                             break;
                         case BID_DANDELION:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "dandelion"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Dandelion));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             spawnBlockParticles(blockParticles, sprDandelion, block->x, block->y);
                             break;
                         case BID_RED_TULIP:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "redtulip"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::RedTulip));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             spawnBlockParticles(blockParticles, sprRedTulip, block->x, block->y);
                             break;
                         case BID_DOOR:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "door"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Door));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             spawnBlockParticles(blockParticles, sprDoor, block->x, block->y);
                             break;
                         case BID_BIRCH_DOOR:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "birchdoor"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::BirchDoor));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             spawnBlockParticles(blockParticles, sprBirchDoor, block->x, block->y);
                             break;
                         case BID_PLANKS:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "planks"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Planks));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             spawnBlockParticles(blockParticles, sprPlanks, block->x, block->y);
                             break;
                         case BID_BIRCH_PLANKS:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "birchplanks"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::BirchPlanks));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             spawnBlockParticles(blockParticles, sprBirchPlanks, block->x, block->y);
                             break;
                         case BID_SNOWY_GRASS:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "snowygrass"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Dirt));
                             playsfx(4, &sndSnow1, &sndSnow2, &sndSnow3, &sndSnow4);
                             spawnBlockParticles(blockParticles, sprSnowyGrass, block->x, block->y);
                             break;
                         case BID_SAPLING:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "sapling"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Sapling));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             spawnBlockParticles(blockParticles, sprSapling, block->x, block->y);
                             break;
                         case BID_BIRCH_SAPLING:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "birchsapling"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::BirchSapling));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             spawnBlockParticles(blockParticles, sprBirchSapling, block->x, block->y);
                             break;
                         case BID_COBBLESTONE:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "cobblestone"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Cobblestone));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             spawnBlockParticles(blockParticles, sprCobblestone, block->x, block->y);
                             break;
                         case BID_COAL_ORE:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "coal"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Coal));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             spawnBlockParticles(blockParticles, sprCoalOre, block->x, block->y);
                             break;
                         case BID_COAL_BLOCK:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "coalblock"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::CoalBlock));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             spawnBlockParticles(blockParticles, sprCoalBlock, block->x, block->y);
                             break;
@@ -1837,32 +1837,32 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                             spawnBlockParticles(blockParticles, sprGlass, block->x, block->y);
                             break;
                         case BID_OAK_TRAPDOOR:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "oaktrapdoor"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::OakTrapdoor));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             spawnBlockParticles(blockParticles, sprOakTrapdoor, block->x, block->y);
                             break;
                         case BID_BIRCH_TRAPDOOR:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "birchtrapdoor"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::BirchTrapdoor));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             spawnBlockParticles(blockParticles, sprBirchTrapdoor, block->x, block->y);
                             break;
                         case BID_LADDER:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "ladder"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Ladder));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             spawnBlockParticles(blockParticles, sprLadder, block->x, block->y);
                             break;
                         case BID_CHEST:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "chest"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Chest));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             spawnBlockParticles(blockParticles, sprChest, block->x, block->y);
                             break;
                         case BID_OAK_SLAB:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "oakslab"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::OakSlab));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             spawnBlockParticles(blockParticles, sprPlanks, block->x, block->y);
                             break;
                         case BID_COBBLESTONE_SLAB:
-                            entities->emplace_back(new DropEntity(block->x, block->y, "oakslab"));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::CobblestoneSlab));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             spawnBlockParticles(blockParticles, sprPlanks, block->x, block->y);
                             break;

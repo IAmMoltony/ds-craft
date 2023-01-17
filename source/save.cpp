@@ -64,7 +64,7 @@ std::string getWorldName(const std::string &file)
     return name;
 }
 
-static std::string iidToString(InventoryItemID iid)
+std::string iidToString(InventoryItemID iid)
 {
     std::string id;
     switch (iid)
