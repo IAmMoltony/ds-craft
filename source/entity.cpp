@@ -279,8 +279,6 @@ DropEntity::DropEntity(s16 x, s16 y, InventoryItemID itemid) : Entity(x, y)
 
 void DropEntity::draw(Camera camera)
 {
-    // TODO store blockid as InventoryItemID
-
     switch (itemid)
     {
     case InventoryItemID::Grass:

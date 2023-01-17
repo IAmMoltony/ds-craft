@@ -539,8 +539,6 @@ int main(int argc, char **argv)
                         else
                             ok = false;
 
-                        // TODO move into player.cpp
-
                         if (ok)
                         {
                             mmEffectEx(&sndPop);
