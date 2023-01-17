@@ -3,7 +3,7 @@
 enum class GameState
 {
     Game,
-    Menu,
+    TitleScreen,
     Credits,
     WorldSelect,
     CreateWorld,

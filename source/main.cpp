@@ -463,7 +463,7 @@ int main(int argc, char **argv)
                 gameQuit(fontSmall, fontSmallRu, frames, worldName, blocks, entities, player);
 
                 // go to menu and play a click sound
-                gameState = GameState::Menu;
+                gameState = GameState::TitleScreen;
                 mmEffectEx(&sndClick);
             }
 
@@ -588,7 +588,7 @@ int main(int argc, char **argv)
                 {
                     gameQuit(fontSmall, fontSmallRu, frames, worldName, blocks, entities, player);
 
-                    gameState = GameState::Menu;
+                    gameState = GameState::TitleScreen;
                     mmEffectEx(&sndClick);
                 }
             }
@@ -610,7 +610,7 @@ int main(int argc, char **argv)
             else if (camera.x > 1024 - SCREEN_WIDTH)
                 camera.x = 1024 - SCREEN_WIDTH;
             break;
-        case GameState::Menu: // TODO rename to TitleScreen
+        case GameState::TitleScreen:
             if (down & KEY_A || down & KEY_START)
             {
                 switch (tsSelect)
@@ -650,7 +650,7 @@ int main(int argc, char **argv)
             if (down & KEY_B)
             {
                 mmEffectEx(&sndClick);
-                gameState = GameState::Menu;
+                gameState = GameState::TitleScreen;
             }
             else if (down & KEY_A)
             {
@@ -662,7 +662,7 @@ int main(int argc, char **argv)
             if (down & KEY_B)
             {
                 mmEffectEx(&sndClick);
-                gameState = GameState::Menu;
+                gameState = GameState::TitleScreen;
             }
             else if (down & KEY_X)
             {
@@ -826,7 +826,7 @@ int main(int argc, char **argv)
             if (frames == 135)
             {
                 gameState = fsFileExists("fat:/dscraft_data/config/lang.cfg")
-                                ? GameState::Menu
+                                ? GameState::TitleScreen
                                 : GameState::LanguageSelect;
                 if (gameState == GameState::LanguageSelect)
                 {
@@ -859,7 +859,7 @@ int main(int argc, char **argv)
                 }
 
                 mmEffectEx(&sndClick);
-                gameState = GameState::Menu;
+                gameState = GameState::TitleScreen;
                 unloadImage(english);
                 unloadImage(russian);
                 frames = 0;
@@ -876,7 +876,7 @@ int main(int argc, char **argv)
             if (down & KEY_B)
             {
                 mmEffectEx(&sndClick);
-                gameState = GameState::Menu;
+                gameState = GameState::TitleScreen;
             }
             else if (down & KEY_A)
             {
@@ -1099,7 +1099,7 @@ int main(int argc, char **argv)
                 }
             }
             break;
-        case GameState::Menu:
+        case GameState::TitleScreen:
             drawMovingBackground(sprDirt, frames);
 
             glSpriteScale(SCREEN_WIDTH / 2 - 96, 16, (1 << 12) * 2, GL_FLIP_NONE, logo);
