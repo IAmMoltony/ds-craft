@@ -280,6 +280,11 @@ static u8 fontSmallCharWidthHandler(char ch)
     }
 }
 
+u8 fontCharWidthHandler(char ch)
+{
+    return fontSmallCharWidthHandler(ch) * 2;
+}
+
 int main(int argc, char **argv)
 {
     // initialization
@@ -453,6 +458,7 @@ int main(int argc, char **argv)
                 256, font_16x16_ruPal, reinterpret_cast<const u8 *>(font_16x16_ruBitmap));
 
     fontSmall.setCharWidthHandler(fontSmallCharWidthHandler);
+    font.setCharWidthHandler(fontCharWidthHandler);
 
     // load menu images
     loadMenuTextures();
