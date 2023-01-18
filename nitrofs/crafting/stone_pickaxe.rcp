@@ -5,5 +5,5 @@ count 1
 texid 17
 output stonepickaxe
 RECIPE
-anyplanks 3
-cobblestone 2
+cobblestone 3
+stick 2
