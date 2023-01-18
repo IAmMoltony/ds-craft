@@ -3,17 +3,25 @@
 #include <gl2d.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include <string>
 
 class Font
 {
+public:
+    typedef u8 (*CharWidthHandler)(char);
+
 private:
     glImage *spr;
+    CharWidthHandler chwHandler;
+
+    u8 getCharWidth(char ch);
 
 public:
     Font();
     void load(glImage *fspr, const u32 frames, const unsigned int *texCoords,
               GL_TEXTURE_TYPE_ENUM type, int sizeX, int sizeY, int par, int palWidth,
               const u16 *pal, const u8 *bitmap);
+    void setCharWidthHandler(CharWidthHandler chwHandler);
     void print(int x, int y, const char *str, int xoff = 0, int yoff = 0);
     void printCentered(int x, int y, const char *str);
     void printf(int x, int y, const char *format, ...) __attribute__((format(printf, 4, 5)));

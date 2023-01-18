@@ -226,6 +226,60 @@ void gameQuit(Font &fontSmall, Font &fontSmallRu, u16 frames, const std::string 
     resetNextChestID();
 }
 
+static u8 fontSmallCharWidthHandler(char ch)
+{
+    switch (ch)
+    {
+    case ' ':
+    case ';':
+    case '&':
+        return 3;
+    case 'A' ... 'Z':
+        if (ch == 'I')
+            return 4;
+        else
+            return 6;
+    case '0' ... '9':
+    case '<' ... '?':
+    case '#' ... '%':
+    case '+':
+    case '-':
+    case '*':
+    case '(':
+    case ')':
+    case '\\':
+    case '/':
+        return 6;
+    case 'a' ... 'z':
+        if (ch == 'i')
+            return 2;
+        else if (ch == 'l')
+            return 3;
+        else if (ch == 'f')
+            return 5;
+        else if (ch == 't')
+            return 4;
+        else
+            return 6;
+    case '[':
+    case ']':
+    case '"':
+        return 4;
+    case '!':
+    case ':':
+    case '\'':
+    case '.':
+        return 2;
+    case ']' + 1: // copyright symbol
+    case '_':
+        return 9;
+    case '@':
+        return 7;
+    default:
+        return 0;
+    }
+}
+
 int main(int argc, char **argv)
 {
     // initialization
@@ -397,6 +451,8 @@ int main(int argc, char **argv)
                 TEXTURE_SIZE_64, TEXTURE_SIZE_512,
                 GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
                 256, font_16x16_ruPal, reinterpret_cast<const u8 *>(font_16x16_ruBitmap));
+
+    fontSmall.setCharWidthHandler(fontSmallCharWidthHandler);
 
     // load menu images
     loadMenuTextures();
