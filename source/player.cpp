@@ -18,6 +18,7 @@ glImage sprRawPorkchop[1];
 glImage sprCookedPorkchop[1];
 glImage sprApple[1];
 glImage sprWoodenPickaxe[1];
+glImage sprStonePickaxe[1];
 
 // health images
 static glImage sprHeartOutline[1];
@@ -76,6 +77,7 @@ void loadPlayerGUI(void)
     loadImageAlpha(sprCookedPorkchop, 16, 16, cooked_porkchopPal, cooked_porkchopBitmap);
     loadImageAlpha(sprApple, 16, 16, applePal, appleBitmap);
     loadImageAlpha(sprWoodenPickaxe, 16, 16, wooden_pickaxePal, wooden_pickaxeBitmap);
+    loadImageAlpha(sprStonePickaxe, 16, 16, stone_pickaxePal, stone_pickaxeBitmap);
     loadImageAlpha(sprHeartOutline, 16, 16, heart_outlinePal, heart_outlineBitmap);
     loadImageAlpha(sprHalfHeart, 8, 8, half_heartPal, half_heartBitmap);
     loadImageAlpha(sprHalfHeart2, 8, 8, half_heart2Pal, half_heart2Bitmap);
@@ -93,6 +95,7 @@ void unloadPlayerGUI(void)
     unloadImage(sprCookedPorkchop);
     unloadImage(sprApple);
     unloadImage(sprWoodenPickaxe);
+    unloadImage(sprStonePickaxe);
     unloadImage(sprHeartOutline);
     unloadImage(sprHalfHeart);
     unloadImage(sprHalfHeart2);
@@ -286,6 +289,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Any Planks";
         case InventoryItemID::WoodenPickaxe:
             return "Wooden Pickaxe";
+        case InventoryItemID::StonePickaxe:
+            return "Stone Pickaxe";
         }
         break;
     case Language::Russian:
@@ -367,6 +372,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "M%c\"g fqtmk";
         case InventoryItemID::WoodenPickaxe:
             return "Egsgd&ppb& mksmb";
+        case InventoryItemID::StonePickaxe:
+            return "Lbogppb& mksmb";
         }
         break;
     }
@@ -452,6 +459,8 @@ glImage *getItemImage(InventoryItemID item)
         return sprCobblestone;
     case InventoryItemID::WoodenPickaxe:
         return sprWoodenPickaxe;
+    case InventoryItemID::StonePickaxe:
+        return sprStonePickaxe;
     }
 
     return sprDummy;
@@ -465,7 +474,8 @@ bool isItem(InventoryItemID id)
            id == InventoryItemID::RawPorkchop ||
            id == InventoryItemID::CookedPorkchop ||
            id == InventoryItemID::Apple ||
-           id == InventoryItemID::WoodenPickaxe;
+           id == InventoryItemID::WoodenPickaxe ||
+           id == InventoryItemID::StonePickaxe;
 }
 
 Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSelect(20),
@@ -1603,7 +1613,26 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                     block->id() != BID_BEDROCK && aimDist <= 86)
                 {
                     u16 bid = block->id();
-                    block->hit();
+
+                    switch (bid)
+                    {
+                    case BID_STONE:
+                    case BID_COBBLESTONE:
+                    case BID_COBBLESTONE_SLAB:
+                    case BID_COAL_ORE:
+                    case BID_COAL_BLOCK:
+                        if (inventory[inventorySelect].id == InventoryItemID::WoodenPickaxe)
+                            block->hit(block->brokenLevel % 2 + 1);
+                        else if (inventory[inventorySelect].id == InventoryItemID::StonePickaxe)
+                            block->hit(3);
+                        else
+                            block->hit();
+                        break;
+                    default:
+                        block->hit();
+                        break;
+                    }
+
                     switch (bid)
                     {
                     case BID_GRASS:
@@ -2132,7 +2161,6 @@ bool Player::hasItem(InventoryItem item)
     return false;
 }
 
-// TODO make this function return error if it didn't add item
 void Player::addItem(InventoryItemID item)
 {
     if (isInventoryFull())

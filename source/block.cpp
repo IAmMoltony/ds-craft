@@ -161,7 +161,12 @@ void Block::drawBreaking(Camera camera)
 
 void Block::hit(void)
 {
-    ++brokenLevel;
+    hit(1);
+}
+
+void Block::hit(u8 times)
+{
+    brokenLevel += times;
 }
 
 bool Block::broken(void)
@@ -188,15 +193,15 @@ bool Block::isSlab(void)
 GENERIC_BLOCK_IMPL(GrassBlock, sprGrass, BID_GRASS, 6)
 GENERIC_BLOCK_IMPL(SnowyGrassBlock, sprSnowyGrass, BID_SNOWY_GRASS, 6)
 GENERIC_BLOCK_IMPL(DirtBlock, sprDirt, BID_DIRT, 5)
-GENERIC_BLOCK_IMPL(StoneBlock, sprStone, BID_STONE, 12)
+GENERIC_BLOCK_IMPL(StoneBlock, sprStone, BID_STONE, 16)
 GENERIC_BLOCK_IMPL(SandBlock, sprSand, BID_SAND, 5)
 GENERIC_BLOCK_IMPL(SandstoneBlock, sprSandstone, BID_SANDSTONE, 12)
 GENERIC_BLOCK_IMPL(PlanksBlock, sprPlanks, BID_PLANKS, 7)
 GENERIC_BLOCK_IMPL(BirchPlanksBlock, sprBirchPlanks, BID_BIRCH_PLANKS, 7)
 GENERIC_BLOCK_IMPL(BedrockBlock, sprBedrock, BID_BEDROCK, (u8)-1)
-GENERIC_BLOCK_IMPL(CobblestoneBlock, sprCobblestone, BID_COBBLESTONE, 11)
-GENERIC_BLOCK_IMPL(CoalOreBlock, sprCoalOre, BID_COAL_ORE, 13)
-GENERIC_BLOCK_IMPL(CoalBlock, sprCoalBlock, BID_COAL_BLOCK, 12)
+GENERIC_BLOCK_IMPL(CobblestoneBlock, sprCobblestone, BID_COBBLESTONE, 15)
+GENERIC_BLOCK_IMPL(CoalOreBlock, sprCoalOre, BID_COAL_ORE, 18)
+GENERIC_BLOCK_IMPL(CoalBlock, sprCoalBlock, BID_COAL_BLOCK, 18)
 
 NONSOLID_BLOCK_IMPL(WoodBlock, sprWood, BID_WOOD, 7)
 NONSOLID_BLOCK_IMPL(BirchWoodBlock, sprBirchWood, BID_BIRCH_WOOD, 7)

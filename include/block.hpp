@@ -87,6 +87,7 @@ enum class InventoryItemID
     CobblestoneSlab,
     AnyPlanks,
     WoodenPickaxe,
+    StonePickaxe,
 };
 
 enum class SlabID
@@ -207,6 +208,7 @@ public:
 
     void drawBreaking(Camera camera);
     void hit(void);
+    void hit(u8 times);
     bool broken(void);
     virtual void draw(Camera camera) = 0;
     virtual u16 id(void) = 0;
