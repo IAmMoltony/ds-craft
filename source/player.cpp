@@ -623,7 +623,8 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
     {
         int xx = x - camera.x - (facing == Facing::Left ? 3 : -6);
         int yy = y - camera.y + 17;
-        if (inventory[inventorySelect].id == InventoryItemID::WoodenPickaxe)
+        if (inventory[inventorySelect].id == InventoryItemID::WoodenPickaxe ||
+            inventory[inventorySelect].id == InventoryItemID::StonePickaxe)
         {
             yy -= 5;
             xx += (facing == Facing::Left ? 1 : -2);
