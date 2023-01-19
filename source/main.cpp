@@ -478,7 +478,7 @@ int main(int argc, char **argv)
     u8 saveTextTimer = 0;              // save text timer when it hides
     s16 direnty = -64;                 // splash screen dirent logo y pos
     u8 direntColor = 31;               // splash screen dirent logo darkness value
-    u8 wsSelected = 0;                 // selected world
+    u16 wsSelected = 0;                // selected world
     u8 lsSelected = 0;                 // selected language
     u8 dwSelected = 0;                 // selected world (delete world)
     std::vector<WorldInfo> wsWorlds;   // worlds in world select
@@ -1249,6 +1249,12 @@ int main(int argc, char **argv)
                     u32 offset = (wsSelected - 1) * 40;
                     if (wsSelected < 2)
                         offset = 0;
+                    u16 firstVisible = offset / 40;
+                    u16 lastVisible = firstVisible + 2;
+                    if (i < firstVisible)
+                        continue;
+                    if (i > lastVisible)
+                        break;
                     WorldInfo worldInfo = wsWorlds[i];
                     std::string worldInfoName = worldInfo.name;
                     char *hrfsz = fsHumanreadFileSize(worldInfo.size);
