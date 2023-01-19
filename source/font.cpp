@@ -173,7 +173,26 @@ void Font::printCentered(int x, int y, const char *str)
 
     while (*str)
     {
-        ch = (*str++) - 32;
+        char strch = *str++;
+        ch = strch - 32;
+        if (strch == '\2') // buttons
+        {
+            if (*str != ':')
+            {
+                ::printf("button code syntax error: a colon (:) must follow \\2");
+                while (true)
+                    ;
+            }
+            ++str;
+            if (*str != 'A' && *str != 'B' && *str != 'X' && *str != 'Y')
+            {
+                ::printf("button code syntax error: invalid button code (%c)", *str);
+                while (true)
+                    ;
+            }
+            tw += 10;
+            continue;
+        }
         tw += getCharWidth(ch);
     }
 
