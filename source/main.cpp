@@ -142,10 +142,6 @@ glImage russian[1];
 void loadMenuTextures(void)
 {
     loadImageAlpha(logo, 128, 32, logoPal, logoBitmap);
-    loadImageAlpha(abtn, 16, 16, abtnPal, abtnBitmap);
-    loadImageAlpha(bbtn, 16, 16, bbtnPal, bbtnBitmap);
-    loadImageAlpha(xbtn, 16, 16, xbtnPal, xbtnBitmap);
-    loadImageAlpha(ybtn, 16, 16, ybtnPal, ybtnBitmap);
     loadImageAlpha(selectbtn, 32, 16, selectbtnPal, selectbtnBitmap);
     loadImageAlpha(worldLabel, 128, 32, world_labelPal, world_labelBitmap);
     loadImageAlpha(worldLabelSelect, 128, 32, world_label_selectPal, world_label_selectBitmap);
@@ -156,10 +152,6 @@ void loadMenuTextures(void)
 void unloadMenuTextures(void)
 {
     unloadImage(logo);
-    unloadImage(abtn);
-    unloadImage(bbtn);
-    unloadImage(xbtn);
-    unloadImage(ybtn);
     unloadImage(selectbtn);
     unloadImage(worldLabel);
     unloadImage(worldLabelSelect);
@@ -462,6 +454,11 @@ int main(int argc, char **argv)
 
     // load menu images
     loadMenuTextures();
+
+    loadImageAlpha(abtn, 16, 16, abtnPal, abtnBitmap);
+    loadImageAlpha(bbtn, 16, 16, bbtnPal, bbtnBitmap);
+    loadImageAlpha(xbtn, 16, 16, xbtnPal, xbtnBitmap);
+    loadImageAlpha(ybtn, 16, 16, ybtnPal, ybtnBitmap);
 
     loadImage(direntGames, 64, 64, dirent_gamesBitmap);
     loadImage(sprDirt, 16, 16, dirtBitmap);

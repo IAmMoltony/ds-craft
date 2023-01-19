@@ -26,6 +26,11 @@ void Font::setCharWidthHandler(CharWidthHandler chwHandler)
     this->chwHandler = chwHandler;
 }
 
+extern glImage abtn[1];
+extern glImage bbtn[1];
+extern glImage xbtn[1];
+extern glImage ybtn[1];
+
 void Font::print(int x, int y, const char *str, int xoff, int yoff)
 {
     int startX = x;
@@ -100,6 +105,42 @@ void Font::print(int x, int y, const char *str, int xoff, int yoff)
             }
             rgb color = RGB15(r, g, b);
             glColor(color);
+            continue;
+        }
+        else if (strch == '\2') // buttons
+        {
+            if (*str != ':')
+            {
+                ::printf("button code syntax error: a colon (:) must follow \\2");
+                while (true)
+                    ;
+            }
+            ++str;
+            switch (*str++)
+            {
+            case 'A':
+                glSprite(x + xoff, y + yoff - 3, GL_FLIP_NONE, abtn);
+                break;
+            case 'B':
+                glSprite(x + xoff, y + yoff - 3, GL_FLIP_NONE, bbtn);
+                break;
+            case 'X':
+                glSprite(x + xoff, y + yoff - 3, GL_FLIP_NONE, xbtn);
+                break;
+            case 'Y':
+                glSprite(x + xoff, y + yoff - 3, GL_FLIP_NONE, ybtn);
+                break;
+            default:
+                ::printf("button code syntax error: invalid button code (%c)", *str);
+                while (true)
+                    ;
+            }
+            x += 10;
+            if (x > SCREEN_WIDTH - 10)
+            {
+                x = startX;
+                y += spr[ch].height + 1;
+            }
             continue;
         }
         ch = strch - 32;
