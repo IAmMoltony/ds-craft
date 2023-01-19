@@ -449,6 +449,7 @@ int main(int argc, char **argv)
                 GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
                 256, font_16x16_ruPal, reinterpret_cast<const u8 *>(font_16x16_ruBitmap));
 
+    // TODO make russian fonts non monospace too
     fontSmall.setCharWidthHandler(fontSmallCharWidthHandler);
     font.setCharWidthHandler(fontCharWidthHandler);
 
@@ -519,7 +520,8 @@ int main(int argc, char **argv)
             {
                 paused = false;
 
-                gameQuit(fontSmall, fontSmallRu, frames, worldName, blocks, entities, player);
+                gameQuit(fontSmall, fontSmallRu, frames, worldName, blocks, entities,
+                         player);
 
                 // go to menu and play a click sound
                 gameState = GameState::TitleScreen;
@@ -1132,18 +1134,14 @@ int main(int argc, char **argv)
                 switch (lang)
                 {
                 case Language::English:
-                    glSprite(SCREEN_WIDTH / 2 - 38, 84, GL_FLIP_NONE, abtn);
-                    fontSmall.printCentered(0, 86, "Resume");
+                    fontSmall.printCentered(0, 86, "\2:A Resume");
 
-                    glSprite(SCREEN_WIDTH / 2 - 66, 100, GL_FLIP_NONE, bbtn);
-                    fontSmall.printCentered(0, 102, "Save and quit");
+                    fontSmall.printCentered(0, 102, "\2:B Save and quit");
                     break;
                 case Language::Russian:
-                    glSprite(SCREEN_WIDTH / 2 - 54, 84, GL_FLIP_NONE, abtn);
-                    fontSmallRu.printCentered(0, 86, "Qsqfqniku#");
+                    fontSmallRu.printCentered(0, 86, "\2:A Qsqfqniku#");
 
-                    glSprite(SCREEN_WIDTH / 2 - 82, 100, GL_FLIP_NONE, bbtn);
-                    fontSmallRu.printCentered(0, 102, "Sqxsbpku# k d\"luk");
+                    fontSmallRu.printCentered(0, 102, "\2:B Sqxsbpku# k d\"luk");
                     break;
                 }
 
