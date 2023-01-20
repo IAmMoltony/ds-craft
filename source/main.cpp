@@ -29,7 +29,7 @@ extern glImage sprBirchLeaves[1];
 mm_sound_effect sndClick;
 static mm_sound_effect sndPop;
 
-static bool transparentLeaves = false;
+bool transparentLeaves = false;
 static bool autoSave = true;
 static bool smoothCam = true;
 bool autoJump = false;
@@ -463,12 +463,6 @@ int main(int argc, char **argv)
 
     loadImage(direntGames, 64, 64, dirent_gamesBitmap);
     loadImage(sprDirt, 16, 16, dirtBitmap);
-
-    if (transparentLeaves)
-    {
-        loadImageAlpha(sprBirchLeaves, 16, 16, birch_leaves_aPal, birch_leaves_aBitmap);
-        loadImageAlpha(sprLeaves, 16, 16, oak_leaves_aPal, oak_leaves_aBitmap);
-    }
 
     GameState gameState = GameState::SplashScreen;
     Camera camera = {0, 0};            // camera
@@ -948,16 +942,6 @@ int main(int argc, char **argv)
                     break;
                 case 1:
                     transparentLeaves = !transparentLeaves;
-                    if (transparentLeaves)
-                    {
-                        loadImageAlpha(sprBirchLeaves, 16, 16, birch_leaves_aPal, birch_leaves_aBitmap);
-                        loadImageAlpha(sprLeaves, 16, 16, oak_leaves_aPal, oak_leaves_aBitmap);
-                    }
-                    else
-                    {
-                        loadImage(sprLeaves, 16, 16, oak_leavesBitmap);
-                        loadImage(sprBirchLeaves, 16, 16, birch_leavesBitmap);
-                    }
                     fsWrite("fat:/dscraft_data/config/trleaves.cfg", transparentLeaves ? "1" : "0");
                     break;
                 case 2:

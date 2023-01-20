@@ -35,6 +35,8 @@ glImage sprBlockBreak[10][1];
 declsfx4(DoorOpen);
 declsfx4(DoorClose);
 
+extern bool transparentLeaves;
+
 void loadBlockTextures(void)
 {
     loadImage(sprGrass, 16, 16, grassBitmap);
@@ -42,8 +44,6 @@ void loadBlockTextures(void)
     loadImage(sprStone, 16, 16, stoneBitmap);
     loadImage(sprWood, 16, 16, oak_logBitmap);
     loadImage(sprBirchWood, 16, 16, birch_logBitmap);
-    loadImage(sprLeaves, 16, 16, oak_leavesBitmap);
-    loadImage(sprBirchLeaves, 16, 16, birch_leavesBitmap);
     loadImage(sprSand, 16, 16, sandBitmap);
     loadImage(sprSandstone, 16, 16, sandstoneBitmap);
     loadImage(sprPlanks, 16, 16, planksBitmap);
@@ -70,7 +70,6 @@ void loadBlockTextures(void)
 
     loadImageAlpha(sprBlockBreak[0], 16, 16, destroy_stage_0Pal, destroy_stage_0Bitmap);
     loadImageAlpha(sprBlockBreak[1], 16, 16, destroy_stage_1Pal, destroy_stage_1Bitmap);
-    ;
     loadImageAlpha(sprBlockBreak[2], 16, 16, destroy_stage_2Pal, destroy_stage_2Bitmap);
     loadImageAlpha(sprBlockBreak[3], 16, 16, destroy_stage_3Pal, destroy_stage_3Bitmap);
     loadImageAlpha(sprBlockBreak[4], 16, 16, destroy_stage_4Pal, destroy_stage_4Bitmap);
@@ -79,6 +78,17 @@ void loadBlockTextures(void)
     loadImageAlpha(sprBlockBreak[7], 16, 16, destroy_stage_7Pal, destroy_stage_7Bitmap);
     loadImageAlpha(sprBlockBreak[8], 16, 16, destroy_stage_8Pal, destroy_stage_8Bitmap);
     loadImageAlpha(sprBlockBreak[9], 16, 16, destroy_stage_9Pal, destroy_stage_9Bitmap);
+
+    if (transparentLeaves)
+    {
+        loadImageAlpha(sprBirchLeaves, 16, 16, birch_leaves_aPal, birch_leaves_aBitmap);
+        loadImageAlpha(sprLeaves, 16, 16, oak_leaves_aPal, oak_leaves_aBitmap);
+    }
+    else
+    {
+        loadImage(sprLeaves, 16, 16, oak_leavesBitmap);
+        loadImage(sprBirchLeaves, 16, 16, birch_leavesBitmap);
+    }
 }
 
 void unloadBlockTextures(void)
