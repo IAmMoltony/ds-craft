@@ -88,14 +88,17 @@ letter_map = {
     "0": "0",
 }
 
+
 def print_usage():
     print("Usage: python strencode.py <string to convert> or --file <file to convert>")
+
 
 def encode(str_ru: str):
     newstr = ""
     for c in str_ru:
         newstr += letter_map[c]
     return newstr
+
 
 def main():
     argv = sys.argv
@@ -112,6 +115,7 @@ def main():
         content = " ".join(argv[1:])
 
     print(encode(content))
+
 
 if __name__ == "__main__":
     main()

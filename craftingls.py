@@ -4,10 +4,11 @@
 import os
 from dataclasses import dataclass
 
+
 @dataclass
 class CraftingRecipe:
     recipe_file: str
-    identifier: int # because 'id' is already taken
+    identifier: int  # because 'id' is already taken
     name: str
     count: int
     output: str
@@ -16,7 +17,9 @@ class CraftingRecipe:
     def __repr__(self) -> str:
         return f"file: {self.recipe_file}, ID: {self.identifier}, name: {self.name}, count: {self.count}, outputs: {self.output}"
 
+
 files = os.listdir('nitrofs/crafting')
+
 
 def get_recipes() -> dict[int, CraftingRecipe]:
     recipes: dict[int, CraftingRecipe] = {}
@@ -36,7 +39,8 @@ def get_recipes() -> dict[int, CraftingRecipe]:
                 lsplit = line.split(' ')  # split by space
                 if lsplit[0] == 'id':
                     curr_id = int(lsplit[1])
-                    recipes[curr_id] = CraftingRecipe(file, curr_id, '', 0, '', 0)
+                    recipes[curr_id] = CraftingRecipe(
+                        file, curr_id, '', 0, '', 0)
                 elif lsplit[0] == 'nameEn':
                     name = ' '.join(lsplit[1:])
                     recipes[curr_id].name = name
@@ -48,10 +52,11 @@ def get_recipes() -> dict[int, CraftingRecipe]:
                 elif lsplit[0] == 'texid':
                     recipes[curr_id].texid = int(lsplit[1])
         if curr_id == -1:
-            raise f"Recipe file {file} does not have an ID field"
+            raise Exception(f"Recipe file {file} does not have an ID field")
 
     recipes_sorted = dict(sorted(recipes.items()))
     return recipes_sorted
+
 
 if __name__ == "__main__":
     recipes = get_recipes()

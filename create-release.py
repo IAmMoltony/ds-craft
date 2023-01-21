@@ -49,7 +49,8 @@ if __name__ == "__main__":
 
     if not quiet:
         print("Running: make clean build")
-    result = subprocess.run(["make", "clean", "build"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+    result = subprocess.run(["make", "clean", "build"],
+                            stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
     if result.returncode != 0:
         print("An error occured, aborting.")
         exit(1)
@@ -63,4 +64,4 @@ if __name__ == "__main__":
     if not quiet:
         print("Release created successfully!")
 else:
-    raise "create-release.py should not be imported!"
+    raise Exception("create-release.py should not be imported!")

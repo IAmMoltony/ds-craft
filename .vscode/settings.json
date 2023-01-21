@@ -73,5 +73,6 @@
         "TODO",
         "FIXME",
         "REWRITE"
-    ]
+    ],
+    "python.analysis.typeCheckingMode": "basic"
 }
