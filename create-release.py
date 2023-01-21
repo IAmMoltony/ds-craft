@@ -56,7 +56,7 @@ if __name__ == "__main__":
     if not quiet:
         print("Success, creating the release file")
     try:
-        shutil.copyfile("ds-craft.nds", filename)
+        shutil.copyfile("bin/ds-craft.nds", filename)
     except Exception as exc:
         print("there was error copying ds-craft.nds into releases folder\n", exc)
         exit(1)
