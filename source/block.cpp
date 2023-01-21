@@ -198,6 +198,24 @@ bool Block::isSlab(void)
     return false;
 }
 
+bool blockInstanceMeeting(BlockList *blocks, Camera *camera, s16 x, s16 y)
+{
+    for (auto &block : *blocks)
+    {
+        // skip blocks that are off screen
+        if (block->getRect().x - camera->x < -16 ||
+            block->getRect().y - camera->y < -16)
+            continue;
+        if (block->getRect().x - camera->x > SCREEN_WIDTH + 48)
+            break;
+        
+        if (block->getRect().isPointInside(x, y))
+            return true;
+    }
+
+    return false;
+}
+
 // generic block implementations
 
 GENERIC_BLOCK_IMPL(GrassBlock, sprGrass, BID_GRASS, 14)

@@ -222,6 +222,8 @@ public:
 
 typedef std::vector<std::unique_ptr<Block>> BlockList;
 
+bool blockInstanceMeeting(BlockList *blocks, Camera *camera, s16 x, s16 y);
+
 // generic block declarations
 
 GENERIC_BLOCK_DECL(GrassBlock)
