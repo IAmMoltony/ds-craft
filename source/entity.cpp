@@ -39,6 +39,9 @@ extern glImage sprBirchTrapdoor[1];
 extern glImage sprLadder[1];
 extern glImage sprChest[1];
 extern glImage sprWoodenPickaxe[1];
+extern glImage sprStonePickaxe[1];
+extern glImage sprWoodenShovel[1];
+extern glImage sprStoneShovel[1];
 
 declsfx3(PigSay);
 
@@ -279,6 +282,8 @@ DropEntity::DropEntity(s16 x, s16 y, InventoryItemID itemid) : Entity(x, y)
 
 void DropEntity::draw(Camera camera)
 {
+    // TODO use getItemImage
+
     switch (itemid)
     {
     case InventoryItemID::Grass:
@@ -390,8 +395,20 @@ void DropEntity::draw(Camera camera)
     case InventoryItemID::OakSlab:
         glSpritePartScale(sprPlanks, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALFSIZE);
         break;
+    case InventoryItemID::CobblestoneSlab:
+        glSpritePartScale(sprCobblestone, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALFSIZE);
+        break;
     case InventoryItemID::WoodenPickaxe:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprWoodenPickaxe);
+        break;
+    case InventoryItemID::StonePickaxe:
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprStonePickaxe);
+        break;
+    case InventoryItemID::WoodenShovel:
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprWoodenShovel);
+        break;
+    case InventoryItemID::StoneShovel:
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprStoneShovel);
         break;
     }
 }

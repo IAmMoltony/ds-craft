@@ -1,5 +1,4 @@
-// WARNING!! this code is a complete mess
-// i'm gonna need to rewrite some of it
+// this file is very long
 
 #include "player.hpp"
 #include "crafting.hpp"
