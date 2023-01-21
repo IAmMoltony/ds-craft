@@ -1,0 +1,9 @@
+id 20
+nameEn Stone Shovel
+nameRu Lbogppb& nqrbub
+count 1
+texid 19
+output stoneshovel
+RECIPE
+cobblestone 1
+stick 2

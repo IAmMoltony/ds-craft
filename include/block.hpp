@@ -88,6 +88,8 @@ enum class InventoryItemID
     AnyPlanks,
     WoodenPickaxe,
     StonePickaxe,
+    WoodenShovel,
+    StoneShovel,
 };
 
 enum class SlabID

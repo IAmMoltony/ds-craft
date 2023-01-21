@@ -177,6 +177,12 @@ std::string iidToString(InventoryItemID iid)
     case InventoryItemID::StonePickaxe:
         id = "stonepickaxe";
         break;
+    case InventoryItemID::WoodenShovel:
+        id = "woodenshovel";
+        break;
+    case InventoryItemID::StoneShovel:
+        id = "stoneshovel";
+        break;
     }
     return id;
 }

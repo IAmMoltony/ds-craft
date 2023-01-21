@@ -78,6 +78,10 @@ InventoryItemID strToIID(std::string &sid)
         return InventoryItemID::WoodenPickaxe;
     else if (sid == "stonepickaxe")
         return InventoryItemID::StonePickaxe;
+    else if (sid == "woodenshovel")
+        return InventoryItemID::WoodenShovel;
+    else if (sid == "stoneshovel")
+        return InventoryItemID::StoneShovel;
 
     printf("%s not a valid item string id\n", sid.c_str());
     return InventoryItemID::None;
@@ -135,6 +139,7 @@ CraftingRecipe::CraftingRecipe(const char *recipeFile)
             if (key == "id")
                 id = (u8)std::stoi(split[1]);
             // name english
+            // TODO nameEn and nameRu are useless
             else if (key == "nameEn")
             {
                 split.erase(split.begin()); // remove key

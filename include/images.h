@@ -85,6 +85,8 @@
 #include "coal.h"
 #include "wooden_pickaxe.h"
 #include "stone_pickaxe.h"
+#include "wooden_shovel.h"
+#include "stone_shovel.h"
 
 // player gui
 #include "heart_outline.h"

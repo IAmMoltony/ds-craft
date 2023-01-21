@@ -19,6 +19,8 @@ glImage sprCookedPorkchop[1];
 glImage sprApple[1];
 glImage sprWoodenPickaxe[1];
 glImage sprStonePickaxe[1];
+glImage sprWoodenShovel[1];
+glImage sprStoneShovel[1];
 
 // health images
 static glImage sprHeartOutline[1];
@@ -78,6 +80,8 @@ void loadPlayerGUI(void)
     loadImageAlpha(sprApple, 16, 16, applePal, appleBitmap);
     loadImageAlpha(sprWoodenPickaxe, 16, 16, wooden_pickaxePal, wooden_pickaxeBitmap);
     loadImageAlpha(sprStonePickaxe, 16, 16, stone_pickaxePal, stone_pickaxeBitmap);
+    loadImageAlpha(sprWoodenShovel, 16, 16, wooden_shovelPal, wooden_shovelBitmap);
+    loadImageAlpha(sprStoneShovel, 16, 16, stone_shovelPal, stone_shovelBitmap);
     loadImageAlpha(sprHeartOutline, 16, 16, heart_outlinePal, heart_outlineBitmap);
     loadImageAlpha(sprHalfHeart, 8, 8, half_heartPal, half_heartBitmap);
     loadImageAlpha(sprHalfHeart2, 8, 8, half_heart2Pal, half_heart2Bitmap);
@@ -282,7 +286,7 @@ const char *getItemStr(Language lang, InventoryItemID iid)
         case InventoryItemID::Chest:
             return "Chest";
         case InventoryItemID::OakSlab:
-            return "Oak Slab";
+            return "Oak Slab"; // TODO add birch slab
         case InventoryItemID::CobblestoneSlab:
             return "Cobblestone Slab";
         case InventoryItemID::AnyPlanks:
@@ -291,6 +295,10 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Wooden Pickaxe";
         case InventoryItemID::StonePickaxe:
             return "Stone Pickaxe";
+        case InventoryItemID::WoodenShovel:
+            return "Wooden Shovel";
+        case InventoryItemID::StoneShovel:
+            return "Stone Shovel";
         }
         break;
     case Language::Russian:
@@ -374,6 +382,10 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Egsgd&ppb& mksmb";
         case InventoryItemID::StonePickaxe:
             return "Lbogppb& mksmb";
+        case InventoryItemID::WoodenShovel:
+            return "Egsgd&ppb& nqrbub";
+        case InventoryItemID::StoneShovel:
+            return "Lbogppb& nqrbub";
         }
         break;
     }
@@ -461,6 +473,10 @@ glImage *getItemImage(InventoryItemID item)
         return sprWoodenPickaxe;
     case InventoryItemID::StonePickaxe:
         return sprStonePickaxe;
+    case InventoryItemID::WoodenShovel:
+        return sprWoodenShovel;
+    case InventoryItemID::StoneShovel:
+        return sprStoneShovel;
     }
 
     return sprDummy;
@@ -475,7 +491,9 @@ bool isItem(InventoryItemID id)
            id == InventoryItemID::CookedPorkchop ||
            id == InventoryItemID::Apple ||
            id == InventoryItemID::WoodenPickaxe ||
-           id == InventoryItemID::StonePickaxe;
+           id == InventoryItemID::StonePickaxe ||
+           id == InventoryItemID::WoodenShovel ||
+           id == InventoryItemID::StoneShovel;
 }
 
 Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSelect(20),
@@ -624,7 +642,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
         int xx = x - camera.x - (facing == Facing::Left ? 3 : -6);
         int yy = y - camera.y + 17;
         if (inventory[inventorySelect].id == InventoryItemID::WoodenPickaxe ||
-            inventory[inventorySelect].id == InventoryItemID::StonePickaxe)
+            inventory[inventorySelect].id == InventoryItemID::StonePickaxe ||
+            inventory[inventorySelect].id == InventoryItemID::WoodenShovel ||
+            inventory[inventorySelect].id == InventoryItemID::StoneShovel)
         {
             yy -= 5;
             xx += (facing == Facing::Left ? 1 : -2);
@@ -1625,6 +1645,16 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                         if (inventory[inventorySelect].id == InventoryItemID::WoodenPickaxe)
                             block->hit(block->brokenLevel % 2 + 1);
                         else if (inventory[inventorySelect].id == InventoryItemID::StonePickaxe)
+                            block->hit(3);
+                        else
+                            block->hit();
+                        break;
+                    case BID_GRASS:
+                    case BID_SNOWY_GRASS:
+                    case BID_DIRT:
+                        if (inventory[inventorySelect].id == InventoryItemID::WoodenShovel)
+                            block->hit(block->brokenLevel % 2 + 1);
+                        else if (inventory[inventorySelect].id == InventoryItemID::StoneShovel)
                             block->hit(3);
                         else
                             block->hit();
