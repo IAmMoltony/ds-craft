@@ -4,6 +4,8 @@
 #include "player.hpp"
 #include "crafting.hpp"
 
+static constexpr u8 MAX_AIM_DISTANCE = 67;
+
 extern u8 touchToMove;
 
 // gui images
@@ -765,10 +767,10 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
         if (currid == InventoryItemID::None ||
             isItem(currid))
             glBoxFilled(xx, yy,
-                        xx + 15, yy + 15, (aimDist <= 86) ? getFavoriteColorRgb() : RGB15(31, 0, 0));
+                        xx + 15, yy + 15, (aimDist <= MAX_AIM_DISTANCE) ? getFavoriteColorRgb() : RGB15(31, 0, 0));
         else
         {
-            if (aimDist > 86)
+            if (aimDist > MAX_AIM_DISTANCE)
                 glColor(RGB15(31, 0, 0));
 
             switch (currid)
@@ -1292,7 +1294,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                     id == InventoryItemID::Ladder)
                     check = true;
 
-                if (aimDist > 86)
+                if (aimDist > MAX_AIM_DISTANCE)
                     check = false;
 
                 if (check && id != InventoryItemID::None)
@@ -1631,7 +1633,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                     blockBreakRect = getRectAimY8(*camera);
                 if (Rect(blockBreakRect.x + 1, blockBreakRect.y + 1, 14, 14)
                         .intersects(block->getRect()) &&
-                    block->id() != BID_BEDROCK && aimDist <= 86)
+                    block->id() != BID_BEDROCK && aimDist <= MAX_AIM_DISTANCE)
                 {
                     u16 bid = block->id();
 
@@ -1959,7 +1961,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                 {
                     s16 damage = airY / 44;
                     if (airY - 44 >= 9)
-                        damage += (airY - 38) / 9;
+                        damage += (airY - MAX_AIM_DISTANCE) / 9;
                     if (damage > 0)
                     {
                         health -= damage;
@@ -2174,6 +2176,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
         bodySprite.restart();
 
     aimDist = distBetweenPoints(x + 4, y + 8, aimX + camera->x, aimY + camera->y);
+    // printf("%d\n", aimDist);
 
     return ret; // yes
 }
