@@ -1654,11 +1654,11 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                     case BID_SNOWY_GRASS:
                     case BID_DIRT:
                         if (inventory[inventorySelect].id == InventoryItemID::WoodenShovel)
-                            block->hit(block->brokenLevel % 2 + 1);
+                            block->hit(block->brokenLevel % 2 + 2);
                         else if (inventory[inventorySelect].id == InventoryItemID::StoneShovel)
-                            block->hit(3);
+                            block->hit(4);
                         else
-                            block->hit();
+                            block->hit(2);
                         break;
                     default:
                         block->hit();

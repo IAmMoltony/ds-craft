@@ -200,9 +200,9 @@ bool Block::isSlab(void)
 
 // generic block implementations
 
-GENERIC_BLOCK_IMPL(GrassBlock, sprGrass, BID_GRASS, 6)
-GENERIC_BLOCK_IMPL(SnowyGrassBlock, sprSnowyGrass, BID_SNOWY_GRASS, 6)
-GENERIC_BLOCK_IMPL(DirtBlock, sprDirt, BID_DIRT, 5)
+GENERIC_BLOCK_IMPL(GrassBlock, sprGrass, BID_GRASS, 14)
+GENERIC_BLOCK_IMPL(SnowyGrassBlock, sprSnowyGrass, BID_SNOWY_GRASS, 14)
+GENERIC_BLOCK_IMPL(DirtBlock, sprDirt, BID_DIRT, 13)
 GENERIC_BLOCK_IMPL(StoneBlock, sprStone, BID_STONE, 16)
 GENERIC_BLOCK_IMPL(SandBlock, sprSand, BID_SAND, 5)
 GENERIC_BLOCK_IMPL(SandstoneBlock, sprSandstone, BID_SANDSTONE, 12)
