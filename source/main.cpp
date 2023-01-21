@@ -277,6 +277,53 @@ u8 fontCharWidthHandler(char ch)
     return fontSmallCharWidthHandler(ch) * 2;
 }
 
+u8 fontSmallRuCharWidthHandler(char ch)
+{
+    switch (ch)
+    {
+    case 'A' ... 'Z':
+    case 'a' ... 'z':
+    case '0' ... '9':
+    case '!':
+    case '$':
+    case '%':
+    case '&':
+    case '}':
+    case '_':
+    case '^':
+    case '=':
+    case '+':
+    case '-':
+    case '>':
+    case '\'':
+        return 6;
+    case '"':
+    case ']':
+        return 8;
+    case '#':
+    case '~':
+    case '\\':
+        return 7;
+    case '<':
+    case '.':
+    case ':':
+        return 2;
+    case ' ':
+    case '@':
+    case ';':
+        return 3;
+    case '[':
+        return 9;
+    }
+
+    return 0;
+}
+
+u8 fontRuCharWidthHandler(char ch)
+{
+    return fontSmallRuCharWidthHandler(ch) * 2;
+}
+
 int main(int argc, char **argv)
 {
     // initialization
@@ -449,9 +496,10 @@ int main(int argc, char **argv)
                 GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
                 256, font_16x16_ruPal, reinterpret_cast<const u8 *>(font_16x16_ruBitmap));
 
-    // TODO make russian fonts non monospace too
     fontSmall.setCharWidthHandler(fontSmallCharWidthHandler);
     font.setCharWidthHandler(fontCharWidthHandler);
+    fontSmallRu.setCharWidthHandler(fontSmallRuCharWidthHandler);
+    fontRu.setCharWidthHandler(fontRuCharWidthHandler);
 
     // load menu images
     loadMenuTextures();
