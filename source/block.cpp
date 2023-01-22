@@ -198,7 +198,7 @@ bool Block::isSlab(void)
     return false;
 }
 
-bool blockInstanceMeeting(BlockList *blocks, Camera *camera, s16 x, s16 y)
+u16 blockInstanceMeeting(BlockList *blocks, Camera *camera, s16 x, s16 y, bool checkNonSolid)
 {
     for (auto &block : *blocks)
     {
@@ -208,12 +208,14 @@ bool blockInstanceMeeting(BlockList *blocks, Camera *camera, s16 x, s16 y)
             continue;
         if (block->getRect().x - camera->x > SCREEN_WIDTH + 48)
             break;
-        
+        if (!checkNonSolid && !block->solid())
+            continue;
+
         if (block->getRect().isPointInside(x, y))
-            return true;
+            return block->id();
     }
 
-    return false;
+    return 0;
 }
 
 // generic block implementations
