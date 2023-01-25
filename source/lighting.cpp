@@ -1,5 +1,7 @@
 #include "lighting.hpp"
 
+constexpr u16 WORLD_END = SCREEN_WIDTH * 2 / 16 + SCREEN_WIDTH * 2 / 16;
+
 u16 blockInstanceMeeting(BlockList *blocks, Rect updateArea, s16 x, s16 y,
                          bool checkNonSolid = false)
 {
@@ -10,6 +12,9 @@ u16 blockInstanceMeeting(BlockList *blocks, Rect updateArea, s16 x, s16 y,
     updateArea.y -= 16;
     updateArea.w += 32;
     updateArea.h += 32;
+
+    if (x < 0 || x > WORLD_END * 16)
+        return UINT16_MAX;
 
     for (auto &block : *blocks)
     {
