@@ -2440,7 +2440,7 @@ Rect Player::getRectAimY8(Camera camera)
 
 Rect Player::getRectLightingUpdate(void)
 {
-    return Rect(x - 100, y - 100, 200, 200);
+    return Rect(x - 96, y - 96, 96 * 2, 96 * 2);
 }
 
 std::array<InventoryItem, 20> Player::getInventory(void)

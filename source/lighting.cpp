@@ -8,9 +8,9 @@ u16 blockInstanceMeeting(BlockList *blocks, Rect updateArea, s16 x, s16 y,
     bool updateAll = updateArea.x == -1 && updateArea.y == -1 && updateArea.w == -1 &&
                      updateArea.h == -1;
 
-    updateArea.x -= 16;
+    updateArea.x -= 24;
     updateArea.y -= 16;
-    updateArea.w += 32;
+    updateArea.w += 48;
     updateArea.h += 32;
 
     if (x < 0 || x > WORLD_END * 16)
