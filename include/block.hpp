@@ -201,17 +201,25 @@ enum class LeavesType
     Birch,
 };
 
+class Block;
+
+typedef std::vector<std::unique_ptr<Block>> BlockList;
+
 class Block
 {
 public:
     s16 x, y;
     u8 brokenLevel, maxBrokenLevel;
-    Block(s16 x, s16 y, u8 maxBrokenLevel);
+    // Light level is how dark the block should be.
+    // 0 = fully visible, 3 = completely black
+    u8 lightLevel;
+    Block(s16 x, s16 y, u8 maxBrokenLevel, u8 lightLevel = 0);
 
     void drawBreaking(Camera camera);
     void hit(void);
     void hit(u8 times);
     bool broken(void);
+    void drawBlock(Camera camera, BlockList *blocks);
     virtual void draw(Camera camera) = 0;
     virtual u16 id(void) = 0;
     virtual void interact(void);
@@ -219,11 +227,6 @@ public:
     virtual bool isSlab(void);
     virtual Rect getRect(void) const = 0;
 };
-
-typedef std::vector<std::unique_ptr<Block>> BlockList;
-
-// returns block's ID when a block is found, 0 otherwise
-u16 blockInstanceMeeting(BlockList *blocks, Camera *camera, s16 x, s16 y, bool checkNonSolid = false);
 
 // generic block declarations
 

@@ -14,6 +14,7 @@
 #include "crafting.hpp"
 #include "help.hpp"
 #include "blockparticle.hpp"
+#include "lighting.hpp"
 #include <algorithm>
 #include <sstream>
 #include <regex>
@@ -668,8 +669,12 @@ int main(int argc, char **argv)
                 }
 
                 // sort blocks when placed block
-                if (player.update(&camera, &blocks, &entities, &blockParticles, frames))
+                Player::UpdateResult playerUpdateResult =
+                    player.update(&camera, &blocks, &entities, &blockParticles, frames);
+                if (playerUpdateResult == Player::UpdateResult::BlockPlaced)
                     std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
+                if (playerUpdateResult != Player::UpdateResult::None)
+                    updateLighting(&blocks, player.getRectLightingUpdate());
 
                 // player pos clamping
                 if (player.getX() < 0)
@@ -812,7 +817,24 @@ int main(int argc, char **argv)
 
                     std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
 
+                    // loading screen for calculating lighting
+                    glBegin2D();
+                    drawMovingBackground(sprDirt, frames);
+                    switch (lang)
+                    {
+                    case Language::English:
+                        fontSmall.printCentered(0, 50, "Calculating lighting...");
+                        break;
+                    case Language::Russian:
+                        fontSmallRu.printCentered(0, 50, "C\"zktngpkg qtdg~gpk&...");
+                        break;
+                    }
+                    glEnd2D();
+                    glFlush(0);
+                    updateLighting(&blocks, Rect(-1, -1, -1, -1));
+
                     mmEffectEx(&sndClick);
+                    consoleClear();
                     gameState = GameState::Game;
                     swiWaitForVBlank();
                     continue;
@@ -1093,7 +1115,7 @@ int main(int argc, char **argv)
                 if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
                     break;
 
-                block->draw(camera);
+                block->drawBlock(camera, &blocks);
                 block->drawBreaking(camera);
             }
 

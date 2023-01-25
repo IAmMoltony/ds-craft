@@ -50,11 +50,18 @@ private:
     void jump(void);
 
 public:
+    enum class UpdateResult
+    {
+        None = 0,
+        BlockPlaced,
+        BlockDestroyed,
+    };
+
     Player();
 
     void draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Font fontRu, Language lang);
     void drawCrafting(Font fontSmall, Font fontSmallRu);
-    bool update(Camera *camera, BlockList *blocks, EntityList *entities, BlockParticleList *blockParticles, const u16 &frames);
+    UpdateResult update(Camera *camera, BlockList *blocks, EntityList *entities, BlockParticleList *blockParticles, const u16 &frames);
     void updateCrafting(void);
     bool hasItem(InventoryItem item);
     void addItem(InventoryItemID item);
@@ -87,5 +94,6 @@ public:
     Rect getRectSlab(void); // weird name but it is the rect that player collides with to climb a slab
     Rect getRectAim(Camera camera);
     Rect getRectAimY8(Camera camera); // getRectAim but instead of using spanToGrid on Y, it uses snapToGrid8
+    Rect getRectLightingUpdate(void);
     std::array<InventoryItem, 20> getInventory(void);
 };

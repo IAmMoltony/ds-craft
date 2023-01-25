@@ -900,6 +900,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
     //    getRectLeft().draw(camera, RGB15(0, 0, 31));
     //    getRectRight().draw(camera, RGB15(31, 31, 0));
     //    getRectSlab().draw(camera, RGB15(0, 31, 31));
+    // getRectLightingUpdate().draw(camera, RGB15(0, 31, 0));
 }
 
 // TODO split the draw and update like i did with crafting
@@ -935,12 +936,11 @@ static void spawnBlockParticles(BlockParticleList *blockParticles, glImage *imag
     blockParticles->push_back(BlockParticle(image, 120, x + 4, y + 2, 1, -3));
 }
 
-bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, BlockParticleList *blockParticles, const u16 &frames)
+Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityList *entities, BlockParticleList *blockParticles, const u16 &frames)
 {
     s16 oldX = x;
     s16 oldY = y;
-    bool ret = false; // this is return value. true if placed block and false if not.
-    // game checks if this is true and if yes sorts blocks.
+    UpdateResult ret = UpdateResult::None;
 
     if (fullInventory) // inventory update
     {
@@ -1574,7 +1574,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                             if (inventory[inventorySelect].amount == 0)
                                 inventory[inventorySelect].id = InventoryItemID::None;
                         }
-                        ret = true;
+                        ret = UpdateResult::BlockPlaced;
                     }
                 }
                 break;
@@ -1930,6 +1930,7 @@ bool Player::update(Camera *camera, BlockList *blocks, EntityList *entities, Blo
                         }
 
                         remove = true;
+                        ret = UpdateResult::BlockDestroyed;
                         removei = i;
                     }
                     ++i;
@@ -2435,6 +2436,11 @@ Rect Player::getRectAim(Camera camera)
 Rect Player::getRectAimY8(Camera camera)
 {
     return Rect(snapToGrid(aimX + camera.x), snapToGrid8(aimY + camera.y), 16, 16);
+}
+
+Rect Player::getRectLightingUpdate(void)
+{
+    return Rect(x - 100, y - 100, 200, 200);
 }
 
 std::array<InventoryItem, 20> Player::getInventory(void)

@@ -151,11 +151,12 @@ void unloadBlockSounds(void)
 
 //----------------------------------------
 
-Block::Block(s16 x, s16 y, u8 maxBrokenLevel)
+Block::Block(s16 x, s16 y, u8 maxBrokenLevel, u8 lightLevel)
 {
     this->x = x;
     this->y = y;
     this->maxBrokenLevel = maxBrokenLevel;
+    this->lightLevel = lightLevel;
     brokenLevel = 0;
 }
 
@@ -184,6 +185,39 @@ bool Block::broken(void)
     return brokenLevel >= maxBrokenLevel;
 }
 
+void Block::drawBlock(Camera camera, BlockList *blocks)
+{
+    draw(camera);
+
+    int x = getRect().x - camera.x;
+    int y = getRect().y - camera.y;
+    int x2 = x + getRect().w - 1;
+    int y2 = y + getRect().h - 1;
+
+    switch (lightLevel)
+    {
+    case 1:
+        glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(6));
+        glBoxFilled(x, y, x2, y2, RGB15(0, 0, 0));
+        glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(31));
+        break;
+    case 2:
+        glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(15));
+        glBoxFilled(x, y, x2, y2, RGB15(0, 0, 0));
+        glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(31));
+        break;
+    case 3:
+        glBoxFilled(x, y, x2, y2, RGB15(0, 0, 0));
+        return;
+    default:
+        if (lightLevel != 0)
+        {
+            printf("invalid light level %u, resetting to 0\n", lightLevel);
+            lightLevel = 0;
+        }
+    }
+}
+
 void Block::interact(void)
 {
 }
@@ -196,26 +230,6 @@ bool Block::solid(void)
 bool Block::isSlab(void)
 {
     return false;
-}
-
-u16 blockInstanceMeeting(BlockList *blocks, Camera *camera, s16 x, s16 y, bool checkNonSolid)
-{
-    for (auto &block : *blocks)
-    {
-        // skip blocks that are off screen
-        if (block->getRect().x - camera->x < -16 ||
-            block->getRect().y - camera->y < -16)
-            continue;
-        if (block->getRect().x - camera->x > SCREEN_WIDTH + 48)
-            break;
-        if (!checkNonSolid && !block->solid())
-            continue;
-
-        if (block->getRect().isPointInside(x, y))
-            return block->id();
-    }
-
-    return 0;
 }
 
 // generic block implementations
