@@ -37,8 +37,12 @@ u16 blockInstanceMeeting(BlockList *blocks, Rect updateArea, s16 x, s16 y,
     return 0;
 }
 
+// TODO fix this thing
+
 void updateLighting(BlockList *blocks, Rect updateArea)
 {
+    return;
+
     bool updateAll = updateArea.x == -1 && updateArea.y == -1 && updateArea.w == -1 &&
                      updateArea.h == -1;
 

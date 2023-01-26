@@ -297,6 +297,7 @@ u8 fontSmallRuCharWidthHandler(char ch)
     case '-':
     case '>':
     case '\'':
+    case '/':
         return 6;
     case '"':
     case ']':
@@ -1309,7 +1310,16 @@ int main(int argc, char **argv)
                     char *hrfsz = fsHumanreadFileSize(worldInfo.size);
                     fsDate worldCreationDate = fsGetFileCreationDate(getWorldFile(worldInfoName).c_str());
                     std::string worldCreationDateString = std::to_string(worldCreationDate.year) + '/' + std::to_string(worldCreationDate.month) + '/' + std::to_string(worldCreationDate.day);
-                    std::string worldInfoString = "Size: " + std::string(hrfsz) + "    " + worldCreationDateString;
+                    std::string worldInfoString;
+                    switch (lang)
+                    {
+                    case Language::English:
+                        worldInfoString = "Size: " + std::string(hrfsz) + "    " + worldCreationDateString;
+                        break;
+                    case Language::Russian:
+                        worldInfoString = "Rbjogs: " + std::string(hrfsz) + "    " + worldCreationDateString;
+                        break;
+                    }
                     if (i == wsSelected)
                     {
                         glSprite(SCREEN_WIDTH / 2 - 121, 48 + i * 40 - offset, GL_FLIP_NONE, worldLabelSelect);
@@ -1322,7 +1332,15 @@ int main(int argc, char **argv)
                     }
                     fontSmall.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 6 - offset, worldInfoName.c_str());
                     glColor(RGB15(18, 18, 18));
-                    fontSmall.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 18 - offset, worldInfoString.c_str());
+                    switch (lang)
+                    {
+                    case Language::English:
+                        fontSmall.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 18 - offset, worldInfoString.c_str());
+                        break;
+                    case Language::Russian:
+                        fontSmallRu.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 18 - offset, worldInfoString.c_str());
+                        break;
+                    }
                     glColor(RGB15(31, 31, 31));
 
                     free(hrfsz);
