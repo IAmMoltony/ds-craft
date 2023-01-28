@@ -2030,25 +2030,42 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 // this is for step sounds
                 if (moving(oldX))
                 {
-                    // TODO use a switch statement
-
                     u16 id = block->id();
-                    if (id == BID_GRASS)
+                    switch (id)
+                    {
+                    case BID_GRASS:
                         playsfx(4, &sndStepGrass1, &sndStepGrass2, &sndStepGrass3, &sndStepGrass4);
-                    else if (id == BID_DIRT)
+                        break;
+                    case BID_DIRT:
                         playsfx(4, &sndStepGravel1, &sndStepGravel2, &sndStepGravel3, &sndStepGravel4);
-                    else if (id == BID_STONE || id == BID_SANDSTONE || id == BID_COBBLESTONE ||
-                             id == BID_COAL_ORE || id == BID_COAL_BLOCK || id == BID_BEDROCK ||
-                             id == BID_GLASS || id == BID_COBBLESTONE_SLAB)
+                        break;
+                    case BID_STONE:
+                    case BID_SANDSTONE:
+                    case BID_COBBLESTONE:
+                    case BID_COAL_ORE:
+                    case BID_COAL_BLOCK:
+                    case BID_BEDROCK:
+                    case BID_GLASS:
+                    case BID_COBBLESTONE_SLAB:
                         playsfx(4, &sndStepStone1, &sndStepStone2, &sndStepStone3, &sndStepStone4);
-                    else if (id == BID_SAND)
+                        break;
+                    case BID_SAND:
                         playsfx(4, &sndStepSand1, &sndStepSand2, &sndStepSand3, &sndStepSand4);
-                    else if (id == BID_SNOWY_GRASS)
+                        break;
+                    case BID_SNOWY_GRASS:
                         playsfx(4, &sndStepSnow1, &sndStepSnow2, &sndStepSnow3, &sndStepSnow4);
-                    else if (id == BID_PLANKS || id == BID_DOOR || id == BID_BIRCH_DOOR ||
-                             id == BID_BIRCH_PLANKS || id == BID_OAK_SLAB || id == BID_BIRCH_SLAB || id == BID_OAK_TRAPDOOR ||
-                             id == BID_BIRCH_TRAPDOOR)
+                        break;
+                    case BID_PLANKS:
+                    case BID_DOOR:
+                    case BID_BIRCH_DOOR:
+                    case BID_BIRCH_PLANKS:
+                    case BID_OAK_SLAB:
+                    case BID_BIRCH_SLAB:
+                    case BID_OAK_TRAPDOOR:
+                    case BID_BIRCH_TRAPDOOR:
                         playsfx(4, &sndStepWood1, &sndStepWood2, &sndStepWood3, &sndStepWood4);
+                        break;
+                    }
                 }
             }
 
