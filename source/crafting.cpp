@@ -140,34 +140,6 @@ CraftingRecipe::CraftingRecipe(const char *recipeFile)
             // id
             if (key == "id")
                 id = (u8)std::stoi(split[1]);
-            // name english
-            // TODO nameEn and nameRu are useless
-            else if (key == "nameEn")
-            {
-                split.erase(split.begin()); // remove key
-                const char *const delim = " ";
-
-                // implode name with space as delim
-                std::ostringstream imploded;
-                std::copy(split.begin(), split.end(),
-                          std::ostream_iterator<std::string>(imploded, delim));
-                std::string str = imploded.str();
-                str.pop_back(); // remove last space
-                nameEn = str;
-            }
-            else if (key == "nameRu")
-            {
-                // same as nameEn
-                split.erase(split.begin());
-                const char *const delim = " ";
-
-                std::ostringstream imploded;
-                std::copy(split.begin(), split.end(),
-                          std::ostream_iterator<std::string>(imploded, delim));
-                std::string str = imploded.str();
-                str.pop_back();
-                nameRu = str;
-            }
             // count
             else if (key == "count")
                 count = (u8)std::stoi(split[1]);
@@ -180,12 +152,15 @@ CraftingRecipe::CraftingRecipe(const char *recipeFile)
             else
             {
                 // oof
-                printf("unknown key in recipe %s: %s (line: \"%s\")", recipeFile, key.c_str(), line.c_str());
+                printf("unknown key in recipe %s: %s (\"%s\")", recipeFile, key.c_str(), line.c_str());
                 while (true)
                     ;
             }
         }
     }
+
+    nameEn = getItemStr(Language::English, output);
+    nameRu = getItemStr(Language::Russian, output);
 }
 
 std::string CraftingRecipe::getFullName(Language lang, Player *pThis)
