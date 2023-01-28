@@ -410,6 +410,9 @@ void DropEntity::draw(Camera camera)
     case InventoryItemID::StoneShovel:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprStoneShovel);
         break;
+    case InventoryItemID::BirchSlab:
+        glSpritePartScale(sprBirchPlanks, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALFSIZE);
+        break;
     }
 }
 

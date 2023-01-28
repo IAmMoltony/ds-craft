@@ -45,6 +45,7 @@
 #define BID_CHEST 30
 #define BID_OAK_SLAB 31
 #define BID_COBBLESTONE_SLAB 32
+#define BID_BIRCH_SLAB 33
 
 enum class InventoryItemID
 {
@@ -90,12 +91,14 @@ enum class InventoryItemID
     StonePickaxe,
     WoodenShovel,
     StoneShovel,
+    BirchSlab,
 };
 
 enum class SlabID
 {
     Oak,
     Cobblestone,
+    Birch,
 };
 
 struct InventoryItem
@@ -434,6 +437,7 @@ public:
 
 SLAB_DECL(Oak)
 SLAB_DECL(Cobblestone)
+SLAB_DECL(Birch)
 
 void resetNextChestID(void);
 

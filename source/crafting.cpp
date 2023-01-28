@@ -82,6 +82,8 @@ InventoryItemID strToIID(std::string &sid)
         return InventoryItemID::WoodenShovel;
     else if (sid == "stoneshovel")
         return InventoryItemID::StoneShovel;
+    else if (sid == "birchslab")
+        return InventoryItemID::BirchSlab;
 
     printf("%s not a valid item string id\n", sid.c_str());
     return InventoryItemID::None;

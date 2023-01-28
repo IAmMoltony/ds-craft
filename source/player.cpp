@@ -287,7 +287,9 @@ const char *getItemStr(Language lang, InventoryItemID iid)
         case InventoryItemID::Chest:
             return "Chest";
         case InventoryItemID::OakSlab:
-            return "Oak Slab"; // TODO add birch slab
+            return "Oak Slab";
+        case InventoryItemID::BirchSlab:
+            return "Birch Slab";
         case InventoryItemID::CobblestoneSlab:
             return "Cobblestone Slab";
         case InventoryItemID::AnyPlanks:
@@ -375,6 +377,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Svpfvm";
         case InventoryItemID::OakSlab:
             return "Evcqdb& rnkub";
+        case InventoryItemID::BirchSlab:
+            return "Bgshjqdb& rnkub";
         case InventoryItemID::CobblestoneSlab:
             return "Qnkub kj cvn\"ipkmb";
         case InventoryItemID::AnyPlanks:
@@ -468,6 +472,8 @@ glImage *getItemImage(InventoryItemID item)
         return sprChest;
     case InventoryItemID::OakSlab:
         return sprPlanks;
+    case InventoryItemID::BirchSlab:
+        return sprBirchPlanks;
     case InventoryItemID::CobblestoneSlab:
         return sprCobblestone;
     case InventoryItemID::WoodenPickaxe:
@@ -595,6 +601,9 @@ static void drawInventory(InventoryItem inventory[], u8 itemCount, Font font, u8
             case InventoryItemID::OakSlab:
                 glSpritePartScale(sprPlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALFSIZE);
                 break;
+            case InventoryItemID::BirchSlab:
+                glSpritePartScale(sprBirchPlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALFSIZE);
+                break;
             case InventoryItemID::CobblestoneSlab:
                 glSpritePartScale(sprCobblestone, xx + 3, yy + 5, 0, 0, 16, 8, HALFSIZE);
                 break;
@@ -675,6 +684,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
             break;
         case InventoryItemID::OakSlab:
             glSpritePartScale(sprPlanks, xx - 1, yy + 2, 0, 0, 16, 8, HALFSIZE);
+            break;
+        case InventoryItemID::BirchSlab:
+            glSpritePartScale(sprBirchPlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALFSIZE);
             break;
         case InventoryItemID::CobblestoneSlab:
             glSpritePartScale(sprCobblestone, xx - 1, yy + 2, 0, 0, 16, 8, HALFSIZE);
@@ -760,7 +772,7 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
 
         int xx = getRectAim(camera).x - camera.x;
         int yy = getRectAim(camera).y - camera.y;
-        if (currid == InventoryItemID::OakSlab)
+        if (currid == InventoryItemID::OakSlab || currid == InventoryItemID::CobblestoneSlab || currid == InventoryItemID::BirchSlab)
             yy = getRectAimY8(camera).y - camera.y;
 
         if (currid == InventoryItemID::None ||
@@ -790,6 +802,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 break;
             case InventoryItemID::OakSlab:
                 glSpritePart(sprPlanks, xx, yy + 8, 0, 0, 16, 8);
+                break;
+            case InventoryItemID::BirchSlab:
+                glSpritePart(sprBirchPlanks, xx, yy + 8, 0, 0, 16, 8);
                 break;
             case InventoryItemID::CobblestoneSlab:
                 glSpritePart(sprCobblestone, xx, yy + 8, 0, 0, 16, 8);
@@ -852,6 +867,9 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                     break;
                 case InventoryItemID::OakSlab:
                     glSpritePartScale(sprPlanks, xx + 4, yy + 6, 0, 0, 16, 8, HALFSIZE);
+                    break;
+                case InventoryItemID::BirchSlab:
+                    glSpritePartScale(sprBirchPlanks, xx + 4, yy + 6, 0, 0, 16, 8, HALFSIZE);
                     break;
                 case InventoryItemID::CobblestoneSlab:
                     glSpritePartScale(sprCobblestone, xx + 4, yy + 6, 0, 0, 16, 8, HALFSIZE);
@@ -945,6 +963,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
     if (fullInventory) // inventory update
     {
         u32 kdown = keysDown();
+
         if (kdown & KEY_SELECT)
         {
             // when select is pressed, close inventory
@@ -1301,7 +1320,8 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     // also check if there is a block that the block can be placed on
 
                     int rectHeight = 16;
-                    if (id == InventoryItemID::OakSlab || id == InventoryItemID::CobblestoneSlab)
+                    if (id == InventoryItemID::OakSlab || id == InventoryItemID::CobblestoneSlab ||
+                        id == InventoryItemID::BirchSlab)
                         rectHeight = 8; // slabs have rect height of 8
                     Rect blockRect(snapToGrid(camera->x + aimX), snapToGrid(camera->y + aimY),
                                    16, rectHeight);
@@ -1562,6 +1582,11 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                                                   snapToGrid8(camera->y + aimY)));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
+                        case InventoryItemID::BirchSlab:
+                            blocks->emplace_back(new BirchSlabBlock(snapToGrid(camera->x + aimX),
+                                                                    snapToGrid8(camera->y + aimY)));
+                            playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
+                            break;
                         case InventoryItemID::CobblestoneSlab:
                             blocks->emplace_back(new CobblestoneSlabBlock(snapToGrid(camera->x + aimX),
                                                                           snapToGrid8(camera->y + aimY)));
@@ -1628,7 +1653,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 // if block touch aim then block break, if b or down is pressed
                 // and we cant break bedrock
                 Rect blockBreakRect = getRectAim(*camera);
-                if (block->id() == BID_OAK_SLAB)
+                if (block->isSlab())
                     blockBreakRect = getRectAimY8(*camera);
                 if (Rect(blockBreakRect.x + 1, blockBreakRect.y + 1, 14, 14)
                         .intersects(block->getRect()) &&
@@ -1695,7 +1720,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                         playsfx(4, &sndStepStone1, &sndStepStone2, &sndStepStone3, &sndStepStone4);
                         break;
                     case BID_CACTUS:
-                        // playsfx(4, &sndStepC);
+                        // TODO implement
                         break;
                     case BID_DOOR:
                         playsfx(4, &sndStepWood1, &sndStepWood2, &sndStepWood3, &sndStepWood4);
@@ -1737,6 +1762,9 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                         playsfx(4, &sndStepWood1, &sndStepWood2, &sndStepWood3, &sndStepWood4);
                         break;
                     case BID_OAK_SLAB:
+                        playsfx(4, &sndStepWood1, &sndStepWood2, &sndStepWood3, &sndStepWood4);
+                        break;
+                    case BID_BIRCH_SLAB:
                         playsfx(4, &sndStepWood1, &sndStepWood2, &sndStepWood3, &sndStepWood4);
                         break;
                     case BID_COBBLESTONE_SLAB:
@@ -1922,6 +1950,11 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             spawnBlockParticles(blockParticles, sprPlanks, block->x, block->y);
                             break;
+                        case BID_BIRCH_SLAB:
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::BirchSlab));
+                            playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
+                            spawnBlockParticles(blockParticles, sprBirchPlanks, block->x, block->y);
+                            break;
                         case BID_COBBLESTONE_SLAB:
                             entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::CobblestoneSlab));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
@@ -1997,6 +2030,8 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 // this is for step sounds
                 if (moving(oldX))
                 {
+                    // TODO use a switch statement
+
                     u16 id = block->id();
                     if (id == BID_GRASS)
                         playsfx(4, &sndStepGrass1, &sndStepGrass2, &sndStepGrass3, &sndStepGrass4);
@@ -2011,7 +2046,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     else if (id == BID_SNOWY_GRASS)
                         playsfx(4, &sndStepSnow1, &sndStepSnow2, &sndStepSnow3, &sndStepSnow4);
                     else if (id == BID_PLANKS || id == BID_DOOR || id == BID_BIRCH_DOOR ||
-                             id == BID_BIRCH_PLANKS || id == BID_OAK_SLAB || id == BID_OAK_TRAPDOOR ||
+                             id == BID_BIRCH_PLANKS || id == BID_OAK_SLAB || id == BID_BIRCH_SLAB || id == BID_OAK_TRAPDOOR ||
                              id == BID_BIRCH_TRAPDOOR)
                         playsfx(4, &sndStepWood1, &sndStepWood2, &sndStepWood3, &sndStepWood4);
                 }
@@ -2547,6 +2582,9 @@ void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
             break;
         case 15:
             glSpritePartScale(sprCobblestone, slotX + 4, slotY + 4, 0, 0, 16, 8, HALFSIZE);
+            break;
+        case 20:
+            glSpritePartScale(sprBirchPlanks, slotX + 4, slotY + 4, 0, 0, 16, 8, HALFSIZE);
             break;
         }
 
