@@ -137,6 +137,7 @@ declsfx4(StepStone);
 declsfx4(StepSand);
 declsfx4(StepSnow);
 declsfx4(StepWood);
+declsfx4(StepCloth);
 
 declsfx3(Glass);
 declsfx3(Hit);
@@ -161,6 +162,7 @@ void loadPlayerSounds(void)
     loadsfx4(STEPWOOD);
     loadsfx4(STEPSAND);
     loadsfx4(STEPSNOW);
+    loadsfx4(STEPCLOTH);
 
     loadsfx3(GLASS);
     loadsfx3(HIT);
@@ -181,6 +183,7 @@ void loadPlayerSounds(void)
     setsfx4(StepSand, STEPSAND);
     setsfx4(StepSnow, STEPSNOW);
     setsfx4(StepWood, STEPWOOD);
+    setsfx4(StepCloth, STEPCLOTH);
 
     setsfx3(Glass, GLASS);
     setsfx3(Hit, HIT);
@@ -1720,7 +1723,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                         playsfx(4, &sndStepStone1, &sndStepStone2, &sndStepStone3, &sndStepStone4);
                         break;
                     case BID_CACTUS:
-                        // TODO implement
+                        playsfx(4, &sndStepCloth1, &sndStepCloth2, &sndStepCloth3, &sndStepCloth4);
                         break;
                     case BID_DOOR:
                         playsfx(4, &sndStepWood1, &sndStepWood2, &sndStepWood3, &sndStepWood4);
