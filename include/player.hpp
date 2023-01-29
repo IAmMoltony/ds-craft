@@ -31,6 +31,7 @@ void loadPlayerSounds(void);
 void unloadPlayerSounds(void);
 void playerInitCrafting(void);
 const char *getItemStr(Language lang, InventoryItemID iid);
+glImage *getItemImage(InventoryItemID item);
 
 class Player
 {
