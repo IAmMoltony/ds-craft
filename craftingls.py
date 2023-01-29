@@ -9,13 +9,12 @@ from dataclasses import dataclass
 class CraftingRecipe:
     recipe_file: str
     identifier: int  # because 'id' is already taken
-    name: str
     count: int
     output: str
     texid: int
 
     def __repr__(self) -> str:
-        return f"file: {self.recipe_file}, ID: {self.identifier}, name: {self.name}, count: {self.count}, outputs: {self.output}"
+        return f"file: {self.recipe_file}, ID: {self.identifier}, count: {self.count}, outputs: {self.output}"
 
 
 files = os.listdir('nitrofs/crafting')
@@ -40,10 +39,7 @@ def get_recipes() -> dict[int, CraftingRecipe]:
                 if lsplit[0] == 'id':
                     curr_id = int(lsplit[1])
                     recipes[curr_id] = CraftingRecipe(
-                        file, curr_id, '', 0, '', 0)
-                elif lsplit[0] == 'nameEn':
-                    name = ' '.join(lsplit[1:])
-                    recipes[curr_id].name = name
+                        file, curr_id, 0, '', 0)
                 elif lsplit[0] == 'count':
                     count = int(lsplit[1])
                     recipes[curr_id].count = count

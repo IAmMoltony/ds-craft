@@ -68,6 +68,7 @@ enum class InventoryItemID
     BirchDoor,
     Planks,
     BirchPlanks,
+    AnyPlanks,
     Stick,
     SnowyGrass,
     Sapling,
@@ -85,13 +86,14 @@ enum class InventoryItemID
     Ladder,
     Chest,
     OakSlab,
+    BirchSlab,
     CobblestoneSlab,
-    AnyPlanks,
     WoodenPickaxe,
     StonePickaxe,
     WoodenShovel,
     StoneShovel,
-    BirchSlab,
+    WoodenAxe,
+    StoneAxe,
 };
 
 enum class SlabID

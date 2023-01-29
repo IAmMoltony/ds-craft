@@ -35,6 +35,271 @@
 		<Unit filename="audio/wood4.wav">
 			<Option target="build" />
 		</Unit>
+		<Unit filename="build/abtn.d" />
+		<Unit filename="build/abtn.h" />
+		<Unit filename="build/abtn.s" />
+		<Unit filename="build/aim.d" />
+		<Unit filename="build/aim.h" />
+		<Unit filename="build/aim.s" />
+		<Unit filename="build/animsprite.d" />
+		<Unit filename="build/apple.d" />
+		<Unit filename="build/apple.h" />
+		<Unit filename="build/apple.s" />
+		<Unit filename="build/bbtn.d" />
+		<Unit filename="build/bbtn.h" />
+		<Unit filename="build/bbtn.s" />
+		<Unit filename="build/bedrock.d" />
+		<Unit filename="build/bedrock.h" />
+		<Unit filename="build/bedrock.s" />
+		<Unit filename="build/birch_leaves.d" />
+		<Unit filename="build/birch_leaves.h" />
+		<Unit filename="build/birch_leaves.s" />
+		<Unit filename="build/birch_leaves_a.d" />
+		<Unit filename="build/birch_leaves_a.h" />
+		<Unit filename="build/birch_leaves_a.s" />
+		<Unit filename="build/birch_log.d" />
+		<Unit filename="build/birch_log.h" />
+		<Unit filename="build/birch_log.s" />
+		<Unit filename="build/birch_planks.d" />
+		<Unit filename="build/birch_planks.h" />
+		<Unit filename="build/birch_planks.s" />
+		<Unit filename="build/birch_sapling.d" />
+		<Unit filename="build/birch_sapling.h" />
+		<Unit filename="build/birch_sapling.s" />
+		<Unit filename="build/birch_trapdoor.d" />
+		<Unit filename="build/birch_trapdoor.h" />
+		<Unit filename="build/birch_trapdoor.s" />
+		<Unit filename="build/birchdoor.d" />
+		<Unit filename="build/birchdoor.h" />
+		<Unit filename="build/birchdoor.s" />
+		<Unit filename="build/block.d" />
+		<Unit filename="build/blockparticle.d" />
+		<Unit filename="build/cactus_side.d" />
+		<Unit filename="build/cactus_side.h" />
+		<Unit filename="build/cactus_side.s" />
+		<Unit filename="build/chest.d" />
+		<Unit filename="build/chest.h" />
+		<Unit filename="build/chest.s" />
+		<Unit filename="build/coal.d" />
+		<Unit filename="build/coal.h" />
+		<Unit filename="build/coal.s" />
+		<Unit filename="build/coal_block.d" />
+		<Unit filename="build/coal_block.h" />
+		<Unit filename="build/coal_block.s" />
+		<Unit filename="build/coal_ore.d" />
+		<Unit filename="build/coal_ore.h" />
+		<Unit filename="build/coal_ore.s" />
+		<Unit filename="build/cobblestone.d" />
+		<Unit filename="build/cobblestone.h" />
+		<Unit filename="build/cobblestone.s" />
+		<Unit filename="build/cooked_porkchop.d" />
+		<Unit filename="build/cooked_porkchop.h" />
+		<Unit filename="build/cooked_porkchop.s" />
+		<Unit filename="build/crafting.d" />
+		<Unit filename="build/dandelion.d" />
+		<Unit filename="build/dandelion.h" />
+		<Unit filename="build/dandelion.s" />
+		<Unit filename="build/dead_bush.d" />
+		<Unit filename="build/dead_bush.h" />
+		<Unit filename="build/dead_bush.s" />
+		<Unit filename="build/destroy_stage_0.d" />
+		<Unit filename="build/destroy_stage_0.h" />
+		<Unit filename="build/destroy_stage_0.s" />
+		<Unit filename="build/destroy_stage_1.d" />
+		<Unit filename="build/destroy_stage_1.h" />
+		<Unit filename="build/destroy_stage_1.s" />
+		<Unit filename="build/destroy_stage_2.d" />
+		<Unit filename="build/destroy_stage_2.h" />
+		<Unit filename="build/destroy_stage_2.s" />
+		<Unit filename="build/destroy_stage_3.d" />
+		<Unit filename="build/destroy_stage_3.h" />
+		<Unit filename="build/destroy_stage_3.s" />
+		<Unit filename="build/destroy_stage_4.d" />
+		<Unit filename="build/destroy_stage_4.h" />
+		<Unit filename="build/destroy_stage_4.s" />
+		<Unit filename="build/destroy_stage_5.d" />
+		<Unit filename="build/destroy_stage_5.h" />
+		<Unit filename="build/destroy_stage_5.s" />
+		<Unit filename="build/destroy_stage_6.d" />
+		<Unit filename="build/destroy_stage_6.h" />
+		<Unit filename="build/destroy_stage_6.s" />
+		<Unit filename="build/destroy_stage_7.d" />
+		<Unit filename="build/destroy_stage_7.h" />
+		<Unit filename="build/destroy_stage_7.s" />
+		<Unit filename="build/destroy_stage_8.d" />
+		<Unit filename="build/destroy_stage_8.h" />
+		<Unit filename="build/destroy_stage_8.s" />
+		<Unit filename="build/destroy_stage_9.d" />
+		<Unit filename="build/destroy_stage_9.h" />
+		<Unit filename="build/destroy_stage_9.s" />
+		<Unit filename="build/dirent_games.d" />
+		<Unit filename="build/dirent_games.h" />
+		<Unit filename="build/dirent_games.s" />
+		<Unit filename="build/dirt.d" />
+		<Unit filename="build/dirt.h" />
+		<Unit filename="build/dirt.s" />
+		<Unit filename="build/door.d" />
+		<Unit filename="build/door.h" />
+		<Unit filename="build/door.s" />
+		<Unit filename="build/dummy.d" />
+		<Unit filename="build/dummy.h" />
+		<Unit filename="build/dummy.s" />
+		<Unit filename="build/english.d" />
+		<Unit filename="build/english.h" />
+		<Unit filename="build/english.s" />
+		<Unit filename="build/entity.d" />
+		<Unit filename="build/font.d" />
+		<Unit filename="build/font_16x16.d" />
+		<Unit filename="build/font_16x16.h" />
+		<Unit filename="build/font_16x16.s" />
+		<Unit filename="build/font_16x16_ru.d" />
+		<Unit filename="build/font_16x16_ru.h" />
+		<Unit filename="build/font_16x16_ru.s" />
+		<Unit filename="build/font_small.d" />
+		<Unit filename="build/font_small.h" />
+		<Unit filename="build/font_small.s" />
+		<Unit filename="build/font_small_ru1.d" />
+		<Unit filename="build/font_small_ru1.h" />
+		<Unit filename="build/font_small_ru1.s" />
+		<Unit filename="build/fs.d" />
+		<Unit filename="build/gamever.d" />
+		<Unit filename="build/glass.d" />
+		<Unit filename="build/glass.h" />
+		<Unit filename="build/glass.s" />
+		<Unit filename="build/glext.d" />
+		<Unit filename="build/grass.d" />
+		<Unit filename="build/grass.h" />
+		<Unit filename="build/grass.s" />
+		<Unit filename="build/half_heart.d" />
+		<Unit filename="build/half_heart.h" />
+		<Unit filename="build/half_heart.s" />
+		<Unit filename="build/half_heart2.d" />
+		<Unit filename="build/half_heart2.h" />
+		<Unit filename="build/half_heart2.s" />
+		<Unit filename="build/heart_outline.d" />
+		<Unit filename="build/heart_outline.h" />
+		<Unit filename="build/heart_outline.s" />
+		<Unit filename="build/help.d" />
+		<Unit filename="build/inventory_slot.d" />
+		<Unit filename="build/inventory_slot.h" />
+		<Unit filename="build/inventory_slot.s" />
+		<Unit filename="build/inventory_slot_select.d" />
+		<Unit filename="build/inventory_slot_select.h" />
+		<Unit filename="build/inventory_slot_select.s" />
+		<Unit filename="build/ladder.d" />
+		<Unit filename="build/ladder.h" />
+		<Unit filename="build/ladder.s" />
+		<Unit filename="build/lighting.d" />
+		<Unit filename="build/logo.d" />
+		<Unit filename="build/logo.h" />
+		<Unit filename="build/logo.s" />
+		<Unit filename="build/main.d" />
+		<Unit filename="build/oak_leaves.d" />
+		<Unit filename="build/oak_leaves.h" />
+		<Unit filename="build/oak_leaves.s" />
+		<Unit filename="build/oak_leaves_a.d" />
+		<Unit filename="build/oak_leaves_a.h" />
+		<Unit filename="build/oak_leaves_a.s" />
+		<Unit filename="build/oak_log.d" />
+		<Unit filename="build/oak_log.h" />
+		<Unit filename="build/oak_log.s" />
+		<Unit filename="build/oak_sapling.d" />
+		<Unit filename="build/oak_sapling.h" />
+		<Unit filename="build/oak_sapling.s" />
+		<Unit filename="build/oak_trapdoor.d" />
+		<Unit filename="build/oak_trapdoor.h" />
+		<Unit filename="build/oak_trapdoor.s" />
+		<Unit filename="build/pig.d" />
+		<Unit filename="build/pig.h" />
+		<Unit filename="build/pig.s" />
+		<Unit filename="build/pig_damage.d" />
+		<Unit filename="build/pig_damage.h" />
+		<Unit filename="build/pig_damage.s" />
+		<Unit filename="build/placeholder_chest.d" />
+		<Unit filename="build/placeholder_chest.h" />
+		<Unit filename="build/placeholder_chest.s" />
+		<Unit filename="build/placeholder_guy.d" />
+		<Unit filename="build/placeholder_guy.h" />
+		<Unit filename="build/placeholder_guy.s" />
+		<Unit filename="build/placeholder_logo.d" />
+		<Unit filename="build/placeholder_logo.h" />
+		<Unit filename="build/placeholder_logo.s" />
+		<Unit filename="build/planks.d" />
+		<Unit filename="build/planks.h" />
+		<Unit filename="build/planks.s" />
+		<Unit filename="build/player.d" />
+		<Unit filename="build/poppy.d" />
+		<Unit filename="build/poppy.h" />
+		<Unit filename="build/poppy.s" />
+		<Unit filename="build/porkchop.d" />
+		<Unit filename="build/porkchop.h" />
+		<Unit filename="build/porkchop.s" />
+		<Unit filename="build/rect.d" />
+		<Unit filename="build/red_tulip.d" />
+		<Unit filename="build/red_tulip.h" />
+		<Unit filename="build/red_tulip.s" />
+		<Unit filename="build/russian.d" />
+		<Unit filename="build/russian.h" />
+		<Unit filename="build/russian.s" />
+		<Unit filename="build/sand.d" />
+		<Unit filename="build/sand.h" />
+		<Unit filename="build/sand.s" />
+		<Unit filename="build/sandstone.d" />
+		<Unit filename="build/sandstone.h" />
+		<Unit filename="build/sandstone.s" />
+		<Unit filename="build/save.d" />
+		<Unit filename="build/selectbtn.d" />
+		<Unit filename="build/selectbtn.h" />
+		<Unit filename="build/selectbtn.s" />
+		<Unit filename="build/snowy_grass.d" />
+		<Unit filename="build/snowy_grass.h" />
+		<Unit filename="build/snowy_grass.s" />
+		<Unit filename="build/soundbank.h" />
+		<Unit filename="build/steve_body1.d" />
+		<Unit filename="build/steve_body1.h" />
+		<Unit filename="build/steve_body1.s" />
+		<Unit filename="build/steve_body2.d" />
+		<Unit filename="build/steve_body2.h" />
+		<Unit filename="build/steve_body2.s" />
+		<Unit filename="build/steve_body3.d" />
+		<Unit filename="build/steve_body3.h" />
+		<Unit filename="build/steve_body3.s" />
+		<Unit filename="build/steve_head.d" />
+		<Unit filename="build/steve_head.h" />
+		<Unit filename="build/steve_head.s" />
+		<Unit filename="build/stick.d" />
+		<Unit filename="build/stick.h" />
+		<Unit filename="build/stick.s" />
+		<Unit filename="build/stone.d" />
+		<Unit filename="build/stone.h" />
+		<Unit filename="build/stone.s" />
+		<Unit filename="build/stone_pickaxe.d" />
+		<Unit filename="build/stone_pickaxe.h" />
+		<Unit filename="build/stone_pickaxe.s" />
+		<Unit filename="build/stone_shovel.d" />
+		<Unit filename="build/stone_shovel.h" />
+		<Unit filename="build/stone_shovel.s" />
+		<Unit filename="build/terrain.d" />
+		<Unit filename="build/userinfo.d" />
+		<Unit filename="build/util.d" />
+		<Unit filename="build/wooden_pickaxe.d" />
+		<Unit filename="build/wooden_pickaxe.h" />
+		<Unit filename="build/wooden_pickaxe.s" />
+		<Unit filename="build/wooden_shovel.d" />
+		<Unit filename="build/wooden_shovel.h" />
+		<Unit filename="build/wooden_shovel.s" />
+		<Unit filename="build/world_label.d" />
+		<Unit filename="build/world_label.h" />
+		<Unit filename="build/world_label.s" />
+		<Unit filename="build/world_label_select.d" />
+		<Unit filename="build/world_label_select.h" />
+		<Unit filename="build/world_label_select.s" />
+		<Unit filename="build/xbtn.d" />
+		<Unit filename="build/xbtn.h" />
+		<Unit filename="build/xbtn.s" />
+		<Unit filename="build/ybtn.d" />
+		<Unit filename="build/ybtn.h" />
+		<Unit filename="build/ybtn.s" />
 		<Unit filename="craftingls.py" />
 		<Unit filename="create-release.py" />
 		<Unit filename="gfx/block/bedrock.grit" />
@@ -180,76 +445,30 @@
 		<Unit filename="gfx/player/steve_body3.png" />
 		<Unit filename="gfx/player/steve_head.grit" />
 		<Unit filename="gfx/player/steve_head.png" />
-		<Unit filename="include/PerlinNoise.hpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="include/animsprite.hpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="include/block.hpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="include/blockparticle.hpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="include/camera.h">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="include/crafting.hpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="include/defines.h">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="include/entity.hpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="include/font.hpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="include/fs.h">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="include/gamestate.hpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="include/gamever.hpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="include/glext.h">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="include/help.hpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="include/images.h">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="include/lang.hpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="include/player.hpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="include/rect.hpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="include/save.hpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="include/terrain.hpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="include/userinfo.h">
-			<Option target="build" />
-		</Unit>
+		<Unit filename="include/animsprite.hpp" />
+		<Unit filename="include/block.hpp" />
+		<Unit filename="include/blockparticle.hpp" />
+		<Unit filename="include/camera.h" />
+		<Unit filename="include/crafting.hpp" />
+		<Unit filename="include/defines.h" />
+		<Unit filename="include/entity.hpp" />
+		<Unit filename="include/font.hpp" />
+		<Unit filename="include/fs.h" />
+		<Unit filename="include/gamestate.hpp" />
+		<Unit filename="include/gamever.hpp" />
+		<Unit filename="include/glext.h" />
+		<Unit filename="include/help.hpp" />
+		<Unit filename="include/images.h" />
+		<Unit filename="include/lang.hpp" />
+		<Unit filename="include/lighting.hpp" />
+		<Unit filename="include/player.hpp" />
+		<Unit filename="include/rect.hpp" />
+		<Unit filename="include/save.hpp" />
+		<Unit filename="include/terrain.hpp" />
+		<Unit filename="include/userinfo.h" />
 		<Unit filename="include/util.h" />
-		<Unit filename="include/uvcoord_font_16x16.h">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="include/uvcoord_font_si.h">
-			<Option target="build" />
-		</Unit>
+		<Unit filename="include/uvcoord_font_16x16.h" />
+		<Unit filename="include/uvcoord_font_si.h" />
 		<Unit filename="newrecipe.py" />
 		<Unit filename="nitrofs/crafting/birch_door.rcp">
 			<Option target="build" />
@@ -338,56 +557,28 @@
 		<Unit filename="nitrofs/test.txt">
 			<Option target="build" />
 		</Unit>
-		<Unit filename="source/animsprite.cpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="source/block.cpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="source/blockparticle.cpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="source/crafting.cpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="source/entity.cpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="source/font.cpp">
-			<Option target="build" />
-		</Unit>
+		<Unit filename="source/animsprite.cpp" />
+		<Unit filename="source/block.cpp" />
+		<Unit filename="source/blockparticle.cpp" />
+		<Unit filename="source/crafting.cpp" />
+		<Unit filename="source/entity.cpp" />
+		<Unit filename="source/font.cpp" />
 		<Unit filename="source/fs.c">
 			<Option compilerVar="CC" />
-			<Option target="build" />
 		</Unit>
-		<Unit filename="source/gamever.cpp">
-			<Option target="build" />
-		</Unit>
+		<Unit filename="source/gamever.cpp" />
 		<Unit filename="source/glext.c">
 			<Option compilerVar="CC" />
-			<Option target="build" />
 		</Unit>
-		<Unit filename="source/help.cpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="source/main.cpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="source/player.cpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="source/rect.cpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="source/save.cpp">
-			<Option target="build" />
-		</Unit>
-		<Unit filename="source/terrain.cpp">
-			<Option target="build" />
-		</Unit>
+		<Unit filename="source/help.cpp" />
+		<Unit filename="source/lighting.cpp" />
+		<Unit filename="source/main.cpp" />
+		<Unit filename="source/player.cpp" />
+		<Unit filename="source/rect.cpp" />
+		<Unit filename="source/save.cpp" />
+		<Unit filename="source/terrain.cpp" />
 		<Unit filename="source/userinfo.c">
 			<Option compilerVar="CC" />
-			<Option target="build" />
 		</Unit>
 		<Unit filename="source/util.c">
 			<Option compilerVar="CC" />

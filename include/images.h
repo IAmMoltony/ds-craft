@@ -87,6 +87,8 @@
 #include "stone_pickaxe.h"
 #include "wooden_shovel.h"
 #include "stone_shovel.h"
+#include "wooden_axe.h"
+#include "stone_axe.h"
 
 // player gui
 #include "heart_outline.h"

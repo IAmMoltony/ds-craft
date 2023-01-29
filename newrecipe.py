@@ -2,7 +2,6 @@
 # Script for creating a new recipe
 
 from craftingls import CraftingRecipe, get_recipes
-from strencode import encode
 from dataclasses import dataclass
 import sys
 
@@ -17,14 +16,14 @@ class CraftingRecipeIngredient:
 
 
 def print_usage():
-    print("Usage: python3 newrecipe.py <file name without .rcp> <english name> <russian name> <outputted item count> <output item id>")
+    print("Usage: python3 newrecipe.py <file name without .rcp> <outputted item count> <output item id>")
 
 
 def main():
     argv = sys.argv
     argc = len(argv)
 
-    if argc != 6:
+    if argc != 4:
         print_usage()
         exit(1)
 
@@ -39,21 +38,17 @@ def main():
 
     identifier = max_id + 1
     texid = max_texture_id + 1
-    name_en = argv[2]
-    name_ru = encode(argv[3])
     output_count = 0
     try:
-        output_count = int(argv[4])
+        output_count = int(argv[2])
     except:
         print("Invalid output count")
         exit(2)
-    output = argv[5]
+    output = argv[3]
 
     print("New recipe values")
     print(f"ID: {identifier}")
     print(f"Texture ID: {texid}")
-    print(f"English name: {name_en}")
-    print(f"Russian name: {argv[3]} (converted: {name_ru})")
     print(f"Output count: {output_count}")
     print(f"Output item: {output}")
     print("Is this ok? (y/n)")
@@ -89,7 +84,7 @@ def main():
         print("Ingredient list must not be empty")
         exit(3)
 
-    to_write = f"id {identifier}\nnameEn {name_en}\nnameRu {name_ru}\ncount {output_count}\ntexid {texid}\noutput {output}\nRECIPE\n"
+    to_write = f"id {identifier}\ncount {output_count}\ntexid {texid}\noutput {output}\nRECIPE\n"
     for ingr in ingredients:
         to_write += repr(ingr) + "\n"
 
