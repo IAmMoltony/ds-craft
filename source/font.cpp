@@ -4,7 +4,7 @@ u8 Font::getCharWidth(char ch)
 {
     if (chwHandler)
         return chwHandler(ch + 32);
-    return spr[ch].width;
+    return spr[(unsigned char)ch].width;
 }
 
 Font::Font()
@@ -34,7 +34,7 @@ extern glImage ybtn[1];
 void Font::print(int x, int y, const char *str, int xoff, int yoff)
 {
     int startX = x;
-    u8 ch;
+    u8 ch = 0;
     while (*str) // iterate through string
     {
         char strch = *str++;
