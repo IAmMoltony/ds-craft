@@ -98,7 +98,7 @@ void updateLighting(BlockList *blocks, Rect updateArea)
             findArea = Rect(block->x - 16, block->y - 64, 64, 128);
 
         std::vector<s16> x = {block->x, block->x, block->x - 16, block->x + 16, block->x, block->x};
-        std::vector<s16> y = {block->y - 16, block->y + 16, block->y, block->y, block->y - 32, block->y - 48};
+        std::vector<s16> y = {block->y - 16, block->y + 16, block->y, block->y, block->y - 16, block->y - 32};
         std::vector<u16> foundIDs = findBlocks(blocks, findArea, x, y);
 
         if (foundIDs.size() >= 4)
