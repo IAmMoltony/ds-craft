@@ -14,7 +14,6 @@
 #include "crafting.hpp"
 #include "help.hpp"
 #include "blockparticle.hpp"
-#include "lighting.hpp"
 #include <algorithm>
 #include <sstream>
 #include <regex>
@@ -674,8 +673,6 @@ int main(int argc, char **argv)
                     player.update(&camera, &blocks, &entities, &blockParticles, frames);
                 if (playerUpdateResult == Player::UpdateResult::BlockPlaced)
                     std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
-                if (playerUpdateResult != Player::UpdateResult::None)
-                    updateLighting(&blocks, player.getRectLightingUpdate());
 
                 // player pos clamping
                 if (player.getX() < 0)
@@ -832,7 +829,6 @@ int main(int argc, char **argv)
                     }
                     glEnd2D();
                     glFlush(0);
-                    updateLighting(&blocks, Rect(-1, -1, -1, -1));
 
                     mmEffectEx(&sndClick);
                     consoleClear();
@@ -1116,7 +1112,7 @@ int main(int argc, char **argv)
                 if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
                     break;
 
-                block->drawBlock(camera, &blocks);
+                block->draw(camera);
                 block->drawBreaking(camera);
             }
 

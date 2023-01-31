@@ -224,7 +224,6 @@ public:
     void hit(void);
     void hit(u8 times);
     bool broken(void);
-    void drawBlock(Camera camera, BlockList *blocks);
     virtual void draw(Camera camera) = 0;
     virtual u16 id(void) = 0;
     virtual void interact(void);

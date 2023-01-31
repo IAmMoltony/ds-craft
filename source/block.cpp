@@ -185,39 +185,6 @@ bool Block::broken(void)
     return brokenLevel >= maxBrokenLevel;
 }
 
-void Block::drawBlock(Camera camera, BlockList *blocks)
-{
-    draw(camera);
-
-    int x = getRect().x - camera.x;
-    int y = getRect().y - camera.y;
-    int x2 = x + getRect().w - 1;
-    int y2 = y + getRect().h - 1;
-
-    switch (lightLevel)
-    {
-    case 1:
-        glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(6));
-        glBoxFilled(x, y, x2, y2, RGB15(0, 0, 0));
-        glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(31));
-        break;
-    case 2:
-        glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(15));
-        glBoxFilled(x, y, x2, y2, RGB15(0, 0, 0));
-        glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(31));
-        break;
-    case 3:
-        glBoxFilled(x, y, x2, y2, RGB15(0, 0, 0));
-        return;
-    default:
-        if (lightLevel != 0)
-        {
-            printf("invalid light level %u, resetting to 0\n", lightLevel);
-            lightLevel = 0;
-        }
-    }
-}
-
 void Block::interact(void)
 {
 }
