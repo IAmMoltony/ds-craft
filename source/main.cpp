@@ -815,21 +815,6 @@ int main(int argc, char **argv)
 
                     std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
 
-                    // loading screen for calculating lighting
-                    glBegin2D();
-                    drawMovingBackground(sprDirt, frames);
-                    switch (lang)
-                    {
-                    case Language::English:
-                        fontSmall.printCentered(0, 50, "Calculating lighting...");
-                        break;
-                    case Language::Russian:
-                        fontSmallRu.printCentered(0, 50, "C\"zktngpkg qtdg~gpk&...");
-                        break;
-                    }
-                    glEnd2D();
-                    glFlush(0);
-
                     mmEffectEx(&sndClick);
                     consoleClear();
                     gameState = GameState::Game;
