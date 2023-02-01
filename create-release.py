@@ -14,13 +14,14 @@ if __name__ == "__main__":
         print(" --noconfirm: no confirmation screen")
         print(" --quiet: no output (except for errors and confirmation screen)")
         print(" --noclean: don't recompile the game")
-        print(" --makeoutput: don't hide build output (overriden by quiet)")
+        print(" --makeoutput: don't hide build output")
         exit(1)
 
     quiet = False
     noconfirm = False
     noclean = False
     makeoutput = False
+    version = ''
     for i in range(1, argc):
         if argv[i] == "--quiet":
             quiet = True
@@ -29,10 +30,16 @@ if __name__ == "__main__":
         elif argv[i] == "--noclean":
             noclean = True
         elif argv[i] == "--makeoutput":
-            makeoutput = True if not quiet else False
+            makeoutput = True
+        elif version == '':
+            version = argv[i]
         else:
             print(f"Unknown argument {argv[i]}")
             exit(1)
+
+    if version == '':
+        print("Please enter the version")
+        exit(1)
 
     filename = f'releases/ds-craft-{argv[1]}.nds'
     if not quiet:
@@ -60,7 +67,7 @@ if __name__ == "__main__":
         build_args = ["make"]
     if not quiet:
         print(f"Running {' '.join(build_args)}")
-    build_stdout = subprocess.DEVNULL;
+    build_stdout = subprocess.DEVNULL
     if makeoutput:
         build_stdout = subprocess.STDOUT
     result = subprocess.run(build_args,
