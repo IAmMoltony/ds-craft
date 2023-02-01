@@ -33,6 +33,7 @@ void fsCreateFile(const char *name)
     if (!fp)
     {
         printf("fsCreateFile failed (name: %s)\n", name);
+        perror(name);
         return;
     }
 #endif
@@ -44,7 +45,10 @@ void fsWrite(const char *file, const char *data)
     FILE *fp = fopen(file, "w");
 #if FS_ERROR_MESSAGES
     if (fputs(data, fp) < 0)
+    {
         printf("fsWrite failed (name: %s)\n", file);
+        perror(file);
+    }
 #else
     fputs(data, fp);
 #endif
@@ -85,7 +89,10 @@ char *fsReadFile(const char *name)
     }
 #if FS_ERROR_MESSAGES
     else
+    {
         printf("fsReadFile failed (name: %s)\n", name);
+        perror(name);
+    }
 #endif
 
     return buf;
@@ -98,6 +105,7 @@ long fsGetFileSize(const char *name)
     {
 #if FS_ERROR_MESSAGES
         printf("fsGetFileSize failed (name: %s)\n", name);
+        perror(name);
 #endif
         return -1;
     }

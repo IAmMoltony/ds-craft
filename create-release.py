@@ -13,15 +13,23 @@ if __name__ == "__main__":
         print("Valid arguments are:")
         print(" --noconfirm: no confirmation screen")
         print(" --quiet: no output (except for errors and confirmation screen)")
+        print(" --noclean: don't recompile the game")
+        print(" --makeoutput: don't hide build output (overriden by quiet)")
         exit(1)
 
     quiet = False
     noconfirm = False
-    for i in range(2, argc):
+    noclean = False
+    makeoutput = False
+    for i in range(1, argc):
         if argv[i] == "--quiet":
             quiet = True
         elif argv[i] == "--noconfirm":
             noconfirm = True
+        elif argv[i] == "--noclean":
+            noclean = True
+        elif argv[i] == "--makeoutput":
+            makeoutput = True if not quiet else False
         else:
             print(f"Unknown argument {argv[i]}")
             exit(1)
@@ -47,10 +55,16 @@ if __name__ == "__main__":
         print("Permission error when creating releases directory")
         exit(1)
 
+    build_args = ["make", "clean", "build"]
+    if noclean:
+        build_args = ["make"]
     if not quiet:
-        print("Running: make clean build")
-    result = subprocess.run(["make", "clean", "build"],
-                            stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+        print(f"Running {' '.join(build_args)}")
+    build_stdout = subprocess.DEVNULL;
+    if makeoutput:
+        build_stdout = subprocess.STDOUT
+    result = subprocess.run(build_args,
+                            build_stdout, stderr=subprocess.STDOUT)
     if result.returncode != 0:
         print("An error occured, aborting.")
         exit(1)

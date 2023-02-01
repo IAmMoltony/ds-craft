@@ -1062,6 +1062,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
         {
             // when l is pressed, open crafting (or close)
             inventoryCrafting = !inventoryCrafting;
+            printf("going into crafting!!!\n");
             craftingSelect = 0;
             inventoryFullSelect = 0;
             mmEffectEx(&sndClick);
