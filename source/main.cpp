@@ -325,6 +325,15 @@ u8 fontRuCharWidthHandler(char ch)
     return fontSmallRuCharWidthHandler(ch) * 2;
 }
 
+// play pop sound at random pitch
+void playPopSound(void)
+{
+    mm_hword oldRate = sndPop.rate;
+    sndPop.rate = randomRange(512, 2048);
+    mmEffectEx(&sndPop);
+    sndPop.rate = oldRate;
+}
+
 int main(int argc, char **argv)
 {
     // initialization
@@ -645,7 +654,7 @@ int main(int argc, char **argv)
 
                         if (ok)
                         {
-                            mmEffectEx(&sndPop);
+                            playPopSound(); // play pop sound at random pitch
                             entities.erase(entities.begin() + i);
                         }
                     }
