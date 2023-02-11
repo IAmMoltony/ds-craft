@@ -130,7 +130,6 @@ glImage selectbtn[1];
 // world label images
 glImage worldLabel[1];
 glImage worldLabelSelect[1];
-glImage grayCircle[1];
 
 // dirent games logo
 glImage direntGames[1];
