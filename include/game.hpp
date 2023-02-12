@@ -27,6 +27,27 @@ public:
         static WorldList getWorlds(void);
     };
 
+    class SettingsManager
+    {
+    public:
+        static bool transparentLeaves;
+        static bool autoSave;
+        static bool smooothCamera;
+        static bool autoJump;
+        static Language lang;
+
+        // 0 = off
+        // 1 = left-handed (abxy=abxy)
+        // 2 = right-handed (abxy=d-pad)
+        static u8 touchToMove;
+
+        SettingsManager() = delete;
+        SettingsManager(SettingsManager &) = delete;
+        ~SettingsManager() = delete;
+
+        static void loadSettings(void);
+    };
+
 private:
     BlockList blocks;
     EntityList entities;
@@ -82,7 +103,6 @@ private:
 
     void playPopSound(void);
 
-    void loadSettings(void);
     void loadFonts(void);
     void init(void);
 
