@@ -7,14 +7,26 @@
 #include "uvcoord_font_si.h"
 #include "gamestate.hpp"
 
-struct WorldInfo
-{
-    std::string name;
-    u32 size; // in bytes
-};
-
 class Game
 {
+public:
+    class WorldManager
+    {
+    public:
+        WorldManager() = delete;
+        WorldManager(WorldManager &) = delete;
+        ~WorldManager() = delete;
+
+        struct WorldInfo
+        {
+            std::string name;
+            u32 size; // in bytes
+        };
+        typedef std::vector<WorldInfo> WorldList;
+
+        static WorldList getWorlds(void);
+    };
+
 private:
     BlockList blocks;
     EntityList entities;
@@ -52,7 +64,7 @@ private:
     u16 worldSelectSelected;
     u8 langSelectSelected;
     u8 deleteWorldSelected;
-    std::vector<WorldInfo> worldSelectWorlds;
+    WorldManager::WorldList worldSelectWorlds;
     bool showSaveText;
     bool paused;
     std::string worldName;
@@ -92,4 +104,8 @@ public:
     };
 
     Game();
+
+    void drawMovingBackground(void);
+    void draw(void);
+    void update(void);
 };
