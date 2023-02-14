@@ -32,7 +32,7 @@ Press the R button to select the next crafting recipe. Press the A button to cra
 
 If you just want to compile, use `make`. To make and then run, use `make build run` (but you need to modify the emulator in the makefile). To recompile, use `make clean build` and if you want to recompile and run use `make clean build run`.
 
-### Using Code::Blocks (on linux)
+### Using Code::Blocks (on Linux)
 
 To build, press the Build button on the top of the window. To run, press the Run button on the top of the window. To build and run, press the Build and Run button on the top of the window. To recompile, select the `clean` configuration using a dropbox next to the build and run button, then press the Build button. Then switch to the `build` configuration.
 
