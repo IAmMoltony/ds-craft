@@ -16,7 +16,7 @@
 //	Format:
 //	U,V,Width,Height
 
-extern const unsigned int font_16x16_texcoords[] = {
+inline const unsigned int font_16x16_texcoords[] = {
     0, 0, 16, 16,    // 0
     16, 0, 16, 16,   // 1
     32, 0, 16, 16,   // 2

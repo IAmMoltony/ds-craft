@@ -1,8 +1,5 @@
 #include "help.hpp"
-
-extern void drawMovingBackground(glImage dirt[1], u8 frames);
-extern glImage sprDirt[1];
-extern mm_sound_effect sndClick;
+#include "game.hpp"
 
 void showHelp(const std::string &file, Language lang, Font font, Font fontRu, Font fontSmall,
               Font fontSmallRu, u16 &frames)
@@ -21,7 +18,7 @@ void showHelp(const std::string &file, Language lang, Font font, Font fontRu, Fo
             ++frames;
 
             glBegin2D();
-            drawMovingBackground(sprDirt, frames);
+            Game::instance->drawMovingBackground();
 
             switch (lang)
             {
@@ -68,7 +65,7 @@ void showHelp(const std::string &file, Language lang, Font font, Font fontRu, Fo
         ++frames;
 
         glBegin2D();
-        drawMovingBackground(sprDirt, frames);
+        Game::instance->drawMovingBackground();
 
         switch (lang)
         {
@@ -95,5 +92,5 @@ void showHelp(const std::string &file, Language lang, Font font, Font fontRu, Fo
 
         swiWaitForVBlank();
     }
-    mmEffectEx(&sndClick);
+    mmEffectEx(&Game::instance->sndClick);
 }

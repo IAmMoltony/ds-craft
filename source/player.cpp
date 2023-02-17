@@ -2,10 +2,9 @@
 
 #include "player.hpp"
 #include "crafting.hpp"
+#include "game.hpp"
 
 static constexpr u8 MAX_AIM_DISTANCE = 67;
-
-extern u8 touchToMove;
 
 // gui images
 static glImage sprInventorySlot[1];
@@ -149,8 +148,6 @@ declsfx3(Glass);
 declsfx3(Hit);
 declsfx3(Eat);
 declsfx4(Ladder);
-
-extern mm_sound_effect sndClick; // click
 
 void loadPlayerSounds(void)
 {
@@ -1010,8 +1007,6 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
 
 // TODO split the draw and update like i did with crafting
 
-extern bool autoJump;
-
 static void eatFood(s16 *health, u8 healthAdd)
 {
     u8 effect = rand() % 3;
@@ -1056,16 +1051,15 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             // when select is pressed, close inventory
             fullInventory = false;
             inventoryCrafting = false;
-            mmEffectEx(&sndClick);
+            mmEffectEx(&Game::instance->sndClick);
         }
         if (kdown & KEY_L)
         {
             // when l is pressed, open crafting (or close)
             inventoryCrafting = !inventoryCrafting;
-            printf("going into crafting!!!\n");
             craftingSelect = 0;
             inventoryFullSelect = 0;
-            mmEffectEx(&sndClick);
+            mmEffectEx(&Game::instance->sndClick);
         }
 
         if (inventoryCrafting)
@@ -1299,7 +1293,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
         for (auto &entity : *entities)
         {
             if (entity->getRect().intersects(getRectAim(*camera)) &&
-                    down & ((touchToMove == 2) ? KEY_DOWN : KEY_B) &&
+                    down & ((Game::SettingsManager::touchToMove == 2) ? KEY_DOWN : KEY_B) &&
                     entity->id().rfind("drop", 0) != 0)
             {
                 entity->damage(1);
@@ -1318,9 +1312,9 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 }
             }
         }
-        if (down & ((touchToMove == 2) ? KEY_RIGHT : KEY_A))
+        if (down & ((Game::SettingsManager::touchToMove == 2) ? KEY_RIGHT : KEY_A))
         {
-            // when a pressed, either interact or place block
+            // when the A button is pressed, either interact or place block
             // and interact if there is a block, place if there isnt
             // but if we are holding an item that we can use
             // then use it
@@ -1694,7 +1688,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
         {
             // when select pressed bring uop inventory
             fullInventory = true;
-            mmEffectEx(&sndClick);
+            mmEffectEx(&Game::instance->sndClick);
         }
 
         // controls
@@ -1704,9 +1698,9 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
         bool up = false;
         if (!(keys & KEY_Y))
         {
-            up = (touchToMove == 2) ? keys & KEY_X : keys & KEY_UP;
-            left = (touchToMove == 2) ? keys & KEY_Y : keys & KEY_LEFT;
-            right = (touchToMove == 2) ? keys & KEY_A : keys & KEY_RIGHT;
+            up = (Game::SettingsManager::touchToMove == 2) ? keys & KEY_X : keys & KEY_UP;
+            left = (Game::SettingsManager::touchToMove == 2) ? keys & KEY_Y : keys & KEY_LEFT;
+            right = (Game::SettingsManager::touchToMove == 2) ? keys & KEY_A : keys & KEY_RIGHT;
         }
 
         u32 rdown = keysDownRepeat();
@@ -1726,7 +1720,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             if (block->getRect().x - camera->x > SCREEN_WIDTH + 48)
                 break;
 
-            if (rdown & ((touchToMove == 2) ? KEY_DOWN : KEY_B))
+            if (rdown & ((Game::SettingsManager::touchToMove == 2) ? KEY_DOWN : KEY_B))
             {
                 // if block touch aim then block break, if b or down is pressed
                 // and we cant break bedrock
@@ -2113,7 +2107,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             {
                 x = block->getRect().x + block->getRect().w;
 
-                if (autoJump && velX < 0 && !jumping)
+                if (Game::SettingsManager::autoJump && velX < 0 && !jumping)
                 {
                     --y;
                     jump();
@@ -2169,7 +2163,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             if (block->getRect().intersects(getRectRight()))
             {
                 x = block->getRect().x - 12;
-                if (autoJump && velX > 0 && !jumping)
+                if (Game::SettingsManager::autoJump && velX > 0 && !jumping)
                 {
                     --y;
                     jump();
@@ -2202,10 +2196,10 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 aimY = touchPos.py;
 
                 // touch to move
-                if (!(keys & ((touchToMove == 2) ? KEY_UP : KEY_X)))
+                if (!(keys & ((Game::SettingsManager::touchToMove == 2) ? KEY_UP : KEY_X)))
                 {
-                    if (touchToMove == 0) // uhh what??
-                        ;
+                    if (Game::SettingsManager::touchToMove == 0) // uhh what??
+                        printf("this is a bug!!!");
                     else
                     {
                         if (aimX < SCREEN_WIDTH / 2)
@@ -2707,13 +2701,13 @@ void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
     }
 
     CraftingRecipe recipe = recipes[craftingSelect];
-    switch (lang)
+    switch (Game::instance->lang)
     {
     case Language::English:
-        fontSmall.printfShadow(16, 35, recipe.getFullName(lang, this).c_str());
+        fontSmall.printfShadow(16, 35, recipe.getFullName(Game::instance->lang, this).c_str());
         break;
     case Language::Russian:
-        fontSmallRu.printfShadow(16, 35, recipe.getFullName(lang, this).c_str());
+        fontSmallRu.printfShadow(16, 35, recipe.getFullName(Game::instance->lang, this).c_str());
         break;
     }
 }
@@ -2739,7 +2733,7 @@ void Player::updateCrafting(void)
         }
 
         if (crafted)
-            mmEffectEx(&sndClick);
+            mmEffectEx(&Game::instance->sndClick);
     }
     if (kdown & KEY_LEFT)
     {

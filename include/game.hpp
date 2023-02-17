@@ -6,6 +6,11 @@
 #include "uvcoord_font_16x16.h"
 #include "uvcoord_font_si.h"
 #include "gamestate.hpp"
+#include "save.hpp"
+#include "gamever.hpp"
+#include "help.hpp"
+#include <sstream>
+#include <regex>
 
 class Game
 {
@@ -20,7 +25,7 @@ public:
         struct WorldInfo
         {
             std::string name;
-            u32 size; // in bytes
+            int size; // in bytes
         };
         typedef std::vector<WorldInfo> WorldList;
 
@@ -32,7 +37,7 @@ public:
     public:
         static bool transparentLeaves;
         static bool autoSave;
-        static bool smooothCamera;
+        static bool smoothCamera;
         static bool autoJump;
         static Language lang;
 
@@ -53,22 +58,6 @@ private:
     EntityList entities;
     BlockParticleList blockParticles;
     Player player;
-    Language lang;
-
-    glImage sprLogo[1];
-    glImage sprAButton[1];
-    glImage sprBButton[1];
-    glImage sprXButton[1];
-    glImage sprYButton[1];
-    glImage sprSelectButton[1];
-
-    glImage sprWorldLabel[1];
-    glImage sprWorldLabelSelect[1];
-
-    glImage sprDirentLogo[1];
-
-    glImage sprLangEnglish[1];
-    glImage sprLangRussian[1];
 
     glImage fontBigImg[FONT_16X16_NUM_IMAGES];
     glImage fontBigRuImg[FONT_16X16_NUM_IMAGES];
@@ -96,18 +85,40 @@ private:
 
     void gameQuit(void);
 
-    u8 fontSmallCharWidthHandler(char ch);
-    u8 fontBigCharWidthHandler(char ch);
-    u8 fontSmallRuCharWidthHandler(char ch);
-    u8 fontBigRuCharWidthHandler(char ch);
+    static u8 fontSmallCharWidthHandler(char ch);
+    static u8 fontBigCharWidthHandler(char ch);
+    static u8 fontSmallRuCharWidthHandler(char ch);
+    static u8 fontBigRuCharWidthHandler(char ch);
 
     void playPopSound(void);
 
     void loadFonts(void);
     void init(void);
 
+    void showHelpScreen(const std::string &setting);
+
 public:
     static Game *instance;
+
+    glImage sprLogo[1];
+    glImage sprAButton[1];
+    glImage sprBButton[1];
+    glImage sprXButton[1];
+    glImage sprYButton[1];
+    glImage sprSelectButton[1];
+
+    glImage sprWorldLabel[1];
+    glImage sprWorldLabelSelect[1];
+
+    glImage sprDirentLogo[1];
+
+    glImage sprLangEnglish[1];
+    glImage sprLangRussian[1];
+
+    mm_sound_effect sndClick;
+    mm_sound_effect sndPop;
+
+    Language lang;
 
     class AssetManager
     {
@@ -128,4 +139,5 @@ public:
     void drawMovingBackground(void);
     void draw(void);
     void update(void);
+    void run(void);
 };

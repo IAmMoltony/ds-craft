@@ -1,4 +1,5 @@
 #include "font.hpp"
+#include "game.hpp"
 
 u8 Font::getCharWidth(char ch)
 {
@@ -119,16 +120,16 @@ void Font::print(int x, int y, const char *str, int xoff, int yoff)
             switch (*str++)
             {
             case 'A':
-                glSprite(x + xoff, y + yoff - 3, GL_FLIP_NONE, abtn);
+                glSprite(x + xoff, y + yoff - 3, GL_FLIP_NONE, Game::instance->sprAButton);
                 break;
             case 'B':
-                glSprite(x + xoff, y + yoff - 3, GL_FLIP_NONE, bbtn);
+                glSprite(x + xoff, y + yoff - 3, GL_FLIP_NONE, Game::instance->sprBButton);
                 break;
             case 'X':
-                glSprite(x + xoff, y + yoff - 3, GL_FLIP_NONE, xbtn);
+                glSprite(x + xoff, y + yoff - 3, GL_FLIP_NONE, Game::instance->sprXButton);
                 break;
             case 'Y':
-                glSprite(x + xoff, y + yoff - 3, GL_FLIP_NONE, ybtn);
+                glSprite(x + xoff, y + yoff - 3, GL_FLIP_NONE, Game::instance->sprYButton);
                 break;
             default:
                 ::printf("button code syntax error: invalid button code (%c)", *str);

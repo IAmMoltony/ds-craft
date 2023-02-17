@@ -1,4 +1,5 @@
 #include "block.hpp"
+#include "game.hpp"
 
 glImage sprGrass[1];
 glImage sprSnowyGrass[1];
@@ -79,7 +80,7 @@ void loadBlockTextures(void)
     loadImageAlpha(sprBlockBreak[8], 16, 16, destroy_stage_8Pal, destroy_stage_8Bitmap);
     loadImageAlpha(sprBlockBreak[9], 16, 16, destroy_stage_9Pal, destroy_stage_9Bitmap);
 
-    if (transparentLeaves)
+    if (Game::SettingsManager::transparentLeaves)
     {
         loadImageAlpha(sprBirchLeaves, 16, 16, birch_leaves_aPal, birch_leaves_aBitmap);
         loadImageAlpha(sprLeaves, 16, 16, oak_leaves_aPal, oak_leaves_aBitmap);
