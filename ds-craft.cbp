@@ -3603,12 +3603,12 @@
 		<Unit filename="source/fs.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="source/game.cpp" />
 		<Unit filename="source/gamever.cpp" />
 		<Unit filename="source/glext.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="source/help.cpp" />
-		<Unit filename="source/lighting.cpp" />
 		<Unit filename="source/main.cpp" />
 		<Unit filename="source/player.cpp" />
 		<Unit filename="source/rect.cpp" />
