@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <dirent.h>
+#include <errno.h>
 #include "defines.h"
 
 #ifdef __cplusplus
@@ -28,8 +29,11 @@ extern "C"
     void fsWrite(const char *file, const char *data);
     void fsDeleteFile(const char *name);
     bool fsFileExists(const char *name);
+    bool fsFolderExists(const char *name);
+    bool fsIsDir(const char *name);
     char *fsReadFile(const char *name);
     long fsGetFileSize(const char *name); // in bytes
+    long fsGetDirSize(const char *name); // in bytes
     char *fsHumanreadFileSize(double size);
     fsDate fsGetFileCreationDate(const char *name);
 

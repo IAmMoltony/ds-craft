@@ -65,6 +65,43 @@ bool fsFileExists(const char *name)
     return access(name, F_OK) == 0;
 }
 
+bool fsFolderExists(const char *name)
+{
+    DIR* dir = opendir(name);
+    if (dir)
+    {
+        closedir(dir);
+        return true;
+    }
+    else if (ENOENT == errno)
+        return false;
+    else
+    {
+#if FS_ERROR_MESSAGES
+        perror("fsFolderExists: opendir() failed");
+#endif
+        return false;
+    }
+
+    return false;
+}
+
+bool fsIsDir(const char *name)
+{
+    struct stat fileStat;
+
+    if (stat(name, &fileStat) == -1)
+    {
+#if FS_ERROR_MESSAGES
+        printf("fsIsDir failed: ");
+        perror(name);
+#endif
+        return false;
+    }
+
+    return S_ISDIR(fileStat.st_mode);
+}
+
 char *fsReadFile(const char *name)
 {
     char *buf = NULL;
@@ -104,7 +141,7 @@ long fsGetFileSize(const char *name)
     if (!fp)
     {
 #if FS_ERROR_MESSAGES
-        printf("fsGetFileSize failed (name: %s)\n", name);
+        printf("fsGetFileSize failed: ");
         perror(name);
 #endif
         return -1;
@@ -116,11 +153,66 @@ long fsGetFileSize(const char *name)
     return size;
 }
 
+long fsGetDirSize(const char *name)
+{
+    DIR *d = opendir(name);
+
+    if (!d)
+    {
+#if FS_ERROR_MESSAGES
+        printf("fsGetDirSize: opendir() failed with name ");
+        perror(name);
+#endif
+        return -1;
+    }
+
+    struct dirent *de;
+    struct stat buf;
+    long totalSize = 0;
+    for (de = readdir(d); de != NULL; de = readdir(d))
+    {
+        char *fullFileName = malloc(strlen(name) + strlen(de->d_name) + 2);
+        if (!fullFileName)
+        {
+#if FS_ERROR_MESSAGES
+            printf("fsGetDirSize: failed to allocate memory\n");
+#endif
+            return -1;
+        }
+        strcpy(fullFileName, name);
+        strncat(fullFileName, "/", 1);
+        strcat(fullFileName, de->d_name);
+
+        if (fsIsDir(fullFileName))
+        {
+            if (strcmp(de->d_name, ".") != 0 && strcmp(de->d_name, "..") != 0)
+            {
+                long subDirSize = fsGetDirSize(fullFileName);
+                if (subDirSize < 0)
+                {
+                    free(fullFileName);
+                    closedir(d);
+                    return -1;
+                }
+                totalSize += subDirSize;
+            }
+        }
+        else
+            totalSize += fsGetFileSize(fullFileName);
+
+        free(fullFileName);
+    }
+
+    closedir(d);
+    return totalSize;
+}
+
 char *fsHumanreadFileSize(double size)
 {
     char *buf = (char *)malloc(10 * sizeof(char));
     int i = 0;
-    static const char *units[] = {
+    static const char *units[] =
+    {
         "B",
         "KB",
         "MB",

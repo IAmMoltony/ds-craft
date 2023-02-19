@@ -2,10 +2,12 @@
 #include "player.hpp"
 #include "crafting.hpp"
 #include "terrain.hpp"
+#include "gamever.hpp"
 #include "fs.h"
 #include <string>
 #include <sstream>
 #include <fstream>
+#include <regex>
 
 std::string iidToString(InventoryItemID iid);
 std::string normalizeWorldFileName(const std::string &str);

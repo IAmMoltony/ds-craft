@@ -5,7 +5,7 @@ std::string normalizeWorldFileName(const std::string &str)
     // this function turns world name
     // into file name
     // e.g.
-    // mY cOoL wOrLd LoL :D -> my_cool_world_lol__d(.wld)
+    // mY cOoL wOrLd LoL :D -> my_cool_world_lol__d
 
     std::string wfn = str; // world file name
 
@@ -27,41 +27,35 @@ std::string normalizeWorldFileName(const std::string &str)
 
 std::string getWorldFile(const std::string &name)
 {
-    std::string fn = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(name) + ".wld";
-
-    if (fsFileExists(fn.c_str()))
-        return fn;
-    return "(NO WORLD FILE)";
+    std::string fn = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(name);
+    return fsFolderExists(fn.c_str()) ? fn : "(NO WORLD FILE)";
 }
 
 std::string getWorldName(const std::string &file)
 {
-    std::ifstream f(file);
-    std::string name = "(error)";
-    if (f.bad())
+    if (fsFileExists(std::string(file + "/world.meta").c_str()))
     {
-        printf("Cannot open file %s", file.c_str());
-        while (true)
-            ;
-    }
-    std::string line;
-    while (std::getline(f, line))
-    {
-        std::string line2;
-        std::vector<std::string> split;
-        std::stringstream ss(line);
-        while (std::getline(ss, line2, ' '))
-            split.push_back(line2);
-
-        if (split[0] == "name")
+        std::ifstream wldMetaStream(file + "/world.meta");
+        std::string line;
+        while (std::getline(wldMetaStream, line))
         {
-            line.erase(0, 5);
-            name = line;
-            break;
+            std::stringstream ss(line);
+            std::string line2;
+            std::vector<std::string> split;
+            while (std::getline(ss, line2, ' '))
+                split.push_back(line2);
+
+            if (split[0] == "worldname")
+            {
+                std::string worldName = "";
+                for (size_t i = 1; i < split.size(); ++i)
+                    worldName += split[i] + ' ';
+                worldName.pop_back();
+                return worldName;
+            }
         }
     }
-    f.close();
-    return name;
+    return "(error)";
 }
 
 std::string iidToString(InventoryItemID iid)
@@ -199,10 +193,10 @@ std::string iidToString(InventoryItemID iid)
 void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                Player &player)
 {
-    std::string worldFile = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(name) + ".wld";
+    std::string worldFolder = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(name);
 
-    // generate terrain in case file doesnt exist
-    if (!fsFileExists(worldFile.c_str()))
+    // generate terrain in case folder doesn't exist
+    if (!fsFolderExists(worldFolder.c_str()))
     {
         blocks.clear();
         entities.clear();
@@ -210,20 +204,12 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     }
 
     // create file
-    fsCreateFile(worldFile.c_str());
-    std::ofstream wld(worldFile);
-
-    // save name of  world
-    wld << "name " + name + "\n";
-
-    // save player
-    wld << "player " + std::to_string(player.getX()) + " " + std::to_string(player.getY()) + " " + std::to_string(player.getHealth()) + "\n";
-    wld << "spawnpoint " + std::to_string(player.getSpawnX()) + " " + std::to_string(player.getSpawnY()) + "\n";
-
-    std::array<InventoryItem, 20> playerInventory = player.getInventory();
-    // save inventory
-    for (u8 i = 0; i < 20; ++i)
-        wld << "inventory " + std::to_string(i) + " " + iidToString(playerInventory[i].id) + " " + std::to_string(playerInventory[i].amount) + "\n";
+    fsCreateDir(worldFolder.c_str());
+    fsCreateDir(std::string(worldFolder + "/locations").c_str());
+    fsCreateDir(std::string(worldFolder + "/chests").c_str());
+    fsCreateFile(std::string(worldFolder + "/world.meta").c_str());
+    fsCreateFile(std::string(worldFolder + "/player.info").c_str());
+    std::ofstream wld(worldFolder + "/locations/location0.wld");
 
     // save blocks
     for (auto &block : blocks)
@@ -264,18 +250,8 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             wld << "birchtrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(td->isOpen()) + "\n";
             break;
         }
-        // chest
         case BID_CHEST:
-        {
-            Block *b = block.get();
-            ChestBlock *chest = reinterpret_cast<ChestBlock *>(b);
-            wld << "chest " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(chest->getChestID()) + "\n";
-            // save items
-            std::array<InventoryItem, 10> chestItems = chest->getItems();
-            for (u8 i = 0; i < 10; ++i)
-                wld << "chestitem " + std::to_string(i) + " " + iidToString(chestItems[i].id) + " " + std::to_string(chestItems[i].amount) + " " + std::to_string(chest->getChestID()) + "\n";
             break;
-        }
         // leaves
         case BID_LEAVES:
         {
@@ -290,9 +266,8 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         }
         // every other block
         default:
-        {
             wld << "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(id) + "\n";
-        }
+            break;
         }
     }
 
@@ -304,29 +279,67 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     }
 
     wld.close();
+
+    // chests
+    for (auto &block : blocks)
+    {
+        if (block->id() == BID_CHEST)
+        {
+            Block *b = block.get();
+            ChestBlock *chest = reinterpret_cast<ChestBlock *>(b);
+            std::ofstream chestFile(worldFolder + "/chests/chest" + std::to_string(chest->getChestID()) + ".cst");
+            // save position
+            chestFile << "position " + std::to_string(b->x) + ' ' + std::to_string(b->y) + '\n';
+            // save items
+            std::array<InventoryItem, 10> chestItems = chest->getItems();
+            for (u8 i = 0; i < 10; ++i)
+            {
+                std::string iidstr = iidToString(chestItems[i].id);
+                printf("%s\n", iidstr.c_str());
+                chestFile << "chestitem " + std::to_string(i) + ' ' + iidToString(chestItems[i].id) + " " + std::to_string(chestItems[i].amount) + '\n';
+            }
+            chestFile.close();
+            break;
+        }
+    }
+
+    // world meta
+    std::ofstream wldmeta(worldFolder + "/world.meta");
+    wldmeta << "worldname " + name + "\ngameversion " + getVersionString() + '\n';
+    wldmeta.close();
+
+    // player info
+    std::ofstream playerinfo(worldFolder + "/player.info");
+    playerinfo << std::string("position " + std::to_string(player.getX()) + ' ' + std::to_string(player.getY())) + "\nspawnpoint " + std::to_string(player.getSpawnX()) + ' ' + std::to_string(player.getSpawnY()) + "\nhealth " + std::to_string(player.getHealth()) + '\n';
+    std::array<InventoryItem, 20> playerInventory = player.getInventory();
+    // save inventory
+    for (u8 i = 0; i < 20; ++i)
+        playerinfo << "inventory " + std::to_string(i) + " " + iidToString(playerInventory[i].id) + " " + std::to_string(playerInventory[i].amount) + "\n";
+    playerinfo.close();
 }
 
 void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                Player &player)
 {
-    // clear the world
+    std::string worldFolder = "fat:/dscraft_data/worlds/" + name;
+
+    // clear the current world state
     blocks.clear();
     entities.clear();
 
     // reset spawn point
     player.setSpawnPoint(0, 0);
 
-    // we cant load smth that doesnt exist
-    if (!fsFileExists(std::string("fat:/dscraft_data/worlds/" + name + ".wld").c_str()))
+    // we can't load something that doesn't exist
+    if (!fsFolderExists(worldFolder.c_str()))
     {
-        printf("%s doesnt exist\n", std::string("fat:/dscraft_data/worlds/" + name + ".wld").c_str());
+        printf("%s doesnt exist\n", worldFolder.c_str());
         return;
     }
 
-    std::string contents = std::string(fsReadFile(std::string("fat:/dscraft_data/worlds/" + name + ".wld").c_str()));
-    std::istringstream iss(contents);
+    std::ifstream wld(worldFolder + "/locations/location0.wld");
     std::string line;
-    while (std::getline(iss, line)) // for each line in the file
+    while (std::getline(wld, line)) // for each line in the file
     {
         // split line by spaces
         std::vector<std::string> split;
@@ -335,15 +348,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         while (std::getline(ss, line2, ' '))
             split.push_back(line2);
 
-        if (split[0] == "player") // player <x> <y> <health>
-        {
-            player.setX(atoi(split[1].c_str()));
-            player.setY(atoi(split[2].c_str()));
-            player.setHealth(atoi(split[3].c_str()));
-        }
-        else if (split[0] == "spawnpoint") // spawnpoint <x> <y>
-            player.setSpawnPoint(atoi(split[1].c_str()), atoi(split[2].c_str()));
-        else if (split[0] == "door") // door <x> <y> <open> <facing>
+        if (split[0] == "door") // door <x> <y> <open> <facing>
         {
             s16 x = atoi(split[1].c_str());
             s16 y = atoi(split[2].c_str());
@@ -374,38 +379,6 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             bool open = split[3] == "1";
 
             blocks.emplace_back(new BirchTrapdoorBlock(x, y, open));
-        }
-        else if (split[0] == "chest") // chest <x> <y> <id>
-        {
-            s16 x = atoi(split[1].c_str());
-            s16 y = atoi(split[2].c_str());
-            u16 id = atoi(split[3].c_str());
-            ChestBlock *chest = new ChestBlock(x, y, id);
-            blocks.emplace_back(chest);
-
-            // c stands for chest
-            std::istringstream issc(contents);
-            std::string linec;
-            while (std::getline(issc, linec)) // for each line in the file
-            {
-                // split line by spaces
-                std::vector<std::string> splitc;
-                std::stringstream ssc(linec);
-                std::string line2c;
-                while (std::getline(ssc, line2c, ' '))
-                    splitc.push_back(line2c);
-
-                if (splitc[0] == "chestitem")
-                {
-                    u16 cid = atoi(splitc[4].c_str());
-                    if (cid != id)
-                        continue;
-                    u8 i = atoi(splitc[1].c_str());
-                    InventoryItemID iid = strToIID(splitc[2]);
-                    u8 amount = atoi(splitc[3].c_str());
-                    chest->setItem(i, {iid, amount});
-                }
-            }
         }
         else if (split[0] == "block") // block <x> <y> <id>
         {
@@ -496,17 +469,10 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             case BID_COBBLESTONE_SLAB:
                 blocks.emplace_back(new CobblestoneSlabBlock(x, y));
                 break;
+            case BID_BIRCH_SLAB:
+                blocks.emplace_back(new BirchSlabBlock(x, y));
+                break;
             }
-        }
-        else if (split[0] == "inventory") // inventory <index> <amount> <id>
-        {
-            u8 i = atoi(split[1].c_str());
-            u8 amount = atoi(split[3].c_str());
-            std::string sid = split[2]; // string id
-            InventoryItemID id = InventoryItemID::None;
-            id = strToIID(sid);
-
-            player.setItem(i, {id, amount});
         }
         else if (split[0] == "entity") // entity <x> <y> <id>
         {
@@ -516,5 +482,93 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             if (id == "pig")
                 entities.emplace_back(new PigEntity(x, y));
         }
+    }
+    wld.close();
+
+    std::ifstream playerInfo(worldFolder + "/player.info");
+    while (std::getline(playerInfo, line))
+    {
+        // split line by spaces
+        std::vector<std::string> split;
+        std::stringstream ss(line);
+        std::string line2;
+        while (std::getline(ss, line2, ' '))
+            split.push_back(line2);
+
+        if (split[0] == "position")
+        {
+            player.setX(atoi(split[1].c_str()));
+            player.setY(atoi(split[2].c_str()));
+        }
+        else if (split[0] == "health")
+            player.setHealth(atoi(split[1].c_str()));
+        else if (split[0] == "spawnpoint")
+            player.setSpawnPoint(atoi(split[1].c_str()), atoi(split[2].c_str()));
+        else if (split[0] == "inventory")
+        {
+            u8 index = atoi(split[1].c_str());
+            InventoryItemID id = strToIID(split[2]);
+            u8 count = atoi(split[3].c_str());
+            InventoryItem item = {id, count};
+            player.setItem(index, item);
+        }
+    }
+    playerInfo.close();
+
+    DIR *dp;
+    dp = opendir(std::string(worldFolder + "/chests").c_str());
+    struct dirent *ep;
+    std::string dls; // directory list string
+    while ((ep = readdir(dp)) != NULL)
+        dls += std::string(ep->d_name) + "\n";
+    (void)closedir(dp);
+
+    std::stringstream ss(dls);
+    while (std::getline(ss, line))
+    {
+        // . and .. are current dir and parent dir, skip them
+        if (line == "." || line == "..")
+            continue;
+
+        std::regex chestFileRegex("chest(\\d+)\\.cst");
+        if (!std::regex_match(line, chestFileRegex))
+            continue;
+
+        u16 chestID = 0;
+        std::smatch chestIDMatch;
+        if (std::regex_search(line, chestIDMatch, chestFileRegex))
+            chestID = std::stoi(chestIDMatch[1]);
+
+        ChestBlock *chest = new ChestBlock(0, 0, chestID);
+
+        std::string chestFileName = worldFolder + "/chests/" + line;
+        std::ifstream chestFile(chestFileName);
+        if (chestFile.bad())
+        {
+            printf("bad chest file %s\n", line.c_str());
+            continue;
+        }
+        std::string line2;
+        while (std::getline(chestFile, line2))
+        {
+            // split line by spaces
+            std::vector<std::string> split;
+            std::stringstream ss(line2);
+            std::string line3;
+            while (std::getline(ss, line3, ' '))
+                split.push_back(line3);
+
+            if (split[0] == "chestitem")
+            {
+                chest->setItem(atoi(split[1].c_str()), {strToIID(split[2]), atoi(split[3].c_str())});
+            }
+            else if (split[0] == "position")
+            {
+                chest->x = atoi(split[1].c_str());
+                chest->y = atoi(split[2].c_str());
+            }
+        }
+        blocks.emplace_back(chest);
+        chestFile.close();
     }
 }

@@ -1210,7 +1210,7 @@ void Game::update(void)
                 std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
 
                 mmEffectEx(&sndClick);
-                consoleClear();
+                //consoleClear();
                 gameState = GameState::Game;
                 swiWaitForVBlank();
                 return;
@@ -1508,11 +1508,15 @@ Game::WorldManager::WorldList Game::WorldManager::getWorlds(void)
         if (line == "." || line == "..")
             continue;
 
-        std::string worldName = getWorldName("fat:/dscraft_data/worlds/" + line);
-        if (worldName == "(error)")
-            continue; // hide error worlds
+        if (!fsIsDir(std::string("fat:/dscraft_data/worlds/" + line).c_str()))
+            continue;
 
-        int size = fsGetFileSize(std::string("fat:/dscraft_data/worlds/" + line).c_str());
+        if (!fsFileExists(std::string("fat:/dscraft_data/worlds/" + line).c_str()))
+            continue;
+
+        std::string worldName = getWorldName("fat:/dscraft_data/worlds/" + line);
+
+        int size = fsGetDirSize(std::string("fat:/dscraft_data/worlds/" + line).c_str());
         worlds.push_back({worldName, size});
     }
 

@@ -50,6 +50,8 @@
     snd##effectname##2 = soundEffect(SFX_##effectid##2); \
     snd##effectname##3 = soundEffect(SFX_##effectid##3);
 
+// if 1, filesystem errors will be displayed (e.g. can't open a file)
+// if 0, filesystem errors will not be displayed
 #define FS_ERROR_MESSAGES 1
 
 #define HALFSIZE ((1 << 12) / 2)
