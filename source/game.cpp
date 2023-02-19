@@ -60,7 +60,6 @@ void Game::gameQuit(void)
     }
     glEnd2D();
     glFlush(0);
-    while (true);
     saveWorld(worldName, blocks, entities, player);
 
     // reset player state
