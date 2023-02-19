@@ -2198,9 +2198,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 // touch to move
                 if (!(keys & ((Game::SettingsManager::touchToMove == 2) ? KEY_UP : KEY_X)))
                 {
-                    if (Game::SettingsManager::touchToMove == 0) // uhh what??
-                        printf("this is a bug!!!");
-                    else
+                    if (Game::SettingsManager::touchToMove != 0)
                     {
                         if (aimX < SCREEN_WIDTH / 2)
                         {

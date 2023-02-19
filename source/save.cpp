@@ -293,11 +293,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             // save items
             std::array<InventoryItem, 10> chestItems = chest->getItems();
             for (u8 i = 0; i < 10; ++i)
-            {
-                std::string iidstr = iidToString(chestItems[i].id);
-                printf("%s\n", iidstr.c_str());
                 chestFile << "chestitem " + std::to_string(i) + ' ' + iidToString(chestItems[i].id) + " " + std::to_string(chestItems[i].amount) + '\n';
-            }
             chestFile.close();
             break;
         }
