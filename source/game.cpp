@@ -1590,7 +1590,6 @@ bool Game::SettingsManager::transparentLeaves = false;
 bool Game::SettingsManager::autoSave = true;
 bool Game::SettingsManager::smoothCamera = true;
 bool Game::SettingsManager::autoJump = false;
-Language Game::SettingsManager::lang = Language::English;
 u8 Game::SettingsManager::touchToMove = 0;
 
 void Game::SettingsManager::loadSettings(void)
@@ -1600,7 +1599,7 @@ void Game::SettingsManager::loadSettings(void)
     {
         char *data = fsReadFile("fat:/dscraft_data/config/lang.cfg");
         if (data[0] == '1')
-            lang = Language::Russian;
+            Game::instance->lang = Language::Russian;
         else if (data[0] != '0') // invalid lang
         {
             printf("invalid language code %c", data[0]);

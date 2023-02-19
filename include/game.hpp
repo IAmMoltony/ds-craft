@@ -39,7 +39,6 @@ public:
         static bool autoSave;
         static bool smoothCamera;
         static bool autoJump;
-        static Language lang;
 
         // 0 = off
         // 1 = left-handed (abxy=abxy)
