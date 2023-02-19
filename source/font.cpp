@@ -32,10 +32,11 @@ extern glImage bbtn[1];
 extern glImage xbtn[1];
 extern glImage ybtn[1];
 
-void Font::print(int x, int y, const char *str, int xoff, int yoff)
+void Font::print(int x, int y, const char *str, int xoff, int yoff, Font *font2)
 {
     int startX = x;
     u8 ch = 0;
+    bool useFont2 = false;
     while (*str) // iterate through string
     {
         char strch = *str++;
@@ -144,6 +145,10 @@ void Font::print(int x, int y, const char *str, int xoff, int yoff)
             }
             continue;
         }
+        else if (strch == '\3')
+        {
+            useFont2 = font2 ? !useFont2 : false; // not allow to enable if font2 is null
+        }
         ch = strch - 32;
         if (*str == '\n')
         {
@@ -152,8 +157,16 @@ void Font::print(int x, int y, const char *str, int xoff, int yoff)
             ++str;
             continue;
         }
-        glSprite(x + xoff, y + yoff, GL_FLIP_NONE, &spr[ch]); // draw the image
-        x += getCharWidth(ch);
+        if (useFont2)
+        {
+            glSprite(x + xoff, y + yoff, GL_FLIP_NONE, &font2->spr[ch]);
+            x += font2->getCharWidth(ch);
+        }
+        else
+        {
+            glSprite(x + xoff, y + yoff, GL_FLIP_NONE, &spr[ch]); // draw the image
+            x += getCharWidth(ch);
+        }
 
         // word go to next line if off screen
         if (x > SCREEN_WIDTH - spr[ch].width)
@@ -166,10 +179,11 @@ void Font::print(int x, int y, const char *str, int xoff, int yoff)
     glColor(RGB15(31, 31, 31));
 }
 
-void Font::printCentered(int x, int y, const char *str)
+void Font::printCentered(int x, int y, const char *str, Font *font2)
 {
     u8 ch;
     int tw = 0;
+    bool useFont2 = false;
     const char *str2 = str;
 
     while (*str)
@@ -199,14 +213,17 @@ void Font::printCentered(int x, int y, const char *str)
             }
             tw += 10;
             continue;
+        case '\3':
+            useFont2 = font2 ? !useFont2 : false; // not allow to enable if font2 is null
+            break;
         }
 
         ch = strch - 32;
-        tw += getCharWidth(ch);
+        tw += useFont2 ? font2->getCharWidth(ch) : getCharWidth(ch);
     }
 
     x += (SCREEN_WIDTH - tw) / 2;
-    print(x, y, str2);
+    print(x, y, str2, 0, 0, font2);
 }
 
 void Font::printfCentered(int x, int y, const char *format, ...)

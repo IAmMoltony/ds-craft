@@ -49,13 +49,18 @@ void Game::gameQuit(void)
     {
     case Language::English:
         fontSmall.printCentered(0, 50, "Saving world...");
+        fontSmall.printCentered(0, 70, "Do not turn off the power or");
+        fontSmall.printCentered(0, 80, "remove the SD card.");
         break;
     case Language::Russian:
         fontSmallRu.printCentered(0, 50, "Sqxsbpgpkg oksb...");
+        fontSmallRu.printCentered(0, 70, "Og d\"mn%zblug rkubpkg ");
+        fontSmallRu.printCentered(0, 80, "k pg kjdngmblug \3SD-\3mbsuv.", &fontSmall);
         break;
     }
     glEnd2D();
     glFlush(0);
+    while (true);
     saveWorld(worldName, blocks, entities, player);
 
     // reset player state
