@@ -167,7 +167,6 @@ long fsGetDirSize(const char *name)
     }
 
     struct dirent *de;
-    struct stat buf;
     long totalSize = 0;
     for (de = readdir(d); de != NULL; de = readdir(d))
     {
@@ -180,7 +179,7 @@ long fsGetDirSize(const char *name)
             return -1;
         }
         strcpy(fullFileName, name);
-        strncat(fullFileName, "/", 1);
+        strcat(fullFileName, "/");
         strcat(fullFileName, de->d_name);
 
         if (fsIsDir(fullFileName))

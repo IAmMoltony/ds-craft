@@ -556,7 +556,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
             if (split[0] == "chestitem")
             {
-                chest->setItem(atoi(split[1].c_str()), {strToIID(split[2]), atoi(split[3].c_str())});
+                chest->setItem(atoi(split[1].c_str()), {strToIID(split[2]), (u8)atoi(split[3].c_str())});
             }
             else if (split[0] == "position")
             {
