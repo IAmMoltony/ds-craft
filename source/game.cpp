@@ -517,6 +517,27 @@ void Game::draw(void)
                 fsDate worldCreationDate = fsGetFileCreationDate(getWorldFile(worldInfoName).c_str());
                 std::string worldCreationDateString = std::to_string(worldCreationDate.year) + '/' + std::to_string(worldCreationDate.month) + '/' + std::to_string(worldCreationDate.day);
                 std::string worldInfoString;
+
+                if (lang == Language::Russian)
+                {
+                    for (size_t i = 0; i < strlen(hrfsz); ++i)
+                    {
+                        char ch = hrfsz[i];
+                        switch (ch)
+                        {
+                        case 'K':
+                            hrfsz[i] = 'L';
+                            break;
+                        case 'M':
+                            hrfsz[i] = 'N';
+                            break;
+                        case 'G':
+                            hrfsz[i] = 'D';
+                            break;
+                        }
+                    }
+                }
+
                 switch (lang)
                 {
                 case Language::English:
