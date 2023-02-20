@@ -315,9 +315,13 @@ void Game::drawMovingBackground(void)
 {
     // draw the moving background seen in menus
     glColor(RGB15(15, 15, 15));
-    for (u8 i = 0; i < SCREEN_WIDTH / 32 + 2; ++i)
-        for (u8 j = 0; j < SCREEN_HEIGHT / 32 + 1; ++j)
-            glSpriteScale(i * 32 - frameCounter % 64, j * 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
+    int oldWidth = sprDirt->width;
+    int oldHeight = sprDirt->height;
+    sprDirt->width = SCREEN_WIDTH / 2 + 64;
+    sprDirt->height = SCREEN_HEIGHT / 2;
+    glSpriteScale(0 - frameCounter % 64, 0, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
+    sprDirt->width = oldWidth;
+    sprDirt->height = oldHeight;
     glColor(RGB15(31, 31, 31));
 }
 
