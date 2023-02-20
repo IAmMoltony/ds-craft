@@ -290,6 +290,25 @@ void Game::showHelpScreen(const std::string &setting)
     showHelp(setting, lang, fontBig, fontBigRu, fontSmall, fontSmallRu, frameCounter);
 }
 
+void Game::enterWorldSelect(void)
+{
+    gameState = GameState::WorldSelect;
+    glBegin2D();
+    drawMovingBackground();
+    switch (lang)
+    {
+    case Language::English:
+        fontSmall.printCentered(0, 50, "Loading world list...");
+        break;
+    case Language::Russian:
+        fontSmallRu.printCentered(0, 50, "Ibesvjmb trktmb oksqd...");
+        break;
+    }
+    glEnd2D();
+    glFlush(0);
+    worldSelectWorlds = WorldManager::getWorlds();
+}
+
 extern glImage sprDirt[1]; // defined in block.cpp
 
 void Game::drawMovingBackground(void)
@@ -1143,8 +1162,7 @@ void Game::update(void)
             switch (titleScreenSelect)
             {
             case 0:
-                gameState = GameState::WorldSelect;
-                worldSelectWorlds = WorldManager::getWorlds();
+                enterWorldSelect();
                 worldSelectSelected = 0;
                 mmEffectEx(&sndClick);
                 break;
@@ -1334,8 +1352,7 @@ void Game::update(void)
                 glFlush(0);
                 saveWorld(worldName, blocks, entities, player);
 
-                gameState = GameState::WorldSelect;
-                worldSelectWorlds = WorldManager::getWorlds();
+                enterWorldSelect();
                 frameCounter = 0;
                 mmEffectEx(&sndClick);
             }
@@ -1489,7 +1506,8 @@ void Game::update(void)
         {
             worldSelectSelected = 0;
             fsDeleteFile(std::string("fat:/dscraft_data/worlds/" + normalizeWorldFileName(worldSelectWorlds[deleteWorldSelected].name) + ".wld").c_str());
-            worldSelectWorlds = WorldManager::getWorlds();
+            worldSelectWorlds.erase(worldSelectWorlds.begin() + deleteWorldSelected);
+            deleteWorldSelected = 0;
             gameState = GameState::WorldSelect;
             mmEffectEx(&sndClick);
         }

@@ -95,6 +95,7 @@ private:
     void init(void);
 
     void showHelpScreen(const std::string &setting);
+    void enterWorldSelect(void);
 
 public:
     static Game *instance;
