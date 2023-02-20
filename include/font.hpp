@@ -26,7 +26,7 @@ public:
     void printCentered(int x, int y, const char *str, Font *font2 = NULL);
     void printf(int x, int y, const char *format, ...) __attribute__((format(printf, 4, 5)));
     void printfCentered(int x, int y, const char *format, ...) __attribute__((format(printf, 4, 5)));
-    void printShadow(int x, int y, const char *str);
+    void printShadow(int x, int y, const char *str, Font *font2 = NULL);
     void printShadowCentered(int x, int y, const char *str);
     void printfShadow(int x, int y, const char *format, ...) __attribute__((format(printf, 4, 5)));
 };

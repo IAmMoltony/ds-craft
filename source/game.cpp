@@ -685,8 +685,7 @@ void Game::draw(void)
         }
 
         glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprSelectButton);
-        fontSmall.print(30, SCREEN_HEIGHT - 28, "Select (");
-        fontSmallRu.print(97, SCREEN_HEIGHT - 28, "C\"csbu#)");
+        fontSmall.print(30, SCREEN_HEIGHT - 28, "Select \3(C\"csbu#)", 0, 0, &fontSmallRu);
 
         glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprAButton);
         fontSmall.print(15, SCREEN_HEIGHT - 15, "OK");

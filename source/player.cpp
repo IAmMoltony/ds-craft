@@ -814,10 +814,11 @@ void Player::draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Fo
                 break;
             case Language::Russian:
                 fontSmallRu.printShadow(110, 46, getItemStr(Language::Russian, inventory[inventoryFullSelect].id));
-                fontSmallRu.printShadow(16, 46 + 48 + 23, "Obiokug");
-                fontSmall.printShadow(81, 46 + 48 + 23, "L");
-                fontSmallRu.printShadow(81 + 18, 46 + 48 + 23, "zuqc\" rgsgluk");
-                fontSmallRu.printShadow(16, 46 + 48 + 23 + 11, "d ogp% tqjfbpk&");
+//                fontSmallRu.printShadow(16, 46 + 48 + 23, "Obiokug");
+//                fontSmall.printShadow(81, 46 + 48 + 23, "L");
+//                fontSmallRu.printShadow(81 + 18, 46 + 48 + 23, "zuqc\" rgsgluk");
+//                fontSmallRu.printShadow(16, 46 + 48 + 23 + 11, "d ogp% tqjfbpk&");
+                fontSmallRu.printShadow(16, 62 + 28 + 23, "Obiokug \3L \3zuqc\" rgsgluk d ogp% tqjfbpk&", &fontSmall);
                 break;
             }
         }

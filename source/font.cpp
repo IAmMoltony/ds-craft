@@ -260,23 +260,23 @@ void Font::printf(int x, int y, const char *format, ...)
     // print
     print(x, y, str);
 
-    // we dont need anymore
+    // we don't need anymore
     free(str);
 
     va_end(args);
 }
 
-void Font::printShadow(int x, int y, const char *str)
+void Font::printShadow(int x, int y, const char *str, Font *font2)
 {
     // shadow part
     glColor(RGB15(0, 0, 0));
     glPolyFmt(POLY_ALPHA(14) | POLY_CULL_NONE);
-    print(x, y, str, 1, 1);
+    print(x, y, str, 1, 1, font2);
     glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
     glColor(RGB15(31, 31, 31));
 
     // actual text
-    print(x, y, str);
+    print(x, y, str, 0, 0, font2);
 }
 
 void Font::printShadowCentered(int x, int y, const char *str)
