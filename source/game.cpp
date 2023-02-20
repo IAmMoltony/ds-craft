@@ -166,6 +166,9 @@ u8 Game::fontSmallRuCharWidthHandler(char ch)
         return 3;
     case '[':
         return 9;
+    case '(':
+    case ')':
+        return 5;
     }
 
     return 0;
