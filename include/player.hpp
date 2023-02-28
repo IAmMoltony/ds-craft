@@ -60,7 +60,7 @@ public:
 
     Player();
 
-    void draw(Camera camera, Font fontSmall, Font font, Font fontSmallRu, Font fontRu, Language lang);
+    void draw(Camera camera, Font font, Font fontRu, Language lang);
     void drawCrafting(Font fontSmall, Font fontSmallRu);
     UpdateResult update(Camera *camera, BlockList *blocks, EntityList *entities, BlockParticleList *blockParticles, const u16 &frames);
     void updateCrafting(void);
@@ -92,7 +92,7 @@ public:
     Rect getRectTop(void);
     Rect getRectLeft(void);
     Rect getRectRight(void);
-    Rect getRectSlab(void); // weird name but it is the rect that player collides with to climb a slab
+    Rect getRectSlab(void); // weird name but it is the rect that slab collides with to make the player go up
     Rect getRectAim(Camera camera);
     Rect getRectAimY8(Camera camera); // getRectAim but instead of using spanToGrid on Y, it uses snapToGrid8
     Rect getRectLightingUpdate(void);

@@ -54,6 +54,8 @@
 // if 0, filesystem errors will not be displayed
 #define FS_ERROR_MESSAGES 1
 
+#define SCALE_NORMAL (1 << 12)
+#define SCALE(times) (SCALE_NORMAL * (times))
 #define HALFSIZE ((1 << 12) / 2)
 
 // i think these are reduntant

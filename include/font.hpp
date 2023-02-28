@@ -4,6 +4,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <string>
+#include "defines.h"
 
 class Font
 {
@@ -22,11 +23,14 @@ public:
               const u16 *pal, const u8 *bitmap);
     u8 getCharWidth(char ch);
     void setCharWidthHandler(CharWidthHandler chwHandler);
-    void print(int x, int y, const char *str, int xoff = 0, int yoff = 0, Font *font2 = NULL);
-    void printCentered(int x, int y, const char *str, Font *font2 = NULL);
+    void print(int x, int y, const char *str, int xoff = 0, int yoff = 0, Font *font2 = NULL, s32 scale = SCALE_NORMAL);
+    void printCentered(int x, int y, const char *str, Font *font2 = NULL, s32 scale = SCALE_NORMAL);
     void printf(int x, int y, const char *format, ...) __attribute__((format(printf, 4, 5)));
+    void printfScale(int x, int y, s32 scale, const char *format, ...) __attribute__((format(printf, 5, 6)));
     void printfCentered(int x, int y, const char *format, ...) __attribute__((format(printf, 4, 5)));
-    void printShadow(int x, int y, const char *str, Font *font2 = NULL);
-    void printShadowCentered(int x, int y, const char *str);
+    void printfScaleCentered(int x, int y, s32 scale, const char *format, ...) __attribute__((format(printf, 5, 6)));
+    void printShadow(int x, int y, const char *str, Font *font2 = NULL, s32 scale = SCALE_NORMAL);
+    void printShadowCentered(int x, int y, const char *str, Font *font2 = NULL, s32 scale = SCALE_NORMAL);
     void printfShadow(int x, int y, const char *format, ...) __attribute__((format(printf, 4, 5)));
+    void printfScaleShadow(int x, int y, s32 scale, const char *format, ...) __attribute__((format(printf, 5, 6)));
 };

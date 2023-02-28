@@ -27,16 +27,12 @@ void Font::setCharWidthHandler(CharWidthHandler chwHandler)
     this->chwHandler = chwHandler;
 }
 
-extern glImage abtn[1];
-extern glImage bbtn[1];
-extern glImage xbtn[1];
-extern glImage ybtn[1];
-
-void Font::print(int x, int y, const char *str, int xoff, int yoff, Font *font2)
+void Font::print(int x, int y, const char *str, int xoff, int yoff, Font *font2, s32 scale)
 {
     int startX = x;
     u8 ch = 0;
     bool useFont2 = false;
+    const float scaleFactor = scale / SCALE_NORMAL;
     while (*str) // iterate through string
     {
         char strch = *str++;
@@ -157,18 +153,25 @@ void Font::print(int x, int y, const char *str, int xoff, int yoff, Font *font2)
             ++str;
             continue;
         }
+
         if (useFont2)
         {
-            glSprite(x + xoff, y + yoff, GL_FLIP_NONE, &font2->spr[ch]);
-            x += font2->getCharWidth(ch);
+            if (scale == SCALE_NORMAL)
+                glSprite(x + xoff, y + yoff, GL_FLIP_NONE, &font2->spr[ch]);
+            else
+                glSpriteScale(x + xoff, y + yoff, scale, GL_FLIP_NONE, &font2->spr[ch]);
+            x += font2->getCharWidth(ch) * scaleFactor;
         }
         else
         {
-            glSprite(x + xoff, y + yoff, GL_FLIP_NONE, &spr[ch]); // draw the image
-            x += getCharWidth(ch);
+            if (scale == SCALE_NORMAL)
+                glSprite(x + xoff, y + yoff, GL_FLIP_NONE, &spr[ch]);
+            else
+                glSpriteScale(x + xoff, y + yoff, scale, GL_FLIP_NONE, &spr[ch]);
+            x += getCharWidth(ch) * scaleFactor;
         }
 
-        // word go to next line if off screen
+        // go to next line if off screen
         if (x > SCREEN_WIDTH - spr[ch].width)
         {
             x = startX;
@@ -179,13 +182,13 @@ void Font::print(int x, int y, const char *str, int xoff, int yoff, Font *font2)
     glColor(RGB15(31, 31, 31));
 }
 
-void Font::printCentered(int x, int y, const char *str, Font *font2)
+void Font::printCentered(int x, int y, const char *str, Font *font2, s32 scale)
 {
     u8 ch;
     int tw = 0;
     bool useFont2 = false;
     const char *str2 = str;
-
+    const float scaleFactor = scale / SCALE_NORMAL;
     while (*str)
     {
         char strch = *str++;
@@ -219,11 +222,11 @@ void Font::printCentered(int x, int y, const char *str, Font *font2)
         }
 
         ch = strch - 32;
-        tw += useFont2 ? font2->getCharWidth(ch) : getCharWidth(ch);
+        tw += useFont2 ? font2->getCharWidth(ch) * scaleFactor : getCharWidth(ch) * scaleFactor;
     }
 
     x += (SCREEN_WIDTH - tw) / 2;
-    print(x, y, str2, 0, 0, font2);
+    print(x, y, str2, 0, 0, font2, scale);
 }
 
 void Font::printfCentered(int x, int y, const char *format, ...)
@@ -239,6 +242,26 @@ void Font::printfCentered(int x, int y, const char *format, ...)
 
     // print
     printCentered(x, y, str);
+
+    // we dont need anymore
+    free(str);
+
+    va_end(args);
+}
+
+void Font::printfScaleCentered(int x, int y, s32 scale, const char *format, ...)
+{
+    va_list args;
+    va_start(args, format);
+
+    // allocate some string
+    char *str = reinterpret_cast<char *>(malloc(150 * sizeof(char)));
+
+    // get formatted string
+    vsprintf(str, format, args);
+
+    // print with scale
+    printCentered(x, y, str, NULL, scale);
 
     // we dont need anymore
     free(str);
@@ -266,22 +289,50 @@ void Font::printf(int x, int y, const char *format, ...)
     va_end(args);
 }
 
-void Font::printShadow(int x, int y, const char *str, Font *font2)
+void Font::printfScale(int x, int y, s32 scale, const char *format, ...)
+{
+    va_list args;
+    va_start(args, format);
+
+    // allocate some string
+    char *str = reinterpret_cast<char *>(malloc(150 * sizeof(char)));
+
+    // get formatted string
+    vsprintf(str, format, args);
+
+    // print but with sacle
+    print(x, y, str, 0, 0, NULL, scale);
+
+    // we don't need anymore
+    free(str);
+
+    va_end(args);
+}
+
+void Font::printShadow(int x, int y, const char *str, Font *font2, s32 scale)
 {
     // shadow part
     glColor(RGB15(0, 0, 0));
     glPolyFmt(POLY_ALPHA(14) | POLY_CULL_NONE);
-    print(x, y, str, 1, 1, font2);
+    print(x, y, str, 1, 1, font2, scale);
     glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
     glColor(RGB15(31, 31, 31));
 
     // actual text
-    print(x, y, str, 0, 0, font2);
+    print(x, y, str, 0, 0, font2, scale);
 }
 
-void Font::printShadowCentered(int x, int y, const char *str)
+void Font::printShadowCentered(int x, int y, const char *str, Font *font2, s32 scale)
 {
-    printShadow(SCREEN_WIDTH / 2 - (strlen(str) / 2 * spr[0].width), y, str);
+    // shadow part
+    glColor(RGB15(0, 0, 0));
+    glPolyFmt(POLY_ALPHA(14) | POLY_CULL_NONE);
+    printCentered(x + 1, y + 1, str, font2, scale); // TODO add xoff and yoff into printCentered
+    glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
+    glColor(RGB15(31, 31, 31));
+
+    // actual text
+    printCentered(x, y, str, font2, scale);
 }
 
 void Font::printfShadow(int x, int y, const char *format, ...)
@@ -294,6 +345,31 @@ void Font::printfShadow(int x, int y, const char *format, ...)
     vsprintf(str, format, args);
 
     printShadow(x, y, str);
+
+    // dont need anymore
+    free(str);
+
+    va_end(args);
+}
+
+void Font::printfScaleShadow(int x, int y, s32 scale, const char *format, ...)
+{
+    va_list args;
+    va_start(args, format);
+
+    // alloc string and get formatted
+    char *str = reinterpret_cast<char *>(malloc(150 * sizeof(char)));
+    vsprintf(str, format, args);
+
+    // shadow part
+    glColor(RGB15(0, 0, 0));
+    glPolyFmt(POLY_ALPHA(14) | POLY_CULL_NONE);
+    print(x, y, str, 1, 1, NULL, scale);
+    glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
+    glColor(RGB15(31, 31, 31));
+
+    // actual text
+    print(x, y, str, 0, 0, NULL, scale);
 
     // dont need anymore
     free(str);

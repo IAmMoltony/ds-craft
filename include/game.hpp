@@ -63,7 +63,7 @@ private:
     glImage fontSmallImg[FONT_SI_NUM_IMAGES];
     glImage fontSmallRuImg[FONT_SI_NUM_IMAGES];
 
-    Font fontBig, fontSmall, fontBigRu, fontSmallRu;
+    Font font, fontRu;
     GameState gameState;
     Camera camera;
     u16 frameCounter;
@@ -81,13 +81,9 @@ private:
     bool createWorldError;
     u8 settingsSelect;
     u8 titleScreenSelect;
+    float testx, testy;
 
     void gameQuit(void);
-
-    static u8 fontSmallCharWidthHandler(char ch);
-    static u8 fontBigCharWidthHandler(char ch);
-    static u8 fontSmallRuCharWidthHandler(char ch);
-    static u8 fontBigRuCharWidthHandler(char ch);
 
     void playPopSound(void);
 
@@ -99,6 +95,11 @@ private:
 
 public:
     static Game *instance;
+
+    static u8 fontSmallCharWidthHandler(char ch);
+    static u8 fontBigCharWidthHandler(char ch);
+    static u8 fontSmallRuCharWidthHandler(char ch);
+    static u8 fontBigRuCharWidthHandler(char ch);
 
     glImage sprLogo[1];
     glImage sprAButton[1];

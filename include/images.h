@@ -99,7 +99,5 @@
 #include "inventory_slot_select.h"
 
 // fonts
-#include "font_16x16.h"
 #include "font_small.h"
 #include "font_small_ru1.h"
-#include "font_16x16_ru.h"
