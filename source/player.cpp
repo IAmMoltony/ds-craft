@@ -2475,6 +2475,8 @@ void Player::reset(void)
     setY(0);
     restoreHealth();
     resetInventory();
+    chest = nullptr;
+    chestOpen = false;
 }
 
 bool Player::moving(s16 oldX)
