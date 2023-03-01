@@ -81,7 +81,6 @@ private:
     bool createWorldError;
     u8 settingsSelect;
     u8 titleScreenSelect;
-    float testx, testy;
 
     void gameQuit(void);
 

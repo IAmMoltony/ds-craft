@@ -273,7 +273,6 @@ void Game::init(void)
     createWorldError = false;
     settingsSelect = 0;
     titleScreenSelect = 0;
-    testx = testy = 1;
 }
 
 void Game::showHelpScreen(const std::string &setting)
@@ -692,13 +691,19 @@ void Game::draw(void)
         switch (lang)
         {
         case Language::English:
-            font.printCentered(0, 71, "World name:");
+            font.print(15, 61, "World name:");
             break;
         case Language::Russian:
-            fontRu.printCentered(0, 71, "Cdgfkug ko&:");
+            fontRu.print(15, 61, "Cdgfkug ko&:");
             break;
         }
-        font.printCentered(0, 80, std::string(createWorldName + "_").c_str());
+        static constexpr int worldNameBoxWidth = 190;
+        static constexpr int worldNameBoxHeight = 14;
+        glPolyFmt(POLY_ALPHA(27) | POLY_CULL_NONE);
+        glBoxFilled(15, 73, 15 + worldNameBoxWidth, 73 + worldNameBoxHeight, RGB15(6, 6, 6));
+        glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
+        glBoxStroke(15, 73, worldNameBoxWidth, worldNameBoxHeight, RGB15(31, 31, 31));
+        font.print(18, 76, std::string(createWorldName + '_').c_str());
 
         switch (lang)
         {
@@ -1381,7 +1386,7 @@ void Game::update(void)
 
         if (ch == '\b' && createWorldName.size() > 0)
             createWorldName.pop_back();
-        else if (chi > 0 && chi != 8)
+        else if (chi > 0 && chi != 8 && createWorldName.size() + 1 <= 29)
             createWorldName += ch;
         break;
     }
