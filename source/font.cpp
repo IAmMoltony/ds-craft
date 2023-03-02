@@ -327,7 +327,7 @@ void Font::printShadowCentered(int x, int y, const char *str, Font *font2, s32 s
     // shadow part
     glColor(RGB15(0, 0, 0));
     glPolyFmt(POLY_ALPHA(14) | POLY_CULL_NONE);
-    printCentered(x + 1, y + 1, str, font2, scale); // TODO add xoff and yoff into printCentered
+    printCentered(x + 1, y + 1, str, font2, scale);
     glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
     glColor(RGB15(31, 31, 31));
 

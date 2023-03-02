@@ -43,3 +43,14 @@ int distBetweenPoints(int p1x, int p1y, int p2x, int p2y)
     int dy = p2y - p1y;
     return sqrt(dx * dx + dy * dy);
 }
+
+unsigned int stringHash(const char *str)
+{
+    unsigned int hash = 0;
+    int c;
+
+    while (c = *str++)
+        hash = ((hash << 5) + hash) + c;
+
+    return hash;
+}

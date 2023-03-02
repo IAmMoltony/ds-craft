@@ -191,9 +191,10 @@ std::string iidToString(InventoryItemID iid)
 }
 
 void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
-               Player &player)
+               Player &player, unsigned int seed)
 {
     std::string worldFolder = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(name);
+    srand(seed);
 
     // generate terrain in case folder doesn't exist
     if (!fsFolderExists(worldFolder.c_str()))
@@ -301,7 +302,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
     // world meta
     std::ofstream wldmeta(worldFolder + "/world.meta");
-    wldmeta << "worldname " + name + "\ngameversion " + getVersionString() + '\n';
+    wldmeta << "worldname " + name + "\ngameversion " + getVersionString() + "\nseed " + std::to_string(seed) + '\n';
     wldmeta.close();
 
     // player info
@@ -312,6 +313,29 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     for (u8 i = 0; i < 20; ++i)
         playerinfo << "inventory " + std::to_string(i) + " " + iidToString(playerInventory[i].id) + " " + std::to_string(playerInventory[i].amount) + "\n";
     playerinfo.close();
+}
+
+unsigned int getWorldSeed(const std::string &file)
+{
+    std::string worldFolder = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(file);
+    if (!fsFolderExists(worldFolder.c_str()))
+        return 0;
+
+    std::ifstream wldMeta(worldFolder + "/world.meta");
+    std::string line;
+    while (std::getline(wldMeta, line))
+    {
+        std::string line2;
+        std::stringstream lineStream(line);
+        std::vector<std::string> split;
+        while (std::getline(lineStream, line2, ' '))
+            split.push_back(line2);
+
+        if (split[0] == "seed")
+            return atoi(split[1].c_str());
+    }
+
+    return 0;
 }
 
 void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
@@ -567,4 +591,6 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         blocks.emplace_back(chest);
         chestFile.close();
     }
+
+    srand(getWorldSeed(name));
 }

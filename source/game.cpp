@@ -60,7 +60,7 @@ void Game::gameQuit(void)
     }
     glEnd2D();
     glFlush(0);
-    saveWorld(worldName, blocks, entities, player);
+    saveWorld(worldName, blocks, entities, player, getWorldSeed(worldName));
 
     // reset player state
     player.reset();
@@ -270,9 +270,11 @@ void Game::init(void)
     paused = false;
     worldName = "";
     createWorldName = "";
+    createWorldSeed = "";
     createWorldError = false;
     settingsSelect = 0;
     titleScreenSelect = 0;
+    createWorldSelect = 0;
 }
 
 void Game::showHelpScreen(const std::string &setting)
@@ -692,18 +694,34 @@ void Game::draw(void)
         {
         case Language::English:
             font.print(15, 61, "World name:");
+            font.print(15, 111, "World seed:");
             break;
         case Language::Russian:
             fontRu.print(15, 61, "Cdgfkug ko&:");
+            fontRu.print(15, 111, "");
             break;
         }
+
         static constexpr int worldNameBoxWidth = 190;
         static constexpr int worldNameBoxHeight = 14;
+
         glPolyFmt(POLY_ALPHA(27) | POLY_CULL_NONE);
         glBoxFilled(15, 73, 15 + worldNameBoxWidth, 73 + worldNameBoxHeight, RGB15(6, 6, 6));
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
-        glBoxStroke(15, 73, worldNameBoxWidth, worldNameBoxHeight, RGB15(31, 31, 31));
-        font.print(18, 76, std::string(createWorldName + '_').c_str());
+        glBoxStroke(15, 73, worldNameBoxWidth, worldNameBoxHeight, (createWorldSelect == 0) ? RGB15(31, 31, 31) : RGB15(9, 9, 9));
+        if (createWorldName.size() > 0 || createWorldSelect == 0)
+            font.print(18, 76, std::string(createWorldName + ((createWorldShowCursor && createWorldSelect == 0) ? "_" : "")).c_str());
+        else
+            font.print(18, 76, "\1:16:16:16*World name goes here");
+
+        glPolyFmt(POLY_ALPHA(27) | POLY_CULL_NONE);
+        glBoxFilled(15, 123, 15 + worldNameBoxWidth, 123 + worldNameBoxHeight, RGB15(6, 6, 6));
+        glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
+        glBoxStroke(15, 123, worldNameBoxWidth, worldNameBoxHeight, (createWorldSelect == 1) ? RGB15(31, 31, 31) : RGB15(9, 9, 9));
+        if (createWorldSeed.size() > 0 || createWorldSelect == 1)
+            font.print(18, 126, std::string(createWorldSeed + ((createWorldShowCursor && createWorldSelect == 1) ? "_" : "")).c_str());
+        else
+            font.print(18, 126, "\1:16:16:16*Leave blank for random");
 
         switch (lang)
         {
@@ -1009,13 +1027,16 @@ void Game::update(void)
     if (gameState != GameState::Game)
         paused = false;
 
+    if (frameCounter % 50 == 0)
+        createWorldShowCursor = !createWorldShowCursor;
+
     switch (gameState)
     {
     case GameState::Game:
         // save every 900 frames (15s) and if player wants to auto save
         if (frameCounter % 900 == 0 && SettingsManager::autoSave)
         {
-            saveWorld(worldName, blocks, entities, player);
+            saveWorld(worldName, blocks, entities, player, getWorldSeed(worldName));
             showSaveText = true;
         }
 
@@ -1313,6 +1334,7 @@ void Game::update(void)
                 createWorldName = "World " + std::to_string(matches + 1);
             else
                 createWorldName = "World";
+            createWorldSeed = "";
             keyboardShow();
             mmEffectEx(&sndClick);
         }
@@ -1376,18 +1398,33 @@ void Game::update(void)
                 }
                 glEnd2D();
                 glFlush(0);
-                saveWorld(worldName, blocks, entities, player);
+                unsigned int randomSeed = stringHash(createWorldSeed.c_str());
+                if (createWorldSeed.find_first_not_of("0123456789") == std::string::npos && createWorldSeed.size() > 0)
+                    randomSeed = atoi(createWorldSeed.c_str());
+                saveWorld(worldName, blocks, entities, player, randomSeed);
 
                 enterWorldSelect();
                 frameCounter = 0;
                 mmEffectEx(&sndClick);
             }
         }
+        else if (down & KEY_SELECT)
+            createWorldSelect = (createWorldSelect == 0) ? 1 : 0;
 
-        if (ch == '\b' && createWorldName.size() > 0)
-            createWorldName.pop_back();
+        if (ch == '\b')
+        {
+            if (createWorldSelect == 0 && createWorldName.size() > 0)
+                createWorldName.pop_back();
+            else if (createWorldSeed.size() > 0)
+                createWorldSeed.pop_back();
+        }
         else if (chi > 0 && chi != 8 && createWorldName.size() + 1 <= 29)
-            createWorldName += ch;
+        {
+            if (createWorldSelect == 0)
+                createWorldName += ch;
+            else
+                createWorldSeed += ch;
+        }
         break;
     }
     case GameState::SplashScreen:

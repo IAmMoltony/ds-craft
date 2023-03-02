@@ -78,9 +78,12 @@ private:
     bool paused;
     std::string worldName;
     std::string createWorldName;
+    std::string createWorldSeed;
     bool createWorldError;
     u8 settingsSelect;
     u8 titleScreenSelect;
+    bool createWorldShowCursor = false;
+    u8 createWorldSelect = 0;
 
     void gameQuit(void);
 
