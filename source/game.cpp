@@ -1401,6 +1401,9 @@ void Game::update(void)
                 unsigned int randomSeed = stringHash(createWorldSeed.c_str());
                 if (createWorldSeed.find_first_not_of("0123456789") == std::string::npos && createWorldSeed.size() > 0)
                     randomSeed = atoi(createWorldSeed.c_str());
+                if (createWorldSeed.empty())
+                    randomSeed = rand() * rand();
+                printf("Seed is %u\n", randomSeed);
                 saveWorld(worldName, blocks, entities, player, randomSeed);
 
                 enterWorldSelect();
