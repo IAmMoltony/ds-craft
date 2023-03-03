@@ -204,6 +204,24 @@ void Game::loadFonts(void)
     fontRu.setCharWidthHandler(fontSmallRuCharWidthHandler);
 }
 
+static constexpr u8 TITLE_SCREEN_PLAY = 0;
+static constexpr u8 TITLE_SCREEN_CREDITS = 1;
+static constexpr u8 TITLE_SCREEN_SETTINGS = 2;
+
+static constexpr u8 LANGUAGE_SELECT_ENGLISH = 0;
+static constexpr u8 LANGUAGE_SELECT_RUSSIAN = 1;
+
+static constexpr u8 SETTING_LANGUAGE_SELECT = 0;
+static constexpr u8 SETTING_TRANSPARENT_LEAVES = 1;
+static constexpr u8 SETTING_AUTO_SAVE = 2;
+static constexpr u8 SETTING_SMOOTH_CAMERA = 3;
+static constexpr u8 SETTING_TOUCH_TO_MOVE = 4;
+static constexpr u8 SETTING_AUTO_JUMP = 5;
+
+static constexpr u8 TOUCH_TO_MOVE_OFF = 0;
+static constexpr u8 TOUCH_TO_MOVE_LEFT_HANDED = 1;
+static constexpr u8 TOUCH_TO_MOVE_RIGHT_HANDED = 2;
+
 void Game::init(void)
 {
     // set up random number generator
@@ -452,20 +470,19 @@ void Game::draw(void)
                         titleScreenSelect == i ? RGB15(31, 31, 31) : RGB15(9, 9, 9));
             switch (i)
             {
-            // TODO add constants for title screen selection buttons
-            case 0:
+            case TITLE_SCREEN_PLAY:
                 if (lang == Language::English)
                     font.printCentered(0, 77 + i * 30, "Play");
                 else
                     fontRu.printCentered(0, 77 + i * 30, "Jesbu#");
                 break;
-            case 1:
+            case TITLE_SCREEN_CREDITS:
                 if (lang == Language::English)
                     font.printCentered(0, 77 + i * 30, "Credits");
                 else
                     fontRu.printCentered(0, 77 + i * 30, "Tkus\"");
                 break;
-            case 2:
+            case TITLE_SCREEN_SETTINGS:
                 if (lang == Language::English)
                     font.printCentered(0, 77 + i * 30, "Settings");
                 else
@@ -754,11 +771,10 @@ void Game::draw(void)
 
         switch (langSelectSelected)
         {
-        // TODO add constants for these as well
-        case 0:
+        case LANGUAGE_SELECT_ENGLISH:
             glBoxStroke(SCREEN_WIDTH / 2 - 8, 60, 16, 9, RGB15(31, 31, 31));
             break;
-        case 1:
+        case LANGUAGE_SELECT_RUSSIAN:
             glBoxStroke(SCREEN_WIDTH / 2 - 8, 90, 16, 9, RGB15(31, 31, 31));
             break;
         }
@@ -807,7 +823,7 @@ void Game::draw(void)
     case GameState::Settings:
         drawMovingBackground();
 
-        if (settingsSelect == 0)
+        if (settingsSelect == SETTING_LANGUAGE_SELECT)
             glColor(RGB15(0, 31, 0));
         switch (lang)
         {
@@ -820,7 +836,7 @@ void Game::draw(void)
         }
         glColor(RGB15(31, 31, 31));
 
-        if (settingsSelect == 1)
+        if (settingsSelect == SETTING_TRANSPARENT_LEAVES)
             glColor(RGB15(0, 31, 0));
         switch (lang)
         {
@@ -839,7 +855,7 @@ void Game::draw(void)
         }
         glColor(RGB15(31, 31, 31));
 
-        if (settingsSelect == 2)
+        if (settingsSelect == SETTING_AUTO_SAVE)
             glColor(RGB15(0, 31, 0));
         switch (lang)
         {
@@ -858,7 +874,7 @@ void Game::draw(void)
         }
         glColor(RGB15(31, 31, 31));
 
-        if (settingsSelect == 3)
+        if (settingsSelect == SETTING_SMOOTH_CAMERA)
             glColor(RGB15(0, 31, 0));
         switch (lang)
         {
@@ -881,7 +897,7 @@ void Game::draw(void)
             glColor(RGB15(0, 31, 0));
         switch (SettingsManager::touchToMove)
         {
-        case 0: // off
+        case TOUCH_TO_MOVE_OFF:
             switch (lang)
             {
             case Language::English:
@@ -892,7 +908,7 @@ void Game::draw(void)
                 break;
             }
             break;
-        case 1: // left handed
+        case TOUCH_TO_MOVE_LEFT_HANDED:
             switch (lang)
             {
             case Language::English:
@@ -903,7 +919,7 @@ void Game::draw(void)
                 break;
             }
             break;
-        case 2: // right handed
+        case TOUCH_TO_MOVE_RIGHT_HANDED:
             switch (lang)
             {
             case Language::English:
@@ -1210,16 +1226,16 @@ void Game::update(void)
         {
             switch (titleScreenSelect)
             {
-            case 0:
+            case TITLE_SCREEN_PLAY:
                 enterWorldSelect();
                 worldSelectSelected = 0;
                 mmEffectEx(&sndClick);
                 break;
-            case 1:
+            case TITLE_SCREEN_CREDITS:
                 gameState = GameState::Credits;
                 mmEffectEx(&sndClick);
                 break;
-            case 2:
+            case TITLE_SCREEN_SETTINGS:
                 gameState = GameState::Settings;
                 mmEffectEx(&sndClick);
                 break;
@@ -1403,7 +1419,6 @@ void Game::update(void)
                     randomSeed = atoi(createWorldSeed.c_str());
                 if (createWorldSeed.empty())
                     randomSeed = rand() * rand();
-                printf("Seed is %u\n", randomSeed);
                 saveWorld(worldName, blocks, entities, player, randomSeed);
 
                 enterWorldSelect();
@@ -1454,22 +1469,17 @@ void Game::update(void)
     case GameState::LanguageSelect:
         if (down & KEY_SELECT)
         {
-            if (++langSelectSelected > 1)
-                langSelectSelected = 0;
+            if (++langSelectSelected > LANGUAGE_SELECT_RUSSIAN)
+                langSelectSelected = LANGUAGE_SELECT_ENGLISH;
         }
 
         if (down & KEY_A)
         {
-            if (langSelectSelected == 0)
-            {
-                lang = Language::English;
-                fsWrite("fat:/dscraft_data/config/lang.cfg", "0");
-            }
-            else
-            {
-                lang = Language::Russian;
-                fsWrite("fat:/dscraft_data/config/lang.cfg", "1");
-            }
+            char saveDataBuf[3];
+            itoa(langSelectSelected, saveDataBuf, 10);
+            lang = (langSelectSelected == LANGUAGE_SELECT_ENGLISH) ? Language::English
+                                                                   : Language::Russian;
+            fsWrite("fat:/dscraft_data/config/lang.cfg", saveDataBuf);
 
             mmEffectEx(&sndClick);
             gameState = GameState::TitleScreen;
@@ -1495,41 +1505,32 @@ void Game::update(void)
         {
             switch (settingsSelect)
             {
-            // TODO make constants for setting selections
-            case 0:
+            case SETTING_LANGUAGE_SELECT:
                 gameState = GameState::LanguageSelect;
+                loadImageAlpha(sprLangEnglish, 16, 16, englishPal, englishBitmap);
+                loadImageAlpha(sprLangRussian, 16, 16, russianPal, russianBitmap);
                 break;
-            case 1:
+            case SETTING_TRANSPARENT_LEAVES:
                 SettingsManager::transparentLeaves = !SettingsManager::transparentLeaves;
                 fsWrite("fat:/dscraft_data/config/trleaves.cfg", SettingsManager::transparentLeaves ? "1" : "0");
                 break;
-            case 2:
+            case SETTING_AUTO_SAVE:
                 SettingsManager::autoSave = !SettingsManager::autoSave;
                 fsWrite("fat:/dscraft_data/config/autosave.cfg", SettingsManager::autoSave ? "1" : "0");
                 break;
-            case 3:
+            case SETTING_SMOOTH_CAMERA:
                 SettingsManager::smoothCamera = !SettingsManager::smoothCamera;
                 fsWrite("fat:/dscraft_data/config/smoothcam.cfg", SettingsManager::smoothCamera ? "1" : "0");
                 break;
-            case 4:
-                // TODO turn into a switch statement
-                if (SettingsManager::touchToMove == 0)
-                {
-                    SettingsManager::touchToMove = 1;
-                    fsWrite("fat:/dscraft_data/config/touchtomove.cfg", "1");
-                }
-                else if (SettingsManager::touchToMove == 1)
-                {
-                    SettingsManager::touchToMove = 2;
-                    fsWrite("fat:/dscraft_data/config/touchtomove.cfg", "2");
-                }
-                else
-                {
-                    SettingsManager::touchToMove = 0;
-                    fsWrite("fat:/dscraft_data/config/touchtomove.cfg", "0");
-                }
+            case SETTING_TOUCH_TO_MOVE:
+            {
+                char saveDataBuf[3];
+                SettingsManager::touchToMove = (SettingsManager::touchToMove + 1) % 3;
+                itoa(SettingsManager::touchToMove, saveDataBuf, 10);
+                fsWrite("fat:/dscraft_data/config/touchtomove.cfg", saveDataBuf);
                 break;
-            case 5:
+            }
+            case SETTING_AUTO_JUMP:
                 SettingsManager::autoJump = !SettingsManager::autoJump;
                 fsWrite("fat:/dscraft_data/config/autojump.cfg", SettingsManager::autoJump ? "1" : "0");
                 break;
@@ -1541,22 +1542,22 @@ void Game::update(void)
             mmEffectEx(&sndClick);
             switch (settingsSelect)
             {
-            case 0:
+            case SETTING_LANGUAGE_SELECT:
                 showHelpScreen("changelang");
                 break;
-            case 1:
+            case SETTING_TRANSPARENT_LEAVES:
                 showHelpScreen("trleaves");
                 break;
-            case 2:
+            case SETTING_AUTO_SAVE:
                 showHelpScreen("autosave");
                 break;
-            case 3:
+            case SETTING_SMOOTH_CAMERA:
                 showHelpScreen("smoothcam");
                 break;
-            case 4:
+            case SETTING_TOUCH_TO_MOVE:
                 showHelpScreen("touchmove");
                 break;
-            case 5:
+            case SETTING_AUTO_JUMP:
                 showHelpScreen("autojump");
                 break;
             }
