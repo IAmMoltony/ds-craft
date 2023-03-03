@@ -49,7 +49,7 @@ unsigned int stringHash(const char *str)
     unsigned int hash = 0;
     int c;
 
-    while (c = *str++)
+    while ((c = *str++))
         hash = ((hash << 5) + hash) + c;
 
     return hash;
