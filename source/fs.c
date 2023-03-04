@@ -60,6 +60,52 @@ void fsDeleteFile(const char *name)
     remove(name);
 }
 
+void fsDeleteDir(const char *name)
+{
+    DIR *dir;
+    struct dirent *entry;
+    char path[PATH_MAX];
+
+    dir = opendir(name);
+    if (dir == NULL)
+    {
+#if FS_ERROR_MESSAGES
+        printf("fsDeleteDir: opendir error\n");
+        perror(name);
+#endif
+        return;
+    }
+
+    while ((entry = readdir(dir)) != NULL)
+    {
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+            continue;
+        snprintf(path, PATH_MAX, "%s/%s", name, entry->d_name);
+        if (entry->d_type == DT_DIR)
+            fsDeleteDir(path);
+        else
+        {
+            if (unlink(path) != 0)
+            {
+#if FS_ERROR_MESSAGES
+                printf("fsDeleteDir: unlink error\n");
+                perror(path);
+#endif
+            }
+        }
+    }
+
+    closedir(dir);
+
+    if (remove(name) != 0)
+    {
+#if FS_ERROR_MESSAGES
+        printf("fsDeleteDir: rmdir error\n");
+        perror(name);
+#endif
+    }
+}
+
 bool fsFileExists(const char *name)
 {
     return access(name, F_OK) == 0;
@@ -67,7 +113,7 @@ bool fsFileExists(const char *name)
 
 bool fsFolderExists(const char *name)
 {
-    DIR* dir = opendir(name);
+    DIR *dir = opendir(name);
     if (dir)
     {
         closedir(dir);
@@ -211,12 +257,12 @@ char *fsHumanreadFileSize(double size)
     char *buf = (char *)malloc(10 * sizeof(char));
     int i = 0;
     static const char *units[] =
-    {
-        "B",
-        "KB",
-        "MB",
-        "GB",
-    };
+        {
+            "B",
+            "KB",
+            "MB",
+            "GB",
+        };
     while (size > 1024)
     {
         size /= 1024;

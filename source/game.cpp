@@ -1612,7 +1612,7 @@ void Game::update(void)
         if (down & KEY_A)
         {
             worldSelectSelected = 0;
-            fsDeleteFile(std::string("fat:/dscraft_data/worlds/" + normalizeWorldFileName(worldSelectWorlds[deleteWorldSelected].name) + ".wld").c_str());
+            fsDeleteDir(std::string("fat:/dscraft_data/worlds/" + normalizeWorldFileName(worldSelectWorlds[deleteWorldSelected].name)).c_str());
             worldSelectWorlds.erase(worldSelectWorlds.begin() + deleteWorldSelected);
             deleteWorldSelected = 0;
             gameState = GameState::WorldSelect;

@@ -28,6 +28,7 @@ extern "C"
     void fsCreateFile(const char *name);
     void fsWrite(const char *file, const char *data);
     void fsDeleteFile(const char *name);
+    void fsDeleteDir(const char *name);
     bool fsFileExists(const char *name);
     bool fsFolderExists(const char *name);
     bool fsIsDir(const char *name);
