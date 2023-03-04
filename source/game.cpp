@@ -721,8 +721,8 @@ void Game::draw(void)
             font.print(15, 111, "World seed:");
             break;
         case Language::Russian:
-            fontRu.print(15, 61, "Cdgfkug ko&:");
-            fontRu.print(15, 111, "");
+            fontRu.print(15, 61, "Jo& oksb:");
+            fontRu.print(15, 111, "Ln%z egpgsbuqsb oksb");
             break;
         }
 
@@ -736,7 +736,15 @@ void Game::draw(void)
         if (createWorldName.size() > 0 || createWorldSelect == 0)
             font.print(18, 76, std::string(createWorldName + ((createWorldShowCursor && createWorldSelect == 0) ? "_" : "")).c_str());
         else
-            font.print(18, 76, "\1:16:16:16*World name goes here");
+            switch (lang)
+            {
+            case Language::English:
+                font.print(18, 76, "\1:16:16:16*World name goes here");
+                break;
+            case Language::Russian:
+                fontRu.print(18, 76, "\1:16:16:16*Jo& oksb jfgt#");
+                break;
+            }
 
         glPolyFmt(POLY_ALPHA(27) | POLY_CULL_NONE);
         glBoxFilled(15, 123, 15 + worldNameBoxWidth, 123 + worldNameBoxHeight, RGB15(6, 6, 6));
@@ -745,7 +753,15 @@ void Game::draw(void)
         if (createWorldSeed.size() > 0 || createWorldSelect == 1)
             font.print(18, 126, std::string(createWorldSeed + ((createWorldShowCursor && createWorldSelect == 1) ? "_" : "")).c_str());
         else
-            font.print(18, 126, "\1:16:16:16*Leave blank for random");
+            switch (lang)
+            {
+            case Language::English:
+                font.print(18, 126, "\1:16:16:16*Leave blank for random");
+                break;
+            case Language::Russian:
+                fontRu.print(17, 126, "\1:16:16:16*Ptubd#ug rvtu\"o fn& tnvzblpqeq");
+                break;
+            }
 
         switch (lang)
         {
