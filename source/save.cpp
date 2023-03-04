@@ -573,9 +573,9 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         {
             // split line by spaces
             std::vector<std::string> split;
-            std::stringstream ss(line2);
+            std::stringstream ssChest(line2);
             std::string line3;
-            while (std::getline(ss, line3, ' '))
+            while (std::getline(ssChest, line3, ' '))
                 split.push_back(line3);
 
             if (split[0] == "chestitem")

@@ -2,9 +2,16 @@
 
 Game *Game::instance;
 
-Game::Game()
+Game::Game() : camera({0, 0})
 {
     instance = this;
+
+    gameState = GameState::SplashScreen;
+    direntLogoY = 0;
+    showSaveText = false;
+    paused = false;
+    createWorldError = false;
+    lang = Language::English;
 }
 
 void Game::gameQuit(void)
@@ -562,19 +569,19 @@ void Game::draw(void)
 
                 if (lang == Language::Russian)
                 {
-                    for (size_t i = 0; i < strlen(hrfsz); ++i)
+                    for (size_t ii = 0; ii < strlen(hrfsz); ++ii)
                     {
-                        char ch = hrfsz[i];
+                        char ch = hrfsz[ii];
                         switch (ch)
                         {
                         case 'K':
-                            hrfsz[i] = 'L';
+                            hrfsz[ii] = 'L';
                             break;
                         case 'M':
-                            hrfsz[i] = 'N';
+                            hrfsz[ii] = 'N';
                             break;
                         case 'G':
-                            hrfsz[i] = 'D';
+                            hrfsz[ii] = 'D';
                             break;
                         }
                     }
@@ -1280,16 +1287,33 @@ void Game::update(void)
             {
                 worldName = worldSelectWorlds[worldSelectSelected].name;
 
+                // unloading screen for menu assets
+                glBegin2D();
+                drawMovingBackground();
+                switch (lang)
+                {
+                case Language::English:
+                    font.printCentered(0, 50, "Unloading menu assets...");
+                    break;
+                case Language::Russian:
+                    fontRu.printCentered(0, 50, "C\"esvjmb sgtvstqd ogp%...");
+                    break;
+                }
+                glEnd2D();
+                glFlush(0);
+
+                AssetManager::unloadMenuAssets();
+
                 // loading screen for assets
                 glBegin2D();
                 drawMovingBackground();
                 switch (lang)
                 {
                 case Language::English:
-                    font.printCentered(0, 50, "Loading assets...");
+                    font.printCentered(0, 50, "Loading game assets...");
                     break;
                 case Language::Russian:
-                    fontRu.printCentered(0, 50, "Ibesvjmb sgtvstqd...");
+                    fontRu.printCentered(0, 50, "Ibesvjmb sgtvstqd kes\"...");
                     break;
                 }
                 glEnd2D();

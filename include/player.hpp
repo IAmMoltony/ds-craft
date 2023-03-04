@@ -95,6 +95,5 @@ public:
     Rect getRectSlab(void); // weird name but it is the rect that slab collides with to make the player go up
     Rect getRectAim(Camera camera);
     Rect getRectAimY8(Camera camera); // getRectAim but instead of using spanToGrid on Y, it uses snapToGrid8
-    Rect getRectLightingUpdate(void);
     std::array<InventoryItem, 20> getInventory(void);
 };

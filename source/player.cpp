@@ -591,7 +591,10 @@ bool isSlabItem(InventoryItemID id)
 }
 
 Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSelect(20),
-                   craftingSelect(0), health(9), airY(0), chestSelect(0), chestMoveSelect(40)
+                   craftingSelect(0), health(9), airY(0), chestSelect(0), chestMoveSelect(40),
+                   bodySprite(AnimatedSprite(5, AnimatedSpriteMode::ReverseLoop,
+                                             {sprPlayerBody[0], sprPlayerBody[1], sprPlayerBody[2]})),
+                   aimDist(0)
 {
     x = 0;
     y = 0;
@@ -608,7 +611,6 @@ Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSele
     aimY = SCREEN_HEIGHT / 2;
     facing = Facing::Right;
     chest = nullptr;
-    bodySprite = AnimatedSprite(5, AnimatedSpriteMode::ReverseLoop, {sprPlayerBody[0], sprPlayerBody[1], sprPlayerBody[2]});
 
     // initialize inventory with null items
     for (u8 i = 0; i < 20; ++i)
@@ -929,43 +931,43 @@ void Player::draw(Camera camera, Font font, Font fontRu, Language lang)
                 InventoryItemID id = inventory[i].id;
                 u8 amount = inventory[i].amount;
 
-                int xx = i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2));
-                int yy = SCREEN_HEIGHT - 16;
+                int xxItem = i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2));
+                int yyItem = SCREEN_HEIGHT - 16;
 
                 switch (id)
                 {
                 // some special cases
                 case InventoryItemID::Leaves:
                     glColor(RGB15(0, 22, 0));
-                    glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprLeaves);
+                    glSpriteScale(xxItem + 4, yyItem + 4, HALFSIZE, GL_FLIP_NONE, sprLeaves);
                     glColor(RGB15(31, 31, 31));
                     break;
                 case InventoryItemID::BirchLeaves:
                     glColor(RGB15(20, 26, 19));
-                    glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
+                    glSpriteScale(xxItem + 4, yyItem + 4, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
                     glColor(RGB15(31, 31, 31));
                     break;
                 case InventoryItemID::Door:
-                    glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
+                    glSpriteScale(xxItem + 5, yyItem + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
                     break;
                 case InventoryItemID::BirchDoor:
-                    glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
+                    glSpriteScale(xxItem + 5, yyItem + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
                     break;
                 case InventoryItemID::Glass:
-                    glSpriteScale(xx - 1, yy, HALFSIZE, GL_FLIP_NONE, sprGlass);
+                    glSpriteScale(xxItem - 1, yyItem, HALFSIZE, GL_FLIP_NONE, sprGlass);
                     break;
                 case InventoryItemID::OakSlab:
-                    glSpritePartScale(sprPlanks, xx + 4, yy + 6, 0, 0, 16, 8, HALFSIZE);
+                    glSpritePartScale(sprPlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALFSIZE);
                     break;
                 case InventoryItemID::BirchSlab:
-                    glSpritePartScale(sprBirchPlanks, xx + 4, yy + 6, 0, 0, 16, 8, HALFSIZE);
+                    glSpritePartScale(sprBirchPlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALFSIZE);
                     break;
                 case InventoryItemID::CobblestoneSlab:
-                    glSpritePartScale(sprCobblestone, xx + 4, yy + 6, 0, 0, 16, 8, HALFSIZE);
+                    glSpritePartScale(sprCobblestone, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALFSIZE);
                     break;
                 // default
                 default:
-                    glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, getItemImage(id));
+                    glSpriteScale(xxItem + 4, yyItem + 4, HALFSIZE, GL_FLIP_NONE, getItemImage(id));
                     break;
                 }
 
@@ -978,28 +980,28 @@ void Player::draw(Camera camera, Font font, Font fontRu, Language lang)
         // health bar drawing
         for (u8 i = 0; i < 10; ++i)
         {
-            u8 xx = SCREEN_WIDTH - 9 - i / 2 * 9;
-            u8 yy = SCREEN_HEIGHT - 9;
+            u8 xxHeart = SCREEN_WIDTH - 9 - i / 2 * 9;
+            u8 yyHeart = SCREEN_HEIGHT - 9;
 
             // if there is 2 or less health then we SHAKE
             if (health <= 2)
             {
-                xx += randomRange(-1, 1);
-                yy += randomRange(-1, 1);
+                xxHeart += randomRange(-1, 1);
+                yyHeart += randomRange(-1, 1);
             }
 
             // if odd, draw half-heart sprite
             if (i % 2 != 0)
             {
                 if (health >= i)
-                    glSprite(xx, yy, GL_FLIP_NONE, sprHalfHeart);
+                    glSprite(xxHeart, yyHeart, GL_FLIP_NONE, sprHalfHeart);
             }
             else
             {
                 // if even, draw outline and 2nd half-heart sprite
-                glSprite(xx, yy, GL_FLIP_NONE, sprHeartOutline);
+                glSprite(xxHeart, yyHeart, GL_FLIP_NONE, sprHeartOutline);
                 if (health >= i)
-                    glSprite(xx + 1, yy, GL_FLIP_H, sprHalfHeart2);
+                    glSprite(xxHeart + 1, yyHeart, GL_FLIP_H, sprHalfHeart2);
             }
         }
     }
@@ -2585,11 +2587,6 @@ Rect Player::getRectAim(Camera camera)
 Rect Player::getRectAimY8(Camera camera)
 {
     return Rect(snapToGrid(aimX + camera.x), snapToGrid8(aimY + camera.y), 16, 16);
-}
-
-Rect Player::getRectLightingUpdate(void)
-{
-    return Rect(x - 96, y - 96, 96 * 2, 96 * 2);
 }
 
 std::array<InventoryItem, 20> Player::getInventory(void)

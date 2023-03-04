@@ -152,13 +152,12 @@ void unloadBlockSounds(void)
 
 //----------------------------------------
 
-Block::Block(s16 x, s16 y, u8 maxBrokenLevel, u8 lightLevel)
+Block::Block(s16 x, s16 y, u8 maxBrokenLevel, u8 lightLevel) : brokenLevel(0)
 {
     this->x = x;
     this->y = y;
     this->maxBrokenLevel = maxBrokenLevel;
     this->lightLevel = lightLevel;
-    brokenLevel = 0;
 }
 
 void Block::drawBreaking(Camera camera)
