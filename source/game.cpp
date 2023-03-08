@@ -888,7 +888,7 @@ void Game::draw(void)
             if (SettingsManager::autoSave)
                 font.printCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Auto save ON <" : "Auto save ON");
             else
-                font.printCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Auto select OFF <" : "Auto save OFF");
+                font.printCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Auto save OFF <" : "Auto save OFF");
             break;
         case Language::Russian:
             if (SettingsManager::autoSave)
