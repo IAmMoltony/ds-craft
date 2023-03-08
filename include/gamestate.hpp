@@ -12,4 +12,5 @@ enum class GameState
     VersionInfo,
     Settings,
     DeleteWorld,
+    DeleteAllWorlds,
 };

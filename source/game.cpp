@@ -144,7 +144,6 @@ u8 Game::fontSmallRuCharWidthHandler(char ch)
     case '0' ... '9':
     case '!':
     case '$':
-    case '%':
     case '&':
     case '}':
     case '_':
@@ -158,6 +157,7 @@ u8 Game::fontSmallRuCharWidthHandler(char ch)
         return 6;
     case '"':
     case ']':
+    case '%':
         return 8;
     case '#':
     case '~':
@@ -224,6 +224,7 @@ static constexpr u8 SETTING_AUTO_SAVE = 2;
 static constexpr u8 SETTING_SMOOTH_CAMERA = 3;
 static constexpr u8 SETTING_TOUCH_TO_MOVE = 4;
 static constexpr u8 SETTING_AUTO_JUMP = 5;
+static constexpr u8 SETTING_DELETE_ALL_WORLDS = 6;
 
 static constexpr u8 TOUCH_TO_MOVE_OFF = 0;
 static constexpr u8 TOUCH_TO_MOVE_LEFT_HANDED = 1;
@@ -846,15 +847,16 @@ void Game::draw(void)
     case GameState::Settings:
         drawMovingBackground();
 
+        // TODO turn into switch statement
         if (settingsSelect == SETTING_LANGUAGE_SELECT)
             glColor(RGB15(0, 31, 0));
         switch (lang)
         {
         case Language::English:
-            font.printCentered(0, 48, (settingsSelect == 0) ? "> Change language <" : "Change language");
+            font.printCentered(0, 48, (settingsSelect == SETTING_LANGUAGE_SELECT) ? "> Change language <" : "Change language");
             break;
         case Language::Russian:
-            fontRu.printCentered(0, 48, (settingsSelect == 0) ? "> C\"csbu# &j\"m '" : "C\"csbu# &j\"m");
+            fontRu.printCentered(0, 48, (settingsSelect == SETTING_LANGUAGE_SELECT) ? "> C\"csbu# &j\"m '" : "C\"csbu# &j\"m");
             break;
         }
         glColor(RGB15(31, 31, 31));
@@ -865,15 +867,15 @@ void Game::draw(void)
         {
         case Language::English:
             if (SettingsManager::transparentLeaves)
-                font.printCentered(0, 59, (settingsSelect == 1) ? "> Transparent leaves ON <" : "Transparent leaves ON");
+                font.printCentered(0, 59, (settingsSelect == SETTING_TRANSPARENT_LEAVES) ? "> Transparent leaves ON <" : "Transparent leaves ON");
             else
-                font.printCentered(0, 59, (settingsSelect == 1) ? "> Transparent leaves OFF <" : "Transparent leaves OFF");
+                font.printCentered(0, 59, (settingsSelect == SETTING_TRANSPARENT_LEAVES) ? "> Transparent leaves OFF <" : "Transparent leaves OFF");
             break;
         case Language::Russian:
             if (SettingsManager::transparentLeaves)
-                fontRu.printCentered(0, 59, (settingsSelect == 1) ? "> Qsqjsbzp\"g nktu#& CLM '" : "Qsqjsbzp\"g nktu#& CLM");
+                fontRu.printCentered(0, 59, (settingsSelect == SETTING_TRANSPARENT_LEAVES) ? "> Qsqjsbzp\"g nktu#& CLM '" : "Qsqjsbzp\"g nktu#& CLM");
             else
-                fontRu.printCentered(0, 59, (settingsSelect == 1) ? "> Qsqjsbzp\"g nktu#& C]LM '" : "Qsqjsbzp\"g nktu#& C]LM");
+                fontRu.printCentered(0, 59, (settingsSelect == SETTING_TRANSPARENT_LEAVES) ? "> Qsqjsbzp\"g nktu#& C]LM '" : "Qsqjsbzp\"g nktu#& C]LM");
             break;
         }
         glColor(RGB15(31, 31, 31));
@@ -884,15 +886,15 @@ void Game::draw(void)
         {
         case Language::English:
             if (SettingsManager::autoSave)
-                font.printCentered(0, 70, (settingsSelect == 2) ? "> Auto save ON <" : "Auto save ON");
+                font.printCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Auto save ON <" : "Auto save ON");
             else
-                font.printCentered(0, 70, (settingsSelect == 2) ? "> Auto select OFF <" : "Auto save OFF");
+                font.printCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Auto select OFF <" : "Auto save OFF");
             break;
         case Language::Russian:
             if (SettingsManager::autoSave)
-                fontRu.printCentered(0, 70, (settingsSelect == 2) ? "> Aduq tqxsbpgpkg CLM '" : "Aduq tqxsbpgpkg CLM");
+                fontRu.printCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Aduq tqxsbpgpkg CLM '" : "Aduq tqxsbpgpkg CLM");
             else
-                fontRu.printCentered(0, 70, (settingsSelect == 2) ? "> Aduq tqxsbpgpkg C]LM '" : "Aduq tqxsbpgpkg C]LM");
+                fontRu.printCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Aduq tqxsbpgpkg C]LM '" : "Aduq tqxsbpgpkg C]LM");
             break;
         }
         glColor(RGB15(31, 31, 31));
@@ -903,20 +905,20 @@ void Game::draw(void)
         {
         case Language::English:
             if (SettingsManager::smoothCamera)
-                font.printCentered(0, 81, (settingsSelect == 3) ? "> Smooth camera ON <" : "Smooth camera ON");
+                font.printCentered(0, 81, (settingsSelect == SETTING_SMOOTH_CAMERA) ? "> Smooth camera ON <" : "Smooth camera ON");
             else
-                font.printCentered(0, 81, (settingsSelect == 3) ? "> Smooth camera OFF <" : "Smooth camera OFF");
+                font.printCentered(0, 81, (settingsSelect == SETTING_SMOOTH_CAMERA) ? "> Smooth camera OFF <" : "Smooth camera OFF");
             break;
         case Language::Russian:
             if (SettingsManager::smoothCamera)
-                fontRu.printCentered(0, 81, (settingsSelect == 3) ? "> Qnbdpb& mbogsb CLM '" : "Qnbdpb& mbogsb CLM");
+                fontRu.printCentered(0, 81, (settingsSelect == SETTING_SMOOTH_CAMERA) ? "> Qnbdpb& mbogsb CLM '" : "Qnbdpb& mbogsb CLM");
             else
-                fontRu.printCentered(0, 81, (settingsSelect == 3) ? "> Qnbdpb& mbogsb C]LM '" : "Qnbdpb& mbogsb C]LM");
+                fontRu.printCentered(0, 81, (settingsSelect == SETTING_SMOOTH_CAMERA) ? "> Qnbdpb& mbogsb C]LM '" : "Qnbdpb& mbogsb C]LM");
             break;
         }
         glColor(RGB15(31, 31, 31));
 
-        if (settingsSelect == 4)
+        if (settingsSelect == SETTING_TOUCH_TO_MOVE)
             glColor(RGB15(0, 31, 0));
         switch (SettingsManager::touchToMove)
         {
@@ -924,10 +926,10 @@ void Game::draw(void)
             switch (lang)
             {
             case Language::English:
-                font.printCentered(0, 92, (settingsSelect == 4) ? "> Touch to move: off <" : "Touch to move: off");
+                font.printCentered(0, 92, (settingsSelect == SETTING_TOUCH_TO_MOVE) ? "> Touch to move: off <" : "Touch to move: off");
                 break;
             case Language::Russian:
-                fontRu.printCentered(0, 92, (settingsSelect == 4) ? "> Edkigpkg mbtbpkgo: d\"mn. '" : "Edkigpkg mbtbpkgo: d\"mn.");
+                fontRu.printCentered(0, 92, (settingsSelect == SETTING_TOUCH_TO_MOVE) ? "> Edkigpkg mbtbpkgo: d\"mn. '" : "Edkigpkg mbtbpkgo: d\"mn.");
                 break;
             }
             break;
@@ -935,10 +937,10 @@ void Game::draw(void)
             switch (lang)
             {
             case Language::English:
-                font.printCentered(0, 92, (settingsSelect == 4) ? "> Touch to move: left-handed <" : "Touch to move: left-handed");
+                font.printCentered(0, 92, (settingsSelect == SETTING_TOUCH_TO_MOVE) ? "> Touch to move: left-handed <" : "Touch to move: left-handed");
                 break;
             case Language::Russian:
-                fontRu.printCentered(0, 92, (settingsSelect == 4) ? "> Edkigpkg mbtbpkgo: ngd}b '" : "Edkigpkg mbtbpkgo: ngd}b");
+                fontRu.printCentered(0, 92, (settingsSelect == SETTING_TOUCH_TO_MOVE) ? "> Edkigpkg mbtbpkgo: ngd}b '" : "Edkigpkg mbtbpkgo: ngd}b");
                 break;
             }
             break;
@@ -946,31 +948,44 @@ void Game::draw(void)
             switch (lang)
             {
             case Language::English:
-                font.printCentered(0, 92, (settingsSelect == 4) ? "> Touch to move: right-handed <" : "Touch to move: right-handed");
+                font.printCentered(0, 92, (settingsSelect == SETTING_TOUCH_TO_MOVE) ? "> Touch to move: right-handed <" : "Touch to move: right-handed");
                 break;
             case Language::Russian:
-                fontRu.printCentered(0, 92, (settingsSelect == 4) ? "> Edkigpkg mbtbpkgo: rsbd}b '" : "Edkigpkg mbtbpkgo: rsbd}b");
+                fontRu.printCentered(0, 92, (settingsSelect == SETTING_TOUCH_TO_MOVE) ? "> Edkigpkg mbtbpkgo: rsbd}b '" : "Edkigpkg mbtbpkgo: rsbd}b");
                 break;
             }
             break;
         }
         glColor(RGB15(31, 31, 31));
 
-        if (settingsSelect == 5)
+        if (settingsSelect == SETTING_AUTO_JUMP)
             glColor(RGB15(0, 31, 0));
         switch (lang)
         {
         case Language::English:
             if (SettingsManager::autoJump)
-                font.printCentered(0, 103, (settingsSelect == 5) ? "> Auto jump ON <" : "Auto jump ON");
+                font.printCentered(0, 103, (settingsSelect == SETTING_AUTO_JUMP) ? "> Auto jump ON <" : "Auto jump ON");
             else
-                font.printCentered(0, 103, (settingsSelect == 5) ? "> Auto jump OFF <" : "Auto jump OFF");
+                font.printCentered(0, 103, (settingsSelect == SETTING_AUTO_JUMP) ? "> Auto jump OFF <" : "Auto jump OFF");
             break;
         case Language::Russian:
             if (SettingsManager::autoJump)
-                fontRu.printCentered(0, 103, (settingsSelect == 5) ? "> Aduq rs\"iqm CLM '" : "Aduq rs\"iqm CLM");
+                fontRu.printCentered(0, 103, (settingsSelect == SETTING_AUTO_JUMP) ? "> Aduq rs\"iqm CLM '" : "Aduq rs\"iqm CLM");
             else
-                fontRu.printCentered(0, 103, (settingsSelect == 5) ? "> Aduq rs\"iqm C]LM '" : "Aduq rs\"iqm C]LM");
+                fontRu.printCentered(0, 103, (settingsSelect == SETTING_AUTO_JUMP) ? "> Aduq rs\"iqm C]LM '" : "Aduq rs\"iqm C]LM");
+            break;
+        }
+        glColor(RGB15(31, 31, 31));
+
+        if (settingsSelect == SETTING_DELETE_ALL_WORLDS)
+            glColor(RGB15(0, 31, 0));
+        switch (lang)
+        {
+        case Language::English:
+            font.printCentered(0, 114, (settingsSelect == SETTING_DELETE_ALL_WORLDS) ? "> Delete all worlds <" : "Delete all worlds");
+            break;
+        case Language::Russian:
+            fontRu.printCentered(0, 114, (settingsSelect == SETTING_DELETE_ALL_WORLDS) ? "> Ufbnku# dtg oks\" '" : "Ufbnku# dtg oks\"");
             break;
         }
         glColor(RGB15(31, 31, 31));
@@ -1032,19 +1047,40 @@ void Game::draw(void)
         switch (lang)
         {
         case Language::English:
-            glSprite(SCREEN_WIDTH / 2 - 25, 96, GL_FLIP_NONE, sprAButton);
-            glSprite(SCREEN_WIDTH / 2 - 21, 116, GL_FLIP_NONE, sprBButton);
-            font.printCentered(0, 98, "Yes");
-            font.printCentered(0, 118, "No");
+            font.printCentered(0, 98, "\2:A Yes");
+            font.printCentered(0, 118, "\2:B No");
             break;
         case Language::Russian:
-            glSprite(SCREEN_WIDTH / 2 - 21, 96, GL_FLIP_NONE, sprAButton);
-            glSprite(SCREEN_WIDTH / 2 - 25, 116, GL_FLIP_NONE, sprBButton);
-            fontRu.printCentered(0, 98, "Eb");
-            fontRu.printCentered(0, 118, "Ogu");
+            fontRu.printCentered(0, 98, "\2:A Eb");
+            fontRu.printCentered(0, 118, "\2:B Ogu");
             break;
         }
-
+        break;
+    case GameState::DeleteAllWorlds:
+        drawMovingBackground();
+        switch (lang)
+        {
+        case Language::English:
+            font.setCharWidthHandler(fontBigCharWidthHandler);
+            font.printCentered(0, 5, "Delete all worlds", NULL, SCALE(1.8));
+            font.setCharWidthHandler(fontSmallCharWidthHandler);
+            font.printCentered(0, 40, "Are you sure you want to");
+            font.printCentered(0, 51, "delete all of your worlds?");
+            font.printCentered(0, 65, "You cannot undo this action!");
+            font.printCentered(0, 100, "\2:A Yes");
+            font.printCentered(0, 113, "\2:B No");
+            break;
+        case Language::Russian:
+            fontRu.setCharWidthHandler(fontBigRuCharWidthHandler);
+            fontRu.printCentered(0, 5, "Ufbnku# dtg oks\"", NULL, SCALE(1.8));
+            fontRu.setCharWidthHandler(fontSmallRuCharWidthHandler);
+            fontRu.printCentered(0, 40, "C\" uqzpq xqukug vfbnku#");
+            fontRu.printCentered(0, 51, "dtg tdqk oks\"\3?", &font);
+            fontRu.printCentered(0, 65, "_uq pgn#j& cvfgu quogpku#<");
+            fontRu.printCentered(0, 100, "\2:A Eb");
+            fontRu.printCentered(0, 113, "\2:B Ogu");
+            break;
+        }
         break;
     }
 
@@ -1574,6 +1610,9 @@ void Game::update(void)
                 SettingsManager::autoJump = !SettingsManager::autoJump;
                 fsWrite("fat:/dscraft_data/config/autojump.cfg", SettingsManager::autoJump ? "1" : "0");
                 break;
+            case SETTING_DELETE_ALL_WORLDS:
+                gameState = GameState::DeleteAllWorlds;
+                break;
             }
             mmEffectEx(&sndClick);
         }
@@ -1600,11 +1639,14 @@ void Game::update(void)
             case SETTING_AUTO_JUMP:
                 showHelpScreen("autojump");
                 break;
+            case SETTING_DELETE_ALL_WORLDS:
+                showHelpScreen("deleteallworlds");
+                break;
             }
         }
         else if (down & KEY_SELECT)
         {
-            if (++settingsSelect > 5)
+            if (++settingsSelect > SETTING_DELETE_ALL_WORLDS)
                 settingsSelect = 0;
         }
         break;
@@ -1623,6 +1665,16 @@ void Game::update(void)
             gameState = GameState::WorldSelect;
             mmEffectEx(&sndClick);
         }
+        break;
+    case GameState::DeleteAllWorlds:
+        if (down & KEY_A)
+        {
+            fsDeleteDir("fat:/dscraft_data/worlds/");
+            fsCreateDir("fat:/dscraft_data/worlds/");
+            gameState = GameState::Settings;
+        }
+        else if (down & KEY_B)
+            gameState = GameState::Settings;
         break;
     }
     ++frameCounter;

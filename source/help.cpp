@@ -22,19 +22,23 @@ void showHelp(const std::string &file, Language lang, Font font, Font fontRu, u1
             switch (lang)
             {
             case Language::English:
-                font.printfScaleCentered(0, 5, SCALE(2), "oops");
-                font.print(10, 40, "This help entry could not be  found.");
-                font.print(10, 64, "Please check that the file \nexists:");
+                font.setCharWidthHandler(Game::fontBigCharWidthHandler);
+                font.printfScaleCentered(0, 5, SCALE(1.8), "oops");
+                font.setCharWidthHandler(Game::fontSmallCharWidthHandler);
+                font.print(10, 40, "This help entry could not be found.");
+                font.print(10, 51, "Please check that the file exists:");
                 font.printCentered(0, SCREEN_HEIGHT - 19, "Press any button...");
                 break;
             case Language::Russian:
-                fontRu.printfScaleCentered(0, 5, SCALE(2), "ql");
-                fontRu.print(10, 40, "_ub jbrkt# trsbdmk pg oqigu   c\"u# pblfgpb.");
-                fontRu.print(10, 64, "Ucgfkugt#@ zuq $uqu wbln tv~gtudvgu:");
+                fontRu.setCharWidthHandler(Game::fontBigRuCharWidthHandler);
+                fontRu.printfScaleCentered(0, 5, SCALE(1.8), "ql");
+                fontRu.setCharWidthHandler(Game::fontSmallRuCharWidthHandler);
+                fontRu.print(10, 40, "_ub jbrkt# trsbdmk pg oqigu c\"u# pblfgpb.");
+                fontRu.print(10, 51, "Ucgfkugt#@ zuq $uqu wbln tv~gtudvgu:");
                 fontRu.printCentered(0, SCREEN_HEIGHT - 19, "Obiokug n%cv% mpqrmv...");
                 break;
             }
-            font.print(10, 96, filename.c_str());
+            font.print(10, 62, filename.c_str());
 
             glEnd2D();
             glFlush(0);
@@ -69,7 +73,9 @@ void showHelp(const std::string &file, Language lang, Font font, Font fontRu, u1
         switch (lang)
         {
         case Language::English:
-            font.printfScaleCentered(0, 5, SCALE(2), "Help");
+            font.setCharWidthHandler(Game::fontBigCharWidthHandler);
+            font.printfScaleCentered(0, 5, SCALE(1.8), "Help");
+            font.setCharWidthHandler(Game::fontSmallCharWidthHandler);
             glColor(RGB15(31, 31, 0));
             font.printCentered(0, 25, title.c_str());
             glColor(RGB15(31, 31, 31));
@@ -77,7 +83,9 @@ void showHelp(const std::string &file, Language lang, Font font, Font fontRu, u1
             font.printCentered(0, SCREEN_HEIGHT - 19, "Press any button...");
             break;
         case Language::Russian:
-            fontRu.printfScaleCentered(0, 5, SCALE(2), "Qqoq~#");
+            fontRu.setCharWidthHandler(Game::fontBigRuCharWidthHandler);
+            fontRu.printfScaleCentered(0, 5, SCALE(1.8), "Qqoq~#");
+            fontRu.setCharWidthHandler(Game::fontSmallRuCharWidthHandler);
             glColor(RGB15(31, 31, 0));
             fontRu.printCentered(0, 25, title.c_str());
             glColor(RGB15(31, 31, 31));

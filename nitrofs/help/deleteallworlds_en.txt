@@ -1,0 +1,2 @@
+Delete all worlds
+This setting will destroy all worlds that you havecreated. Use with caution.
