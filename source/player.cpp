@@ -839,11 +839,13 @@ void Player::draw(Camera camera, Font font, Font fontRu, Language lang)
             font.setCharWidthHandler(Game::fontBigCharWidthHandler);
             font.printShadowCentered(0, 12, chestSelect < 20 ? "Chest" : "Inventory", NULL, SCALE(1.8));
             font.setCharWidthHandler(Game::fontSmallCharWidthHandler);
+            font.printShadow(16, SCREEN_HEIGHT - 32, chestSelect < 20 ? "\2:Y Switch to inventory" : "\2:Y Switch to chest");
             break;
         case Language::Russian:
             fontRu.setCharWidthHandler(Game::fontBigRuCharWidthHandler);
-            fontRu.printShadowCentered(0, 12, "Svpfvm", NULL, SCALE(1.8));
+            fontRu.printShadowCentered(0, 12, chestSelect < 20 ? "Svpfvm" : "Jpdgpubs#", NULL, SCALE(1.8));
             fontRu.setCharWidthHandler(Game::fontSmallRuCharWidthHandler);
+            fontRu.printShadow(16, SCREEN_HEIGHT - 32, chestSelect < 20 ? "\2:Y Qgsgmn%zku#t& pb kpdgpubs#" : "\2:Y Qgsgmn%zku#t& pb tvpfvm");
             break;
         }
 
