@@ -847,7 +847,6 @@ void Game::draw(void)
     case GameState::Settings:
         drawMovingBackground();
 
-        // TODO turn into switch statement
         if (settingsSelect == SETTING_LANGUAGE_SELECT)
             glColor(RGB15(0, 31, 0));
         switch (lang)
