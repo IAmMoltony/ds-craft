@@ -54,6 +54,10 @@
 // if 0, filesystem errors will not be displayed
 #define FS_ERROR_MESSAGES 1
 
+// if 1, console will be cleared when a world is loaded
+// if 0, then it would not be cleared
+#define CLEAR_CONSOLE_ON_PLAY 0
+
 #define SCALE_NORMAL (1 << 12)
 #define SCALE(times) (SCALE_NORMAL * (times))
 #define HALFSIZE ((1 << 12) / 2)

@@ -15,6 +15,6 @@ std::string getWorldFile(const std::string &name);
 std::string getWorldName(const std::string &file);
 unsigned int getWorldSeed(const std::string &file);
 void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
-               Player &player, unsigned int seed);
+               Player &player, unsigned int seed, s16 currentLocation);
 void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
-               Player &player);
+               Player &player, s16 &currentLocation);

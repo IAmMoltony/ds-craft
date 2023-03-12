@@ -84,6 +84,7 @@ private:
     u8 titleScreenSelect;
     bool createWorldShowCursor = false;
     u8 createWorldSelect = 0;
+    s16 currentLocation = 0;
 
     void gameQuit(void);
 
@@ -94,6 +95,8 @@ private:
 
     void showHelpScreen(const std::string &setting);
     void enterWorldSelect(void);
+
+    void loadLocation(void);
 
 public:
     static Game *instance;

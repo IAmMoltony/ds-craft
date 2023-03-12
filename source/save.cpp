@@ -191,10 +191,10 @@ std::string iidToString(InventoryItemID iid)
 }
 
 void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
-               Player &player, unsigned int seed)
+               Player &player, unsigned int seed, s16 currentLocation)
 {
     std::string worldFolder = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(name);
-    srand(seed);
+    srand(seed + currentLocation);
 
     // generate terrain in case folder doesn't exist
     if (!fsFolderExists(worldFolder.c_str()))
@@ -210,7 +210,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     fsCreateDir(std::string(worldFolder + "/chests").c_str());
     fsCreateFile(std::string(worldFolder + "/world.meta").c_str());
     fsCreateFile(std::string(worldFolder + "/player.info").c_str());
-    std::ofstream wld(worldFolder + "/locations/location0.wld");
+    std::ofstream wld(worldFolder + "/locations/location" + std::to_string(currentLocation) + ".wld");
 
     // save blocks
     for (auto &block : blocks)
@@ -302,7 +302,8 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
     // world meta
     std::ofstream wldmeta(worldFolder + "/world.meta");
-    wldmeta << "worldname " + name + "\ngameversion " + getVersionString() + "\nseed " + std::to_string(seed) + '\n';
+    wldmeta << "worldname " + name + "\ngameversion " + getVersionString() + "\nseed " + std::to_string(seed) +
+            "\nlocation " + std::to_string(currentLocation);
     wldmeta.close();
 
     // player info
@@ -339,7 +340,7 @@ unsigned int getWorldSeed(const std::string &file)
 }
 
 void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
-               Player &player)
+               Player &player, s16 &currentLocation)
 {
     std::string worldFolder = "fat:/dscraft_data/worlds/" + name;
 
@@ -357,7 +358,27 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         return;
     }
 
-    std::ifstream wld(worldFolder + "/locations/location0.wld");
+    std::ifstream wldMeta(worldFolder + "/world.meta");
+    std::string wldmline;
+    bool setLoc = false;
+    while (std::getline(wldMeta, wldmline))
+    {
+        std::stringstream ss(wldmline);
+        std::string line2;
+        std::vector<std::string> split;
+        while (std::getline(ss, line2, ' '))
+            split.push_back(line2);
+
+        if (split[0] == "location")
+        {
+            setLoc = true;
+            currentLocation = atoi(split[1].c_str());
+        }
+    }
+    if (!setLoc)
+        currentLocation = 0;
+
+    std::ifstream wld(worldFolder + "/locations/location" + std::to_string(currentLocation) + ".wld");
     std::string line;
     while (std::getline(wld, line)) // for each line in the file
     {
@@ -592,5 +613,5 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         chestFile.close();
     }
 
-    srand(getWorldSeed(name));
+    srand(getWorldSeed(name) + currentLocation);
 }

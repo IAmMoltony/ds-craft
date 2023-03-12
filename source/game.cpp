@@ -67,7 +67,7 @@ void Game::gameQuit(void)
     }
     glEnd2D();
     glFlush(0);
-    saveWorld(worldName, blocks, entities, player, getWorldSeed(worldName));
+    saveWorld(worldName, blocks, entities, player, getWorldSeed(worldName), currentLocation);
 
     // reset player state
     player.reset();
@@ -327,6 +327,24 @@ void Game::enterWorldSelect(void)
     worldSelectWorlds = WorldManager::getWorlds();
 }
 
+void Game::loadLocation(void)
+{
+    // 1. we check if location file exists
+    // if it doesn't, we go through saveWorld
+
+    // 2. we load the location file
+
+    // 3. we position the player correctly
+
+    if (!fsFileExists(std::string("fat:/dscraft_data/worlds/" + normalizeWorldFileName(worldName) + "/locations/location" + std::to_string(currentLocation) + ".wld").c_str()))
+        saveWorld(worldName, blocks, entities, player, getWorldSeed(worldName), currentLocation);
+
+    loadWorld(normalizeWorldFileName(worldName), blocks, entities, player, currentLocation);
+
+    // position player correctly here
+    player.setX(1);
+}
+
 extern glImage sprDirt[1]; // defined in block.cpp
 
 void Game::drawMovingBackground(void)
@@ -345,8 +363,6 @@ void Game::drawMovingBackground(void)
 
 void Game::draw(void)
 {
-    glBegin2D();
-
     switch (gameState)
     {
     case GameState::Game:
@@ -1087,9 +1103,6 @@ void Game::draw(void)
     // int vc = 0;
     // glGetInt(GL_GET_POLYGON_RAM_COUNT, &vc);
     // printf("polygon ram count %d\n", vc);
-
-    glEnd2D();
-    glFlush(0);
 }
 
 void Game::update(void)
@@ -1110,7 +1123,7 @@ void Game::update(void)
         // save every 900 frames (15s) and if player wants to auto save
         if (frameCounter % 900 == 0 && SettingsManager::autoSave)
         {
-            saveWorld(worldName, blocks, entities, player, getWorldSeed(worldName));
+            saveWorld(worldName, blocks, entities, player, getWorldSeed(worldName), currentLocation);
             showSaveText = true;
         }
 
@@ -1237,11 +1250,37 @@ void Game::update(void)
             if (playerUpdateResult == Player::UpdateResult::BlockPlaced)
                 std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
 
-            // player pos clamping
-            if (player.getX() < 0)
-                player.setX(0);
-            if (player.getX() > 1024 - 16)
-                player.setX(1024 - 16);
+            bool changedLocation = false;
+            if (player.getX() < -2)
+            {
+                // go to location before current
+                --currentLocation;
+                changedLocation = true;
+            }
+            else if (player.getX() > 1024 - 13)
+            {
+                // go to location after current
+                ++currentLocation;
+                changedLocation = true;
+            }
+
+            if (changedLocation)
+            {
+                glBegin2D();
+                draw();
+
+                glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(15));
+                glBoxFilled(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(17, 17, 17));
+                glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(31));
+
+                font.printCentered(0, 50, "Loading location...");
+
+                glEnd2D();
+                glFlush(0);
+                swiWaitForVBlank();
+
+                loadLocation();
+            }
         }
         else if (player.dead())
         {
@@ -1388,14 +1427,16 @@ void Game::update(void)
                 glFlush(0);
 
                 resetNextChestID();
-                loadWorld(normalizeWorldFileName(worldName), blocks, entities, player);
+                loadWorld(normalizeWorldFileName(worldName), blocks, entities, player, currentLocation);
                 camera.x = player.getX() - SCREEN_WIDTH / 2;
                 camera.y = player.getY() - SCREEN_HEIGHT / 2;
 
                 std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
 
                 mmEffectEx(&sndClick);
+#if CLEAR_CONSOLE_ON_PLAY
                 consoleClear();
+#endif
                 gameState = GameState::Game;
                 swiWaitForVBlank();
                 return;
@@ -1494,7 +1535,7 @@ void Game::update(void)
                     randomSeed = atoi(createWorldSeed.c_str());
                 if (createWorldSeed.empty())
                     randomSeed = rand() * rand();
-                saveWorld(worldName, blocks, entities, player, randomSeed);
+                saveWorld(worldName, blocks, entities, player, randomSeed, currentLocation);
 
                 enterWorldSelect();
                 frameCounter = 0;
@@ -1685,7 +1726,10 @@ void Game::run(void)
     while (true)
     {
         update();
+        glBegin2D();
         draw();
+        glEnd2D();
+        glFlush(0);
         swiWaitForVBlank();
     }
 }
