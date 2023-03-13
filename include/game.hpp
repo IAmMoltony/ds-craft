@@ -96,7 +96,7 @@ private:
     void showHelpScreen(const std::string &setting);
     void enterWorldSelect(void);
 
-    void loadLocation(void);
+    void loadLocation(s16 oldLocation);
 
 public:
     static Game *instance;

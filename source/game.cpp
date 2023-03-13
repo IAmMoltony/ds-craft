@@ -327,7 +327,7 @@ void Game::enterWorldSelect(void)
     worldSelectWorlds = WorldManager::getWorlds();
 }
 
-void Game::loadLocation(void)
+void Game::loadLocation(s16 oldLocation)
 {
     // 1. we check if location file exists
     // if it doesn't, we go through saveWorld
@@ -1251,6 +1251,7 @@ void Game::update(void)
                 std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
 
             bool changedLocation = false;
+            s16 oldLocation = currentLocation;
             if (player.getX() < -2)
             {
                 // go to location before current
@@ -1266,6 +1267,24 @@ void Game::update(void)
 
             if (changedLocation)
             {
+                // we first save old location
+                // and load location that we go to
+
+                glBegin2D();
+                draw();
+
+                glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(15));
+                glBoxFilled(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(17, 17, 17));
+                glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(31));
+
+                font.printCentered(0, 50, "Saving world...");
+
+                glEnd2D();
+                glFlush(0);
+                swiWaitForVBlank();
+
+                saveWorld(worldName, blocks, entities, player, getWorldSeed(worldName), oldLocation);
+
                 glBegin2D();
                 draw();
 
@@ -1279,7 +1298,7 @@ void Game::update(void)
                 glFlush(0);
                 swiWaitForVBlank();
 
-                loadLocation();
+                loadLocation(oldLocation);
             }
         }
         else if (player.dead())
