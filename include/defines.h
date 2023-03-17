@@ -61,7 +61,3 @@
 #define SCALE_NORMAL (1 << 12)
 #define SCALE(times) (SCALE_NORMAL * (times))
 #define HALFSIZE ((1 << 12) / 2)
-
-// i think these are reduntant
-typedef signed short s16;
-typedef signed char s8;
