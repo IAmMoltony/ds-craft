@@ -1250,6 +1250,7 @@ void Game::update(void)
                 std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
 
             bool changedLocation = false;
+            bool decrementLocation = false;
             s16 oldLocation = currentLocation;
             if (player.getX() < -2)
             {
@@ -1263,6 +1264,8 @@ void Game::update(void)
                 ++currentLocation;
                 changedLocation = true;
             }
+            if (decrementLocation)
+                --currentLocation;
             // printf("%d\n", player.getX());
 
             if (changedLocation)
