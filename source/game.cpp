@@ -341,8 +341,7 @@ void Game::loadLocation(s16 oldLocation)
 
     loadWorld(normalizeWorldFileName(worldName), blocks, entities, player, currentLocation);
 
-    // position player correctly here
-    player.setX(1);
+    printf("%d %d\n", oldLocation, currentLocation);
 }
 
 extern glImage sprDirt[1]; // defined in block.cpp
@@ -1258,12 +1257,13 @@ void Game::update(void)
                 --currentLocation;
                 changedLocation = true;
             }
-            else if (player.getX() > 1024 - 13)
+            else if (player.getX() > 1013)
             {
                 // go to location after current
                 ++currentLocation;
                 changedLocation = true;
             }
+            // printf("%d\n", player.getX());
 
             if (changedLocation)
             {

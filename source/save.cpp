@@ -197,7 +197,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     srand(seed + currentLocation);
 
     // generate terrain in case folder doesn't exist or specified location's file doesn't exist
-    if (!fsFolderExists(worldFolder.c_str()) || !fsFileExists(std::string(worldFolder + "/locations/location" + std::to_string(currentLocation)).c_str()))
+    if (!fsFolderExists(worldFolder.c_str()) || !fsFileExists(std::string(worldFolder + "/locations/location" + std::to_string(currentLocation) + ".wld").c_str()))
     {
         blocks.clear();
         entities.clear();
@@ -251,6 +251,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             wld << "birchtrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(td->isOpen()) + "\n";
             break;
         }
+        // chests are handled separately
         case BID_CHEST:
             break;
         // leaves
@@ -303,7 +304,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     // world meta
     std::ofstream wldmeta(worldFolder + "/world.meta");
     wldmeta << "worldname " + name + "\ngameversion " + getVersionString() + "\nseed " + std::to_string(seed) +
-            "\nlocation " + std::to_string(currentLocation);
+                   "\nlocation " + std::to_string(currentLocation);
     wldmeta.close();
 
     // player info
