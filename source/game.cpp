@@ -329,19 +329,30 @@ void Game::enterWorldSelect(void)
 
 void Game::loadLocation(s16 oldLocation)
 {
-    // 1. we check if location file exists
-    // if it doesn't, we go through saveWorld
+    // 1. we save
 
     // 2. we load the location file
 
     // 3. we position the player correctly
 
-    if (!fsFileExists(std::string("fat:/dscraft_data/worlds/" + normalizeWorldFileName(worldName) + "/locations/location" + std::to_string(currentLocation) + ".wld").c_str()))
-        saveWorld(worldName, blocks, entities, player, getWorldSeed(worldName), currentLocation);
+    printf("1 old: %d cur: %d\n", oldLocation, currentLocation);
+
+    saveWorld(worldName, blocks, entities, player, getWorldSeed(worldName), currentLocation);
 
     loadWorld(normalizeWorldFileName(worldName), blocks, entities, player, currentLocation);
 
-    printf("%d %d\n", oldLocation, currentLocation);
+    printf("2 old: %d cur: %d\n", oldLocation, currentLocation);
+
+    if (oldLocation < currentLocation)
+    {
+        // we went to the right
+        printf("we went to the right\n");
+    }
+    else
+    {
+        // we went to the left
+        printf("we went to the left\n");
+    }
 }
 
 extern glImage sprDirt[1]; // defined in block.cpp
@@ -1250,7 +1261,6 @@ void Game::update(void)
                 std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
 
             bool changedLocation = false;
-            bool decrementLocation = false;
             s16 oldLocation = currentLocation;
             if (player.getX() < -2)
             {
@@ -1264,9 +1274,6 @@ void Game::update(void)
                 ++currentLocation;
                 changedLocation = true;
             }
-            if (decrementLocation)
-                --currentLocation;
-            // printf("%d\n", player.getX());
 
             if (changedLocation)
             {
