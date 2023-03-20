@@ -346,12 +346,26 @@ void Game::loadLocation(s16 oldLocation)
     if (oldLocation < currentLocation)
     {
         // we went to the right
-        printf("we went to the right\n");
+        s16 maxY = 0;
+        for (auto &block : blocks)
+            if (block->y < maxY)
+                maxY = block->y;
+        player.setX(1);
+        player.setY(maxY - 32);
     }
     else
     {
         // we went to the left
-        printf("we went to the left\n");
+        s16 maxX = 0;
+        s16 maxY = 0;
+        for (auto &block : blocks)
+            if (block->x > maxX)
+            {
+                maxX = block->x;
+                maxY = block->y;
+            }
+        player.setX(maxX - 1);
+        player.setY(maxY - 32);
     }
 }
 
