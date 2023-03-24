@@ -384,9 +384,6 @@ void Game::loadLocation(s16 oldLocation)
     cameraFollowPlayer(false);
 }
 
-
-// TODO fix this stupid system of positioning player in location
-
 extern glImage sprDirt[1]; // defined in block.cpp
 
 void Game::drawMovingBackground(void)
