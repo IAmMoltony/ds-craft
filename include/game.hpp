@@ -85,16 +85,13 @@ private:
     s16 currentLocation = 0;
 
     void gameQuit(void);
-
     void playPopSound(void);
-
     void loadFonts(void);
     void init(void);
-
     void showHelpScreen(const std::string &setting);
     void enterWorldSelect(void);
-
     void loadLocation(s16 oldLocation);
+    void cameraFollowPlayer(bool smooth);
 
 public:
     static Game *instance;

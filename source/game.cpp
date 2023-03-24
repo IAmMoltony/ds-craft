@@ -376,6 +376,8 @@ void Game::loadLocation(s16 oldLocation)
         player.setX(maxX - 10);
         player.setY(maxY - 32);
     }
+
+    cameraFollowPlayer(false);
 }
 
 extern glImage sprDirt[1]; // defined in block.cpp
@@ -1199,8 +1201,7 @@ void Game::update(void)
                 {
                     // magic for converting block into sapling
                     Block *b = block.get();
-                    SaplingBlock *sapling = (SaplingBlock *)b; // here i dont use reinterpret_cast
-                    // because it makes the game break
+                    SaplingBlock *sapling = (SaplingBlock *)b;
                     sapling->update();
                     if (sapling->hasGrown())
                     {
@@ -1346,23 +1347,7 @@ void Game::update(void)
                 mmEffectEx(&sndClick);
             }
         }
-        // camera follow player
-        if (SettingsManager::smoothCamera)
-        {
-            camera.x = lerp(camera.x, player.getX() - SCREEN_WIDTH / 2, 0.1f);
-            camera.y = lerp(camera.y, player.getY() - SCREEN_HEIGHT / 2, 0.1f);
-        }
-        else
-        {
-            camera.x = player.getX() - SCREEN_WIDTH / 2;
-            camera.y = player.getY() - SCREEN_HEIGHT / 2;
-        }
-
-        // camera clamping
-        if (camera.x < 0)
-            camera.x = 0;
-        else if (camera.x > 1024 - SCREEN_WIDTH)
-            camera.x = 1024 - SCREEN_WIDTH;
+        cameraFollowPlayer(SettingsManager::smoothCamera);
         break;
     case GameState::TitleScreen:
         if (down & KEY_A || down & KEY_START)
@@ -1934,4 +1919,24 @@ void Game::SettingsManager::loadSettings(void)
     }
     else
         fsWrite("fat:/dscraft_data/config/autojump.cfg", "0");
+}
+
+void Game::cameraFollowPlayer(bool smooth)
+{
+    if (smooth)
+    {
+        camera.x = lerp(camera.x, player.getX() - SCREEN_WIDTH / 2, 0.1f);
+        camera.y = lerp(camera.y, player.getY() - SCREEN_HEIGHT / 2, 0.1f);
+    }
+    else
+    {
+        camera.x = player.getX() - SCREEN_WIDTH / 2;
+        camera.y = player.getY() - SCREEN_HEIGHT / 2;
+    }
+
+    // clamping
+    if (camera.x < 0)
+        camera.x = 0;
+    else if (camera.x > 1024 - SCREEN_WIDTH)
+        camera.x = 1024 - SCREEN_WIDTH;
 }
