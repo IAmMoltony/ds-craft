@@ -68,8 +68,6 @@ private:
     Camera camera;
     u16 frameCounter;
     u8 saveTextTimer;
-    s16 direntLogoY;
-    u8 direntLogoAlpha;
     u16 worldSelectSelected;
     u8 langSelectSelected;
     u8 deleteWorldSelected;
@@ -115,8 +113,6 @@ public:
 
     glImage sprWorldLabel[1];
     glImage sprWorldLabelSelect[1];
-
-    glImage sprDirentLogo[1];
 
     glImage sprLangEnglish[1];
     glImage sprLangRussian[1];

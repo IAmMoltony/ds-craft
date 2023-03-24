@@ -6,8 +6,6 @@ Game::Game() : camera({0, 0})
 {
     instance = this;
 
-    gameState = GameState::SplashScreen;
-    direntLogoY = 0;
     showSaveText = false;
     paused = false;
     createWorldError = false;
@@ -274,20 +272,31 @@ void Game::init(void)
     // init crafting
     playerInitCrafting();
 
+    // load some assets
     AssetManager::loadGeneralAssets();
     sndPop = soundEffect(SFX_POP);
     sndClick = soundEffect(SFX_CLICK);
 
+    // load settings
     SettingsManager::loadSettings();
+
+    // load fonts
     loadFonts();
+
+    // load assets for menu
     AssetManager::loadMenuAssets();
 
-    gameState = GameState::SplashScreen;
+    gameState = fsFileExists("fat:/dscraft_data/config/lang.cfg")
+                            ? GameState::TitleScreen
+                            : GameState::LanguageSelect;
+    if (gameState == GameState::LanguageSelect)
+    {
+        loadImageAlpha(sprLangEnglish, 16, 16, englishPal, englishBitmap);
+        loadImageAlpha(sprLangRussian, 16, 16, russianPal, russianBitmap);
+    }
     camera = {0, 0};
     frameCounter = 0;
     saveTextTimer = 0;
-    direntLogoY = -64;
-    direntLogoAlpha = 31;
     worldSelectSelected = 0;
     langSelectSelected = 0;
     deleteWorldSelected = 0;
@@ -364,7 +373,7 @@ void Game::loadLocation(s16 oldLocation)
                 maxX = block->x;
                 maxY = block->y;
             }
-        player.setX(maxX - 1);
+        player.setX(maxX - 10);
         player.setY(maxY - 32);
     }
 }
@@ -556,7 +565,7 @@ void Game::draw(void)
         }
 
         font.printCentered(0, 70, "Assets by Mojang");
-        font.printCentered(0, 120, "(C) 2022 dirent games");
+        font.printCentered(0, 120, "(C) 2023 moltony");
         font.printCentered(0, 129, "Built with devkitARM");
 
         glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprBButton);
@@ -817,12 +826,6 @@ void Game::draw(void)
             fontRu.setCharWidthHandler(fontSmallRuCharWidthHandler);
             break;
         }
-        break;
-    case GameState::SplashScreen:
-        glClearColor(0, 0, 0, 31);
-        glColor(RGB15(direntLogoAlpha, direntLogoAlpha, direntLogoAlpha));
-        glSprite(SCREEN_WIDTH / 2 - 32, direntLogoY, GL_FLIP_NONE, sprDirentLogo);
-        glColor(RGB15(31, 31, 31));
         break;
     case GameState::LanguageSelect:
         drawMovingBackground();
@@ -1604,27 +1607,6 @@ void Game::update(void)
         }
         break;
     }
-    case GameState::SplashScreen:
-        if (frameCounter >= 70)
-        {
-            if (direntLogoAlpha - 1 >= 0)
-                --direntLogoAlpha;
-        }
-        if (frameCounter == 135)
-        {
-            gameState = fsFileExists("fat:/dscraft_data/config/lang.cfg")
-                            ? GameState::TitleScreen
-                            : GameState::LanguageSelect;
-            if (gameState == GameState::LanguageSelect)
-            {
-                loadImageAlpha(sprLangEnglish, 16, 16, englishPal, englishBitmap);
-                loadImageAlpha(sprLangRussian, 16, 16, russianPal, russianBitmap);
-            }
-            unloadImage(sprDirentLogo);
-        }
-
-        direntLogoY = lerp(direntLogoY, SCREEN_HEIGHT / 2 - 32, 0.07f);
-        break;
     case GameState::LanguageSelect:
         if (down & KEY_SELECT)
         {
@@ -1823,7 +1805,6 @@ void Game::AssetManager::loadGeneralAssets(void)
     loadImageAlpha(Game::instance->sprXButton, 16, 16, xbtnPal, xbtnBitmap);
     loadImageAlpha(Game::instance->sprYButton, 16, 16, ybtnPal, ybtnBitmap);
 
-    loadImage(Game::instance->sprDirentLogo, 64, 64, dirent_gamesBitmap);
     loadImage(sprDirt, 16, 16, dirtBitmap);
 }
 

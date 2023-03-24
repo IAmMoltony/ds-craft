@@ -70,7 +70,6 @@
 #include "selectbtn.h"
 #include "world_label.h"
 #include "world_label_select.h"
-#include "dirent_games.h"
 #include "english.h"
 #include "russian.h"
 

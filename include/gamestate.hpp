@@ -7,7 +7,6 @@ enum class GameState
     Credits,
     WorldSelect,
     CreateWorld,
-    SplashScreen,
     LanguageSelect,
     VersionInfo,
     Settings,
