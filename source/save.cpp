@@ -58,6 +58,32 @@ std::string getWorldName(const std::string &file)
     return "(error)";
 }
 
+std::string getWorldVersion(const std::string &file)
+{
+    if (!fsFolderExists(file.c_str()) || !fsFileExists(std::string(file + "/world.meta").c_str()))
+        return "alpha0.0.0"; // error ^-^
+
+    std::ifstream wldMeta(file + "/world.meta");
+    std::string line;
+    std::string gameVersion = "alpha0.0.0";
+    while (std::getline(wldMeta, line))
+    {
+        std::stringstream ss(line);
+        std::string line2;
+        std::vector<std::string> split;
+        while (std::getline(ss, line2, ' '))
+            split.push_back(line2);
+
+        if (split[0] == "gameversion")
+        {
+            gameVersion = split[1];
+            break;
+        }
+    }
+
+    return gameVersion;
+}
+
 std::string iidToString(InventoryItemID iid)
 {
     std::string id;

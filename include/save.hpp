@@ -13,6 +13,7 @@ std::string iidToString(InventoryItemID iid);
 std::string normalizeWorldFileName(const std::string &str);
 std::string getWorldFile(const std::string &name);
 std::string getWorldName(const std::string &file);
+std::string getWorldVersion(const std::string &file);
 unsigned int getWorldSeed(const std::string &file);
 void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                Player &player, unsigned int seed, s16 currentLocation);

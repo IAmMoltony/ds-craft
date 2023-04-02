@@ -287,8 +287,8 @@ void Game::init(void)
     AssetManager::loadMenuAssets();
 
     gameState = fsFileExists("fat:/dscraft_data/config/lang.cfg")
-                            ? GameState::TitleScreen
-                            : GameState::LanguageSelect;
+                ? GameState::TitleScreen
+                : GameState::LanguageSelect;
     if (gameState == GameState::LanguageSelect)
     {
         loadImageAlpha(sprLangEnglish, 16, 16, englishPal, englishBitmap);
@@ -396,7 +396,7 @@ void Game::draw(void)
         {
             // frustum culling™
             if (block->getRect().x - camera.x < -16 ||
-                block->getRect().y - camera.y < -16)
+                    block->getRect().y - camera.y < -16)
                 continue;
             if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
                 break;
@@ -1179,7 +1179,7 @@ void Game::update(void)
 
                 // skip blocks that are off screen
                 if (block->getRect().x - camera.x < -16 ||
-                    block->getRect().y - camera.y < -16)
+                        block->getRect().y - camera.y < -16)
                     continue;
                 if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
                     break;
@@ -1226,7 +1226,7 @@ void Game::update(void)
 
                 entity->update(blocks, camera, frameCounter);
                 if (entity->id() == "drop" && Rect(player.getX(), player.getY(), 16, 24)
-                                                  .intersects(entity->getRectBottom()))
+                        .intersects(entity->getRectBottom()))
                 {
                     bool ok = true;
                     DropEntity *drop = (DropEntity *)entity.get();
@@ -1396,69 +1396,104 @@ void Game::update(void)
             {
                 worldName = worldSelectWorlds[worldSelectSelected].name;
 
-                // unloading screen for menu assets
-                glBegin2D();
-                drawMovingBackground();
-                switch (lang)
+                // we check if the world is newer than current version
+                std::string worldVersion = getWorldVersion(worldName);
+                u64 worldVersionHash = getVersionHash(worldVersion);
+                u64 currentVersionHash = getVersionHash(getVersionString());
+                if (worldVersionHash > currentVersionHash)
                 {
-                case Language::English:
-                    font.printCentered(0, 50, "Unloading menu assets...");
-                    break;
-                case Language::Russian:
-                    fontRu.printCentered(0, 50, "C\"esvjmb sgtvstqd ogp%...");
-                    break;
+                    // uh oh, the world version is newer than current!
+                    // this means the world we are trying to play is incompatible!!!
+
+                    while (true)
+                    {
+                        u32 downKeys = keysDown();
+                        if (!(downKeys & KEY_TOUCH))
+                            break;
+
+                        glBegin2D();
+                        drawMovingBackground();
+                        switch (lang)
+                        {
+                        case Language::English:
+                            font.setCharWidthHandler(fontBigCharWidthHandler);
+                            font.printCentered(0, 5, "oops", NULL, SCALE(1.8));
+                            font.setCharWidthHandler(fontSmallCharWidthHandler);
+                            font.printCentered(0, 30, "This world was created in a newer version than current.");
+                            break;
+                        }
+                        glEnd2D();
+                        glFlush(0);
+                    }
+
+                    return;
                 }
-                glEnd2D();
-                glFlush(0);
-
-                AssetManager::unloadMenuAssets();
-
-                // loading screen for assets
-                glBegin2D();
-                drawMovingBackground();
-                switch (lang)
+                else
                 {
-                case Language::English:
-                    font.printCentered(0, 50, "Loading game assets...");
-                    break;
-                case Language::Russian:
-                    fontRu.printCentered(0, 50, "Ibesvjmb sgtvstqd kes\"...");
-                    break;
-                }
-                glEnd2D();
-                glFlush(0);
+                    // unloading screen for menu assets
+                    glBegin2D();
+                    drawMovingBackground();
+                    switch (lang)
+                    {
+                    case Language::English:
+                        font.printCentered(0, 50, "Unloading menu assets...");
+                        break;
+                    case Language::Russian:
+                        fontRu.printCentered(0, 50, "C\"esvjmb sgtvstqd ogp%...");
+                        break;
+                    }
+                    glEnd2D();
+                    glFlush(0);
 
-                AssetManager::loadGameAssets();
+                    AssetManager::unloadMenuAssets();
 
-                // loading screen for world
-                glBegin2D();
-                drawMovingBackground();
-                switch (lang)
-                {
-                case Language::English:
-                    font.printCentered(0, 50, "Loading world...");
-                    break;
-                case Language::Russian:
-                    fontRu.printCentered(0, 50, "Ibesvjmb oksb...");
-                    break;
-                }
-                glEnd2D();
-                glFlush(0);
+                    // loading screen for assets
+                    glBegin2D();
+                    drawMovingBackground();
+                    switch (lang)
+                    {
+                    case Language::English:
+                        font.printCentered(0, 50, "Loading game assets...");
+                        break;
+                    case Language::Russian:
+                        fontRu.printCentered(0, 50, "Ibesvjmb sgtvstqd kes\"...");
+                        break;
+                    }
+                    glEnd2D();
+                    glFlush(0);
 
-                resetNextChestID();
-                loadWorld(normalizeWorldFileName(worldName), blocks, entities, player, currentLocation);
-                camera.x = player.getX() - SCREEN_WIDTH / 2;
-                camera.y = player.getY() - SCREEN_HEIGHT / 2;
+                    AssetManager::loadGameAssets();
 
-                std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
+                    // loading screen for world
+                    glBegin2D();
+                    drawMovingBackground();
+                    switch (lang)
+                    {
+                    case Language::English:
+                        font.printCentered(0, 50, "Loading world...");
+                        break;
+                    case Language::Russian:
+                        fontRu.printCentered(0, 50, "Ibesvjmb oksb...");
+                        break;
+                    }
+                    glEnd2D();
+                    glFlush(0);
 
-                mmEffectEx(&sndClick);
+                    resetNextChestID();
+                    loadWorld(normalizeWorldFileName(worldName), blocks, entities, player, currentLocation);
+                    camera.x = player.getX() - SCREEN_WIDTH / 2;
+                    camera.y = player.getY() - SCREEN_HEIGHT / 2;
+
+                    std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
+
+                    mmEffectEx(&sndClick);
 #if CLEAR_CONSOLE_ON_PLAY
-                consoleClear();
+                    consoleClear();
 #endif
-                gameState = GameState::Game;
-                swiWaitForVBlank();
-                return;
+                    gameState = GameState::Game;
+                    swiWaitForVBlank();
+                    return;
+                }
             }
         }
         else if (down & KEY_Y)
@@ -1518,14 +1553,16 @@ void Game::update(void)
             createWorldName.erase(createWorldName.begin(),
                                   std::find_if(createWorldName.begin(),
                                                createWorldName.end(), [](unsigned char ch)
-                                               { return !std::isspace(ch); }));
+            {
+                return !std::isspace(ch);
+            }));
             createWorldName.erase(std::find_if(createWorldName.rbegin(), createWorldName.rend(),
                                                [](unsigned char ch)
-                                               {
-                                                   return !std::isspace(ch);
-                                               })
-                                      .base(),
-                                  createWorldName.end());
+            {
+                return !std::isspace(ch);
+            })
+            .base(),
+            createWorldName.end());
 
             if (fsFileExists(std::string("fat:/dscraft_data/worlds/" + createWorldName + ".wld").c_str()))
                 createWorldError = true;
@@ -1592,7 +1629,7 @@ void Game::update(void)
             char saveDataBuf[3];
             itoa(langSelectSelected, saveDataBuf, 10);
             lang = (langSelectSelected == LANGUAGE_SELECT_ENGLISH) ? Language::English
-                                                                   : Language::Russian;
+                   : Language::Russian;
             fsWrite("fat:/dscraft_data/config/lang.cfg", saveDataBuf);
 
             mmEffectEx(&sndClick);
