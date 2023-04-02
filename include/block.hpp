@@ -46,6 +46,7 @@
 #define BID_OAK_SLAB 31
 #define BID_COBBLESTONE_SLAB 32
 #define BID_BIRCH_SLAB 33
+#define BID_SIGN 34
 
 enum class InventoryItemID
 {
@@ -94,6 +95,7 @@ enum class InventoryItemID
     StoneShovel,
     WoodenAxe,
     StoneAxe,
+    Sign,
 };
 
 enum class SlabID
@@ -420,6 +422,23 @@ public:
     std::array<InventoryItem, 10> getItems(void);
     void setItem(u8 i, InventoryItem item);
     u16 getChestID(void);
+};
+
+class SignBlock : public Block
+{
+private:
+    std::string text;
+
+public:
+    SignBlock(s16 x, s16 y, std::string text);
+
+    void draw(Camera camera) override;
+    void interact(void) override;
+    bool solid(void) override;
+    u16 id(void) override;
+    Rect getRect(void) const override;
+    const std::string getText(void) const;
+    void setText(const std::string &text);
 };
 
 class SlabBlock : public Block

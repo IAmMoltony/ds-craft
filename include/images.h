@@ -36,6 +36,7 @@
 #include "birch_trapdoor.h"
 #include "ladder.h"
 #include "chest.h"
+#include "sign.h"
 
 // block breaking stages
 #include "destroy_stage_0.h"

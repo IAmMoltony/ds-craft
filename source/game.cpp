@@ -355,37 +355,18 @@ void Game::loadLocation(s16 oldLocation)
     if (oldLocation < currentLocation)
     {
         // we went to the right
-        s16 maxY = 0;
-        s16 minX = 0;
-        for (auto &block : blocks)
-            if (block->y < maxY || (block->y == maxY && block->x < minX))
-            {
-                maxY = block->y;
-                minX = block->x;
-            }
-        player.setX(minX + 10);
-        player.setY(maxY - 32);
+        player.setX(player.getSpawnX());
+        player.setY(player.getSpawnY());
     }
     else
     {
         // we went to the left
-        s16 maxX = 0;
-        s16 maxY = 0;
-        for (auto &block : blocks)
-            if (block->x >= maxX && block->y < maxY)
-            {
-                maxX = block->x;
-                maxY = block->y;
-            }
-        player.setX(maxX - 10);
-        player.setY(maxY - 32);
+        player.setX(player.getSpawnX());
+        player.setY(player.getSpawnY());
     }
 
     cameraFollowPlayer(false);
 }
-
-
-// TODO fix this stupid system of positioning player in location
 
 extern glImage sprDirt[1]; // defined in block.cpp
 

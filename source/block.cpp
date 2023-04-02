@@ -31,6 +31,7 @@ glImage sprOakTrapdoor[1];
 glImage sprBirchTrapdoor[1];
 glImage sprLadder[1];
 glImage sprChest[1];
+glImage sprSign[1];
 glImage sprBlockBreak[10][1];
 
 declsfx4(DoorOpen);
@@ -68,6 +69,7 @@ void loadBlockTextures(void)
     loadImageAlpha(sprGlass, 32, 16, glassPal, glassBitmap);
     loadImageAlpha(sprOakTrapdoor, 16, 16, oak_trapdoorPal, oak_trapdoorBitmap);
     loadImageAlpha(sprLadder, 16, 16, ladderPal, ladderBitmap);
+    loadImageAlpha(sprSign, 16, 16, signPal, signBitmap);
 
     loadImageAlpha(sprBlockBreak[0], 16, 16, destroy_stage_0Pal, destroy_stage_0Bitmap);
     loadImageAlpha(sprBlockBreak[1], 16, 16, destroy_stage_1Pal, destroy_stage_1Bitmap);
@@ -123,6 +125,7 @@ void unloadBlockTextures(void)
     unloadImage(sprBirchTrapdoor);
     unloadImage(sprLadder);
     unloadImage(sprChest);
+    unloadImage(sprSign);
     unloadImage(sprBlockBreak[0]);
     unloadImage(sprBlockBreak[1]);
     unloadImage(sprBlockBreak[2]);
@@ -734,6 +737,47 @@ u16 ChestBlock::getChestID(void)
 void resetNextChestID(void)
 {
     nextChestID = 0;
+}
+
+//----------------------------------------
+
+SignBlock::SignBlock(s16 x, s16 y, std::string text) : Block(x, y, 6)
+{
+    this->text = text;
+}
+
+void SignBlock::draw(Camera camera)
+{
+    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprSign);
+}
+
+bool SignBlock::solid(void)
+{
+    return false;
+}
+
+void SignBlock::interact(void)
+{
+}
+
+u16 SignBlock::id(void)
+{
+    return BID_SIGN;
+}
+
+Rect SignBlock::getRect(void) const
+{
+    return Rect(x, y, 16, 16);
+}
+
+const std::string SignBlock::getText(void) const
+{
+    return text;
+}
+
+void SignBlock::setText(const std::string &text)
+{
+    this->text = text;
 }
 
 //----------------------------------------

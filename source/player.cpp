@@ -66,6 +66,7 @@ extern glImage sprOakTrapdoor[1];
 extern glImage sprBirchTrapdoor[1];
 extern glImage sprLadder[1];
 extern glImage sprChest[1];
+extern glImage sprSign[1];
 
 // TODO create loadPlayerItems and unloadPlayerItems
 
@@ -312,6 +313,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Wooden Axe";
         case InventoryItemID::StoneAxe:
             return "Stone Axe";
+        case InventoryItemID::Sign:
+            return "Sign";
         }
         break;
     case Language::Russian:
@@ -405,6 +408,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Egsgd&pp\"l uqrqs";
         case InventoryItemID::StoneAxe:
             return "Lbogpp\"l uqrqs";
+        case InventoryItemID::Sign:
+            return "Tbcnkzmb";
         }
         break;
     }
@@ -502,6 +507,8 @@ glImage *getItemImage(InventoryItemID item)
         return sprWoodenAxe;
     case InventoryItemID::StoneAxe:
         return sprStoneAxe;
+    case InventoryItemID::Sign:
+        return sprSign;
     }
 
     return sprDummy;
@@ -544,6 +551,8 @@ static InventoryItemID nonSolidBlockItemIDs[] =
         InventoryItemID::Dandelion,
         InventoryItemID::RedTulip,
         InventoryItemID::Ladder,
+        InventoryItemID::Chest,
+        InventoryItemID::Sign,
 };
 
 static InventoryItemID slabItemIDs[] =
