@@ -1397,7 +1397,7 @@ void Game::update(void)
                 worldName = worldSelectWorlds[worldSelectSelected].name;
 
                 // we check if the world is newer than current version
-                std::string worldVersion = getWorldVersion(worldName);
+                std::string worldVersion = getWorldVersion(normalizeWorldFileName(worldName));
                 u64 worldVersionHash = getVersionHash(worldVersion);
                 u64 currentVersionHash = getVersionHash(getVersionString());
                 if (worldVersionHash > currentVersionHash)
@@ -1407,8 +1407,11 @@ void Game::update(void)
 
                     while (true)
                     {
+                        ++frameCounter;
+
+                        scanKeys();
                         u32 downKeys = keysDown();
-                        if (!(downKeys & KEY_TOUCH))
+                        if (downKeys && !(downKeys & KEY_TOUCH))
                             break;
 
                         glBegin2D();
@@ -1419,11 +1422,15 @@ void Game::update(void)
                             font.setCharWidthHandler(fontBigCharWidthHandler);
                             font.printCentered(0, 5, "oops", NULL, SCALE(1.8));
                             font.setCharWidthHandler(fontSmallCharWidthHandler);
-                            font.printCentered(0, 30, "This world was created in a newer version than current.");
+                            font.print(10, 30, "This world was created in a newer version than  current.");
+                            font.printf(10, 90, "Current version: %s \nWorld version: %s",
+                                        getVersionString(), worldVersion.c_str());
+                            font.printCentered(0, SCREEN_HEIGHT - 19, "Press any button...");
                             break;
                         }
                         glEnd2D();
                         glFlush(0);
+                        swiWaitForVBlank();
                     }
 
                     return;

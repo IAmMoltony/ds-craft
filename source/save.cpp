@@ -13,13 +13,17 @@ std::string normalizeWorldFileName(const std::string &str)
     std::replace_if(
         wfn.begin(), wfn.end(),
         [](const char &ch)
-        { return std::ispunct(ch) || ch == ' '; },
-        '_');
+    {
+        return std::ispunct(ch) || ch == ' ';
+    },
+    '_');
 
     // make everything lowercase
     std::transform(wfn.begin(), wfn.end(), wfn.begin(),
                    [](u8 ch)
-                   { return std::tolower(ch); });
+    {
+        return std::tolower(ch);
+    });
 
     // done *insert like emoji*
     return wfn;
@@ -60,10 +64,11 @@ std::string getWorldName(const std::string &file)
 
 std::string getWorldVersion(const std::string &file)
 {
-    if (!fsFolderExists(file.c_str()) || !fsFileExists(std::string(file + "/world.meta").c_str()))
+    if (!fsFolderExists(std::string("fat:/dscraft_data/worlds/" + file).c_str()) ||
+            !fsFileExists(std::string("fat:/dscraft_data/worlds/" + file + "/world.meta").c_str()))
         return "alpha0.0.0"; // error ^-^
 
-    std::ifstream wldMeta(file + "/world.meta");
+    std::ifstream wldMeta("fat:/dscraft_data/worlds/" + file + "/world.meta");
     std::string line;
     std::string gameVersion = "alpha0.0.0";
     while (std::getline(wldMeta, line))
@@ -330,7 +335,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     // world meta
     std::ofstream wldmeta(worldFolder + "/world.meta");
     wldmeta << "worldname " + name + "\ngameversion " + getVersionString() + "\nseed " + std::to_string(seed) +
-                   "\nlocation " + std::to_string(currentLocation);
+            "\nlocation " + std::to_string(currentLocation);
     wldmeta.close();
 
     // player info
