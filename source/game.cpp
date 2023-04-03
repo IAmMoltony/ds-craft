@@ -1427,6 +1427,17 @@ void Game::update(void)
                                         getVersionString(), worldVersion.c_str());
                             font.printCentered(0, SCREEN_HEIGHT - 19, "Press any button...");
                             break;
+                        case Language::Russian:
+                            fontRu.setCharWidthHandler(fontBigRuCharWidthHandler);
+                            fontRu.printCentered(0, 5, "ql", NULL, SCALE(1.8));
+                            fontRu.setCharWidthHandler(fontSmallRuCharWidthHandler);
+                            fontRu.print(10, 30, "_uqu oks c\"n tqjfbp d cqngg pqdql dgstkk@ \n"
+                                                 "zgo ugmv~b&.");
+                            fontRu.printfDoubleFont(10, 90, &font, "Tgmv~b& dgstk&: \3%s\3 \n"
+                                                                    "Cgstk& oksb: \3%s\3",
+                                                    getVersionString(), worldVersion.c_str());
+                            fontRu.printCentered(0, SCREEN_HEIGHT - 19, "Obiokug n%cv% mpqrmv...");
+                            break;
                         }
                         glEnd2D();
                         glFlush(0);

@@ -289,6 +289,26 @@ void Font::printf(int x, int y, const char *format, ...)
     va_end(args);
 }
 
+void Font::printfDoubleFont(int x, int y, Font *font2, const char *format, ...)
+{
+    va_list args;
+    va_start(args, format);
+
+    // allocate some string
+    char *str = reinterpret_cast<char *>(malloc(150 * sizeof(char)));
+
+    // get formatted string
+    vsprintf(str, format, args);
+
+    // print
+    print(x, y, str, 0, 0, font2);
+
+    // we don't need anymore
+    free(str);
+
+    va_end(args);
+}
+
 void Font::printfScale(int x, int y, s32 scale, const char *format, ...)
 {
     va_list args;
