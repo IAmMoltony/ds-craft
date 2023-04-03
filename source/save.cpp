@@ -217,6 +217,9 @@ std::string iidToString(InventoryItemID iid)
     case InventoryItemID::StoneAxe:
         id = "stoneaxe";
         break;
+    case InventoryItemID::Sign:
+        id = "sign";
+        break;
     }
     return id;
 }
@@ -295,6 +298,14 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                 lid = std::to_string(BID_BIRCH_LEAVES);
 
             wld << "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + lid + "\n";
+            break;
+        }
+        // sign
+        case BID_SIGN:
+        {
+            Block *b = block.get();
+            SignBlock *s = reinterpret_cast<SignBlock *>(b);
+            wld << "sign " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + s->getText() + "\n";
             break;
         }
         // every other block
@@ -452,6 +463,17 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             bool open = split[3] == "1";
 
             blocks.emplace_back(new BirchTrapdoorBlock(x, y, open));
+        }
+        else if (split[0] == "sign")
+        {
+            s16 x = atoi(split[1].c_str());
+            s16 y = atoi(split[2].c_str());
+            std::string text = "";
+            for (u16 i = 3; i <= split.size(); ++i)
+                text += split[i] + " ";
+            if (text.size())
+                text.pop_back();
+            blocks.emplace_back(new SignBlock(x, y, text));
         }
         else if (split[0] == "block") // block <x> <y> <id>
         {

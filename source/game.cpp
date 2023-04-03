@@ -1398,6 +1398,11 @@ void Game::update(void)
 
                 // we check if the world is newer than current version
                 std::string worldVersion = getWorldVersion(normalizeWorldFileName(worldName));
+                if (worldVersion == "alpha0.0.0") // alpha0.0.0 means error
+                {
+                    printf("error getting world version\n");
+                    return;
+                }
                 u64 worldVersionHash = getVersionHash(worldVersion);
                 u64 currentVersionHash = getVersionHash(getVersionString());
                 if (worldVersionHash > currentVersionHash)

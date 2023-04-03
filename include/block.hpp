@@ -430,7 +430,7 @@ private:
     std::string text;
 
 public:
-    SignBlock(s16 x, s16 y, std::string text);
+    SignBlock(s16 x, s16 y, const std::string &text);
 
     void draw(Camera camera) override;
     void interact(void) override;

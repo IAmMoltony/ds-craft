@@ -63,7 +63,6 @@ private:
     glImage fontSmallImg[FONT_SI_NUM_IMAGES];
     glImage fontSmallRuImg[FONT_SI_NUM_IMAGES];
 
-    Font font, fontRu;
     GameState gameState;
     Camera camera;
     u16 frameCounter;
@@ -116,6 +115,8 @@ public:
 
     mm_sound_effect sndClick;
     mm_sound_effect sndPop;
+
+    Font font, fontRu;
 
     Language lang;
 

@@ -1683,6 +1683,10 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                                                           snapToGrid8(camera->y + aimY)));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             break;
+                        case InventoryItemID::Sign:
+                            blocks->emplace_back(new SignBlock(snapToGrid(camera->x + aimX),
+                                                               snapToGrid(camera->y + aimY), "test lol"));
+                            break;
                         }
                         if (canPlace)
                         {
@@ -1788,6 +1792,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     case BID_BIRCH_SLAB:
                     case BID_OAK_TRAPDOOR:
                     case BID_BIRCH_TRAPDOOR:
+                    case BID_SIGN:
                         if (inventory[inventorySelect].id == InventoryItemID::WoodenAxe)
                             block->hit(block->brokenLevel % 2 + 1);
                         else if (inventory[inventorySelect].id == InventoryItemID::StoneAxe)
@@ -1812,6 +1817,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                         playsfx(4, &sndStepStone1, &sndStepStone2, &sndStepStone3, &sndStepStone4);
                         break;
                     case BID_WOOD:
+                    case BID_SIGN:
                         playsfx(4, &sndStepWood1, &sndStepWood2, &sndStepWood3, &sndStepWood4);
                         break;
                     case BID_BIRCH_WOOD:
@@ -2067,8 +2073,13 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             break;
                         case BID_COBBLESTONE_SLAB:
                             entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::CobblestoneSlab));
+                            playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
+                            spawnBlockParticles(blockParticles, sprCobblestone, block->x, block->y);
+                            break;
+                        case BID_SIGN:
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Sign));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
-                            spawnBlockParticles(blockParticles, sprPlanks, block->x, block->y);
+                            spawnBlockParticles(blockParticles, sprSign, block->x, block->y);
                             break;
                         }
 

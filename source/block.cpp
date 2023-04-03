@@ -741,7 +741,7 @@ void resetNextChestID(void)
 
 //----------------------------------------
 
-SignBlock::SignBlock(s16 x, s16 y, std::string text) : Block(x, y, 6)
+SignBlock::SignBlock(s16 x, s16 y, const std::string &text) : Block(x, y, 6)
 {
     this->text = text;
 }
@@ -749,6 +749,7 @@ SignBlock::SignBlock(s16 x, s16 y, std::string text) : Block(x, y, 6)
 void SignBlock::draw(Camera camera)
 {
     glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprSign);
+    Game::instance->font.print(x - camera.x, y - camera.y, text.c_str(), 0, 0, NULL, SCALE_NORMAL, true);
 }
 
 bool SignBlock::solid(void)

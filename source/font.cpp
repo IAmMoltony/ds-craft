@@ -27,7 +27,7 @@ void Font::setCharWidthHandler(CharWidthHandler chwHandler)
     this->chwHandler = chwHandler;
 }
 
-void Font::print(int x, int y, const char *str, int xoff, int yoff, Font *font2, s32 scale)
+void Font::print(int x, int y, const char *str, int xoff, int yoff, Font *font2, s32 scale, bool ignoreFormatting)
 {
     int startX = x;
     u8 ch = 0;
@@ -36,114 +36,117 @@ void Font::print(int x, int y, const char *str, int xoff, int yoff, Font *font2,
     while (*str) // iterate through string
     {
         char strch = *str++;
-        if (strch == '\1') // color code syntax for colouring text
+        if (!ignoreFormatting)
         {
-            std::string rs, gs, bs; // r str, g str, b str
-            if (*str != ':')
+            if (strch == '\1') // color code syntax for colouring text
             {
-                ::printf("color code syntax error: a colon (:) must follow \\1");
-                while (true)
-                    ;
-            }
-            ++str;
-            if (*str == 'R')
-            {
-                glColor(RGB15(31, 31, 31));
-                ++str;
-                continue;
-            }
-            u8 colorStage = 0; // 0 = reading r, 1 = reading g, 2 = reading b
-            while (*str != '*')
-            {
-                if (*str == ':')
+                std::string rs, gs, bs; // r str, g str, b str
+                if (*str != ':')
                 {
-                    ++colorStage;
-                    if (colorStage > 2)
-                    {
-                        ::printf("color code syntax error: too many color components");
-                        while (true)
-                            ;
-                    }
+                    ::printf("color code syntax error: a colon (:) must follow \\1");
+                    while (true)
+                        ;
+                }
+                ++str;
+                if (*str == 'R')
+                {
+                    glColor(RGB15(31, 31, 31));
                     ++str;
                     continue;
                 }
-
-                switch (colorStage)
+                u8 colorStage = 0; // 0 = reading r, 1 = reading g, 2 = reading b
+                while (*str != '*')
                 {
-                case 0:
-                    rs += *str;
-                    break;
-                case 1:
-                    gs += *str;
-                    break;
-                case 2:
-                    bs += *str;
-                    break;
+                    if (*str == ':')
+                    {
+                        ++colorStage;
+                        if (colorStage > 2)
+                        {
+                            ::printf("color code syntax error: too many color components");
+                            while (true)
+                                ;
+                        }
+                        ++str;
+                        continue;
+                    }
+
+                    switch (colorStage)
+                    {
+                    case 0:
+                        rs += *str;
+                        break;
+                    case 1:
+                        gs += *str;
+                        break;
+                    case 2:
+                        bs += *str;
+                        break;
+                    }
+
+                    ++str;
                 }
 
+                if (colorStage < 2)
+                {
+                    ::printf("color code syntax error: too few color components");
+                    while (true)
+                        ;
+                }
                 ++str;
+                u8 r = std::stoi(rs);
+                u8 g = std::stoi(gs);
+                u8 b = std::stoi(bs);
+                if (r > 31 || g > 31 || b > 31)
+                {
+                    ::printf("color code syntax error: invalid color value\n"
+                             "rgb values must be 0-31 inclusive");
+                    while (true)
+                        ;
+                }
+                rgb color = RGB15(r, g, b);
+                glColor(color);
+                continue;
             }
-
-            if (colorStage < 2)
+            else if (strch == '\2') // buttons
             {
-                ::printf("color code syntax error: too few color components");
-                while (true)
-                    ;
+                if (*str != ':')
+                {
+                    ::printf("button code syntax error: a colon (:) must follow \\2");
+                    while (true)
+                        ;
+                }
+                ++str;
+                switch (*str++)
+                {
+                case 'A':
+                    glSprite(x + xoff, y + yoff - 3, GL_FLIP_NONE, Game::instance->sprAButton);
+                    break;
+                case 'B':
+                    glSprite(x + xoff, y + yoff - 3, GL_FLIP_NONE, Game::instance->sprBButton);
+                    break;
+                case 'X':
+                    glSprite(x + xoff, y + yoff - 3, GL_FLIP_NONE, Game::instance->sprXButton);
+                    break;
+                case 'Y':
+                    glSprite(x + xoff, y + yoff - 3, GL_FLIP_NONE, Game::instance->sprYButton);
+                    break;
+                default:
+                    ::printf("button code syntax error: invalid button code (%c)", *str);
+                    while (true)
+                        ;
+                }
+                x += 10;
+                if (x > SCREEN_WIDTH - 10)
+                {
+                    x = startX;
+                    y += spr[ch].height + 1;
+                }
+                continue;
             }
-            ++str;
-            u8 r = std::stoi(rs);
-            u8 g = std::stoi(gs);
-            u8 b = std::stoi(bs);
-            if (r > 31 || g > 31 || b > 31)
+            else if (strch == '\3')
             {
-                ::printf("color code syntax error: invalid color value\n"
-                         "rgb values must be 0-31 inclusive");
-                while (true)
-                    ;
+                useFont2 = font2 ? !useFont2 : false; // not allow to enable if font2 is null
             }
-            rgb color = RGB15(r, g, b);
-            glColor(color);
-            continue;
-        }
-        else if (strch == '\2') // buttons
-        {
-            if (*str != ':')
-            {
-                ::printf("button code syntax error: a colon (:) must follow \\2");
-                while (true)
-                    ;
-            }
-            ++str;
-            switch (*str++)
-            {
-            case 'A':
-                glSprite(x + xoff, y + yoff - 3, GL_FLIP_NONE, Game::instance->sprAButton);
-                break;
-            case 'B':
-                glSprite(x + xoff, y + yoff - 3, GL_FLIP_NONE, Game::instance->sprBButton);
-                break;
-            case 'X':
-                glSprite(x + xoff, y + yoff - 3, GL_FLIP_NONE, Game::instance->sprXButton);
-                break;
-            case 'Y':
-                glSprite(x + xoff, y + yoff - 3, GL_FLIP_NONE, Game::instance->sprYButton);
-                break;
-            default:
-                ::printf("button code syntax error: invalid button code (%c)", *str);
-                while (true)
-                    ;
-            }
-            x += 10;
-            if (x > SCREEN_WIDTH - 10)
-            {
-                x = startX;
-                y += spr[ch].height + 1;
-            }
-            continue;
-        }
-        else if (strch == '\3')
-        {
-            useFont2 = font2 ? !useFont2 : false; // not allow to enable if font2 is null
         }
         ch = strch - 32;
         if (*str == '\n')
