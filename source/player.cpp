@@ -2629,7 +2629,7 @@ struct RecipeCompareKey
     }
 };
 
-void playerInitCrafting(void)
+void Player::initCrafting(void)
 {
     static const std::string ending = ".rcp";
     DIR *dir;

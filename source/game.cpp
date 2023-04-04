@@ -270,7 +270,7 @@ void Game::init(void)
     fsCreateDir("fat:/dscraft_data/config");
 
     // init crafting
-    playerInitCrafting();
+    Player::initCrafting();
 
     // load some assets
     AssetManager::loadGeneralAssets();

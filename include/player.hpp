@@ -29,7 +29,6 @@ void loadPlayerTextures(void);
 void unloadPlayerTextures(void);
 void loadPlayerSounds(void);
 void unloadPlayerSounds(void);
-void playerInitCrafting(void);
 const char *getItemStr(Language lang, InventoryItemID iid);
 glImage *getItemImage(InventoryItemID item);
 
@@ -96,4 +95,6 @@ public:
     Rect getRectAim(Camera camera);
     Rect getRectAimY8(Camera camera); // getRectAim but instead of using spanToGrid on Y, it uses snapToGrid8
     std::array<InventoryItem, 20> getInventory(void);
+
+    static void initCrafting(void);
 };
