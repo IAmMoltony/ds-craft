@@ -2647,7 +2647,7 @@ void playerInitCrafting(void)
                 for (u8 i = 0; i < 4; ++i)
                     str.pop_back();
                 recipes.push_back(CraftingRecipe(str.c_str()));
-                printf("loaded recipe %s\n", str.c_str());
+                //printf("loaded recipe %s\n", str.c_str());
             }
         }
         closedir(dir);
