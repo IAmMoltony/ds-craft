@@ -2619,7 +2619,7 @@ std::array<InventoryItem, 20> Player::getInventory(void)
     return inv;
 }
 
-static std::vector<CraftingRecipe> recipes;
+static std::vector<CraftingRecipe> craftingRecipes;
 
 struct RecipeCompareKey
 {
@@ -2646,7 +2646,7 @@ void playerInitCrafting(void)
             {
                 for (u8 i = 0; i < 4; ++i)
                     str.pop_back();
-                recipes.push_back(CraftingRecipe(str.c_str()));
+                craftingRecipes.push_back(CraftingRecipe(str.c_str()));
                 //printf("loaded recipe %s\n", str.c_str());
             }
         }
@@ -2658,7 +2658,7 @@ void playerInitCrafting(void)
         while (true)
             ;
     }
-    std::sort(recipes.begin(), recipes.end(), RecipeCompareKey()); // sort
+    std::sort(craftingRecipes.begin(), craftingRecipes.end(), RecipeCompareKey()); // sort
 }
 
 static bool canCraft(Player *pThis, CraftingRecipe recipe)
@@ -2679,7 +2679,7 @@ static constexpr u8 RECIPES_PER_ROW = 14;
 extern Language lang;
 void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
 {
-    size_t numRecipes = recipes.size();
+    size_t numRecipes = craftingRecipes.size();
 
     for (size_t i = 0; i < numRecipes; ++i)
     {
@@ -2688,7 +2688,7 @@ void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
         u8 slotX = 16 + (i % RECIPES_PER_ROW) * 16;
         u8 slotY = 60 + (i / RECIPES_PER_ROW) * 16;
 
-        CraftingRecipe recipe = recipes[i];
+        CraftingRecipe recipe = craftingRecipes[i];
 
         bool cc = canCraft(this, recipe);
         if (!cc)
@@ -2725,7 +2725,7 @@ void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
             fontSmall.printfShadow(slotX, slotY + 3, "%d", recipe.getCount());
     }
 
-    CraftingRecipe recipe = recipes[craftingSelect];
+    CraftingRecipe recipe = craftingRecipes[craftingSelect];
     switch (Game::instance->lang)
     {
     case Language::English:
@@ -2745,7 +2745,7 @@ void Player::updateCrafting(void)
         // when a is pressed, craft (if can)
         bool crafted = false;
 
-        CraftingRecipe recipe = recipes[craftingSelect];
+        CraftingRecipe recipe = craftingRecipes[craftingSelect];
 
         bool cc = canCraft(this, recipe);
         if (cc)
@@ -2763,18 +2763,18 @@ void Player::updateCrafting(void)
     if (kdown & KEY_LEFT)
     {
         if (craftingSelect - 1 < 0)
-            craftingSelect = recipes.size() - 1;
+            craftingSelect = craftingRecipes.size() - 1;
         else
             --craftingSelect;
     }
     else if (kdown & KEY_RIGHT)
     {
-        if (++craftingSelect > recipes.size() - 1)
+        if (++craftingSelect > craftingRecipes.size() - 1)
             craftingSelect = 0;
     }
     else if (kdown & KEY_DOWN)
     {
-        if (craftingSelect + 14 <= recipes.size() - 1)
+        if (craftingSelect + 14 <= craftingRecipes.size() - 1)
             craftingSelect += 14;
     }
     else if (kdown & KEY_UP)
