@@ -430,9 +430,12 @@ private:
     std::string text;
 
 public:
+    bool showText;
+
     SignBlock(s16 x, s16 y, const std::string &text);
 
     void draw(Camera camera) override;
+    void drawText(Camera camera);
     void interact(void) override;
     bool solid(void) override;
     u16 id(void) override;

@@ -446,6 +446,16 @@ void Game::draw(void)
             }
         }
 
+        for (auto &block : blocks)
+        {
+            if (block->id() == BID_SIGN)
+            {
+                Block *b = block.get();
+                SignBlock *s = reinterpret_cast<SignBlock *>(b);
+                s->drawText(camera);
+            }
+        }
+
         for (auto particle : blockParticles)
             particle.draw(camera);
 

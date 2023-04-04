@@ -744,12 +744,18 @@ void resetNextChestID(void)
 SignBlock::SignBlock(s16 x, s16 y, const std::string &text) : Block(x, y, 6)
 {
     this->text = text;
+    showText = false;
 }
 
 void SignBlock::draw(Camera camera)
 {
     glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprSign);
-    Game::instance->font.print(x - camera.x, y - camera.y, getText().c_str(), 0, 0, NULL, SCALE_NORMAL, true);
+}
+
+void SignBlock::drawText(Camera camera)
+{
+    if (showText)
+        Game::instance->font.print(x - camera.x, y - camera.y, getText().c_str(), 0, 0, NULL, SCALE_NORMAL, true);
 }
 
 bool SignBlock::solid(void)
@@ -773,14 +779,7 @@ Rect SignBlock::getRect(void) const
 
 const std::string SignBlock::getText(void) const
 {
-    std::string out = text;
-    size_t pos = out.find('\1');
-    while (pos != std::string::npos)
-    {
-        out.replace(pos, 1, "\n");
-        pos = out.find('\1', pos + 1);
-    }
-    return out;
+    return text;
 }
 
 void SignBlock::setText(const std::string &text)

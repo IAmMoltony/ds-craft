@@ -1297,19 +1297,16 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
     {
         int chi = keyboardUpdate();
 
-        u32 kdown = keysDown();
-        if (kdown & KEY_A)
-        {
-            sign = nullptr;
-            keyboardHide();
-            return UpdateResult::None;
-        }
         if (chi > 0)
         {
             char ch = (char)chi;
             scanKeys();
             if (ch == '\n')
-                ch = '\1';
+            {
+                sign = nullptr;
+                keyboardHide();
+                return UpdateResult::None;
+            }
             sign->setText(sign->getText() + ch);
         }
     }
@@ -2118,7 +2115,14 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 }
             }
 
-            // if block isnt solid then skip dat blocc boi
+            if (block->id() == BID_SIGN)
+            {
+                Block *b = block.get();
+                SignBlock *s = reinterpret_cast<SignBlock *>(b);
+                s->showText = block->getRect().intersects(getRectBottom());
+            }
+
+            // if block isnt solid then skip it
             if (!block->solid())
             {
                 ++i;
