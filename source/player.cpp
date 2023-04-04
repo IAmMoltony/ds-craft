@@ -620,6 +620,7 @@ Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSele
     aimY = SCREEN_HEIGHT / 2;
     facing = Facing::Right;
     chest = nullptr;
+    sign = nullptr;
 
     // initialize inventory with null items
     for (u8 i = 0; i < 20; ++i)
@@ -1292,6 +1293,26 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             chestSelect = select + selectOffset;
         }
     }
+    else if (sign)
+    {
+        int chi = keyboardUpdate();
+
+        u32 kdown = keysDown();
+        if (kdown & KEY_A)
+        {
+            sign = nullptr;
+            keyboardHide();
+            return UpdateResult::None;
+        }
+        if (chi > 0)
+        {
+            char ch = (char)chi;
+            scanKeys();
+            if (ch == '\n')
+                ch = '\1';
+            sign->setText(sign->getText() + ch);
+        }
+    }
     else
     {
         // move
@@ -1684,9 +1705,14 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             break;
                         case InventoryItemID::Sign:
-                            blocks->emplace_back(new SignBlock(snapToGrid(camera->x + aimX),
-                                                               snapToGrid(camera->y + aimY), "test lol"));
+                        {
+                            SignBlock *newSignBlock = new SignBlock(snapToGrid(camera->x + aimX),
+                                                                    snapToGrid(camera->y + aimY), "");
+                            blocks->emplace_back(newSignBlock);
+                            sign = newSignBlock;
+                            keyboardShow();
                             break;
+                        }
                         }
                         if (canPlace)
                         {
@@ -2501,6 +2527,7 @@ void Player::reset(void)
     resetInventory();
     chest = nullptr;
     chestOpen = false;
+    sign = nullptr;
 }
 
 bool Player::moving(s16 oldX)

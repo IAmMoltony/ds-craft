@@ -44,6 +44,7 @@ private:
     Facing facing;
     InventoryItem inventory[20];
     ChestBlock *chest;
+    SignBlock *sign;
     AnimatedSprite bodySprite;
     int aimDist;
 

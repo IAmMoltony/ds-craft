@@ -173,7 +173,6 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
         }
     }
 
-    blocks.emplace_back(new SignBlock(0, 0, "test sign"));
     std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort
 
     player.setX(1024 / 2 - 8);
