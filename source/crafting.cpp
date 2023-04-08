@@ -91,7 +91,7 @@ InventoryItemID strToIID(std::string &sid)
     else if (sid == "sign")
         return InventoryItemID::Sign;
 
-    printf("%s not a valid item string id\n", sid.c_str());
+    printf("'%s' is not a valid item string id\n", sid.c_str());
     return InventoryItemID::None;
 }
 

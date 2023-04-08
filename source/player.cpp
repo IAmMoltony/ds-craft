@@ -864,6 +864,30 @@ void Player::draw(Camera camera, Font font, Font fontRu, Language lang)
         else
             drawInventory(inventory, 20, font, chestSelect - 20, chestMoveSelect - 20);
     }
+    else if (sign) // sign edit interface
+    {
+        // background
+        // TODO make a function for this
+        glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(15));
+        glBoxFilled(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(17, 17, 17));
+        glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(31));
+
+        switch (lang)
+        {
+        case Language::English:
+            // TODO create a "drawHeading" method in font class
+            font.setCharWidthHandler(Game::fontBigCharWidthHandler);
+            font.printCentered(0, 5, "Edit sign", NULL, SCALE(1.8));
+            font.setCharWidthHandler(Game::fontSmallCharWidthHandler);
+            break;
+        case Language::Russian:
+            fontRu.setCharWidthHandler(Game::fontBigRuCharWidthHandler);
+            fontRu.printCentered(0, 5, "Rgfbmuksqdbu# ubcnkzmv", NULL, SCALE(1.8));
+            font.setCharWidthHandler(Game::fontSmallRuCharWidthHandler);
+            break;
+        }
+        glSpritePartScale(sprPlanks, 84, 49, 0, 0, 50, 30, SCALE_NORMAL * 2);
+    }
     else
     {
         glPolyFmt(POLY_ALPHA(10) | POLY_CULL_NONE | POLY_ID(1));
@@ -2115,6 +2139,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 }
             }
 
+            // if we collide with sign, then we show its text
             if (block->id() == BID_SIGN)
             {
                 Block *b = block.get();
