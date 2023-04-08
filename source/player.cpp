@@ -879,14 +879,18 @@ void Player::draw(Camera camera, Font font, Font fontRu, Language lang)
             font.setCharWidthHandler(Game::fontBigCharWidthHandler);
             font.printCentered(0, 5, "Edit sign", NULL, SCALE(1.8));
             font.setCharWidthHandler(Game::fontSmallCharWidthHandler);
+            font.printCentered(0, SCREEN_WIDTH / 2 + 23, "Rtrn or \2:A : Finish");
             break;
         case Language::Russian:
             fontRu.setCharWidthHandler(Game::fontBigRuCharWidthHandler);
-            fontRu.printCentered(0, 5, "Rgfbmuksqdbu# ubcnkzmv", NULL, SCALE(1.8));
-            font.setCharWidthHandler(Game::fontSmallRuCharWidthHandler);
+            fontRu.printCentered(0, 5, "Tbcnkzmb", NULL, SCALE(1.8));
+            fontRu.setCharWidthHandler(Game::fontSmallRuCharWidthHandler);
+            fontRu.printCentered(0, SCREEN_WIDTH / 2 + 23, "\3Rtrn\3 knk \2:A : Ibmqpzku#");
             break;
         }
-        glSpritePartScale(sprPlanks, 84, 49, 0, 0, 50, 30, SCALE_NORMAL * 2);
+        glSpritePartScale(sprPlanks, SCREEN_WIDTH / 2 - 75, SCREEN_HEIGHT / 2 - 30, 0, 0, 75, 30, SCALE_NORMAL * 2);
+        font.setCharWidthHandler(Game::fontSmallCharWidthHandler);
+        font.printCentered(0, SCREEN_HEIGHT / 2 - 5, std::string(sign->getText() + '_').c_str());
     }
     else
     {
@@ -1321,6 +1325,10 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
     {
         int chi = keyboardUpdate();
 
+        u32 kdown = keysDown();
+        if (kdown & KEY_A)
+            chi = '\n';
+
         if (chi > 0)
         {
             char ch = (char)chi;
@@ -1329,6 +1337,16 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             {
                 sign = nullptr;
                 keyboardHide();
+                return UpdateResult::None;
+            }
+            else if (chi == 8)
+            {
+                if (sign->getText().size() != 0)
+                {
+                    std::string textCopy = sign->getText();
+                    textCopy.pop_back();
+                    sign->setText(textCopy);
+                }
                 return UpdateResult::None;
             }
             sign->setText(sign->getText() + ch);
