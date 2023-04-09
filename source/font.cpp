@@ -8,6 +8,14 @@ u8 Font::getCharWidth(char ch)
     return spr[(unsigned char)ch].width;
 }
 
+u32 Font::getTextWidth(const std::string &str)
+{
+    u32 w = 0;
+    for (size_t i = 0; i < str.size(); ++i)
+        w += getCharWidth(str[i] - 32);
+    return w;
+}
+
 Font::Font()
 {
     spr = NULL;

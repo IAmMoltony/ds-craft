@@ -1350,6 +1350,13 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 return UpdateResult::None;
             }
             sign->setText(sign->getText() + ch);
+
+            if (Game::instance->font.getTextWidth(std::string(sign->getText() + '_')) > 75 * 2 - 10)
+            {
+                std::string textCopy = sign->getText();
+                textCopy.pop_back();
+                sign->setText(textCopy);
+            }
         }
     }
     else

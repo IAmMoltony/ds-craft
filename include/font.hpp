@@ -22,6 +22,7 @@ public:
               GL_TEXTURE_TYPE_ENUM type, int sizeX, int sizeY, int par, int palWidth,
               const u16 *pal, const u8 *bitmap);
     u8 getCharWidth(char ch);
+    u32 getTextWidth(const std::string &str);
     void setCharWidthHandler(CharWidthHandler chwHandler);
     void print(int x, int y, const char *str, int xoff = 0, int yoff = 0, Font *font2 = NULL, s32 scale = SCALE_NORMAL, bool ignoreFormatting = false);
     void printCentered(int x, int y, const char *str, Font *font2 = NULL, s32 scale = SCALE_NORMAL);
