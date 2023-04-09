@@ -47,3 +47,8 @@ rgb getFavoriteColorRgb(void)
 
     return RGB8(0, 0, 0);
 }
+
+Birthday getBirthday(void)
+{
+    Birthday bday = {PersonalData->birthDay, PersonalData->birthMonth};
+}

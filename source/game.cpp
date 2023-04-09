@@ -256,7 +256,39 @@ void Game::init(void)
     consoleDemoInit();
 
     // init filesystem
-    fsInit();
+    fsInitStatus fsInitSt = fsInit();
+    if (fsInitSt != FS_INIT_STATUS_OK)
+    {
+        AssetManager::loadDirtBlock();
+        loadFonts();
+        while (true)
+        {
+            ++frameCounter;
+
+            glBegin2D();
+            drawMovingBackground();
+
+            font.setCharWidthHandler(fontBigCharWidthHandler);
+            font.printCentered(0, 5, "Error!", NULL, SCALE(1.8));
+            font.setCharWidthHandler(fontSmallCharWidthHandler);
+
+            switch (fsInitSt)
+            {
+            case FS_INIT_STATUS_FAT_ERROR:
+                font.print(10, 30, "There was an error initializing FAT. \n \nPlease make sure that "
+                "the ROM was properly \npatched and the SD card is present.");
+                break;
+            case FS_INIT_STATUS_NITROFS_ERROR:
+                font.print(10, 30, "There was an error initializing NitroFS. \n \nPlease make sure "
+                "that it was set up correctly.");
+                break;
+            }
+
+            glEnd2D();
+            glFlush(0);
+            swiWaitForVBlank();
+        }
+    }
 
     // init game version
     gameverInit();
@@ -1840,6 +1872,11 @@ Game::WorldManager::WorldList Game::WorldManager::getWorlds(void)
     return worlds;
 }
 
+void Game::AssetManager::loadDirtBlock(void)
+{
+    loadImage(sprDirt, 16, 16, dirtBitmap);
+}
+
 void Game::AssetManager::loadGeneralAssets(void)
 {
     mmLoadEffect(SFX_CLICK);
@@ -1848,7 +1885,7 @@ void Game::AssetManager::loadGeneralAssets(void)
     loadImageAlpha(Game::instance->sprXButton, 16, 16, xbtnPal, xbtnBitmap);
     loadImageAlpha(Game::instance->sprYButton, 16, 16, ybtnPal, ybtnBitmap);
 
-    loadImage(sprDirt, 16, 16, dirtBitmap);
+    loadDirtBlock();
 }
 
 void Game::AssetManager::loadGameAssets(void)

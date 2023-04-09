@@ -127,6 +127,7 @@ public:
         AssetManager(AssetManager &) = delete;
         ~AssetManager() = delete;
 
+        static void loadDirtBlock(void);
         static void loadGeneralAssets(void);
         static void loadGameAssets(void);
         static void unloadGameAssets(void);

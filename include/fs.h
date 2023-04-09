@@ -23,7 +23,14 @@ extern "C"
         u8 day;
     } fsDate;
 
-    void fsInit(void);
+    typedef enum
+    {
+        FS_INIT_STATUS_OK,
+        FS_INIT_STATUS_FAT_ERROR,
+        FS_INIT_STATUS_NITROFS_ERROR,
+    } fsInitStatus;
+
+    fsInitStatus fsInit(void);
     void fsCreateDir(const char *name);
     void fsCreateFile(const char *name);
     void fsWrite(const char *file, const char *data);

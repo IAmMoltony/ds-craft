@@ -29,8 +29,14 @@ extern "C"
         FAVCOL_DARKPINK,
     };
 
+    typedef struct
+    {
+        uint8_t day, month;
+    } Birthday;
+
     enum FavoriteColor getFavoriteColor(void);
     rgb getFavoriteColorRgb(void);
+    Birthday getBirthday(void);
 
 #ifdef __cplusplus
 }

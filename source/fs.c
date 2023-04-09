@@ -1,22 +1,12 @@
 #include "fs.h"
 
-void fsInit(void)
+fsInitStatus fsInit(void)
 {
     if (!fatInitDefault())
-    {
-        printf("FAT init failed! :(\n");
-        printf("This error is probably caused by:\n");
-        printf(" - ROM is not patched\n - SD card is missing.");
-        while (true)
-            ;
-    }
+        return FS_INIT_STATUS_FAT_ERROR;
     if (!nitroFSInit(NULL))
-    {
-        printf("NitroFS init failed!\n");
-        printf("please make sure it is set up correctly");
-        while (true)
-            ;
-    }
+        return FS_INIT_STATUS_NITROFS_ERROR;
+    return FS_INIT_STATUS_OK;
 }
 
 void fsCreateDir(const char *name)
