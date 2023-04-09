@@ -2,6 +2,12 @@
 
 void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
 {
+    time_t curTime = time(NULL);
+    struct tm *timeStruct = gmtime((const time_t *)&curTime);
+    u8 month = timeStruct->tm_mon;
+    u8 day = timeStruct->tm_mday;
+    bool onlyWinterBiome = (month == 11 && day >= 25) || (month == 0 && day <= 7);
+
     s16 y = SCREEN_HEIGHT / 2; // current height
     u8 sinceLastTree = 0;      // blocks since last tree
     u8 treeInterval = 3;       // interval between trees
@@ -13,6 +19,8 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
         // 2 = plains
         // 3 = snow
         u8 biome = randomRange(0, 3);
+        if (onlyWinterBiome)
+            biome = 3;
         if (biome == 0)
         {
             for (u16 i = k * SCREEN_WIDTH * 2 / 16; i < k * SCREEN_WIDTH * 2 / 16 + SCREEN_WIDTH * 2 / 16; ++i)
