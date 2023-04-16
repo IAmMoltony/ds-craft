@@ -21,12 +21,15 @@ releases/
 # orignal textures zip
 mctex.zip
 
-# executable files
+# game binaries
 *.elf
 *.nds
+bin/
 
-# ini files ig
+# devktop.ini
 desktop.ini
+
+# melonDS config file
 melonDS.ini
 
 # cppcheck stuff
@@ -35,3 +38,6 @@ ds-craft-cppcheck-build-dir/
 
 # pycache folder
 __pycache__/
+
+# backup files
+*~
