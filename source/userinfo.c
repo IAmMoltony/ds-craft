@@ -51,4 +51,5 @@ rgb getFavoriteColorRgb(void)
 Birthday getBirthday(void)
 {
     Birthday bday = {PersonalData->birthDay, PersonalData->birthMonth};
+    return bday;
 }

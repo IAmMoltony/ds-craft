@@ -3,11 +3,6 @@
 #include "defines.h"
 #include "block.hpp"
 
-void loadEntityTextures(void);
-void loadEntitySounds(void);
-void unloadEntityTextures(void);
-void unloadEntitySounds(void);
-
 enum class Facing
 {
     Left,
@@ -21,6 +16,11 @@ public:
     float velX, velY;
     bool falling, jumping;
     s8 health;
+
+    static void loadTextures(void);
+    static void unloadTextures(void);
+    static void loadSounds(void);
+    static void unloadSounds(void);
 
     Entity(s16 x, s16 y);
     virtual void draw(Camera camera) = 0;

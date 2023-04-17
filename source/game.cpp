@@ -1860,25 +1860,27 @@ void Game::AssetManager::loadGeneralAssets(void)
 
 void Game::AssetManager::loadGameAssets(void)
 {
-    loadPlayerTextures();
-    loadPlayerGUI();
-    loadPlayerSounds();
-    loadBlockTextures();
-    loadBlockSounds();
-    loadEntityTextures();
-    loadEntitySounds();
+    Player::loadPlayerTextures();
+    Player::loadGUI();
+    Player::loadItems();
+    Player::loadSounds();
+    Block::loadTextures();
+    Block::loadSounds();
+    Entity::loadTextures();
+    Entity::loadSounds();
     mmLoadEffect(SFX_POP);
 }
 
 void Game::AssetManager::unloadGameAssets(void)
 {
-    unloadPlayerTextures();
-    unloadPlayerGUI();
-    unloadPlayerSounds();
-    unloadBlockTextures();
-    unloadBlockSounds();
-    unloadEntityTextures();
-    unloadEntitySounds();
+    Player::unloadPlayerTextures();
+    Player::unloadGUI();
+    Player::unloadItems();
+    Player::unloadSounds();
+    Block::unloadTextures();
+    Block::unloadSounds();
+    Entity::unloadTextures();
+    Entity::unloadSounds();
     mmUnloadEffect(SFX_POP);
 }
 

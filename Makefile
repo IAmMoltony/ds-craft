@@ -205,7 +205,7 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-iquote $(CURDIR)/$(dir)) \
 
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
-.PHONY: $(BUILD) clean run
+.PHONY: $(BUILD) clean run cleanbuild
 
 #---------------------------------------------------------------------------------
 $(BUILD):
@@ -223,6 +223,8 @@ run:
 	@echo run ...
 	@$(EMULATOR) $(TARGET).nds
 
+#---------------------------------------------------------------------------------
+cleanbuild: clean
 
 #---------------------------------------------------------------------------------
 else

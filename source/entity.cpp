@@ -45,25 +45,25 @@ extern glImage sprStoneShovel[1];
 
 declsfx3(PigSay);
 
-void loadEntityTextures(void)
+void Entity::loadTextures(void)
 {
     loadImageAlpha(sprPig, 32, 32, pigPal, pigBitmap);
     loadImageAlpha(sprPigDamage, 32, 32, pig_damagePal, pig_damageBitmap);
 }
 
-void loadEntitySounds(void)
+void Entity::loadSounds(void)
 {
     loadsfx3(PIGSAY);
     setsfx3(PigSay, PIGSAY);
 }
 
-void unloadEntityTextures(void)
+void Entity::unloadTextures(void)
 {
     unloadImage(sprPig);
     unloadImage(sprPigDamage);
 }
 
-void unloadEntitySounds(void)
+void Entity::unloadSounds(void)
 {
     unloadsfx3(PIGSAY);
 }

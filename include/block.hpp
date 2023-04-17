@@ -113,7 +113,7 @@ struct InventoryItem
 
 // Block implementations for blocks that
 // don't have anything really special.
-// They are used to save a lot of typing when
+// They are used to save a lot of typing (and avoid manual copy-pasting) when
 // adding a new block.
 #define GENERIC_BLOCK_IMPL(block, spr, id_, maxBrokenLevel_)     \
     block::block(s16 x, s16 y) : Block(x, y, maxBrokenLevel_)    \
@@ -168,6 +168,7 @@ struct InventoryItem
         bool solid(void) override;         \
     };
 
+// Generic declaration for slabs.
 #define SLAB_DECL(slabid)                      \
     class slabid##SlabBlock : public SlabBlock \
     {                                          \
@@ -177,6 +178,7 @@ struct InventoryItem
         u16 id(void) override;                 \
     };
 
+// Generic implementation for slabs.
 #define SLAB_IMPL(slabid, spr, bid, maxBrokenLevel_)                                                      \
     slabid##SlabBlock::slabid##SlabBlock(s16 x, s16 y) : SlabBlock(x, y, SlabID::slabid, maxBrokenLevel_) \
     {                                                                                                     \
@@ -189,11 +191,6 @@ struct InventoryItem
     {                                                                                                     \
         return bid;                                                                                       \
     }
-
-void loadBlockTextures(void);
-void unloadBlockTextures(void);
-void loadBlockSounds(void);
-void unloadBlockSounds(void);
 
 enum class FlowerType
 {
@@ -215,12 +212,14 @@ typedef std::vector<std::unique_ptr<Block>> BlockList;
 class Block
 {
 public:
+    static void loadTextures(void);
+    static void unloadTextures(void);
+    static void loadSounds(void);
+    static void unloadSounds(void);
+
     s16 x, y;
     u8 brokenLevel, maxBrokenLevel;
-    // Light level is how dark the block should be.
-    // 0 = fully visible, 3 = completely black
-    u8 lightLevel;
-    Block(s16 x, s16 y, u8 maxBrokenLevel, u8 lightLevel = 0);
+    Block(s16 x, s16 y, u8 maxBrokenLevel);
 
     void drawBreaking(Camera camera);
     void hit(void);

@@ -33,7 +33,7 @@ static glImage sprHalfHeart2[1];
 static glImage sprPlayerHead[1];
 static glImage sprPlayerBody[3][1];
 
-// d u m m y
+// dummy
 static glImage sprDummy[1];
 
 // block images
@@ -68,14 +68,8 @@ extern glImage sprLadder[1];
 extern glImage sprChest[1];
 extern glImage sprSign[1];
 
-// TODO create loadPlayerItems and unloadPlayerItems
-
-void loadPlayerGUI(void)
+void Player::loadItems(void)
 {
-    loadImage(sprInventorySlot, 16, 16, inventory_slotBitmap);
-    loadImage(sprInventorySlotSelect, 16, 16, inventory_slot_selectBitmap);
-    loadImage(sprDummy, 16, 16, dummyBitmap);
-
     loadImageAlpha(sprStick, 16, 16, stickPal, stickBitmap);
     loadImageAlpha(sprCoal, 16, 16, coalPal, coalBitmap);
     loadImageAlpha(sprRawPorkchop, 16, 16, porkchopPal, porkchopBitmap);
@@ -90,14 +84,10 @@ void loadPlayerGUI(void)
     loadImageAlpha(sprHeartOutline, 16, 16, heart_outlinePal, heart_outlineBitmap);
     loadImageAlpha(sprHalfHeart, 8, 8, half_heartPal, half_heartBitmap);
     loadImageAlpha(sprHalfHeart2, 8, 8, half_heart2Pal, half_heart2Bitmap);
-    loadImageAlpha(sprAim, 8, 8, aimPal, aimBitmap);
 }
 
-void unloadPlayerGUI(void)
+void Player::unloadItems(void)
 {
-    unloadImage(sprInventorySlot);
-    unloadImage(sprInventorySlotSelect);
-    unloadImage(sprDummy);
     unloadImage(sprStick);
     unloadImage(sprCoal);
     unloadImage(sprRawPorkchop);
@@ -110,10 +100,25 @@ void unloadPlayerGUI(void)
     unloadImage(sprHeartOutline);
     unloadImage(sprHalfHeart);
     unloadImage(sprHalfHeart2);
+}
+
+void Player::loadGUI(void)
+{
+    loadImage(sprInventorySlot, 16, 16, inventory_slotBitmap);
+    loadImage(sprInventorySlotSelect, 16, 16, inventory_slot_selectBitmap);
+    loadImage(sprDummy, 16, 16, dummyBitmap);
+    loadImageAlpha(sprAim, 8, 8, aimPal, aimBitmap);
+}
+
+void Player::unloadGUI(void)
+{
+    unloadImage(sprInventorySlot);
+    unloadImage(sprInventorySlotSelect);
+    unloadImage(sprDummy);
     unloadImage(sprAim);
 }
 
-void loadPlayerTextures(void)
+void Player::loadPlayerTextures(void)
 {
     loadImageAlpha(sprPlayerHead, 16, 16, steve_headPal, steve_headBitmap);
     loadImageAlpha(sprPlayerBody[0], 16, 32, steve_body1Pal, steve_body1Bitmap);
@@ -121,7 +126,7 @@ void loadPlayerTextures(void)
     loadImageAlpha(sprPlayerBody[2], 16, 32, steve_body3Pal, steve_body3Bitmap);
 }
 
-void unloadPlayerTextures(void)
+void Player::unloadPlayerTextures(void)
 {
     unloadImage(sprPlayerHead);
     unloadImage(sprPlayerBody[0]);
@@ -150,7 +155,7 @@ declsfx3(Hit);
 declsfx3(Eat);
 declsfx4(Ladder);
 
-void loadPlayerSounds(void)
+void Player::loadSounds(void)
 {
     loadsfx4(GRASS);
     loadsfx4(GRAVEL);
@@ -195,7 +200,7 @@ void loadPlayerSounds(void)
     setsfx4(Ladder, LADDER);
 }
 
-void unloadPlayerSounds(void)
+void Player::unloadSounds(void)
 {
     unloadsfx4(GRASS);
     unloadsfx4(GRAVEL);

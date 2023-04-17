@@ -39,7 +39,7 @@ declsfx4(DoorClose);
 
 extern bool transparentLeaves;
 
-void loadBlockTextures(void)
+void Block::loadTextures(void)
 {
     loadImage(sprGrass, 16, 16, grassBitmap);
     loadImage(sprSnowyGrass, 16, 16, snowy_grassBitmap);
@@ -94,7 +94,7 @@ void loadBlockTextures(void)
     }
 }
 
-void unloadBlockTextures(void)
+void Block::unloadTextures(void)
 {
     unloadImage(sprGrass);
     unloadImage(sprSnowyGrass);
@@ -138,7 +138,7 @@ void unloadBlockTextures(void)
     unloadImage(sprBlockBreak[9]);
 }
 
-void loadBlockSounds(void)
+void Block::loadSounds(void)
 {
     loadsfx4(DOOROPEN);
     loadsfx4(DOORCLOSE);
@@ -147,7 +147,7 @@ void loadBlockSounds(void)
     setsfx4(DoorClose, DOORCLOSE);
 }
 
-void unloadBlockSounds(void)
+void Block::unloadSounds(void)
 {
     unloadsfx4(DOOROPEN);
     unloadsfx4(DOORCLOSE);
@@ -155,12 +155,11 @@ void unloadBlockSounds(void)
 
 //----------------------------------------
 
-Block::Block(s16 x, s16 y, u8 maxBrokenLevel, u8 lightLevel) : brokenLevel(0)
+Block::Block(s16 x, s16 y, u8 maxBrokenLevel) : brokenLevel(0)
 {
     this->x = x;
     this->y = y;
     this->maxBrokenLevel = maxBrokenLevel;
-    this->lightLevel = lightLevel;
 }
 
 void Block::drawBreaking(Camera camera)

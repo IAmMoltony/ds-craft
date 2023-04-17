@@ -8,7 +8,7 @@ Press left and right on the D-Pad to move horizontally, press D-Pad up to jump, 
 
 ### Touch to move
 
-If touch-to-move is enabled in the settings, you can ose the bottom screen to move around. For horizontal movement, touch the bottom screen on either side. To jump, touch the top of the bottom screen.
+If touch-to-move is enabled in the settings, you can ose the bottom screen to move around. For horizontal movement,touch the bottom screen on either side. To jump, touch the top of the bottom screen.
 
 If touch the move is set to "right-handed" then the D-Pad and ABXY buttons are swapped (except in inventory and menus), so down on the D-Pad becomes the B button, etc.
 
@@ -34,7 +34,7 @@ If you just want to compile, use `make`. To make and then run, use `make build r
 
 ### Using Code::Blocks (on Linux)
 
-To build, press the Build button on the top of the window. To run, press the Run button on the top of the window. To build and run, press the Build and Run button on the top of the window. To recompile, select the `clean` configuration using a dropbox next to the build and run button, then press the Build button. Then switch to the `build` configuration.
+To build, press the Build button on the top of the window. To run, press the Run button on the top of the window. To build and run, press the Build and Run button on the top of the window. To recompile, press the Rebuild button on top of the window.
 
 Note that Code::Blocks support is only supported on Linux.
 

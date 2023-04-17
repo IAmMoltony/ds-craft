@@ -23,12 +23,6 @@
 #define PLAYER_WIDTH 12
 #define PLAYER_HEIGHT 32
 
-void loadPlayerGUI(void);
-void unloadPlayerGUI(void);
-void loadPlayerTextures(void);
-void unloadPlayerTextures(void);
-void loadPlayerSounds(void);
-void unloadPlayerSounds(void);
 const char *getItemStr(Language lang, InventoryItemID iid);
 glImage *getItemImage(InventoryItemID item);
 
@@ -57,6 +51,16 @@ public:
         BlockPlaced,
         BlockDestroyed,
     };
+
+    static void loadItems(void);
+    static void unloadItems(void);
+    static void loadGUI(void);
+    static void unloadGUI(void);
+    static void loadPlayerTextures(void);
+    static void unloadPlayerTextures(void);
+
+    static void loadSounds(void);
+    static void unloadSounds(void);
 
     Player();
 
