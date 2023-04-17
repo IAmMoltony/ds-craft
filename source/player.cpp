@@ -805,14 +805,10 @@ void Player::draw(Camera camera, Font font, Font fontRu, Language lang)
         switch (lang)
         {
         case Language::English:
-            font.setCharWidthHandler(Game::fontBigCharWidthHandler);
-            font.printShadowCentered(0, 12, inventoryCrafting ? "Crafting" : "Inventory", NULL, SCALE(1.8));
-            font.setCharWidthHandler(Game::fontSmallCharWidthHandler);
+            font.drawHeading(inventoryCrafting ? "Crafting" : "Inventory");
             break;
         case Language::Russian:
-            fontRu.setCharWidthHandler(Game::fontBigRuCharWidthHandler);
-            fontRu.printShadowCentered(0, 12, inventoryCrafting ? "Sqjfbpkg" : "Jpdgpubs#", NULL, SCALE(1.8));
-            fontRu.setCharWidthHandler(Game::fontSmallRuCharWidthHandler);
+            fontRu.drawHeading(inventoryCrafting ? "Sqjfbpkg" : "Jpdgpubs#");
             break;
         }
 
@@ -846,15 +842,11 @@ void Player::draw(Camera camera, Font font, Font fontRu, Language lang)
         switch (lang)
         {
         case Language::English:
-            font.setCharWidthHandler(Game::fontBigCharWidthHandler);
-            font.printShadowCentered(0, 12, chestSelect < 20 ? "Chest" : "Inventory", NULL, SCALE(1.8));
-            font.setCharWidthHandler(Game::fontSmallCharWidthHandler);
+            font.drawHeading(chestSelect < 20 ? "Chest" : "Inventory");
             font.printShadow(16, SCREEN_HEIGHT - 32, chestSelect < 20 ? "\2:Y Switch to inventory" : "\2:Y Switch to chest");
             break;
         case Language::Russian:
-            fontRu.setCharWidthHandler(Game::fontBigRuCharWidthHandler);
-            fontRu.printShadowCentered(0, 12, chestSelect < 20 ? "Svpfvm" : "Jpdgpubs#", NULL, SCALE(1.8));
-            fontRu.setCharWidthHandler(Game::fontSmallRuCharWidthHandler);
+            fontRu.drawHeading(chestSelect < 20 ? "Svpfvm" : "Jpdgpubs#");
             fontRu.printShadow(16, SCREEN_HEIGHT - 32, chestSelect < 20 ? "\2:Y Qgsgmn%zku#t& pb kpdgpubs#" : "\2:Y Qgsgmn%zku#t& pb tvpfvm");
             break;
         }
@@ -875,16 +867,11 @@ void Player::draw(Camera camera, Font font, Font fontRu, Language lang)
         switch (lang)
         {
         case Language::English:
-            // TODO create a "drawHeading" method in font class
-            font.setCharWidthHandler(Game::fontBigCharWidthHandler);
-            font.printCentered(0, 5, "Edit sign", NULL, SCALE(1.8));
-            font.setCharWidthHandler(Game::fontSmallCharWidthHandler);
+            font.drawHeading("Edit sign");
             font.printCentered(0, SCREEN_WIDTH / 2 + 23, "Rtrn or \2:A : Finish");
             break;
         case Language::Russian:
-            fontRu.setCharWidthHandler(Game::fontBigRuCharWidthHandler);
-            fontRu.printCentered(0, 5, "Tbcnkzmb", NULL, SCALE(1.8));
-            fontRu.setCharWidthHandler(Game::fontSmallRuCharWidthHandler);
+            fontRu.drawHeading("Tbcnkzmb");
             fontRu.printCentered(0, SCREEN_WIDTH / 2 + 23, "\3Rtrn\3 knk \2:A : Ibmqpzku#");
             break;
         }
@@ -2728,7 +2715,7 @@ void Player::initCrafting(void)
                 for (u8 i = 0; i < 4; ++i)
                     str.pop_back();
                 craftingRecipes.push_back(CraftingRecipe(str.c_str()));
-                //printf("loaded recipe %s\n", str.c_str());
+                // printf("loaded recipe %s\n", str.c_str());
             }
         }
         closedir(dir);

@@ -35,6 +35,11 @@ void Font::setCharWidthHandler(CharWidthHandler chwHandler)
     this->chwHandler = chwHandler;
 }
 
+void Font::setHeadingCharWidthHandler(CharWidthHandler chwHandler)
+{
+    chwhHeading = chwHandler;
+}
+
 void Font::print(int x, int y, const char *str, int xoff, int yoff, Font *font2, s32 scale, bool ignoreFormatting)
 {
     int startX = x;
@@ -406,4 +411,12 @@ void Font::printfScaleShadow(int x, int y, s32 scale, const char *format, ...)
     free(str);
 
     va_end(args);
+}
+
+void Font::drawHeading(const char *str)
+{
+    CharWidthHandler chwhOld = chwHandler;
+    setCharWidthHandler(chwhHeading);
+    printCentered(0, 5, str, NULL, SCALE(1.8));
+    setCharWidthHandler(chwhOld);
 }

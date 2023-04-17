@@ -12,7 +12,7 @@ public:
     typedef u8 (*CharWidthHandler)(char);
 
 private:
-    CharWidthHandler chwHandler;
+    CharWidthHandler chwHandler, chwhHeading;
 
 public:
     glImage *spr;
@@ -24,6 +24,7 @@ public:
     u8 getCharWidth(char ch);
     u32 getTextWidth(const std::string &str);
     void setCharWidthHandler(CharWidthHandler chwHandler);
+    void setHeadingCharWidthHandler(CharWidthHandler chwHandler);
     void print(int x, int y, const char *str, int xoff = 0, int yoff = 0, Font *font2 = NULL, s32 scale = SCALE_NORMAL, bool ignoreFormatting = false);
     void printCentered(int x, int y, const char *str, Font *font2 = NULL, s32 scale = SCALE_NORMAL);
     void printf(int x, int y, const char *format, ...) __attribute__((format(printf, 4, 5)));
@@ -35,4 +36,5 @@ public:
     void printShadowCentered(int x, int y, const char *str, Font *font2 = NULL, s32 scale = SCALE_NORMAL);
     void printfShadow(int x, int y, const char *format, ...) __attribute__((format(printf, 4, 5)));
     void printfScaleShadow(int x, int y, s32 scale, const char *format, ...) __attribute__((format(printf, 5, 6)));
+    void drawHeading(const char *str);
 };

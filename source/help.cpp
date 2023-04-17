@@ -22,17 +22,13 @@ void showHelp(const std::string &file, Language lang, Font font, Font fontRu, u1
             switch (lang)
             {
             case Language::English:
-                font.setCharWidthHandler(Game::fontBigCharWidthHandler);
-                font.printfScaleCentered(0, 5, SCALE(1.8), "oops");
-                font.setCharWidthHandler(Game::fontSmallCharWidthHandler);
+                font.drawHeading("oops");
                 font.print(10, 40, "This help entry could not be found.");
                 font.print(10, 51, "Please check that the file exists:");
                 font.printCentered(0, SCREEN_HEIGHT - 19, "Press any button...");
                 break;
             case Language::Russian:
-                fontRu.setCharWidthHandler(Game::fontBigRuCharWidthHandler);
-                fontRu.printfScaleCentered(0, 5, SCALE(1.8), "ql");
-                fontRu.setCharWidthHandler(Game::fontSmallRuCharWidthHandler);
+                fontRu.drawHeading("ql");
                 fontRu.print(10, 40, "_ub jbrkt# trsbdmk pg oqigu c\"u# pblfgpb.");
                 fontRu.print(10, 51, "Ucgfkugt#@ zuq $uqu wbln tv~gtudvgu:");
                 fontRu.printCentered(0, SCREEN_HEIGHT - 19, "Obiokug n%cv% mpqrmv...");
@@ -73,9 +69,7 @@ void showHelp(const std::string &file, Language lang, Font font, Font fontRu, u1
         switch (lang)
         {
         case Language::English:
-            font.setCharWidthHandler(Game::fontBigCharWidthHandler);
-            font.printfScaleCentered(0, 5, SCALE(1.8), "Help");
-            font.setCharWidthHandler(Game::fontSmallCharWidthHandler);
+            font.drawHeading("Help");
             glColor(RGB15(31, 31, 0));
             font.printCentered(0, 25, title.c_str());
             glColor(RGB15(31, 31, 31));
@@ -83,9 +77,7 @@ void showHelp(const std::string &file, Language lang, Font font, Font fontRu, u1
             font.printCentered(0, SCREEN_HEIGHT - 19, "Press any button...");
             break;
         case Language::Russian:
-            fontRu.setCharWidthHandler(Game::fontBigRuCharWidthHandler);
-            fontRu.printfScaleCentered(0, 5, SCALE(1.8), "Qqoq~#");
-            fontRu.setCharWidthHandler(Game::fontSmallRuCharWidthHandler);
+            fontRu.drawHeading("Qqoq~#");
             glColor(RGB15(31, 31, 0));
             fontRu.printCentered(0, 25, title.c_str());
             glColor(RGB15(31, 31, 31));

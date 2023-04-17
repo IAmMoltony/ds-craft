@@ -206,7 +206,9 @@ void Game::loadFonts(void)
                 256, font_small_ru1Pal, reinterpret_cast<const u8 *>(font_small_ru1Bitmap));
 
     font.setCharWidthHandler(fontSmallCharWidthHandler);
+    font.setHeadingCharWidthHandler(fontBigCharWidthHandler);
     fontRu.setCharWidthHandler(fontSmallRuCharWidthHandler);
+    fontRu.setCharWidthHandler(fontBigRuCharWidthHandler);
 }
 
 static constexpr u8 TITLE_SCREEN_PLAY = 0;
@@ -268,9 +270,7 @@ void Game::init(void)
             glBegin2D();
             drawMovingBackground();
 
-            font.setCharWidthHandler(fontBigCharWidthHandler);
-            font.printCentered(0, 5, "Error!", NULL, SCALE(1.8));
-            font.setCharWidthHandler(fontSmallCharWidthHandler);
+            font.drawHeading("Error!");
 
             switch (fsInitSt)
             {
@@ -376,13 +376,8 @@ void Game::loadLocation(s16 oldLocation)
 
     // 3. we position the player correctly
 
-    printf("1 old: %d cur: %d\n", oldLocation, currentLocation);
-
     saveWorld(worldName, blocks, entities, player, getWorldSeed(worldName), currentLocation);
-
     loadWorld(normalizeWorldFileName(worldName), blocks, entities, player, currentLocation);
-
-    printf("2 old: %d cur: %d\n", oldLocation, currentLocation);
 
     if (oldLocation < currentLocation)
     {
@@ -451,14 +446,10 @@ void Game::draw(void)
             switch (lang)
             {
             case Language::English:
-                font.setCharWidthHandler(fontBigCharWidthHandler);
-                font.printfScaleCentered(0, 5, SCALE(1.8), "Game over");
-                font.setCharWidthHandler(fontSmallCharWidthHandler);
+                font.drawHeading("Game over");
                 break;
             case Language::Russian:
-                fontRu.setCharWidthHandler(fontBigRuCharWidthHandler);
-                fontRu.printfScaleCentered(0, 5, SCALE(1.8), "Jesb qmqpzgpb");
-                fontRu.setCharWidthHandler(fontSmallRuCharWidthHandler);
+                fontRu.drawHeading("Jesb qmqpzgpb");
                 break;
             }
 
@@ -532,14 +523,10 @@ void Game::draw(void)
             switch (lang)
             {
             case Language::English:
-                font.setCharWidthHandler(fontBigCharWidthHandler);
-                font.printfScaleCentered(0, 5, SCALE(1.8), "Paused");
-                font.setCharWidthHandler(fontSmallCharWidthHandler);
+                font.drawHeading("Paused");
                 break;
             case Language::Russian:
-                fontRu.setCharWidthHandler(fontBigRuCharWidthHandler);
-                fontRu.printfScaleCentered(0, 5, SCALE(1.8), "Qbvjb");
-                fontRu.setCharWidthHandler(fontSmallRuCharWidthHandler);
+                fontRu.drawHeading("Qbvjb");
                 break;
             }
         }
@@ -585,14 +572,10 @@ void Game::draw(void)
         switch (lang)
         {
         case Language::English:
-            font.setCharWidthHandler(fontBigCharWidthHandler);
-            font.printfScaleCentered(0, 16, SCALE(1.8), "Credits");
-            font.setCharWidthHandler(fontSmallCharWidthHandler);
+            font.drawHeading("Credits");
             break;
         case Language::Russian:
-            fontRu.setCharWidthHandler(fontBigRuCharWidthHandler);
-            fontRu.printfScaleCentered(0, 16, SCALE(1.8), "Tkus\"");
-            fontRu.setCharWidthHandler(fontSmallRuCharWidthHandler);
+            fontRu.drawHeading("Tkus\"");
             break;
         }
 
@@ -744,14 +727,10 @@ void Game::draw(void)
         switch (lang)
         {
         case Language::English:
-            font.setCharWidthHandler(fontBigCharWidthHandler);
-            font.printfScaleCentered(0, 5, SCALE(1.8), "World select");
-            font.setCharWidthHandler(fontSmallCharWidthHandler);
+            font.drawHeading("World select");
             break;
         case Language::Russian:
-            fontRu.setCharWidthHandler(fontBigRuCharWidthHandler);
-            fontRu.printfScaleCentered(0, 5, SCALE(1.8), "C\"cqs oksb");
-            fontRu.setCharWidthHandler(fontSmallRuCharWidthHandler);
+            fontRu.drawHeading("C\"cqs oksb");
             break;
         }
         break;
@@ -848,14 +827,10 @@ void Game::draw(void)
         switch (lang)
         {
         case Language::English:
-            font.setCharWidthHandler(fontBigCharWidthHandler);
-            font.printfScaleCentered(0, 5, SCALE(1.8), "Create world");
-            font.setCharWidthHandler(fontSmallCharWidthHandler);
+            font.drawHeading("Create world");
             break;
         case Language::Russian:
-            fontRu.setCharWidthHandler(fontBigRuCharWidthHandler);
-            fontRu.printfScaleCentered(0, 5, SCALE(1.8), "Sqjfbu# oks");
-            fontRu.setCharWidthHandler(fontSmallRuCharWidthHandler);
+            fontRu.drawHeading("Sqjbu# oks");
             break;
         }
         break;
@@ -884,23 +859,17 @@ void Game::draw(void)
         glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprAButton);
         font.print(15, SCREEN_HEIGHT - 15, "OK");
 
-        font.setCharWidthHandler(fontBigCharWidthHandler);
-        font.printfScaleCentered(0, 5, SCALE(1.8), "Select language");
-        font.setCharWidthHandler(fontSmallCharWidthHandler);
+        font.drawHeading("Select language");
         break;
     case GameState::VersionInfo:
         drawMovingBackground();
         switch (lang)
         {
         case Language::English:
-            font.setCharWidthHandler(fontBigCharWidthHandler);
-            font.printfScaleCentered(0, 5, SCALE(1.8), "Version info");
-            font.setCharWidthHandler(fontSmallCharWidthHandler);
+            font.drawHeading("Version info");
             break;
         case Language::Russian:
-            fontRu.setCharWidthHandler(fontBigRuCharWidthHandler);
-            fontRu.printfScaleCentered(0, 5, SCALE(1.8), "Jpwq q dgstkk");
-            fontRu.setCharWidthHandler(fontSmallRuCharWidthHandler);
+            fontRu.drawHeading("Jpwq q dgstkk");
             break;
         }
 
@@ -1087,14 +1056,10 @@ void Game::draw(void)
         switch (lang)
         {
         case Language::English:
-            font.setCharWidthHandler(fontBigCharWidthHandler);
-            font.printfScaleCentered(0, 5, SCALE(1.8), "Settings");
-            font.setCharWidthHandler(fontSmallCharWidthHandler);
+            font.drawHeading("Settings");
             break;
         case Language::Russian:
-            fontRu.setCharWidthHandler(fontBigRuCharWidthHandler);
-            fontRu.printfScaleCentered(0, 5, SCALE(1.8), "Obtusqlmk");
-            fontRu.setCharWidthHandler(fontSmallRuCharWidthHandler);
+            fontRu.drawHeading("Obtusqlmk");
             break;
         }
         break;
@@ -1129,15 +1094,24 @@ void Game::draw(void)
             fontRu.printCentered(0, 118, "\2:B Ogu");
             break;
         }
+
+        switch (lang)
+        {
+        case Language::English:
+            font.drawHeading("Delete world");
+            break;
+        case Language::Russian:
+            fontRu.drawHeading("Ufbnku# oks");
+            break;
+        }
         break;
     case GameState::DeleteAllWorlds:
         drawMovingBackground();
         switch (lang)
         {
         case Language::English:
-            font.setCharWidthHandler(fontBigCharWidthHandler);
-            font.printCentered(0, 5, "Delete all worlds", NULL, SCALE(1.8));
-            font.setCharWidthHandler(fontSmallCharWidthHandler);
+            font.drawHeading("Delete all worlds");
+
             font.printCentered(0, 40, "Are you sure you want to");
             font.printCentered(0, 51, "delete all of your worlds?");
             font.printCentered(0, 65, "You cannot undo this action!");
@@ -1145,9 +1119,8 @@ void Game::draw(void)
             font.printCentered(0, 113, "\2:B No");
             break;
         case Language::Russian:
-            fontRu.setCharWidthHandler(fontBigRuCharWidthHandler);
-            fontRu.printCentered(0, 5, "Ufbnku# dtg oks\"", NULL, SCALE(1.8));
-            fontRu.setCharWidthHandler(fontSmallRuCharWidthHandler);
+            fontRu.drawHeading("Ufbnku# dtg oks\"");
+
             fontRu.printCentered(0, 40, "C\" uqzpq xqukug vfbnku#");
             fontRu.printCentered(0, 51, "dtg tdqk oks\"\3?", &font);
             fontRu.printCentered(0, 65, "_uq pgn#j& cvfgu quogpku#<");
@@ -1466,18 +1439,14 @@ void Game::update(void)
                         switch (lang)
                         {
                         case Language::English:
-                            font.setCharWidthHandler(fontBigCharWidthHandler);
-                            font.printCentered(0, 5, "oops", NULL, SCALE(1.8));
-                            font.setCharWidthHandler(fontSmallCharWidthHandler);
+                            font.drawHeading("oops");
                             font.print(10, 30, "This world was created in a newer version than  current.");
                             font.printf(10, 90, "Current version: %s \nWorld version: %s",
                                         getVersionString(), worldVersion.c_str());
                             font.printCentered(0, SCREEN_HEIGHT - 19, "Press any button...");
                             break;
                         case Language::Russian:
-                            fontRu.setCharWidthHandler(fontBigRuCharWidthHandler);
-                            fontRu.printCentered(0, 5, "ql", NULL, SCALE(1.8));
-                            fontRu.setCharWidthHandler(fontSmallRuCharWidthHandler);
+                            fontRu.drawHeading("ql");
                             fontRu.print(10, 30, "_uqu oks c\"n tqjfbp d cqngg pqdql dgstkk@ \n"
                                                  "zgo ugmv~b&.");
                             fontRu.printfDoubleFont(10, 90, &font, "Tgmv~b& dgstk&: \3%s\3 \n"
