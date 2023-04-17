@@ -2604,6 +2604,21 @@ bool Player::canAddItem(InventoryItemID item)
     return false;
 }
 
+bool Player::isInInventory(void)
+{
+    return fullInventory;
+}
+
+bool Player::isInChest(void)
+{
+    return chest != nullptr;
+}
+
+bool Player::isEditingSign(void)
+{
+    return sign != nullptr;
+}
+
 s16 Player::getX(void)
 {
     return x;

@@ -83,6 +83,9 @@ public:
     bool dead(void);
     bool isInventoryFull(void);
     bool canAddItem(InventoryItemID item);
+    bool isInInventory(void);
+    bool isInChest(void);
+    bool isEditingSign(void);
     s16 getX(void);
     s16 getY(void);
     s16 getSpawnX(void);
