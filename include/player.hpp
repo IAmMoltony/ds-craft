@@ -60,6 +60,7 @@ public:
 
     Player();
 
+    void drawMenuBackground(void);
     void draw(Camera camera, Font font, Font fontRu, Language lang);
     void drawCrafting(Font fontSmall, Font fontSmallRu);
     UpdateResult update(Camera *camera, BlockList *blocks, EntityList *entities, BlockParticleList *blockParticles, const u16 &frames);

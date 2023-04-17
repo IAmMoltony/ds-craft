@@ -718,6 +718,13 @@ static void drawInventory(InventoryItem inventory[], u8 itemCount, Font font, u8
     }
 }
 
+void Player::drawMenuBackground(void)
+{
+    glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(15));
+    glBoxFilled(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(17, 17, 17));
+    glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(31));
+}
+
 void Player::draw(Camera camera, Font font, Font fontRu, Language lang)
 {
     // draw the player
@@ -796,10 +803,7 @@ void Player::draw(Camera camera, Font font, Font fontRu, Language lang)
 
     if (fullInventory) // inventory draw
     {
-        // draw inventory background
-        glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(15));
-        glBoxFilled(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(17, 17, 17));
-        glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(31));
+        drawMenuBackground();
 
         // heading
         switch (lang)
@@ -833,10 +837,7 @@ void Player::draw(Camera camera, Font font, Font fontRu, Language lang)
     }
     else if (chestOpen)
     {
-        // background
-        glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(15));
-        glBoxFilled(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(17, 17, 17));
-        glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(31));
+        drawMenuBackground();
 
         // heading
         switch (lang)
@@ -858,11 +859,7 @@ void Player::draw(Camera camera, Font font, Font fontRu, Language lang)
     }
     else if (sign) // sign edit interface
     {
-        // background
-        // TODO make a function for this
-        glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(15));
-        glBoxFilled(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(17, 17, 17));
-        glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(31));
+        drawMenuBackground();
 
         switch (lang)
         {
@@ -1040,7 +1037,7 @@ void Player::draw(Camera camera, Font font, Font fontRu, Language lang)
     //    getRectSlab().draw(camera, RGB15(0, 31, 31));
 }
 
-// TODO split the draw and update like i did with crafting
+// TODO split the draw and update methods (like with crafting)
 
 static void eatFood(s16 *health, u8 healthAdd)
 {
