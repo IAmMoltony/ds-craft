@@ -342,6 +342,8 @@ void Game::init(void)
     settingsSelect = 0;
     titleScreenSelect = 0;
     createWorldSelect = 0;
+    logoFall = false;
+    logoY = 16;
 }
 
 void Game::showHelpScreen(const std::string &setting)
@@ -535,7 +537,7 @@ void Game::draw(void)
     case GameState::TitleScreen:
         drawMovingBackground();
 
-        glSpriteScale(SCREEN_WIDTH / 2 - 96, 16, (1 << 12) * 2, GL_FLIP_NONE, sprLogo);
+        glSpriteScale(SCREEN_WIDTH / 2 - 96, logoY, (1 << 12) * 2, GL_FLIP_NONE, sprLogo);
 
         for (u8 i = 0; i < 3; ++i)
         {
@@ -1387,6 +1389,11 @@ void Game::update(void)
             else
                 --titleScreenSelect;
         }
+        if (down & KEY_X)
+            logoFall = true;
+
+        if (logoFall)
+            ++logoY;
         break;
     case GameState::Credits:
         if (down & KEY_B)

@@ -82,6 +82,8 @@ private:
     bool createWorldShowCursor = false;
     u8 createWorldSelect = 0;
     s16 currentLocation = 0;
+    bool logoFall = false;
+    u16 logoY;
 
     void gameQuit(void);
     void playPopSound(void);
