@@ -3,7 +3,6 @@
 #include "player.hpp"
 #include "entity.hpp"
 #include "blockparticle.hpp"
-#include "uvcoord_font_16x16.h"
 #include "uvcoord_font_si.h"
 #include "gamestate.hpp"
 #include "save.hpp"
@@ -58,8 +57,6 @@ private:
     BlockParticleList blockParticles;
     Player player;
 
-    glImage fontBigImg[FONT_16X16_NUM_IMAGES];
-    glImage fontBigRuImg[FONT_16X16_NUM_IMAGES];
     glImage fontSmallImg[FONT_SI_NUM_IMAGES];
     glImage fontSmallRuImg[FONT_SI_NUM_IMAGES];
 

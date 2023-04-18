@@ -754,7 +754,13 @@ void SignBlock::draw(Camera camera)
 void SignBlock::drawText(Camera camera)
 {
     if (showText)
-        Game::instance->font.print(x - camera.x, y - camera.y, getText().c_str(), 0, 0, NULL, SCALE_NORMAL, true);
+    {
+        glBoxFilled(x - camera.x - 2, y - camera.y - 10, x - camera.x - 2 +
+                    Game::instance->font.getTextWidth(getText().c_str()) + 1, y - camera.y, RGB15(4, 4, 4));
+        glBoxStroke(x - camera.x - 2, y - camera.y - 10, Game::instance->font.getTextWidth(getText().c_str()) + 2, 11,
+                    RGB15(11, 11, 11));
+        Game::instance->font.print(x - camera.x, y - camera.y - 9, getText().c_str(), 0, 0, NULL, SCALE_NORMAL, true);
+    }
 }
 
 bool SignBlock::solid(void)
