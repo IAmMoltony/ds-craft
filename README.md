@@ -25,6 +25,7 @@ Press the R button to select the next crafting recipe. Press the A button to cra
 ## Dependencies
 
 - devkitPro for Nintendo DS (NDS) development ([how to install](https://devkitpro.org/wiki/Getting_Started))
+- Python 3
 
 ## Building and running
 

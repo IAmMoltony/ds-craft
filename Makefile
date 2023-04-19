@@ -215,15 +215,16 @@ $(BUILD):
 
 #---------------------------------------------------------------------------------
 clean:
-	@echo clean ...
-	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).nds $(SOUNDBANK)
+	$(SILENTMSG) clean ...
+	$(SILENTCMD)rm -fr $(BUILD) $(TARGET).elf $(TARGET).nds $(SOUNDBANK)
 
 #---------------------------------------------------------------------------------
 run:
-	@echo run ...
-	@$(EMULATOR) $(TARGET).nds
+	$(SILENTMSG) run ...
+	$(SILENTCMD)$(EMULATOR) $(TARGET).nds
 
 #---------------------------------------------------------------------------------
+# for code blocks
 cleanbuild: clean
 
 #---------------------------------------------------------------------------------
@@ -236,8 +237,17 @@ DEPENDS	:=	$(OFILES:.o=.d)
 #---------------------------------------------------------------------------------
 $(OUTPUT).nds	: 	$(OUTPUT).elf
 $(OUTPUT).nds   :   $(shell find ../$(NITRODATA))
-$(OUTPUT).elf	:	$(OFILES)
+$(OUTPUT).elf	:	../include/images.h $(SOUNDBANK) $(OFILES)
 
+ifeq ($(OS),Windows_NT)
+PYTHON := python
+else
+PYTHON := python3
+endif
+
+../include/images.h: $(shell find ../gfx/* -name *.png) $(shell find ../gfx/* -name *.bmp)
+	$(SILENTMSG) generating $(notdir $@)
+	$(SILENCTMD)$(PYTHON) ../genimagesh.py > $@
 
 #---------------------------------------------------------------------------------
 # The bin2o rule should be copied and modified
@@ -247,11 +257,11 @@ $(OUTPUT).elf	:	$(OFILES)
 #---------------------------------------------------------------------------------
 %.bin.o %_bin.h : %.bin
 #---------------------------------------------------------------------------------
-	@echo $(notdir $<)
-	@$(bin2o)
+	$(SILENTMSG) $(notdir $<)
+	$(SILENTCMD)$(bin2o)
 
 $(SOUNDBANK): $(AUDIOFILES)
-	@mmutil $^ -hsoundbank.h -o$@ -d
+	$(SILENTCMD)mmutil $^ -hsoundbank.h -o$@ -d
 
 #---------------------------------------------------------------------------------
 # This rule creates assembly source files using grit
