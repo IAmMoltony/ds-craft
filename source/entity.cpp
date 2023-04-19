@@ -127,12 +127,14 @@ void PigEntity::draw(Camera camera)
 
 void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
 {
+    // don't update if off screen
     if (x - camera.x < -20 ||
         x - camera.x > SCREEN_WIDTH ||
         y - camera.y < -40 ||
         y - camera.y > SCREEN_HEIGHT + 32)
         return;
 
+    // damage overlay updating
     if (damageOverlayTimer != 255)
     {
         ++damageOverlayTimer;
@@ -140,9 +142,11 @@ void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
             damageOverlayTimer = 255;
     }
 
+    // move
     x += velX;
     y += velY;
 
+    // apply gravity if in air
     if (falling || jumping)
     {
         velY += 0.3f;
@@ -150,14 +154,21 @@ void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
             velY = 5;
     }
 
+    // clamp x
     if (x < 0)
         x = 0;
+    if (x > 1000)
+        x = 1000;
 
+    // set x velocity if moving
     velX = moving ? (facing == Facing::Right ? 1 : -1) : 0;
 
+    // randomly change direction
     if (rand() % 250 == 1)
         facing = facing == Facing::Right ? Facing::Left : Facing::Right;
-    if (chance(8))
+
+    // jump randomly
+    if (chance(11))
     {
         if (!jumping)
         {
@@ -165,20 +176,27 @@ void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
             velY = -4;
         }
     }
+
+    // stop or start moving randomly
     if (chance(3))
         moving = !moving;
 
+    // collision detection (every 4 frames for optimization)
     if (frames % 4 == 0)
     {
         for (auto &block : blocks)
         {
+            // skip block if off screen
             if (block->getRect().x - camera.x < -40 ||
                 block->getRect().y - camera.y < -40 ||
                 block->y - camera.y > SCREEN_HEIGHT + 48)
                 continue;
+
+            // skip all blocks if too far to the right
             if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
                 break;
 
+            // don't check collisions with non solid blocks
             if (!block->solid())
                 continue;
 
@@ -219,22 +237,9 @@ void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
         }
     }
 
+    // randomly make sound
     if (chance(1) && chance(51))
-    {
-        u8 effect = rand() % 3;
-        switch (effect)
-        {
-        case 0:
-            mmEffectEx(&sndPigSay1);
-            break;
-        case 1:
-            mmEffectEx(&sndPigSay2);
-            break;
-        case 2:
-            mmEffectEx(&sndPigSay3);
-            break;
-        }
-    }
+        playsfx(3, &sndPigSay1, &sndPigSay2, &sndPigSay3);
 }
 
 Rect PigEntity::getRectBottom(void)
