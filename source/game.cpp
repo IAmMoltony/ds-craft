@@ -1942,7 +1942,7 @@ void Game::SettingsManager::loadSettings(void)
     else
         fsWrite("fat:/dscraft_data/config/trleaves.cfg", "0");
 
-    // auto save serttintg (icnt spell)
+    // auto save setting
     if (fsFileExists("fat:/dscraft_data/config/autosave.cfg"))
     {
         char *data = fsReadFile("fat:/dscraft_data/config/autosave.cfg");
