@@ -5,6 +5,7 @@
 #include <limits.h>
 #include <vector>
 #include <initializer_list>
+#include "util.h"
 
 enum class AnimatedSpriteMode
 {

@@ -18,7 +18,7 @@ extern "C"
     float lerp(float a, float b, float t);
     int distBetweenPoints(int p1x, int p1y, int p2x, int p2y);
     unsigned int stringHash(const char *str);
-    __attribute___((noreturn)) void hang(void);
+    void hang(void);
 
 #ifdef __cplusplus
 }
