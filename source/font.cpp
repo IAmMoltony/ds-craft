@@ -57,8 +57,7 @@ void Font::print(int x, int y, const char *str, int xoff, int yoff, Font *font2,
                 if (*str != ':')
                 {
                     ::printf("color code syntax error: a colon (:) must follow \\1");
-                    while (true)
-                        ;
+                    hang();
                 }
                 ++str;
                 if (*str == 'R')
@@ -76,8 +75,7 @@ void Font::print(int x, int y, const char *str, int xoff, int yoff, Font *font2,
                         if (colorStage > 2)
                         {
                             ::printf("color code syntax error: too many color components");
-                            while (true)
-                                ;
+                            hang();
                         }
                         ++str;
                         continue;
@@ -102,8 +100,7 @@ void Font::print(int x, int y, const char *str, int xoff, int yoff, Font *font2,
                 if (colorStage < 2)
                 {
                     ::printf("color code syntax error: too few color components");
-                    while (true)
-                        ;
+                    hang();
                 }
                 ++str;
                 u8 r = std::stoi(rs);
@@ -113,8 +110,7 @@ void Font::print(int x, int y, const char *str, int xoff, int yoff, Font *font2,
                 {
                     ::printf("color code syntax error: invalid color value\n"
                              "rgb values must be 0-31 inclusive");
-                    while (true)
-                        ;
+                    hang();
                 }
                 rgb color = RGB15(r, g, b);
                 glColor(color);
@@ -125,8 +121,7 @@ void Font::print(int x, int y, const char *str, int xoff, int yoff, Font *font2,
                 if (*str != ':')
                 {
                     ::printf("button code syntax error: a colon (:) must follow \\2");
-                    while (true)
-                        ;
+                    hang();
                 }
                 ++str;
                 switch (*str++)
@@ -145,8 +140,7 @@ void Font::print(int x, int y, const char *str, int xoff, int yoff, Font *font2,
                     break;
                 default:
                     ::printf("button code syntax error: invalid button code (%c)", *str);
-                    while (true)
-                        ;
+                    hang();
                 }
                 x += 10;
                 if (x > SCREEN_WIDTH - 10)
@@ -157,9 +151,7 @@ void Font::print(int x, int y, const char *str, int xoff, int yoff, Font *font2,
                 continue;
             }
             else if (strch == '\3')
-            {
                 useFont2 = font2 ? !useFont2 : false; // not allow to enable if font2 is null
-            }
         }
         ch = strch - 32;
         if (*str == '\n')
@@ -220,15 +212,13 @@ void Font::printCentered(int x, int y, const char *str, Font *font2, s32 scale)
             if (*str != ':')
             {
                 ::printf("button code syntax error: a colon (:) must follow \\2");
-                while (true)
-                    ;
+                hang();
             }
             ++str;
             if (*str != 'A' && *str != 'B' && *str != 'X' && *str != 'Y')
             {
                 ::printf("button code syntax error: invalid button code (%c)", *str);
-                while (true)
-                    ;
+                hang();
             }
             tw += 10;
             continue;

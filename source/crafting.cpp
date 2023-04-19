@@ -103,8 +103,7 @@ CraftingRecipe::CraftingRecipe(const char *recipeFile)
     if (!fsFileExists(path.c_str()))
     {
         printf("crafting recipe %s not found (full path: %s)", recipeFile, path.c_str());
-        while (true)
-            ;
+        hang();
     }
 
     std::string contents = std::string(fsReadFile(path.c_str()));
@@ -155,12 +154,14 @@ CraftingRecipe::CraftingRecipe(const char *recipeFile)
             // output
             else if (key == "output")
                 output = strToIID(split[1]);
+            // deprecated keys
+            else if (key == "nameEn" || key == "nameRu")
+                printf("Warning: deprecated key %s in crafting recipe %s\n", key.c_str(), recipeFile);
             else
             {
                 // oof
                 printf("unknown key in recipe %s: %s (\"%s\")", recipeFile, key.c_str(), line.c_str());
-                while (true)
-                    ;
+                hang();
             }
         }
     }

@@ -8,8 +8,7 @@ AnimatedSprite::AnimatedSprite(u8 framesPerImage, AnimatedSpriteMode mode,
     if (frames.size() > SCHAR_MAX)
     {
         printf("Too many frames (expected less than or equal to %d, got %zu)", SCHAR_MAX, frames.size());
-        while (true)
-            ;
+        hang();
     }
 }
 

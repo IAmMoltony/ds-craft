@@ -54,3 +54,10 @@ unsigned int stringHash(const char *str)
 
     return hash;
 }
+
+void hang(void)
+{
+    while (true)
+        ;
+    __builtin_unreachable();
+}

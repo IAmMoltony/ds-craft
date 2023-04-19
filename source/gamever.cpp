@@ -11,8 +11,7 @@ void gameverInit(void)
     if (!fsFileExists("nitro:/game.ver"))
     {
         printf("game.ver not found");
-        while (true)
-            ;
+        hang();
     }
 
     FILE *f = fopen("nitro:/game.ver", "r");
@@ -41,8 +40,7 @@ void gameverInit(void)
     else
     {
         printf("there was problem opening game.ver file");
-        while (true)
-            ;
+        hang();
     }
 
     if (versionPatch == 0)

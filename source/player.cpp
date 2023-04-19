@@ -2740,8 +2740,7 @@ void Player::initCrafting(void)
     else
     {
         printf("Cannot open folder nitro:/crafting");
-        while (true)
-            ;
+        hang();
     }
     std::sort(craftingRecipes.begin(), craftingRecipes.end(), RecipeCompareKey()); // sort
 }
