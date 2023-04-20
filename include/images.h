@@ -78,8 +78,8 @@
 #include "half_heart2.h"
 #include "steve_body1.h"
 #include "steve_body3.h"
-#include "pig_damage.h"
 #include "pig.h"
+#include "pig_move.h"
 #include "font_small.h"
 #include "font_small_ru1.h"
 

@@ -62,3 +62,11 @@ void AnimatedSprite::restart(void)
     frame = 0;
     reverseLoopDirection = 1;
 }
+
+void AnimatedSprite::setImage(u8 imgIndex, glImage *image)
+{
+    if (imgIndex >= frames.size())
+        return;
+
+    frames[imgIndex] = image;
+}

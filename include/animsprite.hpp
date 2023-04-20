@@ -31,4 +31,5 @@ public:
     void draw(int x, int y, GL_FLIP_MODE flipMode);
     void draw(int x, int y);
     void restart(void);
+    void setImage(u8 imgIndex, glImage *image);
 };

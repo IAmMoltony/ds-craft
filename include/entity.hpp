@@ -1,7 +1,9 @@
 #pragma once
+
 #include "camera.h"
 #include "defines.h"
 #include "block.hpp"
+#include "animsprite.hpp"
 
 enum class Facing
 {
@@ -45,6 +47,7 @@ private:
     Facing facing;
     bool moving;
     u8 damageOverlayTimer;
+    AnimatedSprite spr;
 
 public:
     PigEntity(s16 x, s16 y);

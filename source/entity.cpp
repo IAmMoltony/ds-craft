@@ -2,6 +2,8 @@
 #include "save.hpp"
 
 static glImage sprPig[1];
+static glImage sprPigMove[1];
+static unsigned short pigDamagePal[16];
 static glImage sprPigDamage[1];
 
 extern glImage sprGrass[1];
@@ -48,7 +50,11 @@ declsfx3(PigSay);
 void Entity::loadTextures(void)
 {
     loadImageAlpha(sprPig, 32, 32, pigPal, pigBitmap);
-    loadImageAlpha(sprPigDamage, 32, 32, pig_damagePal, pig_damageBitmap);
+    memcpy(pigDamagePal, pigPal, pigPalLen);
+    for (uint8_t i = 0; i < sizeof(pigDamagePal) / sizeof(pigDamagePal[0]); ++i)
+        pigDamagePal[i] = RGB15(31, 0, 0);
+    loadImageAlpha(sprPigDamage, 32, 32, pigDamagePal, pigBitmap);
+    loadImageAlpha(sprPigMove, 32, 32, pig_movePal, pig_moveBitmap);
 }
 
 void Entity::loadSounds(void)
@@ -60,7 +66,7 @@ void Entity::loadSounds(void)
 void Entity::unloadTextures(void)
 {
     unloadImage(sprPig);
-    unloadImage(sprPigDamage);
+    unloadImage(sprPigMove);
 }
 
 void Entity::unloadSounds(void)
@@ -110,6 +116,7 @@ PigEntity::PigEntity(s16 x, s16 y) : Entity(x, y), damageOverlayTimer(255)
     facing = Facing::Right;
     moving = true;
     health = 4;
+    spr = AnimatedSprite(40, AnimatedSpriteMode::Normal, {sprPig, sprPigMove});
 }
 
 void PigEntity::draw(Camera camera)
