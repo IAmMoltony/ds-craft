@@ -47,7 +47,7 @@ private:
     Facing facing;
     bool moving;
     u8 damageOverlayTimer;
-    AnimatedSprite spr;
+    u16 panicModeTimer;
 
 public:
     PigEntity(s16 x, s16 y);

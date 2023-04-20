@@ -2,7 +2,6 @@
 #include "save.hpp"
 
 static glImage sprPig[1];
-static glImage sprPigMove[1];
 static unsigned short pigDamagePal[16];
 static glImage sprPigDamage[1];
 
@@ -65,7 +64,6 @@ void Entity::loadSounds(void)
 void Entity::unloadTextures(void)
 {
     unloadImage(sprPig);
-    unloadImage(sprPigMove);
 }
 
 void Entity::unloadSounds(void)
@@ -110,12 +108,11 @@ void Entity::afterDealDamage(void)
 
 //----------------------------------------
 
-PigEntity::PigEntity(s16 x, s16 y) : Entity(x, y), damageOverlayTimer(255)
+PigEntity::PigEntity(s16 x, s16 y) : Entity(x, y), damageOverlayTimer(255), panicModeTimer(USHRT_MAX)
 {
     facing = Facing::Right;
     moving = true;
     health = 4;
-    spr = AnimatedSprite(10, AnimatedSpriteMode::Normal, {sprPig, sprPigMove});
 }
 
 void PigEntity::draw(Camera camera)
@@ -148,8 +145,13 @@ void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
             damageOverlayTimer = 255;
     }
 
-    // update animation
-    spr.update();
+    // panic mode updating
+    if (panicModeTimer != USHRT_MAX)
+    {
+        ++panicModeTimer;
+        if (panicModeTimer == 1000)
+            panicModeTimer = USHRT_MAX;
+    }
 
     // move
     x += velX;
@@ -169,8 +171,10 @@ void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
     if (x > 1000)
         x = 1000;
 
+    s16 baseVelX = (panicModeTimer == USHRT_MAX) ? 1 : 2;
+
     // set x velocity if moving
-    velX = moving ? (facing == Facing::Right ? 1 : -1) : 0;
+    velX = moving ? (facing == Facing::Right ? baseVelX : -baseVelX) : 0;
 
     // randomly change direction
     if (rand() % 250 == 1)
@@ -189,6 +193,10 @@ void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
     // stop or start moving randomly
     if (chance(3))
         moving = !moving;
+
+    // always move if panic
+    if (panicModeTimer != USHRT_MAX)
+        moving = true;
 
     // collision detection (every 4 frames for optimization)
     if (frames % 4 == 0)
@@ -236,7 +244,7 @@ void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
 
             if (block->getRect().intersects(getRectLeft()))
             {
-                x = block->x + 14;
+                x = block->x + 16;
                 if (!jumping)
                 {
                     velY = -4;
@@ -284,6 +292,7 @@ std::string PigEntity::id(void)
 void PigEntity::afterDealDamage(void)
 {
     damageOverlayTimer = 0;
+    panicModeTimer = 0;
 }
 
 //----------------------------------------
