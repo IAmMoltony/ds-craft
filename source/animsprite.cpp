@@ -51,9 +51,9 @@ void AnimatedSprite::draw(int x, int y, GL_FLIP_MODE flipMode)
     glSprite(x, y, flipMode, frames[img]);
 }
 
-void AnimatedSprite::draw(int x, int y)
+void AnimatedSprite::draw(int x, int y, s32 scale, GL_FLIP_MODE flipMode)
 {
-    draw(x, y, GL_FLIP_NONE);
+    glSpriteScale(x, y, scale, flipMode, frames[img]);
 }
 
 void AnimatedSprite::restart(void)
@@ -69,4 +69,9 @@ void AnimatedSprite::setImage(u8 imgIndex, glImage *image)
         return;
 
     frames[imgIndex] = image;
+}
+
+u8 AnimatedSprite::getCurrentFrame(void)
+{
+    return img;
 }

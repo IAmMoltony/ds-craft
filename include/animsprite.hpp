@@ -28,8 +28,9 @@ public:
     AnimatedSprite();
 
     void update(void);
-    void draw(int x, int y, GL_FLIP_MODE flipMode);
-    void draw(int x, int y);
+    void draw(int x, int y, GL_FLIP_MODE flipMode = GL_FLIP_NONE);
+    void draw(int x, int y, s32 scale, GL_FLIP_MODE flipMode = GL_FLIP_NONE);
     void restart(void);
     void setImage(u8 imgIndex, glImage *image);
+    u8 getCurrentFrame(void);
 };

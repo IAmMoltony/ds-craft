@@ -54,7 +54,6 @@ void Entity::loadTextures(void)
     for (uint8_t i = 0; i < sizeof(pigDamagePal) / sizeof(pigDamagePal[0]); ++i)
         pigDamagePal[i] = RGB15(31, 0, 0);
     loadImageAlpha(sprPigDamage, 32, 32, pigDamagePal, pigBitmap);
-    loadImageAlpha(sprPigMove, 32, 32, pig_movePal, pig_moveBitmap);
 }
 
 void Entity::loadSounds(void)
@@ -116,13 +115,13 @@ PigEntity::PigEntity(s16 x, s16 y) : Entity(x, y), damageOverlayTimer(255)
     facing = Facing::Right;
     moving = true;
     health = 4;
-    spr = AnimatedSprite(40, AnimatedSpriteMode::Normal, {sprPig, sprPigMove});
+    spr = AnimatedSprite(10, AnimatedSpriteMode::Normal, {sprPig, sprPigMove});
 }
 
 void PigEntity::draw(Camera camera)
 {
     glSpriteScale(x - camera.x - (facing == Facing::Left ? 17 : 0), y - camera.y,
-                  (1 << 12) * 1.25f, facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H, sprPig);
+                      (1 << 12) * 1.25f, facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H, sprPig);
     if (damageOverlayTimer != 255)
     {
         glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(9));
@@ -148,6 +147,9 @@ void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
         if (damageOverlayTimer == 20)
             damageOverlayTimer = 255;
     }
+
+    // update animation
+    spr.update();
 
     // move
     x += velX;

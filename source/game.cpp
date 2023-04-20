@@ -1428,7 +1428,7 @@ void Game::update(void)
                 }
                 u64 worldVersionHash = getVersionHash(worldVersion);
                 u64 currentVersionHash = getVersionHash(getVersionString());
-                if (worldVersionHash > currentVersionHash)
+                if (worldVersionHash > currentVersionHash && worldVersion != "")
                 {
                     // uh oh, the world version is newer than current!
                     // this means the world we are trying to play is incompatible!!!
