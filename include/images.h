@@ -85,4 +85,3 @@
 #include "steve_head.h"
 #include "font_small.h"
 #include "font_small_ru1.h"
-
