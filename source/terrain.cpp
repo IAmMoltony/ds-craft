@@ -1,5 +1,24 @@
 #include "terrain.hpp"
 
+static void generateStone(BlockList &blocks, int y, int i)
+{
+    for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
+    {
+        if (chance(15))
+            blocks.emplace_back(new CoalOreBlock(i * 16, j));
+        else
+            blocks.emplace_back(new StoneBlock(i * 16, j));
+    }
+
+    blocks.emplace_back(new BedrockBlock(i * 16, y + 16 * 4 + 16 * 9));
+}
+
+static void generateDirt(BlockList &blocks, int y, int i)
+{
+    for (s16 j = y + 16; j < y + 16 * 4; j += 16)
+        blocks.emplace_back(new DirtBlock(i, j));
+}
+
 void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
 {
     // this forces only a certain biome to spawn.
@@ -41,19 +60,8 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                 if (chance(10))
                     entities.emplace_back(new PigEntity(i * 16, y - 64));
 
-                // dirt generation
-                for (s16 j = y + 16; j < y + 16 * 4; j += 16)
-                    blocks.emplace_back(new DirtBlock(i * 16, j));
-                // stone generation
-                for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
-                {
-                    if (chance(15))
-                        blocks.emplace_back(new CoalOreBlock(i * 16, j));
-                    else
-                        blocks.emplace_back(new StoneBlock(i * 16, j));
-                }
-                // bedrock on the bottom
-                blocks.emplace_back(new BedrockBlock(i * 16, y + 16 * 4 + 16 * 9));
+                generateDirt(blocks, i, y);
+                generateStone(blocks, i, y);
 
                 bool placedTree = false;
                 if (sinceLastTree > treeInterval)
@@ -88,17 +96,8 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                 for (s16 j = y + 16 * 4; j < y + 16 * 8; j += 16)
                     blocks.emplace_back(new SandstoneBlock(i * 16, j));
 
-                // stone
-                for (s16 j = y + 16 * 8; j < y + 16 * 4 + 16 * 9; j += 16)
-                {
-                    if (chance(15))
-                        blocks.emplace_back(new CoalOreBlock(i * 16, j));
-                    else
-                        blocks.emplace_back(new StoneBlock(i * 16, j));
-                }
+                generateStone(blocks, i, y);
 
-                // bedrock
-                blocks.emplace_back(new BedrockBlock(i * 16, y + 16 * 4 + 16 * 9));
 
                 bool placedCactus = false;
                 // create cactus with 40% chance
@@ -130,16 +129,8 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                 if (chance(10))
                     entities.emplace_back(new PigEntity(i, y - 64));
 
-                for (s16 j = y + 16; j < y + 16 * 4; j += 16)
-                    blocks.emplace_back(new DirtBlock(i, j));
-                for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
-                {
-                    if (chance(15))
-                        blocks.emplace_back(new CoalOreBlock(i, j));
-                    else
-                        blocks.emplace_back(new StoneBlock(i, j));
-                }
-                blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
+                generateDirt(blocks, i, y);
+                generateStone(blocks, i, y);
 
                 bool placedTree = false;
                 if (chance(20) && sinceLastTree > treeInterval)
@@ -168,16 +159,8 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                 if (chance(10))
                     entities.emplace_back(new PigEntity(i * 16, y - 64));
 
-                for (s16 j = y + 16; j < y + 16 * 4; j += 16)
-                    blocks.emplace_back(new DirtBlock(i * 16, j));
-                for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
-                {
-                    if (chance(15))
-                        blocks.emplace_back(new CoalOreBlock(i * 16, j));
-                    else
-                        blocks.emplace_back(new StoneBlock(i * 16, j));
-                }
-                blocks.emplace_back(new BedrockBlock(i * 16, y + 16 * 4 + 16 * 9));
+                generateDirt(blocks, i, y);
+                generateStone(blocks, i, y);
 
                 if (chance(40) && sinceLastTree > treeInterval)
                 {
@@ -190,37 +173,29 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
         }
         else if (biome == 4)
         {
-            for (u16 i = k * SCREEN_WIDTH * 2; i < k * SCREEN_WIDTH * 2 + SCREEN_WIDTH * 2; i += 16)
+            for (u16 i = k * SCREEN_WIDTH * 2 / 16; i < k * SCREEN_WIDTH * 2 / 16 + SCREEN_WIDTH * 2 / 16; ++i)
             {
                 // same thing as plains but with more flower (and a little more y change)
 
                 ++sinceLastTree;
-                blocks.emplace_back(new GrassBlock(i, y));
+                blocks.emplace_back(new GrassBlock(i * 16, y));
 
                 if (chance(10))
-                    entities.emplace_back(new PigEntity(i, y - 64));
+                    entities.emplace_back(new PigEntity(i * 16, y - 64));
 
-                for (s16 j = y + 16; j < y + 16 * 4; j += 16)
-                    blocks.emplace_back(new DirtBlock(i, j));
-                for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
-                {
-                    if (chance(15))
-                        blocks.emplace_back(new CoalOreBlock(i, j));
-                    else
-                        blocks.emplace_back(new StoneBlock(i, j));
-                }
-                blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
+                generateDirt(blocks, y, i);
+                generateStone(blocks, y, i);
 
                 bool placedTree = false;
                 if (chance(36) && sinceLastTree > treeInterval)
-                {blocks.emplace_back(new SprucePlanksBlock(0, SCREEN_HEIGHT / 2 - 16));
+                {
                     placedTree = true;
                     treeInterval = spawnTree(blocks, i * 16, y, (rand() % 2) ? TreeType::Birch : TreeType::Oak);
                     sinceLastTree = 0;
                 }
 
                 if (!placedTree && chance(50))
-                    blocks.emplace_back(new FlowerBlock(i, y - 16));
+                    blocks.emplace_back(new FlowerBlock(i * 16, y - 16));
 
                 if (chance(30))
                     y += randomRange(-1, 1) * 16;
@@ -237,21 +212,8 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                 if (chance(10))
                     entities.emplace_back(new PigEntity(i * 16, y - 64));
 
-                // TODO move some repetitive code like dirt generation and stone generation to its own function
-
-                // dirt generation
-                for (s16 j = y + 16; j < y + 16 * 4; j += 16)
-                    blocks.emplace_back(new DirtBlock(i * 16, j));
-                // stone generation
-                for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
-                {
-                    if (chance(15))
-                        blocks.emplace_back(new CoalOreBlock(i * 16, j));
-                    else
-                        blocks.emplace_back(new StoneBlock(i * 16, j));
-                }
-                // bedrock on the bottom
-                blocks.emplace_back(new BedrockBlock(i * 16, y + 16 * 4 + 16 * 9));
+                generateDirt(blocks, i, y);
+                generateStone(blocks, i, y);
 
                 bool placedTree = false;
                 if (sinceLastTree > treeInterval)
