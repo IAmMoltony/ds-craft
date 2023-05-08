@@ -77,7 +77,7 @@ void Block::loadTextures(void)
     loadImageAlpha(sprSpruceDoor, 32, 32, sprucedoorPal, sprucedoorBitmap);
     loadImageAlpha(sprSapling, 16, 16, oak_saplingPal, oak_saplingBitmap);
     loadImageAlpha(sprBirchSapling, 16, 16, birch_saplingPal, birch_saplingBitmap);
-    loadImageALpha(sprSpruceSapling, 16, 16, spruce_saplingPal, spruce_saplingBitmap);
+    loadImageAlpha(sprSpruceSapling, 16, 16, spruce_saplingPal, spruce_saplingBitmap);
     loadImageAlpha(sprGlass, 32, 16, glassPal, glassBitmap);
     loadImageAlpha(sprOakTrapdoor, 16, 16, oak_trapdoorPal, oak_trapdoorBitmap);
     loadImageAlpha(sprLadder, 16, 16, ladderPal, ladderBitmap);

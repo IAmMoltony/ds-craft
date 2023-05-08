@@ -446,6 +446,49 @@ unsigned int getWorldSeed(const std::string &file)
     return 0;
 }
 
+static void argParseDoor(const std::vector<std::string> &split, s16 &x, s16 &y, bool &open, bool &facing)
+{
+    x = std::stoi(split[1]);
+    y = std::stoi(split[2]);
+    open = split[3] == "1";
+    facing = split[4] == "1"; // why is this a bool
+}
+
+static void argParseTrapdoor(const std::vector<std::string> &split, s16 &x, s16 &y, bool &open)
+{
+    x = std::stoi(split[1]);
+    x = std::stoi(split[2]);
+    open = split[3] == "1";
+}
+
+static void argParseSign(const std::vector<std::string> &split, s16 &x, s16 &y, std::string &text)
+{
+    x = std::stoi(split[1]);
+    y = std::stoi(split[2]);
+
+    for (u16 i = 3; i <= split.size(); ++i)
+        text += split[i] + " ";
+    if (text.size())
+        text.pop_back();
+}
+
+static void argParseGrass(const std::vector<std::string> &split, s16 &x, s16 &y, GrassType &type)
+{
+    x = std::stoi(split[1]);
+    y = std::stoi(split[2]);
+    const std::string &st = split[3];
+
+    if (st == "spruce")
+        type = GrassType::Spruce;
+    else if (st == "normal")
+        type = GrassType::Normal;
+    else
+    {
+        printf("warning: unknown grass type %s; defaulting to normal\n", st.c_str());
+        type = GrassType::Normal;
+    }
+}
+
 void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                Player &player, s16 &currentLocation)
 {
@@ -498,83 +541,65 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
         if (split[0] == "door") // door <x> <y> <open> <facing>
         {
-            s16 x = atoi(split[1].c_str());
-            s16 y = atoi(split[2].c_str());
-            bool open = split[3] == "1";
-            bool facing = split[4] == "1";
+            s16 x = 0, y = 0;
+            bool open = false, facing = false;
+            argParseDoor(split, x, y, open, facing);
+
             blocks.emplace_back(new DoorBlock(x, y, open, facing));
         }
         else if (split[0] == "birchdoor") // birchdoor <x> <y> <open> <facing>
         {
-            s16 x = atoi(split[1].c_str());
-            s16 y = atoi(split[2].c_str());
-            bool open = split[3] == "1";
-            bool facing = split[4] == "1";
+            s16 x, y;
+            bool open, facing;
+            argParseDoor(split, x, y, open, facing);
+
             blocks.emplace_back(new BirchDoorBlock(x, y, open, facing));
         }
         else if (split[0] == "sprucedoor") // sprucedoor <x> <y> <open> <facing>
         {
-            s16 x = atoi(split[1].c_str());
-            s16 y = atoi(split[2].c_str());
-            bool open = split[3] == "1";
-            bool facing = split[4] == "1";
+            s16 x, y;
+            bool open, facing;
+            argParseDoor(split, x, y, open, facing);
+
             blocks.emplace_back(new SpruceDoorBlock(x, y, open, facing));
         }
         else if (split[0] == "oaktrapdoor") // oaktrapdoor <x> <y> <open>
         {
-            s16 x = atoi(split[1].c_str());
-            s16 y = atoi(split[2].c_str());
-            bool open = split[3] == "1";
+            s16 x, y;
+            bool open;
+            argParseTrapdoor(split, x, y, open);
 
             blocks.emplace_back(new OakTrapdoorBlock(x, y, open));
         }
         else if (split[0] == "birchtrapdoor") // birchtrapdoor <x> <y> <open>
         {
-            s16 x = atoi(split[1].c_str());
-            s16 y = atoi(split[2].c_str());
-            bool open = split[3] == "1";
+            s16 x, y;
+            bool open;
+            argParseTrapdoor(split, x, y, open);
 
             blocks.emplace_back(new BirchTrapdoorBlock(x, y, open));
         }
         else if (split[0] == "sprucetrapdoor") // sprucetrapdoor <x> <y> <open>
         {
-            s16 x = atoi(split[1].c_str());
-            s16 y = atoi(split[2].c_str());
-            bool open = split[3] == "1";
-
-            // TODO move arg parsing for some blocks into their own functions
+            s16 x, y;
+            bool open;
+            argParseTrapdoor(split, x, y, open);
 
             blocks.emplace_back(new SpruceTrapdoorBlock(x, y, open));
         }
         else if (split[0] == "sign")
         {
-            s16 x = atoi(split[1].c_str());
-            s16 y = atoi(split[2].c_str());
+            s16 x, y;
             std::string text = "";
-            for (u16 i = 3; i <= split.size(); ++i)
-                text += split[i] + " ";
-            if (text.size())
-                text.pop_back();
+            argParseSign(split, x, y, text);
+
             blocks.emplace_back(new SignBlock(x, y, text));
         }
         else if (split[0] == "grassblock") // grassblock <x> <y> [type]
         {
-            // TODO use more modern c++ features like stoi instead of c functions
-
-            s16 x = atoi(split[1].c_str());
-            s16 y = atoi(split[2].c_str());
-            const std::string &st = split[3];
+            s16 x, y;
             GrassType type;
-
-            if (st == "spruce")
-                type = GrassType::Spruce;
-            else if (st == "normal")
-                type = GrassType::Normal;
-            else
-            {
-                printf("warning: unknown grass type %s; defaulting to normal\n", st.c_str());
-                type = GrassType::Normal;
-            }
+            argParseGrass(split, x, y, type);
 
             blocks.emplace_back(new GrassBlock(x, y, type));
         }
