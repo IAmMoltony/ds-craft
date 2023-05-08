@@ -10,8 +10,10 @@ extern glImage sprDirt[1];
 extern glImage sprStone[1];
 extern glImage sprWood[1];
 extern glImage sprBirchWood[1];
+extern glImage sprSpruceWood[1];
 extern glImage sprLeaves[1];
 extern glImage sprBirchLeaves[1];
+extern glImage sprSpruceLeaves[1];
 extern glImage sprSand[1];
 extern glImage sprSandstone[1];
 extern glImage sprCactus[1];
@@ -21,11 +23,14 @@ extern glImage sprDandelion[1];
 extern glImage sprRedTulip[1];
 extern glImage sprDoor[1];
 extern glImage sprBirchDoor[1];
+extern glImage sprSpruceDoor[1];
 extern glImage sprPlanks[1];
 extern glImage sprBirchPlanks[1];
+extern glImage sprSprucePlanks[1];
 extern glImage sprSnowyGrass[1];
 extern glImage sprSapling[1];
 extern glImage sprBirchSapling[1];
+extern glImage sprSpruceSapling[1];
 extern glImage sprCobblestone[1];
 extern glImage sprCoalOre[1];
 extern glImage sprCoalBlock[1];
@@ -37,12 +42,14 @@ extern glImage sprApple[1];
 extern glImage sprGlass[1];
 extern glImage sprOakTrapdoor[1];
 extern glImage sprBirchTrapdoor[1];
+extern glImage sprSpruceTrapdoor[1];
 extern glImage sprLadder[1];
 extern glImage sprChest[1];
 extern glImage sprWoodenPickaxe[1];
 extern glImage sprStonePickaxe[1];
 extern glImage sprWoodenShovel[1];
 extern glImage sprStoneShovel[1];
+extern glImage sprSign[1];
 
 declsfx3(PigSay);
 
@@ -320,11 +327,19 @@ void DropEntity::draw(Camera camera)
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
         glColor(RGB15(31, 31, 31));
         break;
+    case InventoryItemID::SpruceLeaves:
+        glColor(RGB15(0, 11, 0));
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprSpruceLeaves);
+        glColor(RGB15(31, 31, 31));
+        break;
     case InventoryItemID::Door:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
         break;
     case InventoryItemID::BirchDoor:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
+        break;
+    case InventoryItemID::SpruceDoor:
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, (1 << 12) / 4, GL_FLIP_NONE, sprSpruceDoor);
         break;
     case InventoryItemID::Glass:
         glSpriteScale(x + 4 - camera.x - 1, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprGlass);
@@ -332,11 +347,14 @@ void DropEntity::draw(Camera camera)
     case InventoryItemID::OakSlab:
         glSpritePartScale(sprPlanks, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALFSIZE);
         break;
-    case InventoryItemID::CobblestoneSlab:
-        glSpritePartScale(sprCobblestone, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALFSIZE);
-        break;
     case InventoryItemID::BirchSlab:
         glSpritePartScale(sprBirchPlanks, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALFSIZE);
+        break;
+    case InventoryItemID::SpruceSlab:
+        glSpritePartScale(sprBirchPlanks, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALFSIZE);
+        break;
+    case InventoryItemID::CobblestoneSlab:
+        glSpritePartScale(sprCobblestone, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALFSIZE);
         break;
     }
 }

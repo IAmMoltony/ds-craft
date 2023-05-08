@@ -112,11 +112,17 @@ std::string iidToString(InventoryItemID iid)
     case InventoryItemID::BirchWood:
         id = "birchwood";
         break;
+    case InventoryItemID::SpruceWood:
+        id = "sprucewood";
+        break;
     case InventoryItemID::Leaves:
         id = "leaves";
         break;
     case InventoryItemID::BirchLeaves:
         id = "birchleaves";
+        break;
+    case InventoryItemID::SpruceLeaves:
+        id = "spruceleaves";
         break;
     case InventoryItemID::Sand:
         id = "sand";
@@ -139,11 +145,20 @@ std::string iidToString(InventoryItemID iid)
     case InventoryItemID::Door:
         id = "door";
         break;
+    case InventoryItemID::BirchDoor:
+        id = "birchdoor";
+        break;
+    case InventoryItemID::SpruceDoor:
+        id = "sprucedoor";
+        break;
     case InventoryItemID::Planks:
         id = "planks";
         break;
     case InventoryItemID::BirchPlanks:
         id = "birchplanks";
+        break;
+    case InventoryItemID::SprucePlanks:
+        id = "spruceplanks";
         break;
     case InventoryItemID::Stick:
         id = "stick";
@@ -156,6 +171,9 @@ std::string iidToString(InventoryItemID iid)
         break;
     case InventoryItemID::BirchSapling:
         id = "birchsapling";
+        break;
+    case InventoryItemID::SpruceSapling:
+        id = "sprucesapling";
         break;
     case InventoryItemID::Cobblestone:
         id = "cobblestone";
@@ -187,6 +205,9 @@ std::string iidToString(InventoryItemID iid)
     case InventoryItemID::BirchTrapdoor:
         id = "birchtrapdoor";
         break;
+    case InventoryItemID::SpruceTrapdoor:
+        id = "sprucetrapdoor";
+        break;
     case InventoryItemID::Ladder:
         id = "ladder";
         break;
@@ -195,6 +216,9 @@ std::string iidToString(InventoryItemID iid)
         break;
     case InventoryItemID::BirchSlab:
         id = "birchslab";
+        break;
+    case InventoryItemID::SpruceSlab:
+        id = "spruceslab";
         break;
     case InventoryItemID::CobblestoneSlab:
         id = "cobblestoneslab";
@@ -269,6 +293,14 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             wld << "birchdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(bdoor->isOpen()) + " " + std::to_string(bdoor->getFacing()) + "\n";
             break;
         }
+        // spruce door
+        case BID_SPRUCE_DOOR:
+        {
+            Block *b = block.get();
+            SpruceDoorBlock *sdoor = reinterpret_cast<SpruceDoorBlock *>(b);
+            wld << "sprucedoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(sdoor->isOpen()) + " " + std::to_string(sdoor->getFacing()) + "\n";
+            break;
+        }
         // oak trapdoor
         case BID_OAK_TRAPDOOR:
         {
@@ -285,17 +317,36 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             wld << "birchtrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(td->isOpen()) + "\n";
             break;
         }
+        // spruce trapdoor
+        case BID_SPRUCE_TRAPDOOR:
+        {
+            Block *b = block.get();
+            SpruceTrapdoorBlock *td = reinterpret_cast<SpruceTrapdoorBlock *>(b);
+            wld << "sprucetrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(td->isOpen()) + "\n";
+            break;
+        }
         // chests are handled separately
         case BID_CHEST:
             break;
         // leaves
         case BID_LEAVES:
         {
-            std::string lid = std::to_string(BID_LEAVES);
+            std::string lid = "";
             Block *b = block.get();
             LeavesBlock *l = reinterpret_cast<LeavesBlock *>(b);
-            if (l->type == LeavesType::Birch)
+
+            switch (l->type)
+            {
+            case LeavesType::Oak:
+                lid = std::to_string(BID_LEAVES);
+                break;
+            case LeavesType::Birch:
                 lid = std::to_string(BID_BIRCH_LEAVES);
+                break;
+            case LeavesType::Spruce:
+                lid = std::to_string(BID_SPRUCE_LEAVES);
+                break;
+            }
 
             wld << "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + lid + "\n";
             break;
@@ -448,6 +499,14 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             bool facing = split[4] == "1";
             blocks.emplace_back(new BirchDoorBlock(x, y, open, facing));
         }
+        else if (split[0] == "sprucedoor") // sprucedoor <x> <y> <open> <facing>
+        {
+            s16 x = atoi(split[1].c_str());
+            s16 y = atoi(split[2].c_str());
+            bool open = split[3] == "1";
+            bool facing = split[4] == "1";
+            blocks.emplace_back(new SpruceDoorBlock(x, y, open, facing));
+        }
         else if (split[0] == "oaktrapdoor") // oaktrapdoor <x> <y> <open>
         {
             s16 x = atoi(split[1].c_str());
@@ -463,6 +522,16 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             bool open = split[3] == "1";
 
             blocks.emplace_back(new BirchTrapdoorBlock(x, y, open));
+        }
+        else if (split[0] == "sprucetrapdoor") // sprucetrapdoor <x> <y> <open>
+        {
+            s16 x = atoi(split[1].c_str());
+            s16 y = atoi(split[2].c_str());
+            bool open = split[3] == "1";
+
+            // TODO move arg parsing for some blocks into their own functions
+
+            blocks.emplace_back(new SpruceTrapdoorBlock(x, y, open));
         }
         else if (split[0] == "sign")
         {
@@ -498,11 +567,17 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             case BID_BIRCH_WOOD:
                 blocks.emplace_back(new BirchWoodBlock(x, y));
                 break;
+            case BID_SPRUCE_WOOD:
+                blocks.emplace_back(new SpruceWoodBlock(x, y));
+                break;
             case BID_LEAVES:
                 blocks.emplace_back(new LeavesBlock(x, y, LeavesType::Oak));
                 break;
             case BID_BIRCH_LEAVES:
                 blocks.emplace_back(new LeavesBlock(x, y, LeavesType::Birch));
+                break;
+            case BID_SPRUCE_LEAVES:
+                blocks.emplace_back(new LeavesBlock(x, y, LeavesType::Spruce));
                 break;
             case BID_SAND:
                 blocks.emplace_back(new SandBlock(x, y));
@@ -531,6 +606,9 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             case BID_BIRCH_PLANKS:
                 blocks.emplace_back(new BirchPlanksBlock(x, y));
                 break;
+            case BID_SPRUCE_PLANKS:
+                blocks.emplace_back(new SprucePlanksBlock(x, y));
+                break;
             case BID_SNOWY_GRASS:
                 blocks.emplace_back(new SnowyGrassBlock(x, y));
                 break;
@@ -539,6 +617,9 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                 break;
             case BID_BIRCH_SAPLING:
                 blocks.emplace_back(new BirchSaplingBlock(x, y));
+                break;
+            case BID_SPRUCE_SAPLING:
+                blocks.emplace_back(new SpruceSaplingBlock(x, y));
                 break;
             case BID_COBBLESTONE:
                 blocks.emplace_back(new CobblestoneBlock(x, y));
@@ -561,11 +642,14 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             case BID_OAK_SLAB:
                 blocks.emplace_back(new OakSlabBlock(x, y));
                 break;
-            case BID_COBBLESTONE_SLAB:
-                blocks.emplace_back(new CobblestoneSlabBlock(x, y));
-                break;
             case BID_BIRCH_SLAB:
                 blocks.emplace_back(new BirchSlabBlock(x, y));
+                break;
+            case BID_SPRUCE_SLAB:
+                blocks.emplace_back(new SpruceSlabBlock(x, y));
+                break;
+            case BID_COBBLESTONE_SLAB:
+                blocks.emplace_back(new CobblestoneSlabBlock(x, y));
                 break;
             }
         }
@@ -654,9 +738,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                 split.push_back(line3);
 
             if (split[0] == "chestitem")
-            {
                 chest->setItem(atoi(split[1].c_str()), {strToIID(split[2]), (u8)atoi(split[3].c_str())});
-            }
             else if (split[0] == "position")
             {
                 chest->x = atoi(split[1].c_str());

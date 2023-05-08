@@ -52,7 +52,7 @@ else
 GAME_SUBTITLE2 := Version $(VERSION_PREFIX)$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
 endif
 
-EMULATOR := E:/MelonDS/melonDS
+EMULATOR := ~/melonDS
 ifeq ($(CURDIR_BASENAME),build)
 SOUNDBANK := ../$(NITRODATA)/soundbank.bin
 else

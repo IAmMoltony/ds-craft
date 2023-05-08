@@ -7,8 +7,10 @@ glImage sprDirt[1];
 glImage sprStone[1];
 glImage sprWood[1];
 glImage sprBirchWood[1];
+glImage sprSpruceWood[1];
 glImage sprLeaves[1];
 glImage sprBirchLeaves[1];
+glImage sprSpruceLeaves[1];
 glImage sprSand[1];
 glImage sprSandstone[1];
 glImage sprCactus[1];
@@ -18,10 +20,13 @@ glImage sprPoppy[1];
 glImage sprRedTulip[1];
 glImage sprDoor[1];
 glImage sprBirchDoor[1];
+glImage sprSpruceDoor[1];
 glImage sprPlanks[1];
 glImage sprBirchPlanks[1];
+glImage sprSprucePlanks[1];
 glImage sprSapling[1];
 glImage sprBirchSapling[1];
+glImage sprSpruceSapling[1];
 glImage sprBedrock[1];
 glImage sprCobblestone[1];
 glImage sprCoalOre[1];
@@ -29,6 +34,7 @@ glImage sprCoalBlock[1];
 glImage sprGlass[1];
 glImage sprOakTrapdoor[1];
 glImage sprBirchTrapdoor[1];
+glImage sprSpruceTrapdoor[1];
 glImage sprLadder[1];
 glImage sprChest[1];
 glImage sprSign[1];
@@ -46,15 +52,18 @@ void Block::loadTextures(void)
     loadImage(sprStone, 16, 16, stoneBitmap);
     loadImage(sprWood, 16, 16, oak_logBitmap);
     loadImage(sprBirchWood, 16, 16, birch_logBitmap);
+    loadImage(sprSpruceWood, 16, 16, spruce_logBitmap);
     loadImage(sprSand, 16, 16, sandBitmap);
     loadImage(sprSandstone, 16, 16, sandstoneBitmap);
     loadImage(sprPlanks, 16, 16, planksBitmap);
     loadImage(sprBirchPlanks, 16, 16, birch_planksBitmap);
+    loadImage(sprSprucePlanks, 16, 16, spruce_planksBitmap);
     loadImage(sprBedrock, 16, 16, bedrockBitmap);
     loadImage(sprCobblestone, 16, 16, cobblestoneBitmap);
     loadImage(sprCoalOre, 16, 16, coal_oreBitmap);
     loadImage(sprCoalBlock, 16, 16, coal_blockBitmap);
     loadImage(sprBirchTrapdoor, 16, 16, birch_trapdoorBitmap);
+    loadImage(sprSpruceTrapdoor, 16, 16, spruce_trapdoorBitmap);
     loadImage(sprChest, 16, 16, chestBitmap);
 
     loadImageAlpha(sprCactus, 16, 16, cactus_sidePal, cactus_sideBitmap);
@@ -101,8 +110,10 @@ void Block::unloadTextures(void)
     unloadImage(sprStone);
     unloadImage(sprWood);
     unloadImage(sprBirchWood);
+    unloadImage(sprSpruceWood);
     unloadImage(sprLeaves);
     unloadImage(sprBirchLeaves);
+    unloadImage(sprSpruceLeaves);
     unloadImage(sprSand);
     unloadImage(sprSandstone);
     unloadImage(sprCactus);
@@ -112,10 +123,13 @@ void Block::unloadTextures(void)
     unloadImage(sprRedTulip);
     unloadImage(sprDoor);
     unloadImage(sprBirchDoor);
+    unloadImage(sprSpruceDoor);
     unloadImage(sprPlanks);
     unloadImage(sprBirchPlanks);
+    unloadImage(sprSprucePlanks);
     unloadImage(sprSapling);
     unloadImage(sprBirchSapling);
+    unloadImage(sprSpruceSapling);
     unloadImage(sprBedrock);
     unloadImage(sprCobblestone);
     unloadImage(sprCoalOre);
@@ -123,6 +137,7 @@ void Block::unloadTextures(void)
     unloadImage(sprGlass);
     unloadImage(sprOakTrapdoor);
     unloadImage(sprBirchTrapdoor);
+    unloadImage(sprSpruceTrapdoor);
     unloadImage(sprLadder);
     unloadImage(sprChest);
     unloadImage(sprSign);
@@ -211,6 +226,7 @@ GENERIC_BLOCK_IMPL(SandBlock, sprSand, BID_SAND, 13)
 GENERIC_BLOCK_IMPL(SandstoneBlock, sprSandstone, BID_SANDSTONE, 12)
 GENERIC_BLOCK_IMPL(PlanksBlock, sprPlanks, BID_PLANKS, 7)
 GENERIC_BLOCK_IMPL(BirchPlanksBlock, sprBirchPlanks, BID_BIRCH_PLANKS, 7)
+GENERIC_BLOCK_IMPL(SprucePlanksBlock, sprSprucePlanks, BID_SPRUCE_PLANKS, 7)
 GENERIC_BLOCK_IMPL(BedrockBlock, sprBedrock, BID_BEDROCK, (u8)-1)
 GENERIC_BLOCK_IMPL(CobblestoneBlock, sprCobblestone, BID_COBBLESTONE, 15)
 GENERIC_BLOCK_IMPL(CoalOreBlock, sprCoalOre, BID_COAL_ORE, 18)
@@ -218,9 +234,22 @@ GENERIC_BLOCK_IMPL(CoalBlock, sprCoalBlock, BID_COAL_BLOCK, 18)
 
 NONSOLID_BLOCK_IMPL(WoodBlock, sprWood, BID_WOOD, 7)
 NONSOLID_BLOCK_IMPL(BirchWoodBlock, sprBirchWood, BID_BIRCH_WOOD, 7)
+NONSOLID_BLOCK_IMPL(SpruceWoodBlock, sprSpruceWood, BID_SPRUCE_WOOD, 7)
 NONSOLID_BLOCK_IMPL(CactusBlock, sprCactus, BID_CACTUS, 4)
 NONSOLID_BLOCK_IMPL(DeadBushBlock, sprDeadBush, BID_DEAD_BUSH, 1);
 NONSOLID_BLOCK_IMPL(LadderBlock, sprLadder, BID_LADDER, 2);
+
+DOOR_IMPL(, sprDoor, BID_DOOR)
+DOOR_IMPL(Birch, sprBirchDoor, BID_BIRCH_DOOR)
+DOOR_IMPL(Spruce, sprSpruceDoor, BID_SPRUCE_DOOR)
+
+SAPLING_IMPL(, sprSapling, BID_SAPLING)
+SAPLING_IMPL(Birch, sprBirchSapling, BID_BIRCH_SAPLING)
+SAPLING_IMPL(Spruce, sprSpruceSapling, BID_SPRUCE_SAPLING)
+
+TRAPDOOR_IMPL(Oak, sprOakTrapdoor, BID_OAK_TRAPDOOR)
+TRAPDOOR_IMPL(Birch, sprBirchTrapdoor, BID_BIRCH_TRAPDOOR)
+TRAPDOOR_IMPL(Spruce, sprSpruceTrapdoor, BID_SPRUCE_TRAPDOOR)
 
 // non-generic implementations
 
@@ -241,6 +270,10 @@ void LeavesBlock::draw(Camera camera)
     case LeavesType::Birch:
         glColor(RGB15(20, 26, 19));
         glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprBirchLeaves);
+        break;
+    case LeavesType::Spruce:
+        glColor(RGB15(0, 11, 0));
+        glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprSpruceLeaves);
         break;
     }
     glColor(RGB15(31, 31, 31)); // reset color
@@ -330,222 +363,6 @@ Rect FlowerBlock::getRect(void) const
     return Rect(x, y, 16, 16);
 }
 
-//-----------------------------------------
-
-DoorBlock::DoorBlock(s16 x, s16 y, s16 px) : Block(x, y, 7)
-{
-    open = true;
-    facing = px > x;
-}
-
-DoorBlock::DoorBlock(s16 x, s16 y, bool open, bool facing) : Block(x, y, 7)
-{
-    this->open = open;
-    this->facing = facing;
-}
-
-void DoorBlock::draw(Camera camera)
-{
-    if (open)
-        glSprite(x - camera.x - 1, y - camera.y, GL_FLIP_NONE, sprDoor);
-    else
-        // draw scaled down on x if opened
-        glSpriteScaleXY(x - camera.x - 1 + (facing ? 0 : 8), y - camera.y, 1 << 10, 1 << 12, (facing ? GL_FLIP_NONE : GL_FLIP_H), sprDoor);
-}
-
-bool DoorBlock::solid(void)
-{
-    return !open;
-}
-
-void DoorBlock::interact(void)
-{
-    if (open)
-    {
-        open = false;
-        playsfx(4, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4);
-    }
-    else
-    {
-        open = true;
-        playsfx(4, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4);
-    }
-}
-
-u16 DoorBlock::id(void)
-{
-    return BID_DOOR;
-}
-
-Rect DoorBlock::getRect(void) const
-{
-    if (open)
-        return Rect(x, y, 16, 32);
-    return Rect(x + (facing ? 0 : 11), y, 4, 32);
-}
-
-bool DoorBlock::isOpen(void)
-{
-    return open;
-}
-
-bool DoorBlock::getFacing(void)
-{
-    return facing;
-}
-
-//-----------------------------------------
-
-BirchDoorBlock::BirchDoorBlock(s16 x, s16 y, s16 px) : Block(x, y, 7)
-{
-    open = true;
-    facing = px > x;
-}
-
-BirchDoorBlock::BirchDoorBlock(s16 x, s16 y, bool open, bool facing) : Block(x, y, 7)
-{
-    this->open = open;
-    this->facing = facing;
-}
-
-void BirchDoorBlock::draw(Camera camera)
-{
-    if (open)
-        glSprite(x - camera.x - 1, y - camera.y, GL_FLIP_NONE, sprBirchDoor);
-    else
-        // draw scaled down on x if opened
-        glSpriteScaleXY(x - camera.x - 1 + (facing ? 0 : 8), y - camera.y, 1 << 10, 1 << 12, (facing ? GL_FLIP_NONE : GL_FLIP_H), sprBirchDoor);
-}
-
-bool BirchDoorBlock::solid(void)
-{
-    return !open;
-}
-
-void BirchDoorBlock::interact(void)
-{
-    if (open)
-    {
-        open = false;
-        playsfx(4, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4);
-    }
-    else
-    {
-        open = true;
-        playsfx(4, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4);
-    }
-}
-
-u16 BirchDoorBlock::id(void)
-{
-    return BID_BIRCH_DOOR;
-}
-
-Rect BirchDoorBlock::getRect(void) const
-{
-    if (open)
-        return Rect(x, y, 16, 32);
-    return Rect(x + (facing ? 0 : 11), y, 4, 32);
-}
-
-bool BirchDoorBlock::isOpen(void)
-{
-    return open;
-}
-
-bool BirchDoorBlock::getFacing(void)
-{
-    return facing;
-}
-
-//-----------------------------------------
-
-SaplingBlock::SaplingBlock(s16 x, s16 y) : Block(x, y, 1), growTime(1200)
-{
-    grown = false;
-}
-
-void SaplingBlock::draw(Camera camera)
-{
-    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprSapling);
-}
-
-bool SaplingBlock::solid(void)
-{
-    return false;
-}
-
-void SaplingBlock::interact(void)
-{
-}
-
-u16 SaplingBlock::id(void)
-{
-    return BID_SAPLING;
-}
-
-Rect SaplingBlock::getRect(void) const
-{
-    return Rect(x, y, 16, 16);
-}
-
-bool SaplingBlock::hasGrown(void)
-{
-    return grown;
-}
-
-void SaplingBlock::update(void)
-{
-    if (!grown)
-        --growTime;
-    if (growTime == 0)
-        grown = true;
-}
-
-//---------------------------------------------
-
-BirchSaplingBlock::BirchSaplingBlock(s16 x, s16 y) : Block(x, y, 1), growTime(1200)
-{
-    grown = false;
-}
-
-void BirchSaplingBlock::draw(Camera camera)
-{
-    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprBirchSapling);
-}
-
-bool BirchSaplingBlock::solid(void)
-{
-    return false;
-}
-
-void BirchSaplingBlock::interact(void)
-{
-}
-
-u16 BirchSaplingBlock::id(void)
-{
-    return BID_BIRCH_SAPLING;
-}
-
-Rect BirchSaplingBlock::getRect(void) const
-{
-    return Rect(x, y, 16, 16);
-}
-
-bool BirchSaplingBlock::hasGrown(void)
-{
-    return grown;
-}
-
-void BirchSaplingBlock::update(void)
-{
-    if (!grown)
-        --growTime;
-    if (growTime == 0)
-        grown = true;
-}
-
 //---------------------------------------------
 
 GlassBlock::GlassBlock(s16 x, s16 y) : Block(x, y, 6)
@@ -570,104 +387,6 @@ Rect GlassBlock::getRect(void) const
 bool GlassBlock::solid(void)
 {
     return true;
-}
-
-//---------------------------------------------
-
-OakTrapdoorBlock::OakTrapdoorBlock(s16 x, s16 y) : Block(x, y, 6)
-{
-    open = false;
-}
-
-OakTrapdoorBlock::OakTrapdoorBlock(s16 x, s16 y, bool open) : Block(x, y, 6)
-{
-    this->open = open;
-}
-
-void OakTrapdoorBlock::draw(Camera camera)
-{
-    if (open)
-        glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprOakTrapdoor);
-    else
-        glSpriteScaleXY(x - camera.x, y - camera.y, 1 << 12, 1 << 10, GL_FLIP_NONE, sprOakTrapdoor);
-}
-
-bool OakTrapdoorBlock::solid(void)
-{
-    return !open;
-}
-
-void OakTrapdoorBlock::interact(void)
-{
-    open = !open;
-    if (open)
-        playsfx(4, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4);
-    else
-        playsfx(4, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4);
-}
-
-u16 OakTrapdoorBlock::id(void)
-{
-    return BID_OAK_TRAPDOOR;
-}
-
-Rect OakTrapdoorBlock::getRect(void) const
-{
-    return Rect(x, y, 16, open ? 16 : 4);
-}
-
-bool OakTrapdoorBlock::isOpen(void)
-{
-    return open;
-}
-
-//---------------------------------------------
-
-BirchTrapdoorBlock::BirchTrapdoorBlock(s16 x, s16 y) : Block(x, y, 6)
-{
-    open = false;
-}
-
-BirchTrapdoorBlock::BirchTrapdoorBlock(s16 x, s16 y, bool open) : Block(x, y, 6)
-{
-    this->open = open;
-}
-
-void BirchTrapdoorBlock::draw(Camera camera)
-{
-    if (open)
-        glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprBirchTrapdoor);
-    else
-        glSpriteScaleXY(x - camera.x, y - camera.y, 1 << 12, 1 << 10, GL_FLIP_NONE, sprBirchTrapdoor);
-}
-
-bool BirchTrapdoorBlock::solid(void)
-{
-    return !open;
-}
-
-void BirchTrapdoorBlock::interact(void)
-{
-    open = !open;
-    if (open)
-        playsfx(4, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4);
-    else
-        playsfx(4, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4);
-}
-
-u16 BirchTrapdoorBlock::id(void)
-{
-    return BID_BIRCH_TRAPDOOR;
-}
-
-Rect BirchTrapdoorBlock::getRect(void) const
-{
-    return Rect(x, y, 16, open ? 16 : 4);
-}
-
-bool BirchTrapdoorBlock::isOpen(void)
-{
-    return open;
 }
 
 //---------------------------------------------
@@ -821,3 +540,4 @@ SlabID SlabBlock::getSlabID(void) const
 SLAB_IMPL(Oak, sprPlanks, BID_OAK_SLAB, 6)
 SLAB_IMPL(Cobblestone, sprCobblestone, BID_COBBLESTONE_SLAB, 12)
 SLAB_IMPL(Birch, sprBirchPlanks, BID_BIRCH_SLAB, 6)
+SLAB_IMPL(Spruce, sprSprucePlanks, BID_SPRUCE_SLAB, 6)

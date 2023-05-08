@@ -16,6 +16,8 @@ InventoryItemID strToIID(std::string &sid)
         return InventoryItemID::Wood;
     else if (sid == "birchwood")
         return InventoryItemID::BirchWood;
+    else if (sid == "sprucewood")
+        return InventoryItemID::SpruceWood;
     else if (sid == "sand")
         return InventoryItemID::Sand;
     else if (sid == "sandstone")
@@ -32,10 +34,14 @@ InventoryItemID strToIID(std::string &sid)
         return InventoryItemID::Door;
     else if (sid == "birchdoor")
         return InventoryItemID::BirchDoor;
+    else if (sid == "sprucedoor")
+        return InventoryItemID::SpruceDoor;
     else if (sid == "planks")
         return InventoryItemID::Planks;
     else if (sid == "birchplanks")
         return InventoryItemID::BirchPlanks;
+    else if (sid == "spruceplanks")
+        return InventoryItemID::SprucePlanks;
     else if (sid == "stick")
         return InventoryItemID::Stick;
     else if (sid == "snowygrass")
@@ -44,6 +50,8 @@ InventoryItemID strToIID(std::string &sid)
         return InventoryItemID::Sapling;
     else if (sid == "birchsapling")
         return InventoryItemID::BirchSapling;
+    else if (sid == "sprucesapling")
+        return InventoryItemID::SpruceSapling;
     else if (sid == "cobblestone")
         return InventoryItemID::Cobblestone;
     else if (sid == "coalore")
@@ -64,6 +72,8 @@ InventoryItemID strToIID(std::string &sid)
         return InventoryItemID::OakTrapdoor;
     else if (sid == "birchtrapdoor")
         return InventoryItemID::BirchTrapdoor;
+    else if (sid == "sprucetrapdoor")
+        return InventoryItemID::SpruceTrapdoor;
     else if (sid == "ladder")
         return InventoryItemID::Ladder;
     else if (sid == "chest")
@@ -88,6 +98,8 @@ InventoryItemID strToIID(std::string &sid)
         return InventoryItemID::StoneAxe;
     else if (sid == "birchslab")
         return InventoryItemID::BirchSlab;
+    else if (sid == "spruceslab")
+        return InventoryItemID::SpruceSlab;
     else if (sid == "sign")
         return InventoryItemID::Sign;
 

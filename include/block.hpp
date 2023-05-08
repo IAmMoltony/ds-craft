@@ -47,6 +47,13 @@
 #define BID_COBBLESTONE_SLAB 32
 #define BID_BIRCH_SLAB 33
 #define BID_SIGN 34
+#define BID_SPRUCE_WOOD 35
+#define BID_SPRUCE_PLANKS 36
+#define BID_SPRUCE_DOOR 37
+#define BID_SPRUCE_LEAVES 38
+#define BID_SPRUCE_SAPLING 39
+#define BID_SPRUCE_TRAPDOOR 40
+#define BID_SPRUCE_SLAB 41
 
 enum class InventoryItemID
 {
@@ -110,6 +117,7 @@ enum class SlabID
     Oak,
     Cobblestone,
     Birch,
+    Spruce,
 };
 
 struct InventoryItem
@@ -175,6 +183,59 @@ struct InventoryItem
         bool solid(void) override;         \
     };
 
+// Generic declaration for doors.
+#define DOOR_DECL(door) \
+    class door##DoorBlock : public Block                       \
+    {                                                          \
+    private:                                                   \
+        bool open, facing;                                     \
+    public:                                                    \
+        door##DoorBlock(s16 x, s16 y, s16 px);                 \
+        door##DoorBlock(s16 x, s16 y, bool open, bool facing); \
+        void draw(Camera camera) override;                     \
+        bool solid(void) override;                             \
+        void interact(void) override;                          \
+        u16 id(void) override;                                 \
+        Rect getRect(void) const override;                     \
+        bool isOpen(void);                                     \
+        bool getFacing(void);                                  \
+    };
+
+// Generic declaration for saplings.
+#define SAPLING_DECL(sapl) \
+    class sapl##SaplingBlock : public Block \
+    {\
+    private:\
+        u16 growTime;\
+        bool grown;\
+    public:\
+        sapl##SaplingBlock(s16 x, s16 y);\
+        void draw(Camera camera) override;\
+        bool solid(void) override;\
+        void interact(void) override;\
+        u16 id(void) override;\
+        Rect getRect(void) const override;\
+        bool hasGrown(void);\
+        void update(void);\
+    };
+
+// Generic declaration for trapdoors.
+#define TRAPDOOR_DECL(trapd) \
+    class trapd##TrapdoorBlock : public Block\
+    {\
+    private:\
+        bool open;\
+    public:\
+        trapd##TrapdoorBlock(s16 x, s16 y);\
+        trapd##TrapdoorBlock(s16 x, s16 y, bool open);\
+        void draw(Camera camera) override;\
+        bool solid(void) override;\
+        void interact(void) override;\
+        u16 id(void) override;\
+        Rect getRect(void) const override;\
+        bool isOpen(void);\
+    };
+
 // Generic declaration for slabs.
 #define SLAB_DECL(slabid)                      \
     class slabid##SlabBlock : public SlabBlock \
@@ -184,6 +245,140 @@ struct InventoryItem
         void draw(Camera camera) override;     \
         u16 id(void) override;                 \
     };
+
+// Generic implementation for doors.
+#define DOOR_IMPL(doorid, spr, bid)\
+    doorid##DoorBlock::doorid##DoorBlock(s16 x, s16 y, s16 px) : Block(x, y, 7) \
+    { \
+        open = true;\
+        facing = px > x;\
+    }\
+    doorid##DoorBlock::doorid##DoorBlock(s16 x, s16 y, bool open, bool facing) : Block(x, y, 7)\
+    {\
+        this->open = open;\
+        this->facing = facing;\
+    }\
+    void doorid##DoorBlock::draw(Camera camera)\
+    {\
+        if (open)\
+            glSprite(x - camera.x - 1, y - camera.y, GL_FLIP_NONE, spr);\
+        else\
+            glSpriteScaleXY(x - camera.x - 1 + (facing ? 0 : 8), y - camera.y, 1 << 10, 1 << 12, (facing ? GL_FLIP_NONE : GL_FLIP_H), spr);\
+    }\
+    bool doorid##DoorBlock::solid(void)\
+    {\
+        return !open;\
+    }\
+    void doorid##DoorBlock::interact(void)\
+    {\
+        if (open)\
+        {\
+            open = false;\
+            playsfx(4, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4);\
+        }\
+        else\
+        {\
+            open = true;\
+            playsfx(4, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4);\
+        }\
+    }\
+    u16 doorid##DoorBlock::id(void)\
+    {\
+        return bid;\
+    }\
+    Rect doorid##DoorBlock::getRect(void) const\
+    {\
+        if (open)\
+            return Rect(x, y, 16, 32);\
+        return Rect(x + (facing ? 0 : 11), y, 4, 32);\
+    }\
+    bool doorid##DoorBlock::isOpen(void)\
+    {\
+        return open;\
+    }\
+    bool doorid##DoorBlock::getFacing(void)\
+    {\
+        return facing;\
+    }\
+
+// Generic implementation for saplings.
+#define SAPLING_IMPL(saplingid, spr, bid) \
+    saplingid##SaplingBlock::saplingid##SaplingBlock(s16 x, s16 y) : Block(x, y, 1), growTime(1200)\
+    {\
+        grown = false;\
+    }\
+    void saplingid##SaplingBlock::draw(Camera camera)\
+    {\
+        glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, spr);\
+    }\
+    bool saplingid##SaplingBlock::solid(void)\
+    {\
+        return false;\
+    }\
+    void saplingid##SaplingBlock::interact(void)\
+    {\
+    }\
+    u16 saplingid##SaplingBlock::id(void)\
+    {\
+        return bid;\
+    }\
+    Rect saplingid##SaplingBlock::getRect(void) const\
+    {\
+        return Rect(x, y, 16, 16);\
+    }\
+    bool saplingid##SaplingBlock::hasGrown(void)\
+    {\
+        return grown;\
+    }\
+    void saplingid##SaplingBlock::update(void)\
+    {\
+        if (!grown)\
+            --growTime;\
+        if (growTime == 0)\
+            grown = true;\
+    }
+
+// Generic implementation for trapdoors.
+#define TRAPDOOR_IMPL(trapdid, spr, bid)\
+    trapdid##TrapdoorBlock::trapdid##TrapdoorBlock(s16 x, s16 y) : Block(x, y, 6)\
+    {\
+        open = false;\
+    }\
+    trapdid##TrapdoorBlock::trapdid##TrapdoorBlock(s16 x, s16 y, bool open) : Block(x, y, 6)\
+    {\
+        this->open = open;\
+    }\
+    void trapdid##TrapdoorBlock::draw(Camera camera)\
+    {\
+        if (open)\
+            glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, spr);\
+        else\
+            glSpriteScaleXY(x - camera.x, y - camera.y, 1 << 12, 1 << 10, GL_FLIP_NONE, spr);\
+    }\
+    bool trapdid##TrapdoorBlock::solid(void)\
+    {\
+        return !open;\
+    }\
+    void trapdid##TrapdoorBlock::interact(void)\
+    {\
+        open = !open;\
+        if (open)\
+            playsfx(4, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4);\
+        else\
+            playsfx(4, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4);\
+    }\
+    u16 trapdid##TrapdoorBlock::id(void)\
+    {\
+        return bid;\
+    }\
+    Rect trapdid##TrapdoorBlock::getRect(void) const\
+    {\
+        return Rect(x, y, 16, open ? 16 : 4);\
+    }\
+    bool trapdid##TrapdoorBlock::isOpen(void)\
+    {\
+        return open;\
+    }
 
 // Generic implementation for slabs.
 #define SLAB_IMPL(slabid, spr, bid, maxBrokenLevel_)                                                      \
@@ -210,6 +405,7 @@ enum class LeavesType
 {
     Oak,
     Birch,
+    Spruce,
 };
 
 class Block;
@@ -248,18 +444,32 @@ GENERIC_BLOCK_DECL(DirtBlock)
 GENERIC_BLOCK_DECL(StoneBlock)
 GENERIC_BLOCK_DECL(WoodBlock)
 GENERIC_BLOCK_DECL(BirchWoodBlock)
+GENERIC_BLOCK_DECL(SpruceWoodBlock)
 GENERIC_BLOCK_DECL(SandBlock)
 GENERIC_BLOCK_DECL(SandstoneBlock)
 GENERIC_BLOCK_DECL(CactusBlock)
 GENERIC_BLOCK_DECL(DeadBushBlock)
 GENERIC_BLOCK_DECL(PlanksBlock)
 GENERIC_BLOCK_DECL(BirchPlanksBlock)
+GENERIC_BLOCK_DECL(SprucePlanksBlock)
 GENERIC_BLOCK_DECL(BedrockBlock)
 GENERIC_BLOCK_DECL(CobblestoneBlock)
 GENERIC_BLOCK_DECL(CoalOreBlock)
 GENERIC_BLOCK_DECL(CoalBlock)
 GENERIC_BLOCK_DECL(GlassBlock)
 GENERIC_BLOCK_DECL(LadderBlock)
+
+DOOR_DECL()
+DOOR_DECL(Birch)
+DOOR_DECL(Spruce)
+
+SAPLING_DECL()
+SAPLING_DECL(Birch)
+SAPLING_DECL(Spruce)
+
+TRAPDOOR_DECL(Oak)
+TRAPDOOR_DECL(Birch)
+TRAPDOOR_DECL(Spruce)
 
 // non-generic block declarations
 
@@ -293,118 +503,6 @@ public:
     bool solid(void) override;
     u16 id(void) override;
     Rect getRect(void) const override;
-};
-
-class DoorBlock : public Block
-{
-private:
-    bool open, facing;
-
-public:
-    DoorBlock(s16 x, s16 y, s16 px);
-    DoorBlock(s16 x, s16 y, bool open, bool facing);
-
-    void draw(Camera camera) override;
-    bool solid(void) override;
-    void interact(void) override;
-    u16 id(void) override;
-    Rect getRect(void) const override;
-
-    bool isOpen(void);
-    bool getFacing(void);
-};
-
-class BirchDoorBlock : public Block
-{
-private:
-    bool open, facing;
-
-public:
-    BirchDoorBlock(s16 x, s16 y, s16 px);
-    BirchDoorBlock(s16 x, s16 y, bool open, bool facing);
-
-    void draw(Camera camera) override;
-    bool solid(void) override;
-    void interact(void) override;
-    u16 id(void) override;
-    Rect getRect(void) const override;
-
-    bool isOpen(void);
-    bool getFacing(void);
-};
-
-class SaplingBlock : public Block
-{
-private:
-    u16 growTime;
-    bool grown;
-
-public:
-    SaplingBlock(s16 x, s16 y);
-
-    void draw(Camera camera) override;
-    bool solid(void) override;
-    void interact(void) override;
-    u16 id(void) override;
-    Rect getRect(void) const override;
-
-    bool hasGrown(void);
-    void update(void);
-};
-
-class BirchSaplingBlock : public Block
-{
-private:
-    u16 growTime;
-    bool grown;
-
-public:
-    BirchSaplingBlock(s16 x, s16 y);
-
-    void draw(Camera camera) override;
-    bool solid(void) override;
-    void interact(void) override;
-    u16 id(void) override;
-    Rect getRect(void) const override;
-
-    bool hasGrown(void);
-    void update(void);
-};
-
-class OakTrapdoorBlock : public Block
-{
-private:
-    bool open;
-
-public:
-    OakTrapdoorBlock(s16 x, s16 y);
-    OakTrapdoorBlock(s16 x, s16 y, bool open);
-
-    void draw(Camera camera) override;
-    bool solid(void) override;
-    void interact(void) override;
-    u16 id(void) override;
-    Rect getRect(void) const override;
-
-    bool isOpen(void);
-};
-
-class BirchTrapdoorBlock : public Block
-{
-private:
-    bool open;
-
-public:
-    BirchTrapdoorBlock(s16 x, s16 y);
-    BirchTrapdoorBlock(s16 x, s16 y, bool open);
-
-    void draw(Camera camera) override;
-    bool solid(void) override;
-    void interact(void) override;
-    u16 id(void) override;
-    Rect getRect(void) const override;
-
-    bool isOpen(void);
 };
 
 class ChestBlock : public Block
@@ -467,6 +565,7 @@ public:
 SLAB_DECL(Oak)
 SLAB_DECL(Cobblestone)
 SLAB_DECL(Birch)
+SLAB_DECL(Spruce)
 
 void resetNextChestID(void);
 
