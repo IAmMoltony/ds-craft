@@ -359,6 +359,19 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             wld << "sign " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + s->getText() + "\n";
             break;
         }
+        // grass block
+        case BID_GRASS:
+        {
+            Block *b = block.get();
+            GrassBlock *g = reinterpret_cast<GrassBlock *>(b);
+
+            std::string st = "normal"; // string type
+            if (g->getGrassType() == GrassType::Spruce)
+                st = "spruce";
+
+            wld << "grassblock " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + st + "\n";
+            break;
+        }
         // every other block
         default:
             wld << "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(id) + "\n";
@@ -543,6 +556,27 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             if (text.size())
                 text.pop_back();
             blocks.emplace_back(new SignBlock(x, y, text));
+        }
+        else if (split[0] == "grassblock") // grassblock <x> <y> [type]
+        {
+            // TODO use more modern c++ features like stoi instead of c functions
+
+            s16 x = atoi(split[1].c_str());
+            s16 y = atoi(split[2].c_str());
+            const std::string &st = split[3];
+            GrassType type;
+
+            if (st == "spruce")
+                type = GrassType::Spruce;
+            else if (st == "normal")
+                type = GrassType::Normal;
+            else
+            {
+                printf("warning: unknown grass type %s; defaulting to normal\n", st.c_str());
+                type = GrassType::Normal;
+            }
+
+            blocks.emplace_back(new GrassBlock(x, y, type));
         }
         else if (split[0] == "block") // block <x> <y> <id>
         {

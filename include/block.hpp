@@ -126,9 +126,9 @@ struct InventoryItem
     u8 amount;
 };
 
-// Block implementations for blocks that
+// block implementations for blocks that
 // don't have anything really special.
-// They are used to save a lot of typing (and avoid manual copy-pasting) when
+// they are used to save a lot of typing (and avoid manual copy-pasting) when
 // adding a new block.
 #define GENERIC_BLOCK_IMPL(block, spr, id_, maxBrokenLevel_)     \
     block::block(s16 x, s16 y) : Block(x, y, maxBrokenLevel_)    \
@@ -171,7 +171,7 @@ struct InventoryItem
         return false;                                            \
     }
 
-// Same thing as above except for declarations.
+// generic declaration for most blocks
 #define GENERIC_BLOCK_DECL(block)          \
     class block : public Block             \
     {                                      \
@@ -201,7 +201,7 @@ struct InventoryItem
         bool getFacing(void);                                  \
     };
 
-// Generic declaration for saplings.
+// generic declaration for saplings
 #define SAPLING_DECL(sapl) \
     class sapl##SaplingBlock : public Block \
     {\
@@ -219,7 +219,7 @@ struct InventoryItem
         void update(void);\
     };
 
-// Generic declaration for trapdoors.
+// generic declaration for trapdoors
 #define TRAPDOOR_DECL(trapd) \
     class trapd##TrapdoorBlock : public Block\
     {\
@@ -236,7 +236,7 @@ struct InventoryItem
         bool isOpen(void);\
     };
 
-// Generic declaration for slabs.
+// slabs
 #define SLAB_DECL(slabid)                      \
     class slabid##SlabBlock : public SlabBlock \
     {                                          \
@@ -246,7 +246,7 @@ struct InventoryItem
         u16 id(void) override;                 \
     };
 
-// Generic implementation for doors.
+// doors
 #define DOOR_IMPL(doorid, spr, bid)\
     doorid##DoorBlock::doorid##DoorBlock(s16 x, s16 y, s16 px) : Block(x, y, 7) \
     { \
@@ -301,7 +301,7 @@ struct InventoryItem
         return facing;\
     }\
 
-// Generic implementation for saplings.
+// saplings
 #define SAPLING_IMPL(saplingid, spr, bid) \
     saplingid##SaplingBlock::saplingid##SaplingBlock(s16 x, s16 y) : Block(x, y, 1), growTime(1200)\
     {\
@@ -338,7 +338,7 @@ struct InventoryItem
             grown = true;\
     }
 
-// Generic implementation for trapdoors.
+// trapdoors
 #define TRAPDOOR_IMPL(trapdid, spr, bid)\
     trapdid##TrapdoorBlock::trapdid##TrapdoorBlock(s16 x, s16 y) : Block(x, y, 6)\
     {\
@@ -380,7 +380,7 @@ struct InventoryItem
         return open;\
     }
 
-// Generic implementation for slabs.
+// slabs
 #define SLAB_IMPL(slabid, spr, bid, maxBrokenLevel_)                                                      \
     slabid##SlabBlock::slabid##SlabBlock(s16 x, s16 y) : SlabBlock(x, y, SlabID::slabid, maxBrokenLevel_) \
     {                                                                                                     \
@@ -405,6 +405,12 @@ enum class LeavesType
 {
     Oak,
     Birch,
+    Spruce,
+};
+
+enum class GrassType
+{
+    Normal,
     Spruce,
 };
 
@@ -438,7 +444,6 @@ public:
 
 // generic block declarations
 
-GENERIC_BLOCK_DECL(GrassBlock)
 GENERIC_BLOCK_DECL(SnowyGrassBlock)
 GENERIC_BLOCK_DECL(DirtBlock)
 GENERIC_BLOCK_DECL(StoneBlock)
@@ -472,6 +477,22 @@ TRAPDOOR_DECL(Birch)
 TRAPDOOR_DECL(Spruce)
 
 // non-generic block declarations
+
+class GrassBlock : public Block
+{
+private:
+    GrassType type;
+
+public:
+    GrassBlock(s16 x, s16 y);
+    GrassBlock(s16 x, s16 y, GrassType type);
+
+    void draw(Camera camera) override;
+    u16 id(void) override;
+    Rect getRect(void) const override;
+    bool solid(void) override;
+    GrassType getGrassType(void);
+};
 
 class LeavesBlock : public Block
 {

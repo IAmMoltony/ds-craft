@@ -115,6 +115,8 @@ endif
 	$(SILENTMSG) stripping $(notdir $@)
 	$(SILENTCMD)$(STRIP) $@
 
+# is stripping even needed?..
+
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
@@ -216,7 +218,7 @@ $(BUILD):
 #---------------------------------------------------------------------------------
 clean:
 	$(SILENTMSG) clean ...
-	$(SILENTCMD)rm -fr $(BUILD) $(TARGET).elf $(TARGET).nds $(SOUNDBANK)
+	$(SILENTCMD)rm -fr $(BUILD) $(TARGET).elf $(TARGET).nds $(SOUNDBANK) $(TOPDIR)/include/images.h
 
 #---------------------------------------------------------------------------------
 run:

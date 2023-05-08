@@ -39,6 +39,7 @@ glImage sprLadder[1];
 glImage sprChest[1];
 glImage sprSign[1];
 glImage sprBlockBreak[10][1];
+glImage sprGrassOverlay[1];
 
 declsfx4(DoorOpen);
 declsfx4(DoorClose);
@@ -76,6 +77,7 @@ void Block::loadTextures(void)
     loadImageAlpha(sprSpruceDoor, 32, 32, sprucedoorPal, sprucedoorBitmap);
     loadImageAlpha(sprSapling, 16, 16, oak_saplingPal, oak_saplingBitmap);
     loadImageAlpha(sprBirchSapling, 16, 16, birch_saplingPal, birch_saplingBitmap);
+    loadImageALpha(sprSpruceSapling, 16, 16, spruce_saplingPal, spruce_saplingBitmap);
     loadImageAlpha(sprGlass, 32, 16, glassPal, glassBitmap);
     loadImageAlpha(sprOakTrapdoor, 16, 16, oak_trapdoorPal, oak_trapdoorBitmap);
     loadImageAlpha(sprLadder, 16, 16, ladderPal, ladderBitmap);
@@ -92,15 +94,19 @@ void Block::loadTextures(void)
     loadImageAlpha(sprBlockBreak[8], 16, 16, destroy_stage_8Pal, destroy_stage_8Bitmap);
     loadImageAlpha(sprBlockBreak[9], 16, 16, destroy_stage_9Pal, destroy_stage_9Bitmap);
 
+    loadImageAlpha(sprGrassOverlay, 16, 8, grass_overlayPal, grass_overlayBitmap);
+
     if (Game::SettingsManager::transparentLeaves)
     {
-        loadImageAlpha(sprBirchLeaves, 16, 16, birch_leaves_aPal, birch_leaves_aBitmap);
         loadImageAlpha(sprLeaves, 16, 16, oak_leaves_aPal, oak_leaves_aBitmap);
+        loadImageAlpha(sprBirchLeaves, 16, 16, birch_leaves_aPal, birch_leaves_aBitmap);
+        loadImageAlpha(sprSpruceLeaves, 16, 16, spruce_leaves_aPal, spruce_leaves_aBitmap);
     }
     else
     {
         loadImage(sprLeaves, 16, 16, oak_leavesBitmap);
         loadImage(sprBirchLeaves, 16, 16, birch_leavesBitmap);
+        loadImage(sprSpruceLeaves, 16, 16, spruce_leavesBitmap);
     }
 }
 
@@ -152,6 +158,7 @@ void Block::unloadTextures(void)
     unloadImage(sprBlockBreak[7]);
     unloadImage(sprBlockBreak[8]);
     unloadImage(sprBlockBreak[9]);
+    unloadImage(sprGrassOverlay);
 }
 
 void Block::loadSounds(void)
@@ -219,7 +226,6 @@ bool Block::isSlab(void)
 
 // generic block implementations
 
-GENERIC_BLOCK_IMPL(GrassBlock, sprGrass, BID_GRASS, 14)
 GENERIC_BLOCK_IMPL(SnowyGrassBlock, sprSnowyGrass, BID_SNOWY_GRASS, 14)
 GENERIC_BLOCK_IMPL(DirtBlock, sprDirt, BID_DIRT, 13)
 GENERIC_BLOCK_IMPL(StoneBlock, sprStone, BID_STONE, 16)
@@ -253,6 +259,56 @@ TRAPDOOR_IMPL(Birch, sprBirchTrapdoor, BID_BIRCH_TRAPDOOR)
 TRAPDOOR_IMPL(Spruce, sprSpruceTrapdoor, BID_SPRUCE_TRAPDOOR)
 
 // non-generic implementations
+
+GrassBlock::GrassBlock(s16 x, s16 y) : Block(x, y, 14)
+{
+    type = GrassType::Normal;
+}
+
+GrassBlock::GrassBlock(s16 x, s16 y, GrassType type) : Block(x, y, 14)
+{
+    this->type = type;
+}
+
+void GrassBlock::draw(Camera camera)
+{
+    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprGrass);
+
+    switch (type)
+    {
+    case GrassType::Normal:
+        glColor(RGB15(15, 23, 13));
+        break;
+    case GrassType::Spruce:
+        glColor(RGB15(0, 11, 0));
+        break;
+    }
+
+    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprGrassOverlay);
+    glColor(RGB15(31, 31, 31));
+}
+
+u16 GrassBlock::id(void)
+{
+    return BID_GRASS;
+}
+
+Rect GrassBlock::getRect(void) const
+{
+    return Rect(x, y, 16, 16);
+}
+
+bool GrassBlock::solid(void)
+{
+    return true;
+}
+
+GrassType GrassBlock::getGrassType(void)
+{
+    return type;
+}
+
+//-----------------------------------------
 
 LeavesBlock::LeavesBlock(s16 x, s16 y, LeavesType type, bool natural) : Block(x, y, 5)
 {
