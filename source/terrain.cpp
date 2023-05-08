@@ -237,8 +237,6 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                 if (chance(10))
                     entities.emplace_back(new PigEntity(i * 16, y - 64));
 
-                // TODO move some repetitive code like dirt generation and stone generation to its own function
-
                 // dirt generation
                 for (s16 j = y + 16; j < y + 16 * 4; j += 16)
                     blocks.emplace_back(new DirtBlock(i * 16, j));
@@ -388,8 +386,6 @@ int spawnTree(BlockList &blocks, s16 x, s16 y, TreeType treeType)
         }
         return 0;
     }
-
-    // TODO this function can really use some for loops
 
     return 0;
 }
