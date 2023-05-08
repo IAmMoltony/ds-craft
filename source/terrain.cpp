@@ -231,7 +231,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
             for (u16 i = k * SCREEN_WIDTH * 2 / 16; i < k * SCREEN_WIDTH * 2 / 16 + SCREEN_WIDTH * 2 / 16; ++i)
             {
                 ++sinceLastTree;
-                blocks.emplace_back(new GrassBlock(i * 16, y)); // TODO add GrassType
+                blocks.emplace_back(new GrassBlock(i * 16, y));
 
                 // create pig with 10% chance
                 if (chance(10))
