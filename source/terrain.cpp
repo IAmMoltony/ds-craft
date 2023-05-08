@@ -4,7 +4,8 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
 {
     // this forces only a certain biome to spawn.
     // if less than 0, no biome is forced.
-    static constexpr s8 forceBiome = -1;
+    // (useful for debugging)
+    static constexpr s8 forceBiome = 5;
 
     time_t curTime = time(NULL);
     struct tm *timeStruct = gmtime((const time_t *)&curTime);
@@ -23,7 +24,8 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
         // 2 = plains biome
         // 3 = snow biome
         // 4 = flower biome
-        u8 biome = randomRange(0, 4);
+        // 5 = spruce forest biome
+        u8 biome = randomRange(0, 5);
         if (onlyWinterBiome)
             biome = 3;
         if (forceBiome >= 0)
@@ -224,9 +226,49 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                     y += randomRange(-1, 1) * 16;
             }
         }
-    }
+        else if (biome == 5)
+        {
+            for (u16 i = k * SCREEN_WIDTH * 2 / 16; i < k * SCREEN_WIDTH * 2 / 16 + SCREEN_WIDTH * 2 / 16; ++i)
+            {
+                ++sinceLastTree;
+                blocks.emplace_back(new GrassBlock(i * 16, y)); // TODO add GrassType
 
-    blocks.emplace_back(new SprucePlanksBlock(1024 / 2, 0));
+                // create pig with 10% chance
+                if (chance(10))
+                    entities.emplace_back(new PigEntity(i * 16, y - 64));
+
+                // TODO move some repetitive code like dirt generation and stone generation to its own function
+
+                // dirt generation
+                for (s16 j = y + 16; j < y + 16 * 4; j += 16)
+                    blocks.emplace_back(new DirtBlock(i * 16, j));
+                // stone generation
+                for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
+                {
+                    if (chance(15))
+                        blocks.emplace_back(new CoalOreBlock(i * 16, j));
+                    else
+                        blocks.emplace_back(new StoneBlock(i * 16, j));
+                }
+                // bedrock on the bottom
+                blocks.emplace_back(new BedrockBlock(i * 16, y + 16 * 4 + 16 * 9));
+
+                bool placedTree = false;
+                if (sinceLastTree > treeInterval)
+                {
+                    placedTree = true;
+                    treeInterval = spawnTree(blocks, i * 16, y, TreeType::Spruce);
+                    sinceLastTree = 0;
+                }
+
+                // place flower if not placed tree w chance 15%
+                if (!placedTree && chance(15))
+                    blocks.emplace_back(new FlowerBlock(i * 16, y - 16));
+
+                y += randomRange(-1, 2) * 16;
+            }
+        }
+    }
 
     std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort
 
@@ -310,6 +352,15 @@ int spawnTree(BlockList &blocks, s16 x, s16 y, TreeType treeType)
             blocks.emplace_back(new LeavesBlock(x - 16, y - 80, LeavesType::Birch));
             blocks.emplace_back(new LeavesBlock(x + 16, y - 80, LeavesType::Birch));
             return 3;
+        }
+        return 0;
+    case TreeType::Spruce:
+        switch (treeVariant)
+        {
+        case 0:
+            blocks.emplace_back(new SpruceWoodBlock(x, y - 16));
+            blocks.emplace_back(new SpruceWoodBlock(x, y - 32));
+            return 5;
         }
         return 0;
     }

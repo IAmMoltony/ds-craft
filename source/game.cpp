@@ -1205,7 +1205,6 @@ void Game::update(void)
                 // if sapling
                 if (block->id() == BID_SAPLING)
                 {
-                    // magic for converting block into sapling
                     Block *b = block.get();
                     SaplingBlock *sapling = (SaplingBlock *)b;
                     sapling->update();
@@ -1221,7 +1220,6 @@ void Game::update(void)
                 }
                 else if (block->id() == BID_BIRCH_SAPLING)
                 {
-                    // magic for converting block into sapling
                     Block *b = block.get();
                     BirchSaplingBlock *sapling = (BirchSaplingBlock *)b;
                     sapling->update();
@@ -1232,6 +1230,21 @@ void Game::update(void)
                         s16 y = sapling->y;
                         blocks.erase(blocks.begin() + i); // remove it
                         spawnTree(blocks, x, y + 16, TreeType::Birch);
+                        std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort blocks
+                    }
+                }
+                else if (block->id() == BID_SPRUCE_SAPLING)
+                {
+                    Block *b = block.get();
+                    SpruceSaplingBlock *sapling = (SpruceSaplingBlock *)b;
+                    sapling->update();
+                    if (sapling->hasGrown())
+                    {
+                        // place tree
+                        s16 x = sapling->x;
+                        s16 y = sapling->y;
+                        blocks.erase(blocks.begin() + i); // remove it
+                        spawnTree(blocks, x, y + 16, TreeType::Spruce);
                         std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort blocks
                     }
                 }

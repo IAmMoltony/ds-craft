@@ -73,6 +73,7 @@ void Block::loadTextures(void)
     loadImageAlpha(sprRedTulip, 16, 16, red_tulipPal, red_tulipBitmap);
     loadImageAlpha(sprDoor, 32, 32, doorPal, doorBitmap);
     loadImageAlpha(sprBirchDoor, 32, 32, birchdoorPal, birchdoorBitmap);
+    loadImageAlpha(sprSpruceDoor, 32, 32, sprucedoorPal, sprucedoorBitmap);
     loadImageAlpha(sprSapling, 16, 16, oak_saplingPal, oak_saplingBitmap);
     loadImageAlpha(sprBirchSapling, 16, 16, birch_saplingPal, birch_saplingBitmap);
     loadImageAlpha(sprGlass, 32, 16, glassPal, glassBitmap);

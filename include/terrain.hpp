@@ -7,6 +7,7 @@ enum class TreeType
 {
     Oak,
     Birch,
+    Spruce,
 };
 
 void generateTerrain(BlockList &blocks, EntityList &entities, Player &player);
