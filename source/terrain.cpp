@@ -383,6 +383,8 @@ int spawnTree(BlockList &blocks, s16 x, s16 y, TreeType treeType)
             blocks.emplace_back(new LeavesBlock(x + 16, y - 144, LeavesType::Spruce));
             blocks.emplace_back(new LeavesBlock(x, y - 160, LeavesType::Spruce));
             return 3;
+        case 1:
+            return 0;
         }
         return 0;
     }

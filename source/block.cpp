@@ -272,6 +272,8 @@ GrassBlock::GrassBlock(s16 x, s16 y, GrassType type) : Block(x, y, 14)
 
 void GrassBlock::draw(Camera camera)
 {
+    printf("%d\n", type);
+
     glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprGrass);
 
     switch (type)
@@ -280,7 +282,7 @@ void GrassBlock::draw(Camera camera)
         glColor(RGB15(15, 23, 13));
         break;
     case GrassType::Spruce:
-        glColor(RGB15(0, 11, 0));
+        glColor(RGB15(11, 11, 11));
         break;
     }
 

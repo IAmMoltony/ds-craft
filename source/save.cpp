@@ -549,7 +549,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         }
         else if (split[0] == "birchdoor") // birchdoor <x> <y> <open> <facing>
         {
-            s16 x, y;
+            s16 x = 0, y = 0;
             bool open, facing;
             argParseDoor(split, x, y, open, facing);
 
@@ -557,7 +557,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         }
         else if (split[0] == "sprucedoor") // sprucedoor <x> <y> <open> <facing>
         {
-            s16 x, y;
+            s16 x = 0, y = 0;
             bool open, facing;
             argParseDoor(split, x, y, open, facing);
 
@@ -565,7 +565,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         }
         else if (split[0] == "oaktrapdoor") // oaktrapdoor <x> <y> <open>
         {
-            s16 x, y;
+            s16 x = 0, y = 0;
             bool open;
             argParseTrapdoor(split, x, y, open);
 
@@ -573,7 +573,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         }
         else if (split[0] == "birchtrapdoor") // birchtrapdoor <x> <y> <open>
         {
-            s16 x, y;
+            s16 x = 0, y = 0;
             bool open;
             argParseTrapdoor(split, x, y, open);
 
@@ -581,7 +581,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         }
         else if (split[0] == "sprucetrapdoor") // sprucetrapdoor <x> <y> <open>
         {
-            s16 x, y;
+            s16 x = 0, y = 0;
             bool open;
             argParseTrapdoor(split, x, y, open);
 
@@ -589,7 +589,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         }
         else if (split[0] == "sign")
         {
-            s16 x, y;
+            s16 x = 0, y = 0;
             std::string text = "";
             argParseSign(split, x, y, text);
 
@@ -597,7 +597,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         }
         else if (split[0] == "grassblock") // grassblock <x> <y> [type]
         {
-            s16 x, y;
+            s16 x = 0, y = 0;
             GrassType type;
             argParseGrass(split, x, y, type);
 
