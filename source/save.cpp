@@ -476,7 +476,7 @@ static void argParseGrass(const std::vector<std::string> &split, s16 &x, s16 &y,
 {
     x = std::stoi(split[1]);
     y = std::stoi(split[2]);
-    const std::string &st = split[3];
+    const std::string &st = split[3]; // string type
 
     if (st == "spruce")
         type = GrassType::Spruce;
