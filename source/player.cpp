@@ -627,6 +627,7 @@ bool isItem(InventoryItemID id)
 // check if the item is a tool
 bool isToolItem(InventoryItemID id)
 {
+    // block item
     if (!isItem(id))
         return false;
 
@@ -637,6 +638,7 @@ bool isToolItem(InventoryItemID id)
 // check if the item is a non-solid block
 bool isNonSolidBlockItem(InventoryItemID id)
 {
+    // not a block item
     if (isItem(id))
         return false;
 
@@ -647,6 +649,7 @@ bool isNonSolidBlockItem(InventoryItemID id)
 // check if the item is a slab
 bool isSlabItem(InventoryItemID id)
 {
+    // not a block item
     if (isItem(id))
         return false;
 
@@ -778,6 +781,7 @@ static void drawInventory(InventoryItem inventory[], u8 itemCount, Font font, u8
                 break;
             }
 
+            // draw how many of the item there is if more than 1
             if (amount > 1)
                 font.printfShadow(xx, yy + 7, "%u", amount);
         }

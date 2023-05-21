@@ -2,6 +2,8 @@
 
 DS-Craft is a Minecraft clone for Nintendo DS, writeen in C and C++.
 
+## Note: I don't have a lot of free time right now, so this project is currently not being actively developed. I'll get back to working on it when I will have free time (in summer basically).
+
 ## Controls
 
 Press left and right on the D-Pad to move horizontally, press D-Pad up to jump, the Select button to open your inventory, the A button to place block, and the B to destroy block. To select an item from the hotbar, press the R button.
