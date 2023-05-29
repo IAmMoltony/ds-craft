@@ -4,7 +4,6 @@
 #include "entity.hpp"
 #include "blockparticle.hpp"
 #include "uvcoord_font_si.h"
-#include "gamestate.hpp"
 #include "save.hpp"
 #include "gamever.hpp"
 #include "help.hpp"
@@ -49,6 +48,20 @@ public:
         ~SettingsManager() = delete;
 
         static void loadSettings(void);
+    };
+
+    enum class GameState
+    {
+        Game,
+        TitleScreen,
+        Credits,
+        WorldSelect,
+        CreateWorld,
+        LanguageSelect,
+        VersionInfo,
+        Settings,
+        DeleteWorld,
+        DeleteAllWorlds,
     };
 
 private:
