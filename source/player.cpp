@@ -657,18 +657,13 @@ bool isSlabItem(InventoryItemID id)
     return std::find(slabItemIDs, slabItemIDs + n, id) != slabItemIDs + n;
 }
 
-Player::Player() : inventorySelect(0), inventoryFullSelect(0), inventoryMoveSelect(20),
-                   craftingSelect(0), health(9), airY(0), chestSelect(0), chestMoveSelect(40),
-                   bodySprite(AnimatedSprite(5, AnimatedSpriteMode::ReverseLoop,
+Player::Player() : x(0), y(0), velX(0), spawnX(0), spawnY(0), aimX(0), aimY(0), inventorySelect(0),
+                   inventoryFullSelect(0), inventoryMoveSelect(20), craftingSelect(0), health(9), airY(0),
+                   chestSelect(0), chestMoveSelect(40),
+                    bodySprite(AnimatedSprite(5, AnimatedSpriteMode::ReverseLoop,
                                              {sprPlayerBody[0], sprPlayerBody[1], sprPlayerBody[2]})),
                    aimDist(0)
 {
-    x = 0;
-    y = 0;
-    velX = 0;
-    velY = 0;
-    spawnX = 0;
-    spawnY = 0;
     falling = true;
     jumping = false;
     fullInventory = false;
