@@ -78,14 +78,13 @@ void Entity::unloadSounds(void)
     unloadsfx3(PIGSAY);
 }
 
-Entity::Entity(s16 x, s16 y)
+Entity::Entity(s16 x, s16 y) : health(1)
 {
     this->x = x;
     this->y = y;
     velX = 0;
     velY = 0;
     falling = jumping = true;
-    health = 1;
 }
 
 s16 Entity::getX(void)
