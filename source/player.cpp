@@ -669,8 +669,6 @@ Player::Player() : x(0), y(0), velX(0), spawnX(0), spawnY(0), aimX(0), aimY(0), 
     fullInventory = false;
     inventoryCrafting = false;
     chestOpen = false;
-    aimX = SCREEN_WIDTH / 2;
-    aimY = SCREEN_HEIGHT / 2;
     facing = Facing::Right;
     chest = nullptr;
     sign = nullptr;
