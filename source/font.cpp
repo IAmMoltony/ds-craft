@@ -20,6 +20,7 @@ Font::Font()
 {
     spr = NULL;
     chwHandler = NULL;
+    chwhHeading = NULL;
 }
 
 void Font::load(glImage *fspr, const u32 frames, const unsigned int *texCoords,
