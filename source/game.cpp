@@ -10,6 +10,7 @@ Game::Game() : camera({0, 0})
     paused = false;
     createWorldError = false;
     lang = Language::English;
+    gameState = GameState::TitleScreen;
 }
 
 void Game::gameQuit(void)
