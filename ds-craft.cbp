@@ -683,7 +683,6 @@
 		<Unit filename="include/font.hpp" />
 		<Unit filename="include/fs.h" />
 		<Unit filename="include/game.hpp" />
-		<Unit filename="include/gamestate.hpp" />
 		<Unit filename="include/gamever.hpp" />
 		<Unit filename="include/glext.h" />
 		<Unit filename="include/help.hpp" />

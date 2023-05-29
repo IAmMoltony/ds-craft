@@ -208,7 +208,7 @@ void Game::loadFonts(void)
     font.setCharWidthHandler(fontSmallCharWidthHandler);
     font.setHeadingCharWidthHandler(fontBigCharWidthHandler);
     fontRu.setCharWidthHandler(fontSmallRuCharWidthHandler);
-    fontRu.setCharWidthHandler(fontBigRuCharWidthHandler);
+    fontRu.setHeadingCharWidthHandler(fontBigRuCharWidthHandler);
 }
 
 static constexpr u8 TITLE_SCREEN_PLAY = 0;
@@ -635,33 +635,13 @@ void Game::draw(void)
                 std::string worldCreationDateString = std::to_string(worldCreationDate.year) + '/' + std::to_string(worldCreationDate.month) + '/' + std::to_string(worldCreationDate.day);
                 std::string worldInfoString;
 
-                if (lang == Language::Russian)
-                {
-                    for (size_t ii = 0; ii < strlen(hrfsz); ++ii)
-                    {
-                        char ch = hrfsz[ii];
-                        switch (ch)
-                        {
-                        case 'K':
-                            hrfsz[ii] = 'L';
-                            break;
-                        case 'M':
-                            hrfsz[ii] = 'N';
-                            break;
-                        case 'G':
-                            hrfsz[ii] = 'D';
-                            break;
-                        }
-                    }
-                }
-
                 switch (lang)
                 {
                 case Language::English:
                     worldInfoString = "Size: " + std::string(hrfsz) + "    " + worldCreationDateString;
                     break;
                 case Language::Russian:
-                    worldInfoString = "Rbjogs: " + std::string(hrfsz) + "    " + worldCreationDateString;
+                    worldInfoString = "Rbjogs: \3" + std::string(hrfsz) + "    " + worldCreationDateString;
                     break;
                 }
                 if (i == worldSelectSelected)
@@ -682,7 +662,7 @@ void Game::draw(void)
                     font.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 18 - offset, worldInfoString.c_str());
                     break;
                 case Language::Russian:
-                    fontRu.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 18 - offset, worldInfoString.c_str());
+                    fontRu.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 18 - offset, worldInfoString.c_str(), 0, 0, &font);
                     break;
                 }
                 glColor(RGB15(31, 31, 31));
@@ -710,7 +690,7 @@ void Game::draw(void)
             font.print(106, SCREEN_HEIGHT - 28, "Play world");
 
             glSprite(93, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprYButton);
-            font.print(106, SCREEN_HEIGHT - 15, "Delete world");
+            font.print(106, SCREEN_HEIGHT - 15, "World settings");
             break;
         case Language::Russian:
             glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprBButton);
@@ -723,7 +703,7 @@ void Game::draw(void)
             fontRu.print(106, SCREEN_HEIGHT - 28, "Jesbu#");
 
             glSprite(93, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprYButton);
-            fontRu.print(106, SCREEN_HEIGHT - 15, "Ufbnku#");
+            fontRu.print(106, SCREEN_HEIGHT - 15, "Obtusqlmk");
             break;
         }
 
@@ -737,6 +717,80 @@ void Game::draw(void)
             break;
         }
         break;
+    case GameState::WorldSettings:
+    {
+        WorldManager::WorldInfo worldInfo = worldSelectWorlds[worldSelectSelected];
+        std::string worldInfoName = worldInfo.name;
+        char *hrfsz = fsHumanreadFileSize(worldInfo.size);
+        fsDate worldCreationDate = fsGetFileCreationDate(getWorldFile(worldInfoName).c_str());
+        std::string worldCreationDateString = std::to_string(worldCreationDate.year) + '/' + std::to_string(worldCreationDate.month) + '/' + std::to_string(worldCreationDate.day);
+
+        drawMovingBackground();
+        for (u8 i = 0; i < SCREEN_WIDTH / 32; ++i)
+        {
+            glSpriteScale(i * 32, 0, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
+            glSpriteScale(i * 32, SCREEN_HEIGHT - 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
+        }
+
+        switch (lang)
+        {
+        case Language::English:
+            font.drawHeading("World settings");
+
+            font.printCentered(0, 45, std::string("Name: " + worldSelectWorlds[worldSelectSelected].name).c_str());
+            font.printCentered(0, 56, std::string("Creation date: " + worldCreationDateString).c_str());
+            font.printCentered(0, 67, std::string(std::string("Size: ") + hrfsz).c_str());
+            break;
+        case Language::Russian:
+            fontRu.drawHeading("Obtusqlmk oksb");
+
+            fontRu.printCentered(0, 45, std::string("Jo&: \3" + worldSelectWorlds[worldSelectSelected].name).c_str(), &font);
+            fontRu.printCentered(0, 56, std::string("Ebub tqjfbpk&: \3" + worldCreationDateString).c_str(), &font);
+            fontRu.printCentered(0, 67, std::string(std::string("Rbjogs: \3") + hrfsz).c_str(), &font);
+            break;
+        }
+
+        for (u8 i = 0; i < 2; ++i)
+        {
+            glPolyFmt(POLY_ALPHA(29) | POLY_CULL_NONE);
+            glBoxFilled(SCREEN_WIDTH / 2 - 45, 90 + i * 30, SCREEN_WIDTH / 2 + 45,
+                        112 + i * 30, RGB15(6, 6, 6));
+            glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
+            glBoxStroke(SCREEN_WIDTH / 2 - 45, 90 + i * 30, 90, 22,
+                        worldSettingsSelect == i ? RGB15(31, 31, 31) : RGB15(9, 9, 9));
+            switch (i)
+            {
+            case 0:
+                if (lang == Language::English)
+                    font.printCentered(0, 97 + i * 30, "Delete");
+                else
+                    fontRu.printCentered(0, 97 + i * 30, "Ufbnku#");
+                break;
+            case 1:
+                if (lang == Language::English)
+                    font.printCentered(0, 97 + i * 30, "Rename");
+                else
+                    fontRu.printCentered(0, 97 + i * 30, "Qgsgkogpqdbu#");
+                break;
+            }
+        }
+
+        switch (lang)
+        {
+        case Language::English:
+            glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprBButton);
+            font.print(15, SCREEN_HEIGHT - 28, "Back");
+            break;
+        case Language::Russian:
+            glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprBButton);
+            fontRu.print(15, SCREEN_HEIGHT - 28, "Objbf");
+            break;
+        }
+        free(hrfsz);
+
+        break;
+
+    }
     case GameState::CreateWorld:
         drawMovingBackground();
         for (u8 i = 0; i < SCREEN_WIDTH / 32; ++i)
@@ -1556,8 +1610,7 @@ void Game::update(void)
             if (worldSelectWorlds.size() > 0)
             {
                 mmEffectEx(&sndClick);
-                deleteWorldSelected = worldSelectSelected;
-                gameState = GameState::DeleteWorld;
+                gameState = GameState::WorldSettings;
             }
         }
         else if (down & KEY_A)
@@ -1589,6 +1642,28 @@ void Game::update(void)
             if (worldSelectSelected - 1 >= 0)
                 --worldSelectSelected;
         }
+        break;
+    case GameState::WorldSettings:
+        if (down & KEY_B)
+        {
+            gameState = GameState::WorldSelect;
+            mmEffectEx(&sndClick);
+        }
+        else if ((down & KEY_DOWN) || (down & KEY_UP))
+            worldSettingsSelect = (worldSettingsSelect == 0) ? 1 : 0;
+        else if (down & KEY_A)
+            if (worldSettingsSelect == 0)
+            {
+                mmEffectEx(&sndClick);
+                deleteWorldSelected = worldSelectSelected;
+                gameState = GameState::DeleteWorld;
+            }
+            else
+            {
+                mmEffectEx(&sndClick);
+                renameWorldSelected = worldSelectSelected;
+                gameState = GameState::RenameWorld;
+            }
         break;
     case GameState::CreateWorld:
     {

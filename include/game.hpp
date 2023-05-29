@@ -62,6 +62,8 @@ public:
         Settings,
         DeleteWorld,
         DeleteAllWorlds,
+        WorldSettings,
+        RenameWorld,
     };
 
 private:
@@ -79,7 +81,8 @@ private:
     u8 saveTextTimer;
     u16 worldSelectSelected;
     u8 langSelectSelected;
-    u8 deleteWorldSelected;
+    u8 deleteWorldSelected; // TODO maybe use u16?
+    u8 renameWorldSelected;
     WorldManager::WorldList worldSelectWorlds;
     bool showSaveText;
     bool paused;
@@ -91,6 +94,7 @@ private:
     u8 titleScreenSelect;
     bool createWorldShowCursor = false;
     u8 createWorldSelect = 0;
+    u8 worldSettingsSelect = 0;
     s16 currentLocation = 0;
     bool logoFall = false;
     u16 logoY;
