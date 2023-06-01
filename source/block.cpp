@@ -280,7 +280,7 @@ void GrassBlock::draw(Camera camera)
         glColor(RGB15(15, 23, 13));
         break;
     case GrassType::Spruce:
-        glColor(RGB15(11, 11, 11));
+        glColor(RGB8(32, 138, 83));
         break;
     }
 
