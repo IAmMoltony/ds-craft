@@ -1693,6 +1693,7 @@ void Game::update(void)
         else if ((down & KEY_DOWN) || (down & KEY_UP))
             worldSettingsSelect = (worldSettingsSelect == 0) ? 1 : 0;
         else if (down & KEY_A)
+        {
             if (worldSettingsSelect == 0)
             {
                 mmEffectEx(&sndClick);
@@ -1707,6 +1708,7 @@ void Game::update(void)
                 renameWorldName = "";
                 gameState = GameState::RenameWorld;
             }
+        }
         break;
     case GameState::RenameWorld:
     {
