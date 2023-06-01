@@ -466,9 +466,14 @@ static void argParseSign(const std::vector<std::string> &split, s16 &x, s16 &y, 
     x = std::stoi(split[1]);
     y = std::stoi(split[2]);
 
-    for (u16 i = 3; i <= split.size(); ++i)
-        text += split[i] + " "; // TODO CPPCheck: When i==split.size(), split[i] is out of bounds. [stlOutOfBounds
-    if (text.size())
+    std::ostringstream oss;
+
+    for (size_t i = 3; i < split.size(); ++i)
+        oss << split[i] << " ";
+
+    text = oss.str();
+
+    if (!text.empty())
         text.pop_back();
 }
 
