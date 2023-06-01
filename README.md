@@ -1,6 +1,6 @@
 # ds-craft
 
-DS-Craft is a Minecraft clone for Nintendo DS, writeen in C and C++.
+DS-Craft is a Minecraft clone for Nintendo DS, written in C and C++.
 
 ## Controls
 
