@@ -32,5 +32,7 @@ public:
     void draw(int x, int y, s32 scale, GL_FLIP_MODE flipMode = GL_FLIP_NONE);
     void restart(void);
     void setImage(u8 imgIndex, glImage *image);
+    void setFramesPerImage(u8 fpi);
     u8 getCurrentFrame(void);
+    u8 getFramesPerImage(void);
 };
