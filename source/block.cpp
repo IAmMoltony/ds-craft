@@ -272,8 +272,6 @@ GrassBlock::GrassBlock(s16 x, s16 y, GrassType type) : Block(x, y, 14)
 
 void GrassBlock::draw(Camera camera)
 {
-    // TODO Make grass types save and load correctly
-
     glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprGrass);
 
     switch (type)

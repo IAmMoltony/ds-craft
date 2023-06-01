@@ -605,6 +605,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             s16 x = 0, y = 0;
             GrassType type;
             argParseGrass(split, x, y, type);
+            printf("%d\n", type);
 
             blocks.emplace_back(new GrassBlock(x, y, type));
         }
@@ -616,9 +617,6 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             // oh boi
             switch (id)
             {
-            case BID_GRASS:
-                blocks.emplace_back(new GrassBlock(x, y));
-                break;
             case BID_DIRT:
                 blocks.emplace_back(new DirtBlock(x, y));
                 break;
