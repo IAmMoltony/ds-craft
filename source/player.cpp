@@ -673,6 +673,7 @@ Player::Player() : x(0), y(0), velX(0), velY(0), spawnX(0), spawnY(0), aimX(0), 
     facing = Facing::Right;
     chest = nullptr;
     sign = nullptr;
+    normalSpriteFPI = bodySprite.getFramesPerImage();
 
     // initialize inventory with null items
     for (u8 i = 0; i < 20; ++i)
@@ -1915,12 +1916,20 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
         bool left = false;
         bool right = false;
         bool up = false;
+        bool downButton = false; // down is already defined
         if (!(keys & KEY_Y))
         {
             up = (Game::SettingsManager::touchToMove == 2) ? keys & KEY_X : keys & KEY_UP;
             left = (Game::SettingsManager::touchToMove == 2) ? keys & KEY_Y : keys & KEY_LEFT;
             right = (Game::SettingsManager::touchToMove == 2) ? keys & KEY_A : keys & KEY_RIGHT;
+            downButton = (Game::SettingsManager::touchToMove == 2) ? keys & KEY_B : keys & KEY_DOWN;
         }
+
+        sneaking = downButton;
+        if (sneaking)
+            bodySprite.setFramesPerImage(normalSpriteFPI * 2);
+        else
+            bodySprite.setFramesPerImage(normalSpriteFPI);
 
         u32 rdown = keysDownRepeat();
         // breaking blocks
@@ -2534,6 +2543,8 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             velX = -2;
         if (right && !left)
             velX = 2;
+        if (sneaking)
+            velX /= 2;
 
         // stop whem player don't press d-pad
         if ((right && left) || (!right && !left))
