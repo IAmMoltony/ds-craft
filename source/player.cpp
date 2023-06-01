@@ -669,6 +669,7 @@ Player::Player() : x(0), y(0), velX(0), velY(0), spawnX(0), spawnY(0), aimX(0), 
     fullInventory = false;
     inventoryCrafting = false;
     chestOpen = false;
+    sneaking = false;
     facing = Facing::Right;
     chest = nullptr;
     sign = nullptr;
