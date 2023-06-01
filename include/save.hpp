@@ -19,3 +19,4 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                Player &player, unsigned int seed, s16 currentLocation);
 void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                Player &player, s16 &currentLocation);
+void renameWorld(const std::string &oldName, const std::string &newName);

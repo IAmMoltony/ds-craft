@@ -89,6 +89,7 @@ private:
     std::string worldName;
     std::string createWorldName;
     std::string createWorldSeed;
+    std::string renameWorldName;
     bool createWorldError;
     u8 settingsSelect;
     u8 titleScreenSelect;

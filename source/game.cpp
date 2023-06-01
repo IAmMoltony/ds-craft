@@ -414,6 +414,9 @@ void Game::drawMovingBackground(void)
     glColor(RGB15(31, 31, 31));
 }
 
+static constexpr int worldNameBoxWidth = 190;
+static constexpr int worldNameBoxHeight = 14;
+
 void Game::draw(void)
 {
     switch (gameState)
@@ -790,8 +793,48 @@ void Game::draw(void)
         free(hrfsz);
 
         break;
-
     }
+    case GameState::RenameWorld:
+        drawMovingBackground();
+        for (u8 i = 0; i < SCREEN_WIDTH / 32; ++i)
+        {
+            glSpriteScale(i * 32, 0, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
+            glSpriteScale(i * 32, SCREEN_HEIGHT - 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
+        }
+
+        switch (lang)
+        {
+        case Language::English:
+            font.drawHeading("Rename world");
+            font.print(15, 71, "New world name:");
+
+            glPolyFmt(POLY_ALPHA(27) | POLY_CULL_NONE);
+            glBoxFilled(15, 83, 15 + worldNameBoxWidth, 83 + worldNameBoxHeight, RGB15(6, 6, 6));
+            glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
+            glBoxStroke(15, 83, worldNameBoxWidth, worldNameBoxHeight, RGB15(31, 31, 31));
+            font.print(18, 86, std::string(renameWorldName + ((createWorldShowCursor) ? "_" : "")).c_str());
+
+            glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprBButton);
+            font.print(15, SCREEN_HEIGHT - 28, "Cancel");
+            break;
+        case Language::Russian:
+            fontRu.drawHeading("Qgsgkogpqdbu# oks");
+            fontRu.print(15, 71, "Oqdqg ko&:");
+
+            glPolyFmt(POLY_ALPHA(27) | POLY_CULL_NONE);
+            glBoxFilled(15, 83, 15 + worldNameBoxWidth, 83 + worldNameBoxHeight, RGB15(6, 6, 6));
+            glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
+            glBoxStroke(15, 83, worldNameBoxWidth, worldNameBoxHeight, RGB15(31, 31, 31));
+            font.print(18, 86, std::string(renameWorldName + ((createWorldShowCursor) ? "_" : "")).c_str());
+
+            glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprBButton);
+            fontRu.print(15, SCREEN_HEIGHT - 28, "Puogpb");
+            break;
+        }
+
+        glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprAButton);
+        font.print(15, SCREEN_HEIGHT - 15, "OK");
+        break;
     case GameState::CreateWorld:
         drawMovingBackground();
         for (u8 i = 0; i < SCREEN_WIDTH / 32; ++i)
@@ -844,9 +887,6 @@ void Game::draw(void)
             fontRu.print(15, 111, "Ln%z egpgsbuqsb oksb");
             break;
         }
-
-        static constexpr int worldNameBoxWidth = 190;
-        static constexpr int worldNameBoxHeight = 14;
 
         glPolyFmt(POLY_ALPHA(27) | POLY_CULL_NONE);
         glBoxFilled(15, 73, 15 + worldNameBoxWidth, 73 + worldNameBoxHeight, RGB15(6, 6, 6));
@@ -1663,9 +1703,49 @@ void Game::update(void)
             {
                 mmEffectEx(&sndClick);
                 renameWorldSelected = worldSelectSelected;
+                keyboardShow();
+                renameWorldName = "";
                 gameState = GameState::RenameWorld;
             }
         break;
+    case GameState::RenameWorld:
+    {
+        int chi = keyboardUpdate();
+        u8 ch = (u8)chi;
+
+        if (down & KEY_B)
+        {
+            keyboardHide();
+            gameState = GameState::WorldSettings;
+            mmEffectEx(&sndClick);
+        }
+        else if (down & KEY_A || ch == '\n')
+        {
+            // trim the string
+            renameWorldName.erase(renameWorldName.begin(),
+                                  std::find_if(renameWorldName.begin(),
+                                               renameWorldName.end(), [](unsigned char ch)
+            {
+                return !std::isspace(ch);
+            }));
+            renameWorldName.erase(std::find_if(renameWorldName.rbegin(), renameWorldName.rend(),
+                                               [](unsigned char ch)
+            {
+                return !std::isspace(ch);
+            })
+            .base(),
+            renameWorldName.end());
+
+            renameWorld(worldSelectWorlds[worldSelectSelected].name, renameWorldName);
+            enterWorldSelect();
+        }
+
+        if (ch == '\b' && renameWorldName.size() > 0)
+            renameWorldName.pop_back();
+        else if (chi > 0 && chi != 8 && renameWorldName.size() + 1 <= 29)
+            renameWorldName += ch;
+        break;
+    }
     case GameState::CreateWorld:
     {
         int chi = keyboardUpdate();

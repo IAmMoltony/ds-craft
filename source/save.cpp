@@ -810,3 +810,25 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
     srand(getWorldSeed(name) + currentLocation);
 }
+
+void renameWorld(const std::string &oldName, const std::string &newName)
+{
+    const std::string oldNameNormalized = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(oldName);
+    if (!fsFolderExists(oldNameNormalized.c_str()))
+        return;
+
+    std::string wldMeta = std::string(fsReadFile(std::string(oldNameNormalized + "/world.meta").c_str()));
+    size_t worldnamePos = wldMeta.find("worldname ");
+    if (worldnamePos != std::string::npos)
+    {
+        size_t lineEnd = wldMeta.find('\n', worldnamePos);
+        if (lineEnd == std::string::npos)
+            lineEnd = wldMeta.size();
+
+        // 10 is the length of "worldname "
+        std::string oldValue = wldMeta.substr(worldnamePos + 10, lineEnd - (worldnamePos + 10));
+        wldMeta.replace(worldnamePos + 10, lineEnd - (worldnamePos + 10), newName);
+    }
+
+    fsWrite(std::string(oldNameNormalized + "/world.meta").c_str(), wldMeta.c_str());
+}
