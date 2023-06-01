@@ -828,7 +828,6 @@ void renameWorld(const std::string &oldName, const std::string &newName)
             lineEnd = wldMeta.size();
 
         // 10 is the length of "worldname "
-        std::string oldValue = wldMeta.substr(worldnamePos + 10, lineEnd - (worldnamePos + 10));
         wldMeta.replace(worldnamePos + 10, lineEnd - (worldnamePos + 10), newName);
     }
 
