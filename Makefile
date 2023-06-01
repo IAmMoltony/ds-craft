@@ -112,10 +112,6 @@ endif
 %.elf: $(SOUNDBANK)
 	$(SILENTMSG) linking $(notdir $@)
 	$(SILENTCMD)$(LD) $(LDFLAGS) $(OFILES) $(LIBPATHS) $(LIBS) -o $@
-	$(SILENTMSG) stripping $(notdir $@)
-	$(SILENTCMD)$(STRIP) $@
-
-# is stripping even needed?..
 
 #---------------------------------------------------------------------------------
 # options for code generation
