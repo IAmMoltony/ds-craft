@@ -1738,7 +1738,11 @@ void Game::update(void)
             .base(),
             renameWorldName.end());
 
+            // TODO move "fat:/dscraft_data/worlds/" into a define or constant
+            // TODO add error for duplicated world name in rename world screen
+
             renameWorld(worldSelectWorlds[worldSelectSelected].name, renameWorldName);
+            rename(std::string("fat:/dscraft_data/worlds/" + normalizeWorldFileName(worldSelectWorlds[worldSelectSelected].name)).c_str(), std::string("fat:/dscraft_data/worlds/" + normalizeWorldFileName(renameWorldName)).c_str());
             enterWorldSelect();
         }
 
