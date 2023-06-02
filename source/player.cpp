@@ -1530,7 +1530,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                         if (block->id() == BID_CHEST)
                         {
                             Block *b = block.get();
-                            ChestBlock *chestp = (ChestBlock *)b;
+                            ChestBlock *chestp = static_cast<ChestBlock *>(b);
                             chestOpen = true;
                             chest = chestp;
                         }
