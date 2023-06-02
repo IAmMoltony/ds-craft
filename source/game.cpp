@@ -1301,7 +1301,7 @@ void Game::update(void)
                 if (block->id() == BID_SAPLING)
                 {
                     Block *b = block.get();
-                    SaplingBlock *sapling = (SaplingBlock *)b;
+                    SaplingBlock *sapling = static_cast<SaplingBlock *>(b);
                     sapling->update();
                     if (sapling->hasGrown())
                     {
@@ -1316,7 +1316,7 @@ void Game::update(void)
                 else if (block->id() == BID_BIRCH_SAPLING)
                 {
                     Block *b = block.get();
-                    BirchSaplingBlock *sapling = (BirchSaplingBlock *)b;
+                    BirchSaplingBlock *sapling = static_cast<BirchSaplingBlock *>(b);
                     sapling->update();
                     if (sapling->hasGrown())
                     {
@@ -1331,7 +1331,7 @@ void Game::update(void)
                 else if (block->id() == BID_SPRUCE_SAPLING)
                 {
                     Block *b = block.get();
-                    SpruceSaplingBlock *sapling = (SpruceSaplingBlock *)b;
+                    SpruceSaplingBlock *sapling = static_cast<SpruceSaplingBlock *>(b);
                     sapling->update();
                     if (sapling->hasGrown())
                     {
@@ -1343,6 +1343,7 @@ void Game::update(void)
                         std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort blocks
                     }
                 }
+                // TODO there should be a function for updating sapling
             }
 
             // update entities
@@ -1355,7 +1356,7 @@ void Game::update(void)
                         .intersects(entity->getRectBottom()))
                 {
                     bool ok = true;
-                    DropEntity *drop = (DropEntity *)entity.get();
+                    DropEntity *drop = static_cast<DropEntity *>(entity.get());
                     if (player.canAddItem(drop->getItemID()))
                         player.addItem(drop->getItemID());
                     else
@@ -1363,6 +1364,8 @@ void Game::update(void)
 
                     if (ok)
                     {
+                        // item picked up successfully
+
                         playPopSound(); // play pop sound at random pitch
                         entities.erase(entities.begin() + i);
                     }
