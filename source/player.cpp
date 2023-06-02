@@ -1917,17 +1917,21 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
         bool right = false;
         bool up = false;
         bool downButton = false; // down is already defined
+        bool leftDown = false;
+        bool rightDown = false;
         if (!(keys & KEY_Y))
         {
             up = (Game::SettingsManager::touchToMove == 2) ? keys & KEY_X : keys & KEY_UP;
             left = (Game::SettingsManager::touchToMove == 2) ? keys & KEY_Y : keys & KEY_LEFT;
             right = (Game::SettingsManager::touchToMove == 2) ? keys & KEY_A : keys & KEY_RIGHT;
             downButton = (Game::SettingsManager::touchToMove == 2) ? keys & KEY_B : keys & KEY_DOWN;
+            leftDown = (Game::SettingsManager::touchToMove == 2) ? down & KEY_Y : down & KEY_LEFT;
+            rightDown = (Game::SettingsManager::touchToMove == 2) ? down & KEY_A : down & KEY_RIGHT;
         }
 
         if (sprintPressing)
             ++sprintFrames;
-        if (left || right)
+        if (leftDown || rightDown)
         {
             if (sprintFrames == 0)
                 sprintPressing = true;
@@ -1937,25 +1941,21 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 sprintFrames = 0;
                 sprinting = true;
             }
-            else
-            {
-                sprintPressing = false;
-                sprintFrames = 0;
-            }
         }
-        else
+        if (sprintFrames > 15)
+        {
+            sprintPressing = false;
+            sprintFrames = 0;
             sprinting = false;
+        }
 
         sneaking = downButton;
         if (sneaking)
             bodySprite.setFramesPerImage(normalSpriteFPI * 2);
         else if (sprinting)
-            bodySprite.setFramesPerImage(normalSpriteFPI / 2);
+            bodySprite.setFramesPerImage(normalSpriteFPI / 1.5);
         else
             bodySprite.setFramesPerImage(normalSpriteFPI);
-
-        if (!left && !right)
-            sprinting = false;
 
         u32 rdown = keysDownRepeat();
         // breaking blocks
@@ -2573,7 +2573,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
         if (sneaking)
             velX /= 2;
         else if (sprinting)
-            velX *= 2;
+            velX += 1 * (velX < 0 ? -1 : 1);
 
         // stop whem player don't press d-pad
         if ((right && left) || (!right && !left))
