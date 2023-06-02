@@ -34,7 +34,7 @@ private:
     u8 inventorySelect, inventoryFullSelect, inventoryMoveSelect, craftingSelect, chestSelect,
         chestMoveSelect, normalSpriteFPI, sprintFrames;
     float velX, velY;
-    bool falling, jumping, fullInventory, inventoryCrafting, chestOpen, sneaking, sprinting, sprintPressing = false;
+    bool falling, jumping, fullInventory, inventoryCrafting, chestOpen, sneaking, sprinting, sprintPressing;
     Facing facing;
     InventoryItem inventory[20];
     ChestBlock *chest;

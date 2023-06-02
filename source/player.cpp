@@ -659,7 +659,7 @@ bool isSlabItem(InventoryItemID id)
 
 Player::Player() : x(0), y(0), velX(0), velY(0), spawnX(0), spawnY(0), aimX(0), aimY(0), inventorySelect(0),
                    inventoryFullSelect(0), inventoryMoveSelect(20), craftingSelect(0), health(9), airY(0),
-                   chestSelect(0), chestMoveSelect(40),
+                   chestSelect(0), chestMoveSelect(40), sprintFrames(0),
                     bodySprite(AnimatedSprite(5, AnimatedSpriteMode::ReverseLoop,
                                              {sprPlayerBody[0], sprPlayerBody[1], sprPlayerBody[2]})),
                    aimDist(0)
@@ -671,7 +671,7 @@ Player::Player() : x(0), y(0), velX(0), velY(0), spawnX(0), spawnY(0), aimX(0), 
     chestOpen = false;
     sneaking = false;
     sprinting = false;
-    sprintFrames = 0;
+    sprintPressing = false;
     facing = Facing::Right;
     chest = nullptr;
     sign = nullptr;
