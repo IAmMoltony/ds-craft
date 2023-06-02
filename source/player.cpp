@@ -1538,9 +1538,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     }
                 }
 
-                // why did i call this variable 'check'
-                // anyway this variable indicates if we should place block or not
-                bool check = !Rect(x, y, 12, 32)
+                bool shouldPlaceBlock = !Rect(x, y, 12, 32)
                                   .intersects(
                                       Rect(snapToGrid(camera->x + aimX),
                                            snapToGrid(camera->y + aimY), 16, 16));
@@ -1548,12 +1546,12 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 InventoryItemID id = inventory[inventorySelect].id;
                 // nonsolid blocks can be placed inside player
                 if (isNonSolidBlockItem(id))
-                    check = true;
+                    shouldPlaceBlock = true;
 
                 if (aimDist > MAX_AIM_DISTANCE)
-                    check = false;
+                    shouldPlaceBlock = false;
 
-                if (check && id != InventoryItemID::None)
+                if (shouldPlaceBlock && id != InventoryItemID::None)
                 {
                     // also check if there is a block that the block can be placed on
 
@@ -1562,7 +1560,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                         rectHeight = 8; // slabs have rect height of 8
                     Rect blockRect(snapToGrid(camera->x + aimX), snapToGrid(camera->y + aimY),
                                    16, rectHeight);
-                    bool check2 = false;
+                    bool blockOnSide = false;
 
                     for (auto &block : *blocks)
                     {
@@ -1577,15 +1575,15 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                         bool onLeft = (block->x == blockRect.x - 16 && block->y == blockRect.y);
                         bool onTop = (block->x == blockRect.x && block->y == blockRect.y - ((rectHeight == 8) ? ((blockRect.y % 8 == 0 && blockRect.y % 16 != 0) ? 8 : 16) : 16));
                         bool onBottom = (block->x == blockRect.x && block->y == blockRect.y + ((rectHeight == 8) ? ((blockRect.y % 8 == 0 && blockRect.y % 16 != 0) ? 8 : 16) : 16));
-                        check2 = onRight || onLeft || onTop || onBottom;
-                        if (check2)
+                        blockOnSide = onRight || onLeft || onTop || onBottom;
+                        if (blockOnSide)
                             break;
                     }
-                    if (!check2)
-                        check = false;
+                    if (!blockOnSide)
+                        shouldPlaceBlock = false;
                 }
 
-                if (!interact && check)
+                if (!interact && shouldPlaceBlock)
                 {
                     // place a block or interact
                     // some blocks can only be placed on certain other blocks
