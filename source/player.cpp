@@ -670,6 +670,9 @@ Player::Player() : x(0), y(0), velX(0), velY(0), spawnX(0), spawnY(0), aimX(0), 
     inventoryCrafting = false;
     chestOpen = false;
     sneaking = false;
+    sprinting = false;
+    sprintDirection = 0;
+    sprintFrames = 0;
     facing = Facing::Right;
     chest = nullptr;
     sign = nullptr;
@@ -1926,6 +1929,8 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
         sneaking = downButton;
         if (sneaking)
             bodySprite.setFramesPerImage(normalSpriteFPI * 2);
+        else if (sprinting)
+            bodySprite.setFramesPerImage(normalSpriteFPI / 2);
         else
             bodySprite.setFramesPerImage(normalSpriteFPI);
 
