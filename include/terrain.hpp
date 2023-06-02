@@ -1,7 +1,9 @@
 #pragma once
 #include "player.hpp"
 #include <time.h>
+#include <limits.h>
 #include <algorithm>
+#include <numeric>
 
 enum class TreeType
 {

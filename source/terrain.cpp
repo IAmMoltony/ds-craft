@@ -271,10 +271,14 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
     std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort
 
     player.setX(1024 / 2 - 8);
-    s16 maxY = 0;
-    for (auto &block : blocks)
-        if (block->y < maxY)
-            maxY = block->y;
+    s16 maxY = INT16_MAX;
+    maxY = std::accumulate(blocks.begin(), blocks.end(), maxY,
+        [](s16 acc, const std::unique_ptr<Block> &block)
+        {
+            if (block->y < acc)
+                return block->y;
+            return acc;
+        });
     player.setY(maxY);
     player.setSpawnPoint(1024 / 2 - 8, maxY);
 }
