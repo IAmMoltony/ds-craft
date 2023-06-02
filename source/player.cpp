@@ -1925,6 +1925,27 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             downButton = (Game::SettingsManager::touchToMove == 2) ? keys & KEY_B : keys & KEY_DOWN;
         }
 
+        if (sprintPressing)
+            ++sprintFrames;
+        if (left || right)
+        {
+            if (sprintFrames == 0)
+                sprintPressing = true;
+            else if (sprintFrames <= 15)
+            {
+                sprintPressing = false;
+                sprintFrames = 0;
+                sprinting = true;
+            }
+            else
+            {
+                sprintPressing = false;
+                sprintFrames = 0;
+            }
+        }
+        else
+            sprinting = false;
+
         sneaking = downButton;
         if (sneaking)
             bodySprite.setFramesPerImage(normalSpriteFPI * 2);
@@ -1932,6 +1953,9 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             bodySprite.setFramesPerImage(normalSpriteFPI / 2);
         else
             bodySprite.setFramesPerImage(normalSpriteFPI);
+
+        if (!left && !right)
+            sprinting = false;
 
         u32 rdown = keysDownRepeat();
         // breaking blocks
@@ -2543,10 +2567,13 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
         // horizontal movement
         if (left && !right)
             velX = -2;
-        if (right && !left)
+        else if (right && !left)
             velX = 2;
+
         if (sneaking)
             velX /= 2;
+        else if (sprinting)
+            velX *= 2;
 
         // stop whem player don't press d-pad
         if ((right && left) || (!right && !left))
