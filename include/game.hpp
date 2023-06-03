@@ -50,6 +50,42 @@ public:
         static void loadSettings(void);
     };
 
+    class ControlsManager
+    {
+    public:
+        static inline constexpr u8 BUTTON_GO_LEFT = 0;
+        static inline constexpr u8 BUTTON_GO_RIGHT = 1;
+        static inline constexpr u8 BUTTON_JUMP = 2;
+        static inline constexpr u8 BUTTON_SNEAK = 3;
+        static inline constexpr u8 BUTTON_DPAD_AIM = 4;
+        static inline constexpr u8 BUTTON_OPEN_INVENTORY = 5;
+        static inline constexpr u8 BUTTON_PAUSE = 6;
+        static inline constexpr u8 BUTTON_UNKNOWN = UINT8_MAX;
+
+        static inline constexpr u8 NUM_BUTTONS = 7;
+
+        static inline constexpr u32 DEFAULT_GO_LEFT = KEY_LEFT;
+        static inline constexpr u32 DEFAULT_GO_RIGHT = KEY_RIGHT;
+        static inline constexpr u32 DEFAULT_JUMP = KEY_UP;
+        static inline constexpr u32 DEFAULT_SNEAK = KEY_DOWN;
+        static inline constexpr u32 DEFAULT_DPAD_AIM = KEY_Y;
+        static inline constexpr u32 DEFAULT_OPEN_INVENTORY = KEY_SELECT;
+        static inline constexpr u32 DEFAULT_PAUSE = KEY_START;
+
+        ControlsManager() = delete;
+        ControlsManager(ControlsManager &) = delete;
+        ~ControlsManager() = delete;
+
+        static void loadControls(void);
+        static u32 getButton(u8 button);
+
+    private:
+        static u32 buttons[NUM_BUTTONS];
+
+        static void writeDefaultControls(void);
+        static u8 buttonIDIndex(const std::string &buttonID);
+    };
+
     enum class GameState
     {
         Game,

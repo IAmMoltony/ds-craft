@@ -313,6 +313,9 @@ void Game::init(void)
     // load settings
     SettingsManager::loadSettings();
 
+    // load controls
+    ControlsManager::loadControls();
+
     // load fonts
     loadFonts();
 
@@ -1257,12 +1260,14 @@ void Game::update(void)
             showSaveText = true;
         }
 
-        if (down & KEY_START && !paused) // bring up pause menu
+        if (down & ControlsManager::getButton(ControlsManager::BUTTON_PAUSE) && !paused) // bring up pause menu
         {
+            printf("aHH");
             paused = true;
             mmEffectEx(&sndClick);
         }
-        if (down & KEY_A && paused) // resume
+        if ((down & KEY_A || down & ControlsManager::getButton(ControlsManager::BUTTON_PAUSE))
+            && paused) // resume
         {
             paused = false;
             mmEffectEx(&sndClick);
@@ -2191,4 +2196,66 @@ void Game::cameraFollowPlayer(bool smooth)
         camera.x = 0;
     else if (camera.x > 1024 - SCREEN_WIDTH)
         camera.x = 1024 - SCREEN_WIDTH;
+}
+
+u32 Game::ControlsManager::buttons[Game::ControlsManager::NUM_BUTTONS];
+
+void Game::ControlsManager::loadControls(void)
+{
+    if (!fsFileExists("fat:/dscraft_data/config/controls.cfg"))
+        writeDefaultControls();
+
+    std::ifstream ifs("fat:/dscraft_data/config/controls.cfg");
+    std::string line;
+    while (std::getline(ifs, line, '\n'))
+    {
+        std::vector<std::string> split;
+        std::string line2;
+        std::stringstream ss(line);
+        while (std::getline(ss, line2, ' '))
+            split.push_back(line2);
+
+
+        u32 button = std::stoi(split[1]);
+        const std::string &buttonID = split[0];
+        u8 bidi = buttonIDIndex(buttonID);
+        if (bidi == BUTTON_UNKNOWN)
+            continue;
+        buttons[bidi] = button;
+    }
+}
+
+u32 Game::ControlsManager::getButton(u8 button)
+{
+    if (button >= NUM_BUTTONS)
+        return UINT32_MAX;
+    return buttons[button];
+}
+
+void Game::ControlsManager::writeDefaultControls(void)
+{
+    std::ofstream os("fat:/dscraft_data/config/controls.cfg");
+    os << "goleft " << DEFAULT_GO_LEFT << "\ngoright " << DEFAULT_GO_RIGHT << "\njump " << DEFAULT_JUMP
+       << "\nsneak " << DEFAULT_SNEAK << "\ndpadaim " << DEFAULT_DPAD_AIM << "\nopeninventory "
+       << DEFAULT_OPEN_INVENTORY << "\npause " << DEFAULT_PAUSE << '\n';
+}
+
+u8 Game::ControlsManager::buttonIDIndex(const std::string &buttonID)
+{
+    if (buttonID == "goleft")
+        return BUTTON_GO_LEFT;
+    else if (buttonID == "goright")
+        return BUTTON_GO_RIGHT;
+    else if (buttonID == "jump")
+        return BUTTON_JUMP;
+    else if (buttonID == "sneak")
+        return BUTTON_SNEAK;
+    else if (buttonID == "dpadaim")
+        return BUTTON_DPAD_AIM;
+    else if (buttonID == "openinventory")
+        return BUTTON_OPEN_INVENTORY;
+    else if (buttonID == "pause")
+        return BUTTON_PAUSE;
+
+    return BUTTON_UNKNOWN;
 }
