@@ -1262,8 +1262,7 @@ void Game::update(void)
             paused = true;
             mmEffectEx(&sndClick);
         }
-        if ((down & KEY_A || down & ControlsManager::getButton(ControlsManager::BUTTON_PAUSE))
-            && paused) // resume
+        if (down & KEY_A || paused) // resume
         {
             paused = false;
             mmEffectEx(&sndClick);
