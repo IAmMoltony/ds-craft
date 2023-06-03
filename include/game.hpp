@@ -60,9 +60,11 @@ public:
         static inline constexpr u8 BUTTON_DPAD_AIM = 4;
         static inline constexpr u8 BUTTON_OPEN_INVENTORY = 5;
         static inline constexpr u8 BUTTON_PAUSE = 6;
+        static inline constexpr u8 BUTTON_INTERACT = 7;
+        static inline constexpr u8 BUTTON_ATTACK = 8;
         static inline constexpr u8 BUTTON_UNKNOWN = UINT8_MAX;
 
-        static inline constexpr u8 NUM_BUTTONS = 7;
+        static inline constexpr u8 NUM_BUTTONS = 9;
 
         static inline constexpr u32 DEFAULT_GO_LEFT = KEY_LEFT;
         static inline constexpr u32 DEFAULT_GO_RIGHT = KEY_RIGHT;
@@ -71,6 +73,8 @@ public:
         static inline constexpr u32 DEFAULT_DPAD_AIM = KEY_Y;
         static inline constexpr u32 DEFAULT_OPEN_INVENTORY = KEY_SELECT;
         static inline constexpr u32 DEFAULT_PAUSE = KEY_START;
+        static inline constexpr u32 DEFAULT_INTERACT = KEY_A;
+        static inline constexpr u32 DEFAULT_ATTACK = KEY_B;
 
         ControlsManager() = delete;
         ControlsManager(ControlsManager &) = delete;

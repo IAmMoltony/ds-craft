@@ -1258,7 +1258,6 @@ void Game::update(void)
 
         if (down & ControlsManager::getButton(ControlsManager::BUTTON_PAUSE) && !paused) // bring up pause menu
         {
-            printf("aHH");
             paused = true;
             mmEffectEx(&sndClick);
         }
@@ -2199,6 +2198,7 @@ u32 Game::ControlsManager::buttons[Game::ControlsManager::NUM_BUTTONS];
 
 void Game::ControlsManager::loadControls(void)
 {
+    fsDeleteFile("fat:/dscraft_data/config/controls.cfg");
     if (!fsFileExists("fat:/dscraft_data/config/controls.cfg"))
         writeDefaultControls();
 
@@ -2211,7 +2211,6 @@ void Game::ControlsManager::loadControls(void)
         std::stringstream ss(line);
         while (std::getline(ss, line2, ' '))
             split.push_back(line2);
-
 
         u32 button = std::stoi(split[1]);
         const std::string &buttonID = split[0];
@@ -2232,9 +2231,10 @@ u32 Game::ControlsManager::getButton(u8 button)
 void Game::ControlsManager::writeDefaultControls(void)
 {
     std::ofstream os("fat:/dscraft_data/config/controls.cfg");
-    os << "goleft " << DEFAULT_GO_LEFT << "\ngoright " << DEFAULT_GO_RIGHT << "\njump " << DEFAULT_JUMP
-       << "\nsneak " << DEFAULT_SNEAK << "\ndpadaim " << DEFAULT_DPAD_AIM << "\nopeninventory "
-       << DEFAULT_OPEN_INVENTORY << "\npause " << DEFAULT_PAUSE << '\n';
+    os << "goleft " << DEFAULT_GO_LEFT << "\ngoright " << DEFAULT_GO_RIGHT << "\njump "
+       << DEFAULT_JUMP << "\nsneak " << DEFAULT_SNEAK << "\ndpadaim " << DEFAULT_DPAD_AIM
+       << "\nopeninventory " << DEFAULT_OPEN_INVENTORY << "\npause " << DEFAULT_PAUSE
+       << "\ninteract " << DEFAULT_INTERACT << "\nattack " << DEFAULT_ATTACK << '\n';
 }
 
 u8 Game::ControlsManager::buttonIDIndex(const std::string &buttonID)
@@ -2253,6 +2253,10 @@ u8 Game::ControlsManager::buttonIDIndex(const std::string &buttonID)
         return BUTTON_OPEN_INVENTORY;
     else if (buttonID == "pause")
         return BUTTON_PAUSE;
+    else if (buttonID == "interact")
+        return BUTTON_INTERACT;
+    else if (buttonID == "attack")
+        return BUTTON_ATTACK;
 
     return BUTTON_UNKNOWN;
 }

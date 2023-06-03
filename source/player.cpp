@@ -1175,7 +1175,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
     {
         u32 kdown = keysDown();
 
-        if (kdown & KEY_SELECT)
+        if (kdown & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_OPEN_INVENTORY))
         {
             // when select is pressed, close inventory
             fullInventory = false;
@@ -1292,7 +1292,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
     {
         u32 kdown = keysDown();
 
-        if (kdown & KEY_SELECT)
+        if (kdown & Game::ControlsManager::BUTTON_OPEN_INVENTORY)
         {
             chestOpen = false;
             chest = nullptr;
@@ -1452,7 +1452,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             velY += 0.3f;
             ++airY;
             if (velY > 5)
-                // cap fall speed
+                // cap (lol) fall speed
                 velY = 5;
         }
 
@@ -1479,7 +1479,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 }
             }
         }
-        if (down & ((Game::SettingsManager::touchToMove == 2) ? KEY_RIGHT : KEY_A))
+        if (down & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_INTERACT))
         {
             // when the A button is pressed, either interact or place block
             // and interact if there is a block, place if there isnt
@@ -1904,9 +1904,9 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             if (inventorySelect > 4)
                 inventorySelect = 0;
         }
-        if (down & KEY_SELECT)
+        if (down & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_OPEN_INVENTORY))
         {
-            // when select pressed bring uop inventory
+            // when select pressed bring up inventory
             fullInventory = true;
             mmEffectEx(&Game::instance->sndClick);
         }
@@ -1919,14 +1919,17 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
         bool downButton = false; // down is already defined
         bool leftDown = false;
         bool rightDown = false;
-        if (!(keys & KEY_Y))
+        if (!(keys & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_DPAD_AIM)))
         {
-            up = (Game::SettingsManager::touchToMove == 2) ? keys & KEY_X : keys & KEY_UP;
-            left = (Game::SettingsManager::touchToMove == 2) ? keys & KEY_Y : keys & KEY_LEFT;
-            right = (Game::SettingsManager::touchToMove == 2) ? keys & KEY_A : keys & KEY_RIGHT;
-            downButton = (Game::SettingsManager::touchToMove == 2) ? keys & KEY_B : keys & KEY_DOWN;
-            leftDown = (Game::SettingsManager::touchToMove == 2) ? down & KEY_Y : down & KEY_LEFT;
-            rightDown = (Game::SettingsManager::touchToMove == 2) ? down & KEY_A : down & KEY_RIGHT;
+            u32 buttonLeft = Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_GO_LEFT);
+            u32 buttonRight = Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_GO_RIGHT);
+
+            up = keys & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_JUMP);
+            left = keys & buttonLeft;
+            right = keys & buttonRight;
+            downButton = keys & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_SNEAK);
+            leftDown = down & buttonLeft;
+            rightDown = down & buttonRight;
         }
 
         if (sprintPressing)
@@ -1974,9 +1977,9 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             if (block->getRect().x - camera->x > SCREEN_WIDTH + 48)
                 break;
 
-            if (rdown & ((Game::SettingsManager::touchToMove == 2) ? KEY_DOWN : KEY_B))
+            if (rdown & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_ATTACK))
             {
-                // if block touch aim then block break, if b or down is pressed
+                // if block touch aim then block break
                 // and we cant break bedrock
                 Rect blockBreakRect = getRectAim(*camera);
                 if (block->isSlab())
@@ -2477,6 +2480,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 aimY = touchPos.py;
 
                 // touch to move
+                // TODO make touch to mov work with sprinting
                 if (!(keys & ((Game::SettingsManager::touchToMove == 2) ? KEY_UP : KEY_X)))
                 {
                     if (Game::SettingsManager::touchToMove != 0)
@@ -2547,7 +2551,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
         else
             facing = Facing::Right;
 
-        if (keys & KEY_Y)
+        if (keys & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_DPAD_AIM))
         {
             u32 kdown = keysDown();
 
