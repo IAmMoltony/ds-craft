@@ -465,16 +465,12 @@ void Game::draw(void)
             switch (lang)
             {
             case Language::English:
-                glSprite(SCREEN_WIDTH / 2 - 42, 96, GL_FLIP_NONE, sprAButton);
-                font.printCentered(0, 98, "Respawn");
-                glSprite(SCREEN_WIDTH / 2 - 30, 116, GL_FLIP_NONE, sprBButton);
-                font.printCentered(0, 118, "Quit");
+                font.printCentered(0, 98, "\2:A  Respawn");
+                font.printCentered(0, 118, "\2:B  Quit");
                 break;
             case Language::Russian:
-                glSprite(SCREEN_WIDTH / 2 - 57, 96, GL_FLIP_NONE, sprAButton);
-                fontRu.printCentered(0, 98, "Cqjsqfku#t&");
-                glSprite(SCREEN_WIDTH / 2 - 33, 116, GL_FLIP_NONE, sprBButton);
-                fontRu.printCentered(0, 118, "C\"luk");
+                fontRu.printCentered(0, 98, "\2:A  Cqjsqfku#t&");
+                fontRu.printCentered(0, 118, "\2:B  C\"luk");
             }
         }
 
