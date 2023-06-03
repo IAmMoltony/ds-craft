@@ -411,3 +411,11 @@ void Font::drawHeading(const char *str)
     printCentered(0, 5, str, NULL, SCALE(1.8));
     setCharWidthHandler(chwhOld);
 }
+
+void Font::drawHeadingShadow(const char *str)
+{
+    CharWidthHandler chwhOld = chwHandler;
+    setCharWidthHandler(chwhHeading);
+    printShadowCentered(0, 5, str, NULL, SCALE(1.8));
+    setCharWidthHandler(chwhOld);
+}

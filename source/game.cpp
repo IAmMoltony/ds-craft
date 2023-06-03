@@ -455,22 +455,22 @@ void Game::draw(void)
             switch (lang)
             {
             case Language::English:
-                font.drawHeading("Game over");
+                font.drawHeadingShadow("Game over");
                 break;
             case Language::Russian:
-                fontRu.drawHeading("Jesb qmqpzgpb");
+                fontRu.drawHeadingShadow("Jesb qmqpzgpb");
                 break;
             }
 
             switch (lang)
             {
             case Language::English:
-                font.printCentered(0, 98, "\2:A  Respawn");
-                font.printCentered(0, 118, "\2:B  Quit");
+                font.printShadowCentered(0, 98, "\2:A  Respawn");
+                font.printShadowCentered(0, 118, "\2:B  Quit");
                 break;
             case Language::Russian:
-                fontRu.printCentered(0, 98, "\2:A  Cqjsqfku#t&");
-                fontRu.printCentered(0, 118, "\2:B  C\"luk");
+                fontRu.printShadowCentered(0, 98, "\2:A  Cqjsqfku#t&");
+                fontRu.printShadowCentered(0, 118, "\2:B  C\"luk");
             }
         }
 

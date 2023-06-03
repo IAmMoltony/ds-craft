@@ -37,4 +37,5 @@ public:
     void printfShadow(int x, int y, const char *format, ...) __attribute__((format(printf, 4, 5)));
     void printfScaleShadow(int x, int y, s32 scale, const char *format, ...) __attribute__((format(printf, 5, 6)));
     void drawHeading(const char *str);
+    void drawHeadingShadow(const char *str);
 };
