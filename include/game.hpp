@@ -81,8 +81,8 @@ private:
     u8 saveTextTimer;
     u16 worldSelectSelected;
     u8 langSelectSelected;
-    u8 deleteWorldSelected; // TODO maybe use u16?
-    u8 renameWorldSelected;
+    u16 deleteWorldSelected;
+    u16 renameWorldSelected;
     WorldManager::WorldList worldSelectWorlds;
     bool showSaveText;
     bool paused;
