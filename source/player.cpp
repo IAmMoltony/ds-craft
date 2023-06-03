@@ -2849,7 +2849,8 @@ s16 Player::getHealth(void)
 u16 Player::countItems(InventoryItemID item)
 {
     if (item == InventoryItemID::AnyPlanks)
-        return countItems(InventoryItemID::Planks) + countItems(InventoryItemID::BirchPlanks);
+        return countItems(InventoryItemID::Planks) + countItems(InventoryItemID::BirchPlanks) +
+               countItems(InventoryItemID::SprucePlanks);
 
     u16 count = 0;
     for (u8 i = 0; i < 20; ++i)
