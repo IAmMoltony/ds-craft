@@ -887,10 +887,10 @@ void Player::draw(Camera camera, Font font, Font fontRu, Language lang)
         switch (lang)
         {
         case Language::English:
-            font.drawHeading(inventoryCrafting ? "Crafting" : "Inventory");
+            font.drawHeadingShadow(inventoryCrafting ? "Crafting" : "Inventory");
             break;
         case Language::Russian:
-            fontRu.drawHeading(inventoryCrafting ? "Sqjfbpkg" : "Jpdgpubs#");
+            fontRu.drawHeadingShadow(inventoryCrafting ? "Sqjfbpkg" : "Jpdgpubs#");
             break;
         }
 
@@ -921,11 +921,11 @@ void Player::draw(Camera camera, Font font, Font fontRu, Language lang)
         switch (lang)
         {
         case Language::English:
-            font.drawHeading(chestSelect < 20 ? "Chest" : "Inventory");
+            font.drawHeadingShadow(chestSelect < 20 ? "Chest" : "Inventory");
             font.printShadow(16, SCREEN_HEIGHT - 32, chestSelect < 20 ? "\2:Y Switch to inventory" : "\2:Y Switch to chest");
             break;
         case Language::Russian:
-            fontRu.drawHeading(chestSelect < 20 ? "Svpfvm" : "Jpdgpubs#");
+            fontRu.drawHeadingShadow(chestSelect < 20 ? "Svpfvm" : "Jpdgpubs#");
             fontRu.printShadow(16, SCREEN_HEIGHT - 32, chestSelect < 20 ? "\2:Y Qgsgmn%zku#t& pb kpdgpubs#" : "\2:Y Qgsgmn%zku#t& pb tvpfvm");
             break;
         }
@@ -942,11 +942,11 @@ void Player::draw(Camera camera, Font font, Font fontRu, Language lang)
         switch (lang)
         {
         case Language::English:
-            font.drawHeading("Edit sign");
+            font.drawHeadingShadow("Edit sign");
             font.printCentered(0, SCREEN_WIDTH / 2 + 23, "Rtrn or \2:A : Finish");
             break;
         case Language::Russian:
-            fontRu.drawHeading("Tbcnkzmb");
+            fontRu.drawHeadingShadow("Tbcnkzmb");
             fontRu.printCentered(0, SCREEN_WIDTH / 2 + 23, "\3Rtrn\3 knk \2:A : Ibmqpzku#");
             break;
         }
