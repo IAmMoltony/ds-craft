@@ -1648,6 +1648,8 @@ void Game::update(void)
 #if CLEAR_CONSOLE_ON_PLAY
                     consoleClear();
 #endif
+                    player.setAimX(SCREEN_WIDTH / 2);
+                    player.setAimY(SCREEN_HEIGHT / 2);
                     gameState = GameState::Game;
                     swiWaitForVBlank();
                     return;

@@ -2718,6 +2718,16 @@ void Player::setY(s16 y)
     this->y = y;
 }
 
+void Player::setAimX(s16 x)
+{
+    aimX = x;
+}
+
+void Player::setAimY(s16 y)
+{
+    aimY = y;
+}
+
 void Player::setSpawnPoint(s16 x, s16 y)
 {
     spawnX = x;
@@ -2947,7 +2957,6 @@ static bool canCraft(Player *pThis, CraftingRecipe recipe)
 
 static constexpr u8 RECIPES_PER_ROW = 14;
 
-extern Language lang;
 void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
 {
     size_t numRecipes = craftingRecipes.size();
