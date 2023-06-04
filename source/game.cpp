@@ -226,6 +226,7 @@ static constexpr u8 SETTING_SMOOTH_CAMERA = 3;
 static constexpr u8 SETTING_TOUCH_TO_MOVE = 4;
 static constexpr u8 SETTING_AUTO_JUMP = 5;
 static constexpr u8 SETTING_DELETE_ALL_WORLDS = 6;
+static constexpr u8 SETTING_EDIT_CONTROLS = 7;
 
 static constexpr u8 TOUCH_TO_MOVE_OFF = 0;
 static constexpr u8 TOUCH_TO_MOVE_LEFT_HANDED = 1;
@@ -277,11 +278,11 @@ void Game::init(void)
             {
             case FS_INIT_STATUS_FAT_ERROR:
                 font.print(10, 30, "There was an error initializing FAT. \n \nPlease make sure that "
-                "the ROM was properly \npatched and the SD card is present.");
+                                   "the ROM was properly \npatched and the SD card is present.");
                 break;
             case FS_INIT_STATUS_NITROFS_ERROR:
                 font.print(10, 30, "There was an error initializing NitroFS. \n \nPlease make sure "
-                "that it was set up correctly.");
+                                   "that it was set up correctly.");
                 break;
             }
 
@@ -323,8 +324,8 @@ void Game::init(void)
     AssetManager::loadMenuAssets();
 
     gameState = fsFileExists("fat:/dscraft_data/config/lang.cfg")
-                ? GameState::TitleScreen
-                : GameState::LanguageSelect;
+                    ? GameState::TitleScreen
+                    : GameState::LanguageSelect;
     if (gameState == GameState::LanguageSelect)
     {
         loadImageAlpha(sprLangEnglish, 16, 16, englishPal, englishBitmap);
@@ -432,7 +433,7 @@ void Game::draw(void)
         {
             // frustum culling™
             if (block->getRect().x - camera.x < -16 ||
-                    block->getRect().y - camera.y < -16)
+                block->getRect().y - camera.y < -16)
                 continue;
             if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
                 break;
@@ -841,6 +842,7 @@ void Game::draw(void)
             glSpriteScale(i * 32, 0, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
             glSpriteScale(i * 32, SCREEN_HEIGHT - 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
         }
+        // TODO move the code that creates heading, draws moving background and does this loop where it draws dirt on the top and bottom of the screen into its own function
 
         switch (lang)
         {
@@ -1130,6 +1132,18 @@ void Game::draw(void)
         }
         glColor(RGB15(31, 31, 31));
 
+        if (settingsSelect == SETTING_EDIT_CONTROLS)
+            glColor(RGB15(0, 31, 0));
+        switch (lang)
+        {
+        case Language::English:
+            font.printCentered(0, 125, (settingsSelect == SETTING_EDIT_CONTROLS) ? "> Edit controls <" : "Edit controls");
+            break;
+        case Language::Russian:
+            fontRu.printCentered(0, 125, (settingsSelect == SETTING_EDIT_CONTROLS) ? "> Obtusqlmb vrsbdngpk& '" : "Obtusqlmb vrsbdngpk&");
+            break;
+        }
+
         glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprBButton);
         glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprAButton);
         glSprite(93, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprSelectButton);
@@ -1226,6 +1240,24 @@ void Game::draw(void)
             break;
         }
         break;
+    case GameState::EditControls:
+        drawMovingBackground();
+        for (u8 i = 0; i < SCREEN_WIDTH / 32; ++i)
+        {
+            glSpriteScale(i * 32, 0, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
+            glSpriteScale(i * 32, SCREEN_HEIGHT - 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
+        }
+
+        switch (lang)
+        {
+        case Language::English:
+            font.drawHeading("Edit controls");
+            break;
+        case Language::Russian:
+            fontRu.drawHeading("Obtusqlmb vrsbdngpk&");
+            break;
+        }
+        break;
     }
 
     // for debug purposes
@@ -1291,7 +1323,7 @@ void Game::update(void)
 
                 // skip blocks that are off screen
                 if (block->getRect().x - camera.x < -16 ||
-                        block->getRect().y - camera.y < -16)
+                    block->getRect().y - camera.y < -16)
                     continue;
                 if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
                     break;
@@ -1352,7 +1384,7 @@ void Game::update(void)
 
                 entity->update(blocks, camera, frameCounter);
                 if (entity->id() == "drop" && Rect(player.getX(), player.getY(), 16, 24)
-                        .intersects(entity->getRectBottom()))
+                                                  .intersects(entity->getRectBottom()))
                 {
                     bool ok = true;
                     DropEntity *drop = static_cast<DropEntity *>(entity.get());
@@ -1568,7 +1600,7 @@ void Game::update(void)
                             fontRu.print(10, 30, "_uqu oks c\"n tqjfbp d cqngg pqdql dgstkk@ \n"
                                                  "zgo ugmv~b&.");
                             fontRu.printfDoubleFont(10, 90, &font, "Tgmv~b& dgstk&: \3%s\3 \n"
-                                                                    "Cgstk& oksb: \3%s\3",
+                                                                   "Cgstk& oksb: \3%s\3",
                                                     getVersionString(), worldVersion.c_str());
                             fontRu.printCentered(0, SCREEN_HEIGHT - 19, "Obiokug n%cv% mpqrmv...");
                             break;
@@ -1731,16 +1763,14 @@ void Game::update(void)
             renameWorldName.erase(renameWorldName.begin(),
                                   std::find_if(renameWorldName.begin(),
                                                renameWorldName.end(), [](unsigned char ch)
-            {
-                return !std::isspace(ch);
-            }));
+                                               { return !std::isspace(ch); }));
             renameWorldName.erase(std::find_if(renameWorldName.rbegin(), renameWorldName.rend(),
                                                [](unsigned char ch)
-            {
-                return !std::isspace(ch);
-            })
-            .base(),
-            renameWorldName.end());
+                                               {
+                                                   return !std::isspace(ch);
+                                               })
+                                      .base(),
+                                  renameWorldName.end());
 
             // TODO move "fat:/dscraft_data/worlds/" into a define or constant
             // TODO add error for duplicated world name in rename world screen
@@ -1774,16 +1804,14 @@ void Game::update(void)
             createWorldName.erase(createWorldName.begin(),
                                   std::find_if(createWorldName.begin(),
                                                createWorldName.end(), [](unsigned char ch)
-            {
-                return !std::isspace(ch);
-            }));
+                                               { return !std::isspace(ch); }));
             createWorldName.erase(std::find_if(createWorldName.rbegin(), createWorldName.rend(),
                                                [](unsigned char ch)
-            {
-                return !std::isspace(ch);
-            })
-            .base(),
-            createWorldName.end());
+                                               {
+                                                   return !std::isspace(ch);
+                                               })
+                                      .base(),
+                                  createWorldName.end());
 
             if (fsFileExists(std::string("fat:/dscraft_data/worlds/" + createWorldName + ".wld").c_str()))
                 createWorldError = true;
@@ -1850,7 +1878,7 @@ void Game::update(void)
             char saveDataBuf[3];
             itoa(langSelectSelected, saveDataBuf, 10);
             lang = (langSelectSelected == LANGUAGE_SELECT_ENGLISH) ? Language::English
-                   : Language::Russian;
+                                                                   : Language::Russian;
             fsWrite("fat:/dscraft_data/config/lang.cfg", saveDataBuf);
 
             mmEffectEx(&sndClick);
@@ -1909,6 +1937,9 @@ void Game::update(void)
             case SETTING_DELETE_ALL_WORLDS:
                 gameState = GameState::DeleteAllWorlds;
                 break;
+            case SETTING_EDIT_CONTROLS:
+                gameState = GameState::EditControls;
+                break;
             }
             mmEffectEx(&sndClick);
         }
@@ -1938,11 +1969,14 @@ void Game::update(void)
             case SETTING_DELETE_ALL_WORLDS:
                 showHelpScreen("deleteallworlds");
                 break;
+            case SETTING_EDIT_CONTROLS:
+                showHelpScreen("editcontrols");
+                break;
             }
         }
         else if (down & KEY_SELECT)
         {
-            if (++settingsSelect > SETTING_DELETE_ALL_WORLDS)
+            if (++settingsSelect > SETTING_EDIT_CONTROLS)
                 settingsSelect = 0;
         }
         break;
@@ -2221,6 +2255,15 @@ void Game::ControlsManager::loadControls(void)
     }
 }
 
+void Game::ControlsManager::saveControls(void)
+{
+    std::ofstream ofs("fat:/dscraft_data/config/controls.cfg");
+    ofs << "goleft " << buttons[BUTTON_GO_LEFT] << "\ngoright " << buttons[BUTTON_GO_RIGHT] << "\njump " << buttons[BUTTON_JUMP]
+        << "\nsneak " << buttons[BUTTON_SNEAK] << "\ndpadaim " << buttons[BUTTON_DPAD_AIM] << "\nopeninventory "
+        << buttons[BUTTON_OPEN_INVENTORY] << "\npause " << buttons[BUTTON_PAUSE] << "\ninteract " << buttons[BUTTON_INTERACT]
+        << "\nattack " << buttons[BUTTON_ATTACK] << '\n';
+}
+
 u32 Game::ControlsManager::getButton(u8 button)
 {
     if (button >= NUM_BUTTONS)
@@ -2230,11 +2273,16 @@ u32 Game::ControlsManager::getButton(u8 button)
 
 void Game::ControlsManager::writeDefaultControls(void)
 {
-    std::ofstream os("fat:/dscraft_data/config/controls.cfg");
-    os << "goleft " << DEFAULT_GO_LEFT << "\ngoright " << DEFAULT_GO_RIGHT << "\njump "
-       << DEFAULT_JUMP << "\nsneak " << DEFAULT_SNEAK << "\ndpadaim " << DEFAULT_DPAD_AIM
-       << "\nopeninventory " << DEFAULT_OPEN_INVENTORY << "\npause " << DEFAULT_PAUSE
-       << "\ninteract " << DEFAULT_INTERACT << "\nattack " << DEFAULT_ATTACK << '\n';
+    buttons[BUTTON_GO_LEFT] = DEFAULT_GO_LEFT;
+    buttons[BUTTON_GO_RIGHT] = DEFAULT_GO_RIGHT;
+    buttons[BUTTON_JUMP] = DEFAULT_JUMP;
+    buttons[BUTTON_SNEAK] = DEFAULT_SNEAK;
+    buttons[BUTTON_DPAD_AIM] = DEFAULT_DPAD_AIM;
+    buttons[BUTTON_OPEN_INVENTORY] = DEFAULT_OPEN_INVENTORY;
+    buttons[BUTTON_PAUSE] = DEFAULT_PAUSE;
+    buttons[BUTTON_INTERACT] = DEFAULT_INTERACT;
+    buttons[BUTTON_ATTACK] = DEFAULT_ATTACK;
+    saveControls();
 }
 
 u8 Game::ControlsManager::buttonIDIndex(const std::string &buttonID)
@@ -2259,4 +2307,13 @@ u8 Game::ControlsManager::buttonIDIndex(const std::string &buttonID)
         return BUTTON_ATTACK;
 
     return BUTTON_UNKNOWN;
+}
+
+void Game::ControlsManager::setButton(u8 button, u32 key)
+{
+    if (button >= NUM_BUTTONS || (key != KEY_A && key != KEY_B && key != KEY_X && key != KEY_Y && key != KEY_LEFT &&
+                                  key != KEY_RIGHT && key != KEY_UP && key != KEY_DOWN && key != KEY_SELECT &&
+                                  key != KEY_START && key != KEY_L && key != KEY_R))
+        return;
+    buttons[button] = key;
 }

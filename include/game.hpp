@@ -81,7 +81,9 @@ public:
         ~ControlsManager() = delete;
 
         static void loadControls(void);
+        static void saveControls(void);
         static u32 getButton(u8 button);
+        static void setButton(u8 button, u32 key);
 
     private:
         static u32 buttons[NUM_BUTTONS];
@@ -104,6 +106,7 @@ public:
         DeleteAllWorlds,
         WorldSettings,
         RenameWorld,
+        EditControls,
     };
 
 private:
