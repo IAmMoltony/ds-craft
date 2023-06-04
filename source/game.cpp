@@ -299,9 +299,9 @@ void Game::init(void)
     mmInitDefault((char *)"nitro:/soundbank.bin");
 
     // create folders
-    fsCreateDir("fat:/dscraft_data");
-    fsCreateDir("fat:/dscraft_data/worlds");
-    fsCreateDir("fat:/dscraft_data/config");
+    fsCreateDir(DATA_DIR);
+    fsCreateDir(WORLDS_DIR);
+    fsCreateDir(CONFIG_DIR);
 
     // init crafting
     Player::initCrafting();
@@ -323,7 +323,7 @@ void Game::init(void)
     // load assets for menu
     AssetManager::loadMenuAssets();
 
-    gameState = fsFileExists("fat:/dscraft_data/config/lang.cfg")
+    gameState = fsFileExists(CONFIG_DIR "/lang.cfg")
                     ? GameState::TitleScreen
                     : GameState::LanguageSelect;
     if (gameState == GameState::LanguageSelect)
@@ -1772,11 +1772,10 @@ void Game::update(void)
                                       .base(),
                                   renameWorldName.end());
 
-            // TODO move "fat:/dscraft_data/worlds/" into a define or constant
             // TODO add error for duplicated world name in rename world screen
 
             renameWorld(worldSelectWorlds[worldSelectSelected].name, renameWorldName);
-            rename(std::string("fat:/dscraft_data/worlds/" + normalizeWorldFileName(worldSelectWorlds[worldSelectSelected].name)).c_str(), std::string("fat:/dscraft_data/worlds/" + normalizeWorldFileName(renameWorldName)).c_str());
+            rename(std::string(WORLDS_DIR "/" + normalizeWorldFileName(worldSelectWorlds[worldSelectSelected].name)).c_str(), std::string(WORLDS_DIR "/" + normalizeWorldFileName(renameWorldName)).c_str());
             enterWorldSelect();
         }
 
@@ -1813,7 +1812,7 @@ void Game::update(void)
                                       .base(),
                                   createWorldName.end());
 
-            if (fsFileExists(std::string("fat:/dscraft_data/worlds/" + createWorldName + ".wld").c_str()))
+            if (fsFileExists(std::string(WORLDS_DIR "/" + createWorldName + ".wld").c_str()))
                 createWorldError = true;
             else
             {
@@ -1879,7 +1878,7 @@ void Game::update(void)
             itoa(langSelectSelected, saveDataBuf, 10);
             lang = (langSelectSelected == LANGUAGE_SELECT_ENGLISH) ? Language::English
                                                                    : Language::Russian;
-            fsWrite("fat:/dscraft_data/config/lang.cfg", saveDataBuf);
+            fsWrite(CONFIG_DIR "/lang.cfg", saveDataBuf);
 
             mmEffectEx(&sndClick);
             gameState = GameState::TitleScreen;
@@ -1912,27 +1911,27 @@ void Game::update(void)
                 break;
             case SETTING_TRANSPARENT_LEAVES:
                 SettingsManager::transparentLeaves = !SettingsManager::transparentLeaves;
-                fsWrite("fat:/dscraft_data/config/trleaves.cfg", SettingsManager::transparentLeaves ? "1" : "0");
+                fsWrite(CONFIG_DIR "/trleaves.cfg", SettingsManager::transparentLeaves ? "1" : "0");
                 break;
             case SETTING_AUTO_SAVE:
                 SettingsManager::autoSave = !SettingsManager::autoSave;
-                fsWrite("fat:/dscraft_data/config/autosave.cfg", SettingsManager::autoSave ? "1" : "0");
+                fsWrite(CONFIG_DIR "/autosave.cfg", SettingsManager::autoSave ? "1" : "0");
                 break;
             case SETTING_SMOOTH_CAMERA:
                 SettingsManager::smoothCamera = !SettingsManager::smoothCamera;
-                fsWrite("fat:/dscraft_data/config/smoothcam.cfg", SettingsManager::smoothCamera ? "1" : "0");
+                fsWrite(CONFIG_DIR "/smoothcam.cfg", SettingsManager::smoothCamera ? "1" : "0");
                 break;
             case SETTING_TOUCH_TO_MOVE:
             {
                 char saveDataBuf[3];
                 SettingsManager::touchToMove = (SettingsManager::touchToMove + 1) % 3;
                 itoa(SettingsManager::touchToMove, saveDataBuf, 10);
-                fsWrite("fat:/dscraft_data/config/touchtomove.cfg", saveDataBuf);
+                fsWrite(CONFIG_DIR "/touchtomove.cfg", saveDataBuf);
                 break;
             }
             case SETTING_AUTO_JUMP:
                 SettingsManager::autoJump = !SettingsManager::autoJump;
-                fsWrite("fat:/dscraft_data/config/autojump.cfg", SettingsManager::autoJump ? "1" : "0");
+                fsWrite(CONFIG_DIR "/autojump.cfg", SettingsManager::autoJump ? "1" : "0");
                 break;
             case SETTING_DELETE_ALL_WORLDS:
                 gameState = GameState::DeleteAllWorlds;
@@ -1984,7 +1983,7 @@ void Game::update(void)
         if (down & KEY_A)
         {
             worldSelectSelected = 0;
-            fsDeleteDir(std::string("fat:/dscraft_data/worlds/" + normalizeWorldFileName(worldSelectWorlds[deleteWorldSelected].name)).c_str());
+            fsDeleteDir(std::string(WORLDS_DIR "/" + normalizeWorldFileName(worldSelectWorlds[deleteWorldSelected].name)).c_str());
             worldSelectWorlds.erase(worldSelectWorlds.begin() + deleteWorldSelected);
             deleteWorldSelected = 0;
             gameState = GameState::WorldSelect;
@@ -1999,8 +1998,8 @@ void Game::update(void)
     case GameState::DeleteAllWorlds:
         if (down & KEY_A)
         {
-            fsDeleteDir("fat:/dscraft_data/worlds/");
-            fsCreateDir("fat:/dscraft_data/worlds/");
+            fsDeleteDir(WORLDS_DIR);
+            fsCreateDir(WORLDS_DIR);
             gameState = GameState::Settings;
         }
         else if (down & KEY_B)
@@ -2028,7 +2027,7 @@ Game::WorldManager::WorldList Game::WorldManager::getWorlds(void)
 {
     // first we iterate through the world directory
     DIR *dp;
-    dp = opendir("fat:/dscraft_data/worlds");
+    dp = opendir(WORLDS_DIR);
     struct dirent *ep;
     std::string dls; // directory list string
     while ((ep = readdir(dp)) != NULL)
@@ -2045,17 +2044,17 @@ Game::WorldManager::WorldList Game::WorldManager::getWorlds(void)
         if (line == "." || line == "..")
             continue;
 
-        if (!fsIsDir(std::string("fat:/dscraft_data/worlds/" + line).c_str()))
+        if (!fsIsDir(std::string(WORLDS_DIR "/" + line).c_str()))
             continue;
 
-        if (!fsFileExists(std::string("fat:/dscraft_data/worlds/" + line).c_str()))
+        if (!fsFileExists(std::string(WORLDS_DIR "/" + line).c_str()))
             continue;
 
-        std::string worldName = getWorldName("fat:/dscraft_data/worlds/" + line);
+        std::string worldName = getWorldName(WORLDS_DIR "/" + line);
         if (worldName == "(error)")
             continue;
 
-        int size = fsGetDirSize(std::string("fat:/dscraft_data/worlds/" + line).c_str());
+        int size = fsGetDirSize(std::string(WORLDS_DIR "/" + line).c_str());
         worlds.push_back({worldName, size});
     }
 
@@ -2133,9 +2132,9 @@ u8 Game::SettingsManager::touchToMove = 0;
 void Game::SettingsManager::loadSettings(void)
 {
     // language setting
-    if (fsFileExists("fat:/dscraft_data/config/lang.cfg"))
+    if (fsFileExists(CONFIG_DIR "/lang.cfg"))
     {
-        char *data = fsReadFile("fat:/dscraft_data/config/lang.cfg");
+        char *data = fsReadFile(CONFIG_DIR "/lang.cfg");
         if (data[0] == '1')
             Game::instance->lang = Language::Russian;
         else if (data[0] != '0') // invalid lang
@@ -2147,36 +2146,36 @@ void Game::SettingsManager::loadSettings(void)
     }
 
     // transparent leaves setting
-    if (fsFileExists("fat:/dscraft_data/config/trleaves.cfg"))
+    if (fsFileExists(CONFIG_DIR "/trleaves.cfg"))
     {
-        char *data = fsReadFile("fat:/dscraft_data/config/trleaves.cfg");
+        char *data = fsReadFile(CONFIG_DIR "/trleaves.cfg");
         transparentLeaves = data[0] == '1';
     }
     else
-        fsWrite("fat:/dscraft_data/config/trleaves.cfg", "0");
+        fsWrite(CONFIG_DIR "/trleaves.cfg", "0");
 
     // auto save setting
-    if (fsFileExists("fat:/dscraft_data/config/autosave.cfg"))
+    if (fsFileExists(CONFIG_DIR "/autosave.cfg"))
     {
-        char *data = fsReadFile("fat:/dscraft_data/config/autosave.cfg");
+        char *data = fsReadFile(CONFIG_DIR "/autosave.cfg");
         autoSave = data[0] == '1';
     }
     else
-        fsWrite("fat:/dscraft_data/config/autosave.cfg", "1");
+        fsWrite(CONFIG_DIR "/autosave.cfg", "1");
 
     // smooth camera setting
-    if (fsFileExists("fat:/dscraft_data/config/smoothcam.cfg"))
+    if (fsFileExists(CONFIG_DIR "/smoothcam.cfg"))
     {
-        char *data = fsReadFile("fat:/dscraft_data/config/smoothcam.cfg");
+        char *data = fsReadFile(CONFIG_DIR "/smoothcam.cfg");
         smoothCamera = data[0] == '1';
     }
     else
-        fsWrite("fat:/dscraft_data/config/cmoothcam.cfg", "1");
+        fsWrite(CONFIG_DIR "/cmoothcam.cfg", "1");
 
     // touch to move setting
-    if (fsFileExists("fat:/dscraft_data/config/touchtomove.cfg"))
+    if (fsFileExists(CONFIG_DIR "/touchtomove.cfg"))
     {
-        char *data = fsReadFile("fat:/dscraft_data/config/touchtomove.cfg");
+        char *data = fsReadFile(CONFIG_DIR "/touchtomove.cfg");
         switch (data[0])
         {
         case '0': // off
@@ -2196,16 +2195,16 @@ void Game::SettingsManager::loadSettings(void)
         }
     }
     else
-        fsWrite("fat:/dscraft_data/config/touchtomove.cfg", "0");
+        fsWrite(CONFIG_DIR "/touchtomove.cfg", "0");
 
     // auto jump setting
-    if (fsFileExists("fat:/dscraft_data/config/autojump.cfg"))
+    if (fsFileExists(CONFIG_DIR "/autojump.cfg"))
     {
-        char *data = fsReadFile("fat:/dscraft_data/config/autojump.cfg");
+        char *data = fsReadFile(CONFIG_DIR "/autojump.cfg");
         autoJump = data[0] == '1';
     }
     else
-        fsWrite("fat:/dscraft_data/config/autojump.cfg", "0");
+        fsWrite(CONFIG_DIR "/autojump.cfg", "0");
 }
 
 void Game::cameraFollowPlayer(bool smooth)
@@ -2232,10 +2231,10 @@ u32 Game::ControlsManager::buttons[Game::ControlsManager::NUM_BUTTONS];
 
 void Game::ControlsManager::loadControls(void)
 {
-    if (!fsFileExists("fat:/dscraft_data/config/controls.cfg"))
+    if (!fsFileExists(CONFIG_DIR "/controls.cfg"))
         writeDefaultControls();
 
-    std::ifstream ifs("fat:/dscraft_data/config/controls.cfg");
+    std::ifstream ifs(CONFIG_DIR "/controls.cfg");
     std::string line;
     while (std::getline(ifs, line, '\n'))
     {
@@ -2256,7 +2255,7 @@ void Game::ControlsManager::loadControls(void)
 
 void Game::ControlsManager::saveControls(void)
 {
-    std::ofstream ofs("fat:/dscraft_data/config/controls.cfg");
+    std::ofstream ofs(CONFIG_DIR "/controls.cfg");
     ofs << "goleft " << buttons[BUTTON_GO_LEFT] << "\ngoright " << buttons[BUTTON_GO_RIGHT] << "\njump " << buttons[BUTTON_JUMP]
         << "\nsneak " << buttons[BUTTON_SNEAK] << "\ndpadaim " << buttons[BUTTON_DPAD_AIM] << "\nopeninventory "
         << buttons[BUTTON_OPEN_INVENTORY] << "\npause " << buttons[BUTTON_PAUSE] << "\ninteract " << buttons[BUTTON_INTERACT]

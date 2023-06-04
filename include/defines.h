@@ -61,3 +61,9 @@
 #define SCALE_NORMAL (1 << 12)
 #define SCALE(times) (SCALE_NORMAL * (times))
 #define HALFSIZE ((1 << 12) / 2)
+
+// game data dirs
+
+#define DATA_DIR "fat:/dscraft_data"
+#define WORLDS_DIR DATA_DIR "/worlds"
+#define CONFIG_DIR DATA_DIR "/config"
