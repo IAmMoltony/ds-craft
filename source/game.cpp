@@ -2005,6 +2005,10 @@ void Game::update(void)
         else if (down & KEY_B)
             gameState = GameState::Settings;
         break;
+    case GameState::EditControls:
+        if (down & KEY_B)
+            gameState = GameState::Settings;
+        break;
     }
     ++frameCounter;
 }
