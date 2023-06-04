@@ -2232,7 +2232,6 @@ u32 Game::ControlsManager::buttons[Game::ControlsManager::NUM_BUTTONS];
 
 void Game::ControlsManager::loadControls(void)
 {
-    fsDeleteFile("fat:/dscraft_data/config/controls.cfg");
     if (!fsFileExists("fat:/dscraft_data/config/controls.cfg"))
         writeDefaultControls();
 
