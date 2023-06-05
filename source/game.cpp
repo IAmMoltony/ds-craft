@@ -929,7 +929,7 @@ void Game::draw(void)
             font.drawHeading("Create world");
             break;
         case Language::Russian:
-            fontRu.drawHeading("Sqjbu# oks");
+            fontRu.drawHeading("Sqjfbu# oks");
             break;
         }
         break;
