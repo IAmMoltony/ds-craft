@@ -1324,8 +1324,11 @@ void Game::draw(void)
 
             if (i == editControlsSelected)
             {
+                if (editControlsSetMode)
+                    glColor(RGB15(0, 31, 0));
                 glSprite(SCREEN_WIDTH / 2 - 121, 48 + i * 40 - offset, GL_FLIP_NONE, sprWorldLabelSelect);
                 glSprite(SCREEN_WIDTH / 2 - 121 + 113, 48 + i * 40 - offset, GL_FLIP_H, sprWorldLabelSelect);
+                glColor(RGB15(31, 31, 31));
             }
             else
             {
@@ -2085,20 +2088,55 @@ void Game::update(void)
             gameState = GameState::Settings;
         break;
     case GameState::EditControls:
-        if (down & KEY_B)
-            gameState = GameState::Settings;
-        else if (down & KEY_DOWN)
+        if (editControlsSetMode)
         {
-            ++editControlsSelected;
-            if (editControlsSelected >= ControlsManager::NUM_BUTTONS)
-                editControlsSelected = ControlsManager::NUM_BUTTONS - 1;
+            if (down && !(down & KEY_TOUCH))
+            {
+                u32 key = 0;
+                if (down & KEY_A)
+                    key = KEY_A;
+                else if (down & KEY_B)
+                    key = KEY_B;
+                else if (down & KEY_X)
+                    key = KEY_X;
+                else if (down & KEY_Y)
+                    key = KEY_Y;
+                else if (down & KEY_SELECT)
+                    key = KEY_SELECT;
+                else if (down & KEY_START)
+                    key = KEY_START;
+                else if (down & KEY_L)
+                    key = KEY_L;
+                else if (down & KEY_R)
+                    key = KEY_R;
+
+                if (key)
+                {
+                    ControlsManager::setButton(editControlsSelected, key);
+                    ControlsManager::saveControls();
+                }
+                editControlsSetMode = false;
+            }
         }
-        else if (down & KEY_UP)
+        else
         {
-            if (editControlsSelected - 1 < 0)
-                editControlsSelected = 0;
-            else
-                --editControlsSelected;
+            if (down & KEY_B)
+                gameState = GameState::Settings;
+            else if (down & KEY_DOWN)
+            {
+                ++editControlsSelected;
+                if (editControlsSelected >= ControlsManager::NUM_BUTTONS)
+                    editControlsSelected = ControlsManager::NUM_BUTTONS - 1;
+            }
+            else if (down & KEY_UP)
+            {
+                if (editControlsSelected - 1 < 0)
+                    editControlsSelected = 0;
+                else
+                    --editControlsSelected;
+            }
+            else if (down & KEY_A)
+                editControlsSetMode = true;
         }
         break;
     }

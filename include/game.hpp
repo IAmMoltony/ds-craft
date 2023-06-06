@@ -143,6 +143,7 @@ private:
     bool logoFall = false;
     u16 logoY;
     u8 editControlsSelected = 0;
+    bool editControlsSetMode = false;
 
     void gameQuit(void);
     void playPopSound(void);
