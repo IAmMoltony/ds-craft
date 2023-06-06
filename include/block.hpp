@@ -464,6 +464,8 @@ GENERIC_BLOCK_DECL(CoalBlock)
 GENERIC_BLOCK_DECL(GlassBlock)
 GENERIC_BLOCK_DECL(LadderBlock)
 
+// TODO make doors and saplings and trapdoors have one base class
+
 DOOR_DECL()
 DOOR_DECL(Birch)
 DOOR_DECL(Spruce)
