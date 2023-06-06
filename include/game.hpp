@@ -165,6 +165,8 @@ public:
     glImage sprBButton[1];
     glImage sprXButton[1];
     glImage sprYButton[1];
+    glImage sprLButton[1];
+    glImage sprRButton[1];
     glImage sprSelectButton[1];
 
     glImage sprWorldLabel[1];

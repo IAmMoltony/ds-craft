@@ -2077,6 +2077,8 @@ void Game::AssetManager::loadGeneralAssets(void)
     loadImageAlpha(Game::instance->sprBButton, 16, 16, bbtnPal, bbtnBitmap);
     loadImageAlpha(Game::instance->sprXButton, 16, 16, xbtnPal, xbtnBitmap);
     loadImageAlpha(Game::instance->sprYButton, 16, 16, ybtnPal, ybtnBitmap);
+    loadImageAlpha(Game::instance->sprLButton, 16, 16, lbtnPal, lbtnBitmap);
+    loadImageAlpha(Game::instance->sprRButton, 16, 16, rbtnPal, rbtnBitmap);
 
     loadDirtBlock();
 }
