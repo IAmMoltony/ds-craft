@@ -58,6 +58,6 @@ unsigned int stringHash(const char *str)
 void hang(void)
 {
     while (true)
-        ;
+        asm volatile("hlt");
     __builtin_unreachable();
 }
