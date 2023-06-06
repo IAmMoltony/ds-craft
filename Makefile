@@ -121,7 +121,7 @@ ARCH		:=	-mthumb -mthumb-interwork -march=armv5te -mtune=arm946e-s
 CFLAGS	:=	-g -Wall -Wextra -Wno-free-nonheap-object -Wno-unknown-pragmas -Wno-psabi\
             -Wno-sign-compare -O2 -Os\
  			-march=armv5te -mtune=arm946e-s \
-			$(ARCH) -I../include -Wno-switch -Wno-ignored-qualifiers \
+			$(ARCH) -I../include -Wno-switch -Wno-ignored-qualifiers -Wno-unused-function \
 			-Wno-unused-parameter\
 			-fomit-frame-pointer\
 			-ffast-math -Werror
