@@ -142,6 +142,7 @@ private:
     s16 currentLocation = 0;
     bool logoFall = false;
     u16 logoY;
+    u8 editControlsSelected = 0;
 
     void gameQuit(void);
     void playPopSound(void);
@@ -167,7 +168,12 @@ public:
     glImage sprYButton[1];
     glImage sprLButton[1];
     glImage sprRButton[1];
+    glImage sprLeftButton[1];
+    glImage sprRightButton[1];
+    glImage sprUpButton[1];
+    glImage sprDownButton[1];
     glImage sprSelectButton[1];
+    glImage sprStartButton[1];
 
     glImage sprWorldLabel[1];
     glImage sprWorldLabelSelect[1];

@@ -418,8 +418,54 @@ void Game::drawMovingBackground(void)
     glColor(RGB15(31, 31, 31));
 }
 
+// TODO use UPPER_CASE for consistency
 static constexpr int worldNameBoxWidth = 190;
 static constexpr int worldNameBoxHeight = 14;
+
+static constexpr const char *CONTROLS_LABELS[] = {
+    "Go left",
+    "Go right",
+    "Jump",
+    "Sneak",
+    "D-Pad aim",
+    "Open/close inventory",
+    "Pause",
+    "Interact/Place block",
+    "Attack/Break block",
+};
+
+static glImage *keyCodeToImage(u32 keyCode)
+{
+    switch (keyCode)
+    {
+    case KEY_A:
+        return Game::instance->sprAButton;
+    case KEY_B:
+        return Game::instance->sprBButton;
+    case KEY_X:
+        return Game::instance->sprXButton;
+    case KEY_Y:
+        return Game::instance->sprYButton;
+    case KEY_L:
+        return Game::instance->sprLButton;
+    case KEY_R:
+        return Game::instance->sprRButton;
+    case KEY_START:
+        return Game::instance->sprStartButton;
+    case KEY_SELECT:
+        return Game::instance->sprSelectButton;
+    case KEY_LEFT:
+        return Game::instance->sprLeftButton;
+    case KEY_RIGHT:
+        return Game::instance->sprRightButton;
+    case KEY_UP:
+        return Game::instance->sprUpButton;
+    case KEY_DOWN:
+        return Game::instance->sprDownButton;
+    default:
+        return NULL;
+    }
+}
 
 void Game::draw(void)
 {
@@ -1248,14 +1294,47 @@ void Game::draw(void)
             glSpriteScale(i * 32, SCREEN_HEIGHT - 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
         }
 
+        glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprBButton);
+        glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprAButton);
         switch (lang)
         {
         case Language::English:
             font.drawHeading("Edit controls");
+            font.print(15, SCREEN_HEIGHT - 15, "Back");
+            font.print(15, SCREEN_HEIGHT - 28, "Change");
             break;
         case Language::Russian:
             fontRu.drawHeading("Obtusqlmb vrsbdngpk&");
+            fontRu.print(15, SCREEN_HEIGHT - 15, "Objbf");
+            fontRu.print(15, SCREEN_HEIGHT - 28, "Jjogpku#");
             break;
+        }
+
+        for (u8 i = 0; i < ControlsManager::NUM_BUTTONS; ++i)
+        {
+            u32 offset = (editControlsSelected - 1) * 40;
+            if (editControlsSelected < 2)
+                offset = 0;
+            u16 firstVisible = offset / 40;
+            u16 lastVisible = firstVisible + 2;
+            if (i < firstVisible)
+                continue;
+            if (i > lastVisible)
+                break;
+
+            if (i == editControlsSelected)
+            {
+                glSprite(SCREEN_WIDTH / 2 - 121, 48 + i * 40 - offset, GL_FLIP_NONE, sprWorldLabelSelect);
+                glSprite(SCREEN_WIDTH / 2 - 121 + 113, 48 + i * 40 - offset, GL_FLIP_H, sprWorldLabelSelect);
+            }
+            else
+            {
+                glSprite(SCREEN_WIDTH / 2 - 121, 48 + i * 40 - offset, GL_FLIP_NONE, sprWorldLabel);
+                glSprite(SCREEN_WIDTH / 2 - 121 + 113, 48 + i * 40 - offset, GL_FLIP_H, sprWorldLabel);
+            }
+
+            font.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 10 - offset, CONTROLS_LABELS[i]);
+            glSprite(SCREEN_WIDTH / 2 + 121 - 32, 48 + i * 40 + 10 - offset, GL_FLIP_NONE, keyCodeToImage(ControlsManager::getButton(i)));
         }
         break;
     }
@@ -2008,6 +2087,19 @@ void Game::update(void)
     case GameState::EditControls:
         if (down & KEY_B)
             gameState = GameState::Settings;
+        else if (down & KEY_DOWN)
+        {
+            ++editControlsSelected;
+            if (editControlsSelected >= ControlsManager::NUM_BUTTONS)
+                editControlsSelected = ControlsManager::NUM_BUTTONS - 1;
+        }
+        else if (down & KEY_UP)
+        {
+            if (editControlsSelected - 1 < 0)
+                editControlsSelected = 0;
+            else
+                --editControlsSelected;
+        }
         break;
     }
     ++frameCounter;
@@ -2079,6 +2171,10 @@ void Game::AssetManager::loadGeneralAssets(void)
     loadImageAlpha(Game::instance->sprYButton, 16, 16, ybtnPal, ybtnBitmap);
     loadImageAlpha(Game::instance->sprLButton, 16, 16, lbtnPal, lbtnBitmap);
     loadImageAlpha(Game::instance->sprRButton, 16, 16, rbtnPal, rbtnBitmap);
+    loadImageAlpha(Game::instance->sprLeftButton, 16, 16, leftbtnPal, leftbtnBitmap);
+    loadImageAlpha(Game::instance->sprRightButton, 16, 16, rightbtnPal, rightbtnBitmap);
+    loadImageAlpha(Game::instance->sprUpButton, 16, 16, upbtnPal, upbtnBitmap);
+    loadImageAlpha(Game::instance->sprDownButton, 16, 16, downbtnPal, downbtnBitmap);
 
     loadDirtBlock();
 }
@@ -2113,6 +2209,7 @@ void Game::AssetManager::loadMenuAssets(void)
 {
     loadImageAlpha(Game::instance->sprLogo, 128, 32, logoPal, logoBitmap);
     loadImageAlpha(Game::instance->sprSelectButton, 32, 16, selectbtnPal, selectbtnBitmap);
+    loadImageAlpha(Game::instance->sprStartButton, 32, 16, startbtnPal, startbtnBitmap);
     loadImageAlpha(Game::instance->sprWorldLabel, 128, 32, world_labelPal, world_labelBitmap);
     loadImageAlpha(Game::instance->sprWorldLabelSelect, 128, 32, world_label_selectPal, world_label_selectBitmap);
     loadImageAlpha(Game::instance->sprLangEnglish, 16, 16, englishPal, englishBitmap);

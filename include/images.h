@@ -2,6 +2,10 @@
 
 #include "startbtn.h"
 #include "ybtn.h"
+#include "downbtn.h"
+#include "upbtn.h"
+#include "rightbtn.h"
+#include "leftbtn.h"
 #include "placeholder_logo.h"
 #include "selectbtn.h"
 #include "rbtn.h"
