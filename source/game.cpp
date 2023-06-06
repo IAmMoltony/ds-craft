@@ -418,9 +418,8 @@ void Game::drawMovingBackground(void)
     glColor(RGB15(31, 31, 31));
 }
 
-// TODO use UPPER_CASE for consistency
-static constexpr int worldNameBoxWidth = 190;
-static constexpr int worldNameBoxHeight = 14;
+static constexpr int WORLD_NAME_BOX_WIDTH = 190;
+static constexpr int WORLD_NAME_BOX_HEIGHT = 14;
 
 static constexpr const char *CONTROLS_LABELS[] = {
     "Go left",
@@ -855,9 +854,9 @@ void Game::draw(void)
             font.print(15, 71, "New world name:");
 
             glPolyFmt(POLY_ALPHA(27) | POLY_CULL_NONE);
-            glBoxFilled(15, 83, 15 + worldNameBoxWidth, 83 + worldNameBoxHeight, RGB15(6, 6, 6));
+            glBoxFilled(15, 83, 15 + WORLD_NAME_BOX_WIDTH, 83 + WORLD_NAME_BOX_HEIGHT, RGB15(6, 6, 6));
             glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
-            glBoxStroke(15, 83, worldNameBoxWidth, worldNameBoxHeight, RGB15(31, 31, 31));
+            glBoxStroke(15, 83, WORLD_NAME_BOX_WIDTH, WORLD_NAME_BOX_HEIGHT, RGB15(31, 31, 31));
             font.print(18, 86, std::string(renameWorldName + ((createWorldShowCursor) ? "_" : "")).c_str());
 
             glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprBButton);
@@ -868,9 +867,9 @@ void Game::draw(void)
             fontRu.print(15, 71, "Oqdqg ko&:");
 
             glPolyFmt(POLY_ALPHA(27) | POLY_CULL_NONE);
-            glBoxFilled(15, 83, 15 + worldNameBoxWidth, 83 + worldNameBoxHeight, RGB15(6, 6, 6));
+            glBoxFilled(15, 83, 15 + WORLD_NAME_BOX_WIDTH, 83 + WORLD_NAME_BOX_HEIGHT, RGB15(6, 6, 6));
             glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
-            glBoxStroke(15, 83, worldNameBoxWidth, worldNameBoxHeight, RGB15(31, 31, 31));
+            glBoxStroke(15, 83, WORLD_NAME_BOX_WIDTH, WORLD_NAME_BOX_HEIGHT, RGB15(31, 31, 31));
             font.print(18, 86, std::string(renameWorldName + ((createWorldShowCursor) ? "_" : "")).c_str());
 
             glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprBButton);
@@ -936,9 +935,9 @@ void Game::draw(void)
         }
 
         glPolyFmt(POLY_ALPHA(27) | POLY_CULL_NONE);
-        glBoxFilled(15, 73, 15 + worldNameBoxWidth, 73 + worldNameBoxHeight, RGB15(6, 6, 6));
+        glBoxFilled(15, 73, 15 + WORLD_NAME_BOX_WIDTH, 73 + WORLD_NAME_BOX_HEIGHT, RGB15(6, 6, 6));
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
-        glBoxStroke(15, 73, worldNameBoxWidth, worldNameBoxHeight, (createWorldSelect == 0) ? RGB15(31, 31, 31) : RGB15(9, 9, 9));
+        glBoxStroke(15, 73, WORLD_NAME_BOX_WIDTH, WORLD_NAME_BOX_HEIGHT, (createWorldSelect == 0) ? RGB15(31, 31, 31) : RGB15(9, 9, 9));
         if (createWorldName.size() > 0 || createWorldSelect == 0)
             font.print(18, 76, std::string(createWorldName + ((createWorldShowCursor && createWorldSelect == 0) ? "_" : "")).c_str());
         else
@@ -953,9 +952,9 @@ void Game::draw(void)
             }
 
         glPolyFmt(POLY_ALPHA(27) | POLY_CULL_NONE);
-        glBoxFilled(15, 123, 15 + worldNameBoxWidth, 123 + worldNameBoxHeight, RGB15(6, 6, 6));
+        glBoxFilled(15, 123, 15 + WORLD_NAME_BOX_WIDTH, 123 + WORLD_NAME_BOX_HEIGHT, RGB15(6, 6, 6));
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
-        glBoxStroke(15, 123, worldNameBoxWidth, worldNameBoxHeight, (createWorldSelect == 1) ? RGB15(31, 31, 31) : RGB15(9, 9, 9));
+        glBoxStroke(15, 123, WORLD_NAME_BOX_WIDTH, WORLD_NAME_BOX_HEIGHT, (createWorldSelect == 1) ? RGB15(31, 31, 31) : RGB15(9, 9, 9));
         if (createWorldSeed.size() > 0 || createWorldSelect == 1)
             font.print(18, 126, std::string(createWorldSeed + ((createWorldShowCursor && createWorldSelect == 1) ? "_" : "")).c_str());
         else
