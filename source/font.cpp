@@ -139,6 +139,12 @@ void Font::print(int x, int y, const char *str, int xoff, int yoff, Font *font2,
                 case 'Y':
                     glSprite(x + xoff, y + yoff - 3, GL_FLIP_NONE, Game::instance->sprYButton);
                     break;
+                case 'L':
+                    glSprite(x + xoff, y + yoff - 3, GL_FLIP_NONE, Game::instance->sprLButton);
+                    break;
+                case 'R':
+                    glSprite(x + xoff, y + yoff - 3, GL_FLIP_NONE, Game::instance->sprRButton);
+                    break;
                 default:
                     ::printf("button code syntax error: invalid button code (%c)", *str);
                     hang();
@@ -216,7 +222,7 @@ void Font::printCentered(int x, int y, const char *str, Font *font2, s32 scale)
                 hang();
             }
             ++str;
-            if (*str != 'A' && *str != 'B' && *str != 'X' && *str != 'Y')
+            if (*str != 'A' && *str != 'B' && *str != 'X' && *str != 'Y' && *str != 'L' && *str != 'R')
             {
                 ::printf("button code syntax error: invalid button code (%c)", *str);
                 hang();
