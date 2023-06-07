@@ -390,6 +390,8 @@ void Game::loadLocation(s16 oldLocation)
     loadWorld(normalizeWorldFileName(worldName), blocks, entities, player, currentLocation);
     printf("After load curr: %d\n", currentLocation);
 
+    // TODO replace rand with c++'s std::random
+
     if (oldLocation < currentLocation)
     {
         // we went to the right
