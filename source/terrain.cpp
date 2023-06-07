@@ -213,7 +213,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
 
                 bool placedTree = false;
                 if (chance(36) && sinceLastTree > treeInterval)
-                {blocks.emplace_back(new SprucePlanksBlock(0, SCREEN_HEIGHT / 2 - 16));
+                {
                     placedTree = true;
                     treeInterval = spawnTree(blocks, i * 16, y, (rand() % 2) ? TreeType::Birch : TreeType::Oak);
                     sinceLastTree = 0;
