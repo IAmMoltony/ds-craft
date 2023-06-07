@@ -388,7 +388,21 @@ int spawnTree(BlockList &blocks, s16 x, s16 y, TreeType treeType)
             blocks.emplace_back(new LeavesBlock(x, y - 160, LeavesType::Spruce));
             return 3;
         case 1:
-            return 0;
+            blocks.emplace_back(new SpruceWoodBlock(x, y - 16));
+            blocks.emplace_back(new SpruceWoodBlock(x, y - 32));
+            blocks.emplace_back(new LeavesBlock(x, y - 48, LeavesType::Spruce));
+            blocks.emplace_back(new LeavesBlock(x - 16, y - 48, LeavesType::Spruce));
+            blocks.emplace_back(new LeavesBlock(x + 16, y - 48, LeavesType::Spruce));
+            blocks.emplace_back(new LeavesBlock(x, y - 64, LeavesType::Spruce));
+            blocks.emplace_back(new LeavesBlock(x - 16, y - 64, LeavesType::Spruce));
+            blocks.emplace_back(new LeavesBlock(x - 32, y - 64, LeavesType::Spruce));
+            blocks.emplace_back(new LeavesBlock(x + 16, y - 64, LeavesType::Spruce));
+            blocks.emplace_back(new LeavesBlock(x + 32, y - 64, LeavesType::Spruce));
+            blocks.emplace_back(new LeavesBlock(x, y - 80, LeavesType::Spruce));
+            blocks.emplace_back(new LeavesBlock(x - 16, y - 80, LeavesType::Spruce));
+            blocks.emplace_back(new LeavesBlock(x + 16, y - 80, LeavesType::Spruce));
+            blocks.emplace_back(new LeavesBlock(x, y - 96, LeavesType::Spruce));
+            return 3;
         }
         return 0;
     }
