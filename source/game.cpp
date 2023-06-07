@@ -1374,7 +1374,7 @@ void Game::update(void)
             paused = true;
             mmEffectEx(&sndClick);
         }
-        if (down & KEY_A || paused) // resume
+        if (down & KEY_A && paused) // resume
         {
             paused = false;
             mmEffectEx(&sndClick);
