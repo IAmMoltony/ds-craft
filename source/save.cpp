@@ -253,6 +253,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 {
     std::string worldFolder = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(name);
     srand(seed + currentLocation);
+    printf("Set seed to %u\n", seed + currentLocation);
 
     // generate terrain in case folder doesn't exist or specified location's file doesn't exist
     if (!fsFolderExists(worldFolder.c_str()) || !fsFileExists(std::string(worldFolder + "/locations/location" + std::to_string(currentLocation) + ".wld").c_str()))
