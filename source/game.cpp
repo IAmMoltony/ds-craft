@@ -932,7 +932,7 @@ void Game::draw(void)
                 font.printCentered(0, 108, "A world with that name already exists!");
                 break;
             case Language::Russian:
-                fontRu.printCentered(0, 108, "Nks vig tv~gtudvgu<");
+                fontRu.printCentered(0, 108, "Nks t ubmko kogpgo vig tv~gtudvgu<");
                 break;
             }
             glColor(RGB15(31, 31, 31));
@@ -1914,7 +1914,7 @@ void Game::update(void)
                                       .base(),
                                   createWorldName.end());
 
-            if (fsFileExists(std::string(WORLDS_DIR "/" + createWorldName + ".wld").c_str()))
+            if (fsFolderExists(std::string(WORLDS_DIR "/" + normalizeWorldFileName(createWorldName)).c_str()))
                 createWorldError = true;
             else
             {
