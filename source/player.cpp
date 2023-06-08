@@ -1127,11 +1127,11 @@ void Player::draw(Camera camera, Font font, Font fontRu, Language lang)
         }
     }
 
-    //    getRectBottom().draw(camera, RGB15(31, 0, 0));
-    //    getRectTop().draw(camera, RGB15(0, 31, 0));
-    //    getRectLeft().draw(camera, RGB15(0, 0, 31));
-    //    getRectRight().draw(camera, RGB15(31, 31, 0));
-    //    getRectSlab().draw(camera, RGB15(0, 31, 31));
+    getRectBottom().draw(camera, RGB15(31, 0, 0));
+    getRectTop().draw(camera, RGB15(0, 31, 0));
+    getRectLeft().draw(camera, RGB15(0, 0, 31));
+    getRectRight().draw(camera, RGB15(31, 31, 0));
+    getRectSlab().draw(camera, RGB15(0, 31, 31));
 }
 
 // TODO split the draw and update methods (like with crafting)
@@ -2349,7 +2349,110 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 continue;
             }
 
+            // collision
+            if (block->getRect().intersects(getRectTop()))
+            {
+                velY = 0;
+                y = block->getRect().y + block->getRect().h + 1;
+            }
 
+            if (block->getRect().intersects(getRectBottom()))
+            {
+                falling = jumping = false;
+                velY = 0;
+                y = block->getRect().y - 32;
+                if (airY >= 44) // if we fall too much
+                {
+                    s16 damage = airY / 44;
+                    if (airY - 44 >= 9)
+                        damage += (airY - MAX_AIM_DISTANCE) / 9;
+                    if (damage > 0)
+                    {
+                        health -= damage;
+
+                        // play sound
+                        playsfx(3, &sndHit1, &sndHit2, &sndHit3);
+
+                        // s H A K E !! !
+                        camera->x += randomRange(-50, 50);
+                        camera->y += randomRange(-50, 50);
+                    }
+                }
+                airY = 0;
+            }
+            else
+                falling = true;
+
+            if (block->getRect().intersects(getRectLeft()))
+            {
+                x = block->getRect().x + block->getRect().w;
+
+                if (Game::SettingsManager::autoJump && velX < 0 && !jumping)
+                {
+                    --y;
+                    jump();
+                }
+            }
+
+            if (block->getRect().intersects(Rect(getRectBottom().x, getRectBottom().y + 1,
+                                                 getRectBottom().w, getRectBottom().h)) &&
+                frames % 19 == 0)
+            {
+                // this is for step sounds
+                if (moving(oldX))
+                {
+                    u16 id = block->id();
+                    switch (id)
+                    {
+                    case BID_GRASS:
+                        playsfx(4, &sndStepGrass1, &sndStepGrass2, &sndStepGrass3, &sndStepGrass4);
+                        break;
+                    case BID_DIRT:
+                        playsfx(4, &sndStepGravel1, &sndStepGravel2, &sndStepGravel3, &sndStepGravel4);
+                        break;
+                    case BID_STONE:
+                    case BID_SANDSTONE:
+                    case BID_COBBLESTONE:
+                    case BID_COAL_ORE:
+                    case BID_COAL_BLOCK:
+                    case BID_BEDROCK:
+                    case BID_GLASS:
+                    case BID_COBBLESTONE_SLAB:
+                        playsfx(4, &sndStepStone1, &sndStepStone2, &sndStepStone3, &sndStepStone4);
+                        break;
+                    case BID_SAND:
+                        playsfx(4, &sndStepSand1, &sndStepSand2, &sndStepSand3, &sndStepSand4);
+                        break;
+                    case BID_SNOWY_GRASS:
+                        playsfx(4, &sndStepSnow1, &sndStepSnow2, &sndStepSnow3, &sndStepSnow4);
+                        break;
+                    case BID_PLANKS:
+                    case BID_BIRCH_PLANKS:
+                    case BID_SPRUCE_PLANKS:
+                    case BID_DOOR:
+                    case BID_BIRCH_DOOR:
+                    case BID_SPRUCE_DOOR:
+                    case BID_OAK_SLAB:
+                    case BID_BIRCH_SLAB:
+                    case BID_SPRUCE_SLAB:
+                    case BID_OAK_TRAPDOOR:
+                    case BID_BIRCH_TRAPDOOR:
+                    case BID_SPRUCE_TRAPDOOR:
+                        playsfx(4, &sndStepWood1, &sndStepWood2, &sndStepWood3, &sndStepWood4);
+                        break;
+                    }
+                }
+            }
+
+            if (block->getRect().intersects(getRectRight()))
+            {
+                x = block->getRect().x - 12;
+                if (Game::SettingsManager::autoJump && velX > 0 && !jumping)
+                {
+                    --y;
+                    jump();
+                }
+            }
 
             if (block->isSlab())
             {
@@ -2760,25 +2863,26 @@ u16 Player::countItems(InventoryItemID item)
     return count;
 }
 
-Rect Player::getRectBottom(void)
+Rect Player::getRectBottom()
 {
-    return Rect(x + PLAYER_WIDTH / 2 - PLAYER_WIDTH / 2 / 2, y + PLAYER_HEIGHT / 2, PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2);
+    return Rect(x + PLAYER_WIDTH / 4, y + PLAYER_HEIGHT / 2, PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2);
 }
 
-Rect Player::getRectTop(void)
+Rect Player::getRectTop()
 {
-    return Rect(x + PLAYER_WIDTH / 2 - PLAYER_WIDTH / 2 / 2, y, PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2);
+    return Rect(x + PLAYER_WIDTH / 4, y, PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2);
 }
 
-Rect Player::getRectLeft(void)
+Rect Player::getRectLeft()
 {
-    return Rect(x, y + 3, 4, PLAYER_HEIGHT - 6);
+    return Rect(x, y + PLAYER_HEIGHT / 4, PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2);
 }
 
-Rect Player::getRectRight(void)
+Rect Player::getRectRight()
 {
-    return Rect(x + PLAYER_WIDTH - 4, y + 4, 4, PLAYER_HEIGHT - 6);
+    return Rect(x + PLAYER_WIDTH / 2, y + PLAYER_HEIGHT / 4, PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2);
 }
+
 
 Rect Player::getRectSlab(void)
 {
