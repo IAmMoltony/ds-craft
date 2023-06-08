@@ -1512,30 +1512,33 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             // block placing
             default:
                 bool interact = false;
-                for (auto &block : *blocks)
+                if (aimDist <= MAX_AIM_DISTANCE)
                 {
-                    // skip blocks out of camera
-                    if (block->getRect().x - camera->x < -16 ||
-                        block->getRect().y - camera->y < -16)
-                        continue;
-                    if (block->getRect().x - camera->x > SCREEN_WIDTH + 48)
-                        break;
-
-                    // if there is block at aim
-                    if (Rect(getRectAim(*camera).x + 1, getRectAim(*camera).y + 1, 14, 14)
-                            .intersects(block->getRect()))
+                    for (auto &block : *blocks)
                     {
-                        // interact
-                        interact = true;
-                        block->interact();
-                        if (block->id() == BID_CHEST)
+                        // skip blocks out of camera
+                        if (block->getRect().x - camera->x < -16 ||
+                            block->getRect().y - camera->y < -16)
+                            continue;
+                        if (block->getRect().x - camera->x > SCREEN_WIDTH + 48)
+                            break;
+
+                        // if there is block at aim
+                        if (Rect(getRectAim(*camera).x + 1, getRectAim(*camera).y + 1, 14, 14)
+                                .intersects(block->getRect()))
                         {
-                            Block *b = block.get();
-                            ChestBlock *chestp = static_cast<ChestBlock *>(b);
-                            chestOpen = true;
-                            chest = chestp;
+                            // interact
+                            interact = true;
+                            block->interact();
+                            if (block->id() == BID_CHEST)
+                            {
+                                Block *b = block.get();
+                                ChestBlock *chestp = static_cast<ChestBlock *>(b);
+                                chestOpen = true;
+                                chest = chestp;
+                            }
+                            break;
                         }
-                        break;
                     }
                 }
 
@@ -1905,7 +1908,6 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
         }
         if (down & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_OPEN_INVENTORY))
         {
-            // when select pressed bring up inventory
             fullInventory = true;
             mmEffectEx(&Game::instance->sndClick);
         }
