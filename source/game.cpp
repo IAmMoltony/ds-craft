@@ -2122,7 +2122,10 @@ void Game::update(void)
         else
         {
             if (down & KEY_B)
+            {
                 gameState = GameState::Settings;
+                keyboardHide();
+            }
             else if (down & KEY_DOWN)
             {
                 ++editControlsSelected;
