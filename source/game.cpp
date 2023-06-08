@@ -1859,6 +1859,7 @@ void Game::update(void)
 
             renameWorld(worldSelectWorlds[worldSelectSelected].name, renameWorldName);
             rename(std::string(WORLDS_DIR "/" + normalizeWorldFileName(worldSelectWorlds[worldSelectSelected].name)).c_str(), std::string(WORLDS_DIR "/" + normalizeWorldFileName(renameWorldName)).c_str());
+            keyboardHide();
             enterWorldSelect();
         }
 
@@ -2122,10 +2123,7 @@ void Game::update(void)
         else
         {
             if (down & KEY_B)
-            {
                 gameState = GameState::Settings;
-                keyboardHide();
-            }
             else if (down & KEY_DOWN)
             {
                 ++editControlsSelected;
