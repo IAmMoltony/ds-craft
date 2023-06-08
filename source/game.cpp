@@ -383,12 +383,8 @@ void Game::loadLocation(s16 oldLocation)
 
     // 3. we position the player correctly
 
-    printf("Old loc: %d; curr loc: %d\n", oldLocation, currentLocation);
-
     saveWorld(worldName, blocks, entities, player, getWorldSeed(worldName), currentLocation);
-    printf("After save curr: %d\n", currentLocation);
     loadWorld(normalizeWorldFileName(worldName), blocks, entities, player, currentLocation);
-    printf("After load curr: %d\n", currentLocation);
 
     // TODO replace rand with c++'s std::random
 
