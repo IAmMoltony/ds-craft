@@ -670,7 +670,6 @@ Player::Player() : x(0), y(0), velX(0), velY(0), spawnX(0), spawnY(0), aimX(0), 
     inventoryCrafting = false;
     chestOpen = false;
     sneaking = false;
-    sprinting = false;
     sprintPressing = false;
     facing = Facing::Right;
     chest = nullptr;
@@ -1917,8 +1916,6 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
         bool right = false;
         bool up = false;
         bool downButton = false; // down is already defined
-        bool leftDown = false;
-        bool rightDown = false;
         if (!(keys & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_DPAD_AIM)))
         {
             u32 buttonLeft = Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_GO_LEFT);
@@ -1928,35 +1925,11 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             left = keys & buttonLeft;
             right = keys & buttonRight;
             downButton = keys & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_SNEAK);
-            leftDown = down & buttonLeft;
-            rightDown = down & buttonRight;
-        }
-
-        if (sprintPressing)
-            ++sprintFrames;
-        if (leftDown || rightDown)
-        {
-            if (sprintFrames == 0)
-                sprintPressing = true;
-            else if (sprintFrames <= 15)
-            {
-                sprintPressing = false;
-                sprintFrames = 0;
-                sprinting = true;
-            }
-        }
-        if (sprintFrames > 15)
-        {
-            sprintPressing = false;
-            sprintFrames = 0;
-            sprinting = false;
         }
 
         sneaking = downButton;
         if (sneaking)
             bodySprite.setFramesPerImage(normalSpriteFPI * 2);
-        else if (sprinting)
-            bodySprite.setFramesPerImage(normalSpriteFPI / 1.5);
         else
             bodySprite.setFramesPerImage(normalSpriteFPI);
 
@@ -2576,8 +2549,6 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
 
         if (sneaking)
             velX /= 2;
-        else if (sprinting)
-            velX += 1 * (velX < 0 ? -1 : 1);
 
         // stop whem player don't press d-pad
         if ((right && left) || (!right && !left))
