@@ -3,13 +3,28 @@ import os
 import subprocess
 import shutil
 
+def get_game_version():
+    version = ""
+    prefix = ""
+    with open("nitrofs/game.ver", "r") as f:
+        data = f.read()
+        data_split = data.split('\n')
+        for i in range(4):
+            line = data_split[i]
+            if i == 0 or i == 1:
+                version += f"{line}."
+            elif i == 2:
+                version += line
+            elif i == 3:
+                prefix = line
+    return f"{prefix}{version}"
+
 if __name__ == "__main__":
     argv = sys.argv
     argc = len(argv)
 
     if argc < 2:
-        print("Usage: create-release.py <version> [arguments]")
-        print("Example: python3 create-release.py alpha2.3")
+        print("Usage: create-release.py [arguments]")
         print("Valid arguments are:")
         print(" --noconfirm: no confirmation screen")
         print(" --quiet: no output (except for errors and confirmation screen)")
@@ -21,7 +36,7 @@ if __name__ == "__main__":
     noconfirm = False
     noclean = False
     makeoutput = False
-    version = ''
+    version = get_game_version()
     for i in range(1, argc):
         if argv[i] == "--quiet":
             quiet = True
@@ -31,15 +46,9 @@ if __name__ == "__main__":
             noclean = True
         elif argv[i] == "--makeoutput":
             makeoutput = True
-        elif version == '':
-            version = argv[i]
         else:
             print(f"Unknown argument {argv[i]}")
             exit(1)
-
-    if version == '':
-        print("Please enter the version")
-        exit(1)
 
     filename = f'releases/ds-craft-{argv[1]}.nds'
     if not quiet:
