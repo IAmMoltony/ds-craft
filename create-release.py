@@ -50,7 +50,7 @@ if __name__ == "__main__":
             print(f"Unknown argument {argv[i]}")
             exit(1)
 
-    filename = f'releases/ds-craft-{argv[1]}.nds'
+    filename = f'releases/ds-craft-{version}.nds'
     if not quiet:
         print("Output filename: ", filename)
     if not noconfirm:
