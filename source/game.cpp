@@ -863,6 +863,13 @@ void Game::draw(void)
 
             glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprBButton);
             font.print(15, SCREEN_HEIGHT - 28, "Cancel");
+
+            if (renameWorldDuplError)
+            {
+                glColor(RGB15(31, 0, 0));
+                font.print(15, SCREEN_HEIGHT / 2 + 8, "A world with that name already exists!");
+                glColor(RGB15(31, 31, 31));
+            }
             break;
         case Language::Russian:
             fontRu.drawHeading("Qgsgkogpqdbu# oks");
@@ -876,6 +883,13 @@ void Game::draw(void)
 
             glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprBButton);
             fontRu.print(15, SCREEN_HEIGHT - 28, "Puogpb");
+
+            if (renameWorldDuplError)
+            {
+                glColor(RGB15(31, 0, 0));
+                fontRu.print(15, SCREEN_HEIGHT / 2 + 8, "Nks t ubmko kogpgo vig tv~gtudvgu<");
+                glColor(RGB15(31, 31, 31));
+            }
             break;
         }
 
@@ -915,7 +929,7 @@ void Game::draw(void)
             switch (lang)
             {
             case Language::English:
-                font.printCentered(0, 108, "World already exists!");
+                font.printCentered(0, 108, "A world with that name already exists!");
                 break;
             case Language::Russian:
                 fontRu.printCentered(0, 108, "Nks vig tv~gtudvgu<");
@@ -1837,6 +1851,7 @@ void Game::update(void)
         if (down & KEY_B)
         {
             keyboardHide();
+            renameWorldDuplError = false;
             gameState = GameState::WorldSettings;
             mmEffectEx(&sndClick);
         }
@@ -1855,12 +1870,15 @@ void Game::update(void)
                                       .base(),
                                   renameWorldName.end());
 
-            // TODO add error for duplicated world name in rename world screen
-
-            renameWorld(worldSelectWorlds[worldSelectSelected].name, renameWorldName);
-            rename(std::string(WORLDS_DIR "/" + normalizeWorldFileName(worldSelectWorlds[worldSelectSelected].name)).c_str(), std::string(WORLDS_DIR "/" + normalizeWorldFileName(renameWorldName)).c_str());
-            keyboardHide();
-            enterWorldSelect();
+            if (fsFolderExists(std::string(WORLDS_DIR "/" + normalizeWorldFileName(renameWorldName)).c_str()))
+                renameWorldDuplError = true;
+            else
+            {
+                renameWorld(worldSelectWorlds[worldSelectSelected].name, renameWorldName);
+                rename(std::string(WORLDS_DIR "/" + normalizeWorldFileName(worldSelectWorlds[worldSelectSelected].name)).c_str(), std::string(WORLDS_DIR "/" + normalizeWorldFileName(renameWorldName)).c_str());
+                keyboardHide();
+                enterWorldSelect();
+            }
         }
 
         if (ch == '\b' && renameWorldName.size() > 0)

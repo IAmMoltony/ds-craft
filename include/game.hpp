@@ -134,6 +134,7 @@ private:
     std::string createWorldSeed;
     std::string renameWorldName;
     bool createWorldError;
+    bool renameWorldDuplError = false;
     u8 settingsSelect;
     u8 titleScreenSelect;
     bool createWorldShowCursor = false;
