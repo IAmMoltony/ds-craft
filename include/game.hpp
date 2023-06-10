@@ -37,11 +37,7 @@ public:
         static bool autoSave;
         static bool smoothCamera;
         static bool autoJump;
-
-        // 0 = off
-        // 1 = left-handed (abxy=abxy)
-        // 2 = right-handed (abxy=d-pad)
-        static u8 touchToMove;
+        static bool touchToMove;
 
         SettingsManager() = delete;
         SettingsManager(SettingsManager &) = delete;

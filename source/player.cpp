@@ -1459,7 +1459,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
         for (auto &entity : *entities)
         {
             if (entity->getRect().intersects(getRectAim(*camera)) &&
-                down & ((Game::SettingsManager::touchToMove == 2) ? KEY_DOWN : KEY_B) &&
+                down & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_ATTACK) &&
                 entity->id().rfind("drop", 0) != 0)
             {
                 entity->damage(1);
@@ -2455,10 +2455,9 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 aimY = touchPos.py;
 
                 // touch to move
-                // TODO make touch to mov work with sprinting
-                if (!(keys & ((Game::SettingsManager::touchToMove == 2) ? KEY_UP : KEY_X)))
+                if (!(keys & KEY_X))
                 {
-                    if (Game::SettingsManager::touchToMove != 0)
+                    if (Game::SettingsManager::touchToMove)
                     {
                         if (aimX < SCREEN_WIDTH / 2)
                         {

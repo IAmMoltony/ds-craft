@@ -1123,40 +1123,19 @@ void Game::draw(void)
 
         if (settingsSelect == SETTING_TOUCH_TO_MOVE)
             glColor(RGB15(0, 31, 0));
-        switch (SettingsManager::touchToMove)
+        switch (lang)
         {
-        case TOUCH_TO_MOVE_OFF:
-            switch (lang)
-            {
-            case Language::English:
-                font.printCentered(0, 92, (settingsSelect == SETTING_TOUCH_TO_MOVE) ? "> Touch to move: off <" : "Touch to move: off");
-                break;
-            case Language::Russian:
-                fontRu.printCentered(0, 92, (settingsSelect == SETTING_TOUCH_TO_MOVE) ? "> Edkigpkg mbtbpkgo: d\"mn. '" : "Edkigpkg mbtbpkgo: d\"mn.");
-                break;
-            }
+        case Language::English:
+            if (SettingsManager::touchToMove)
+                font.printCentered(0, 92, (settingsSelect == SETTING_TOUCH_TO_MOVE) ? "> Touch to move ON <" : "Touch to move ON");
+            else
+                font.printCentered(0, 92, (settingsSelect == SETTING_TOUCH_TO_MOVE) ? "> Touch to move OFF <" : "Touch to move OFF");
             break;
-        case TOUCH_TO_MOVE_LEFT_HANDED:
-            switch (lang)
-            {
-            case Language::English:
-                font.printCentered(0, 92, (settingsSelect == SETTING_TOUCH_TO_MOVE) ? "> Touch to move: left-handed <" : "Touch to move: left-handed");
-                break;
-            case Language::Russian:
-                fontRu.printCentered(0, 92, (settingsSelect == SETTING_TOUCH_TO_MOVE) ? "> Edkigpkg mbtbpkgo: ngd}b '" : "Edkigpkg mbtbpkgo: ngd}b");
-                break;
-            }
-            break;
-        case TOUCH_TO_MOVE_RIGHT_HANDED:
-            switch (lang)
-            {
-            case Language::English:
-                font.printCentered(0, 92, (settingsSelect == SETTING_TOUCH_TO_MOVE) ? "> Touch to move: right-handed <" : "Touch to move: right-handed");
-                break;
-            case Language::Russian:
-                fontRu.printCentered(0, 92, (settingsSelect == SETTING_TOUCH_TO_MOVE) ? "> Edkigpkg mbtbpkgo: rsbd}b '" : "Edkigpkg mbtbpkgo: rsbd}b");
-                break;
-            }
+        case Language::Russian:
+            if (SettingsManager::touchToMove)
+                fontRu.printCentered(0, 92, (settingsSelect == SETTING_TOUCH_TO_MOVE) ? "> Edkigpkg mbtbpkgo CLM '" : "Edkigpkg mbtbpkgo CLM");
+            else
+                fontRu.printCentered(0, 92, (settingsSelect == SETTING_TOUCH_TO_MOVE) ? "> Edkigpkg mbtbpkgo C]LM '" : "Edkigpkg mbtbpkgo C]LM");
             break;
         }
         glColor(RGB15(31, 31, 31));
@@ -2288,7 +2267,7 @@ bool Game::SettingsManager::transparentLeaves = false;
 bool Game::SettingsManager::autoSave = true;
 bool Game::SettingsManager::smoothCamera = true;
 bool Game::SettingsManager::autoJump = false;
-u8 Game::SettingsManager::touchToMove = 0;
+bool Game::SettingsManager::touchToMove = false;
 
 void Game::SettingsManager::loadSettings(void)
 {
