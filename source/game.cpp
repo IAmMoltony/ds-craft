@@ -228,10 +228,6 @@ static constexpr u8 SETTING_AUTO_JUMP = 5;
 static constexpr u8 SETTING_DELETE_ALL_WORLDS = 6;
 static constexpr u8 SETTING_EDIT_CONTROLS = 7;
 
-static constexpr u8 TOUCH_TO_MOVE_OFF = 0;
-static constexpr u8 TOUCH_TO_MOVE_LEFT_HANDED = 1;
-static constexpr u8 TOUCH_TO_MOVE_RIGHT_HANDED = 2;
-
 void Game::init(void)
 {
     // set up random number generator
