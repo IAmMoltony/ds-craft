@@ -2003,13 +2003,9 @@ void Game::update(void)
                 fsWrite(CONFIG_DIR "/smoothcam.cfg", SettingsManager::smoothCamera ? "1" : "0");
                 break;
             case SETTING_TOUCH_TO_MOVE:
-            {
-                char saveDataBuf[3];
-                SettingsManager::touchToMove = (SettingsManager::touchToMove + 1) % 3;
-                itoa(SettingsManager::touchToMove, saveDataBuf, 10);
-                fsWrite(CONFIG_DIR "/touchtomove.cfg", saveDataBuf);
+                SettingsManager::touchToMove = !SettingsManager::touchToMove;
+                fsWrite(CONFIG_DIR "/touchtomove.cfg", SettingsManager::touchToMove ? "1" : "0")
                 break;
-            }
             case SETTING_AUTO_JUMP:
                 SettingsManager::autoJump = !SettingsManager::autoJump;
                 fsWrite(CONFIG_DIR "/autojump.cfg", SettingsManager::autoJump ? "1" : "0");
@@ -2316,26 +2312,10 @@ void Game::SettingsManager::loadSettings(void)
     if (fsFileExists(CONFIG_DIR "/touchtomove.cfg"))
     {
         char *data = fsReadFile(CONFIG_DIR "/touchtomove.cfg");
-        switch (data[0])
-        {
-        case '0': // off
-            touchToMove = 0;
-            break;
-        case '1': // left handed
-            touchToMove = 1;
-            break;
-        case '2': // right handed
-            touchToMove = 2;
-            break;
-        default:
-            printf("unknown touchtomove.cfg value %c", data[0]);
-            while (true)
-                ;
-            break;
-        }
+        touchToMove = data[0] == '1';
     }
     else
-        fsWrite(CONFIG_DIR "/touchtomove.cfg", "0");
+        fsWrite(CONFIG_DIR "/touchtomove.cfg", "1");
 
     // auto jump setting
     if (fsFileExists(CONFIG_DIR "/autojump.cfg"))
