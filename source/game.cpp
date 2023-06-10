@@ -2306,7 +2306,7 @@ void Game::SettingsManager::loadSettings(void)
         smoothCamera = data[0] == '1';
     }
     else
-        fsWrite(CONFIG_DIR "/cmoothcam.cfg", "1");
+        fsWrite(CONFIG_DIR "/smoothcam.cfg", "1");
 
     // touch to move setting
     if (fsFileExists(CONFIG_DIR "/touchtomove.cfg"))
