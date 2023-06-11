@@ -4,6 +4,7 @@
 #include "defines.h"
 #include "block.hpp"
 #include "animsprite.hpp"
+#include "random.hpp"
 
 enum class Facing
 {

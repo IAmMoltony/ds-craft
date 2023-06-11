@@ -7,7 +7,11 @@
 #define loadImageAlpha(spr, w, h, pal, bitmap) glLoadTileSet(spr, w, h, w, h, GL_RGB16, TEXTURE_SIZE_##w, TEXTURE_SIZE_##h, GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT, 16, pal, (u8 *)bitmap)
 #endif
 #define unloadImage(spr) glDeleteTextures(1, &spr->textureID)
+#ifdef __cplusplus
+#define randomRange(a, b) ((a) + randomGenerate() % (((b) + 1) - (a)))
+#else
 #define randomRange(a, b) ((a) + rand() % (((b) + 1) - (a)))
+#endif
 #define soundEffect(id)                            \
     {                                              \
         {id}, (int)(1.0f * (1 << 10)), 0, 255, 128 \

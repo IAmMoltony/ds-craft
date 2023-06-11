@@ -7,6 +7,7 @@
 #include "save.hpp"
 #include "gamever.hpp"
 #include "help.hpp"
+#include "random.hpp"
 #include <sstream>
 #include <regex>
 

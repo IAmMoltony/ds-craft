@@ -183,7 +183,7 @@ void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
     velX = moving ? (facing == Facing::Right ? baseVelX : -baseVelX) : 0;
 
     // randomly change direction
-    if (rand() % 250 == 1)
+    if (randomGenerate() % 250 == 1)
         facing = facing == Facing::Right ? Facing::Left : Facing::Right;
 
     // jump randomly

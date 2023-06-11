@@ -59,7 +59,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                 if (sinceLastTree > treeInterval)
                 {
                     placedTree = true;
-                    treeInterval = spawnTree(blocks, i * 16, y, (rand() % 2) ? TreeType::Birch : TreeType::Oak);
+                    treeInterval = spawnTree(blocks, i * 16, y, (randomGenerate() % 2) ? TreeType::Birch : TreeType::Oak);
                     sinceLastTree = 0;
                 }
 
@@ -145,7 +145,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                 if (chance(20) && sinceLastTree > treeInterval)
                 {
                     placedTree = true;
-                    treeInterval = spawnTree(blocks, i * 16, y, (rand() % 2) ? TreeType::Birch : TreeType::Oak);
+                    treeInterval = spawnTree(blocks, i * 16, y, (randomGenerate() % 2) ? TreeType::Birch : TreeType::Oak);
                     sinceLastTree = 0;
                 }
 
@@ -181,7 +181,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
 
                 if (chance(40) && sinceLastTree > treeInterval)
                 {
-                    treeInterval = spawnTree(blocks, i * 16, y, (rand() % 2) ? TreeType::Birch : TreeType::Oak);
+                    treeInterval = spawnTree(blocks, i * 16, y, (randomGenerate() % 2) ? TreeType::Birch : TreeType::Oak);
                     sinceLastTree = 0;
                 }
 
@@ -215,7 +215,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                 if (chance(36) && sinceLastTree > treeInterval)
                 {
                     placedTree = true;
-                    treeInterval = spawnTree(blocks, i * 16, y, (rand() % 2) ? TreeType::Birch : TreeType::Oak);
+                    treeInterval = spawnTree(blocks, i * 16, y, (randomGenerate() % 2) ? TreeType::Birch : TreeType::Oak);
                     sinceLastTree = 0;
                 }
 
@@ -285,7 +285,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
 
 int spawnTree(BlockList &blocks, s16 x, s16 y, TreeType treeType)
 {
-    u8 treeVariant = rand() % 2;
+    u8 treeVariant = randomGenerate() % 2;
     switch (treeType)
     {
     case TreeType::Oak:

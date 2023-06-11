@@ -249,9 +249,9 @@ std::string iidToString(InventoryItemID iid)
 }
 
 void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
-               Player &player, unsigned int seed, s16 currentLocation)
+               Player &player, u64 seed, s16 currentLocation)
 {
-    std::string worldFolder = WORLDS_DIR;
+    std::string worldFolder = std::string(WORLDS_DIR + "/name");
 
     // generate terrain in case folder doesn't exist or specified location's file doesn't exist
     if (!fsFolderExists(worldFolder.c_str()) || !fsFileExists(std::string(worldFolder + "/locations/location" + std::to_string(currentLocation) + ".wld").c_str()))
@@ -420,6 +420,8 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     for (u8 i = 0; i < 20; ++i)
         playerinfo << "inventory " + std::to_string(i) + " " + iidToString(playerInventory[i].id) + " " + std::to_string(playerInventory[i].amount) + "\n";
     playerinfo.close();
+
+    randomSetSeed(seed);
 }
 
 unsigned int getWorldSeed(const std::string &file)
@@ -496,7 +498,7 @@ static void argParseGrass(const std::vector<std::string> &split, s16 &x, s16 &y,
 void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                Player &player, s16 &currentLocation)
 {
-    std::string worldFolder = "fat:/dscraft_data/worlds/" + name;
+    std::string worldFolder = std::string(WORLDS_DIR + "/" + name);
 
     // clear the current world state
     blocks.clear();
@@ -809,7 +811,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         chestFile.close();
     }
 
-    srand(getWorldSeed(name) + currentLocation);
+    randomSetSeed(getWorldSeed(name) + currentLocation);
 }
 
 void renameWorld(const std::string &oldName, const std::string &newName)

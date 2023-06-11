@@ -231,8 +231,8 @@ static constexpr u8 SETTING_EDIT_CONTROLS = 7;
 void Game::init(void)
 {
     // set up random number generator
-    time_t randomSeed = time(NULL);
-    srand(randomSeed);
+    randomSetSeed(PersonalData->rtcOffset);
+    srand(PersonalData->rtcOffset);
 
     // keyboard init
     keyboardDemoInit();
@@ -381,8 +381,6 @@ void Game::loadLocation(s16 oldLocation)
 
     saveWorld(worldName, blocks, entities, player, getWorldSeed(worldName), currentLocation);
     loadWorld(normalizeWorldFileName(worldName), blocks, entities, player, currentLocation);
-
-    // TODO replace rand with c++'s std::random
 
     if (oldLocation < currentLocation)
     {
@@ -1911,11 +1909,11 @@ void Game::update(void)
                 }
                 glEnd2D();
                 glFlush(0);
-                unsigned int randomSeed = stringHash(createWorldSeed.c_str());
+                u64 randomSeed = stringHash(createWorldSeed.c_str());
                 if (createWorldSeed.find_first_not_of("0123456789") == std::string::npos && createWorldSeed.size() > 0)
-                    randomSeed = atoi(createWorldSeed.c_str());
+                    randomSeed = std::stoi(createWorldSeed.c_str());
                 if (createWorldSeed.empty())
-                    randomSeed = rand() * rand();
+                    randomSeed = randomGenerate() % UINT64_MAX;
                 saveWorld(worldName, blocks, entities, player, randomSeed, currentLocation);
 
                 enterWorldSelect();
@@ -2000,7 +1998,7 @@ void Game::update(void)
                 break;
             case SETTING_TOUCH_TO_MOVE:
                 SettingsManager::touchToMove = !SettingsManager::touchToMove;
-                fsWrite(CONFIG_DIR "/touchtomove.cfg", SettingsManager::touchToMove ? "1" : "0")
+                fsWrite(CONFIG_DIR "/touchtomove.cfg", SettingsManager::touchToMove ? "1" : "0");
                 break;
             case SETTING_AUTO_JUMP:
                 SettingsManager::autoJump = !SettingsManager::autoJump;
