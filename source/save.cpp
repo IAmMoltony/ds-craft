@@ -251,7 +251,7 @@ std::string iidToString(InventoryItemID iid)
 void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                Player &player, u64 seed, s16 currentLocation)
 {
-    std::string worldFolder = std::string(WORLDS_DIR + "/name");
+    std::string worldFolder = WORLDS_DIR "/" + name;
 
     // generate terrain in case folder doesn't exist or specified location's file doesn't exist
     if (!fsFolderExists(worldFolder.c_str()) || !fsFileExists(std::string(worldFolder + "/locations/location" + std::to_string(currentLocation) + ".wld").c_str()))
@@ -498,7 +498,7 @@ static void argParseGrass(const std::vector<std::string> &split, s16 &x, s16 &y,
 void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                Player &player, s16 &currentLocation)
 {
-    std::string worldFolder = std::string(WORLDS_DIR + "/" + name);
+    std::string worldFolder = std::string(WORLDS_DIR "/" + name);
 
     // clear the current world state
     blocks.clear();
