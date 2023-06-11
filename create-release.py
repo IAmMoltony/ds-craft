@@ -1,5 +1,5 @@
 import sys
-import os
+import argparse
 import subprocess
 import shutil
 
@@ -19,79 +19,30 @@ def get_game_version():
                 prefix = line
     return f"{prefix}{version}"
 
-if __name__ == "__main__":
-    argv = sys.argv
-    argc = len(argv)
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--noclean", help="don't run `make clean' before building", action="store_true")
+    parser.add_argument("--quiet", help="don't display output (except for errors)", action="store_true")
+    args = parser.parse_args()
 
-    if argc < 2:
-        print("Usage: create-release.py [arguments]")
-        print("Valid arguments are:")
-        print(" --noconfirm: no confirmation screen")
-        print(" --quiet: no output (except for errors and confirmation screen)")
-        print(" --noclean: don't recompile the game")
-        print(" --makeoutput: don't hide build output")
-        exit(1)
+    be_quiet = args.quiet
+    no_clean = args.noclean
 
-    quiet = False
-    noconfirm = False
-    noclean = False
-    makeoutput = False
-    version = get_game_version()
-    for i in range(1, argc):
-        if argv[i] == "--quiet":
-            quiet = True
-        elif argv[i] == "--noconfirm":
-            noconfirm = True
-        elif argv[i] == "--noclean":
-            noclean = True
-        elif argv[i] == "--makeoutput":
-            makeoutput = True
+    if not no_clean:
+        if be_quiet:
+            subprocess.run(["make", "clean"], stdout=subprocess.DEVNULL)
         else:
-            print(f"Unknown argument {argv[i]}")
-            exit(1)
+            print("Running `make clean'")
+            subprocess.run(["make", "clean"])
 
-    filename = f'releases/ds-craft-{version}.nds'
-    if not quiet:
-        print("Output filename: ", filename)
-    if not noconfirm:
-        print("Are you sure you want to create this release?")
-        yn = input("[y/n] ")
-        if yn.lower() != "y":
-            print("Aborting creating release.")
-            exit(0)
+    if be_quiet:
+        subprocess.run(["make"], check=True, stdout=subprocess.DEVNULL)
+    else:
+        print("Running `make'")
+        subprocess.run(["make"], check=True)
 
-    if not quiet:
-        print("Creating releases directory")
-    try:
-        os.mkdir("releases")
-    except FileExistsError:
-        if not quiet:
-            print("releases directory already exists")
-    except PermissionError:
-        print("Permission error when creating releases directory")
-        exit(1)
+    shutil.copyfile("bin/ds-craft.nds", f"releases/ds-craft-{get_game_version()}.nds")
+    print(f"Saved to releases/ds-craft-{get_game_version()}.nds")
 
-    build_args = ["make", "clean", "build"]
-    if noclean:
-        build_args = ["make"]
-    if not quiet:
-        print(f"Running {' '.join(build_args)}")
-    build_stdout = subprocess.DEVNULL
-    if makeoutput:
-        build_stdout = subprocess.STDOUT
-    result = subprocess.run(build_args,
-                            build_stdout, stderr=subprocess.STDOUT)
-    if result.returncode != 0:
-        print("An error occured, aborting.")
-        exit(1)
-    if not quiet:
-        print("Success, creating the release file")
-    try:
-        shutil.copyfile("bin/ds-craft.nds", filename)
-    except Exception as exc:
-        print("there was error copying ds-craft.nds into releases folder\n", exc)
-        exit(1)
-    if not quiet:
-        print("Release created successfully!")
-else:
-    raise Exception("create-release.py should not be imported!")
+if __name__ == "__main__":
+    main()
