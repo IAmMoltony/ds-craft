@@ -2,6 +2,7 @@ import sys
 import argparse
 import subprocess
 import shutil
+import pathlib
 
 def get_game_version():
     version = ""
@@ -20,6 +21,8 @@ def get_game_version():
     return f"{prefix}{version}"
 
 def main():
+    pathlib.Path("releases").mkdir(parents=True, exist_ok=True)
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--noclean", help="don't run `make clean' before building", action="store_true")
     parser.add_argument("--quiet", help="don't display output (except for errors)", action="store_true")
