@@ -58,6 +58,6 @@ u32 stringHash(const char *str)
 void hang(void)
 {
     while (true)
-        asm volatile("hlt");
+        asm volatile("wfi");
     __builtin_unreachable();
 }
