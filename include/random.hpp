@@ -2,5 +2,5 @@
 
 #include <nds.h>
 
-void randomSetSeed(u64 seed);
-u64 randomGenerate(void);
+void randomSetSeed(u32 seed);
+u32 randomGenerate(void);

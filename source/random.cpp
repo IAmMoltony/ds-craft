@@ -1,17 +1,14 @@
 #include "random.hpp"
+#include <random>
 
-static u64 randomSeed = 1;
+static std::mt19937 mtEngine(1);
 
-void randomSetSeed(u64 seed)
+void randomSetSeed(u32 seed)
 {
-    randomSeed = seed;
+    mtEngine.seed(seed);
 }
 
-u64 randomGenerate(void)
+u32 randomGenerate(void)
 {
-    // taken from wikipedia
-    randomSeed ^= randomSeed >> 12;
-    randomSeed ^= randomSeed << 25;
-    randomSeed ^= randomSeed >> 27;
-    return randomSeed * 0x2545f4914f6cdd1ULL;
+    return mtEngine();
 }
