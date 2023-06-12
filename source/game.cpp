@@ -230,10 +230,6 @@ static constexpr u8 SETTING_EDIT_CONTROLS = 7;
 
 void Game::init(void)
 {
-    // set up random number generator
-    randomSetSeed(PersonalData->rtcOffset);
-    srand(PersonalData->rtcOffset);
-
     // keyboard init
     keyboardDemoInit();
     keyboardHide();
@@ -312,6 +308,21 @@ void Game::init(void)
 
     // load controls
     ControlsManager::loadControls();
+
+    // set up random number generator
+    u32 randomSeed;
+    randomSeed = PersonalData->rtcOffset;
+    randomSeed += time(NULL);
+    randomSeed ^= stringHash(getUserName());
+    Birthday bDay = getBirthday();
+    randomSeed -= bDay.day * bDay.month;
+    randomSeed ^= getFavoriteColorRgb() * getFavoriteColor();
+    randomSeed += (PersonalData->calX1 * PersonalData->calX2) ^ (PersonalData->calY1 * PersonalData->calY2);
+    randomSeed -= PersonalData->calY1px;
+    randomSeed ^= PersonalData->language;
+    randomSeed ^= stringHash(std::to_string(stringHash(getUserMessage())).c_str());
+    randomSetSeed(randomSeed);
+    srand(time(NULL));
 
     // load fonts
     loadFonts();
