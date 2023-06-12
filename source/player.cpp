@@ -1126,11 +1126,11 @@ void Player::draw(Camera camera, Font font, Font fontRu, Language lang)
         }
     }
 
-    getRectBottom().draw(camera, RGB15(31, 0, 0));
-    getRectTop().draw(camera, RGB15(0, 31, 0));
-    getRectLeft().draw(camera, RGB15(0, 0, 31));
-    getRectRight().draw(camera, RGB15(31, 31, 0));
-    getRectSlab().draw(camera, RGB15(0, 31, 31));
+    // getRectBottom().draw(camera, RGB15(31, 0, 0));
+    // getRectTop().draw(camera, RGB15(0, 31, 0));
+    // getRectLeft().draw(camera, RGB15(0, 0, 31));
+    // getRectRight().draw(camera, RGB15(31, 31, 0));
+    // getRectSlab().draw(camera, RGB15(0, 31, 31));
 }
 
 // TODO split the draw and update methods (like with crafting)
