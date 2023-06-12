@@ -58,6 +58,6 @@ u32 stringHash(const char *str)
 void hang(void)
 {
     while (true)
-        asm volatile("wfi");
+        swiWaitForVBlank();
     __builtin_unreachable();
 }
