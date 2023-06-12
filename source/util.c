@@ -44,9 +44,9 @@ int distBetweenPoints(int p1x, int p1y, int p2x, int p2y)
     return sqrt(dx * dx + dy * dy);
 }
 
-u64 stringHash(const char *str)
+u32 stringHash(const char *str)
 {
-    u64 hash = 0;
+    u32 hash = 0;
     int c;
 
     while ((c = *str++))

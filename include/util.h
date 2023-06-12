@@ -17,7 +17,7 @@ extern "C"
     int snapToGrid8(int x);
     float lerp(float a, float b, float t);
     int distBetweenPoints(int p1x, int p1y, int p2x, int p2y);
-    u64 stringHash(const char *str);
+    u32 stringHash(const char *str);
     void hang(void);
 
 #ifdef __cplusplus
