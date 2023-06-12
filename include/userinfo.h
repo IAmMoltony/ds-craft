@@ -37,6 +37,8 @@ extern "C"
     enum FavoriteColor getFavoriteColor(void);
     rgb getFavoriteColorRgb(void);
     Birthday getBirthday(void);
+    const char *getUserName(void);
+    const char *getUserMessage(void);
 
 #ifdef __cplusplus
 }

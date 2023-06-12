@@ -53,3 +53,35 @@ Birthday getBirthday(void)
     Birthday bday = {PersonalData->birthDay, PersonalData->birthMonth};
     return bday;
 }
+
+const char *getUserName(void)
+{
+    static char userName[10] = {0};
+    static bool initialized = false;
+
+    if (initialized)
+        return userName;
+    initialized = true;
+
+    u16 i;
+    for (i = 0; i < PersonalData->nameLen; ++i)
+        userName[i] = PersonalData->name[i];
+    userName[i] = 0;
+    return userName;
+}
+
+const char *getUserMessage(void)
+{
+    static char message[26] = {0};
+    static bool initialized = false;
+
+    if (initialized)
+        return message;
+    initialized = true;
+
+    u16 i;
+    for (i = 0; i < PersonalData->messageLen; ++i)
+        message[i] = PersonalData->message[i];
+    message[i] = 0;
+    return message;
+}
