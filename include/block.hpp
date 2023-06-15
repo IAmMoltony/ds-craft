@@ -183,24 +183,6 @@ struct InventoryItem
         bool solid(void) override;         \
     };
 
-// Generic declaration for doors.
-#define DOOR_DECL(door) \
-    class door##DoorBlock : public Block                       \
-    {                                                          \
-    private:                                                   \
-        bool open, facing;                                     \
-    public:                                                    \
-        door##DoorBlock(s16 x, s16 y, s16 px);                 \
-        door##DoorBlock(s16 x, s16 y, bool open, bool facing); \
-        void draw(Camera camera) override;                     \
-        bool solid(void) override;                             \
-        void interact(void) override;                          \
-        u16 id(void) override;                                 \
-        Rect getRect(void) const override;                     \
-        bool isOpen(void);                                     \
-        bool getFacing(void);                                  \
-    };
-
 // generic declaration for saplings
 #define SAPLING_DECL(sapl) \
     class sapl##SaplingBlock : public Block \
@@ -245,61 +227,6 @@ struct InventoryItem
         void draw(Camera camera) override;     \
         u16 id(void) override;                 \
     };
-
-// doors
-#define DOOR_IMPL(doorid, spr, bid)\
-    doorid##DoorBlock::doorid##DoorBlock(s16 x, s16 y, s16 px) : Block(x, y, 7) \
-    { \
-        open = true;\
-        facing = px > x;\
-    }\
-    doorid##DoorBlock::doorid##DoorBlock(s16 x, s16 y, bool open, bool facing) : Block(x, y, 7)\
-    {\
-        this->open = open;\
-        this->facing = facing;\
-    }\
-    void doorid##DoorBlock::draw(Camera camera)\
-    {\
-        if (open)\
-            glSprite(x - camera.x - 1, y - camera.y, GL_FLIP_NONE, spr);\
-        else\
-            glSpriteScaleXY(x - camera.x - 1 + (facing ? 0 : 8), y - camera.y, 1 << 10, 1 << 12, (facing ? GL_FLIP_NONE : GL_FLIP_H), spr);\
-    }\
-    bool doorid##DoorBlock::solid(void)\
-    {\
-        return !open;\
-    }\
-    void doorid##DoorBlock::interact(void)\
-    {\
-        if (open)\
-        {\
-            open = false;\
-            playsfx(4, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4);\
-        }\
-        else\
-        {\
-            open = true;\
-            playsfx(4, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4);\
-        }\
-    }\
-    u16 doorid##DoorBlock::id(void)\
-    {\
-        return bid;\
-    }\
-    Rect doorid##DoorBlock::getRect(void) const\
-    {\
-        if (open)\
-            return Rect(x, y, 16, 32);\
-        return Rect(x + (facing ? 0 : 11), y, 4, 32);\
-    }\
-    bool doorid##DoorBlock::isOpen(void)\
-    {\
-        return open;\
-    }\
-    bool doorid##DoorBlock::getFacing(void)\
-    {\
-        return facing;\
-    }\
 
 // saplings
 #define SAPLING_IMPL(saplingid, spr, bid) \
@@ -414,6 +341,13 @@ enum class GrassType
     Spruce,
 };
 
+enum class DoorType
+{
+    Oak,
+    Birch,
+    Spruce,
+};
+
 class Block;
 
 typedef std::vector<std::unique_ptr<Block>> BlockList;
@@ -464,11 +398,23 @@ GENERIC_BLOCK_DECL(CoalBlock)
 GENERIC_BLOCK_DECL(GlassBlock)
 GENERIC_BLOCK_DECL(LadderBlock)
 
-// TODO make doors and saplings and trapdoors have one base class
+class DoorBlock : public Block
+{
+private:
+    bool open, facing;
+    DoorType type;
 
-DOOR_DECL()
-DOOR_DECL(Birch)
-DOOR_DECL(Spruce)
+public:
+    DoorBlock(s16 x, s16 y, s16 px, DoorType type);
+    DoorBlock(s16 x, s16 y, bool open, bool facing, DoorType type);
+    void draw(Camera camera) override;
+    bool solid(void) override;
+    void interact(void) override;
+    u16 id(void) override;
+    Rect getRect(void) const override;
+    bool isOpen(void);
+    bool getFacing(void);
+};
 
 SAPLING_DECL()
 SAPLING_DECL(Birch)

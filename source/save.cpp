@@ -278,26 +278,21 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         {
         // oak door
         case BID_DOOR:
-        {
-            Block *b = block.get();
-            DoorBlock *door = reinterpret_cast<DoorBlock *>(b);
-            wld << "door " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(door->isOpen()) + " " + std::to_string(door->getFacing()) + "\n";
-            break;
-        }
-        // birch door
         case BID_BIRCH_DOOR:
-        {
-            Block *b = block.get();
-            BirchDoorBlock *bdoor = reinterpret_cast<BirchDoorBlock *>(b);
-            wld << "birchdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(bdoor->isOpen()) + " " + std::to_string(bdoor->getFacing()) + "\n";
-            break;
-        }
-        // spruce door
         case BID_SPRUCE_DOOR:
         {
             Block *b = block.get();
-            SpruceDoorBlock *sdoor = reinterpret_cast<SpruceDoorBlock *>(b);
-            wld << "sprucedoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(sdoor->isOpen()) + " " + std::to_string(sdoor->getFacing()) + "\n";
+            DoorBlock *door = reinterpret_cast<DoorBlock *>(b);
+            switch (id)
+            {
+            case BID_BIRCH_DOOR:
+                wld << "birch";
+                break;
+            case BID_SPRUCE_DOOR:
+                wld << "spruce";
+                break;
+            }
+            wld << "door " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(door->isOpen()) + " " + std::to_string(door->getFacing()) + "\n";
             break;
         }
         // oak trapdoor
@@ -551,7 +546,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             bool open = false, facing = false;
             argParseDoor(split, x, y, open, facing);
 
-            blocks.emplace_back(new DoorBlock(x, y, open, facing));
+            blocks.emplace_back(new DoorBlock(x, y, open, facing, DoorType::Oak));
         }
         else if (split[0] == "birchdoor") // birchdoor <x> <y> <open> <facing>
         {
@@ -559,7 +554,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             bool open, facing;
             argParseDoor(split, x, y, open, facing);
 
-            blocks.emplace_back(new BirchDoorBlock(x, y, open, facing));
+            blocks.emplace_back(new DoorBlock(x, y, open, facing, DoorType::Birch));
         }
         else if (split[0] == "sprucedoor") // sprucedoor <x> <y> <open> <facing>
         {
@@ -567,7 +562,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             bool open, facing;
             argParseDoor(split, x, y, open, facing);
 
-            blocks.emplace_back(new SpruceDoorBlock(x, y, open, facing));
+            blocks.emplace_back(new DoorBlock(x, y, open, facing, DoorType::Spruce));
         }
         else if (split[0] == "oaktrapdoor") // oaktrapdoor <x> <y> <open>
         {

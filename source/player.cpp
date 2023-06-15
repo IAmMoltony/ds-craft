@@ -1734,17 +1734,17 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             break;
                         case InventoryItemID::Door:
                             blocks->emplace_back(new DoorBlock(snapToGrid(camera->x + aimX),
-                                                               snapToGrid(camera->y + aimY), x));
+                                                               snapToGrid(camera->y + aimY), x, DoorType::Oak));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
                         case InventoryItemID::BirchDoor:
-                            blocks->emplace_back(new BirchDoorBlock(snapToGrid(camera->x + aimX),
-                                                                    snapToGrid(camera->y + aimY), x));
+                            blocks->emplace_back(new DoorBlock(snapToGrid(camera->x + aimX),
+                                                                    snapToGrid(camera->y + aimY), x, DoorType::Birch));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
                         case InventoryItemID::SpruceDoor:
-                            blocks->emplace_back(new SpruceDoorBlock(snapToGrid(camera->x + aimX),
-                                                                     snapToGrid(camera->y + aimY), x));
+                            blocks->emplace_back(new DoorBlock(snapToGrid(camera->x + aimX),
+                                                                     snapToGrid(camera->y + aimY), x, DoorType::Spruce));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
                         case InventoryItemID::Planks:
