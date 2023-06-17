@@ -6,9 +6,7 @@
                 "${workspaceFolder}/include",
                 "${workspaceFolder}/build",
                 "/opt/devkitpro/libnds/include/**",
-                "/opt/devkitpro/devkitARM/**",
-                "E:/devkitPro/libnds/include/**",
-                "E:/devkitPro/devkitARM/**"
+                "/opt/devkitpro/devkitARM/**"
             ],
             "defines": [
                 "ARM9"
