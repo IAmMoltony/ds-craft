@@ -498,7 +498,7 @@ void Game::draw(void)
             entity->draw(camera);
 
         if (!player.dead())
-            player.draw(camera, font, fontRu, lang);
+            player.draw(camera, font, fontRu);
         else
         {
             glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(8));

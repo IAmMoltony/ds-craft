@@ -681,7 +681,7 @@ Player::Player() : x(0), y(0), velX(0), velY(0), spawnX(0), spawnY(0), aimX(0), 
         inventory[i] = NULLITEM;
 }
 
-static void _drawInventory(InventoryItem inventory[], u8 itemCount, Font font, u8 select,
+static void _drawInventory(InventoryItem inventory[], u8 itemCount, Font &font, u8 select,
                            u8 moveSelect)
 {
     for (u8 i = 0; i < itemCount; ++i)
@@ -791,7 +791,7 @@ void Player::drawMenuBackground(void)
     glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(31));
 }
 
-void Player::draw(Camera camera, Font font, Font fontRu, Language lang)
+void Player::draw(Camera &camera, Font &font, Font &fontRu)
 {
     drawBody(camera);
 
@@ -811,7 +811,7 @@ void Player::draw(Camera camera, Font font, Font fontRu, Language lang)
     // getRectSlab().draw(camera, RGB15(0, 31, 31));
 }
 
-void Player::drawBody(Camera camera)
+void Player::drawBody(Camera &camera)
 {
     // draw the player
     double angleRad = atan2(y + 6 - camera.y - aimY, x + 5 - camera.x - aimX);
@@ -899,7 +899,7 @@ void Player::drawBody(Camera camera)
     }
 }
 
-void Player::drawInventory(Font font, Font fontRu)
+void Player::drawInventory(Font &font, Font &fontRu)
 {
     drawMenuBackground();
 
@@ -934,7 +934,7 @@ void Player::drawInventory(Font font, Font fontRu)
     }
 }
 
-void Player::drawChest(Font font, Font fontRu)
+void Player::drawChest(Font &font, Font &fontRu)
 {
     drawMenuBackground();
 
@@ -957,7 +957,7 @@ void Player::drawChest(Font font, Font fontRu)
         _drawInventory(inventory, 20, font, chestSelect - 20, chestMoveSelect - 20);
 }
 
-void Player::drawSign(Font font, Font fontRu)
+void Player::drawSign(Font &font, Font &fontRu)
 {
     drawMenuBackground();
 
@@ -977,7 +977,7 @@ void Player::drawSign(Font font, Font fontRu)
     font.printCentered(0, SCREEN_HEIGHT / 2 - 5, std::string(sign->getText() + '_').c_str());
 }
 
-void Player::drawHUD(Camera camera, Font font)
+void Player::drawHUD(Camera &camera, Font &font)
 {
     glPolyFmt(POLY_ALPHA(10) | POLY_CULL_NONE | POLY_ID(1));
 
@@ -2949,7 +2949,7 @@ static bool _canCraft(Player *pThis, CraftingRecipe recipe)
 
 static constexpr u8 RECIPES_PER_ROW = 14;
 
-void Player::drawCrafting(Font fontSmall, Font fontSmallRu)
+void Player::drawCrafting(Font &fontSmall, Font &fontSmallRu)
 {
     size_t numRecipes = _craftingRecipes.size();
 
