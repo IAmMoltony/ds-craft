@@ -64,9 +64,17 @@ public:
 
     Player();
 
+    // TODO make camera and font be pass by reference
+    // TODO remove language parameter because game declares language as public
+
     void drawMenuBackground(void);
     void draw(Camera camera, Font font, Font fontRu, Language lang);
     void drawCrafting(Font fontSmall, Font fontSmallRu);
+    void drawBody(Camera camera);
+    void drawInventory(Font font, Font fontRu);
+    void drawChest(Font font, Font fontRu);
+    void drawSign(Font font, Font fontRu);
+    void drawHUD(Camera camera, Font font);
     UpdateResult update(Camera *camera, BlockList *blocks, EntityList *entities, BlockParticleList *blockParticles, const u16 &frames);
     void updateCrafting(void);
     bool hasItem(InventoryItem item);

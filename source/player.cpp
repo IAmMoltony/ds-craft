@@ -660,7 +660,7 @@ bool isSlabItem(InventoryItemID id)
 Player::Player() : x(0), y(0), velX(0), velY(0), spawnX(0), spawnY(0), aimX(0), aimY(0), inventorySelect(0),
                    inventoryFullSelect(0), inventoryMoveSelect(20), craftingSelect(0), health(9), airY(0),
                    chestSelect(0), chestMoveSelect(40), sprintFrames(0),
-                    bodySprite(AnimatedSprite(5, AnimatedSpriteMode::ReverseLoop,
+                   bodySprite(AnimatedSprite(5, AnimatedSpriteMode::ReverseLoop,
                                              {_sprPlayerBody[0], _sprPlayerBody[1], _sprPlayerBody[2]})),
                    aimDist(0)
 {
@@ -682,7 +682,7 @@ Player::Player() : x(0), y(0), velX(0), velY(0), spawnX(0), spawnY(0), aimX(0), 
 }
 
 static void _drawInventory(InventoryItem inventory[], u8 itemCount, Font font, u8 select,
-                          u8 moveSelect)
+                           u8 moveSelect)
 {
     for (u8 i = 0; i < itemCount; ++i)
     {
@@ -793,6 +793,26 @@ void Player::drawMenuBackground(void)
 
 void Player::draw(Camera camera, Font font, Font fontRu, Language lang)
 {
+    drawBody(camera);
+
+    if (fullInventory) // inventory draw
+        drawInventory(font, fontRu);
+    else if (chestOpen)
+        drawChest(font, fontRu);
+    else if (sign) // sign edit interface
+        drawSign(font, fontRu);
+    else
+        drawHUD(camera, font);
+
+    // getRectBottom().draw(camera, RGB15(31, 0, 0));
+    // getRectTop().draw(camera, RGB15(0, 31, 0));
+    // getRectLeft().draw(camera, RGB15(0, 0, 31));
+    // getRectRight().draw(camera, RGB15(31, 31, 0));
+    // getRectSlab().draw(camera, RGB15(0, 31, 31));
+}
+
+void Player::drawBody(Camera camera)
+{
     // draw the player
     double angleRad = atan2(y + 6 - camera.y - aimY, x + 5 - camera.x - aimX);
     if (facing == Facing::Right)
@@ -877,263 +897,258 @@ void Player::draw(Camera camera, Font font, Font fontRu, Language lang)
             break;
         }
     }
+}
 
-    if (fullInventory) // inventory draw
+void Player::drawInventory(Font font, Font fontRu)
+{
+    drawMenuBackground();
+
+    // heading
+    switch (Game::instance->lang)
     {
-        drawMenuBackground();
-
-        // heading
-        switch (lang)
-        {
-        case Language::English:
-            font.drawHeadingShadow(inventoryCrafting ? "Crafting" : "Inventory");
-            break;
-        case Language::Russian:
-            fontRu.drawHeadingShadow(inventoryCrafting ? "Sqjfbpkg" : "Jpdgpubs#");
-            break;
-        }
-
-        if (inventoryCrafting) // when crafting
-            drawCrafting(font, fontRu);
-        else
-        {
-            _drawInventory(inventory, 20, font, inventoryFullSelect, inventoryMoveSelect);
-
-            switch (lang)
-            {
-            case Language::English:
-                font.printShadow(110, 46, getItemStr(Language::English, inventory[inventoryFullSelect].id));
-                font.printShadow(16, 46 + 48 + 23, "Press L to see crafting menu");
-                break;
-            case Language::Russian:
-                fontRu.printShadow(110, 46, getItemStr(Language::Russian, inventory[inventoryFullSelect].id));
-                fontRu.printShadow(16, 62 + 28 + 23, "Obiokug \3L \3zuqc\" rgsgluk d ogp% tqjfbpk&", &font);
-                break;
-            }
-        }
+    case Language::English:
+        font.drawHeadingShadow(inventoryCrafting ? "Crafting" : "Inventory");
+        break;
+    case Language::Russian:
+        fontRu.drawHeadingShadow(inventoryCrafting ? "Sqjfbpkg" : "Jpdgpubs#");
+        break;
     }
-    else if (chestOpen)
-    {
-        drawMenuBackground();
 
-        // heading
-        switch (lang)
-        {
-        case Language::English:
-            font.drawHeadingShadow(chestSelect < 20 ? "Chest" : "Inventory");
-            font.printShadow(16, SCREEN_HEIGHT - 32, chestSelect < 20 ? "\2:Y Switch to inventory" : "\2:Y Switch to chest");
-            break;
-        case Language::Russian:
-            fontRu.drawHeadingShadow(chestSelect < 20 ? "Svpfvm" : "Jpdgpubs#");
-            fontRu.printShadow(16, SCREEN_HEIGHT - 32, chestSelect < 20 ? "\2:Y Qgsgmn%zku#t& pb kpdgpubs#" : "\2:Y Qgsgmn%zku#t& pb tvpfvm");
-            break;
-        }
-
-        if (chestSelect < 20)
-            _drawInventory(chest->getItems().data(), 10, font, chestSelect, chestMoveSelect);
-        else
-            _drawInventory(inventory, 20, font, chestSelect - 20, chestMoveSelect - 20);
-    }
-    else if (sign) // sign edit interface
-    {
-        drawMenuBackground();
-
-        switch (lang)
-        {
-        case Language::English:
-            font.drawHeadingShadow("Edit sign");
-            font.printCentered(0, SCREEN_WIDTH / 2 + 23, "Rtrn or \2:A : Finish");
-            break;
-        case Language::Russian:
-            fontRu.drawHeadingShadow("Tbcnkzmb");
-            fontRu.printCentered(0, SCREEN_WIDTH / 2 + 23, "\3Rtrn\3 knk \2:A : Ibmqpzku#");
-            break;
-        }
-        glSpritePartScale(sprPlanks, SCREEN_WIDTH / 2 - 75, SCREEN_HEIGHT / 2 - 30, 0, 0, 75, 30, SCALE_NORMAL * 2);
-        font.setCharWidthHandler(Game::fontSmallCharWidthHandler);
-        font.printCentered(0, SCREEN_HEIGHT / 2 - 5, std::string(sign->getText() + '_').c_str());
-    }
+    if (inventoryCrafting) // when crafting
+        drawCrafting(font, fontRu);
     else
     {
-        glPolyFmt(POLY_ALPHA(10) | POLY_CULL_NONE | POLY_ID(1));
+        _drawInventory(inventory, 20, font, inventoryFullSelect, inventoryMoveSelect);
 
-        // draw the aim as user's color in the ds settings-colored square or a half-transparent
-        // version of the block
-
-        InventoryItemID currid = inventory[inventorySelect].id;
-
-        int xx = getRectAim(camera).x - camera.x;
-        int yy = getRectAim(camera).y - camera.y;
-        if (currid == InventoryItemID::OakSlab || currid == InventoryItemID::CobblestoneSlab || currid == InventoryItemID::BirchSlab)
-            yy = getRectAimY8(camera).y - camera.y;
-
-        if (currid == InventoryItemID::None ||
-            isItem(currid))
-            glBoxFilled(xx, yy,
-                        xx + 15, yy + 15, (aimDist <= MAX_AIM_DISTANCE) ? getFavoriteColorRgb() : RGB15(31, 0, 0));
-        else
+        switch (Game::instance->lang)
         {
-            if (aimDist > MAX_AIM_DISTANCE)
-                glColor(RGB15(31, 0, 0));
+        case Language::English:
+            font.printShadow(110, 46, getItemStr(Language::English, inventory[inventoryFullSelect].id));
+            font.printShadow(16, 46 + 48 + 23, "Press L to see crafting menu");
+            break;
+        case Language::Russian:
+            fontRu.printShadow(110, 46, getItemStr(Language::Russian, inventory[inventoryFullSelect].id));
+            fontRu.printShadow(16, 62 + 28 + 23, "Obiokug \3L \3zuqc\" rgsgluk d ogp% tqjfbpk&", &font);
+            break;
+        }
+    }
+}
 
-            switch (currid)
+void Player::drawChest(Font font, Font fontRu)
+{
+    drawMenuBackground();
+
+    // heading
+    switch (Game::instance->lang)
+    {
+    case Language::English:
+        font.drawHeadingShadow(chestSelect < 20 ? "Chest" : "Inventory");
+        font.printShadow(16, SCREEN_HEIGHT - 32, chestSelect < 20 ? "\2:Y Switch to inventory" : "\2:Y Switch to chest");
+        break;
+    case Language::Russian:
+        fontRu.drawHeadingShadow(chestSelect < 20 ? "Svpfvm" : "Jpdgpubs#");
+        fontRu.printShadow(16, SCREEN_HEIGHT - 32, chestSelect < 20 ? "\2:Y Qgsgmn%zku#t& pb kpdgpubs#" : "\2:Y Qgsgmn%zku#t& pb tvpfvm");
+        break;
+    }
+
+    if (chestSelect < 20)
+        _drawInventory(chest->getItems().data(), 10, font, chestSelect, chestMoveSelect);
+    else
+        _drawInventory(inventory, 20, font, chestSelect - 20, chestMoveSelect - 20);
+}
+
+void Player::drawSign(Font font, Font fontRu)
+{
+    drawMenuBackground();
+
+    switch (Game::instance->lang)
+    {
+    case Language::English:
+        font.drawHeadingShadow("Edit sign");
+        font.printCentered(0, SCREEN_WIDTH / 2 + 23, "Rtrn or \2:A : Finish");
+        break;
+    case Language::Russian:
+        fontRu.drawHeadingShadow("Tbcnkzmb");
+        fontRu.printCentered(0, SCREEN_WIDTH / 2 + 23, "\3Rtrn\3 knk \2:A : Ibmqpzku#");
+        break;
+    }
+    glSpritePartScale(sprPlanks, SCREEN_WIDTH / 2 - 75, SCREEN_HEIGHT / 2 - 30, 0, 0, 75, 30, SCALE_NORMAL * 2);
+    font.setCharWidthHandler(Game::fontSmallCharWidthHandler);
+    font.printCentered(0, SCREEN_HEIGHT / 2 - 5, std::string(sign->getText() + '_').c_str());
+}
+
+void Player::drawHUD(Camera camera, Font font)
+{
+    glPolyFmt(POLY_ALPHA(10) | POLY_CULL_NONE | POLY_ID(1));
+
+    // draw the aim as user's color in the ds settings-colored square or a half-transparent
+    // version of the block
+
+    InventoryItemID currid = inventory[inventorySelect].id;
+
+    int xx = getRectAim(camera).x - camera.x;
+    int yy = getRectAim(camera).y - camera.y;
+    if (currid == InventoryItemID::OakSlab || currid == InventoryItemID::CobblestoneSlab || currid == InventoryItemID::BirchSlab)
+        yy = getRectAimY8(camera).y - camera.y;
+
+    if (currid == InventoryItemID::None ||
+        isItem(currid))
+        glBoxFilled(xx, yy,
+                    xx + 15, yy + 15, (aimDist <= MAX_AIM_DISTANCE) ? getFavoriteColorRgb() : RGB15(31, 0, 0));
+    else
+    {
+        if (aimDist > MAX_AIM_DISTANCE)
+            glColor(RGB15(31, 0, 0));
+
+        switch (currid)
+        {
+        // some special cases
+        case InventoryItemID::Leaves:
+            glColor(RGB15(0, 22, 0));
+            glSprite(xx, yy, GL_FLIP_NONE, sprLeaves);
+            glColor(RGB15(31, 31, 31));
+            break;
+        case InventoryItemID::BirchLeaves:
+            glColor(RGB15(20, 26, 19));
+            glSprite(xx, yy, GL_FLIP_NONE, sprBirchLeaves);
+            glColor(RGB15(31, 31, 31));
+            break;
+        case InventoryItemID::SpruceLeaves:
+            glColor(RGB15(0, 11, 0));
+            glSprite(xx, yy, GL_FLIP_NONE, sprSpruceLeaves);
+            glColor(RGB15(31, 31, 31));
+            break;
+        case InventoryItemID::Glass:
+            glSpriteScale(xx - 1, yy, HALFSIZE, GL_FLIP_NONE, sprGlass);
+            break;
+        case InventoryItemID::OakSlab:
+            glSpritePart(sprPlanks, xx, yy + 8, 0, 0, 16, 8);
+            break;
+        case InventoryItemID::BirchSlab:
+            glSpritePart(sprBirchPlanks, xx, yy + 8, 0, 0, 16, 8);
+            break;
+        case InventoryItemID::SpruceSlab:
+            glSpritePart(sprSprucePlanks, xx, yy + 8, 0, 0, 16, 8);
+            break;
+        case InventoryItemID::CobblestoneSlab:
+            glSpritePart(sprCobblestone, xx, yy + 8, 0, 0, 16, 8);
+            break;
+        // default
+        default:
+            glSprite(xx, yy, GL_FLIP_NONE, getItemImage(currid));
+            break;
+        }
+
+        glColor(RGB15(31, 31, 31));
+    }
+
+    // reset the alpha
+    glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(1));
+
+    // draw the crosshair
+    glColor(RGB15(0, 0, 0));
+    glSprite(aimX - 3, aimY - 3, GL_FLIP_NONE, _sprAim);
+    glColor(RGB15(31, 31, 31));
+
+    // hotbar drawing
+    for (u8 i = 0; i < 5; i++)
+    {
+        // draw the slot
+        glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)), SCREEN_HEIGHT - 16, GL_FLIP_NONE,
+                 (i == inventorySelect ? _sprInventorySlotSelect : _sprInventorySlot));
+
+        // draw the item if it exists
+        if (inventory[i].amount > 0 && inventory[i].id != InventoryItemID::None)
+        {
+            // get the id and amount
+            InventoryItemID id = inventory[i].id;
+            u8 amount = inventory[i].amount;
+
+            int xxItem = i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2));
+            int yyItem = SCREEN_HEIGHT - 16;
+
+            switch (id)
             {
             // some special cases
             case InventoryItemID::Leaves:
                 glColor(RGB15(0, 22, 0));
-                glSprite(xx, yy, GL_FLIP_NONE, sprLeaves);
+                glSpriteScale(xxItem + 4, yyItem + 4, HALFSIZE, GL_FLIP_NONE, sprLeaves);
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItemID::BirchLeaves:
                 glColor(RGB15(20, 26, 19));
-                glSprite(xx, yy, GL_FLIP_NONE, sprBirchLeaves);
+                glSpriteScale(xxItem + 4, yyItem + 4, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItemID::SpruceLeaves:
                 glColor(RGB15(0, 11, 0));
-                glSprite(xx, yy, GL_FLIP_NONE, sprSpruceLeaves);
+                glSpriteScale(xxItem + 4, yyItem + 4, HALFSIZE, GL_FLIP_NONE, sprSpruceLeaves);
                 glColor(RGB15(31, 31, 31));
                 break;
+            case InventoryItemID::Door:
+                glSpriteScale(xxItem + 5, yyItem + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
+                break;
+            case InventoryItemID::BirchDoor:
+                glSpriteScale(xxItem + 5, yyItem + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
+                break;
+            case InventoryItemID::SpruceDoor:
+                glSpriteScale(xxItem + 5, yyItem + 4, (1 << 12) / 4, GL_FLIP_NONE, sprSpruceDoor);
+                break;
             case InventoryItemID::Glass:
-                glSpriteScale(xx - 1, yy, HALFSIZE, GL_FLIP_NONE, sprGlass);
+                glSpriteScale(xxItem - 1, yyItem, HALFSIZE, GL_FLIP_NONE, sprGlass);
                 break;
             case InventoryItemID::OakSlab:
-                glSpritePart(sprPlanks, xx, yy + 8, 0, 0, 16, 8);
+                glSpritePartScale(sprPlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALFSIZE);
                 break;
             case InventoryItemID::BirchSlab:
-                glSpritePart(sprBirchPlanks, xx, yy + 8, 0, 0, 16, 8);
+                glSpritePartScale(sprBirchPlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALFSIZE);
                 break;
             case InventoryItemID::SpruceSlab:
-                glSpritePart(sprSprucePlanks, xx, yy + 8, 0, 0, 16, 8);
+                glSpritePartScale(sprSprucePlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALFSIZE);
                 break;
             case InventoryItemID::CobblestoneSlab:
-                glSpritePart(sprCobblestone, xx, yy + 8, 0, 0, 16, 8);
+                glSpritePartScale(sprCobblestone, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALFSIZE);
                 break;
             // default
             default:
-                glSprite(xx, yy, GL_FLIP_NONE, getItemImage(currid));
+                glSpriteScale(xxItem + 4, yyItem + 4, HALFSIZE, GL_FLIP_NONE, getItemImage(id));
                 break;
             }
 
-            glColor(RGB15(31, 31, 31));
-        }
-
-        // reset the alpha
-        glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(1));
-
-        // draw the crosshair
-        glColor(RGB15(0, 0, 0));
-        glSprite(aimX - 3, aimY - 3, GL_FLIP_NONE, _sprAim);
-        glColor(RGB15(31, 31, 31));
-
-        // hotbar drawing
-        for (u8 i = 0; i < 5; i++)
-        {
-            // draw the slot
-            glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)), SCREEN_HEIGHT - 16, GL_FLIP_NONE,
-                     (i == inventorySelect ? _sprInventorySlotSelect : _sprInventorySlot));
-
-            // draw the item if it exists
-            if (inventory[i].amount > 0 && inventory[i].id != InventoryItemID::None)
-            {
-                // get the id and amount
-                InventoryItemID id = inventory[i].id;
-                u8 amount = inventory[i].amount;
-
-                int xxItem = i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2));
-                int yyItem = SCREEN_HEIGHT - 16;
-
-                switch (id)
-                {
-                // some special cases
-                case InventoryItemID::Leaves:
-                    glColor(RGB15(0, 22, 0));
-                    glSpriteScale(xxItem + 4, yyItem + 4, HALFSIZE, GL_FLIP_NONE, sprLeaves);
-                    glColor(RGB15(31, 31, 31));
-                    break;
-                case InventoryItemID::BirchLeaves:
-                    glColor(RGB15(20, 26, 19));
-                    glSpriteScale(xxItem + 4, yyItem + 4, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
-                    glColor(RGB15(31, 31, 31));
-                    break;
-                case InventoryItemID::SpruceLeaves:
-                    glColor(RGB15(0, 11, 0));
-                    glSpriteScale(xxItem + 4, yyItem + 4, HALFSIZE, GL_FLIP_NONE, sprSpruceLeaves);
-                    glColor(RGB15(31, 31, 31));
-                    break;
-                case InventoryItemID::Door:
-                    glSpriteScale(xxItem + 5, yyItem + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
-                    break;
-                case InventoryItemID::BirchDoor:
-                    glSpriteScale(xxItem + 5, yyItem + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
-                    break;
-                case InventoryItemID::SpruceDoor:
-                    glSpriteScale(xxItem + 5, yyItem + 4, (1 << 12) / 4, GL_FLIP_NONE, sprSpruceDoor);
-                    break;
-                case InventoryItemID::Glass:
-                    glSpriteScale(xxItem - 1, yyItem, HALFSIZE, GL_FLIP_NONE, sprGlass);
-                    break;
-                case InventoryItemID::OakSlab:
-                    glSpritePartScale(sprPlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALFSIZE);
-                    break;
-                case InventoryItemID::BirchSlab:
-                    glSpritePartScale(sprBirchPlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALFSIZE);
-                    break;
-                case InventoryItemID::SpruceSlab:
-                    glSpritePartScale(sprSprucePlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALFSIZE);
-                    break;
-                case InventoryItemID::CobblestoneSlab:
-                    glSpritePartScale(sprCobblestone, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALFSIZE);
-                    break;
-                // default
-                default:
-                    glSpriteScale(xxItem + 4, yyItem + 4, HALFSIZE, GL_FLIP_NONE, getItemImage(id));
-                    break;
-                }
-
-                if (amount > 1)
-                    font.printfShadow(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 1,
-                                      SCREEN_HEIGHT - 9, "%u", amount);
-            }
-        }
-
-        // health bar drawing
-        for (u8 i = 0; i < 10; ++i)
-        {
-            u8 xxHeart = SCREEN_WIDTH - 9 - i / 2 * 9;
-            u8 yyHeart = SCREEN_HEIGHT - 9;
-
-            // if there is 2 or less health then we SHAKE
-            if (health <= 2)
-            {
-                xxHeart += randomRange(-1, 1);
-                yyHeart += randomRange(-1, 1);
-            }
-
-            // if odd, draw half-heart sprite
-            if (i % 2 != 0)
-            {
-                if (health >= i)
-                    glSprite(xxHeart, yyHeart, GL_FLIP_NONE, _sprHalfHeart);
-            }
-            else
-            {
-                // if even, draw outline and 2nd half-heart sprite
-                glSprite(xxHeart, yyHeart, GL_FLIP_NONE, _sprHeartOutline);
-                if (health >= i)
-                    glSprite(xxHeart + 1, yyHeart, GL_FLIP_H, _sprHalfHeart2);
-            }
+            if (amount > 1)
+                font.printfShadow(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 1,
+                                  SCREEN_HEIGHT - 9, "%u", amount);
         }
     }
 
-    // getRectBottom().draw(camera, RGB15(31, 0, 0));
-    // getRectTop().draw(camera, RGB15(0, 31, 0));
-    // getRectLeft().draw(camera, RGB15(0, 0, 31));
-    // getRectRight().draw(camera, RGB15(31, 31, 0));
-    // getRectSlab().draw(camera, RGB15(0, 31, 31));
-}
+    // health bar drawing
+    for (u8 i = 0; i < 10; ++i)
+    {
+        u8 xxHeart = SCREEN_WIDTH - 9 - i / 2 * 9;
+        u8 yyHeart = SCREEN_HEIGHT - 9;
 
-// TODO split the draw and update methods (like with crafting)
+        // if there is 2 or less health then we SHAKE
+        if (health <= 2)
+        {
+            xxHeart += randomRange(-1, 1);
+            yyHeart += randomRange(-1, 1);
+        }
+
+        // if odd, draw half-heart sprite
+        if (i % 2 != 0)
+        {
+            if (health >= i)
+                glSprite(xxHeart, yyHeart, GL_FLIP_NONE, _sprHalfHeart);
+        }
+        else
+        {
+            // if even, draw outline and 2nd half-heart sprite
+            glSprite(xxHeart, yyHeart, GL_FLIP_NONE, _sprHeartOutline);
+            if (health >= i)
+                glSprite(xxHeart + 1, yyHeart, GL_FLIP_H, _sprHalfHeart2);
+        }
+    }
+}
 
 static void _eatFood(s16 *health, u8 healthAdd)
 {
@@ -1543,9 +1558,9 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 }
 
                 bool shouldPlaceBlock = !Rect(x, y, 12, 32)
-                                  .intersects(
-                                      Rect(snapToGrid(camera->x + aimX),
-                                           snapToGrid(camera->y + aimY), 16, 16));
+                                             .intersects(
+                                                 Rect(snapToGrid(camera->x + aimX),
+                                                      snapToGrid(camera->y + aimY), 16, 16));
 
                 InventoryItemID id = inventory[inventorySelect].id;
                 // nonsolid blocks can be placed inside player
@@ -1739,12 +1754,12 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             break;
                         case InventoryItemID::BirchDoor:
                             blocks->emplace_back(new DoorBlock(snapToGrid(camera->x + aimX),
-                                                                    snapToGrid(camera->y + aimY), x, DoorType::Birch));
+                                                               snapToGrid(camera->y + aimY), x, DoorType::Birch));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
                         case InventoryItemID::SpruceDoor:
                             blocks->emplace_back(new DoorBlock(snapToGrid(camera->x + aimX),
-                                                                     snapToGrid(camera->y + aimY), x, DoorType::Spruce));
+                                                               snapToGrid(camera->y + aimY), x, DoorType::Spruce));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
                         case InventoryItemID::Planks:
@@ -2854,7 +2869,6 @@ Rect Player::getRectRight()
 {
     return Rect(x + PLAYER_WIDTH / 2, y + PLAYER_HEIGHT / 4, PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2);
 }
-
 
 Rect Player::getRectSlab(void)
 {
