@@ -166,9 +166,6 @@ CraftingRecipe::CraftingRecipe(const char *recipeFile)
             // output
             else if (key == "output")
                 output = strToIID(split[1]);
-            // deprecated keys
-            else if (key == "nameEn" || key == "nameRu")
-                printf("Warning: deprecated key %s in crafting recipe %s\n", key.c_str(), recipeFile);
             else
             {
                 // oof
