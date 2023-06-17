@@ -531,7 +531,7 @@ bool GlassBlock::solid(void)
 
 //---------------------------------------------
 
-static u16 nextChestID = 0;
+static u16 _nextChestID = 0;
 
 void ChestBlock::initItems(void)
 {
@@ -539,14 +539,14 @@ void ChestBlock::initItems(void)
         items[i] = {InventoryItemID::None, 0};
 }
 
-ChestBlock::ChestBlock(s16 x, s16 y) : Block(x, y, 7), chid(nextChestID++)
+ChestBlock::ChestBlock(s16 x, s16 y) : Block(x, y, 7), chid(_nextChestID++)
 {
     initItems();
 }
 
 ChestBlock::ChestBlock(s16 x, s16 y, u16 id) : Block(x, y, 7), chid(id)
 {
-    nextChestID = id + 1;
+    _nextChestID = id + 1;
     initItems();
 }
 
@@ -594,7 +594,7 @@ u16 ChestBlock::getChestID(void)
 
 void resetNextChestID(void)
 {
-    nextChestID = 0;
+    _nextChestID = 0;
 }
 
 //----------------------------------------

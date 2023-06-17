@@ -2,10 +2,10 @@
 
 fsInitStatus fsInit(void)
 {
-    if (!fatInitDefault())
-        return FS_INIT_STATUS_FAT_ERROR;
     if (!nitroFSInit(NULL))
         return FS_INIT_STATUS_NITROFS_ERROR;
+    if (!fatInitDefault())
+        return FS_INIT_STATUS_FAT_ERROR;
     return FS_INIT_STATUS_OK;
 }
 

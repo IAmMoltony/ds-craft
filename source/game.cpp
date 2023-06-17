@@ -440,7 +440,7 @@ static constexpr const char *CONTROLS_LABELS[] = {
     "Attack/Break block",
 };
 
-static glImage *keyCodeToImage(u32 keyCode)
+static glImage *_keyCodeToImage(u32 keyCode)
 {
     switch (keyCode)
     {
@@ -1336,7 +1336,7 @@ void Game::draw(void)
             }
 
             font.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 10 - offset, CONTROLS_LABELS[i]);
-            glSprite(SCREEN_WIDTH / 2 + 121 - 32, 48 + i * 40 + 10 - offset, GL_FLIP_NONE, keyCodeToImage(ControlsManager::getButton(i)));
+            glSprite(SCREEN_WIDTH / 2 + 121 - 32, 48 + i * 40 + 10 - offset, GL_FLIP_NONE, _keyCodeToImage(ControlsManager::getButton(i)));
         }
         break;
     }

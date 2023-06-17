@@ -442,7 +442,7 @@ unsigned int getWorldSeed(const std::string &file)
     return 0;
 }
 
-static void argParseDoor(const std::vector<std::string> &split, s16 &x, s16 &y, bool &open, bool &facing)
+static void _argParseDoor(const std::vector<std::string> &split, s16 &x, s16 &y, bool &open, bool &facing)
 {
     x = std::stoi(split[1]);
     y = std::stoi(split[2]);
@@ -450,14 +450,14 @@ static void argParseDoor(const std::vector<std::string> &split, s16 &x, s16 &y, 
     facing = split[4] == "1"; // why is this a bool
 }
 
-static void argParseTrapdoor(const std::vector<std::string> &split, s16 &x, s16 &y, bool &open)
+static void _argParseTrapdoor(const std::vector<std::string> &split, s16 &x, s16 &y, bool &open)
 {
     x = std::stoi(split[1]);
     x = std::stoi(split[2]);
     open = split[3] == "1";
 }
 
-static void argParseSign(const std::vector<std::string> &split, s16 &x, s16 &y, std::string &text)
+static void _argParseSign(const std::vector<std::string> &split, s16 &x, s16 &y, std::string &text)
 {
     x = std::stoi(split[1]);
     y = std::stoi(split[2]);
@@ -473,7 +473,7 @@ static void argParseSign(const std::vector<std::string> &split, s16 &x, s16 &y, 
         text.pop_back();
 }
 
-static void argParseGrass(const std::vector<std::string> &split, s16 &x, s16 &y, GrassType &type)
+static void _argParseGrass(const std::vector<std::string> &split, s16 &x, s16 &y, GrassType &type)
 {
     x = std::stoi(split[1]);
     y = std::stoi(split[2]);
@@ -544,7 +544,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         {
             s16 x = 0, y = 0;
             bool open = false, facing = false;
-            argParseDoor(split, x, y, open, facing);
+            _argParseDoor(split, x, y, open, facing);
 
             blocks.emplace_back(new DoorBlock(x, y, open, facing, DoorType::Oak));
         }
@@ -552,7 +552,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         {
             s16 x = 0, y = 0;
             bool open, facing;
-            argParseDoor(split, x, y, open, facing);
+            _argParseDoor(split, x, y, open, facing);
 
             blocks.emplace_back(new DoorBlock(x, y, open, facing, DoorType::Birch));
         }
@@ -560,7 +560,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         {
             s16 x = 0, y = 0;
             bool open, facing;
-            argParseDoor(split, x, y, open, facing);
+            _argParseDoor(split, x, y, open, facing);
 
             blocks.emplace_back(new DoorBlock(x, y, open, facing, DoorType::Spruce));
         }
@@ -568,7 +568,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         {
             s16 x = 0, y = 0;
             bool open;
-            argParseTrapdoor(split, x, y, open);
+            _argParseTrapdoor(split, x, y, open);
 
             blocks.emplace_back(new OakTrapdoorBlock(x, y, open));
         }
@@ -576,7 +576,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         {
             s16 x = 0, y = 0;
             bool open;
-            argParseTrapdoor(split, x, y, open);
+            _argParseTrapdoor(split, x, y, open);
 
             blocks.emplace_back(new BirchTrapdoorBlock(x, y, open));
         }
@@ -584,7 +584,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         {
             s16 x = 0, y = 0;
             bool open;
-            argParseTrapdoor(split, x, y, open);
+            _argParseTrapdoor(split, x, y, open);
 
             blocks.emplace_back(new SpruceTrapdoorBlock(x, y, open));
         }
@@ -592,7 +592,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         {
             s16 x = 0, y = 0;
             std::string text = "";
-            argParseSign(split, x, y, text);
+            _argParseSign(split, x, y, text);
 
             blocks.emplace_back(new SignBlock(x, y, text));
         }
@@ -600,7 +600,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         {
             s16 x = 0, y = 0;
             GrassType type;
-            argParseGrass(split, x, y, type);
+            _argParseGrass(split, x, y, type);
 
             blocks.emplace_back(new GrassBlock(x, y, type));
         }

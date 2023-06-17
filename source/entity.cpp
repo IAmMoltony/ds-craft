@@ -1,9 +1,9 @@
 #include "entity.hpp"
 #include "save.hpp"
 
-static glImage sprPig[1];
-static unsigned short pigDamagePal[16];
-static glImage sprPigDamage[1];
+static glImage _sprPig[1];
+static unsigned short _sprPigDamagePal[16];
+static glImage _sprPigDamage[1];
 
 extern glImage sprGrass[1];
 extern glImage sprDirt[1];
@@ -55,11 +55,11 @@ declsfx3(PigSay);
 
 void Entity::loadTextures(void)
 {
-    loadImageAlpha(sprPig, 32, 32, pigPal, pigBitmap);
-    memcpy(pigDamagePal, pigPal, pigPalLen);
-    for (uint8_t i = 0; i < sizeof(pigDamagePal) / sizeof(pigDamagePal[0]); ++i)
-        pigDamagePal[i] = RGB15(31, 0, 0);
-    loadImageAlpha(sprPigDamage, 32, 32, pigDamagePal, pigBitmap);
+    loadImageAlpha(_sprPig, 32, 32, pigPal, pigBitmap);
+    memcpy(_sprPigDamagePal, pigPal, pigPalLen);
+    for (uint8_t i = 0; i < sizeof(_sprPigDamagePal) / sizeof(_sprPigDamagePal[0]); ++i)
+        _sprPigDamagePal[i] = RGB15(31, 0, 0);
+    loadImageAlpha(_sprPigDamage, 32, 32, _sprPigDamagePal, pigBitmap);
 }
 
 void Entity::loadSounds(void)
@@ -70,7 +70,7 @@ void Entity::loadSounds(void)
 
 void Entity::unloadTextures(void)
 {
-    unloadImage(sprPig);
+    unloadImage(_sprPig);
 }
 
 void Entity::unloadSounds(void)
@@ -124,12 +124,12 @@ PigEntity::PigEntity(s16 x, s16 y) : Entity(x, y), damageOverlayTimer(255), pani
 void PigEntity::draw(Camera camera)
 {
     glSpriteScale(x - camera.x - (facing == Facing::Left ? 17 : 0), y - camera.y,
-                      (1 << 12) * 1.25f, facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H, sprPig);
+                      (1 << 12) * 1.25f, facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H, _sprPig);
     if (damageOverlayTimer != 255)
     {
         glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(9));
         glSpriteScale(x - camera.x - (facing == Facing::Left ? 17 : 0), y - camera.y,
-                      (1 << 12) * 1.25f, facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H, sprPigDamage);
+                      (1 << 12) * 1.25f, facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H, _sprPigDamage);
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(9));
     }
 }
