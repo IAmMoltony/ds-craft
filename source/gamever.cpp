@@ -43,6 +43,7 @@ void gameverInit(void)
         hang();
     }
 
+    // if patch is 0, then don't put patch in version string
     if (versionPatch == 0)
         versionString = versionPrefix + std::to_string(versionMajor) + '.' +
                         std::to_string(versionMinor);
@@ -63,7 +64,7 @@ enum class VersionType
 
 u64 getVersionHash(const std::string &versionString)
 {
-    // Extract the major, minor, and patch numbers from the version string.
+    // extract the major, minor, and patch numbers from the version string
     int major = 0;
     int minor = 0;
     int patch = 0;
@@ -71,14 +72,14 @@ u64 getVersionHash(const std::string &versionString)
     if (patch == 0)
         sscanf(versionString.c_str(), "%*[^0-9]%d.%d", &major, &minor);
 
-    // Determine the version type based on the prefix.
+    // determine version type
     VersionType versionType = VersionType::Release;
     if (versionString.find("alpha") != std::string::npos)
         versionType = VersionType::Alpha;
     else if (versionString.find("beta") != std::string::npos)
         versionType = VersionType::Beta;
 
-    // Calculate the version hash based on the version type and numbers.
+    // calculate the hash based on type and numbers
     u64 versionHash = static_cast<u32>(versionType);
     versionHash <<= 24;
     versionHash |= (major << 16) + (minor << 8) + patch;
