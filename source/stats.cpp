@@ -26,6 +26,8 @@ void statsSetWorld(const std::string &worldName)
 
 float statsGetEntry(const std::string &entryKey)
 {
+    if (_stats.find(entryKey) == _stats.end())
+        return 0;
     return _stats[entryKey];
 }
 
