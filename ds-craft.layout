@@ -2,6 +2,11 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="build" />
+	<File name="source/save.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="17252" topLine="540" />
+		</Cursor>
+	</File>
 	<File name="Makefile" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="4104" topLine="92" />
@@ -12,39 +17,9 @@
 			<Cursor1 position="1667" topLine="13" />
 		</Cursor>
 	</File>
-	<File name="strencode.py" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1552" topLine="97" />
-		</Cursor>
-	</File>
-	<File name="source/util.c" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="768" topLine="37" />
-		</Cursor>
-	</File>
-	<File name="source/userinfo.c" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1320" topLine="21" />
-		</Cursor>
-	</File>
-	<File name="source/terrain.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="5413" topLine="131" />
-		</Cursor>
-	</File>
-	<File name="source/save.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="15588" topLine="476" />
-		</Cursor>
-	</File>
-	<File name="include/fs.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="738" topLine="23" />
-		</Cursor>
-	</File>
 	<File name="source/player.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="538" zoom_1="-1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="50953" topLine="1506" />
+			<Cursor1 position="65480" topLine="1725" />
 		</Cursor>
 	</File>
 	<File name="source/main.cpp" open="0" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -55,11 +30,6 @@
 	<File name="source/help.cpp" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="2476" topLine="69" />
-		</Cursor>
-	</File>
-	<File name="include/game.hpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3787" topLine="123" />
 		</Cursor>
 	</File>
 	<File name="source/glext.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -75,6 +45,56 @@
 	<File name="source/game.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="577" zoom_1="1" zoom_2="1">
 		<Cursor>
 			<Cursor1 position="67386" topLine="1903" />
+		</Cursor>
+	</File>
+	<File name="source/fs.c" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1852" topLine="83" />
+		</Cursor>
+	</File>
+	<File name="source/crafting.cpp" open="0" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3348" topLine="184" />
+		</Cursor>
+	</File>
+	<File name="source/font.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4425" topLine="139" />
+		</Cursor>
+	</File>
+	<File name="newrecipe.py" open="1" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="147" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="source/block.cpp" open="1" top="0" tabpos="17" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="8816" topLine="265" />
+		</Cursor>
+	</File>
+	<File name="nitrofs/crafting/oak_planks.rcp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="87" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="source/entity.cpp" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4412" topLine="183" />
+		</Cursor>
+	</File>
+	<File name="source/animsprite.cpp" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1994" topLine="61" />
+		</Cursor>
+	</File>
+	<File name="include/fs.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="738" topLine="23" />
+		</Cursor>
+	</File>
+	<File name="include/game.hpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3787" topLine="123" />
 		</Cursor>
 	</File>
 	<File name="include/uvcoord_font_si.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -97,24 +117,9 @@
 			<Cursor1 position="427" topLine="5" />
 		</Cursor>
 	</File>
-	<File name="source/fs.c" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1852" topLine="83" />
-		</Cursor>
-	</File>
-	<File name="newrecipe.py" open="1" top="1" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="147" topLine="0" />
-		</Cursor>
-	</File>
 	<File name="include/userinfo.h" open="0" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="681" topLine="22" />
-		</Cursor>
-	</File>
-	<File name="source/crafting.cpp" open="0" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3348" topLine="184" />
 		</Cursor>
 	</File>
 	<File name="include/util.h" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -122,34 +127,9 @@
 			<Cursor1 position="421" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="source/font.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4425" topLine="139" />
-		</Cursor>
-	</File>
-	<File name="source/block.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="9340" topLine="269" />
-		</Cursor>
-	</File>
-	<File name="nitrofs/crafting/oak_planks.rcp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="87" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="source/entity.cpp" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4412" topLine="183" />
-		</Cursor>
-	</File>
 	<File name="include/terrain.hpp" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="128" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="source/animsprite.cpp" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1994" topLine="61" />
 		</Cursor>
 	</File>
 	<File name="include/save.hpp" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -177,7 +157,7 @@
 			<Cursor1 position="122" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include/defines.h" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include/defines.h" open="1" top="1" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1154" topLine="0" />
 		</Cursor>
@@ -199,7 +179,27 @@
 	</File>
 	<File name="include/block.hpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="14154" topLine="456" />
+			<Cursor1 position="12091" topLine="404" />
+		</Cursor>
+	</File>
+	<File name="strencode.py" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1552" topLine="97" />
+		</Cursor>
+	</File>
+	<File name="source/util.c" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="768" topLine="37" />
+		</Cursor>
+	</File>
+	<File name="source/userinfo.c" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1320" topLine="21" />
+		</Cursor>
+	</File>
+	<File name="source/terrain.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5413" topLine="131" />
 		</Cursor>
 	</File>
 	<Target name="build" top="source/player.cpp">
