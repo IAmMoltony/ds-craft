@@ -508,10 +508,10 @@ void Game::draw(void)
             switch (lang)
             {
             case Language::English:
-                font.drawHeadingShadow("Game over");
+                font.drawHeadingShadow("Game over!");
                 break;
             case Language::Russian:
-                fontRu.drawHeadingShadow("Jesb qmqpzgpb");
+                fontRu.drawHeadingShadow("Jesb qmqpzgpb<");
                 break;
             }
 
