@@ -151,6 +151,7 @@ private:
     void enterWorldSelect(void);
     void loadLocation(s16 oldLocation);
     void cameraFollowPlayer(bool smooth);
+    void drawMenuBackground(void);
 
 public:
     static Game *instance;

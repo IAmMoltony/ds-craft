@@ -560,12 +560,7 @@ void Game::draw(void)
 
         if (paused)
         {
-            drawMovingBackground();
-            for (u8 i = 0; i < SCREEN_WIDTH / 32; ++i)
-            {
-                glSpriteScale(i * 32, 0, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
-                glSpriteScale(i * 32, SCREEN_HEIGHT - 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
-            }
+            drawMenuBackground();
 
             switch (lang)
             {
@@ -626,7 +621,7 @@ void Game::draw(void)
         }
         break;
     case GameState::Credits:
-        drawMovingBackground();
+        drawMenuBackground();
 
         switch (lang)
         {
@@ -657,7 +652,7 @@ void Game::draw(void)
         }
         break;
     case GameState::WorldSelect:
-        drawMovingBackground();
+        drawMenuBackground();
 
         if (worldSelectWorlds.size() == 0)
         {
@@ -727,12 +722,6 @@ void Game::draw(void)
             }
         }
 
-        for (u8 i = 0; i < SCREEN_WIDTH / 32; ++i)
-        {
-            glSpriteScale(i * 32, 0, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
-            glSpriteScale(i * 32, SCREEN_HEIGHT - 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
-        }
-
         switch (lang)
         {
         case Language::English:
@@ -781,12 +770,7 @@ void Game::draw(void)
         fsDate worldCreationDate = fsGetFileCreationDate(getWorldFile(worldInfoName).c_str());
         std::string worldCreationDateString = std::to_string(worldCreationDate.year) + '/' + std::to_string(worldCreationDate.month) + '/' + std::to_string(worldCreationDate.day);
 
-        drawMovingBackground();
-        for (u8 i = 0; i < SCREEN_WIDTH / 32; ++i)
-        {
-            glSpriteScale(i * 32, 0, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
-            glSpriteScale(i * 32, SCREEN_HEIGHT - 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
-        }
+        drawMenuBackground();
 
         switch (lang)
         {
@@ -847,12 +831,7 @@ void Game::draw(void)
         break;
     }
     case GameState::RenameWorld:
-        drawMovingBackground();
-        for (u8 i = 0; i < SCREEN_WIDTH / 32; ++i)
-        {
-            glSpriteScale(i * 32, 0, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
-            glSpriteScale(i * 32, SCREEN_HEIGHT - 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
-        }
+        drawMenuBackground();
 
         switch (lang)
         {
@@ -902,13 +881,7 @@ void Game::draw(void)
         font.print(15, SCREEN_HEIGHT - 15, "OK");
         break;
     case GameState::CreateWorld:
-        drawMovingBackground();
-        for (u8 i = 0; i < SCREEN_WIDTH / 32; ++i)
-        {
-            glSpriteScale(i * 32, 0, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
-            glSpriteScale(i * 32, SCREEN_HEIGHT - 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
-        }
-        // TODO move the code that creates heading, draws moving background and does this loop where it draws dirt on the top and bottom of the screen into its own function
+        drawMenuBackground();
 
         switch (lang)
         {
@@ -1000,7 +973,7 @@ void Game::draw(void)
         }
         break;
     case GameState::LanguageSelect:
-        drawMovingBackground();
+        drawMenuBackground();
 
         glSprite(SCREEN_WIDTH / 2 - 8, 60, GL_FLIP_NONE, sprLangEnglish);
         font.printCentered(0, 71, "English");
@@ -1027,7 +1000,8 @@ void Game::draw(void)
         font.drawHeading("Select language");
         break;
     case GameState::VersionInfo:
-        drawMovingBackground();
+        drawMenuBackground();
+
         switch (lang)
         {
         case Language::English:
@@ -1054,7 +1028,7 @@ void Game::draw(void)
         }
         break;
     case GameState::Settings:
-        drawMovingBackground();
+        drawMenuBackground();
 
         if (settingsSelect == SETTING_LANGUAGE_SELECT)
             glColor(RGB15(0, 31, 0));
@@ -1220,7 +1194,7 @@ void Game::draw(void)
         }
         break;
     case GameState::DeleteWorld:
-        drawMovingBackground();
+        drawMenuBackground();
 
         switch (lang)
         {
@@ -1262,7 +1236,8 @@ void Game::draw(void)
         }
         break;
     case GameState::DeleteAllWorlds:
-        drawMovingBackground();
+        drawMenuBackground();
+
         switch (lang)
         {
         case Language::English:
@@ -1286,12 +1261,7 @@ void Game::draw(void)
         }
         break;
     case GameState::EditControls:
-        drawMovingBackground();
-        for (u8 i = 0; i < SCREEN_WIDTH / 32; ++i)
-        {
-            glSpriteScale(i * 32, 0, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
-            glSpriteScale(i * 32, SCREEN_HEIGHT - 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
-        }
+        drawMenuBackground();
 
         glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprBButton);
         glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprAButton);
@@ -2350,6 +2320,16 @@ void Game::cameraFollowPlayer(bool smooth)
         camera.x = 0;
     else if (camera.x > 1024 - SCREEN_WIDTH)
         camera.x = 1024 - SCREEN_WIDTH;
+}
+
+void Game::drawMenuBackground(void)
+{
+    drawMovingBackground();
+    for (u8 i = 0; i < SCREEN_WIDTH / 32; ++i)
+    {
+        glSpriteScale(i * 32, 0, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
+        glSpriteScale(i * 32, SCREEN_HEIGHT - 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
+    }
 }
 
 u32 Game::ControlsManager::buttons[Game::ControlsManager::NUM_BUTTONS];
