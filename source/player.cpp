@@ -1609,7 +1609,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     if (inventory[inventorySelect].amount > 0 &&
                         !isItem(id))
                     {
-                        bool canPlace = true; // can place block?????
+                        bool canPlace = true; // can place block
                         switch (id)
                         {
                         case InventoryItemID::Grass:
@@ -1907,6 +1907,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             --inventory[inventorySelect].amount;
                             if (inventory[inventorySelect].amount == 0)
                                 inventory[inventorySelect].id = InventoryItemID::None;
+                            statsSetEntry("blocksplaced", statsGetEntry("blocksplaced") + 1);
                         }
                         ret = UpdateResult::BlockPlaced;
                     }
@@ -2457,7 +2458,10 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
         }
         // remove block if remove block
         if (remove)
+        {
             blocks->erase(blocks->begin() + removei);
+            statsSetEntry("blocksbroken", statsGetEntry("blocksbroken") + 1);
+        }
 
         if (keys & KEY_TOUCH)
         {
