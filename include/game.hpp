@@ -8,6 +8,7 @@
 #include "gamever.hpp"
 #include "help.hpp"
 #include "random.hpp"
+#include "stats.hpp"
 #include <sstream>
 #include <regex>
 
