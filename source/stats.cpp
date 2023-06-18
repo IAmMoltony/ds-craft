@@ -1,4 +1,5 @@
 #include "stats.hpp"
+#include "save.hpp"
 
 static std::string _currentWorld = "";
 static std::map<std::string, float> _stats;

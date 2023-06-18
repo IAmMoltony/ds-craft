@@ -1,4 +1,5 @@
 #include "save.hpp"
+#include "stats.hpp"
 
 std::string normalizeWorldFileName(const std::string &str)
 {
@@ -417,6 +418,9 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     playerinfo.close();
 
     randomSetSeed(seed);
+
+    statsSetWorld(name);
+    statsSave();
 }
 
 unsigned int getWorldSeed(const std::string &file)
@@ -807,6 +811,9 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     }
 
     randomSetSeed(getWorldSeed(name) + currentLocation);
+
+    statsSetWorld(name);
+    statsLoad();
 }
 
 void renameWorld(const std::string &oldName, const std::string &newName)

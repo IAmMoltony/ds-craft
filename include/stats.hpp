@@ -1,7 +1,7 @@
 #pragma once
 
 #include <map>
-#include "save.hpp"
+#include <string>
 
 void statsSetWorld(const std::string &worldName);
 float statsGetEntry(const std::string &entryKey);
