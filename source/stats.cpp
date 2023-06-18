@@ -2,7 +2,7 @@
 #include "save.hpp"
 
 static std::string _currentWorld = "";
-static std::map<std::string, float> _stats;
+static std::map<std::string, int> _stats;
 
 static std::string _getStatsFile(void)
 {
@@ -24,14 +24,14 @@ void statsSetWorld(const std::string &worldName)
         fsCreateFile(_getStatsFile().c_str());
 }
 
-float statsGetEntry(const std::string &entryKey)
+int statsGetEntry(const std::string &entryKey)
 {
     if (_stats.find(entryKey) == _stats.end())
         return 0;
     return _stats[entryKey];
 }
 
-void statsSetEntry(const std::string &entryKey, float value)
+void statsSetEntry(const std::string &entryKey, int value)
 {
     _stats[entryKey] = value;
 }
@@ -39,10 +39,10 @@ void statsSetEntry(const std::string &entryKey, float value)
 void statsSave(void)
 {
     std::ofstream ofs(_getStatsFile());
-    for (std::map<std::string, float>::iterator it = _stats.begin(); it != _stats.end(); ++it)
+    for (std::map<std::string, int>::iterator it = _stats.begin(); it != _stats.end(); ++it)
     {
         std::string key = it->first;
-        float value = it->second;
+        int value = it->second;
         ofs << key << ' ' << value << '\n';
     }
 }
@@ -60,7 +60,7 @@ void statsLoad(void)
             split.push_back(line2);
 
         std::string key = split[0];
-        float value = std::stof(split[1]);
+        int value = std::stoi(split[1]);
         _stats[key] = value;
     }
 }
