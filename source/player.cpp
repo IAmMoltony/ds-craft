@@ -3079,5 +3079,6 @@ void Player::jump(void)
     {
         jumping = true;
         velY = -4;
+        statsSetEntry("timesjumped", statsGetEntry("timesjumped") + 1);
     }
 }
