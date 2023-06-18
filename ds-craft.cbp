@@ -691,6 +691,7 @@
 		<Unit filename="include/player.hpp" />
 		<Unit filename="include/rect.hpp" />
 		<Unit filename="include/save.hpp" />
+		<Unit filename="include/stats.hpp" />
 		<Unit filename="include/terrain.hpp" />
 		<Unit filename="include/userinfo.h" />
 		<Unit filename="include/util.h" />
@@ -3612,6 +3613,7 @@
 		<Unit filename="source/player.cpp" />
 		<Unit filename="source/rect.cpp" />
 		<Unit filename="source/save.cpp" />
+		<Unit filename="source/stats.cpp" />
 		<Unit filename="source/terrain.cpp" />
 		<Unit filename="source/userinfo.c">
 			<Option compilerVar="CC" />
