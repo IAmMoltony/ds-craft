@@ -578,6 +578,9 @@ void Game::draw(void)
                     fontRu.print(15, SCREEN_HEIGHT - 28, "Objbf");
                     break;
                 }
+
+                // TODO make font class have overloads that take std string
+                font.print(10, 47, std::string("Time played: " + std::to_string(statsGetEntry("timeplayed")) + " s").c_str());
             }
             else
             {
