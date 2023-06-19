@@ -562,26 +562,48 @@ void Game::draw(void)
         {
             drawMenuBackground();
 
-            switch (lang)
+            if (showStats)
             {
-            case Language::English:
-                font.printCentered(0, 86, "\2:A Resume");
-                font.printCentered(0, 102, "\2:B Save and quit");
-                break;
-            case Language::Russian:
-                fontRu.printCentered(0, 86, "\2:A Qsqfqniku#");
-                fontRu.printCentered(0, 102, "\2:B Sqxsbpku# k d\"luk");
-                break;
-            }
+                glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprBButton);
+                switch (lang)
+                {
+                case Language::English:
+                    font.drawHeading("Statistics");
 
-            switch (lang)
+                    font.print(15, SCREEN_HEIGHT - 28, "Back");
+                    break;
+                case Language::Russian:
+                    fontRu.drawHeading("Subuktukmb");
+
+                    fontRu.print(15, SCREEN_HEIGHT - 28, "Objbf");
+                    break;
+                }
+            }
+            else
             {
-            case Language::English:
-                font.drawHeading("Paused");
-                break;
-            case Language::Russian:
-                fontRu.drawHeading("Qbvjb");
-                break;
+                switch (lang)
+                {
+                case Language::English:
+                    font.printCentered(0, 86, "\2:A Resume");
+                    font.printCentered(0, 102, "\2:B Save and quit");
+                    font.printCentered(0, 118, "\2:X Statistics");
+                    break;
+                case Language::Russian:
+                    fontRu.printCentered(0, 86, "\2:A Qsqfqniku#");
+                    fontRu.printCentered(0, 102, "\2:B Sqxsbpku# k d\"luk");
+                    fontRu.printCentered(0, 118, "\2:X Subuktukmb");
+                    break;
+                }
+
+                switch (lang)
+                {
+                case Language::English:
+                    font.drawHeading("Paused");
+                    break;
+                case Language::Russian:
+                    fontRu.drawHeading("Qbvjb");
+                    break;
+                }
             }
         }
         break;
@@ -1347,12 +1369,12 @@ void Game::update(void)
             paused = true;
             mmEffectEx(&sndClick);
         }
-        if (down & KEY_A && paused) // resume
+        if (down & KEY_A && paused && !showStats) // resume
         {
             paused = false;
             mmEffectEx(&sndClick);
         }
-        if (down & KEY_B && paused) // save and exit
+        if (down & KEY_B && paused && !showStats) // save and exit
         {
             paused = false;
             gameQuit();
@@ -1360,6 +1382,20 @@ void Game::update(void)
             // go to menu and play a click sound
             gameState = GameState::TitleScreen;
             mmEffectEx(&sndClick);
+        }
+        if (down & KEY_X && paused && !showStats)
+        {
+            showStats = true;
+            mmEffectEx(&sndClick);
+        }
+
+        if (paused && showStats)
+        {
+            if (down & KEY_B)
+            {
+                showStats = false;
+                mmEffectEx(&sndClick);
+            }
         }
 
         if (showSaveText)

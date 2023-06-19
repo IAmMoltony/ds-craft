@@ -127,6 +127,8 @@ private:
     WorldManager::WorldList worldSelectWorlds;
     bool showSaveText;
     bool paused;
+    bool showStats = false;
+    // TODO move pre initialized variables into constructor
     std::string worldName;
     std::string createWorldName;
     std::string createWorldSeed;
