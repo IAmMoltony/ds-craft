@@ -601,11 +601,10 @@ void Game::draw(void)
                 else
                     timePlayedStream << timePlayed << " seconds";
 
-                // TODO make font class have overloads that take std string
-                font.print(10, 47, timePlayedStream.str().c_str());
-                font.print(10, 58, std::string("Blocks placed: " + std::to_string(statsGetEntry("blocksplaced"))).c_str());
-                font.print(10, 69, std::string("Blocks broken: " + std::to_string(statsGetEntry("blocksbroken"))).c_str());
-                font.print(10, 80, std::string("Times jumped: " + std::to_string(statsGetEntry("timesjumped"))).c_str());
+                font.print(10, 47, timePlayedStream.str());
+                font.print(10, 58, std::string("Blocks placed: " + std::to_string(statsGetEntry("blocksplaced"))));
+                font.print(10, 69, std::string("Blocks broken: " + std::to_string(statsGetEntry("blocksbroken"))));
+                font.print(10, 80, std::string("Times jumped: " + std::to_string(statsGetEntry("timesjumped"))));
             }
             else
             {
@@ -755,15 +754,15 @@ void Game::draw(void)
                     glSprite(SCREEN_WIDTH / 2 - 121, 48 + i * 40 - offset, GL_FLIP_NONE, sprWorldLabel);
                     glSprite(SCREEN_WIDTH / 2 - 121 + 113, 48 + i * 40 - offset, GL_FLIP_H, sprWorldLabel);
                 }
-                font.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 6 - offset, worldInfoName.c_str());
+                font.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 6 - offset, worldInfoName);
                 glColor(RGB15(18, 18, 18));
                 switch (lang)
                 {
                 case Language::English:
-                    font.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 18 - offset, worldInfoString.c_str());
+                    font.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 18 - offset, worldInfoString);
                     break;
                 case Language::Russian:
-                    fontRu.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 18 - offset, worldInfoString.c_str(), 0, 0, &font);
+                    fontRu.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 18 - offset, worldInfoString, 0, 0, &font);
                     break;
                 }
                 glColor(RGB15(31, 31, 31));
@@ -827,16 +826,16 @@ void Game::draw(void)
         case Language::English:
             font.drawHeading("World settings");
 
-            font.printCentered(0, 45, std::string("Name: " + worldSelectWorlds[worldSelectSelected].name).c_str());
-            font.printCentered(0, 56, std::string("Creation date: " + worldCreationDateString).c_str());
-            font.printCentered(0, 67, std::string(std::string("Size: ") + hrfsz).c_str());
+            font.printCentered(0, 45, std::string("Name: " + worldSelectWorlds[worldSelectSelected].name));
+            font.printCentered(0, 56, std::string("Creation date: " + worldCreationDateString));
+            font.printCentered(0, 67, std::string(std::string("Size: ") + hrfsz));
             break;
         case Language::Russian:
             fontRu.drawHeading("Obtusqlmk oksb");
 
-            fontRu.printCentered(0, 45, std::string("Jo&: \3" + worldSelectWorlds[worldSelectSelected].name).c_str(), &font);
-            fontRu.printCentered(0, 56, std::string("Ebub tqjfbpk&: \3" + worldCreationDateString).c_str(), &font);
-            fontRu.printCentered(0, 67, std::string(std::string("Rbjogs: \3") + hrfsz).c_str(), &font);
+            fontRu.printCentered(0, 45, std::string("Jo&: \3" + worldSelectWorlds[worldSelectSelected].name), &font);
+            fontRu.printCentered(0, 56, std::string("Ebub tqjfbpk&: \3" + worldCreationDateString), &font);
+            fontRu.printCentered(0, 67, std::string(std::string("Rbjogs: \3") + hrfsz), &font);
             break;
         }
 
@@ -893,7 +892,7 @@ void Game::draw(void)
             glBoxFilled(15, 83, 15 + WORLD_NAME_BOX_WIDTH, 83 + WORLD_NAME_BOX_HEIGHT, RGB15(6, 6, 6));
             glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
             glBoxStroke(15, 83, WORLD_NAME_BOX_WIDTH, WORLD_NAME_BOX_HEIGHT, RGB15(31, 31, 31));
-            font.print(18, 86, std::string(renameWorldName + ((createWorldShowCursor) ? "_" : "")).c_str());
+            font.print(18, 86, std::string(renameWorldName + ((createWorldShowCursor) ? "_" : "")));
 
             glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprBButton);
             font.print(15, SCREEN_HEIGHT - 28, "Cancel");
@@ -913,7 +912,7 @@ void Game::draw(void)
             glBoxFilled(15, 83, 15 + WORLD_NAME_BOX_WIDTH, 83 + WORLD_NAME_BOX_HEIGHT, RGB15(6, 6, 6));
             glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
             glBoxStroke(15, 83, WORLD_NAME_BOX_WIDTH, WORLD_NAME_BOX_HEIGHT, RGB15(31, 31, 31));
-            font.print(18, 86, std::string(renameWorldName + ((createWorldShowCursor) ? "_" : "")).c_str());
+            font.print(18, 86, std::string(renameWorldName + ((createWorldShowCursor) ? "_" : "")));
 
             glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprBButton);
             fontRu.print(15, SCREEN_HEIGHT - 28, "Puogpb");
@@ -983,7 +982,7 @@ void Game::draw(void)
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
         glBoxStroke(15, 73, WORLD_NAME_BOX_WIDTH, WORLD_NAME_BOX_HEIGHT, (createWorldSelect == 0) ? RGB15(31, 31, 31) : RGB15(9, 9, 9));
         if (createWorldName.size() > 0 || createWorldSelect == 0)
-            font.print(18, 76, std::string(createWorldName + ((createWorldShowCursor && createWorldSelect == 0) ? "_" : "")).c_str());
+            font.print(18, 76, std::string(createWorldName + ((createWorldShowCursor && createWorldSelect == 0) ? "_" : "")));
         else
             switch (lang)
             {
@@ -1000,7 +999,7 @@ void Game::draw(void)
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
         glBoxStroke(15, 123, WORLD_NAME_BOX_WIDTH, WORLD_NAME_BOX_HEIGHT, (createWorldSelect == 1) ? RGB15(31, 31, 31) : RGB15(9, 9, 9));
         if (createWorldSeed.size() > 0 || createWorldSelect == 1)
-            font.print(18, 126, std::string(createWorldSeed + ((createWorldShowCursor && createWorldSelect == 1) ? "_" : "")).c_str());
+            font.print(18, 126, std::string(createWorldSeed + ((createWorldShowCursor && createWorldSelect == 1) ? "_" : "")));
         else
             switch (lang)
             {

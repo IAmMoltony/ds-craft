@@ -197,6 +197,11 @@ void Font::print(int x, int y, const char *str, int xoff, int yoff, Font *font2,
     glColor(RGB15(31, 31, 31));
 }
 
+void Font::print(int x, int y, const std::string &str, int xoff, int yoff, Font *font2, s32 scale, bool ignoreFormatting)
+{
+    print(x, y, str.c_str(), xoff, yoff, font2, scale, ignoreFormatting);
+}
+
 void Font::printCentered(int x, int y, const char *str, Font *font2, s32 scale)
 {
     u8 ch;
@@ -240,6 +245,11 @@ void Font::printCentered(int x, int y, const char *str, Font *font2, s32 scale)
 
     x += (SCREEN_WIDTH - tw) / 2;
     print(x, y, str2, 0, 0, font2, scale);
+}
+
+void Font::printCentered(int x, int y, const std::string &str, Font *font2, s32 scale)
+{
+    printCentered(x, y, str.c_str(), font2, scale);
 }
 
 void Font::printfCentered(int x, int y, const char *format, ...)
@@ -353,6 +363,11 @@ void Font::printShadow(int x, int y, const char *str, Font *font2, s32 scale)
 
     // actual text
     print(x, y, str, 0, 0, font2, scale);
+}
+
+void Font::printShadow(int x, int y, const std::string &str, Font *font2, s32 scale)
+{
+    printShadow(x, y, str.c_str(), font2, scale);
 }
 
 void Font::printShadowCentered(int x, int y, const char *str, Font *font2, s32 scale)

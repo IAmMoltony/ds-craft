@@ -34,7 +34,7 @@ void showHelp(const std::string &file, Language lang, Font font, Font fontRu, u1
                 fontRu.printCentered(0, SCREEN_HEIGHT - 19, "Obiokug n%cv% mpqrmv...");
                 break;
             }
-            font.print(10, 62, filename.c_str());
+            font.print(10, 62, filename);
 
             glEnd2D();
             glFlush(0);
@@ -71,17 +71,17 @@ void showHelp(const std::string &file, Language lang, Font font, Font fontRu, u1
         case Language::English:
             font.drawHeading("Help");
             glColor(RGB15(31, 31, 0));
-            font.printCentered(0, 25, title.c_str());
+            font.printCentered(0, 25, title);
             glColor(RGB15(31, 31, 31));
-            font.print(10, 50, content.c_str());
+            font.print(10, 50, content);
             font.printCentered(0, SCREEN_HEIGHT - 19, "Press any button...");
             break;
         case Language::Russian:
             fontRu.drawHeading("Qqoq~#");
             glColor(RGB15(31, 31, 0));
-            fontRu.printCentered(0, 25, title.c_str());
+            fontRu.printCentered(0, 25, title);
             glColor(RGB15(31, 31, 31));
-            fontRu.print(10, 50, content.c_str());
+            fontRu.print(10, 50, content);
             fontRu.printCentered(0, SCREEN_HEIGHT - 19, "Obiokug n%cv% mpqrmv...");
             break;
         }

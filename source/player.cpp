@@ -974,7 +974,7 @@ void Player::drawSign(Font &font, Font &fontRu)
     }
     glSpritePartScale(sprPlanks, SCREEN_WIDTH / 2 - 75, SCREEN_HEIGHT / 2 - 30, 0, 0, 75, 30, SCALE_NORMAL * 2);
     font.setCharWidthHandler(Game::fontSmallCharWidthHandler);
-    font.printCentered(0, SCREEN_HEIGHT / 2 - 5, std::string(sign->getText() + '_').c_str());
+    font.printCentered(0, SCREEN_HEIGHT / 2 - 5, std::string(sign->getText() + '_'));
 }
 
 void Player::drawHUD(const Camera &camera, Font &font)
@@ -3018,10 +3018,10 @@ void Player::drawCrafting(Font &fontSmall, Font &fontSmallRu)
     switch (Game::instance->lang)
     {
     case Language::English:
-        fontSmall.printfShadow(16, 35, recipe.getFullName(Game::instance->lang, this).c_str());
+        fontSmall.printShadow(16, 35, recipe.getFullName(Game::instance->lang, this));
         break;
     case Language::Russian:
-        fontSmallRu.printfShadow(16, 35, recipe.getFullName(Game::instance->lang, this).c_str());
+        fontSmallRu.printShadow(16, 35, recipe.getFullName(Game::instance->lang, this));
         break;
     }
 }
