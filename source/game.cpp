@@ -10,6 +10,10 @@ Game::Game() : camera({0, 0})
     paused = false;
     showStats = false;
     createWorldError = false;
+    renameWorldDuplError = false;
+    createWorldShowCursor = false;
+    logoFall = false;
+    editControlsSetMode = false;
     lang = Language::English;
     gameState = GameState::TitleScreen;
 }
