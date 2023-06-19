@@ -1364,7 +1364,7 @@ void Game::update(void)
             showSaveText = true;
         }
 
-        if (frameCounter % 60 == 0)
+        if (frameCounter % 60 == 0 && !paused)
             statsSetEntry("timeplayed", statsGetEntry("timeplayed") + 1);
 
         if (down & ControlsManager::getButton(ControlsManager::BUTTON_PAUSE) && !paused) // bring up pause menu
