@@ -68,10 +68,10 @@ u64 getVersionHash(const std::string &_versionString)
     int major = 0;
     int minor = 0;
     int patch = 0;
+
+    sscanf(_versionString.c_str(), "%*[^0-9]%d.%d.%d", &major, &minor, &patch);
     if (patch == 0)
         sscanf(_versionString.c_str(), "%*[^0-9]%d.%d", &major, &minor);
-    else
-        sscanf(_versionString.c_str(), "%*[^0-9]%d.%d.%d", &major, &minor, &patch);
 
     // determine version type
     VersionType versionType = VersionType::Release;
