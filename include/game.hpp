@@ -11,6 +11,7 @@
 #include "stats.hpp"
 #include <sstream>
 #include <regex>
+#include <iomanip>
 
 class Game
 {

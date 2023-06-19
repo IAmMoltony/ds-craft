@@ -579,8 +579,30 @@ void Game::draw(void)
                     break;
                 }
 
+
+                std::stringstream timePlayedStream;
+                timePlayedStream << "Time played: ";
+                int timePlayed = statsGetEntry("timeplayed");
+                if (timePlayed >= 86400)
+                {
+                    float days = (float)timePlayed / 86400.0f;
+                    timePlayedStream << std::fixed << std::setprecision(2) << days << " days";
+                }
+                else if (timePlayed >= 3600)
+                {
+                    float hours = (float)timePlayed / 3600.0f;
+                    timePlayedStream << std::fixed << std::setprecision(2) << hours << " hours";
+                }
+                else if (timePlayed >= 60)
+                {
+                    float minutes = (float)timePlayed / 60.0f;
+                    timePlayedStream << std::fixed << std::setprecision(2) << minutes << " minutes";
+                }
+                else
+                    timePlayedStream << timePlayed << " seconds";
+
                 // TODO make font class have overloads that take std string
-                font.print(10, 47, std::string("Time played: " + std::to_string(statsGetEntry("timeplayed")) + " s").c_str());
+                font.print(10, 47, timePlayedStream.str().c_str());
                 font.print(10, 58, std::string("Blocks placed: " + std::to_string(statsGetEntry("blocksplaced"))).c_str());
                 font.print(10, 69, std::string("Blocks broken: " + std::to_string(statsGetEntry("blocksbroken"))).c_str());
                 font.print(10, 80, std::string("Times jumped: " + std::to_string(statsGetEntry("timesjumped"))).c_str());
