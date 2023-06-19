@@ -791,7 +791,7 @@ void Player::drawMenuBackground(void)
     glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(31));
 }
 
-void Player::draw(Camera &camera, Font &font, Font &fontRu)
+void Player::draw(const Camera &camera, Font &font, Font &fontRu)
 {
     drawBody(camera);
 
@@ -811,7 +811,7 @@ void Player::draw(Camera &camera, Font &font, Font &fontRu)
     // getRectSlab().draw(camera, RGB15(0, 31, 31));
 }
 
-void Player::drawBody(Camera &camera)
+void Player::drawBody(const Camera &camera)
 {
     // draw the player
     double angleRad = atan2(y + 6 - camera.y - aimY, x + 5 - camera.x - aimX);
@@ -977,7 +977,7 @@ void Player::drawSign(Font &font, Font &fontRu)
     font.printCentered(0, SCREEN_HEIGHT / 2 - 5, std::string(sign->getText() + '_').c_str());
 }
 
-void Player::drawHUD(Camera &camera, Font &font)
+void Player::drawHUD(const Camera &camera, Font &font)
 {
     glPolyFmt(POLY_ALPHA(10) | POLY_CULL_NONE | POLY_ID(1));
 

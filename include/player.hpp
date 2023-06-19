@@ -65,13 +65,13 @@ public:
     Player();
 
     void drawMenuBackground(void);
-    void draw(Camera &camera, Font &font, Font &fontRu);
+    void draw(const Camera &camera, Font &font, Font &fontRu);
     void drawCrafting(Font &fontSmall, Font &fontSmallRu);
-    void drawBody(Camera &camera);
+    void drawBody(const Camera &camera);
     void drawInventory(Font &font, Font &fontRu);
     void drawChest(Font &font, Font &fontRu);
     void drawSign(Font &font, Font &fontRu);
-    void drawHUD(Camera &camera, Font &font);
+    void drawHUD(const Camera &camera, Font &font);
     UpdateResult update(Camera *camera, BlockList *blocks, EntityList *entities, BlockParticleList *blockParticles, const u16 &frames);
     void updateCrafting(void);
     bool hasItem(InventoryItem item);
