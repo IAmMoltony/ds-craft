@@ -581,6 +581,9 @@ void Game::draw(void)
 
                 // TODO make font class have overloads that take std string
                 font.print(10, 47, std::string("Time played: " + std::to_string(statsGetEntry("timeplayed")) + " s").c_str());
+                font.print(10, 58, std::string("Blocks placed: " + std::to_string(statsGetEntry("blocksplaced"))).c_str());
+                font.print(10, 69, std::string("Blocks broken: " + std::to_string(statsGetEntry("blocksbroken"))).c_str());
+                font.print(10, 80, std::string("Times jumped: " + std::to_string(statsGetEntry("timesjumped"))).c_str());
             }
             else
             {
