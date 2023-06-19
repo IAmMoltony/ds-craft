@@ -659,7 +659,7 @@ bool isSlabItem(InventoryItemID id)
 
 Player::Player() : x(0), y(0), velX(0), velY(0), spawnX(0), spawnY(0), aimX(0), aimY(0), inventorySelect(0),
                    inventoryFullSelect(0), inventoryMoveSelect(20), craftingSelect(0), health(9), airY(0),
-                   chestSelect(0), chestMoveSelect(40), spawnImmunity(180),
+                   chestSelect(0), chestMoveSelect(40), spawnImmunity(SPAWN_IMMUNITY),
                    bodySprite(AnimatedSprite(5, AnimatedSpriteMode::ReverseLoop,
                                              {_sprPlayerBody[0], _sprPlayerBody[1], _sprPlayerBody[2]})),
                    aimDist(0)
@@ -2767,7 +2767,7 @@ void Player::reset(void)
     setY(0);
     restoreHealth();
     resetInventory();
-    spawnImmunity = 180;
+    spawnImmunity = SPAWN_IMMUNITY;
     chest = nullptr;
     chestOpen = false;
     sign = nullptr;

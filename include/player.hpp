@@ -22,6 +22,7 @@
     }
 #define PLAYER_WIDTH 12
 #define PLAYER_HEIGHT 32
+#define SPAWN_IMMUNITY 180
 
 const char *getItemStr(Language lang, InventoryItemID iid);
 glImage *getItemImage(InventoryItemID item);
