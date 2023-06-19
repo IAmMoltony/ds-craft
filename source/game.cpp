@@ -8,6 +8,7 @@ Game::Game() : camera({0, 0})
 
     showSaveText = false;
     paused = false;
+    showStats = false;
     createWorldError = false;
     lang = Language::English;
     gameState = GameState::TitleScreen;
@@ -347,15 +348,22 @@ void Game::init(void)
     worldSelectWorlds = {};
     showSaveText = false;
     paused = false;
+    showStats = false;
     worldName = "";
     createWorldName = "";
     createWorldSeed = "";
     createWorldError = false;
+    renameWorldDuplError = false;
     settingsSelect = 0;
     titleScreenSelect = 0;
+    createWorldShowCursor = false;
     createWorldSelect = 0;
+    worldSettingsSelect = 0;
+    currentLocation = 0;
     logoFall = false;
     logoY = 16;
+    editControlsSelected = 0;
+    editControlsSetMode = false;
 }
 
 void Game::showHelpScreen(const std::string &setting)

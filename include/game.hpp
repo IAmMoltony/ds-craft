@@ -128,24 +128,23 @@ private:
     WorldManager::WorldList worldSelectWorlds;
     bool showSaveText;
     bool paused;
-    bool showStats = false;
-    // TODO move pre initialized variables into constructor
+    bool showStats;
     std::string worldName;
     std::string createWorldName;
     std::string createWorldSeed;
     std::string renameWorldName;
     bool createWorldError;
-    bool renameWorldDuplError = false;
+    bool renameWorldDuplError;
     u8 settingsSelect;
     u8 titleScreenSelect;
-    bool createWorldShowCursor = false;
-    u8 createWorldSelect = 0;
-    u8 worldSettingsSelect = 0;
-    s16 currentLocation = 0;
-    bool logoFall = false;
+    bool createWorldShowCursor;
+    u8 createWorldSelect;
+    u8 worldSettingsSelect;
+    s16 currentLocation;
+    bool logoFall;
     u16 logoY;
-    u8 editControlsSelected = 0;
-    bool editControlsSetMode = false;
+    u8 editControlsSelected;
+    bool editControlsSetMode;
 
     void gameQuit(void);
     void playPopSound(void);
