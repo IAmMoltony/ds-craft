@@ -2905,14 +2905,6 @@ std::array<InventoryItem, 20> Player::getInventory(void)
 
 static std::vector<CraftingRecipe> _craftingRecipes;
 
-struct RecipeCompareKey
-{
-    inline bool operator()(const CraftingRecipe &r1, const CraftingRecipe &r2)
-    {
-        return r1.getID() < r2.getID();
-    }
-};
-
 void Player::initCrafting(void)
 {
     static const std::string ending = ".rcp";

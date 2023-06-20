@@ -110,6 +110,7 @@ InventoryItemID strToIID(std::string &sid)
 CraftingRecipe::CraftingRecipe(const char *recipeFile)
 {
     std::string path = "nitro:/crafting/" + std::string(recipeFile) + ".rcp";
+    fileName = recipeFile;
 
     // check if file exists
     if (!fsFileExists(path.c_str()))
@@ -179,6 +180,7 @@ CraftingRecipe::CraftingRecipe(const char *recipeFile)
     nameRu = getItemStr(Language::Russian, output);
 }
 
+// TODO instead of passing player's this pointer, make the player just pass the amount of that item in the inventory
 std::string CraftingRecipe::getFullName(Language lang, Player *pThis)
 {
     // get name
@@ -219,6 +221,11 @@ std::string CraftingRecipe::getFullName(Language lang, Player *pThis)
     recipeStr.pop_back();
 
     return name + " - " + recipeStr;
+}
+
+std::string CraftingRecipe::getFileName(void)
+{
+    return fileName;
 }
 
 u8 CraftingRecipe::getID(void) const
