@@ -1,0 +1,51 @@
+# oak stuff
+oak_planks
+oak_door
+oak_trapdoor
+oak_slab
+
+# birch stuff
+birch_planks
+birch_door
+birch_trapdoor
+birch_slab
+
+# spruce stuff
+spruce_planks
+spruce_door
+spruce_trapdoor
+spruce_slab
+
+# any wood type stuff
+chest
+stick
+sign
+ladder
+
+# sand stuff
+glass
+sandstone
+
+# stone stuff
+stone
+cobblestone_slab
+
+# coal block
+coalblock
+
+# food
+cooked_porkchop
+
+# tools
+
+# pickaxes
+wooden_pickaxe
+stone_pickaxe
+
+# shovels
+wooden_shovel
+stone_shovel
+
+# axes
+wooden_axe
+stone_axe
