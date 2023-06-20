@@ -1473,7 +1473,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             velY += 0.3f;
             ++airY;
             if (velY > 5)
-                // cap (lol) fall speed
+                // cap fall speed
                 velY = 5;
         }
 
