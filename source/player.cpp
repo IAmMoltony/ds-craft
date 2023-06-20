@@ -2754,9 +2754,7 @@ void Player::restoreHealth(void)
 void Player::resetInventory(void)
 {
     for (u8 i = 0; i < 20; ++i)
-    {
         inventory[i] = NULLITEM;
-    }
 }
 
 void Player::reset(void)
