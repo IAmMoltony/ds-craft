@@ -14,6 +14,7 @@ private:
     u8 id, count;
     s8 texid;
     InventoryItemID output;
+    std::string nameEn, nameRu;
     std::vector<InventoryItem> recipe;
 
 public:
