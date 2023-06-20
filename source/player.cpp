@@ -2933,6 +2933,33 @@ void Player::initCrafting(void)
         printf("Cannot open folder nitro:/crafting");
         hang();
     }
+
+    std::ifstream craftingOrder("nitro:/crafting_order.txt");
+    std::string line;
+    std::vector<CraftingRecipe> craftingRecipesSorted;
+    while (std::getline(craftingOrder, line))
+    {
+        if (line.empty() || line[0] == '#')
+            continue;
+        CraftingRecipe *rcp = nullptr;
+        for (size_t i = 0; i < _craftingRecipes.size(); ++i)
+        {
+            CraftingRecipe *recipe = &_craftingRecipes[i];
+            if (recipe->getFileName() == line)
+            {
+                rcp = recipe;
+                break;
+            }
+        }
+        if (rcp == nullptr)
+        {
+            printf("warning: not found crafting recipe '%s'; skipping\n", line.c_str());
+            continue;
+        }
+
+        craftingRecipesSorted.push_back(*rcp);
+    }
+    _craftingRecipes = craftingRecipesSorted;
 }
 
 static bool _canCraft(Player *pThis, CraftingRecipe recipe)
