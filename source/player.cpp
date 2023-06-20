@@ -2907,59 +2907,19 @@ static std::vector<CraftingRecipe> _craftingRecipes;
 
 void Player::initCrafting(void)
 {
-    static const std::string ending = ".rcp";
-    DIR *dir;
-    if ((dir = opendir("nitro:/crafting")) != NULL)
-    {
-        struct dirent *ent;
-        while ((ent = readdir(dir)) != NULL)
-        {
-            std::string str = std::string(ent->d_name);
-            if (str == "." || str == "..")
-                continue;
-            // check if ends with .rcp
-            if (std::equal(ending.rbegin(), ending.rend(), str.rbegin()))
-            {
-                for (u8 i = 0; i < 4; ++i)
-                    str.pop_back();
-                _craftingRecipes.push_back(CraftingRecipe(str.c_str()));
-                // printf("loaded recipe %s\n", str.c_str());
-            }
-        }
-        closedir(dir);
-    }
-    else
-    {
-        printf("Cannot open folder nitro:/crafting");
-        hang();
-    }
-
     std::ifstream craftingOrder("nitro:/crafting_order.txt");
     std::string line;
-    std::vector<CraftingRecipe> craftingRecipesSorted;
     while (std::getline(craftingOrder, line))
     {
         if (line.empty() || line[0] == '#')
             continue;
-        CraftingRecipe *rcp = nullptr;
-        for (size_t i = 0; i < _craftingRecipes.size(); ++i)
+        if (!fsFileExists(std::string("nitro:/crafting/" + line + ".rcp").c_str()))
         {
-            CraftingRecipe *recipe = &_craftingRecipes[i];
-            if (recipe->getFileName() == line)
-            {
-                rcp = recipe;
-                break;
-            }
-        }
-        if (rcp == nullptr)
-        {
-            printf("warning: not found crafting recipe '%s'; skipping\n", line.c_str());
+            printf("warning: recipe '%s' doesn't exist skipping\n", line.c_str());
             continue;
         }
-
-        craftingRecipesSorted.push_back(*rcp);
+        _craftingRecipes.push_back(CraftingRecipe(line.c_str())); // TODO add std string overload to constructor of crafting recipe
     }
-    _craftingRecipes = craftingRecipesSorted;
 }
 
 static bool _canCraft(Player *pThis, CraftingRecipe recipe)
