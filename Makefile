@@ -245,7 +245,7 @@ endif
 
 ../include/images.h: $(shell find ../gfx/* -name *.png) $(shell find ../gfx/* -name *.bmp)
 	$(SILENTMSG) generating $(notdir $@)
-	$(SILENCTMD)$(PYTHON) ../genimagesh.py $@
+	$(SILENTCMD)$(PYTHON) ../genimagesh.py $@
 
 #---------------------------------------------------------------------------------
 # The bin2o rule should be copied and modified
