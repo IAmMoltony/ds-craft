@@ -2941,7 +2941,6 @@ void Player::initCrafting(void)
         printf("Cannot open folder nitro:/crafting");
         hang();
     }
-    std::sort(_craftingRecipes.begin(), _craftingRecipes.end(), RecipeCompareKey()); // sort
 }
 
 static bool _canCraft(Player *pThis, CraftingRecipe recipe)
