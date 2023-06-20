@@ -182,9 +182,16 @@ CraftingRecipe::CraftingRecipe(const char *recipeFile)
 std::string CraftingRecipe::getFullName(Language lang, Player *pThis)
 {
     // get name
-    std::string nm = nameEn;
-    if (lang == Language::Russian)
+    std::string nm;
+    switch (lang)
+    {
+    case Language::English:
+        nm = nameEn;
+        break;
+    case Language::Russian:
         nm = nameRu;
+        break;
+    }
     std::string name;
     if (count > 1)
         name = std::to_string(count) + " " + nm;
