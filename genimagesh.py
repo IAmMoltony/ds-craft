@@ -25,7 +25,7 @@ def main():
     for image in images:
         images_h += f"#include \"{Path(image).stem}.h\"\n"
 
-    print("Writing file data")
+    print("Writing images.h")
     with open(argv[1], "w") as file:
         file.write(images_h)
     print("Done!")
