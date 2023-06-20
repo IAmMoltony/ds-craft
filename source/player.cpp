@@ -1460,7 +1460,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
         if (spawnImmunity)
         {
             --spawnImmunity;
-            health = 9;
+            restoreHealth();
         }
 
         // move
