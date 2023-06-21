@@ -190,8 +190,7 @@ CraftingRecipe::CraftingRecipe(const std::string &recipeFile)
     construct(recipeFile.c_str());
 }
 
-// TODO instead of passing player's this pointer, make the player just pass the amount of that item in the inventory
-std::string CraftingRecipe::getFullName(Language lang, Player *pThis)
+std::string CraftingRecipe::getFullName(Language lang, Player *player)
 {
     // get name
     std::string nm;
@@ -214,8 +213,8 @@ std::string CraftingRecipe::getFullName(Language lang, Player *pThis)
     std::vector<std::string> itemVec;
 
     std::transform(recipe.begin(), recipe.end(), itemVec.begin(), std::back_inserter(itemVec),
-                   [pThis, lang](InventoryItem item, const std::string &str)
-                   { return std::to_string(pThis->countItems(item.id)) + '/' +
+                   [player, lang](InventoryItem item, const std::string &str)
+                   { return std::to_string(player->countItems(item.id)) + '/' +
                             std::to_string(item.amount) + ' ' +
                             std::string(getItemStr(lang, item.id)); });
 

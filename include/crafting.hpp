@@ -23,7 +23,7 @@ public:
     CraftingRecipe(const char *recipeFile);
     CraftingRecipe(const std::string &recipeFile);
 
-    std::string getFullName(Language lang, Player *pThis);
+    std::string getFullName(Language lang, Player *player);
     std::string getFileName(void);
     u8 getID(void) const;
     s8 getTexID(void);
