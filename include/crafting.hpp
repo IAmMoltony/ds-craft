@@ -17,8 +17,11 @@ private:
     std::string nameEn, nameRu, fileName;
     std::vector<InventoryItem> recipe;
 
+    void construct(const char *recipeFile);
+
 public:
     CraftingRecipe(const char *recipeFile);
+    CraftingRecipe(const std::string &recipeFile);
 
     std::string getFullName(Language lang, Player *pThis);
     std::string getFileName(void);

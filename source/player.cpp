@@ -2918,7 +2918,7 @@ void Player::initCrafting(void)
             printf("warning: recipe '%s' doesn't exist skipping\n", line.c_str());
             continue;
         }
-        _craftingRecipes.push_back(CraftingRecipe(line.c_str())); // TODO add std string overload to constructor of crafting recipe
+        _craftingRecipes.push_back(CraftingRecipe(line));
     }
 }
 
