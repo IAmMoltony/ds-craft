@@ -2,6 +2,7 @@
 
 #include <maxmod9.h>
 #include <nds.h>
+#include <gl2d.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #include <math.h>
@@ -18,6 +19,7 @@ extern "C"
     float lerp(float a, float b, float t);
     int distBetweenPoints(int p1x, int p1y, int p2x, int p2y);
     u32 stringHash(const char *str);
+    void unloadImage(glImage *spr);
     void hang(void);
 
 #ifdef __cplusplus

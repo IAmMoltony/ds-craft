@@ -14,8 +14,6 @@
 #define randomRange(a, b) ((a) + rand() % (((b) + 1) - (a)))
 #endif
 
-#define unloadImage(spr) glDeleteTextures(1, &spr->textureID)
-
 #define soundEffect(id)                            \
     {                                              \
         {id}, (int)(1.0f * (1 << 10)), 0, 255, 128 \

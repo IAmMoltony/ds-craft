@@ -55,6 +55,11 @@ u32 stringHash(const char *str)
     return hash;
 }
 
+void unloadImage(glImage *spr)
+{
+    glDeleteTextures(1, &spr->textureID);
+}
+
 void hang(void)
 {
     while (true)
