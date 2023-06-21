@@ -6,7 +6,7 @@
 #include <iterator>
 #include <string>
 
-InventoryItemID strToIID(std::string &sid);
+InventoryItemID strToIID(std::string &sid); // why is this here?
 
 class CraftingRecipe
 {
@@ -18,7 +18,7 @@ private:
     std::vector<InventoryItem> recipe;
 
 public:
-    explicit CraftingRecipe(const char *recipeFile);
+    CraftingRecipe(const char *recipeFile);
 
     std::string getFullName(Language lang, Player *pThis);
     std::string getFileName(void);
