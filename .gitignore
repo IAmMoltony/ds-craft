@@ -22,8 +22,6 @@ releases/
 mctex.zip
 
 # game binaries
-*.elf
-*.nds
 bin/
 
 # devktop.ini
