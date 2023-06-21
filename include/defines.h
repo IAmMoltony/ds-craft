@@ -64,9 +64,10 @@
 // if 0, then it would not be cleared
 #define CLEAR_CONSOLE_ON_PLAY 0
 
+// scale stuff
 #define SCALE_NORMAL (1 << 12)
 #define SCALE(times) (SCALE_NORMAL * (times))
-#define HALFSIZE ((1 << 12) / 2)
+#define HALF_SCALE ((1 << 12) / 2)
 
 // game data directories
 #define DATA_DIR "fat:/dscraft_data"

@@ -734,17 +734,17 @@ static void _drawInventory(InventoryItem inventory[], u8 itemCount, Font &font, 
             // some special cases
             case InventoryItemID::Leaves:
                 glColor(RGB15(0, 22, 0));
-                glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprLeaves);
+                glSpriteScale(xx + 4, yy + 4, HALF_SCALE, GL_FLIP_NONE, sprLeaves);
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItemID::BirchLeaves:
                 glColor(RGB15(20, 26, 19));
-                glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
+                glSpriteScale(xx + 4, yy + 4, HALF_SCALE, GL_FLIP_NONE, sprBirchLeaves);
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItemID::SpruceLeaves:
                 glColor(RGB15(0, 11, 0));
-                glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, sprSpruceLeaves);
+                glSpriteScale(xx + 4, yy + 4, HALF_SCALE, GL_FLIP_NONE, sprSpruceLeaves);
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItemID::Door:
@@ -757,23 +757,23 @@ static void _drawInventory(InventoryItem inventory[], u8 itemCount, Font &font, 
                 glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprSpruceDoor);
                 break;
             case InventoryItemID::Glass:
-                glSpriteScale(xx + 3, yy + 4, HALFSIZE, GL_FLIP_NONE, sprGlass);
+                glSpriteScale(xx + 3, yy + 4, HALF_SCALE, GL_FLIP_NONE, sprGlass);
                 break;
             case InventoryItemID::OakSlab:
-                glSpritePartScale(sprPlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALFSIZE);
+                glSpritePartScale(sprPlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALF_SCALE);
                 break;
             case InventoryItemID::BirchSlab:
-                glSpritePartScale(sprBirchPlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALFSIZE);
+                glSpritePartScale(sprBirchPlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALF_SCALE);
                 break;
             case InventoryItemID::SpruceSlab:
-                glSpritePartScale(sprSprucePlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALFSIZE);
+                glSpritePartScale(sprSprucePlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALF_SCALE);
                 break;
             case InventoryItemID::CobblestoneSlab:
-                glSpritePartScale(sprCobblestone, xx + 3, yy + 5, 0, 0, 16, 8, HALFSIZE);
+                glSpritePartScale(sprCobblestone, xx + 3, yy + 5, 0, 0, 16, 8, HALF_SCALE);
                 break;
             // default
             default:
-                glSpriteScale(xx + 4, yy + 4, HALFSIZE, GL_FLIP_NONE, getItemImage(id));
+                glSpriteScale(xx + 4, yy + 4, HALF_SCALE, GL_FLIP_NONE, getItemImage(id));
                 break;
             }
 
@@ -854,17 +854,17 @@ void Player::drawBody(const Camera &camera)
         // some special cases
         case InventoryItemID::Leaves:
             glColor(RGB15(0, 22, 0));
-            glSpriteScale(xx, yy, HALFSIZE, flip, sprLeaves);
+            glSpriteScale(xx, yy, HALF_SCALE, flip, sprLeaves);
             glColor(RGB15(31, 31, 31));
             break;
         case InventoryItemID::BirchLeaves:
             glColor(RGB15(20, 26, 19));
-            glSpriteScale(xx, yy, HALFSIZE, flip, sprBirchLeaves);
+            glSpriteScale(xx, yy, HALF_SCALE, flip, sprBirchLeaves);
             glColor(RGB15(31, 31, 31));
             break;
         case InventoryItemID::SpruceLeaves:
             glColor(RGB15(0, 11, 0));
-            glSpriteScale(xx, yy, HALFSIZE, flip, sprSpruceLeaves);
+            glSpriteScale(xx, yy, HALF_SCALE, flip, sprSpruceLeaves);
             glColor(RGB15(31, 31, 31));
             break;
         case InventoryItemID::Door:
@@ -877,23 +877,23 @@ void Player::drawBody(const Camera &camera)
             glSpriteScale(xx, yy, (1 << 12) / 4, flip, sprSpruceDoor);
             break;
         case InventoryItemID::Glass:
-            glSpriteScale(xx - 1, yy, HALFSIZE, flip, sprGlass);
+            glSpriteScale(xx - 1, yy, HALF_SCALE, flip, sprGlass);
             break;
         case InventoryItemID::OakSlab:
-            glSpritePartScale(sprPlanks, xx - 1, yy + 2, 0, 0, 16, 8, HALFSIZE);
+            glSpritePartScale(sprPlanks, xx - 1, yy + 2, 0, 0, 16, 8, HALF_SCALE);
             break;
         case InventoryItemID::BirchSlab:
-            glSpritePartScale(sprBirchPlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALFSIZE);
+            glSpritePartScale(sprBirchPlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALF_SCALE);
             break;
         case InventoryItemID::SpruceSlab:
-            glSpritePartScale(sprSprucePlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALFSIZE);
+            glSpritePartScale(sprSprucePlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALF_SCALE);
             break;
         case InventoryItemID::CobblestoneSlab:
-            glSpritePartScale(sprCobblestone, xx - 1, yy + 2, 0, 0, 16, 8, HALFSIZE);
+            glSpritePartScale(sprCobblestone, xx - 1, yy + 2, 0, 0, 16, 8, HALF_SCALE);
             break;
         // default
         default:
-            glSpriteScale(xx, yy, HALFSIZE, flip, getItemImage(inventory[inventorySelect].id));
+            glSpriteScale(xx, yy, HALF_SCALE, flip, getItemImage(inventory[inventorySelect].id));
             break;
         }
     }
@@ -1019,7 +1019,7 @@ void Player::drawHUD(const Camera &camera, Font &font)
             glColor(RGB15(31, 31, 31));
             break;
         case InventoryItemID::Glass:
-            glSpriteScale(xx - 1, yy, HALFSIZE, GL_FLIP_NONE, sprGlass);
+            glSpriteScale(xx - 1, yy, HALF_SCALE, GL_FLIP_NONE, sprGlass);
             break;
         case InventoryItemID::OakSlab:
             glSpritePart(sprPlanks, xx, yy + 8, 0, 0, 16, 8);
@@ -1072,17 +1072,17 @@ void Player::drawHUD(const Camera &camera, Font &font)
             // some special cases
             case InventoryItemID::Leaves:
                 glColor(RGB15(0, 22, 0));
-                glSpriteScale(xxItem + 4, yyItem + 4, HALFSIZE, GL_FLIP_NONE, sprLeaves);
+                glSpriteScale(xxItem + 4, yyItem + 4, HALF_SCALE, GL_FLIP_NONE, sprLeaves);
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItemID::BirchLeaves:
                 glColor(RGB15(20, 26, 19));
-                glSpriteScale(xxItem + 4, yyItem + 4, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
+                glSpriteScale(xxItem + 4, yyItem + 4, HALF_SCALE, GL_FLIP_NONE, sprBirchLeaves);
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItemID::SpruceLeaves:
                 glColor(RGB15(0, 11, 0));
-                glSpriteScale(xxItem + 4, yyItem + 4, HALFSIZE, GL_FLIP_NONE, sprSpruceLeaves);
+                glSpriteScale(xxItem + 4, yyItem + 4, HALF_SCALE, GL_FLIP_NONE, sprSpruceLeaves);
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItemID::Door:
@@ -1095,23 +1095,23 @@ void Player::drawHUD(const Camera &camera, Font &font)
                 glSpriteScale(xxItem + 5, yyItem + 4, (1 << 12) / 4, GL_FLIP_NONE, sprSpruceDoor);
                 break;
             case InventoryItemID::Glass:
-                glSpriteScale(xxItem - 1, yyItem, HALFSIZE, GL_FLIP_NONE, sprGlass);
+                glSpriteScale(xxItem - 1, yyItem, HALF_SCALE, GL_FLIP_NONE, sprGlass);
                 break;
             case InventoryItemID::OakSlab:
-                glSpritePartScale(sprPlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALFSIZE);
+                glSpritePartScale(sprPlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE);
                 break;
             case InventoryItemID::BirchSlab:
-                glSpritePartScale(sprBirchPlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALFSIZE);
+                glSpritePartScale(sprBirchPlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE);
                 break;
             case InventoryItemID::SpruceSlab:
-                glSpritePartScale(sprSprucePlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALFSIZE);
+                glSpritePartScale(sprSprucePlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE);
                 break;
             case InventoryItemID::CobblestoneSlab:
-                glSpritePartScale(sprCobblestone, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALFSIZE);
+                glSpritePartScale(sprCobblestone, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE);
                 break;
             // default
             default:
-                glSpriteScale(xxItem + 4, yyItem + 4, HALFSIZE, GL_FLIP_NONE, getItemImage(id));
+                glSpriteScale(xxItem + 4, yyItem + 4, HALF_SCALE, GL_FLIP_NONE, getItemImage(id));
                 break;
             }
 
@@ -2960,7 +2960,7 @@ void Player::drawCrafting(Font &fontSmall, Font &fontSmallRu)
         switch (recipe.getTexID())
         {
         default:
-            glSpriteScale(slotX + 4, slotY + 4, HALFSIZE, GL_FLIP_NONE, getItemImage(recipe.getOutput()));
+            glSpriteScale(slotX + 4, slotY + 4, HALF_SCALE, GL_FLIP_NONE, getItemImage(recipe.getOutput()));
             break;
 
         // special cases
@@ -2978,19 +2978,19 @@ void Player::drawCrafting(Font &fontSmall, Font &fontSmallRu)
             break;
         case 14:
             // oak slab
-            glSpritePartScale(sprPlanks, slotX + 4, slotY + 4, 0, 0, 16, 8, HALFSIZE);
+            glSpritePartScale(sprPlanks, slotX + 4, slotY + 4, 0, 0, 16, 8, HALF_SCALE);
             break;
         case 20:
             // birch slab
-            glSpritePartScale(sprBirchPlanks, slotX + 4, slotY + 4, 0, 0, 16, 8, HALFSIZE);
+            glSpritePartScale(sprBirchPlanks, slotX + 4, slotY + 4, 0, 0, 16, 8, HALF_SCALE);
             break;
         case 26:
             // spruce slab
-            glSpritePartScale(sprSprucePlanks, slotX + 4, slotY + 4, 0, 0, 16, 8, HALFSIZE);
+            glSpritePartScale(sprSprucePlanks, slotX + 4, slotY + 4, 0, 0, 16, 8, HALF_SCALE);
             break;
         case 15:
             // cobblestone slab
-            glSpritePartScale(sprCobblestone, slotX + 4, slotY + 4, 0, 0, 16, 8, HALFSIZE);
+            glSpritePartScale(sprCobblestone, slotX + 4, slotY + 4, 0, 0, 16, 8, HALF_SCALE);
             break;
         }
 

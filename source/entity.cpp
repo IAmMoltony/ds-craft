@@ -314,21 +314,21 @@ void DropEntity::draw(Camera camera)
     switch (itemid)
     {
     default:
-        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, getItemImage(itemid));
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALF_SCALE, GL_FLIP_NONE, getItemImage(itemid));
         break;
     case InventoryItemID::Leaves:
         glColor(RGB15(0, 22, 0));
-        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprLeaves);
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALF_SCALE, GL_FLIP_NONE, sprLeaves);
         glColor(RGB15(31, 31, 31));
         break;
     case InventoryItemID::BirchLeaves:
         glColor(RGB15(20, 26, 19));
-        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprBirchLeaves);
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALF_SCALE, GL_FLIP_NONE, sprBirchLeaves);
         glColor(RGB15(31, 31, 31));
         break;
     case InventoryItemID::SpruceLeaves:
         glColor(RGB15(0, 11, 0));
-        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprSpruceLeaves);
+        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALF_SCALE, GL_FLIP_NONE, sprSpruceLeaves);
         glColor(RGB15(31, 31, 31));
         break;
     case InventoryItemID::Door:
@@ -341,19 +341,19 @@ void DropEntity::draw(Camera camera)
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, (1 << 12) / 4, GL_FLIP_NONE, sprSpruceDoor);
         break;
     case InventoryItemID::Glass:
-        glSpriteScale(x + 4 - camera.x - 1, y + 4 - camera.y, HALFSIZE, GL_FLIP_NONE, sprGlass);
+        glSpriteScale(x + 4 - camera.x - 1, y + 4 - camera.y, HALF_SCALE, GL_FLIP_NONE, sprGlass);
         break;
     case InventoryItemID::OakSlab:
-        glSpritePartScale(sprPlanks, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALFSIZE);
+        glSpritePartScale(sprPlanks, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALF_SCALE);
         break;
     case InventoryItemID::BirchSlab:
-        glSpritePartScale(sprBirchPlanks, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALFSIZE);
+        glSpritePartScale(sprBirchPlanks, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALF_SCALE);
         break;
     case InventoryItemID::SpruceSlab:
-        glSpritePartScale(sprBirchPlanks, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALFSIZE);
+        glSpritePartScale(sprBirchPlanks, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALF_SCALE);
         break;
     case InventoryItemID::CobblestoneSlab:
-        glSpritePartScale(sprCobblestone, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALFSIZE);
+        glSpritePartScale(sprCobblestone, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALF_SCALE);
         break;
     }
 }
