@@ -175,9 +175,6 @@ void CraftingRecipe::construct(const char *recipeFile)
             }
         }
     }
-
-    nameEn = getItemStr(Language::English, output);
-    nameRu = getItemStr(Language::Russian, output);
 }
 
 CraftingRecipe::CraftingRecipe(const char *recipeFile)
@@ -193,16 +190,7 @@ CraftingRecipe::CraftingRecipe(const std::string &recipeFile)
 std::string CraftingRecipe::getFullName(Language lang, Player *player)
 {
     // get name
-    std::string nm;
-    switch (lang)
-    {
-    case Language::English:
-        nm = nameEn;
-        break;
-    case Language::Russian:
-        nm = nameRu;
-        break;
-    }
+    std::string nm = getItemStr(lang, output);
     std::string name;
     if (count > 1)
         name = std::to_string(count) + " " + nm;

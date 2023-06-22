@@ -14,7 +14,7 @@ private:
     u8 id, count;
     s8 texid;
     InventoryItemID output;
-    std::string nameEn, nameRu, fileName;
+    std::string fileName;
     std::vector<InventoryItem> recipe;
 
     void construct(const char *recipeFile);
