@@ -598,7 +598,9 @@ void Game::draw(void)
                 if (timePlayed >= 86400)
                 {
                     float days = (float)timePlayed / 86400.0f;
-                    timePlayedStream << std::fixed << std::setprecision(2) << days << " days";
+                    float hours = (float)timePlayed / 3600.0f;
+                    timePlayedStream << std::fixed << std::setprecision(2) << days << " days ("
+                                     << std::fixed << std::setprecision(2) << hours << " hours)";
                 }
                 else if (timePlayed >= 3600)
                 {
