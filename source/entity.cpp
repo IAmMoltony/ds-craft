@@ -5,52 +5,18 @@ static glImage _sprPig[1];
 static unsigned short _sprPigDamagePal[16];
 static glImage _sprPigDamage[1];
 
-// TODO remove texture declarations that are not used here
-extern glImage sprGrass[1];
-extern glImage sprDirt[1];
-extern glImage sprStone[1];
-extern glImage sprWood[1];
-extern glImage sprBirchWood[1];
-extern glImage sprSpruceWood[1];
+// TODO why are we doing extern declarations??? they should be declared in headers
+
+extern g;Image sprPlanks[1];
+extern g;Image sprBirchPlanks[1];
+extern g;Image sprSprucePlanks[1];
 extern glImage sprLeaves[1];
 extern glImage sprBirchLeaves[1];
 extern glImage sprSpruceLeaves[1];
-extern glImage sprSand[1];
-extern glImage sprSandstone[1];
-extern glImage sprCactus[1];
-extern glImage sprDeadBush[1];
-extern glImage sprPoppy[1];
-extern glImage sprDandelion[1];
-extern glImage sprRedTulip[1];
 extern glImage sprDoor[1];
 extern glImage sprBirchDoor[1];
 extern glImage sprSpruceDoor[1];
-extern glImage sprPlanks[1];
-extern glImage sprBirchPlanks[1];
-extern glImage sprSprucePlanks[1];
-extern glImage sprSnowyGrass[1];
-extern glImage sprSapling[1];
-extern glImage sprBirchSapling[1];
-extern glImage sprSpruceSapling[1];
-extern glImage sprCobblestone[1];
-extern glImage sprCoalOre[1];
-extern glImage sprCoalBlock[1];
-extern glImage sprCoal[1];
-extern glImage sprRawPorkchop[1];
-extern glImage sprCookedPorkchop[1];
-extern glImage sprStick[1];
-extern glImage sprApple[1];
 extern glImage sprGlass[1];
-extern glImage sprOakTrapdoor[1];
-extern glImage sprBirchTrapdoor[1];
-extern glImage sprSpruceTrapdoor[1];
-extern glImage sprLadder[1];
-extern glImage sprChest[1];
-extern glImage sprWoodenPickaxe[1];
-extern glImage sprStonePickaxe[1];
-extern glImage sprWoodenShovel[1];
-extern glImage sprStoneShovel[1];
-extern glImage sprSign[1];
 
 declsfx3(PigSay);
 

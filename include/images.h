@@ -33,6 +33,7 @@
 #include "iron_ingot.h"
 #include "stone_shovel.h"
 #include "stone_pickaxe.h"
+#include "iron_nugget.h"
 #include "glass.h"
 #include "coal_block.h"
 #include "bedrock.h"
