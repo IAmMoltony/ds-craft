@@ -2305,6 +2305,16 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             _spawnBlockParticles(blockParticles, sprCoalBlock, block->x, block->y);
                             break;
+                        case BID_IRON_ORE:
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::IronOre));
+                            playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
+                            _spawnBlockParticles(blockParticles, sprIronOre, block->x, block->y);
+                            break;
+                        case BID_IRON_BLOCK:
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::IronBlock));
+                            playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
+                            _spawnBlockParticles(blockParticles, sprIronBlock, block->x, block->y);
+                            break;
                         case BID_GLASS:
                             playsfx(4, &sndGlass1, &sndGlass2, &sndGlass3, &sndGlass1);
                             _spawnBlockParticles(blockParticles, sprGlass, block->x, block->y);
@@ -2451,6 +2461,8 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     case BID_COBBLESTONE:
                     case BID_COAL_ORE:
                     case BID_COAL_BLOCK:
+                    case BID_IRON_ORE:
+                    case BID_IRON_BLOCK:
                     case BID_BEDROCK:
                     case BID_GLASS:
                     case BID_COBBLESTONE_SLAB:
