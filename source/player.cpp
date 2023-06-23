@@ -91,11 +91,6 @@ void Player::loadItems(void)
     loadImageAlpha(sprStoneShovel, 16, 16, stone_shovelPal, stone_shovelBitmap);
     loadImageAlpha(sprWoodenAxe, 16, 16, wooden_axePal, wooden_axeBitmap);
     loadImageAlpha(sprStoneAxe, 16, 16, stone_axePal, stone_axeBitmap);
-
-    // TODO why are heart textures loaded here!??!?!?!?!??!?!?!
-    loadImageAlpha(_sprHeartOutline, 16, 16, heart_outlinePal, heart_outlineBitmap);
-    loadImageAlpha(_sprHalfHeart, 8, 8, half_heartPal, half_heartBitmap);
-    loadImageAlpha(_sprHalfHeart2, 8, 8, half_heart2Pal, half_heart2Bitmap);
 }
 
 void Player::unloadItems(void)
@@ -110,9 +105,6 @@ void Player::unloadItems(void)
     unloadImage(sprStonePickaxe);
     unloadImage(sprWoodenAxe);
     unloadImage(sprStoneAxe);
-    unloadImage(_sprHeartOutline);
-    unloadImage(_sprHalfHeart);
-    unloadImage(_sprHalfHeart2);
 }
 
 void Player::loadGUI(void)
@@ -121,6 +113,9 @@ void Player::loadGUI(void)
     loadImage(_sprInventorySlotSelect, 16, 16, inventory_slot_selectBitmap);
     loadImage(_sprDummy, 16, 16, dummyBitmap);
     loadImageAlpha(_sprAim, 8, 8, aimPal, aimBitmap);
+    loadImageAlpha(_sprHeartOutline, 16, 16, heart_outlinePal, heart_outlineBitmap);
+    loadImageAlpha(_sprHalfHeart, 8, 8, half_heartPal, half_heartBitmap);
+    loadImageAlpha(_sprHalfHeart2, 8, 8, half_heart2Pal, half_heart2Bitmap);
 }
 
 void Player::unloadGUI(void)
@@ -129,6 +124,9 @@ void Player::unloadGUI(void)
     unloadImage(_sprInventorySlotSelect);
     unloadImage(_sprDummy);
     unloadImage(_sprAim);
+    unloadImage(_sprHeartOutline);
+    unloadImage(_sprHalfHeart);
+    unloadImage(_sprHalfHeart2);
 }
 
 void Player::loadPlayerTextures(void)
