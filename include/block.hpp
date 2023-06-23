@@ -115,6 +115,7 @@ enum class InventoryItemID
     IronOre,
     IronBlock,
     IronIngot,
+    IronNugget,
 };
 
 enum class SlabID
