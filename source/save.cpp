@@ -188,6 +188,15 @@ std::string iidToString(InventoryItemID iid)
     case InventoryItemID::CoalBlock:
         id = "coalblock";
         break;
+    case InventoryItemID::IronOre:
+        id = "ironore";
+        break;
+    case InventoryItemID::IronIngot:
+        id = "ironingot";
+        break;
+    case InventoryItemID::IronBlock:
+        id = "ironblock";
+        break;
     case InventoryItemID::RawPorkchop:
         id = "rawporkchop";
         break;
