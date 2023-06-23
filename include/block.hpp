@@ -54,6 +54,8 @@
 #define BID_SPRUCE_SAPLING 39
 #define BID_SPRUCE_TRAPDOOR 40
 #define BID_SPRUCE_SLAB 41
+#define BID_IRON_ORE 42
+#define BID_IRON_BLOCK 43
 
 enum class InventoryItemID
 {
@@ -110,6 +112,9 @@ enum class InventoryItemID
     WoodenAxe,
     StoneAxe,
     Sign,
+    IronOre,
+    IronBlock,
+    IronIngot,
 };
 
 enum class SlabID
@@ -395,6 +400,8 @@ GENERIC_BLOCK_DECL(BedrockBlock)
 GENERIC_BLOCK_DECL(CobblestoneBlock)
 GENERIC_BLOCK_DECL(CoalOreBlock)
 GENERIC_BLOCK_DECL(CoalBlock)
+GENERIC_BLOCK_DECL(IronOreBlock)
+GENERIC_BLOCK_DECL(IronBlock)
 GENERIC_BLOCK_DECL(GlassBlock)
 GENERIC_BLOCK_DECL(LadderBlock)
 

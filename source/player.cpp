@@ -14,6 +14,7 @@ static glImage _sprAim[1];
 // item images
 glImage sprStick[1];
 glImage sprCoal[1];
+glImage sprIronIngot[1];
 glImage sprRawPorkchop[1];
 glImage sprCookedPorkchop[1];
 glImage sprApple[1];
@@ -66,6 +67,8 @@ extern glImage sprSpruceSapling[1];
 extern glImage sprCobblestone[1];
 extern glImage sprCoalOre[1];
 extern glImage sprCoalBlock[1];
+extern glImage sprIronOre[1];
+extern glImage sprIronBlock[1];
 extern glImage sprGlass[1];
 extern glImage sprOakTrapdoor[1];
 extern glImage sprBirchTrapdoor[1];
@@ -78,6 +81,7 @@ void Player::loadItems(void)
 {
     loadImageAlpha(sprStick, 16, 16, stickPal, stickBitmap);
     loadImageAlpha(sprCoal, 16, 16, coalPal, coalBitmap);
+    loadImageAlpha(sprIronIngot, 16, 16, iron_ingotPal, iron_ingotBitmap);
     loadImageAlpha(sprRawPorkchop, 16, 16, porkchopPal, porkchopBitmap);
     loadImageAlpha(sprCookedPorkchop, 16, 16, cooked_porkchopPal, cooked_porkchopBitmap);
     loadImageAlpha(sprApple, 16, 16, applePal, appleBitmap);
@@ -87,6 +91,8 @@ void Player::loadItems(void)
     loadImageAlpha(sprStoneShovel, 16, 16, stone_shovelPal, stone_shovelBitmap);
     loadImageAlpha(sprWoodenAxe, 16, 16, wooden_axePal, wooden_axeBitmap);
     loadImageAlpha(sprStoneAxe, 16, 16, stone_axePal, stone_axeBitmap);
+
+    // TODO why are heart textures loaded here!??!?!?!?!??!?!?!
     loadImageAlpha(_sprHeartOutline, 16, 16, heart_outlinePal, heart_outlineBitmap);
     loadImageAlpha(_sprHalfHeart, 8, 8, half_heartPal, half_heartBitmap);
     loadImageAlpha(_sprHalfHeart2, 8, 8, half_heart2Pal, half_heart2Bitmap);
@@ -96,6 +102,7 @@ void Player::unloadItems(void)
 {
     unloadImage(sprStick);
     unloadImage(sprCoal);
+    unloadImage(sprIronIngot);
     unloadImage(sprRawPorkchop);
     unloadImage(sprCookedPorkchop);
     unloadImage(sprApple);
@@ -296,6 +303,12 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Coal";
         case InventoryItemID::CoalBlock:
             return "Coal Block";
+        case InventoryItemID::IronOre:
+            return "Iron Ore";
+        case InventoryItemID::IronIngot:
+            return "Iron Ingot";
+        case InventoryItemID::IronBlock:
+            return "Iron Block";
         case InventoryItemID::RawPorkchop:
             return "Raw Porkchop";
         case InventoryItemID::CookedPorkchop:
@@ -405,6 +418,12 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Ueqn#";
         case InventoryItemID::CoalBlock:
             return "Ueqn#p\"l cnqm";
+        case InventoryItemID::IronOre:
+            return "Hgngjpb& svfb";
+        case InventoryItemID::IronIngot:
+            return "Hgngjp\"l tnkuqm";
+        case InventoryItemID::IronBlock:
+            return "Hgngjp\"l cnqm";
         case InventoryItemID::RawPorkchop:
             return "S\"sb& tdkpkpb";
         case InventoryItemID::CookedPorkchop:
@@ -520,6 +539,12 @@ glImage *getItemImage(InventoryItemID item)
         return sprCoal;
     case InventoryItemID::CoalBlock:
         return sprCoalBlock;
+    case InventoryItemID::IronOre:
+        return sprIronOre;
+    case InventoryItemID::IronIngot:
+        return sprIronIngot;
+    case InventoryItemID::IronBlock:
+        return sprIronBlock;
     case InventoryItemID::RawPorkchop:
         return sprRawPorkchop;
     case InventoryItemID::CookedPorkchop:
@@ -569,6 +594,7 @@ static InventoryItemID _nonBlockItemIDs[] =
     {
         InventoryItemID::Stick,
         InventoryItemID::Coal,
+        InventoryItemID::IronIngot,
         InventoryItemID::RawPorkchop,
         InventoryItemID::CookedPorkchop,
         InventoryItemID::Apple,
@@ -1849,6 +1875,16 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                                                snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             break;
+                        case InventoryItemID::IronOre:
+                            blocks->emplace_back(new IronOreBlock(snapToGrid(camera->x + aimX),
+                                                                  snapToGrid(camera->y + aimY)));
+                            playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
+                            break;
+                        case InventoryItemID::IronBlock:
+                            blocks->emplace_back(new IronBlock(snapToGrid(camera->x + aimX),
+                                                                    snapToGrid(camera->y + aimY)));
+                            playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
+                            break;
                         case InventoryItemID::Glass:
                             blocks->emplace_back(new GlassBlock(snapToGrid(camera->x + aimX),
                                                                 snapToGrid(camera->y + aimY)));
@@ -1995,6 +2031,8 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     case BID_COBBLESTONE_SLAB:
                     case BID_COAL_ORE:
                     case BID_COAL_BLOCK:
+                    case BID_IRON_ORE:
+                    case BID_IRON_BLOCK:
                     case BID_SANDSTONE:
                         if (inventory[inventorySelect].id == InventoryItemID::WoodenPickaxe)
                             block->hit(block->brokenLevel % 2 + 1);

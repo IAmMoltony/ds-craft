@@ -691,6 +691,12 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             case BID_COAL_BLOCK:
                 blocks.emplace_back(new CoalBlock(x, y));
                 break;
+            case BID_IRON_ORE:
+                blocks.emplace_back(new IronOreBlock(x, y));
+                break;
+            case BID_IRON_BLOCK:
+                blocks.emplace_back(new IronBlock(x, y));
+                break;
             case BID_GLASS:
                 blocks.emplace_back(new GlassBlock(x, y));
                 break;

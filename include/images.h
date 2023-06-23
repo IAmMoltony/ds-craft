@@ -30,6 +30,7 @@
 #include "porkchop.h"
 #include "coal.h"
 #include "stick.h"
+#include "iron_ingot.h"
 #include "stone_shovel.h"
 #include "stone_pickaxe.h"
 #include "glass.h"

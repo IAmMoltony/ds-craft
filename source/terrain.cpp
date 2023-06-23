@@ -47,7 +47,9 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                 // stone generation
                 for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
-                    if (chance(15))
+                    if (chance(11))
+                        blocks.emplace_back(new IronOreBlock(i * 16, j));
+                    else if (chance(16))
                         blocks.emplace_back(new CoalOreBlock(i * 16, j));
                     else
                         blocks.emplace_back(new StoneBlock(i * 16, j));
@@ -91,7 +93,9 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                 // stone
                 for (s16 j = y + 16 * 8; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
-                    if (chance(15))
+                    if (chance(11))
+                        blocks.emplace_back(new IronOreBlock(i * 16, j));
+                    else if (chance(16))
                         blocks.emplace_back(new CoalOreBlock(i * 16, j));
                     else
                         blocks.emplace_back(new StoneBlock(i * 16, j));
@@ -134,7 +138,9 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                     blocks.emplace_back(new DirtBlock(i, j));
                 for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
-                    if (chance(15))
+                    if (chance(11))
+                        blocks.emplace_back(new IronOreBlock(i, j));
+                    else if (chance(16))
                         blocks.emplace_back(new CoalOreBlock(i, j));
                     else
                         blocks.emplace_back(new StoneBlock(i, j));
@@ -172,7 +178,9 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                     blocks.emplace_back(new DirtBlock(i * 16, j));
                 for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
-                    if (chance(15))
+                    if (chance(11))
+                        blocks.emplace_back(new IronOreBlock(i * 16, j));
+                    else if (chance(16))
                         blocks.emplace_back(new CoalOreBlock(i * 16, j));
                     else
                         blocks.emplace_back(new StoneBlock(i * 16, j));
@@ -204,7 +212,9 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                     blocks.emplace_back(new DirtBlock(i, j));
                 for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
-                    if (chance(15))
+                    if (chance(11))
+                        blocks.emplace_back(new IronOreBlock(i, j));
+                    else if (chance(16))
                         blocks.emplace_back(new CoalOreBlock(i, j));
                     else
                         blocks.emplace_back(new StoneBlock(i, j));
@@ -228,6 +238,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
         }
         else if (biome == 5)
         {
+            // TODO why is i incremented by 1 here, by 16 in other biomes? i should make this more consistent
             for (u16 i = k * SCREEN_WIDTH * 2 / 16; i < k * SCREEN_WIDTH * 2 / 16 + SCREEN_WIDTH * 2 / 16; ++i)
             {
                 ++sinceLastTree;
@@ -243,7 +254,9 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                 // stone generation
                 for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
-                    if (chance(15))
+                    if (chance(11))
+                        blocks.emplace_back(new IronOreBlock(i * 16, j));
+                    else if (chance(16))
                         blocks.emplace_back(new CoalOreBlock(i * 16, j));
                     else
                         blocks.emplace_back(new StoneBlock(i * 16, j));

@@ -60,6 +60,12 @@ InventoryItemID strToIID(std::string &sid)
         return InventoryItemID::Coal;
     else if (sid == "coalblock")
         return InventoryItemID::CoalBlock;
+    else if (sid == "ironore")
+        return InventoryItemID::IronOre;
+    else if (sid == "ironingot")
+        return InventoryItemID::IronIngot;
+    else if (sid == "ironblock")
+        return InventoryItemID::IronBlock;
     else if (sid == "rawporkchop")
         return InventoryItemID::RawPorkchop;
     else if (sid == "cookedporkchop")

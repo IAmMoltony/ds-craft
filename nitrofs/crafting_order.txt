@@ -33,6 +33,10 @@ cobblestone_slab
 # coal block
 coalblock
 
+# iron stuff
+iron_ingot
+ironblock
+
 # food
 cooked_porkchop
 

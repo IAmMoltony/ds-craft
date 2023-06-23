@@ -38,6 +38,8 @@ glImage sprSpruceTrapdoor[1];
 glImage sprLadder[1];
 glImage sprChest[1];
 glImage sprSign[1];
+glImage sprIronOre[1];
+glImage sprIronBlock[1];
 glImage sprBlockBreak[10][1];
 glImage sprGrassOverlay[1];
 
@@ -66,6 +68,8 @@ void Block::loadTextures(void)
     loadImage(sprBirchTrapdoor, 16, 16, birch_trapdoorBitmap);
     loadImage(sprSpruceTrapdoor, 16, 16, spruce_trapdoorBitmap);
     loadImage(sprChest, 16, 16, chestBitmap);
+    loadImage(sprIronOre, 16, 16, iron_oreBitmap);
+    loadImage(sprIronBlock, 16, 16, iron_blockBitmap);
 
     loadImageAlpha(sprCactus, 16, 16, cactus_sidePal, cactus_sideBitmap);
     loadImageAlpha(sprDeadBush, 16, 16, dead_bushPal, dead_bushBitmap);
@@ -148,6 +152,8 @@ void Block::unloadTextures(void)
     unloadImage(sprLadder);
     unloadImage(sprChest);
     unloadImage(sprSign);
+    unloadImage(sprIronOre);
+    unloadImage(sprIronBlock);
     unloadImage(sprBlockBreak[0]);
     unloadImage(sprBlockBreak[1]);
     unloadImage(sprBlockBreak[2]);
@@ -238,6 +244,8 @@ GENERIC_BLOCK_IMPL(BedrockBlock, sprBedrock, BID_BEDROCK, (u8)-1)
 GENERIC_BLOCK_IMPL(CobblestoneBlock, sprCobblestone, BID_COBBLESTONE, 15)
 GENERIC_BLOCK_IMPL(CoalOreBlock, sprCoalOre, BID_COAL_ORE, 18)
 GENERIC_BLOCK_IMPL(CoalBlock, sprCoalBlock, BID_COAL_BLOCK, 18)
+GENERIC_BLOCK_IMPL(IronOreBlock, sprIronOre, BID_IRON_ORE, 20)
+GENERIC_BLOCK_IMPL(IronBlock, sprIronBlock, BID_IRON_BLOCK, 20)
 
 NONSOLID_BLOCK_IMPL(WoodBlock, sprWood, BID_WOOD, 7)
 NONSOLID_BLOCK_IMPL(BirchWoodBlock, sprBirchWood, BID_BIRCH_WOOD, 7)

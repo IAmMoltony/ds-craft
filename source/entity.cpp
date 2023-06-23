@@ -5,6 +5,7 @@ static glImage _sprPig[1];
 static unsigned short _sprPigDamagePal[16];
 static glImage _sprPigDamage[1];
 
+// TODO remove texture declarations that are not used here
 extern glImage sprGrass[1];
 extern glImage sprDirt[1];
 extern glImage sprStone[1];
