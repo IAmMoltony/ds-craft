@@ -36,6 +36,8 @@ coalblock
 # iron stuff
 iron_ingot
 iron_ingot_from_block
+iron_ingot_from_nugget
+iron_nugget
 ironblock
 
 # food
