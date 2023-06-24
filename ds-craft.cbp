@@ -8,7 +8,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="build">
-				<Option output="./codeblocks_run" prefix_auto="1" extension_auto="1" />
+				<Option output="./codeblocks_run.sh" prefix_auto="1" extension_auto="1" />
 				<Option object_output="build/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
