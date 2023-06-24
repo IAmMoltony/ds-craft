@@ -7,9 +7,9 @@ static glImage _sprPigDamage[1];
 
 // TODO why are we doing extern declarations??? they should be declared in headers
 
-extern g;Image sprPlanks[1];
-extern g;Image sprBirchPlanks[1];
-extern g;Image sprSprucePlanks[1];
+extern glImage sprPlanks[1];
+extern glImage sprBirchPlanks[1];
+extern glImage sprSprucePlanks[1];
 extern glImage sprLeaves[1];
 extern glImage sprBirchLeaves[1];
 extern glImage sprSpruceLeaves[1];
