@@ -17,6 +17,7 @@ extern glImage sprDoor[1];
 extern glImage sprBirchDoor[1];
 extern glImage sprSpruceDoor[1];
 extern glImage sprGlass[1];
+extern glImage sprCobblestone[1];
 
 declsfx3(PigSay);
 
