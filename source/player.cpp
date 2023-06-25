@@ -15,6 +15,7 @@ static glImage _sprAim[1];
 glImage sprStick[1];
 glImage sprCoal[1];
 glImage sprIronIngot[1];
+glImage sprIronNugget[1];
 glImage sprRawPorkchop[1];
 glImage sprCookedPorkchop[1];
 glImage sprApple[1];
@@ -82,6 +83,7 @@ void Player::loadItems(void)
     loadImageAlpha(sprStick, 16, 16, stickPal, stickBitmap);
     loadImageAlpha(sprCoal, 16, 16, coalPal, coalBitmap);
     loadImageAlpha(sprIronIngot, 16, 16, iron_ingotPal, iron_ingotBitmap);
+    loadImageAlpha(sprIronNugget, 16, 16, iron_nuggetPal, iron_nuggetBitmap);
     loadImageAlpha(sprRawPorkchop, 16, 16, porkchopPal, porkchopBitmap);
     loadImageAlpha(sprCookedPorkchop, 16, 16, cooked_porkchopPal, cooked_porkchopBitmap);
     loadImageAlpha(sprApple, 16, 16, applePal, appleBitmap);
@@ -98,6 +100,7 @@ void Player::unloadItems(void)
     unloadImage(sprStick);
     unloadImage(sprCoal);
     unloadImage(sprIronIngot);
+    unloadImage(sprIronNugget);
     unloadImage(sprRawPorkchop);
     unloadImage(sprCookedPorkchop);
     unloadImage(sprApple);
@@ -305,6 +308,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Iron Ore";
         case InventoryItemID::IronIngot:
             return "Iron Ingot";
+        case InventoryItemID::IronNugget:
+            return "Iron Nugget";
         case InventoryItemID::IronBlock:
             return "Iron Block";
         case InventoryItemID::RawPorkchop:
@@ -349,6 +354,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Stone Axe";
         case InventoryItemID::Sign:
             return "Sign";
+        default:
+            return "Error";
         }
         break;
     case Language::Russian:
@@ -420,6 +427,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Hgngjpb& svfb";
         case InventoryItemID::IronIngot:
             return "Hgngjp\"l tnkuqm";
+        case InventoryItemID::IronNugget:
+            return "Lvtqzgm igngjb";
         case InventoryItemID::IronBlock:
             return "Hgngjp\"l cnqm";
         case InventoryItemID::RawPorkchop:
@@ -464,6 +473,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Lbogpp\"l uqrqs";
         case InventoryItemID::Sign:
             return "Tbcnkzmb";
+        default:
+            return "P}kcmb";
         }
         break;
     }
@@ -541,6 +552,8 @@ glImage *getItemImage(InventoryItemID item)
         return sprIronOre;
     case InventoryItemID::IronIngot:
         return sprIronIngot;
+    case InventoryItemID::IronNugget:
+        return sprIronNugget; // TODO create item.hpp and item.cpp for all the item stuff including textures
     case InventoryItemID::IronBlock:
         return sprIronBlock;
     case InventoryItemID::RawPorkchop:
@@ -593,6 +606,7 @@ static InventoryItemID _nonBlockItemIDs[] =
         InventoryItemID::Stick,
         InventoryItemID::Coal,
         InventoryItemID::IronIngot,
+        InventoryItemID::IronNugget,
         InventoryItemID::RawPorkchop,
         InventoryItemID::CookedPorkchop,
         InventoryItemID::Apple,
@@ -1880,7 +1894,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             break;
                         case InventoryItemID::IronBlock:
                             blocks->emplace_back(new IronBlock(snapToGrid(camera->x + aimX),
-                                                                    snapToGrid(camera->y + aimY)));
+                                                               snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             break;
                         case InventoryItemID::Glass:
