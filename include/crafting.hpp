@@ -20,8 +20,10 @@ private:
     void construct(const char *recipeFile);
 
 public:
-    CraftingRecipe(const char *recipeFile);
-    CraftingRecipe(const std::string &recipeFile);
+    // constructors are marked as explicit because cppcheck said so
+
+    explicit CraftingRecipe(const char *recipeFile);
+    explicit CraftingRecipe(const std::string &recipeFile);
 
     std::string getFullName(Language lang, Player *player);
     std::string getFileName(void);
