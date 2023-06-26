@@ -2,6 +2,7 @@
 
 #include "glext.h"
 #include "camera.h"
+#include "block.hpp"
 #include <vector>
 
 class BlockParticle

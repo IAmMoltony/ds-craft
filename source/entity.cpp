@@ -5,20 +5,6 @@ static glImage _sprPig[1];
 static unsigned short _sprPigDamagePal[16];
 static glImage _sprPigDamage[1];
 
-// TODO why are we doing extern declarations??? they should be declared in headers
-
-extern glImage sprPlanks[1];
-extern glImage sprBirchPlanks[1];
-extern glImage sprSprucePlanks[1];
-extern glImage sprLeaves[1];
-extern glImage sprBirchLeaves[1];
-extern glImage sprSpruceLeaves[1];
-extern glImage sprDoor[1];
-extern glImage sprBirchDoor[1];
-extern glImage sprSpruceDoor[1];
-extern glImage sprGlass[1];
-extern glImage sprCobblestone[1];
-
 declsfx3(PigSay);
 
 void Entity::loadTextures(void)

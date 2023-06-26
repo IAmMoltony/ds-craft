@@ -421,8 +421,6 @@ void Game::loadLocation(s16 oldLocation)
     cameraFollowPlayer(false);
 }
 
-extern glImage sprDirt[1]; // defined in block.cpp
-
 void Game::drawMovingBackground(void)
 {
     // draw the moving background seen in menus

@@ -1,8 +1,5 @@
 #include "blockparticle.hpp"
 
-extern glImage sprLeaves[1];
-extern glImage sprBirchLeaves[1];
-
 BlockParticle::BlockParticle(glImage *blockImage, u8 lifetime, int x, int y,
                              float velX, float velY) : lifetime(lifetime),
                                                        imageXOff(rand() % 12),

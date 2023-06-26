@@ -382,6 +382,46 @@ public:
     virtual Rect getRect(void) const = 0;
 };
 
+// block sprites
+extern glImage sprGrass[1];
+extern glImage sprDirt[1];
+extern glImage sprStone[1];
+extern glImage sprWood[1];
+extern glImage sprBirchWood[1];
+extern glImage sprSpruceWood[1];
+extern glImage sprLeaves[1];
+extern glImage sprBirchLeaves[1];
+extern glImage sprSpruceLeaves[1];
+extern glImage sprSand[1];
+extern glImage sprSandstone[1];
+extern glImage sprCactus[1];
+extern glImage sprDeadBush[1];
+extern glImage sprPoppy[1];
+extern glImage sprDandelion[1];
+extern glImage sprRedTulip[1];
+extern glImage sprDoor[1];
+extern glImage sprBirchDoor[1];
+extern glImage sprSpruceDoor[1];
+extern glImage sprPlanks[1];
+extern glImage sprBirchPlanks[1];
+extern glImage sprSprucePlanks[1];
+extern glImage sprSnowyGrass[1];
+extern glImage sprSapling[1];
+extern glImage sprBirchSapling[1];
+extern glImage sprSpruceSapling[1];
+extern glImage sprCobblestone[1];
+extern glImage sprCoalOre[1];
+extern glImage sprCoalBlock[1];
+extern glImage sprIronOre[1];
+extern glImage sprIronBlock[1];
+extern glImage sprGlass[1];
+extern glImage sprOakTrapdoor[1];
+extern glImage sprBirchTrapdoor[1];
+extern glImage sprSpruceTrapdoor[1];
+extern glImage sprLadder[1];
+extern glImage sprChest[1];
+extern glImage sprSign[1];
+
 // generic block declarations
 
 GENERIC_BLOCK_DECL(SnowyGrassBlock)
