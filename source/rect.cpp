@@ -1,11 +1,7 @@
 #include "rect.hpp"
 
-Rect::Rect(s16 x, s16 y, s16 w, s16 h)
+Rect::Rect(s16 x, s16 y, s16 w, s16 h) : x(x), y(y), w(w), h(h)
 {
-    this->x = x;
-    this->y = y;
-    this->w = w;
-    this->h = h;
 }
 
 bool Rect::intersects(Rect other)
