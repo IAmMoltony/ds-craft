@@ -1373,9 +1373,11 @@ void Game::draw(void)
     }
 
     // for debug purposes
-    // int vc = 0;
-    // glGetInt(GL_GET_POLYGON_RAM_COUNT, &vc);
-    // printf("polygon ram count %d\n", vc);
+#if SHOW_POLYGON_RAM_COUNT
+    int vc = 0;
+    lGetInt(GL_GET_POLYGON_RAM_COUNT, &vc);
+    printf("polygon ram count %d\n", vc);
+#endif
 }
 
 void Game::update(void)

@@ -56,13 +56,14 @@
     snd##effectname##2 = soundEffect(SFX_##effectid##2); \
     snd##effectname##3 = soundEffect(SFX_##effectid##3);
 
-// if 1, filesystem errors will be displayed (e.g. can't open a file)
-// if 0, filesystem errors will not be displayed
+// whether print errors of filesystem to console
 #define FS_ERROR_MESSAGES 1
 
-// if 1, console will be cleared when a world is loaded
-// if 0, then it would not be cleared
+// whether we should clear console when go into world
 #define CLEAR_CONSOLE_ON_PLAY 0
+
+// whether show amount of polygons to console
+#define SHOW_POLYGON_RAM_COUNT 1
 
 // scale stuff
 #define SCALE_NORMAL (1 << 12)
