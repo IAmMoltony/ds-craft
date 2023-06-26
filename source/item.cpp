@@ -19,8 +19,6 @@ static glImage _sprStoneAxe[1];
 // dummy
 static glImage _sprDummy[1];
 
-// TODO move image loading functions to util
-
 void loadItemTextures(void)
 {
     loadImageAlpha(_sprStick, 16, 16, stickPal, stickBitmap);

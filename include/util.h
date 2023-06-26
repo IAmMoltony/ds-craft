@@ -19,6 +19,8 @@ extern "C"
     float lerp(float a, float b, float t);
     int distBetweenPoints(int p1x, int p1y, int p2x, int p2y);
     u32 stringHash(const char *str);
+    void loadImage(glImage *spr, int w, int h, const unsigned int *bitmap);
+    void loadImageAlpha(glImage *spr, int w, int h, const unsigned short *pal, const unsigned int *bitmap);
     void unloadImage(glImage *spr);
     void hang(void);
 

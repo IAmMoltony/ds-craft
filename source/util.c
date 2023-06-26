@@ -55,6 +55,134 @@ u32 stringHash(const char *str)
     return hash;
 }
 
+void loadImage(glImage *spr, int w, int h, const unsigned int *bitmap)
+{
+    int texSizeW, texSizeH;
+    switch (w)
+    {
+    case 8:
+    default:
+        texSizeW = TEXTURE_SIZE_8;
+        break;
+    case 16:
+        texSizeW = TEXTURE_SIZE_16;
+        break;
+    case 32:
+        texSizeW = TEXTURE_SIZE_32;
+        break;
+    case 64:
+        texSizeW = TEXTURE_SIZE_64;
+        break;
+    case 128:
+        texSizeW = TEXTURE_SIZE_128;
+        break;
+    case 256:
+        texSizeW = TEXTURE_SIZE_256;
+        break;
+    case 512:
+        texSizeW = TEXTURE_SIZE_512;
+        break;
+    case 1024:
+        texSizeW = TEXTURE_SIZE_1024;
+        break;
+    }
+    switch (h)
+    {
+    case 8:
+    default:
+        texSizeH = TEXTURE_SIZE_8;
+        break;
+    case 16:
+        texSizeH = TEXTURE_SIZE_16;
+        break;
+    case 32:
+        texSizeH = TEXTURE_SIZE_32;
+        break;
+    case 64:
+        texSizeH = TEXTURE_SIZE_64;
+        break;
+    case 128:
+        texSizeH = TEXTURE_SIZE_128;
+        break;
+    case 256:
+        texSizeH = TEXTURE_SIZE_256;
+        break;
+    case 512:
+        texSizeH = TEXTURE_SIZE_512;
+        break;
+    case 1024:
+        texSizeH = TEXTURE_SIZE_1024;
+        break;
+    }
+
+    glLoadTileSet(spr, w, h, w, h, GL_RGB, texSizeW, texSizeH,
+                  GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF, 0, 0, (u8 *)bitmap);
+}
+
+void loadImageAlpha(glImage *spr, int w, int h, const unsigned short *pal, const unsigned int *bitmap)
+{
+    int texSizeW, texSizeH;
+    switch (w)
+    {
+    case 8:
+    default:
+        texSizeW = TEXTURE_SIZE_8;
+        break;
+    case 16:
+        texSizeW = TEXTURE_SIZE_16;
+        break;
+    case 32:
+        texSizeW = TEXTURE_SIZE_32;
+        break;
+    case 64:
+        texSizeW = TEXTURE_SIZE_64;
+        break;
+    case 128:
+        texSizeW = TEXTURE_SIZE_128;
+        break;
+    case 256:
+        texSizeW = TEXTURE_SIZE_256;
+        break;
+    case 512:
+        texSizeW = TEXTURE_SIZE_512;
+        break;
+    case 1024:
+        texSizeW = TEXTURE_SIZE_1024;
+        break;
+    }
+    switch (h)
+    {
+    case 8:
+    default:
+        texSizeH = TEXTURE_SIZE_8;
+        break;
+    case 16:
+        texSizeH = TEXTURE_SIZE_16;
+        break;
+    case 32:
+        texSizeH = TEXTURE_SIZE_32;
+        break;
+    case 64:
+        texSizeH = TEXTURE_SIZE_64;
+        break;
+    case 128:
+        texSizeH = TEXTURE_SIZE_128;
+        break;
+    case 256:
+        texSizeH = TEXTURE_SIZE_256;
+        break;
+    case 512:
+        texSizeH = TEXTURE_SIZE_512;
+        break;
+    case 1024:
+        texSizeH = TEXTURE_SIZE_1024;
+        break;
+    }
+
+    glLoadTileSet(spr, w, h, w, h, GL_RGB16, texSizeW, texSizeH,
+                  GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT, 16, pal, (u8 *)bitmap);
+}
+
 void unloadImage(glImage *spr)
 {
     glDeleteTextures(1, &spr->textureID);
