@@ -2405,11 +2405,8 @@ void Game::cameraFollowPlayer(bool smooth)
 void Game::drawMenuBackground(void)
 {
     drawMovingBackground();
-    for (u8 i = 0; i < SCREEN_WIDTH / 32; ++i)
-    {
-        glSpriteScale(i * 32, 0, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
-        glSpriteScale(i * 32, SCREEN_HEIGHT - 32, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
-    }
+    glSpritePartScale(sprDirt, 0, 0, 0, 0, SCREEN_WIDTH, 16, SCALE_NORMAL * 2);
+    glSpritePartScale(sprDirt, 0, SCREEN_HEIGHT - 32, 0, 0, SCREEN_WIDTH, 16, SCALE_NORMAL * 2);
 }
 
 u32 Game::ControlsManager::buttons[Game::ControlsManager::NUM_BUTTONS];
