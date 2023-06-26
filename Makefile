@@ -127,7 +127,7 @@ CFLAGS	:=	-g -Wall -Wextra -Wno-free-nonheap-object -Wno-unknown-pragmas -Wno-ps
 			-ffast-math -Werror
 
 CFLAGS	+=	$(INCLUDE) -DARM9
-CXXFLAGS	:=	$(CFLAGS) -fno-rtti -fno-exceptions -Wno-reorder
+CXXFLAGS	:=	$(CFLAGS) -fno-rtti -fno-exceptions -Wno-reorder -Weffc++
 
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=ds_arm9.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
