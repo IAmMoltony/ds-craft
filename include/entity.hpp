@@ -26,6 +26,8 @@ public:
     static void unloadSounds(void);
 
     Entity(s16 x, s16 y);
+    virtual ~Entity() = default;
+
     virtual void draw(Camera camera) = 0;
     virtual void update(BlockList &blocks, Camera camera, u16 frames) = 0;
     virtual Rect getRectBottom(void) = 0;

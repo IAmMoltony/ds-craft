@@ -303,6 +303,7 @@ public:
     s16 x, y;
     u8 brokenLevel, maxBrokenLevel;
     Block(s16 x, s16 y, u8 maxBrokenLevel);
+    virtual ~Block() = default;
 
     void drawBreaking(Camera camera);
     void hit(void);
