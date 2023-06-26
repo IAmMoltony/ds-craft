@@ -8,7 +8,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="build">
-				<Option output="./codeblocks_run.sh" prefix_auto="1" extension_auto="1" />
+				<Option output="./codeblocks_run" prefix_auto="1" extension_auto="1" />
 				<Option object_output="build/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -687,6 +687,7 @@
 		<Unit filename="include/glext.h" />
 		<Unit filename="include/help.hpp" />
 		<Unit filename="include/images.h" />
+		<Unit filename="include/item.hpp" />
 		<Unit filename="include/lang.hpp" />
 		<Unit filename="include/player.hpp" />
 		<Unit filename="include/rect.hpp" />
@@ -3609,6 +3610,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="source/help.cpp" />
+		<Unit filename="source/item.cpp" />
 		<Unit filename="source/main.cpp" />
 		<Unit filename="source/player.cpp" />
 		<Unit filename="source/rect.cpp" />
