@@ -32,7 +32,7 @@ void Entity::unloadSounds(void)
     unloadsfx3(PIGSAY);
 }
 
-Entity::Entity(s16 x, s16 y) : health(1), x(x), y(y), velX(0), velY(0), falline(true), jumping(true)
+Entity::Entity(s16 x, s16 y) : health(1), x(x), y(y), velX(0), velY(0), falling(true), jumping(true)
 {
 }
 
