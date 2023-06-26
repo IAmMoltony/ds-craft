@@ -3,13 +3,13 @@
 #include "crafting.hpp"
 #include "terrain.hpp"
 #include "gamever.hpp"
+#include "item.hpp"
 #include "fs.h"
 #include <string>
 #include <sstream>
 #include <fstream>
 #include <regex>
 
-std::string iidToString(InventoryItemID iid);
 std::string normalizeWorldFileName(const std::string &str);
 std::string getWorldFile(const std::string &name);
 std::string getWorldName(const std::string &file);

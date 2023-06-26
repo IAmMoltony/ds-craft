@@ -5,6 +5,7 @@
 #include "images.h"
 #include "camera.h"
 #include "rect.hpp"
+#include "item.hpp"
 #include <vector>
 #include <memory>
 #include <string>
@@ -57,79 +58,12 @@
 #define BID_IRON_ORE 42
 #define BID_IRON_BLOCK 43
 
-enum class InventoryItemID
-{
-    None,
-    Grass,
-    Dirt,
-    Stone,
-    Wood,
-    BirchWood,
-    SpruceWood,
-    Leaves,
-    BirchLeaves,
-    SpruceLeaves,
-    Sand,
-    Sandstone,
-    Cactus,
-    DeadBush,
-    Poppy,
-    Dandelion,
-    RedTulip,
-    Door,
-    BirchDoor,
-    SpruceDoor,
-    Planks,
-    BirchPlanks,
-    SprucePlanks,
-    AnyPlanks,
-    Stick,
-    SnowyGrass,
-    Sapling,
-    BirchSapling,
-    SpruceSapling,
-    Cobblestone,
-    CoalOre,
-    Coal,
-    CoalBlock,
-    RawPorkchop,
-    CookedPorkchop,
-    Apple,
-    Glass,
-    OakTrapdoor,
-    BirchTrapdoor,
-    SpruceTrapdoor,
-    Ladder,
-    Chest,
-    OakSlab,
-    BirchSlab,
-    SpruceSlab,
-    CobblestoneSlab,
-    WoodenPickaxe,
-    StonePickaxe,
-    WoodenShovel,
-    StoneShovel,
-    WoodenAxe,
-    StoneAxe,
-    Sign,
-    IronOre,
-    IronBlock,
-    IronIngot,
-    IronNugget,
-};
-
 enum class SlabID
 {
     Oak,
     Cobblestone,
     Birch,
     Spruce,
-};
-
-struct InventoryItem
-{
-    InventoryItemID id;
-    u8 amount;
 };
 
 // block implementations for blocks that

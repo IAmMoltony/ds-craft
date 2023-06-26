@@ -24,9 +24,6 @@
 #define PLAYER_HEIGHT 32
 #define SPAWN_IMMUNITY 180
 
-const char *getItemStr(Language lang, InventoryItemID iid);
-glImage *getItemImage(InventoryItemID item);
-
 class Player
 {
 private:
@@ -53,8 +50,6 @@ public:
         BlockDestroyed,
     };
 
-    static void loadItems(void);
-    static void unloadItems(void);
     static void loadGUI(void);
     static void unloadGUI(void);
     static void loadPlayerTextures(void);

@@ -2269,7 +2269,7 @@ void Game::AssetManager::loadGameAssets(void)
 {
     Player::loadPlayerTextures();
     Player::loadGUI();
-    Player::loadItems();
+    loadItemTextures();
     Player::loadSounds();
     Block::loadTextures();
     Block::loadSounds();
@@ -2282,7 +2282,7 @@ void Game::AssetManager::unloadGameAssets(void)
 {
     Player::unloadPlayerTextures();
     Player::unloadGUI();
-    Player::unloadItems();
+    unloadItemTextures();
     Player::unloadSounds();
     Block::unloadTextures();
     Block::unloadSounds();
