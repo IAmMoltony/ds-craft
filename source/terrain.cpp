@@ -238,7 +238,6 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
         }
         else if (biome == 5)
         {
-            // TODO why is i incremented by 1 here, by 16 in other biomes? i should make this more consistent
             for (u16 i = k * SCREEN_WIDTH * 2 / 16; i < k * SCREEN_WIDTH * 2 / 16 + SCREEN_WIDTH * 2 / 16; ++i)
             {
                 ++sinceLastTree;
