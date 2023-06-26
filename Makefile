@@ -124,7 +124,7 @@ CFLAGS	:=	-g -Wall -Wextra -Wno-free-nonheap-object -Wno-unknown-pragmas -Wno-ps
 			$(ARCH) -I../include -Wno-switch -Wno-ignored-qualifiers -Wno-unused-function \
 			-Wno-unused-parameter\
 			-fomit-frame-pointer\
-			-ffast-math -Werror
+			-ffast-math
 
 CFLAGS	+=	$(INCLUDE) -DARM9
 CXXFLAGS	:=	$(CFLAGS) -fno-rtti -fno-exceptions -Wno-reorder -Weffc++
