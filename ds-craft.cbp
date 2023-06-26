@@ -8,7 +8,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="build">
-				<Option output="./codeblocks_run.sh" prefix_auto="1" extension_auto="1" />
+				<Option output="codeblocks_run" prefix_auto="1" extension_auto="1" />
 				<Option object_output="build/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -493,7 +493,7 @@
 		<Unit filename="build/ybtn.o" />
 		<Unit filename="build/ybtn.s" />
 		<Unit filename="chest_concept.png" />
-		<Unit filename="codeblocks_run.sh" />
+		<Unit filename="codeblocks_run." />
 		<Unit filename="craftingls.py" />
 		<Unit filename="create-release.py" />
 		<Unit filename="ds-craft.layout" />
