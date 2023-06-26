@@ -1,4 +1,5 @@
 #pragma once
+
 #include "defines.h"
 #include "camera.h"
 #include "glext.h"
