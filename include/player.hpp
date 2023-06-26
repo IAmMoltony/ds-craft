@@ -60,6 +60,10 @@ public:
 
     Player();
 
+    // these are deleted because i will not use them
+    Player(const Player &other) = delete;
+    Player &operator=(const Player &other) = delete;
+
     void drawMenuBackground(void);
     void draw(const Camera &camera, Font &font, Font &fontRu);
     void drawCrafting(Font &fontSmall, Font &fontSmallRu);

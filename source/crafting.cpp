@@ -185,12 +185,14 @@ void CraftingRecipe::construct(const char *recipeFile)
     }
 }
 
-CraftingRecipe::CraftingRecipe(const char *recipeFile)
+CraftingRecipe::CraftingRecipe(const char *recipeFile) :
+    id(0), count(0), texid(0), output(InventoryItemID::None), fileName(), recipe()
 {
     construct(recipeFile);
 }
 
-CraftingRecipe::CraftingRecipe(const std::string &recipeFile)
+CraftingRecipe::CraftingRecipe(const std::string &recipeFile) :
+    id(0), count(0), texid(0), output(InventoryItemID::None), fileName(), recipe()
 {
     construct(recipeFile.c_str());
 }

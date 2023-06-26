@@ -170,9 +170,8 @@ enum class SlabID
 
 // saplings
 #define SAPLING_IMPL(saplingid, spr, bid) \
-    saplingid##SaplingBlock::saplingid##SaplingBlock(s16 x, s16 y) : Block(x, y, 1), growTime(1200)\
+    saplingid##SaplingBlock::saplingid##SaplingBlock(s16 x, s16 y) : Block(x, y, 1), growTime(1200), grown(false)\
     {\
-        grown = false;\
     }\
     void saplingid##SaplingBlock::draw(Camera camera)\
     {\
@@ -207,13 +206,11 @@ enum class SlabID
 
 // trapdoors
 #define TRAPDOOR_IMPL(trapdid, spr, bid)\
-    trapdid##TrapdoorBlock::trapdid##TrapdoorBlock(s16 x, s16 y) : Block(x, y, 6)\
+    trapdid##TrapdoorBlock::trapdid##TrapdoorBlock(s16 x, s16 y) : Block(x, y, 6), open(false)\
     {\
-        open = false;\
     }\
-    trapdid##TrapdoorBlock::trapdid##TrapdoorBlock(s16 x, s16 y, bool open) : Block(x, y, 6)\
+    trapdid##TrapdoorBlock::trapdid##TrapdoorBlock(s16 x, s16 y, bool open) : Block(x, y, 6), open(open)\
     {\
-        this->open = open;\
     }\
     void trapdid##TrapdoorBlock::draw(Camera camera)\
     {\

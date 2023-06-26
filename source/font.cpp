@@ -16,11 +16,8 @@ u32 Font::getTextWidth(const std::string &str)
     return w;
 }
 
-Font::Font()
+Font::Font() : spr(NULL), chwHandler(NULL), chwhHeading(NULL)
 {
-    spr = NULL;
-    chwHandler = NULL;
-    chwhHeading = NULL;
 }
 
 void Font::load(glImage *fspr, const u32 frames, const unsigned int *texCoords,

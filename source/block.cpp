@@ -184,11 +184,8 @@ void Block::unloadSounds(void)
 
 //----------------------------------------
 
-Block::Block(s16 x, s16 y, u8 maxBrokenLevel) : brokenLevel(0)
+Block::Block(s16 x, s16 y, u8 maxBrokenLevel) : brokenLevel(0), x(x), y(y), maxBrokenLevel(maxBrokenLevel)
 {
-    this->x = x;
-    this->y = y;
-    this->maxBrokenLevel = maxBrokenLevel;
 }
 
 void Block::drawBreaking(Camera camera)
@@ -254,18 +251,12 @@ NONSOLID_BLOCK_IMPL(CactusBlock, sprCactus, BID_CACTUS, 4)
 NONSOLID_BLOCK_IMPL(DeadBushBlock, sprDeadBush, BID_DEAD_BUSH, 1);
 NONSOLID_BLOCK_IMPL(LadderBlock, sprLadder, BID_LADDER, 2);
 
-DoorBlock::DoorBlock(s16 x, s16 y, s16 px, DoorType type) : Block(x, y, 7)
+DoorBlock::DoorBlock(s16 x, s16 y, s16 px, DoorType type) : Block(x, y, 7), open(true), facing(px > x), type(type)
 {
-    open = true;
-    facing = px > x;
-    this->type = type;
 }
 
-DoorBlock::DoorBlock(s16 x, s16 y, bool open, bool facing, DoorType type) : Block(x, y, 7)
+DoorBlock::DoorBlock(s16 x, s16 y, bool open, bool facing, DoorType type) : Block(x, y, 7), open(open), facing(facing), type(type)
 {
-    this->open = open;
-    this->facing = facing;
-    this->type = type;
 }
 
 void DoorBlock::draw(Camera camera)
@@ -351,14 +342,12 @@ TRAPDOOR_IMPL(Spruce, sprSpruceTrapdoor, BID_SPRUCE_TRAPDOOR)
 
 // non-generic implementations
 
-GrassBlock::GrassBlock(s16 x, s16 y) : Block(x, y, 14)
+GrassBlock::GrassBlock(s16 x, s16 y) : Block(x, y, 14), type(GrassType::Normal)
 {
-    type = GrassType::Normal;
 }
 
-GrassBlock::GrassBlock(s16 x, s16 y, GrassType type) : Block(x, y, 14)
+GrassBlock::GrassBlock(s16 x, s16 y, GrassType type) : Block(x, y, 14), type(type)
 {
-    this->type = type;
 }
 
 void GrassBlock::draw(Camera camera)
@@ -401,10 +390,8 @@ GrassType GrassBlock::getGrassType(void)
 
 //-----------------------------------------
 
-LeavesBlock::LeavesBlock(s16 x, s16 y, LeavesType type, bool natural) : Block(x, y, 5)
+LeavesBlock::LeavesBlock(s16 x, s16 y, LeavesType type, bool natural) : Block(x, y, 5), natural(natural), type(type)
 {
-    this->natural = natural;
-    this->type = type;
 }
 
 void LeavesBlock::draw(Camera camera)
@@ -449,7 +436,7 @@ bool LeavesBlock::isNatural(void)
 
 //-----------------------------------------
 
-FlowerBlock::FlowerBlock(s16 x, s16 y) : Block(x, y, 1)
+FlowerBlock::FlowerBlock(s16 x, s16 y) : Block(x, y, 1), type(FlowerType::Poppy)
 {
     switch (randomRange(1, 3))
     {
@@ -465,9 +452,8 @@ FlowerBlock::FlowerBlock(s16 x, s16 y) : Block(x, y, 1)
     }
 }
 
-FlowerBlock::FlowerBlock(s16 x, s16 y, FlowerType type) : Block(x, y, 1)
+FlowerBlock::FlowerBlock(s16 x, s16 y, FlowerType type) : Block(x, y, 1), type(type)
 {
-    this->type = type;
 }
 
 void FlowerBlock::draw(Camera camera)
@@ -607,10 +593,8 @@ void resetNextChestID(void)
 
 //----------------------------------------
 
-SignBlock::SignBlock(s16 x, s16 y, const std::string &text) : Block(x, y, 6)
+SignBlock::SignBlock(s16 x, s16 y, const std::string &text) : Block(x, y, 6), text(text), showText(false)
 {
-    this->text = text;
-    showText = false;
 }
 
 void SignBlock::draw(Camera camera)

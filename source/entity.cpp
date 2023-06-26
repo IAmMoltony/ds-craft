@@ -32,13 +32,8 @@ void Entity::unloadSounds(void)
     unloadsfx3(PIGSAY);
 }
 
-Entity::Entity(s16 x, s16 y) : health(1)
+Entity::Entity(s16 x, s16 y) : health(1), x(x), y(y), velX(0), velY(0), falline(true), jumping(true)
 {
-    this->x = x;
-    this->y = y;
-    velX = 0;
-    velY = 0;
-    falling = jumping = true;
 }
 
 s16 Entity::getX(void)
@@ -68,11 +63,10 @@ void Entity::afterDealDamage(void)
 
 //----------------------------------------
 
-PigEntity::PigEntity(s16 x, s16 y) : Entity(x, y), damageOverlayTimer(255), panicModeTimer(USHRT_MAX)
+// TODO why do pigs start by facing right? it shoud be random.
+PigEntity::PigEntity(s16 x, s16 y) :
+    Entity(x, y), damageOverlayTimer(255), panicModeTimer(USHRT_MAX), facing(Facing::Right), moving(true), health(4)
 {
-    facing = Facing::Right;
-    moving = true;
-    health = 4;
 }
 
 void PigEntity::draw(Camera camera)
@@ -257,10 +251,8 @@ void PigEntity::afterDealDamage(void)
 
 //----------------------------------------
 
-DropEntity::DropEntity(s16 x, s16 y, InventoryItemID itemid) : Entity(x, y)
+DropEntity::DropEntity(s16 x, s16 y, InventoryItemID itemid) : Entity(x, y), itemid(itemid), health(255)
 {
-    this->itemid = itemid;
-    health = 255;
 }
 
 void DropEntity::draw(Camera camera)
