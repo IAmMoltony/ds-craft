@@ -278,6 +278,8 @@ void Game::init(void)
                 font.print(10, 30, "There was an error initializing NitroFS. \n \nPlease make sure "
                                    "that it was set up correctly.");
                 break;
+            default:
+                break;
             }
 
             glEnd2D();

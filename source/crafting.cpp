@@ -212,7 +212,9 @@ std::string CraftingRecipe::getFullName(Language lang, Player *player)
 
     std::transform(recipe.begin(), recipe.end(), itemVec.begin(), std::back_inserter(itemVec),
                    [player, lang](InventoryItem item, const std::string &str)
-                   { return std::to_string(player->countItems(item.id)) + '/' +
+                   {
+                        (void)str; // trash the string
+                        return std::to_string(player->countItems(item.id)) + '/' +
                             std::to_string(item.amount) + ' ' +
                             std::string(getItemStr(lang, item.id)); });
 

@@ -118,11 +118,10 @@ endif
 #---------------------------------------------------------------------------------
 ARCH		:=	-mthumb -mthumb-interwork -march=armv5te -mtune=arm946e-s
 
-CFLAGS	:=	-g -Wall -Wextra -Wno-free-nonheap-object -Wno-unknown-pragmas -Wno-psabi\
-            -Wno-sign-compare -O2 -Os\
+CFLAGS	:=	-g -Wall -Wextra \
+                -O2 -Os\
  			-march=armv5te -mtune=arm946e-s \
-			$(ARCH) -I../include -Wno-switch -Wno-ignored-qualifiers -Wno-unused-function \
-			-Wno-unused-parameter\
+			$(ARCH) -I../include\
 			-fomit-frame-pointer\
 			-ffast-math
 
@@ -198,7 +197,7 @@ export OFILES := $(PNGFILES:.png=.o) $(BMPFILES:.bmp=.o) $(OFILES_BIN) $(OFILES_
 export HFILES := $(PNGFILES:.png=.h) $(BMPFILES:.bmp=.h) $(addsuffix .h,$(subst .,_,$(BINFILES)))
 
 export INCLUDE	:=	$(foreach dir,$(INCLUDES),-iquote $(CURDIR)/$(dir)) \
-					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
+					$(foreach dir,$(LIBDIRS),-isystem $(dir)/include) \
 					-I$(CURDIR)/$(BUILD) -Iinclude
 
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)

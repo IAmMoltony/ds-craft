@@ -220,6 +220,15 @@ std::string iidToString(InventoryItemID iid)
     case InventoryItemID::Sign:
         id = "sign";
         break;
+    case InventoryItemID::RedTulip:
+        id = "redtulip";
+        break;
+    case InventoryItemID::Chest:
+        id = "chest";
+        break;
+    case InventoryItemID::AnyPlanks:
+        id = "anyplanks";
+        break;
     }
     return id;
 }
@@ -231,6 +240,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
     case Language::English:
         switch (iid)
         {
+        case InventoryItemID::None:
+            return "";
         case InventoryItemID::Grass:
             return "Grass";
         case InventoryItemID::Dirt:
@@ -348,6 +359,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
     case Language::Russian:
         switch (iid)
         {
+        case InventoryItemID::None:
+            return "";
         case InventoryItemID::Grass:
             return "Tsbdb";
         case InventoryItemID::Dirt:
@@ -583,6 +596,8 @@ glImage *getItemImage(InventoryItemID item)
         return _sprStoneAxe;
     case InventoryItemID::Sign:
         return sprSign;
+    default:
+        break;
     }
 
     return _sprDummy;

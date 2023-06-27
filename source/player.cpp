@@ -1191,6 +1191,8 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                         bool canPlace = true; // can place block
                         switch (id)
                         {
+                        default:
+                            break;
                         case InventoryItemID::Grass:
                             blocks->emplace_back(new GrassBlock(snapToGrid(camera->x + aimX),
                                                                 snapToGrid(camera->y + aimY)));
@@ -2643,7 +2645,7 @@ void Player::updateCrafting(void)
     }
     else if (kdown & KEY_DOWN)
     {
-        if (craftingSelect + 14 <= _craftingRecipes.size() - 1)
+        if ((std::vector<CraftingRecipe>::size_type)(craftingSelect + 14) <= _craftingRecipes.size() - 1)
             craftingSelect += 14;
     }
     else if (kdown & KEY_UP)

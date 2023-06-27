@@ -298,7 +298,7 @@ static void _argParseDoor(const std::vector<std::string> &split, s16 &x, s16 &y,
 static void _argParseTrapdoor(const std::vector<std::string> &split, s16 &x, s16 &y, bool &open)
 {
     x = std::stoi(split[1]);
-    x = std::stoi(split[2]);
+    y = std::stoi(split[2]);
     open = split[3] == "1";
 }
 
