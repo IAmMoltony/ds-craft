@@ -1,6 +1,6 @@
 id 27
 count 6
 texid 26
-output birchslab
+output spruceslab
 RECIPE
-birchplanks 3
+spruceplanks 3
