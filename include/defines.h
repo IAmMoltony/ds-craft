@@ -55,7 +55,7 @@
 #define CLEAR_CONSOLE_ON_PLAY 0
 
 // whether show amount of polygons to console
-#define SHOW_POLYGON_RAM_COUNT 1
+#define SHOW_POLYGON_RAM_COUNT 0
 
 // scale stuff
 #define SCALE_NORMAL (1 << 12)
