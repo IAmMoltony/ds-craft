@@ -2516,6 +2516,9 @@ void Player::initCrafting(void)
     std::string line;
     while (std::getline(craftingOrder, line))
     {
+        if (line.find('\r') != std::string::npos)
+            line.pop_back();
+
         if (line.empty() || line[0] == '#')
             continue;
         if (!fsFileExists(std::string("nitro:/crafting/" + line + ".rcp").c_str()))

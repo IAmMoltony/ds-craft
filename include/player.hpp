@@ -13,6 +13,7 @@
 #include "animsprite.hpp"
 #include <array>
 #include <map>
+#include <algorithm>
 #include <math.h>
 #include <stdio.h>
 
