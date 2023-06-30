@@ -1,6 +1,8 @@
 {
     "files.associations": {
+        "*.h": "c",
         "*.rcp": "plaintext",
+        "*.asm": "nasm",
         "game.ver": "plaintext",
         "vector": "cpp",
         "array": "cpp",
@@ -54,7 +56,11 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "charconv": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "xstring": "cpp",
+        "xhash": "cpp",
+        "xtree": "cpp",
+        "xutility": "cpp"
     },
     "editor.formatOnSave": true,
     "files.eol": "\n",
