@@ -52,7 +52,6 @@ else
 GAME_SUBTITLE2 := Version $(VERSION_PREFIX)$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
 endif
 
-EMULATOR := E:/MelonDS/melonDS
 ifeq ($(CURDIR_BASENAME),build)
 SOUNDBANK := ../$(NITRODATA)/soundbank.bin
 else
@@ -217,6 +216,7 @@ clean:
 
 #---------------------------------------------------------------------------------
 run:
+	@if [ "$(EMULATOR)" == "" ]; then echo "Please specify the emulator: $(MAKE) run EMULATOR=/path/to/emulator"; exit 1; fi
 	$(SILENTMSG) run ...
 	$(SILENTCMD)$(EMULATOR) $(TARGET).nds
 
