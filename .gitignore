@@ -1,6 +1,5 @@
 # image stuff
-build/*.h
-build/*.s
+build/
 source/img/*.s
 gfx/*.h
 gfx/*.s
