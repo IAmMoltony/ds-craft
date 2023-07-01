@@ -554,7 +554,7 @@ void Player::drawSign(Font &font, Font &fontRu)
         break;
     case Language::Russian:
         fontRu.drawHeadingShadow("Tbcnkzmb");
-        fontRu.printCentered(0, SCREEN_WIDTH / 2 + 23, "\3Rtrn\3 knk \2:A : Ibmqpzku#"); // TODO fix this line
+        fontRu.printCentered(0, SCREEN_WIDTH / 2 + 23, "\3Rtrn\3 knk \2:A : Ibmqpzku#", font);
         break;
     }
     glSpritePartScale(sprPlanks, SCREEN_WIDTH / 2 - 75, SCREEN_HEIGHT / 2 - 30, 0, 0, 75, 30, SCALE_NORMAL * 2);
