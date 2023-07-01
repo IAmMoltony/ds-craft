@@ -13,11 +13,11 @@ DS-Craft is a Minecraft clone for Nintendo DS, written in C and C++.
 
 ### With command line
 
-If you just want to compile, run `make`. To make and then run, run `make build run EMULATOR=/path/to/emulator`. To recompile, run `make clean build` and if you want to recompile and run, run `make clean build run EMULATOR=/path/to/emulator`.
+If you just want to build, run `make`. To build and then run, run `make build run EMULATOR=/path/to/emulator`. To rebuild, run `make clean build` and if you want to rebuild and run, run `make clean build run EMULATOR=/path/to/emulator`.
 
 ### Using Code::Blocks (on Linux)
 
-To build, press the Build button on the top of the window. To run, press the Run button on the top of the window. To build and run, press the Build and Run button on the top of the window. To recompile, press the Rebuild button on top of the window.
+To build, press the Build button on the top of the window. To run, press the Run button on the top of the window. To build and run, press the Build and Run button on the top of the window. To rebuild, press the Rebuild button on top of the window.
 
 Note that Code::Blocks support is only supported on Linux.
 
