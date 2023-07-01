@@ -31,14 +31,14 @@ stone
 cobblestone_slab
 
 # coal block
-coalblock
+coal_block
 
 # iron stuff
 iron_ingot
 iron_ingot_from_block
 iron_ingot_from_nugget
 iron_nugget
-ironblock
+iron_block
 
 # food
 cooked_porkchop
