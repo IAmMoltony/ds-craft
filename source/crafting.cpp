@@ -3,6 +3,8 @@
 
 InventoryItemID strToIID(std::string &sid)
 {
+    // TODO ayo why is this function is in crafting???
+
     sid.erase(std::remove_if(sid.begin(), sid.end(), ::isspace), sid.end());
     if (sid == "none")
         return InventoryItemID::None;
@@ -96,14 +98,20 @@ InventoryItemID strToIID(std::string &sid)
         return InventoryItemID::WoodenPickaxe;
     else if (sid == "stonepickaxe")
         return InventoryItemID::StonePickaxe;
+    else if (sid == "ironpickaxe")
+        return InventoryItemID::IronPickaxe;
     else if (sid == "woodenshovel")
         return InventoryItemID::WoodenShovel;
     else if (sid == "stoneshovel")
         return InventoryItemID::StoneShovel;
+    else if (sid == "ironshovel")
+        return InventoryItemID::IronShovel;
     else if (sid == "woodenaxe")
         return InventoryItemID::WoodenAxe;
     else if (sid == "stoneaxe")
         return InventoryItemID::StoneAxe;
+    else if (sid == "ironaxe")
+        return InventoryItemID::IronAxe;
     else if (sid == "birchslab")
         return InventoryItemID::BirchSlab;
     else if (sid == "spruceslab")
@@ -185,14 +193,14 @@ void CraftingRecipe::construct(const char *recipeFile)
     }
 }
 
-CraftingRecipe::CraftingRecipe(const char *recipeFile) :
-    id(0), count(0), texid(0), output(InventoryItemID::None), fileName(), recipe()
+CraftingRecipe::CraftingRecipe(const char *recipeFile)
+    : id(0), count(0), texid(0), output(InventoryItemID::None), fileName(), recipe()
 {
     construct(recipeFile);
 }
 
-CraftingRecipe::CraftingRecipe(const std::string &recipeFile) :
-    id(0), count(0), texid(0), output(InventoryItemID::None), fileName(), recipe()
+CraftingRecipe::CraftingRecipe(const std::string &recipeFile)
+    : id(0), count(0), texid(0), output(InventoryItemID::None), fileName(), recipe()
 {
     construct(recipeFile.c_str());
 }
@@ -219,7 +227,7 @@ std::string CraftingRecipe::getFullName(Language lang, Player *player)
                             std::string(getItemStr(lang, item.id)); });
 
     // join with semicolon and space
-    const char *const delim = "; ";
+    const char *delim = "; ";
     std::ostringstream imploded;
     std::copy(itemVec.begin(), itemVec.end(),
               std::ostream_iterator<std::string>(imploded, delim));
