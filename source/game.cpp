@@ -1492,6 +1492,7 @@ void Game::update(void)
                         entities.emplace_back(new DropEntity(entity->getX(), entity->getY(), InventoryItemID::RawPorkchop));
                         entities.erase(entities.begin() + i);
                     }
+                    // TODO why is this here???????????? add function that triggers when entity die
                 }
             }
 
