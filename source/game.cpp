@@ -1508,13 +1508,18 @@ void Game::update(void)
             // sort blocks when placed block
             Player::UpdateResult playerUpdateResult =
                 player.update(&camera, &blocks, &entities, &blockParticles, frameCounter);
-            if (playerUpdateResult == Player::UpdateResult::BlockPlaced)
-                std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
-            else if (playerUpdateResult == Player::UpdateResult::BlockDestroyed)
+            switch (playerUpdateResult)
+            {
+            case Player::UpdateResult::BlockPlaced:
+                std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort blocks
+                break;
+            case Player::UpdateResult::BlockDestroyed:
                 // make drop entities drop
                 for (auto &entity : entities)
                     if (entity->id() == "drop")
                         entity->falling = true;
+                break;
+            }
 
             bool changedLocation = false;
             s16 oldLocation = currentLocation;
