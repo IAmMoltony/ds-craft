@@ -54,10 +54,10 @@ bool Entity::dead(void)
 void Entity::damage(u8 amount)
 {
     health -= amount;
-    afterDealDamage();
+    onDealDamage();
 }
 
-void Entity::afterDealDamage(void)
+void Entity::onDealDamage(void)
 {
 }
 
@@ -248,7 +248,7 @@ std::string PigEntity::id(void)
     return "pig";
 }
 
-void PigEntity::afterDealDamage(void)
+void PigEntity::onDealDamage(void)
 {
     damageOverlayTimer = 0;
     panicModeTimer = 0;

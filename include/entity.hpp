@@ -36,7 +36,7 @@ public:
     virtual Rect getRectRight(void) = 0;
     virtual Rect getRect(void) = 0;
     virtual std::string id(void) = 0;
-    virtual void afterDealDamage(void);
+    virtual void onDealDamage(void);
     virtual void onDeath(EntityList &entities);
 
     s16 getX(void);
@@ -63,7 +63,7 @@ public:
     Rect getRectRight(void) override;
     Rect getRect(void) override;
     std::string id(void) override;
-    void afterDealDamage(void) override;
+    void onDealDamage(void) override;
     void onDeath(EntityList &entities) override;
 };
 
