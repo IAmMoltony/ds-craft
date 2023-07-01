@@ -1,8 +1,5 @@
 # image stuff
 build/
-source/img/*.s
-gfx/*.h
-gfx/*.s
 
 # build files
 *.o
@@ -17,13 +14,10 @@ mcsnd/
 # releases
 releases/
 
-# orignal textures zip
-mctex.zip
-
 # game binaries
 bin/
 
-# devktop.ini
+# desktop.ini
 desktop.ini
 
 # melonDS config file
