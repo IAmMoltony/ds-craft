@@ -63,6 +63,7 @@ void Entity::onDealDamage(void)
 
 void Entity::onDeath(EntityList &entities)
 {
+    (void)entities; // trash entity list
 }
 
 //----------------------------------------
