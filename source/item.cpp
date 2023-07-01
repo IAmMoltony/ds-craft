@@ -2,19 +2,35 @@
 #include "block.hpp"
 
 // item images
+
 static glImage _sprStick[1];
 static glImage _sprCoal[1];
 static glImage _sprIronIngot[1];
 static glImage _sprIronNugget[1];
+
+// food tems
+
 static glImage _sprRawPorkchop[1];
 static glImage _sprCookedPorkchop[1];
 static glImage _sprApple[1];
+
+// pickaxes
+
 static glImage _sprWoodenPickaxe[1];
 static glImage _sprStonePickaxe[1];
+static glImage _sprIronPickaxe[1];
+
+// shovels
+
 static glImage _sprWoodenShovel[1];
 static glImage _sprStoneShovel[1];
+static glImage _sprIronShovel[1];
+
+// axes
+
 static glImage _sprWoodenAxe[1];
 static glImage _sprStoneAxe[1];
+static glImage _sprIronAxe[1];
 
 // dummy
 static glImage _sprDummy[1];
@@ -25,15 +41,23 @@ void loadItemTextures(void)
     loadImageAlpha(_sprCoal, 16, 16, coalPal, coalBitmap);
     loadImageAlpha(_sprIronIngot, 16, 16, iron_ingotPal, iron_ingotBitmap);
     loadImageAlpha(_sprIronNugget, 16, 16, iron_nuggetPal, iron_nuggetBitmap);
+
     loadImageAlpha(_sprRawPorkchop, 16, 16, porkchopPal, porkchopBitmap);
     loadImageAlpha(_sprCookedPorkchop, 16, 16, cooked_porkchopPal, cooked_porkchopBitmap);
     loadImageAlpha(_sprApple, 16, 16, applePal, appleBitmap);
+
     loadImageAlpha(_sprWoodenPickaxe, 16, 16, wooden_pickaxePal, wooden_pickaxeBitmap);
     loadImageAlpha(_sprStonePickaxe, 16, 16, stone_pickaxePal, stone_pickaxeBitmap);
+    loadImageAlpha(_sprIronPickaxe, 16, 16, iron_pickaxePal, iron_pickaxeBitmap);
+
     loadImageAlpha(_sprWoodenShovel, 16, 16, wooden_shovelPal, wooden_shovelBitmap);
     loadImageAlpha(_sprStoneShovel, 16, 16, stone_shovelPal, stone_shovelBitmap);
+    loadImageAlpha(_sprIronShovel, 16, 16, iron_shovelPal, iron_shovelBitmap);
+
     loadImageAlpha(_sprWoodenAxe, 16, 16, wooden_axePal, wooden_axeBitmap);
     loadImageAlpha(_sprStoneAxe, 16, 16, stone_axePal, stone_axeBitmap);
+    loadImageAlpha(_sprIronAxe, 16, 16, iron_axePal, iron_axeBitmap);
+
     loadImage(_sprDummy, 16, 16, dummyBitmap);
 }
 
@@ -43,13 +67,21 @@ void unloadItemTextures(void)
     unloadImage(_sprCoal);
     unloadImage(_sprIronIngot);
     unloadImage(_sprIronNugget);
+
     unloadImage(_sprRawPorkchop);
     unloadImage(_sprCookedPorkchop);
     unloadImage(_sprApple);
+
     unloadImage(_sprWoodenPickaxe);
     unloadImage(_sprStonePickaxe);
+
+    unloadImage(_sprWoodenShovel);
+    unloadImage(_sprStoneShovel);
+    unloadImage(_sprIronShovel);
+
     unloadImage(_sprWoodenAxe);
     unloadImage(_sprStoneAxe);
+
     unloadImage(_sprDummy);
 }
 

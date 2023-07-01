@@ -67,6 +67,9 @@ enum class InventoryItemID
     IronBlock,
     IronIngot,
     IronNugget,
+    IronPickaxe,
+    IronShovel,
+    IronAxe,
 };
 
 struct InventoryItem
