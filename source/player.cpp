@@ -257,7 +257,7 @@ bool isSlabItem(InventoryItemID id)
 
 Player::Player() : x(0), y(0), velX(0), velY(0), falling(true), jumping(false), fullInventory(false), inventoryCrafting(false),
                    chestOpen(false), sneaking(false), facing(Facing::Right), spawnX(0), spawnY(0), aimX(0), aimY(0),
-                   inventorySelect(0), inventoryFullSelect(0), inventoryMoveSelect(20), craftingSelect(0), health(9), airY(0),
+                   hotbarSelect(0), inventorySelect(0), inventoryMoveSelect(20), craftingSelect(0), health(9), airY(0),
                    chestSelect(0), chestMoveSelect(40), normalSpriteFPI(0), spawnImmunity(SPAWN_IMMUNITY),
                    bodySprite(AnimatedSprite(5, AnimatedSpriteMode::ReverseLoop,
                                              {_sprPlayerBody[0], _sprPlayerBody[1], _sprPlayerBody[2]})),
@@ -428,17 +428,17 @@ void Player::drawBody(const Camera &camera)
                        (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), _sprPlayerHead);
 
     // draw item in hand
-    if (inventory[inventorySelect].id != InventoryItemID::None)
+    if (inventory[hotbarSelect].id != InventoryItemID::None)
     {
         int xx = x - camera.x - (facing == Facing::Left ? 3 : -6);
         int yy = y - camera.y + 17;
-        if (isToolItem(inventory[inventorySelect].id))
+        if (isToolItem(inventory[hotbarSelect].id))
         {
             yy -= 5;
             xx += (facing == Facing::Left ? 1 : -2);
         }
         GL_FLIP_MODE flip = (facing == Facing::Left ? GL_FLIP_H : GL_FLIP_NONE);
-        switch (inventory[inventorySelect].id)
+        switch (inventory[hotbarSelect].id)
         {
         // some special cases
         case InventoryItemID::Leaves:
@@ -482,7 +482,7 @@ void Player::drawBody(const Camera &camera)
             break;
         // default
         default:
-            glSpriteScale(xx, yy, HALF_SCALE, flip, getItemImage(inventory[inventorySelect].id));
+            glSpriteScale(xx, yy, HALF_SCALE, flip, getItemImage(inventory[hotbarSelect].id));
             break;
         }
     }
@@ -507,16 +507,16 @@ void Player::drawInventory(Font &font, Font &fontRu)
         drawCrafting(font, fontRu);
     else
     {
-        _drawInventory(inventory, 20, font, inventoryFullSelect, inventoryMoveSelect);
+        _drawInventory(inventory, 20, font, inventorySelect, inventoryMoveSelect);
 
         switch (Game::instance->lang)
         {
         case Language::English:
-            font.printShadow(110, 46, getItemStr(Language::English, inventory[inventoryFullSelect].id));
+            font.printShadow(110, 46, getItemStr(Language::English, inventory[inventorySelect].id));
             font.printShadow(16, 46 + 48 + 23, "Press L to see crafting menu");
             break;
         case Language::Russian:
-            fontRu.printShadow(110, 46, getItemStr(Language::Russian, inventory[inventoryFullSelect].id));
+            fontRu.printShadow(110, 46, getItemStr(Language::Russian, inventory[inventorySelect].id));
             fontRu.printShadow(16, 62 + 28 + 23, "Obiokug \3L \3zuqc\" rgsgluk d ogp% tqjfbpk&", &font);
             break;
         }
@@ -573,7 +573,7 @@ void Player::drawHUD(const Camera &camera, Font &font)
     // draw the aim as user's color in the ds settings-colored square or a half-transparent
     // version of the block
 
-    InventoryItemID currid = inventory[inventorySelect].id;
+    InventoryItemID currid = inventory[hotbarSelect].id;
 
     int xx = getRectAim(camera).x - camera.x;
     int yy = getRectAim(camera).y - camera.y;
@@ -644,7 +644,7 @@ void Player::drawHUD(const Camera &camera, Font &font)
     {
         // draw the slot
         glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)), SCREEN_HEIGHT - 16, GL_FLIP_NONE,
-                 (i == inventorySelect ? _sprInventorySlotSelect : _sprInventorySlot));
+                 (i == hotbarSelect ? _sprInventorySlotSelect : _sprInventorySlot));
 
         // draw the item if it exists
         if (inventory[i].amount > 0 && inventory[i].id != InventoryItemID::None)
@@ -797,7 +797,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             // when l is pressed, open crafting (or close)
             inventoryCrafting = !inventoryCrafting;
             craftingSelect = 0;
-            inventoryFullSelect = 0;
+            inventorySelect = 0;
             mmEffectEx(&Game::instance->sndClick);
         }
 
@@ -817,33 +817,33 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             // and if we are then dont move
             if (left)
             {
-                if (inventoryFullSelect - 1 >= 0)
+                if (inventorySelect - 1 >= 0)
                 {
-                    if (inventoryFullSelect - 1 != 4 &&
-                        inventoryFullSelect - 1 != 9 &&
-                        inventoryFullSelect - 1 != 14)
-                        --inventoryFullSelect;
+                    if (inventorySelect - 1 != 4 &&
+                        inventorySelect - 1 != 9 &&
+                        inventorySelect - 1 != 14)
+                        --inventorySelect;
                 }
             }
             else if (right)
             {
-                if (inventoryFullSelect + 1 < 20)
+                if (inventorySelect + 1 < 20)
                 {
-                    if (inventoryFullSelect + 1 != 5 &&
-                        inventoryFullSelect + 1 != 10 &&
-                        inventoryFullSelect + 1 != 15)
-                        ++inventoryFullSelect;
+                    if (inventorySelect + 1 != 5 &&
+                        inventorySelect + 1 != 10 &&
+                        inventorySelect + 1 != 15)
+                        ++inventorySelect;
                 }
             }
             else if (up)
             {
-                if (inventoryFullSelect - 5 >= 0)
-                    inventoryFullSelect -= 5;
+                if (inventorySelect - 5 >= 0)
+                    inventorySelect -= 5;
             }
             else if (down)
             {
-                if (inventoryFullSelect + 5 < 20)
-                    inventoryFullSelect += 5;
+                if (inventorySelect + 5 < 20)
+                    inventorySelect += 5;
             }
 
             if (kdown & KEY_A)
@@ -852,19 +852,19 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 if (inventoryMoveSelect == 20)
                     // if nothing is move-selected then
                     // move-select current selected slot
-                    inventoryMoveSelect = inventoryFullSelect;
+                    inventoryMoveSelect = inventorySelect;
                 else
                 {
                     // move item (or stack)
 
                     // get the id and amount
                     InventoryItemID msid = inventory[inventoryMoveSelect].id;
-                    InventoryItemID fsid = inventory[inventoryFullSelect].id;
+                    InventoryItemID fsid = inventory[inventorySelect].id;
                     u8 msa = inventory[inventoryMoveSelect].amount;
-                    u8 fsa = inventory[inventoryFullSelect].amount;
+                    u8 fsa = inventory[inventorySelect].amount;
 
                     // if they arent the same then move/stack
-                    if (inventoryFullSelect != inventoryMoveSelect)
+                    if (inventorySelect != inventoryMoveSelect)
                     {
                         // stacking (same id)
                         if (msid == fsid)
@@ -875,13 +875,13 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                 u8 sum = fsa + msa;
                                 u8 fsna = 64;
                                 u8 msna = sum - msa;
-                                inventory[inventoryFullSelect] = {fsid, fsna};
+                                inventory[inventorySelect] = {fsid, fsna};
                                 inventory[inventoryMoveSelect] = {msid, msna};
                             }
                             // stacking <= 64 items
                             else
                             {
-                                inventory[inventoryFullSelect] = {fsid, (u8)(fsa + msa)};
+                                inventory[inventorySelect] = {fsid, (u8)(fsa + msa)};
                                 inventory[inventoryMoveSelect] = NULL_ITEM;
                             }
                         }
@@ -889,7 +889,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                         else
                         {
                             inventory[inventoryMoveSelect] = {fsid, fsa};
-                            inventory[inventoryFullSelect] = {msid, msa};
+                            inventory[inventorySelect] = {msid, msa};
                         }
                     }
                     // move-unselect (lol)
@@ -1080,8 +1080,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 down & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_ATTACK) &&
                 entity->id().rfind("drop", 0) != 0)
             {
-                // TODO rename inventorySelect to hotbarSelect
-                switch (inventory[inventorySelect].id)
+                switch (inventory[hotbarSelect].id)
                 {
                 case InventoryItemID::WoodenSword:
                     entity->damage(entity->health % 2 + 1);
@@ -1118,7 +1117,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             // but if we are holding an item that we can use
             // then use it
 
-            InventoryItemID itemid = inventory[inventorySelect].id;
+            InventoryItemID itemid = inventory[hotbarSelect].id;
             switch (itemid)
             {
             case InventoryItemID::RawPorkchop:
@@ -1180,7 +1179,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                                  Rect(snapToGrid(camera->x + aimX),
                                                       snapToGrid(camera->y + aimY), 16, 16));
 
-                InventoryItemID id = inventory[inventorySelect].id;
+                InventoryItemID id = inventory[hotbarSelect].id;
                 // nonsolid blocks can be placed inside player
                 if (isNonSolidBlockItem(id))
                     shouldPlaceBlock = true;
@@ -1224,7 +1223,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 {
                     // place a block or interact
                     // some blocks can only be placed on certain other blocks
-                    if (inventory[inventorySelect].amount > 0 &&
+                    if (inventory[hotbarSelect].amount > 0 &&
                         !isItem(id))
                     {
                         bool canPlace = true; // can place block
@@ -1534,9 +1533,9 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                         }
                         if (canPlace)
                         {
-                            --inventory[inventorySelect].amount;
-                            if (inventory[inventorySelect].amount == 0)
-                                inventory[inventorySelect].id = InventoryItemID::None;
+                            --inventory[hotbarSelect].amount;
+                            if (inventory[hotbarSelect].amount == 0)
+                                inventory[hotbarSelect].id = InventoryItemID::None;
                             statsSetEntry("blocksplaced", statsGetEntry("blocksplaced") + 1);
                         }
                         ret = UpdateResult::BlockPlaced;
@@ -1548,9 +1547,9 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
         if (down & KEY_R)
         {
             // when r pressed go to next hotbar slot
-            ++inventorySelect;
-            if (inventorySelect > 4)
-                inventorySelect = 0;
+            ++hotbarSelect;
+            if (hotbarSelect > 4)
+                hotbarSelect = 0;
         }
         if (down & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_OPEN_INVENTORY))
         {
@@ -1621,11 +1620,11 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     case BID_IRON_ORE:
                     case BID_IRON_BLOCK:
                     case BID_SANDSTONE:
-                        if (inventory[inventorySelect].id == InventoryItemID::WoodenPickaxe)
+                        if (inventory[hotbarSelect].id == InventoryItemID::WoodenPickaxe)
                             block->hit(block->brokenLevel % 2 + 1);
-                        else if (inventory[inventorySelect].id == InventoryItemID::StonePickaxe)
+                        else if (inventory[hotbarSelect].id == InventoryItemID::StonePickaxe)
                             block->hit(3);
-                        else if (inventory[inventorySelect].id == InventoryItemID::IronPickaxe)
+                        else if (inventory[hotbarSelect].id == InventoryItemID::IronPickaxe)
                             block->hit(5);
                         else
                             block->hit();
@@ -1634,11 +1633,11 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     case BID_SNOWY_GRASS:
                     case BID_DIRT:
                     case BID_SAND:
-                        if (inventory[inventorySelect].id == InventoryItemID::WoodenShovel)
+                        if (inventory[hotbarSelect].id == InventoryItemID::WoodenShovel)
                             block->hit(block->brokenLevel % 2 + 2);
-                        else if (inventory[inventorySelect].id == InventoryItemID::StoneShovel)
+                        else if (inventory[hotbarSelect].id == InventoryItemID::StoneShovel)
                             block->hit(4);
-                        else if (inventory[inventorySelect].id == InventoryItemID::IronShovel)
+                        else if (inventory[hotbarSelect].id == InventoryItemID::IronShovel)
                             block->hit(6);
                         else
                             block->hit(2);
@@ -1659,11 +1658,11 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     case BID_BIRCH_TRAPDOOR:
                     case BID_SPRUCE_TRAPDOOR:
                     case BID_SIGN:
-                        if (inventory[inventorySelect].id == InventoryItemID::WoodenAxe)
+                        if (inventory[hotbarSelect].id == InventoryItemID::WoodenAxe)
                             block->hit(block->brokenLevel % 2 + 1);
-                        else if (inventory[inventorySelect].id == InventoryItemID::StoneAxe)
+                        else if (inventory[hotbarSelect].id == InventoryItemID::StoneAxe)
                             block->hit(2);
-                        else if (inventory[inventorySelect].id == InventoryItemID::IronAxe)
+                        else if (inventory[hotbarSelect].id == InventoryItemID::IronAxe)
                             block->hit(4);
                         else
                             block->hit();

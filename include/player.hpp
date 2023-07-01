@@ -26,7 +26,7 @@ class Player
 private:
     s16 x, y, aimX, aimY, spawnX, spawnY, health;
     u16 airY;
-    u8 inventorySelect, inventoryFullSelect, inventoryMoveSelect, craftingSelect, chestSelect,
+    u8 hotbarSelect, inventorySelect, inventoryMoveSelect, craftingSelect, chestSelect,
         chestMoveSelect, normalSpriteFPI, spawnImmunity;
     float velX, velY;
     bool falling, jumping, fullInventory, inventoryCrafting, chestOpen, sneaking;
