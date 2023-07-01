@@ -259,7 +259,6 @@ Player::Player() : x(0), y(0), velX(0), velY(0), falling(true), jumping(false), 
 {
     normalSpriteFPI = bodySprite.getFramesPerImage();
 
-    // TODO make NULLITEM a constexpr and not a define
     // TODO move amount of items in inventory into a constexpr
     // initialize inventory with null items
     for (u8 i = 0; i < 20; ++i)

@@ -78,6 +78,8 @@ struct InventoryItem
     u8 amount;
 };
 
+static inline constexpr InventoryItem NULL_ITEM = {InventoryItemID::None, 0};
+
 void loadItemTextures(void);
 void unloadItemTextures(void);
 std::string iidToString(InventoryItemID iid);

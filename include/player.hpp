@@ -17,10 +17,6 @@
 #include <math.h>
 #include <stdio.h>
 
-#define NULLITEM                 \
-    {                            \
-        InventoryItemID::None, 0 \
-    }
 #define PLAYER_WIDTH 12
 #define PLAYER_HEIGHT 32
 #define SPAWN_IMMUNITY 180
