@@ -2587,8 +2587,6 @@ void Player::drawCrafting(Font &fontSmall, Font &fontSmallRu)
         default:
             glSpriteScale(slotX + 4, slotY + 4, HALF_SCALE, GL_FLIP_NONE, getItemImage(recipe.getOutput()));
             break;
-
-        // special cases
         case InventoryItemID::Door:
             glSpriteScale(slotX + 4, slotY + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
             break;
