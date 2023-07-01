@@ -1510,6 +1510,11 @@ void Game::update(void)
                 player.update(&camera, &blocks, &entities, &blockParticles, frameCounter);
             if (playerUpdateResult == Player::UpdateResult::BlockPlaced)
                 std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
+            else if (playerUpdateResult == Player::UpdateResult::BlockDestroyed)
+                // make drop entities drop
+                for (auto &entity : entities)
+                    if (entity->id() == "drop")
+                        entity->falling = true;
 
             bool changedLocation = false;
             s16 oldLocation = currentLocation;
