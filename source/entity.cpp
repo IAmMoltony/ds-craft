@@ -66,7 +66,7 @@ void Entity::afterDealDamage(void)
 PigEntity::PigEntity(s16 x, s16 y)
     : Entity(x, y), damageOverlayTimer(255), panicModeTimer(USHRT_MAX), facing(Facing::Right), moving(true)
 {
-    health = 4;
+    health = 7;
     facing = (randomGenerate() % 2 == 0) ? Facing::Right : Facing::Left;
 }
 
