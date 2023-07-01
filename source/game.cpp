@@ -1516,6 +1516,8 @@ void Game::update(void)
                     if (entity->id() == "drop")
                         entity->falling = true;
                 break;
+            default:
+                break;
             }
 
             bool changedLocation = false;
