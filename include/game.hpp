@@ -155,6 +155,7 @@ private:
     void loadLocation(s16 oldLocation);
     void cameraFollowPlayer(bool smooth);
     void drawMenuBackground(void);
+    void drawStatsScreen(void);
 
 public:
     static Game *instance;

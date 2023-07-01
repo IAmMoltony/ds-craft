@@ -568,55 +568,11 @@ void Game::draw(void)
 
         if (paused)
         {
-            drawMenuBackground();
-
             if (showStats)
-            {
-                glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprBButton);
-                switch (lang)
-                {
-                case Language::English:
-                    font.drawHeading("Statistics");
-
-                    font.print(15, SCREEN_HEIGHT - 28, "Back");
-                    break;
-                case Language::Russian:
-                    fontRu.drawHeading("Subuktukmb");
-
-                    fontRu.print(15, SCREEN_HEIGHT - 28, "Objbf");
-                    break;
-                }
-
-                std::stringstream timePlayedStream;
-                timePlayedStream << "Time played: ";
-                int timePlayed = statsGetEntry("timeplayed");
-                if (timePlayed >= 86400)
-                {
-                    float days = (float)timePlayed / 86400.0f;
-                    float hours = (float)timePlayed / 3600.0f;
-                    timePlayedStream << std::fixed << std::setprecision(2) << days << " days ("
-                                     << std::fixed << std::setprecision(2) << hours << " hours)";
-                }
-                else if (timePlayed >= 3600)
-                {
-                    float hours = (float)timePlayed / 3600.0f;
-                    timePlayedStream << std::fixed << std::setprecision(2) << hours << " hours";
-                }
-                else if (timePlayed >= 60)
-                {
-                    float minutes = (float)timePlayed / 60.0f;
-                    timePlayedStream << std::fixed << std::setprecision(2) << minutes << " minutes";
-                }
-                else
-                    timePlayedStream << timePlayed << " seconds";
-
-                font.print(10, 47, timePlayedStream.str());
-                font.print(10, 58, std::string("Blocks placed: " + std::to_string(statsGetEntry("blocksplaced"))));
-                font.print(10, 69, std::string("Blocks broken: " + std::to_string(statsGetEntry("blocksbroken"))));
-                font.print(10, 80, std::string("Times jumped: " + std::to_string(statsGetEntry("timesjumped"))));
-            }
+                drawStatsScreen();
             else
             {
+                drawMenuBackground();
                 switch (lang)
                 {
                 case Language::English:
@@ -2404,6 +2360,53 @@ void Game::drawMenuBackground(void)
     drawMovingBackground();
     glSpritePartScale(sprDirt, 0, 0, 0, 0, SCREEN_WIDTH, 16, SCALE_NORMAL * 2);
     glSpritePartScale(sprDirt, 0, SCREEN_HEIGHT - 32, 0, 0, SCREEN_WIDTH, 16, SCALE_NORMAL * 2);
+}
+
+void Game::drawStatsScreen(void)
+{
+    drawMenuBackground();
+    glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprBButton);
+    switch (lang)
+    {
+    case Language::English:
+        font.drawHeading("Statistics");
+
+        font.print(15, SCREEN_HEIGHT - 28, "Back");
+        break;
+    case Language::Russian:
+        fontRu.drawHeading("Subuktukmb");
+
+        fontRu.print(15, SCREEN_HEIGHT - 28, "Objbf");
+        break;
+    }
+
+    std::stringstream timePlayedStream;
+    timePlayedStream << "Time played: ";
+    int timePlayed = statsGetEntry("timeplayed");
+    if (timePlayed >= 86400)
+    {
+        float days = (float)timePlayed / 86400.0f;
+        float hours = (float)timePlayed / 3600.0f;
+        timePlayedStream << std::fixed << std::setprecision(2) << days << " days ("
+                         << std::fixed << std::setprecision(2) << hours << " hours)";
+    }
+    else if (timePlayed >= 3600)
+    {
+        float hours = (float)timePlayed / 3600.0f;
+        timePlayedStream << std::fixed << std::setprecision(2) << hours << " hours";
+    }
+    else if (timePlayed >= 60)
+    {
+        float minutes = (float)timePlayed / 60.0f;
+        timePlayedStream << std::fixed << std::setprecision(2) << minutes << " minutes";
+    }
+    else
+        timePlayedStream << timePlayed << " seconds";
+
+    font.print(10, 47, timePlayedStream.str());
+    font.print(10, 58, std::string("Blocks placed: " + std::to_string(statsGetEntry("blocksplaced"))));
+    font.print(10, 69, std::string("Blocks broken: " + std::to_string(statsGetEntry("blocksbroken"))));
+    font.print(10, 80, std::string("Times jumped: " + std::to_string(statsGetEntry("timesjumped"))));
 }
 
 u32 Game::ControlsManager::buttons[Game::ControlsManager::NUM_BUTTONS];
