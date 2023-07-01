@@ -83,3 +83,4 @@ void unloadItemTextures(void);
 std::string iidToString(InventoryItemID iid);
 const char *getItemStr(Language lang, InventoryItemID iid);
 glImage *getItemImage(InventoryItemID item);
+InventoryItemID strToIID(std::string &sid);
