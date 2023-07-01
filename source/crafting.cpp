@@ -171,15 +171,9 @@ void CraftingRecipe::construct(const char *recipeFile)
         {
             std::string key = split[0];
 
-            // id
-            if (key == "id")
-                id = (u8)std::stoi(split[1]);
             // count
-            else if (key == "count")
+            if (key == "count")
                 count = (u8)std::stoi(split[1]);
-            // texture id
-            else if (key == "texid")
-                texid = (s8)std::stoi(split[1]);
             // output
             else if (key == "output")
                 output = strToIID(split[1]);
@@ -194,13 +188,13 @@ void CraftingRecipe::construct(const char *recipeFile)
 }
 
 CraftingRecipe::CraftingRecipe(const char *recipeFile)
-    : id(0), count(0), texid(0), output(InventoryItemID::None), fileName(), recipe()
+    : count(0), output(InventoryItemID::None), fileName(), recipe()
 {
     construct(recipeFile);
 }
 
 CraftingRecipe::CraftingRecipe(const std::string &recipeFile)
-    : id(0), count(0), texid(0), output(InventoryItemID::None), fileName(), recipe()
+    : count(0), output(InventoryItemID::None), fileName(), recipe()
 {
     construct(recipeFile.c_str());
 }
@@ -243,16 +237,6 @@ std::string CraftingRecipe::getFullName(Language lang, Player *player)
 std::string CraftingRecipe::getFileName(void)
 {
     return fileName;
-}
-
-u8 CraftingRecipe::getID(void) const
-{
-    return id;
-}
-
-s8 CraftingRecipe::getTexID(void)
-{
-    return texid;
 }
 
 u8 CraftingRecipe::getCount(void)

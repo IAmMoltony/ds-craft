@@ -2582,39 +2582,32 @@ void Player::drawCrafting(Font &fontSmall, Font &fontSmallRu)
                  craftingSelect == i ? _sprInventorySlotSelect : _sprInventorySlot);
         glColor(RGB15(31, 31, 31));
 
-        switch (recipe.getTexID())
+        switch (recipe.getOutput())
         {
         default:
             glSpriteScale(slotX + 4, slotY + 4, HALF_SCALE, GL_FLIP_NONE, getItemImage(recipe.getOutput()));
             break;
 
         // special cases
-        case 2:
-            // door
+        case InventoryItemID::Door:
             glSpriteScale(slotX + 4, slotY + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
             break;
-        case 4:
-            // birch door
+        case InventoryItemID::BirchDoor:
             glSpriteScale(slotX + 4, slotY + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
             break;
-        case 25:
-            // spruce door
+        case InventoryItemID::SpruceDoor:
             glSpriteScale(slotX + 4, slotY + 4, (1 << 12) / 4, GL_FLIP_NONE, sprSpruceDoor);
             break;
-        case 14:
-            // oak slab
+        case InventoryItemID::OakSlab:
             glSpritePartScale(sprPlanks, slotX + 4, slotY + 4, 0, 0, 16, 8, HALF_SCALE);
             break;
-        case 20:
-            // birch slab
+        case InventoryItemID::BirchSlab:
             glSpritePartScale(sprBirchPlanks, slotX + 4, slotY + 4, 0, 0, 16, 8, HALF_SCALE);
             break;
-        case 26:
-            // spruce slab
+        case InventoryItemID::SpruceSlab:
             glSpritePartScale(sprSprucePlanks, slotX + 4, slotY + 4, 0, 0, 16, 8, HALF_SCALE);
             break;
-        case 15:
-            // cobblestone slab
+        case InventoryItemID::CobblestoneSlab:
             glSpritePartScale(sprCobblestone, slotX + 4, slotY + 4, 0, 0, 16, 8, HALF_SCALE);
             break;
         }

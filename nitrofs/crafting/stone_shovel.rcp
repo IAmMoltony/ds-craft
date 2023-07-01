@@ -1,6 +1,4 @@
-id 20
 count 1
-texid 19
 output stoneshovel
 RECIPE
 cobblestone 1

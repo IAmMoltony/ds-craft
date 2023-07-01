@@ -11,8 +11,7 @@ InventoryItemID strToIID(std::string &sid); // why is this here?
 class CraftingRecipe
 {
 private:
-    u8 id, count;
-    s8 texid;
+    u8 count;
     InventoryItemID output;
     std::string fileName;
     std::vector<InventoryItem> recipe;
@@ -27,8 +26,6 @@ public:
 
     std::string getFullName(Language lang, Player *player);
     std::string getFileName(void);
-    u8 getID(void) const;
-    s8 getTexID(void);
     u8 getCount(void);
     InventoryItemID getOutput(void);
     std::vector<InventoryItem> *getRecipe(void);
