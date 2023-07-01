@@ -12,6 +12,10 @@ enum class Facing
     Right,
 };
 
+class Entity;
+
+typedef std::vector<std::unique_ptr<Entity>> EntityList;
+
 class Entity
 {
 public:
@@ -85,5 +89,3 @@ public:
 
     InventoryItemID getItemID(void);
 };
-
-typedef std::vector<std::unique_ptr<Entity>> EntityList;
