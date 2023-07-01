@@ -237,17 +237,26 @@ std::string iidToString(InventoryItemID iid)
     case InventoryItemID::StonePickaxe:
         id = "stonepickaxe";
         break;
+    case InventoryItemID::IronPickaxe:
+        id = "ironpickaxe";
+        break;
     case InventoryItemID::WoodenShovel:
         id = "woodenshovel";
         break;
     case InventoryItemID::StoneShovel:
         id = "stoneshovel";
         break;
+    case InventoryItemID::IronShovel:
+        id = "ironshovel";
+        break;
     case InventoryItemID::WoodenAxe:
         id = "woodenaxe";
         break;
     case InventoryItemID::StoneAxe:
         id = "stoneaxe";
+        break;
+    case InventoryItemID::IronAxe:
+        id = "ironaxe";
         break;
     case InventoryItemID::Sign:
         id = "sign";
@@ -374,14 +383,20 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Wooden Pickaxe";
         case InventoryItemID::StonePickaxe:
             return "Stone Pickaxe";
+        case InventoryItemID::IronPickaxe:
+            return "Iron Pickaxe";
         case InventoryItemID::WoodenShovel:
             return "Wooden Shovel";
         case InventoryItemID::StoneShovel:
             return "Stone Shovel";
+        case InventoryItemID::IronShovel:
+            return "Iron Shovel";
         case InventoryItemID::WoodenAxe:
             return "Wooden Axe";
         case InventoryItemID::StoneAxe:
             return "Stone Axe";
+        case InventoryItemID::IronAxe:
+            return "Iron Axe";
         case InventoryItemID::Sign:
             return "Sign";
         default:
@@ -495,14 +510,20 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Egsgd&ppb& mksmb";
         case InventoryItemID::StonePickaxe:
             return "Lbogppb& mksmb";
+        case InventoryItemID::IronPickaxe:
+            return "Hgngjpb& mksmb";
         case InventoryItemID::WoodenShovel:
             return "Egsgd&ppb& nqrbub";
         case InventoryItemID::StoneShovel:
             return "Lbogppb& nqrbub";
+        case InventoryItemID::IronShovel:
+            return "Hgngjpb& nqrbub";
         case InventoryItemID::WoodenAxe:
             return "Egsgd&pp\"l uqrqs";
         case InventoryItemID::StoneAxe:
             return "Lbogpp\"l uqrqs";
+        case InventoryItemID::IronAxe:
+            return "Hgngjp\"l uqrqs";
         case InventoryItemID::Sign:
             return "Tbcnkzmb";
         default:
@@ -618,14 +639,20 @@ glImage *getItemImage(InventoryItemID item)
         return _sprWoodenPickaxe;
     case InventoryItemID::StonePickaxe:
         return _sprStonePickaxe;
+    case InventoryItemID::IronPickaxe:
+        return _sprIronPickaxe;
     case InventoryItemID::WoodenShovel:
         return _sprWoodenShovel;
     case InventoryItemID::StoneShovel:
         return _sprStoneShovel;
+    case InventoryItemID::IronShovel:
+        return _sprIronShovel;
     case InventoryItemID::WoodenAxe:
         return _sprWoodenAxe;
     case InventoryItemID::StoneAxe:
         return _sprStoneAxe;
+    case InventoryItemID::IronAxe:
+        return _sprIronAxe;
     case InventoryItemID::Sign:
         return sprSign;
     default:
