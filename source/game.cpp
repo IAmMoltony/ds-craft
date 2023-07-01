@@ -1517,7 +1517,7 @@ void Game::update(void)
                         entity->falling = true;
                 break;
             default:
-                break;
+                break; // TODO for some reason sometimes using spruce doors does data abort; fix it.
             }
 
             bool changedLocation = false;
