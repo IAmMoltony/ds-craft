@@ -1,9 +1,20 @@
 # newrecipe.py
 # Script for creating a new recipe
 
-from craftingls import CraftingRecipe, get_recipes
 from dataclasses import dataclass
 import sys
+
+
+@dataclass
+class CraftingRecipe:
+    recipe_file: str
+    identifier: int  # because 'id' is already taken
+    count: int
+    output: str
+    texid: int
+
+    def __repr__(self) -> str:
+        return f"file: {self.recipe_file}, ID: {self.identifier}, count: {self.count}, outputs: {self.output}"
 
 
 @dataclass
@@ -27,17 +38,6 @@ def main():
         print_usage()
         exit(1)
 
-    recipes = get_recipes()
-    max_id = 0
-    max_texture_id = -1
-    for _, rcp in recipes.items():
-        if rcp.identifier > max_id:
-            max_id = rcp.identifier
-        if rcp.texid > max_texture_id:
-            max_texture_id = rcp.texid
-
-    identifier = max_id + 1
-    texid = max_texture_id + 1
     output_count = 0
     try:
         output_count = int(argv[2])
@@ -47,8 +47,6 @@ def main():
     output = argv[3]
 
     print("New recipe values")
-    print(f"ID: {identifier}")
-    print(f"Texture ID: {texid}")
     print(f"Output count: {output_count}")
     print(f"Output item: {output}")
     print("Is this ok? (y/n)")
@@ -84,7 +82,7 @@ def main():
         print("Ingredient list must not be empty")
         exit(3)
 
-    to_write = f"id {identifier}\ncount {output_count}\ntexid {texid}\noutput {output}\nRECIPE\n"
+    to_write = f"count {output_count}\noutput {output}\nRECIPE\n"
     for ingr in ingredients:
         to_write += repr(ingr) + "\n"
 
