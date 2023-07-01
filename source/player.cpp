@@ -259,10 +259,9 @@ Player::Player() : x(0), y(0), velX(0), velY(0), falling(true), jumping(false), 
 {
     normalSpriteFPI = bodySprite.getFramesPerImage();
 
-    // TODO move amount of items in inventory into a constexpr
     // initialize inventory with null items
     for (u8 i = 0; i < 20; ++i)
-        inventory[i] = NULLITEM;
+        inventory[i] = NULL_ITEM;
 }
 
 static void _drawInventory(InventoryItem inventory[], u8 itemCount, Font &font, u8 select,
@@ -877,7 +876,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             else
                             {
                                 inventory[inventoryFullSelect] = {fsid, (u8)(fsa + msa)};
-                                inventory[inventoryMoveSelect] = NULLITEM;
+                                inventory[inventoryMoveSelect] = NULL_ITEM;
                             }
                         }
                         // moving (different id)
@@ -2375,7 +2374,7 @@ void Player::restoreHealth(void)
 void Player::resetInventory(void)
 {
     for (u8 i = 0; i < 20; ++i)
-        inventory[i] = NULLITEM;
+        inventory[i] = NULL_ITEM;
 }
 
 void Player::reset(void)
