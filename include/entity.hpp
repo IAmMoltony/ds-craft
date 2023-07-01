@@ -22,7 +22,7 @@ public:
     s16 x, y;
     float velX, velY;
     bool falling, jumping;
-    s8 health;
+    s16 health;
 
     static void loadTextures(void);
     static void unloadTextures(void);
