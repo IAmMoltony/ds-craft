@@ -23,6 +23,8 @@ Note that Code::Blocks support is only supported on Linux.
 
 ## Screenshots
 
+<!-- TODO: Update screenshots to beta1.1 when it releases -->
+
 ![Screenshot 1](./screenshots/shot1.png)
 ![Screenshot 2](./screenshots/shot2.png)
 ![Screenshot 3](./screenshots/shot3.png)
