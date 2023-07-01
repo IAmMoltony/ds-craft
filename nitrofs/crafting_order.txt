@@ -59,3 +59,8 @@ iron_shovel
 wooden_axe
 stone_axe
 iron_shovel
+
+# swords
+wooden_sword
+stone_sword
+iron_sword
