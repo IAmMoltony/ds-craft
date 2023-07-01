@@ -58,7 +58,7 @@ iron_shovel
 # axes
 wooden_axe
 stone_axe
-iron_shovel
+iron_axe
 
 # swords
 wooden_sword
