@@ -48,11 +48,14 @@ cooked_porkchop
 # pickaxes
 wooden_pickaxe
 stone_pickaxe
+iron_pickaxe
 
 # shovels
 wooden_shovel
 stone_shovel
+iron_shovel
 
 # axes
 wooden_axe
 stone_axe
+iron_shovel
