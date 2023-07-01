@@ -61,6 +61,10 @@ void Entity::afterDealDamage(void)
 {
 }
 
+void Entity::onDeath(EntityList &entities)
+{
+}
+
 //----------------------------------------
 
 PigEntity::PigEntity(s16 x, s16 y)
@@ -248,6 +252,11 @@ void PigEntity::afterDealDamage(void)
 {
     damageOverlayTimer = 0;
     panicModeTimer = 0;
+}
+
+void PigEntity::onDeath(EntityList &entities)
+{
+    entities.emplace_back(new DropEntity(x, y, InventoryItemID::RawPorkchop));
 }
 
 //----------------------------------------

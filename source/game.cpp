@@ -1485,14 +1485,11 @@ void Game::update(void)
                         entities.erase(entities.begin() + i);
                     }
                 }
-                else if (entity->id() == "pig")
+
+                if (entity->dead())
                 {
-                    if (entity->dead())
-                    {
-                        entities.emplace_back(new DropEntity(entity->getX(), entity->getY(), InventoryItemID::RawPorkchop));
-                        entities.erase(entities.begin() + i);
-                    }
-                    // TODO why is this here???????????? add function that triggers when entity die
+                    entity->onDeath(entities);
+                    entities.erase(entities.begin() + i);
                 }
             }
 
