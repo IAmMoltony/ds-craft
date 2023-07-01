@@ -32,6 +32,12 @@ static glImage _sprWoodenAxe[1];
 static glImage _sprStoneAxe[1];
 static glImage _sprIronAxe[1];
 
+// swords
+
+static glImage _sprWoodenSword[1];
+static glImage _sprStoneSword[1];
+static glImage _sprIronSword[1];
+
 // dummy
 static glImage _sprDummy[1];
 
@@ -58,6 +64,10 @@ void loadItemTextures(void)
     loadImageAlpha(_sprStoneAxe, 16, 16, stone_axePal, stone_axeBitmap);
     loadImageAlpha(_sprIronAxe, 16, 16, iron_axePal, iron_axeBitmap);
 
+    loadImageAlpha(_sprWoodenSword, 16, 16, wooden_swordPal, wooden_swordBitmap);
+    loadImageAlpha(_sprStoneSword, 16, 16, stone_swordPal, stone_swordBitmap);
+    loadImageAlpha(_sprIronSword, 16, 16, iron_swordPal, iron_swordBitmap);
+
     loadImage(_sprDummy, 16, 16, dummyBitmap);
 }
 
@@ -81,6 +91,11 @@ void unloadItemTextures(void)
 
     unloadImage(_sprWoodenAxe);
     unloadImage(_sprStoneAxe);
+    unloadImage(_sprIronAxe);
+
+    unloadImage(_sprWoodenSword);
+    unloadImage(_sprStoneSword);
+    unloadImage(_sprIronSword);
 
     unloadImage(_sprDummy);
 }
@@ -258,6 +273,15 @@ std::string iidToString(InventoryItemID iid)
     case InventoryItemID::IronAxe:
         id = "ironaxe";
         break;
+    case InventoryItemID::WoodenSword:
+        id = "woodensword";
+        break;
+    case InventoryItemID::StoneSword:
+        id = "stonesword";
+        break;
+    case InventoryItemID::IronSword:
+        id = "ironsword";
+        break;
     case InventoryItemID::Sign:
         id = "sign";
         break;
@@ -395,6 +419,12 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Wooden Axe";
         case InventoryItemID::StoneAxe:
             return "Stone Axe";
+        case InventoryItemID::WoodenSword:
+            return "Wooden Sword";
+        case InventoryItemID::StoneSword:
+            return "Stone Sword";
+        case InventoryItemID::IronSword:
+            return "Irn Sword";
         case InventoryItemID::IronAxe:
             return "Iron Axe";
         case InventoryItemID::Sign:
@@ -524,6 +554,12 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Lbogpp\"l uqrqs";
         case InventoryItemID::IronAxe:
             return "Hgngjp\"l uqrqs";
+        case InventoryItemID::WoodenSword:
+            return "Egsgd&pp\"l ogz";
+        case InventoryItemID::StoneSword:
+            return "Lbogpp\"l ogz";
+        case InventoryItemID::IronSword:
+            return "Hgngjp\"l ogz";
         case InventoryItemID::Sign:
             return "Tbcnkzmb";
         default:
@@ -653,6 +689,12 @@ glImage *getItemImage(InventoryItemID item)
         return _sprStoneAxe;
     case InventoryItemID::IronAxe:
         return _sprIronAxe;
+    case InventoryItemID::WoodenSword:
+        return _sprWoodenSword;
+    case InventoryItemID::StoneSword:
+        return _sprStoneSword;
+    case InventoryItemID::IronSword:
+        return _sprIronSword;
     case InventoryItemID::Sign:
         return sprSign;
     default:
@@ -771,6 +813,12 @@ InventoryItemID strToIID(std::string &sid)
         return InventoryItemID::StoneAxe;
     else if (sid == "ironaxe")
         return InventoryItemID::IronAxe;
+    else if (sid == "woodensword")
+        return InventoryItemID::WoodenSword;
+    else if (sid == "stonesword")
+        return InventoryItemID::StoneSword;
+    else if (sid == "ironsword")
+        return InventoryItemID::IronSword;
     else if (sid == "birchslab")
         return InventoryItemID::BirchSlab;
     else if (sid == "spruceslab")

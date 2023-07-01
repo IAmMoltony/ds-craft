@@ -167,6 +167,9 @@ static InventoryItemID _nonBlockItemIDs[] =
         InventoryItemID::WoodenAxe,
         InventoryItemID::StoneAxe,
         InventoryItemID::IronAxe,
+        InventoryItemID::WoodenSword,
+        InventoryItemID::StoneSword,
+        InventoryItemID::IronSword,
 };
 
 static InventoryItemID _toolItemIDs[] =
@@ -180,6 +183,9 @@ static InventoryItemID _toolItemIDs[] =
         InventoryItemID::WoodenAxe,
         InventoryItemID::StoneAxe,
         InventoryItemID::IronAxe,
+        InventoryItemID::WoodenSword,
+        InventoryItemID::StoneSword,
+        InventoryItemID::IronSword,
 };
 
 static InventoryItemID _nonSolidBlockItemIDs[] =
@@ -1074,7 +1080,22 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 down & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_ATTACK) &&
                 entity->id().rfind("drop", 0) != 0)
             {
-                entity->damage(1);
+                // TODO rename inventorySelect to hotbarSelect
+                switch (inventory[inventorySelect].id)
+                {
+                case InventoryItemID::WoodenSword:
+                    entity->damage(entity->health % 2 + 1);
+                    break;
+                case InventoryItemID::StoneSword:
+                    entity->damage(3);
+                    break;
+                case InventoryItemID::IronSword:
+                    entity->damage(4);
+                    break;
+                default:
+                    entity->damage(1);
+                    break;
+                }
                 u8 effect = rand() % 3;
                 switch (effect)
                 {

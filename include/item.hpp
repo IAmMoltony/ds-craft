@@ -70,6 +70,9 @@ enum class InventoryItemID
     IronPickaxe,
     IronShovel,
     IronAxe,
+    WoodenSword,
+    StoneSword,
+    IronSword,
 };
 
 struct InventoryItem
