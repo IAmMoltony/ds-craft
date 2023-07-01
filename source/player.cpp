@@ -24,7 +24,9 @@ void Player::loadGUI(void)
 {
     loadImage(_sprInventorySlot, 16, 16, inventory_slotBitmap);
     loadImage(_sprInventorySlotSelect, 16, 16, inventory_slot_selectBitmap);
+
     loadImageAlpha(_sprAim, 8, 8, aimPal, aimBitmap);
+
     loadImageAlpha(_sprHeartOutline, 16, 16, heart_outlinePal, heart_outlineBitmap);
     loadImageAlpha(_sprHalfHeart, 8, 8, half_heartPal, half_heartBitmap);
     loadImageAlpha(_sprHalfHeart2, 8, 8, half_heart2Pal, half_heart2Bitmap);
@@ -34,7 +36,9 @@ void Player::unloadGUI(void)
 {
     unloadImage(_sprInventorySlot);
     unloadImage(_sprInventorySlotSelect);
+
     unloadImage(_sprAim);
+
     unloadImage(_sprHeartOutline);
     unloadImage(_sprHalfHeart);
     unloadImage(_sprHalfHeart2);
@@ -156,20 +160,26 @@ static InventoryItemID _nonBlockItemIDs[] =
         InventoryItemID::Apple,
         InventoryItemID::WoodenPickaxe,
         InventoryItemID::StonePickaxe,
+        InventoryItemID::IronPickaxe,
         InventoryItemID::WoodenShovel,
         InventoryItemID::StoneShovel,
+        InventoryItemID::IronShovel,
         InventoryItemID::WoodenAxe,
         InventoryItemID::StoneAxe,
+        InventoryItemID::IronAxe,
 };
 
 static InventoryItemID _toolItemIDs[] =
     {
         InventoryItemID::WoodenPickaxe,
         InventoryItemID::StonePickaxe,
+        InventoryItemID::IronPickaxe,
         InventoryItemID::WoodenShovel,
         InventoryItemID::StoneShovel,
+        InventoryItemID::IronShovel,
         InventoryItemID::WoodenAxe,
         InventoryItemID::StoneAxe,
+        InventoryItemID::IronAxe,
 };
 
 static InventoryItemID _nonSolidBlockItemIDs[] =
@@ -239,8 +249,9 @@ bool isSlabItem(InventoryItemID id)
     return std::find(_slabItemIDs, _slabItemIDs + n, id) != _slabItemIDs + n;
 }
 
-Player::Player() : x(0), y(0), velX(0), velY(0), falling(true), jumping(false), fullInventory(false), inventoryCrafting(false), chestOpen(false), sneaking(false), facing(Facing::Right), spawnX(0), spawnY(0), aimX(0), aimY(0), inventorySelect(0),
-                   inventoryFullSelect(0), inventoryMoveSelect(20), craftingSelect(0), health(9), airY(0),
+Player::Player() : x(0), y(0), velX(0), velY(0), falling(true), jumping(false), fullInventory(false), inventoryCrafting(false),
+                   chestOpen(false), sneaking(false), facing(Facing::Right), spawnX(0), spawnY(0), aimX(0), aimY(0),
+                   inventorySelect(0), inventoryFullSelect(0), inventoryMoveSelect(20), craftingSelect(0), health(9), airY(0),
                    chestSelect(0), chestMoveSelect(40), normalSpriteFPI(0), spawnImmunity(SPAWN_IMMUNITY),
                    bodySprite(AnimatedSprite(5, AnimatedSpriteMode::ReverseLoop,
                                              {_sprPlayerBody[0], _sprPlayerBody[1], _sprPlayerBody[2]})),
@@ -248,6 +259,8 @@ Player::Player() : x(0), y(0), velX(0), velY(0), falling(true), jumping(false), 
 {
     normalSpriteFPI = bodySprite.getFramesPerImage();
 
+    // TODO make NULLITEM a constexpr and not a define
+    // TODO move amount of items in inventory into a constexpr
     // initialize inventory with null items
     for (u8 i = 0; i < 20; ++i)
         inventory[i] = NULLITEM;
@@ -541,7 +554,7 @@ void Player::drawSign(Font &font, Font &fontRu)
         break;
     case Language::Russian:
         fontRu.drawHeadingShadow("Tbcnkzmb");
-        fontRu.printCentered(0, SCREEN_WIDTH / 2 + 23, "\3Rtrn\3 knk \2:A : Ibmqpzku#");
+        fontRu.printCentered(0, SCREEN_WIDTH / 2 + 23, "\3Rtrn\3 knk \2:A : Ibmqpzku#"); // TODO fix this line
         break;
     }
     glSpritePartScale(sprPlanks, SCREEN_WIDTH / 2 - 75, SCREEN_HEIGHT / 2 - 30, 0, 0, 75, 30, SCALE_NORMAL * 2);
@@ -1593,6 +1606,8 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             block->hit(block->brokenLevel % 2 + 1);
                         else if (inventory[inventorySelect].id == InventoryItemID::StonePickaxe)
                             block->hit(3);
+                        else if (inventory[inventorySelect].id == InventoryItemID::IronPickaxe)
+                            block->hit(5);
                         else
                             block->hit();
                         break;
@@ -1604,6 +1619,8 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             block->hit(block->brokenLevel % 2 + 2);
                         else if (inventory[inventorySelect].id == InventoryItemID::StoneShovel)
                             block->hit(4);
+                        else if (inventory[inventorySelect].id == InventoryItemID::IronShovel)
+                            block->hit(6);
                         else
                             block->hit(2);
                         break;
@@ -1627,6 +1644,8 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             block->hit(block->brokenLevel % 2 + 1);
                         else if (inventory[inventorySelect].id == InventoryItemID::StoneAxe)
                             block->hit(2);
+                        else if (inventory[inventorySelect].id == InventoryItemID::IronAxe)
+                            block->hit(4);
                         else
                             block->hit();
                         break;
@@ -2062,9 +2081,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 Rect rectSlabRight = getRectSlab();
                 Rect rectSlabLeft = Rect(rectSlabRight.x - 12, rectSlabRight.y, rectSlabRight.w, rectSlabRight.h);
                 if ((block->getRect().intersects(rectSlabRight) || block->getRect().intersects(rectSlabLeft)) && (left || right))
-                {
                     y -= 8;
-                }
             }
             ++i;
         }
