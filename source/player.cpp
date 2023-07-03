@@ -2270,7 +2270,7 @@ void Player::addItem(InventoryItemID item)
         return;
 
     u8 maxStack = 64;
-    if (item == InventoryItemID::WoodenPickaxe)
+    if (isToolItem(item))
         maxStack = 1;
 
     // find the stack (if item is stackable)

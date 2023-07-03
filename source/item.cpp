@@ -227,7 +227,7 @@ std::string iidToString(InventoryItemID iid)
         break;
     case InventoryItemID::BirchTrapdoor:
         id = "birchtrapdoor";
-        break; // TODO make tools (including swords) not stacable
+        break;
     case InventoryItemID::SpruceTrapdoor:
         id = "sprucetrapdoor";
         break;
