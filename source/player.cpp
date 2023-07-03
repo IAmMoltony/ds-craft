@@ -902,7 +902,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
     {
         u32 kdown = keysDown();
 
-        if (kdown & Game::ControlsManager::BUTTON_OPEN_INVENTORY)
+        if (kdown & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_OPEN_INVENTORY))
         {
             chestOpen = false;
             chest = nullptr;
