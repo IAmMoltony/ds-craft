@@ -252,6 +252,16 @@ void Game::init(void)
     // init console
     consoleDemoInit();
 
+    // load fonts
+    loadFonts();
+
+    // show loading screen
+    glBegin2D();
+    font.printCentered(0, 30, "Loading...");
+    glEnd2D();
+    glFlush(0);
+    swiWaitForVBlank();
+
     // init filesystem
     fsInitStatus fsInitSt = fsInit();
     if (fsInitSt != FS_INIT_STATUS_OK)
@@ -326,9 +336,6 @@ void Game::init(void)
     randomSeed ^= stringHash(std::to_string(stringHash(getUserMessage())).c_str());
     randomSetSeed(randomSeed);
     srand(time(NULL));
-
-    // load fonts
-    loadFonts();
 
     // load assets for menu
     AssetManager::loadMenuAssets();
