@@ -1036,7 +1036,8 @@ void Game::draw(void)
 
         font.printCentered(0, 50, "Compiled on:");
         font.printfCentered(0, 61, "%s %s", __DATE__, __TIME__);
-        font.printfCentered(0, 83, "Version %s", getVersionString());
+        font.printfCentered(0, 72, "Compiled with GCC %s", __VERSION__);
+        font.printfCentered(0, 93, "Version %s", getVersionString());
 
         glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprBButton);
         switch (lang)
