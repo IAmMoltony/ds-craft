@@ -1,0 +1,25 @@
+plans for beta1.2
+
+1. better localization
+
+the game could have localization files in nitroFS with the following format:
+
+title_play Play
+title_settings Settings
+title_credits Credits
+# and so on...
+
+and yes it will support comments
+
+and for the russian strings which have to be converted because of the way i set up the fonts, the function for extracting string from
+localization file could have built in string encoding. strencode.py will no longer be necessary!
+
+2. more mobs
+
+at least cows. this way you will be able to milk them and uhh well rn it will not do anything but still will be pretty fun
+
+3. break/place block animations
+
+
+
+   - moltony :3
