@@ -3,13 +3,14 @@
 Game *Game::instance;
 
 Game::Game() : blocks(), entities(), blockParticles(), player(), gameState(GameState::TitleScreen), camera({0, 0}),
-               frameCounter(0), saveTextTimer(0), worldSelectSelected(0), langSelectSelected(0), deleteWorldSelected(0),
-               renameWorldSelected(0), worldSelectWorlds(), showSaveText(false), paused(false), showStats(false),
-               worldName(), createWorldName(), createWorldSeed(), renameWorldName(), createWorldError(false),
-               renameWorldDuplError(false), settingsSelect(0), titleScreenSelect(0), createWorldShowCursor(false),
-               createWorldSelect(0), worldSettingsSelect(0), currentLocation(0), logoFall(false), logoY(0),
-               editControlsSelected(0), editControlsSetMode(false), sndClick(soundEffect(SFX_CLICK)),
-               sndPop(soundEffect(SFX_POP)), font(), fontRu(), lang(Language::English)
+               frameCounter(0), saveTextTimer(0), worldSelectSelected(0), langSelectSelected(0),
+               deleteWorldSelected(0), renameWorldSelected(0), worldSelectWorlds(), showSaveText(false),
+               paused(false), showStats(false), worldName(), createWorldName(), createWorldSeed(), renameWorldName(),
+               createWorldError(false), renameWorldDuplError(false), settingsSelect(0), titleScreenSelect(0),
+               createWorldShowCursor(false), createWorldSelect(0), worldSettingsSelect(0), currentLocation(0),
+               logoFall(false), logoY(0), editControlsSelected(0), editControlsSetMode(false),
+               sndClick(soundEffect(SFX_CLICK)), sndPop(soundEffect(SFX_POP)), font(), fontRu(),
+               lang(Language::English)
 {
     instance = this;
 }
