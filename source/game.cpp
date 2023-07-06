@@ -2399,32 +2399,84 @@ void Game::drawStatsScreen(void)
     }
 
     std::stringstream timePlayedStream;
-    timePlayedStream << "Time played: ";
+    switch (lang)
+    {
+    case Language::English:
+        timePlayedStream << "Time played: ";
+        break;
+    case Language::Russian:
+        timePlayedStream << "Csgo& d kesg: ";
+        break;
+    }
     int timePlayed = statsGetEntry("timeplayed");
     if (timePlayed >= 86400)
     {
         float days = (float)timePlayed / 86400.0f;
         float hours = (float)timePlayed / 3600.0f;
-        timePlayedStream << std::fixed << std::setprecision(2) << days << " days ("
-                         << std::fixed << std::setprecision(2) << hours << " hours)";
+        switch (lang)
+        {
+        case Language::English:
+            timePlayedStream << std::fixed << std::setprecision(2) << days << " days ("
+                             << std::fixed << std::setprecision(2) << hours << " hours)";
+            break;
+        case Language::Russian:
+            timePlayedStream << std::fixed << std::setprecision(2) << days << " fpgl ("
+                             << std::fixed << std::setprecision(2) << hours << " zbtqd)";
+            break;
+        }
     }
     else if (timePlayed >= 3600)
     {
         float hours = (float)timePlayed / 3600.0f;
-        timePlayedStream << std::fixed << std::setprecision(2) << hours << " hours";
+        switch (lang)
+        {
+        case Language::English:
+            timePlayedStream << std::fixed << std::setprecision(2) << hours << " hours";
+            break;
+        case Language::Russian:
+            timePlayedStream << std::fixed << std::setprecision(2) << hours << "zbtqd";
+            break;
+        }
     }
     else if (timePlayed >= 60)
     {
         float minutes = (float)timePlayed / 60.0f;
-        timePlayedStream << std::fixed << std::setprecision(2) << minutes << " minutes";
+        switch (lang)
+        {
+        case Language::English:
+            timePlayedStream << std::fixed << std::setprecision(2) << minutes << " minutes";
+            break;
+        case Language::Russian:
+            timePlayedStream << std::fixed << std::setprecision(2) << minutes << " okpvu";
+            break;
+        }
     }
     else
-        timePlayedStream << timePlayed << " seconds";
+        switch (lang)
+        {
+        case Language::English:
+            timePlayedStream << timePlayed << " seconds";
+            break;
+        case Language::Russian:
+            timePlayedStream << timePlayed << " tgmvpf";
+            break;
+        }
 
-    font.print(10, 47, timePlayedStream.str());
-    font.print(10, 58, std::string("Blocks placed: " + std::to_string(statsGetEntry("blocksplaced"))));
-    font.print(10, 69, std::string("Blocks broken: " + std::to_string(statsGetEntry("blocksbroken"))));
-    font.print(10, 80, std::string("Times jumped: " + std::to_string(statsGetEntry("timesjumped"))));
+    switch (lang)
+    {
+    case Language::English:
+        font.print(10, 47, timePlayedStream.str());
+        font.print(10, 58, std::string("Blocks placed: " + std::to_string(statsGetEntry("blocksplaced"))));
+        font.print(10, 69, std::string("Blocks broken: " + std::to_string(statsGetEntry("blocksbroken"))));
+        font.print(10, 80, std::string("Times jumped: " + std::to_string(statsGetEntry("timesjumped"))));
+        break;
+    case Language::Russian:
+        fontRu.print(10, 47, timePlayedStream.str());
+        fontRu.print(10, 58, std::string("Qqtubdngpq cnqmqd: " + std::to_string(statsGetEntry("blocksplaced"))));
+        fontRu.print(10, 69, std::string("Rbjsv}gpq cnqmqd: " + std::to_string(statsGetEntry("blocksbroken"))));
+        fontRu.print(10, 80, std::string("Lqnkzgtudq rs\"imqd: " + std::to_string(statsGetEntry("timesjumped"))));
+        break;
+    }
 }
 
 u32 Game::ControlsManager::buttons[Game::ControlsManager::NUM_BUTTONS];
