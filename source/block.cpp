@@ -184,7 +184,7 @@ void Block::unloadSounds(void)
 
 //----------------------------------------
 
-Block::Block(s16 x, s16 y, u8 maxBrokenLevel) : brokenLevel(0), x(x), y(y), maxBrokenLevel(maxBrokenLevel)
+Block::Block(s16 x, s16 y, u8 maxBrokenLevel) : x(x), y(y), brokenLevel(0), maxBrokenLevel(maxBrokenLevel)
 {
 }
 

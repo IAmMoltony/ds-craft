@@ -32,7 +32,7 @@ void Entity::unloadSounds(void)
     unloadsfx3(PIGSAY);
 }
 
-Entity::Entity(s16 x, s16 y) : health(1), x(x), y(y), velX(0), velY(0), falling(true), jumping(true)
+Entity::Entity(s16 x, s16 y) : x(x), y(y), velX(0), velY(0), falling(true), jumping(true), health(1)
 {
 }
 
@@ -69,7 +69,7 @@ void Entity::onDeath(EntityList &entities)
 //----------------------------------------
 
 PigEntity::PigEntity(s16 x, s16 y)
-    : Entity(x, y), damageOverlayTimer(255), panicModeTimer(USHRT_MAX), facing(Facing::Right), moving(true)
+    : Entity(x, y), facing(Facing::Right), moving(true), damageOverlayTimer(255), panicModeTimer(USHRT_MAX)
 {
     health = 7;
     facing = (randomGenerate() % 2 == 0) ? Facing::Right : Facing::Left;

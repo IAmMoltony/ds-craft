@@ -1,7 +1,7 @@
 #include "blockparticle.hpp"
 
 BlockParticle::BlockParticle(glImage *blockImage, u8 lifetime, int x, int y, float velX, float velY) :
-    lifetime(lifetime), imageXOff(rand() % 12), imageYOff(rand() % 12), blockImage(blockImage), x(x), y(y), velX(velX),
+    blockImage(blockImage), lifetime(lifetime), imageXOff(rand() % 12), imageYOff(rand() % 12), x(x), y(y), velX(velX),
     velY(velY)
 {
 }

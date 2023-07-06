@@ -2,7 +2,7 @@
 
 Game *Game::instance;
 
-Game::Game() : camera({0, 0}), blocks(), entities(), blockParticles(), player(), gameState(GameState::TitleScreen),
+Game::Game() : blocks(), entities(), blockParticles(), player(), gameState(GameState::TitleScreen), camera({0, 0}),
                frameCounter(0), saveTextTimer(0), worldSelectSelected(0), langSelectSelected(0), deleteWorldSelected(0),
                renameWorldSelected(0), worldSelectWorlds(), showSaveText(false), paused(false), showStats(false),
                worldName(), createWorldName(), createWorldSeed(), renameWorldName(), createWorldError(false),

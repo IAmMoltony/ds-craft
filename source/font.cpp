@@ -16,7 +16,7 @@ u32 Font::getTextWidth(const std::string &str)
     return w;
 }
 
-Font::Font() : spr(NULL), chwHandler(NULL), chwhHeading(NULL)
+Font::Font() : chwHandler(NULL), chwhHeading(NULL), spr(NULL)
 {
 }
 
