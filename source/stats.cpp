@@ -39,10 +39,10 @@ void statsSetEntry(const std::string &entryKey, int value)
 void statsSave(void)
 {
     std::ofstream ofs(_getStatsFile());
-    for (std::map<std::string, int>::iterator it = _stats.begin(); it != _stats.end(); ++it)
+    for (const auto &entry : _stats)
     {
-        std::string key = it->first;
-        int value = it->second;
+        std::string key = entry.first;
+        int value = entry.second;
         ofs << key << ' ' << value << '\n';
     }
 }
