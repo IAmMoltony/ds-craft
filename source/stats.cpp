@@ -62,5 +62,5 @@ void statsLoad(void)
         std::string key = split[0];
         int value = std::stoi(split[1]);
         _stats[key] = value;
-    }
+    } // TODO add error checking
 }
