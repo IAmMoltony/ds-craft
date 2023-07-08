@@ -18,7 +18,7 @@ localization file could have built in string encoding. strencode.py will no long
 
 at least cows. this way you will be able to milk them and uhh well rn it will not do anything but still will be pretty fun
 
-3. break/place block animations
+3. break/place block hand animations
 
 
 
