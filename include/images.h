@@ -40,6 +40,7 @@
 #include "iron_pickaxe.h"
 #include "glass.h"
 #include "coal_block.h"
+#include "stone_bricks.h"
 #include "bedrock.h"
 #include "sandstone.h"
 #include "oak_log.h"
