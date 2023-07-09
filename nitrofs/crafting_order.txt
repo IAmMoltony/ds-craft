@@ -29,6 +29,7 @@ sandstone
 # stone stuff
 stone
 cobblestone_slab
+stone_bricks
 
 # coal block
 coal_block
