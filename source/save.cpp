@@ -60,7 +60,7 @@ std::string getWorldName(const std::string &file)
             }
         }
     }
-    return "(error)"; // TODO a world can be named `(error)' which would render the world unplayable
+    return "\1\4\3\2";
 }
 
 std::string getWorldVersion(const std::string &file)

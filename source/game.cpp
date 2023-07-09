@@ -2207,7 +2207,7 @@ Game::WorldManager::WorldList Game::WorldManager::getWorlds(void)
             continue;
 
         std::string worldName = getWorldName(WORLDS_DIR "/" + line);
-        if (worldName == "(error)")
+        if (worldName == "\1\4\3\2")
             continue;
 
         int size = fsGetDirSize(std::string(WORLDS_DIR "/" + line).c_str());
