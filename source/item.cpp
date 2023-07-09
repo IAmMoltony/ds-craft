@@ -8,7 +8,7 @@ static glImage _sprCoal[1];
 static glImage _sprIronIngot[1];
 static glImage _sprIronNugget[1];
 
-// food tems
+// food items
 
 static glImage _sprRawPorkchop[1];
 static glImage _sprCookedPorkchop[1];
