@@ -2174,25 +2174,21 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             }
         }
 
-        // TODO the ladder code here has  copy pasting
         if (up)
         {
             if (collideLadder)
-            {
-                jumping = false;
-                airY = 0;
-                velY = 0;
                 --y;
-            }
             else
                 jump();
         }
         else if (collideLadder)
+            ++y;
+
+        if (collideLadder)
         {
             jumping = false;
-            ++y;
-            velY = 0;
             airY = 0;
+            velY = 0;
         }
 
         if (collideLadder && frames % 29 == 0 && oldY != y)
