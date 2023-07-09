@@ -40,6 +40,8 @@ glImage sprChest[1];
 glImage sprSign[1];
 glImage sprIronOre[1];
 glImage sprIronBlock[1];
+glImage sprStoneBricks[1];
+
 glImage sprBlockBreak[10][1];
 glImage sprGrassOverlay[1];
 
@@ -70,6 +72,7 @@ void Block::loadTextures(void)
     loadImage(sprChest, 16, 16, chestBitmap);
     loadImage(sprIronOre, 16, 16, iron_oreBitmap);
     loadImage(sprIronBlock, 16, 16, iron_blockBitmap);
+    loadImage(sprStoneBricks, 16, 16, stone_bricksBitmap);
 
     loadImageAlpha(sprCactus, 16, 16, cactus_sidePal, cactus_sideBitmap);
     loadImageAlpha(sprDeadBush, 16, 16, dead_bushPal, dead_bushBitmap);
@@ -154,6 +157,7 @@ void Block::unloadTextures(void)
     unloadImage(sprSign);
     unloadImage(sprIronOre);
     unloadImage(sprIronBlock);
+    unloadImage(sprStoneBricks);
     unloadImage(sprBlockBreak[0]);
     unloadImage(sprBlockBreak[1]);
     unloadImage(sprBlockBreak[2]);

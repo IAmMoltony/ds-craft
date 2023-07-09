@@ -1530,7 +1530,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                         }
                         case InventoryItemID::StoneBricks:
                             blocks->emplace_back(new StoneBricksBlock(snapToGrid(camera->x + aimX),
-                                                                      snapToGrid(camera->y + aimY));
+                                                                      snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             break;
                         }
@@ -1969,7 +1969,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                         case BID_STONE_BRICKS:
                             entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::StoneBricks));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
-                            _spawnBlockParticles(blockParticles, sprStoneBricks, block->x, block->y)
+                            _spawnBlockParticles(blockParticles, sprStoneBricks, block->x, block->y);
                             break;
                         }
 
