@@ -57,6 +57,7 @@
 #define BID_SPRUCE_SLAB 41
 #define BID_IRON_ORE 42
 #define BID_IRON_BLOCK 43
+#define BID_STONE_BRICKS 44
 
 enum class SlabID
 {
@@ -353,6 +354,7 @@ extern glImage sprSpruceTrapdoor[1];
 extern glImage sprLadder[1];
 extern glImage sprChest[1];
 extern glImage sprSign[1];
+extern glImage sprStoneBricks[1];
 
 // generic block declarations
 
@@ -377,6 +379,7 @@ GENERIC_BLOCK_DECL(IronOreBlock)
 GENERIC_BLOCK_DECL(IronBlock)
 GENERIC_BLOCK_DECL(GlassBlock)
 GENERIC_BLOCK_DECL(LadderBlock)
+GENERIC_BLOCK_DECL(StoneBricksBlock)
 
 class DoorBlock : public Block
 {

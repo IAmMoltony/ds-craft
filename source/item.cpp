@@ -294,6 +294,9 @@ std::string iidToString(InventoryItemID iid)
     case InventoryItemID::AnyPlanks:
         id = "anyplanks";
         break;
+    case InventoryItemID::StoneBricks:
+        id = "stonebricks";
+        break;
     }
     return id;
 }
@@ -429,6 +432,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Iron Axe";
         case InventoryItemID::Sign:
             return "Sign";
+        case InventoryItemID::StoneBricks:
+            return "Stone Bricks";
         default:
             return "Error";
         }
@@ -562,6 +567,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Hgngjp\"l ogz";
         case InventoryItemID::Sign:
             return "Tbcnkzmb";
+        case InventoryItemID::StoneBricks:
+            return "Lbogpp\"g mksrkzk";
         default:
             return "P}kcmb";
         }
@@ -697,6 +704,8 @@ glImage *getItemImage(InventoryItemID item)
         return _sprIronSword;
     case InventoryItemID::Sign:
         return sprSign;
+    case InventoryItemID::StoneBricks:
+        return sprStoneBricks;
     default:
         break;
     }
@@ -825,6 +834,8 @@ InventoryItemID strToIID(std::string &sid)
         return InventoryItemID::SpruceSlab;
     else if (sid == "sign")
         return InventoryItemID::Sign;
+    else if (sid == "stonebricks")
+        return InventoryItemID::StoneBricks;
 
     printf("'%s' is not a valid item string id\n", sid.c_str());
     return InventoryItemID::None;

@@ -60,7 +60,7 @@ std::string getWorldName(const std::string &file)
             }
         }
     }
-    return "(error)";
+    return "(error)"; // TODO a world can be named `(error)' which would render the world unplayable
 }
 
 std::string getWorldVersion(const std::string &file)
@@ -558,6 +558,9 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                 break;
             case BID_COBBLESTONE_SLAB:
                 blocks.emplace_back(new CobblestoneSlabBlock(x, y));
+                break;
+            case BID_STONE_BRICKS:
+                blocks.emplace_back(new StoneBricksBlock(x, y));
                 break;
             }
         }

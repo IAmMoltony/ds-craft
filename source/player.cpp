@@ -1172,13 +1172,13 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     }
                 }
 
-                bool shouldPlaceBlock = !Rect(x, y, 12, 32)
+                bool shouldPlaceBlock = !Rect(x, y, 12, 32) // TODO use PLAYER_WIDTH and PLAYER_HEIGHT here
                                              .intersects(
                                                  Rect(snapToGrid(camera->x + aimX),
                                                       snapToGrid(camera->y + aimY), 16, 16));
 
                 InventoryItemID id = inventory[hotbarSelect].id;
-                // nonsolid blocks can be placed inside player
+                // nonsolid blocks can be placed inside player because they are not solid
                 if (isNonSolidBlockItem(id))
                     shouldPlaceBlock = true;
 
@@ -1528,6 +1528,11 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             keyboardShow();
                             break;
                         }
+                        case InventoryItemID::StoneBricks:
+                            blocks->emplace_back(new StoneBricksBlock(snapToGrid(camera->x + aimX),
+                                                                      snapToGrid(camera->y + aimY));
+                            playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
+                            break;
                         }
                         if (canPlace)
                         {
@@ -1618,6 +1623,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     case BID_IRON_ORE:
                     case BID_IRON_BLOCK:
                     case BID_SANDSTONE:
+                    case BID_STONE_BRICKS:
                         if (inventory[hotbarSelect].id == InventoryItemID::WoodenPickaxe)
                             block->hit(block->brokenLevel % 2 + 1);
                         else if (inventory[hotbarSelect].id == InventoryItemID::StonePickaxe)
@@ -1687,6 +1693,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     case BID_COAL_ORE:
                     case BID_COAL_BLOCK:
                     case BID_GLASS:
+                    case BID_STONE_BRICKS:
                         playsfx(4, &sndStepStone1, &sndStepStone2, &sndStepStone3, &sndStepStone4);
                         break;
                     case BID_WOOD:
@@ -1959,6 +1966,11 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             _spawnBlockParticles(blockParticles, sprSign, block->x, block->y);
                             break;
+                        case BID_STONE_BRICKS:
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::StoneBricks));
+                            playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
+                            _spawnBlockParticles(blockParticles, sprStoneBricks, block->x, block->y)
+                            break;
                         }
 
                         remove = true;
@@ -2009,7 +2021,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                         // play sound
                         playsfx(3, &sndHit1, &sndHit2, &sndHit3);
 
-                        // s H A K E !! !
+                        // shake
                         camera->x += randomRange(-50, 50);
                         camera->y += randomRange(-50, 50);
                     }
@@ -2056,6 +2068,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     case BID_BEDROCK:
                     case BID_GLASS:
                     case BID_COBBLESTONE_SLAB:
+                    case BID_STONE_BRICKS:
                         playsfx(4, &sndStepStone1, &sndStepStone2, &sndStepStone3, &sndStepStone4);
                         break;
                     case BID_SAND:
@@ -2161,6 +2174,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             }
         }
 
+        // TODO the ladder code here has  copy pasting
         if (up)
         {
             if (collideLadder)
