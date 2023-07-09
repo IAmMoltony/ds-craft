@@ -1172,7 +1172,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     }
                 }
 
-                bool shouldPlaceBlock = !Rect(x, y, 12, 32) // TODO use PLAYER_WIDTH and PLAYER_HEIGHT here
+                bool shouldPlaceBlock = !Rect(x, y, PLAYER_WIDTH, PLAYER_HEIGHT)
                                              .intersects(
                                                  Rect(snapToGrid(camera->x + aimX),
                                                       snapToGrid(camera->y + aimY), 16, 16));
