@@ -20,6 +20,7 @@ at least cows. this way you will be able to milk them and uhh well rn it will no
 
 3. break/place block hand animations
 
+4. furnaces
 
 
    - moltony :3
