@@ -1,4 +1,4 @@
-plans for beta1.2
+plans for future updates
 
 1. better localization
 
