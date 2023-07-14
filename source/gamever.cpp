@@ -14,10 +14,11 @@ void gameverInit(void)
         hang();
     }
 
+    FILE *f;
     if (fsFileExists(DATA_DIR "/version_override.ver"))
-        FILE *f = fopen("nitro:/version_override.ver", "r");
+        f = fopen("nitro:/version_override.ver", "r");
     else
-        FILE *f = fopen("nitro:/game.ver", "r");
+        f = fopen("nitro:/game.ver", "r");
     u8 count = 0;
     if (f)
     {
