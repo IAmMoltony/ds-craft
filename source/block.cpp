@@ -405,7 +405,10 @@ DirtBlock::DirtBlock(s16 x, s16 y, bool farmland) : Block(x, y, 14), farmland(fa
 // TODO make camera arg in block draw reference
 void DirtBlock::draw(Camera camera)
 {
-    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprDirt);
+    if (farmland)
+        glSpritePart(sprDirt, x - camera.x, y - camera.y + 1, 0, 0, 16, 15);
+    else
+        glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprDirt);
 }
 
 u16 DirtBlock::id(void)

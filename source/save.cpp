@@ -60,7 +60,7 @@ std::string getWorldName(const std::string &file)
             }
         }
     }
-    return "\1\4\3\2";
+    return "\1\4\3\2"; // return a string that cant be entered by user (at least not normally)
 }
 
 std::string getWorldVersion(const std::string &file)
@@ -201,6 +201,8 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             Block *b = block.get();
             GrassBlock *g = reinterpret_cast<GrassBlock *>(b);
 
+            // TODO turn into a switch statement
+            // what was i thinking when writing this bit???
             std::string st = "normal"; // string type
             if (g->getGrassType() == GrassType::Spruce)
                 st = "spruce";
@@ -208,6 +210,15 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             wld << "grassblock " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + st + "\n";
             break;
         }
+        // dirt
+        case BID_DIRT:
+            // TODO use this way of converting block to specific type instead of creating Block * and then using reinterpret_cast
+            // TODO also change variable names above from one letter (g for grass block, ...) to actually readable names
+            DirtBlock *dirt = reinterpret_cast<DirtBlock *>(block.get());
+            std::string sf = dirt->isFarmland() ? "1" : "0";
+
+            wld << "dirt " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + sf + "\n";
+            break;
         // every other block
         default:
             wld << "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(id) + "\n";
@@ -232,12 +243,15 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             Block *b = block.get();
             ChestBlock *chest = reinterpret_cast<ChestBlock *>(b);
             std::ofstream chestFile(worldFolder + "/chests/chest" + std::to_string(chest->getChestID()) + ".cst");
+
             // save position
             chestFile << "position " + std::to_string(b->x) + ' ' + std::to_string(b->y) + '\n';
+
             // save items
             std::array<InventoryItem, 10> chestItems = chest->getItems();
             for (u8 i = 0; i < 10; ++i)
                 chestFile << "chestitem " + std::to_string(i) + ' ' + iidToString(chestItems[i].id) + " " + std::to_string(chestItems[i].amount) + '\n';
+
             chestFile.close();
             break;
         }
@@ -287,6 +301,8 @@ unsigned int getWorldSeed(const std::string &file)
     return 0;
 }
 
+// TODO move code for parsing x and y into its own functuon
+
 static void _argParseDoor(const std::vector<std::string> &split, s16 &x, s16 &y, bool &open, bool &facing)
 {
     x = std::stoi(split[1]);
@@ -323,6 +339,7 @@ static void _argParseGrass(const std::vector<std::string> &split, s16 &x, s16 &y
     x = std::stoi(split[1]);
     y = std::stoi(split[2]);
     const std::string &st = split[3]; // string type
+    // TODO if there is no type (which is optional for compat) then this code will access data thats out of bounds. need fix.
 
     if (st == "spruce")
         type = GrassType::Spruce;
@@ -333,6 +350,17 @@ static void _argParseGrass(const std::vector<std::string> &split, s16 &x, s16 &y
         printf("warning: unknown grass type %s; defaulting to normal\n", st.c_str());
         type = GrassType::Normal;
     }
+}
+
+static void _argParseDirt(const std::vector<std::string> &split, s16 &x, s16 &y, bool &farmland)
+{
+    x = std::stoi(split[1]);
+    y = std::stoi(split[2]);
+
+    if (split.size() >= 4)
+        farmland = std::stoi(split[3]) == 1;
+    else
+        farmland = false;
 }
 
 void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
@@ -449,6 +477,14 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
             blocks.emplace_back(new GrassBlock(x, y, type));
         }
+        else if (split[0] == "dirt") // dirt <x> <y> [is farmland]
+        {
+            s16 x = 0, y = 0;
+            bool farmland = false;
+            _argParseDirt(split, x, y, farmland);
+
+            blocks.emplace_back(new DirtBlock(x, y, farmland));
+        }
         else if (split[0] == "block") // block <x> <y> <id>
         {
             s16 x = atoi(split[1].c_str());
@@ -457,9 +493,6 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             // oh boi
             switch (id)
             {
-            case BID_DIRT:
-                blocks.emplace_back(new DirtBlock(x, y));
-                break;
             case BID_STONE:
                 blocks.emplace_back(new StoneBlock(x, y));
                 break;
