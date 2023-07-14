@@ -111,6 +111,8 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     fsCreateFile(std::string(worldFolder + "/player.info").c_str());
     std::ofstream wld(worldFolder + "/locations/location" + std::to_string(currentLocation) + ".wld");
 
+    // TODO instead of using wld << "..." + "..." to wld << "..." << "..."
+
     // save blocks
     for (auto &block : blocks)
     {
@@ -139,23 +141,23 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         // oak trapdoor
         case BID_OAK_TRAPDOOR:
         {
-            OakTrapdoorBlock *td = reinterpret_cast<OakTrapdoorBlock *>(block.get());
-            wld << "oaktrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(td->isOpen()) + "\n";
+            OakTrapdoorBlock *trapdoor = reinterpret_cast<OakTrapdoorBlock *>(block.get());
+            wld << "oaktrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(trapdoor->isOpen()) + "\n";
             break;
         }
         // birch trapdoor
         case BID_BIRCH_TRAPDOOR:
         {
-            BirchTrapdoorBlock *td = reinterpret_cast<BirchTrapdoorBlock *>(block.get());
-            wld << "birchtrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(td->isOpen()) + "\n";
+            BirchTrapdoorBlock *trapdoor = reinterpret_cast<BirchTrapdoorBlock *>(block.get());
+            wld << "birchtrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(trapdoor->isOpen()) + "\n";
             break;
         }
         // spruce trapdoor
         case BID_SPRUCE_TRAPDOOR:
         {
             // TODO merge trapdoors
-            SpruceTrapdoorBlock *td = reinterpret_cast<SpruceTrapdoorBlock *>(block.get());
-            wld << "sprucetrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(td->isOpen()) + "\n";
+            SpruceTrapdoorBlock *trapdoor = reinterpret_cast<SpruceTrapdoorBlock *>(block.get());
+            wld << "sprucetrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(trapdoor->isOpen()) + "\n";
             break;
         }
         // chests are handled separately
@@ -165,9 +167,9 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         case BID_LEAVES:
         {
             std::string lid = "";
-            LeavesBlock *l = reinterpret_cast<LeavesBlock *>(block.get());
+            LeavesBlock *leaves = reinterpret_cast<LeavesBlock *>(block.get());
 
-            switch (l->type)
+            switch (leaves->type)
             {
             case LeavesType::Oak:
                 lid = std::to_string(BID_LEAVES);
@@ -186,17 +188,17 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         // sign
         case BID_SIGN:
         {
-            SignBlock *s = reinterpret_cast<SignBlock *>(block.get());
-            wld << "sign " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + s->getText() + "\n";
+            SignBlock *sign = reinterpret_cast<SignBlock *>(block.get());
+            wld << "sign " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + sign->getText() + "\n";
             break;
         }
         // grass block
         case BID_GRASS:
         {
-            GrassBlock *g = reinterpret_cast<GrassBlock *>(block.get());
+            GrassBlock *grass = reinterpret_cast<GrassBlock *>(block.get());
 
             std::string stringType; // string type
-            switch (g->getGrassType())
+            switch (grass->getGrassType())
             {
             case GrassType::Normal:
                 stringType = "normal";
@@ -212,7 +214,6 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         // dirt
         case BID_DIRT:
         {
-            // TODO also change variable names above from one letter (g for grass block, ...) to actually readable names
             DirtBlock *dirt = reinterpret_cast<DirtBlock *>(block.get());
             std::string sf = dirt->isFarmland() ? "1" : "0";
 
