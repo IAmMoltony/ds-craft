@@ -402,7 +402,6 @@ DirtBlock::DirtBlock(s16 x, s16 y, bool farmland) : Block(x, y, 14), farmland(fa
 {
 }
 
-// TODO make camera arg in block draw reference
 void DirtBlock::draw(Camera &camera)
 {
     if (farmland)
