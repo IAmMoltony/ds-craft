@@ -201,13 +201,18 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             Block *b = block.get();
             GrassBlock *g = reinterpret_cast<GrassBlock *>(b);
 
-            // TODO turn into a switch statement
-            // what was i thinking when writing this bit???
-            std::string st = "normal"; // string type
-            if (g->getGrassType() == GrassType::Spruce)
-                st = "spruce";
+            std::string stringType; // string type
+            switch (g->getGrassType())
+            {
+            case GrassType::Normal:
+                stringType = "normal";
+                break;
+            case GrassType::Spruce:
+                stringType = "spruce";
+                break;
+            }
 
-            wld << "grassblock " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + st + "\n";
+            wld << "grassblock " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + stringType + "\n";
             break;
         }
         // dirt
