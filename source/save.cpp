@@ -306,27 +306,28 @@ unsigned int getWorldSeed(const std::string &file)
     return 0;
 }
 
-// TODO move code for parsing x and y into its own functuon
-
-static void _argParseDoor(const std::vector<std::string> &split, s16 &x, s16 &y, bool &open, bool &facing)
+static void _argParseXY(const std::vector<std::string> &split, s16 &x, s16 &y)
 {
     x = std::stoi(split[1]);
     y = std::stoi(split[2]);
+}
+
+static void _argParseDoor(const std::vector<std::string> &split, s16 &x, s16 &y, bool &open, bool &facing)
+{
+    _argParseXY(split, x, y);
     open = split[3] == "1";
     facing = split[4] == "1"; // why is this a bool
 }
 
 static void _argParseTrapdoor(const std::vector<std::string> &split, s16 &x, s16 &y, bool &open)
 {
-    x = std::stoi(split[1]);
-    y = std::stoi(split[2]);
+    _argParseXY(split, x, y);
     open = split[3] == "1";
 }
 
 static void _argParseSign(const std::vector<std::string> &split, s16 &x, s16 &y, std::string &text)
 {
-    x = std::stoi(split[1]);
-    y = std::stoi(split[2]);
+    _argParseXY(split, x, y);
 
     std::ostringstream oss;
 
@@ -341,8 +342,7 @@ static void _argParseSign(const std::vector<std::string> &split, s16 &x, s16 &y,
 
 static void _argParseGrass(const std::vector<std::string> &split, s16 &x, s16 &y, GrassType &type)
 {
-    x = std::stoi(split[1]);
-    y = std::stoi(split[2]);
+    _argParseXY(split, x, y);
     const std::string &st = split[3]; // string type
     // TODO if there is no type (which is optional for compat) then this code will access data thats out of bounds. need fix.
 
@@ -359,8 +359,7 @@ static void _argParseGrass(const std::vector<std::string> &split, s16 &x, s16 &y
 
 static void _argParseDirt(const std::vector<std::string> &split, s16 &x, s16 &y, bool &farmland)
 {
-    x = std::stoi(split[1]);
-    y = std::stoi(split[2]);
+    _argParseXY(split, x, y);
 
     if (split.size() >= 4)
         farmland = std::stoi(split[3]) == 1;
