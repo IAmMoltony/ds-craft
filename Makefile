@@ -25,9 +25,9 @@ BUILD		:=	build
 SOURCES		:=	source
 DATA		:=	data
 INCLUDES	:=	include
-GRAPHICS	:=	$(sort $(dir $(wildcard gfx/*/)))
-AUDIO       :=  audio
-NITRODATA   :=  nitrofs
+GRAPHICS	:=      $(sort $(dir $(wildcard gfx/*/)))
+AUDIO           :=      audio
+NITRODATA       :=      nitrofiles
 
 CURDIR_BASENAME := $(shell basename $(CURDIR))
 
