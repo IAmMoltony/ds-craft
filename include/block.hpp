@@ -125,38 +125,40 @@ enum class SlabID
     };
 
 // generic declaration for saplings
-#define SAPLING_DECL(sapl) \
+#define SAPLING_DECL(sapl)                  \
     class sapl##SaplingBlock : public Block \
-    {\
-    private:\
-        u16 growTime;\
-        bool grown;\
-    public:\
-        sapl##SaplingBlock(s16 x, s16 y);\
-        void draw(Camera camera) override;\
-        bool solid(void) override;\
-        void interact(void) override;\
-        u16 id(void) override;\
-        Rect getRect(void) const override;\
-        bool hasGrown(void);\
-        void update(void);\
+    {                                       \
+    private:                                \
+        u16 growTime;                       \
+        bool grown;                         \
+                                            \
+    public:                                 \
+        sapl##SaplingBlock(s16 x, s16 y);   \
+        void draw(Camera camera) override;  \
+        bool solid(void) override;          \
+        void interact(void) override;       \
+        u16 id(void) override;              \
+        Rect getRect(void) const override;  \
+        bool hasGrown(void);                \
+        void update(void);                  \
     };
 
 // generic declaration for trapdoors
-#define TRAPDOOR_DECL(trapd) \
-    class trapd##TrapdoorBlock : public Block\
-    {\
-    private:\
-        bool open;\
-    public:\
-        trapd##TrapdoorBlock(s16 x, s16 y);\
-        trapd##TrapdoorBlock(s16 x, s16 y, bool open);\
-        void draw(Camera camera) override;\
-        bool solid(void) override;\
-        void interact(void) override;\
-        u16 id(void) override;\
-        Rect getRect(void) const override;\
-        bool isOpen(void);\
+#define TRAPDOOR_DECL(trapd)                           \
+    class trapd##TrapdoorBlock : public Block          \
+    {                                                  \
+    private:                                           \
+        bool open;                                     \
+                                                       \
+    public:                                            \
+        trapd##TrapdoorBlock(s16 x, s16 y);            \
+        trapd##TrapdoorBlock(s16 x, s16 y, bool open); \
+        void draw(Camera camera) override;             \
+        bool solid(void) override;                     \
+        void interact(void) override;                  \
+        u16 id(void) override;                         \
+        Rect getRect(void) const override;             \
+        bool isOpen(void);                             \
     };
 
 // slabs
@@ -170,79 +172,79 @@ enum class SlabID
     };
 
 // saplings
-#define SAPLING_IMPL(saplingid, spr, bid) \
-    saplingid##SaplingBlock::saplingid##SaplingBlock(s16 x, s16 y) : Block(x, y, 1), growTime(1200), grown(false)\
-    {\
-    }\
-    void saplingid##SaplingBlock::draw(Camera camera)\
-    {\
-        glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, spr);\
-    }\
-    bool saplingid##SaplingBlock::solid(void)\
-    {\
-        return false;\
-    }\
-    void saplingid##SaplingBlock::interact(void)\
-    {\
-    }\
-    u16 saplingid##SaplingBlock::id(void)\
-    {\
-        return bid;\
-    }\
-    Rect saplingid##SaplingBlock::getRect(void) const\
-    {\
-        return Rect(x, y, 16, 16);\
-    }\
-    bool saplingid##SaplingBlock::hasGrown(void)\
-    {\
-        return grown;\
-    }\
-    void saplingid##SaplingBlock::update(void)\
-    {\
-        if (!grown)\
-            --growTime;\
-        if (growTime == 0)\
-            grown = true;\
+#define SAPLING_IMPL(saplingid, spr, bid)                                                                         \
+    saplingid##SaplingBlock::saplingid##SaplingBlock(s16 x, s16 y) : Block(x, y, 1), growTime(1200), grown(false) \
+    {                                                                                                             \
+    }                                                                                                             \
+    void saplingid##SaplingBlock::draw(Camera camera)                                                             \
+    {                                                                                                             \
+        glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, spr);                                                  \
+    }                                                                                                             \
+    bool saplingid##SaplingBlock::solid(void)                                                                     \
+    {                                                                                                             \
+        return false;                                                                                             \
+    }                                                                                                             \
+    void saplingid##SaplingBlock::interact(void)                                                                  \
+    {                                                                                                             \
+    }                                                                                                             \
+    u16 saplingid##SaplingBlock::id(void)                                                                         \
+    {                                                                                                             \
+        return bid;                                                                                               \
+    }                                                                                                             \
+    Rect saplingid##SaplingBlock::getRect(void) const                                                             \
+    {                                                                                                             \
+        return Rect(x, y, 16, 16);                                                                                \
+    }                                                                                                             \
+    bool saplingid##SaplingBlock::hasGrown(void)                                                                  \
+    {                                                                                                             \
+        return grown;                                                                                             \
+    }                                                                                                             \
+    void saplingid##SaplingBlock::update(void)                                                                    \
+    {                                                                                                             \
+        if (!grown)                                                                                               \
+            --growTime;                                                                                           \
+        if (growTime == 0)                                                                                        \
+            grown = true;                                                                                         \
     }
 
 // trapdoors
-#define TRAPDOOR_IMPL(trapdid, spr, bid)\
-    trapdid##TrapdoorBlock::trapdid##TrapdoorBlock(s16 x, s16 y) : Block(x, y, 6), open(false)\
-    {\
-    }\
-    trapdid##TrapdoorBlock::trapdid##TrapdoorBlock(s16 x, s16 y, bool open) : Block(x, y, 6), open(open)\
-    {\
-    }\
-    void trapdid##TrapdoorBlock::draw(Camera camera)\
-    {\
-        if (open)\
-            glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, spr);\
-        else\
-            glSpriteScaleXY(x - camera.x, y - camera.y, 1 << 12, 1 << 10, GL_FLIP_NONE, spr);\
-    }\
-    bool trapdid##TrapdoorBlock::solid(void)\
-    {\
-        return !open;\
-    }\
-    void trapdid##TrapdoorBlock::interact(void)\
-    {\
-        open = !open;\
-        if (open)\
-            playsfx(4, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4);\
-        else\
-            playsfx(4, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4);\
-    }\
-    u16 trapdid##TrapdoorBlock::id(void)\
-    {\
-        return bid;\
-    }\
-    Rect trapdid##TrapdoorBlock::getRect(void) const\
-    {\
-        return Rect(x, y, 16, open ? 16 : 4);\
-    }\
-    bool trapdid##TrapdoorBlock::isOpen(void)\
-    {\
-        return open;\
+#define TRAPDOOR_IMPL(trapdid, spr, bid)                                                                 \
+    trapdid##TrapdoorBlock::trapdid##TrapdoorBlock(s16 x, s16 y) : Block(x, y, 6), open(false)           \
+    {                                                                                                    \
+    }                                                                                                    \
+    trapdid##TrapdoorBlock::trapdid##TrapdoorBlock(s16 x, s16 y, bool open) : Block(x, y, 6), open(open) \
+    {                                                                                                    \
+    }                                                                                                    \
+    void trapdid##TrapdoorBlock::draw(Camera camera)                                                     \
+    {                                                                                                    \
+        if (open)                                                                                        \
+            glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, spr);                                     \
+        else                                                                                             \
+            glSpriteScaleXY(x - camera.x, y - camera.y, 1 << 12, 1 << 10, GL_FLIP_NONE, spr);            \
+    }                                                                                                    \
+    bool trapdid##TrapdoorBlock::solid(void)                                                             \
+    {                                                                                                    \
+        return !open;                                                                                    \
+    }                                                                                                    \
+    void trapdid##TrapdoorBlock::interact(void)                                                          \
+    {                                                                                                    \
+        open = !open;                                                                                    \
+        if (open)                                                                                        \
+            playsfx(4, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4);                          \
+        else                                                                                             \
+            playsfx(4, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4);                      \
+    }                                                                                                    \
+    u16 trapdid##TrapdoorBlock::id(void)                                                                 \
+    {                                                                                                    \
+        return bid;                                                                                      \
+    }                                                                                                    \
+    Rect trapdid##TrapdoorBlock::getRect(void) const                                                     \
+    {                                                                                                    \
+        return Rect(x, y, 16, open ? 16 : 4);                                                            \
+    }                                                                                                    \
+    bool trapdid##TrapdoorBlock::isOpen(void)                                                            \
+    {                                                                                                    \
+        return open;                                                                                     \
     }
 
 // slabs
@@ -423,6 +425,22 @@ public:
     Rect getRect(void) const override;
     bool solid(void) override;
     GrassType getGrassType(void);
+};
+
+class DirtBlock : public Block
+{
+private:
+    bool farmland;
+
+public:
+    DirtBlock(s16 x, s16 y);
+    DirtBlock(s16 x, s16 y, bool farmland);
+
+    void draw(Camera camera) override;
+    u16 id(void) override;
+    Rect getRect(void) const override;
+    bool solid(void) override;
+    bool isFarmland(void);
 };
 
 class LeavesBlock : public Block

@@ -395,6 +395,42 @@ GrassType GrassBlock::getGrassType(void)
 
 //-----------------------------------------
 
+DirtBlock::DirtBlock(s16 x, s16 y) : Block(x, y, 14), farmland(false)
+{
+}
+
+DirtBlock::DirtBlock(s16 x, s16 y, bool farmland) : Block(x, y, 14), farmland(farmland)
+{
+}
+
+// TODO make camera arg in block draw reference
+void DirtBlock::draw(Camera camera)
+{
+    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprDirt);
+}
+
+u16 GrassBlock::id(void)
+{
+    return BID_GRASS;
+}
+
+Rect GrassBlock::getRect(void) const
+{
+    return Rect(x, y, 16, 16);
+}
+
+bool GrassBlock::solid(void)
+{
+    return true;
+}
+
+GrassType GrassBlock::getGrassType(void)
+{
+    return type;
+}
+
+//-----------------------------------------
+
 LeavesBlock::LeavesBlock(s16 x, s16 y, LeavesType type, bool natural) : Block(x, y, 5), natural(natural), type(type)
 {
 }
@@ -611,8 +647,7 @@ void SignBlock::drawText(Camera camera)
 {
     if (showText)
     {
-        glBoxFilled(x - camera.x - 2, y - camera.y - 10, x - camera.x - 2 +
-                    Game::instance->font.getTextWidth(getText()) + 1, y - camera.y, RGB15(4, 4, 4));
+        glBoxFilled(x - camera.x - 2, y - camera.y - 10, x - camera.x - 2 + Game::instance->font.getTextWidth(getText()) + 1, y - camera.y, RGB15(4, 4, 4));
         glBoxStroke(x - camera.x - 2, y - camera.y - 10, Game::instance->font.getTextWidth(getText()) + 2, 11,
                     RGB15(11, 11, 11));
         Game::instance->font.print(x - camera.x, y - camera.y - 9, getText(), 0, 0, NULL, SCALE_NORMAL, true);
