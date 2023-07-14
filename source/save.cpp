@@ -217,6 +217,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         }
         // dirt
         case BID_DIRT:
+        {
             // TODO use this way of converting block to specific type instead of creating Block * and then using reinterpret_cast
             // TODO also change variable names above from one letter (g for grass block, ...) to actually readable names
             DirtBlock *dirt = reinterpret_cast<DirtBlock *>(block.get());
@@ -224,6 +225,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
             wld << "dirt " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + sf + "\n";
             break;
+        }
         // every other block
         default:
             wld << "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(id) + "\n";
