@@ -123,8 +123,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         case BID_BIRCH_DOOR:
         case BID_SPRUCE_DOOR:
         {
-            Block *b = block.get();
-            DoorBlock *door = reinterpret_cast<DoorBlock *>(b);
+            DoorBlock *door = reinterpret_cast<DoorBlock *>(block.get());
             switch (id)
             {
             case BID_BIRCH_DOOR:
@@ -140,24 +139,22 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         // oak trapdoor
         case BID_OAK_TRAPDOOR:
         {
-            Block *b = block.get();
-            OakTrapdoorBlock *td = reinterpret_cast<OakTrapdoorBlock *>(b);
+            OakTrapdoorBlock *td = reinterpret_cast<OakTrapdoorBlock *>(block.get());
             wld << "oaktrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(td->isOpen()) + "\n";
             break;
         }
         // birch trapdoor
         case BID_BIRCH_TRAPDOOR:
         {
-            Block *b = block.get();
-            BirchTrapdoorBlock *td = reinterpret_cast<BirchTrapdoorBlock *>(b);
+            BirchTrapdoorBlock *td = reinterpret_cast<BirchTrapdoorBlock *>(block.get());
             wld << "birchtrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(td->isOpen()) + "\n";
             break;
         }
         // spruce trapdoor
         case BID_SPRUCE_TRAPDOOR:
         {
-            Block *b = block.get();
-            SpruceTrapdoorBlock *td = reinterpret_cast<SpruceTrapdoorBlock *>(b);
+            // TODO merge trapdoors
+            SpruceTrapdoorBlock *td = reinterpret_cast<SpruceTrapdoorBlock *>(block.get());
             wld << "sprucetrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(td->isOpen()) + "\n";
             break;
         }
@@ -168,8 +165,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         case BID_LEAVES:
         {
             std::string lid = "";
-            Block *b = block.get();
-            LeavesBlock *l = reinterpret_cast<LeavesBlock *>(b);
+            LeavesBlock *l = reinterpret_cast<LeavesBlock *>(block.get());
 
             switch (l->type)
             {
@@ -190,16 +186,14 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         // sign
         case BID_SIGN:
         {
-            Block *b = block.get();
-            SignBlock *s = reinterpret_cast<SignBlock *>(b);
+            SignBlock *s = reinterpret_cast<SignBlock *>(block.get());
             wld << "sign " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + s->getText() + "\n";
             break;
         }
         // grass block
         case BID_GRASS:
         {
-            Block *b = block.get();
-            GrassBlock *g = reinterpret_cast<GrassBlock *>(b);
+            GrassBlock *g = reinterpret_cast<GrassBlock *>(block.get());
 
             std::string stringType; // string type
             switch (g->getGrassType())
@@ -218,7 +212,6 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         // dirt
         case BID_DIRT:
         {
-            // TODO use this way of converting block to specific type instead of creating Block * and then using reinterpret_cast
             // TODO also change variable names above from one letter (g for grass block, ...) to actually readable names
             DirtBlock *dirt = reinterpret_cast<DirtBlock *>(block.get());
             std::string sf = dirt->isFarmland() ? "1" : "0";
@@ -247,8 +240,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     {
         if (block->id() == BID_CHEST)
         {
-            Block *b = block.get();
-            ChestBlock *chest = reinterpret_cast<ChestBlock *>(b);
+            ChestBlock *chest = reinterpret_cast<ChestBlock *>(block.get());
             std::ofstream chestFile(worldFolder + "/chests/chest" + std::to_string(chest->getChestID()) + ".cst");
 
             // save position
