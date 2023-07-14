@@ -192,7 +192,7 @@ Block::Block(s16 x, s16 y, u8 maxBrokenLevel) : x(x), y(y), brokenLevel(0), maxB
 {
 }
 
-void Block::drawBreaking(Camera camera)
+void Block::drawBreaking(Camera &camera)
 {
     if (!brokenLevel)
         return;
@@ -263,7 +263,7 @@ DoorBlock::DoorBlock(s16 x, s16 y, bool open, bool facing, DoorType type) : Bloc
 {
 }
 
-void DoorBlock::draw(Camera camera)
+void DoorBlock::draw(Camera &camera)
 {
     glImage *spr;
     switch (type)
@@ -354,7 +354,7 @@ GrassBlock::GrassBlock(s16 x, s16 y, GrassType type) : Block(x, y, 14), type(typ
 {
 }
 
-void GrassBlock::draw(Camera camera)
+void GrassBlock::draw(Camera &camera)
 {
     glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprGrass);
 
@@ -403,7 +403,7 @@ DirtBlock::DirtBlock(s16 x, s16 y, bool farmland) : Block(x, y, 14), farmland(fa
 }
 
 // TODO make camera arg in block draw reference
-void DirtBlock::draw(Camera camera)
+void DirtBlock::draw(Camera &camera)
 {
     if (farmland)
         glSpritePart(sprDirt, x - camera.x, y - camera.y + 1, 0, 0, 16, 15);
@@ -437,7 +437,7 @@ LeavesBlock::LeavesBlock(s16 x, s16 y, LeavesType type, bool natural) : Block(x,
 {
 }
 
-void LeavesBlock::draw(Camera camera)
+void LeavesBlock::draw(Camera &camera)
 {
     switch (type)
     {
@@ -499,7 +499,7 @@ FlowerBlock::FlowerBlock(s16 x, s16 y, FlowerType type) : Block(x, y, 1), type(t
 {
 }
 
-void FlowerBlock::draw(Camera camera)
+void FlowerBlock::draw(Camera &camera)
 {
     switch (type)
     {
@@ -546,7 +546,7 @@ GlassBlock::GlassBlock(s16 x, s16 y) : Block(x, y, 6)
 {
 }
 
-void GlassBlock::draw(Camera camera)
+void GlassBlock::draw(Camera &camera)
 {
     glSprite(x - camera.x - 1, y - camera.y, GL_FLIP_NONE, sprGlass);
 }
@@ -587,7 +587,7 @@ ChestBlock::ChestBlock(s16 x, s16 y, u16 id) : Block(x, y, 7), chid(id)
     initItems();
 }
 
-void ChestBlock::draw(Camera camera)
+void ChestBlock::draw(Camera &camera)
 {
     glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprChest);
 }
@@ -640,12 +640,12 @@ SignBlock::SignBlock(s16 x, s16 y, const std::string &text) : Block(x, y, 6), te
 {
 }
 
-void SignBlock::draw(Camera camera)
+void SignBlock::draw(Camera &camera)
 {
     glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprSign);
 }
 
-void SignBlock::drawText(Camera camera)
+void SignBlock::drawText(Camera &camera)
 {
     if (showText)
     {
