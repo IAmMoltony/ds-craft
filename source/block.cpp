@@ -234,7 +234,6 @@ bool Block::isSlab(void)
 // generic block implementations
 
 GENERIC_BLOCK_IMPL(SnowyGrassBlock, sprSnowyGrass, BID_SNOWY_GRASS, 14)
-GENERIC_BLOCK_IMPL(DirtBlock, sprDirt, BID_DIRT, 13)
 GENERIC_BLOCK_IMPL(StoneBlock, sprStone, BID_STONE, 16)
 GENERIC_BLOCK_IMPL(SandBlock, sprSand, BID_SAND, 13)
 GENERIC_BLOCK_IMPL(SandstoneBlock, sprSandstone, BID_SANDSTONE, 12)
@@ -409,24 +408,24 @@ void DirtBlock::draw(Camera camera)
     glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprDirt);
 }
 
-u16 GrassBlock::id(void)
+u16 DirtBlock::id(void)
 {
     return BID_GRASS;
 }
 
-Rect GrassBlock::getRect(void) const
+Rect DirtBlock::getRect(void) const
 {
     return Rect(x, y, 16, 16);
 }
 
-bool GrassBlock::solid(void)
+bool DirtBlock::solid(void)
 {
     return true;
 }
 
-GrassType GrassBlock::getGrassType(void)
+bool DirtBlock::isFarmland(void)
 {
-    return type;
+    return farmland;
 }
 
 //-----------------------------------------

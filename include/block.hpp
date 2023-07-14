@@ -361,7 +361,6 @@ extern glImage sprStoneBricks[1];
 // generic block declarations
 
 GENERIC_BLOCK_DECL(SnowyGrassBlock)
-GENERIC_BLOCK_DECL(DirtBlock)
 GENERIC_BLOCK_DECL(StoneBlock)
 GENERIC_BLOCK_DECL(WoodBlock)
 GENERIC_BLOCK_DECL(BirchWoodBlock)
