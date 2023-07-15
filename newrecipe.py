@@ -3,6 +3,7 @@
 
 from dataclasses import dataclass
 import sys
+import os
 
 
 @dataclass
@@ -97,7 +98,13 @@ def main():
     print("Writing recipe to file")
     with open(f"{argv[1]}.rcp", "w") as f:
         f.write(to_write)
-    print("All done!")
+
+    print(f"Move {argv[1]}.rcp to nitrofiles/crafting? (y/n)")
+    yn = input("> ")
+    if yn.lower() != "y":
+        print("All done!")
+        exit(0)
+    os.rename(f"{argv[1]}.rcp", f"nitrofiles/crafting/{argv[1]}.rcp")
 
 
 if __name__ == "__main__":
