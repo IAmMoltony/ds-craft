@@ -263,7 +263,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
     // player info
     std::ofstream playerinfo(worldFolder + "/player.info");
-    playerinfo << std::string("position " + std::to_string(player.getX()) + ' ' + std::to_string(player.getY())) + "\nspawnpoint " + std::to_string(player.getSpawnX()) + ' ' + std::to_string(player.getSpawnY()) + "\nhealth " + std::to_string(player.getHealth()) + '\n'; // TODO WHAT was i THINKING when WRITING this LINE?!?!?!??!?!?!?!?!?!?!?
+    playerinfo << "position " << player.getX() << ' ' << player.getY() << "\nspawnpoint " << player.getSpawnX() << ' ' << player.getSpawnY() << "\nhealth " << player.getHealth() << '\n';
     std::array<InventoryItem, 20> playerInventory = player.getInventory();
     // save inventory
     for (u8 i = 0; i < 20; ++i)
