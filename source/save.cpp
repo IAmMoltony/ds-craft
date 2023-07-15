@@ -133,21 +133,21 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                 wld << "spruce";
                 break;
             }
-            wld << "door " << std::to_string(block->x) << ' ' << std::to_string(block->y) + ' ' << std::to_string(door->isOpen()) << ' ' << std::to_string(door->getFacing()) << '\n';
+            wld << "door " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << std::to_string(door->isOpen()) << ' ' << std::to_string(door->getFacing()) << '\n';
             break;
         }
         // oak trapdoor
         case BID_OAK_TRAPDOOR:
         {
             OakTrapdoorBlock *trapdoor = reinterpret_cast<OakTrapdoorBlock *>(block.get());
-            wld << "oaktrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(trapdoor->isOpen()) + "\n";
+            wld << "oaktrapdoor " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << std::to_string(trapdoor->isOpen()) << '\n';
             break;
         }
         // birch trapdoor
         case BID_BIRCH_TRAPDOOR:
         {
             BirchTrapdoorBlock *trapdoor = reinterpret_cast<BirchTrapdoorBlock *>(block.get());
-            wld << "birchtrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(trapdoor->isOpen()) + "\n";
+            wld << "birchtrapdoor " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << std::to_string(trapdoor->isOpen()) << '\n';
             break;
         }
         // spruce trapdoor
@@ -155,7 +155,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         {
             // TODO merge trapdoors
             SpruceTrapdoorBlock *trapdoor = reinterpret_cast<SpruceTrapdoorBlock *>(block.get());
-            wld << "sprucetrapdoor " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(trapdoor->isOpen()) + "\n";
+            wld << "sprucetrapdoor " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << std::to_string(trapdoor->isOpen()) << '\n';
             break;
         }
         // chests are handled separately
@@ -180,14 +180,14 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                 break;
             }
 
-            wld << "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + lid + "\n";
+            wld << "block " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << lid << '\n';
             break;
         }
         // sign
         case BID_SIGN:
         {
             SignBlock *sign = reinterpret_cast<SignBlock *>(block.get());
-            wld << "sign " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + sign->getText() + "\n";
+            wld << "sign " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << sign->getText() << '\n';
             break;
         }
         // grass block
@@ -206,21 +206,21 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                 break;
             }
 
-            wld << "grassblock " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + stringType + "\n";
+            wld << "grassblock " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << stringType + '\n';
             break;
         }
         // dirt
         case BID_DIRT:
         {
             DirtBlock *dirt = reinterpret_cast<DirtBlock *>(block.get());
-            std::string sf = dirt->isFarmland() ? "1" : "0";
+            char cf = dirt->isFarmland() ? '1' : '0';
 
-            wld << "dirt " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + sf + "\n";
+            wld << "dirt " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << cf << '\n';
             break;
         }
         // every other block
         default:
-            wld << "block " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(id) + "\n";
+            wld << "block " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << std::to_string(id) << '\n';
             break;
         }
     }
@@ -229,7 +229,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     for (auto &entity : entities)
     {
         std::string id = entity->id();
-        wld << "entity " + std::to_string(entity->getX()) + " " + std::to_string(entity->getY()) + " " + id + "\n";
+        wld << "entity " << std::to_string(entity->getX()) << ' ' << std::to_string(entity->getY()) << ' ' << id << '\n';
     }
 
     wld.close();
@@ -243,12 +243,12 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             std::ofstream chestFile(worldFolder + "/chests/chest" + std::to_string(chest->getChestID()) + ".cst");
 
             // save position
-            chestFile << "position " + std::to_string(block->x) + ' ' + std::to_string(block->y) + '\n';
+            chestFile << "position " << std::to_string(block->x) << ' ' << std::to_string(block->y) << '\n';
 
             // save items
             std::array<InventoryItem, 10> chestItems = chest->getItems();
             for (u8 i = 0; i < 10; ++i)
-                chestFile << "chestitem " + std::to_string(i) + ' ' + iidToString(chestItems[i].id) + " " + std::to_string(chestItems[i].amount) + '\n';
+                chestFile << "chestitem " << std::to_string(i) << ' ' << iidToString(chestItems[i].id) << ' ' << std::to_string(chestItems[i].amount) << '\n';
 
             chestFile.close();
             break;
@@ -257,17 +257,17 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
     // world meta
     std::ofstream wldmeta(worldFolder + "/world.meta");
-    wldmeta << "worldname " + name + "\ngameversion " + getVersionString() + "\nseed " + std::to_string(seed) +
-                   "\nlocation " + std::to_string(currentLocation);
+    wldmeta << "worldname " << name << "\ngameversion " << getVersionString() << "\nseed " << std::to_string(seed) <<
+                   "\nlocation " << std::to_string(currentLocation);
     wldmeta.close();
 
     // player info
     std::ofstream playerinfo(worldFolder + "/player.info");
-    playerinfo << std::string("position " + std::to_string(player.getX()) + ' ' + std::to_string(player.getY())) + "\nspawnpoint " + std::to_string(player.getSpawnX()) + ' ' + std::to_string(player.getSpawnY()) + "\nhealth " + std::to_string(player.getHealth()) + '\n';
+    playerinfo << std::string("position " + std::to_string(player.getX()) + ' ' + std::to_string(player.getY())) + "\nspawnpoint " + std::to_string(player.getSpawnX()) + ' ' + std::to_string(player.getSpawnY()) + "\nhealth " + std::to_string(player.getHealth()) + '\n'; // TODO WHAT was i THINKING when WRITING this LINE?!?!?!??!?!?!?!?!?!?!?
     std::array<InventoryItem, 20> playerInventory = player.getInventory();
     // save inventory
     for (u8 i = 0; i < 20; ++i)
-        playerinfo << "inventory " + std::to_string(i) + " " + iidToString(playerInventory[i].id) + " " + std::to_string(playerInventory[i].amount) + "\n";
+        playerinfo << "inventory " << std::to_string(i) << ' ' << iidToString(playerInventory[i].id) << ' ' << std::to_string(playerInventory[i].amount) << '\n';
     playerinfo.close();
 
     randomSetSeed(seed);
