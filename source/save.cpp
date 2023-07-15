@@ -111,8 +111,6 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     fsCreateFile(std::string(worldFolder + "/player.info").c_str());
     std::ofstream wld(worldFolder + "/locations/location" + std::to_string(currentLocation) + ".wld");
 
-    // TODO instead of using wld << "..." + "..." to wld << "..." << "..."
-
     // save blocks
     for (auto &block : blocks)
     {
@@ -120,7 +118,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
         switch (id)
         {
-        // oak door
+        // doors
         case BID_DOOR:
         case BID_BIRCH_DOOR:
         case BID_SPRUCE_DOOR:
@@ -135,7 +133,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                 wld << "spruce";
                 break;
             }
-            wld << "door " + std::to_string(block->x) + " " + std::to_string(block->y) + " " + std::to_string(door->isOpen()) + " " + std::to_string(door->getFacing()) + "\n";
+            wld << "door " << std::to_string(block->x) << ' ' << std::to_string(block->y) + ' ' << std::to_string(door->isOpen()) << ' ' << std::to_string(door->getFacing()) << '\n';
             break;
         }
         // oak trapdoor
@@ -245,7 +243,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             std::ofstream chestFile(worldFolder + "/chests/chest" + std::to_string(chest->getChestID()) + ".cst");
 
             // save position
-            chestFile << "position " + std::to_string(b->x) + ' ' + std::to_string(b->y) + '\n';
+            chestFile << "position " + std::to_string(block->x) + ' ' + std::to_string(block->y) + '\n';
 
             // save items
             std::array<InventoryItem, 10> chestItems = chest->getItems();
