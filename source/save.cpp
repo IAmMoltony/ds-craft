@@ -337,7 +337,6 @@ static void _argParseGrass(const std::vector<std::string> &split, s16 &x, s16 &y
 {
     _argParseXY(split, x, y);
     const std::string &st = split[3]; // string type
-    // TODO if there is no type (which is optional for compat) then this code will access data thats out of bounds. need fix.
 
     if (st == "spruce")
         type = GrassType::Spruce;
