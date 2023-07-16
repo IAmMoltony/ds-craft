@@ -231,6 +231,16 @@ bool Block::isSlab(void)
     return false;
 }
 
+void replaceBlock(BlockList &blocks, const Block *oldBlock, std::unique_ptr<Block> newBlock)
+{
+    for (auto &block : blocks)
+        if (block.get() == oldBlock)
+        {
+            block = std::move(newBlock);
+            return;
+        }
+}
+
 // generic block implementations
 
 GENERIC_BLOCK_IMPL(SnowyGrassBlock, sprSnowyGrass, BID_SNOWY_GRASS, 14)

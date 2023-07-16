@@ -314,6 +314,8 @@ public:
     virtual Rect getRect(void) const = 0;
 };
 
+void replaceBlock(BlockList &blocks, const Block *oldBlock, std::unique_ptr<Block> newBlock);
+
 // block sprites
 extern glImage sprGrass[1];
 extern glImage sprDirt[1];
