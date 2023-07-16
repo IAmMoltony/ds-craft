@@ -219,6 +219,7 @@ bool Block::broken(void)
 
 void Block::interact(InventoryItemID item)
 {
+    (void)item;
 }
 
 bool Block::solid(void)
@@ -303,6 +304,7 @@ bool DoorBlock::solid(void)
 
 void DoorBlock::interact(InventoryItemID item)
 {
+    (void)item;
     if (open)
     {
         open = false;
