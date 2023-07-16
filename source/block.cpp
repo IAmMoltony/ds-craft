@@ -412,7 +412,7 @@ void DirtBlock::draw(Camera &camera)
 
 u16 DirtBlock::id(void)
 {
-    return BID_GRASS;
+    return BID_DIRT;
 }
 
 Rect DirtBlock::getRect(void) const
