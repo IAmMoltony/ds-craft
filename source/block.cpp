@@ -217,7 +217,7 @@ bool Block::broken(void)
     return brokenLevel >= maxBrokenLevel;
 }
 
-void Block::interact(void)
+void Block::interact(InventoryItemID item)
 {
 }
 
@@ -291,7 +291,7 @@ bool DoorBlock::solid(void)
     return !open;
 }
 
-void DoorBlock::interact(void)
+void DoorBlock::interact(InventoryItemID item)
 {
     if (open)
     {
@@ -423,6 +423,12 @@ Rect DirtBlock::getRect(void) const
 bool DirtBlock::solid(void)
 {
     return true;
+}
+
+void DirtBlock::interact(InventoryItemID item)
+{
+    if (!farmland && (item == InventoryItemID::WoodenHoe || item == InventoryItemID::StoneHoe || item == InventoryItemID::IronHoe))
+        farmland = true;
 }
 
 bool DirtBlock::isFarmland(void)
@@ -596,7 +602,7 @@ bool ChestBlock::solid(void)
     return false;
 }
 
-void ChestBlock::interact(void)
+void ChestBlock::interact(InventoryItemID item)
 {
 }
 
@@ -660,7 +666,7 @@ bool SignBlock::solid(void)
     return false;
 }
 
-void SignBlock::interact(void)
+void SignBlock::interact(InventoryItemID item)
 {
 }
 

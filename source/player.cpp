@@ -7,16 +7,19 @@
 static constexpr u8 MAX_AIM_DISTANCE = 67;
 
 // gui images
+
 static glImage _sprInventorySlot[1];
 static glImage _sprInventorySlotSelect[1];
 static glImage _sprAim[1];
 
 // health images
+
 static glImage _sprHeartOutline[1];
 static glImage _sprHalfHeart[1];
 static glImage _sprHalfHeart2[1];
 
 // player images
+
 static glImage _sprPlayerHead[1];
 static glImage _sprPlayerBody[3][1];
 
@@ -170,6 +173,9 @@ static InventoryItemID _nonBlockItemIDs[] =
         InventoryItemID::WoodenSword,
         InventoryItemID::StoneSword,
         InventoryItemID::IronSword,
+        InventoryItemID::WoodenHoe,
+        InventoryItemID::StoneHoe,
+        InventoryItemID::IronHoe,
 };
 
 static InventoryItemID _toolItemIDs[] =
@@ -186,6 +192,9 @@ static InventoryItemID _toolItemIDs[] =
         InventoryItemID::WoodenSword,
         InventoryItemID::StoneSword,
         InventoryItemID::IronSword,
+        InventoryItemID::WoodenHoe,
+        InventoryItemID::StoneHoe,
+        InventoryItemID::IronHoe,
 };
 
 static InventoryItemID _nonSolidBlockItemIDs[] =
@@ -1159,7 +1168,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                         {
                             // interact
                             interact = true;
-                            block->interact();
+                            block->interact(itemid);
                             if (block->id() == BID_CHEST)
                             {
                                 Block *b = block.get();

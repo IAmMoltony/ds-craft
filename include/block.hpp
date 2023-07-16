@@ -137,7 +137,6 @@ enum class SlabID
         sapl##SaplingBlock(s16 x, s16 y);   \
         void draw(Camera &camera) override; \
         bool solid(void) override;          \
-        void interact(void) override;       \
         u16 id(void) override;              \
         Rect getRect(void) const override;  \
         bool hasGrown(void);                \
@@ -156,7 +155,7 @@ enum class SlabID
         trapd##TrapdoorBlock(s16 x, s16 y, bool open); \
         void draw(Camera &camera) override;            \
         bool solid(void) override;                     \
-        void interact(void) override;                  \
+        void interact(InventoryItemID item) override;  \
         u16 id(void) override;                         \
         Rect getRect(void) const override;             \
         bool isOpen(void);                             \
@@ -184,9 +183,6 @@ enum class SlabID
     bool saplingid##SaplingBlock::solid(void)                                                                     \
     {                                                                                                             \
         return false;                                                                                             \
-    }                                                                                                             \
-    void saplingid##SaplingBlock::interact(void)                                                                  \
-    {                                                                                                             \
     }                                                                                                             \
     u16 saplingid##SaplingBlock::id(void)                                                                         \
     {                                                                                                             \
@@ -227,7 +223,7 @@ enum class SlabID
     {                                                                                                    \
         return !open;                                                                                    \
     }                                                                                                    \
-    void trapdid##TrapdoorBlock::interact(void)                                                          \
+    void trapdid##TrapdoorBlock::interact(InventoryItemID item)                                          \
     {                                                                                                    \
         open = !open;                                                                                    \
         if (open)                                                                                        \
@@ -312,7 +308,7 @@ public:
     bool broken(void);
     virtual void draw(Camera &camera) = 0;
     virtual u16 id(void) = 0;
-    virtual void interact(void);
+    virtual void interact(InventoryItemID item);
     virtual bool solid(void);
     virtual bool isSlab(void);
     virtual Rect getRect(void) const = 0;
@@ -383,6 +379,8 @@ GENERIC_BLOCK_DECL(GlassBlock)
 GENERIC_BLOCK_DECL(LadderBlock)
 GENERIC_BLOCK_DECL(StoneBricksBlock)
 
+// TODO move DoorBlock declaration into non-generic block declarations section
+
 class DoorBlock : public Block
 {
 private:
@@ -394,7 +392,7 @@ public:
     DoorBlock(s16 x, s16 y, bool open, bool facing, DoorType type);
     void draw(Camera &camera) override;
     bool solid(void) override;
-    void interact(void) override;
+    void interact(InventoryItemID item) override;
     u16 id(void) override;
     Rect getRect(void) const override;
     bool isOpen(void);
@@ -440,6 +438,7 @@ public:
     u16 id(void) override;
     Rect getRect(void) const override;
     bool solid(void) override;
+    void interact(InventoryItemID item) override;
     bool isFarmland(void);
 };
 
@@ -489,7 +488,7 @@ public:
 
     void draw(Camera &camera) override;
     bool solid(void) override;
-    void interact(void) override;
+    void interact(InventoryItemID item) override;
     u16 id(void) override;
     Rect getRect(void) const override;
 
@@ -497,6 +496,8 @@ public:
     void setItem(u8 i, InventoryItem item);
     u16 getChestID(void);
 };
+
+// TODO remove override interact method from blocks that dont do anything when interacted with
 
 class SignBlock : public Block
 {
@@ -510,7 +511,7 @@ public:
 
     void draw(Camera &camera) override;
     void drawText(Camera &camera);
-    void interact(void) override;
+    void interact(InventoryItemID item) override;
     bool solid(void) override;
     u16 id(void) override;
     Rect getRect(void) const override;

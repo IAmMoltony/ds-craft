@@ -74,12 +74,16 @@ enum class InventoryItemID
     StoneSword,
     IronSword,
     StoneBricks,
+    WoodenHoe,
+    StoneHoe,
+    IronHoe,
 };
 
 struct InventoryItem
 {
     InventoryItemID id;
     u8 amount;
+    // TODO add durability for items
 };
 
 static inline constexpr InventoryItem NULL_ITEM = {InventoryItemID::None, 0};

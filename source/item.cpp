@@ -38,7 +38,14 @@ static glImage _sprWoodenSword[1];
 static glImage _sprStoneSword[1];
 static glImage _sprIronSword[1];
 
+// hoes
+
+static glImage _sprWoodenHoe[1];
+static glImage _sprStoneHoe[1];
+static glImage _sprIronHoe[1];
+
 // dummy
+
 static glImage _sprDummy[1];
 
 void loadItemTextures(void)
@@ -68,6 +75,10 @@ void loadItemTextures(void)
     loadImageAlpha(_sprStoneSword, 16, 16, stone_swordPal, stone_swordBitmap);
     loadImageAlpha(_sprIronSword, 16, 16, iron_swordPal, iron_swordBitmap);
 
+    loadImageAlpha(_sprWoodenHoe, 16, 16, wooden_hoePal, wooden_hoeBitmap);
+    loadImageAlpha(_sprStoneHoe, 16, 16, stone_hoePal, stone_hoeBitmap);
+    loadImageAlpha(_sprIronHoe, 16, 16, iron_hoePal, iron_hoeBitmap);
+
     loadImage(_sprDummy, 16, 16, dummyBitmap);
 }
 
@@ -96,6 +107,10 @@ void unloadItemTextures(void)
     unloadImage(_sprWoodenSword);
     unloadImage(_sprStoneSword);
     unloadImage(_sprIronSword);
+
+    unloadImage(_sprWoodenHoe);
+    unloadImage(_sprStoneHoe);
+    unloadImage(_sprIronHoe);
 
     unloadImage(_sprDummy);
 }
@@ -297,6 +312,15 @@ std::string iidToString(InventoryItemID iid)
     case InventoryItemID::StoneBricks:
         id = "stonebricks";
         break;
+    case InventoryItemID::WoodenHoe:
+        id = "woodenhoe";
+        break;
+    case InventoryItemID::StoneHoe:
+        id = "stonehoe";
+        break;
+    case InventoryItemID::IronHoe:
+        id = "ironhoe";
+        break;
     }
     return id;
 }
@@ -434,6 +458,12 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Sign";
         case InventoryItemID::StoneBricks:
             return "Stone Bricks";
+        case InventoryItemID::WoodenHoe:
+            return "Wooden Hoe";
+        case InventoryItemID::StoneHoe:
+            return "Stone Hoe";
+        case InventoryItemID::IronHoe:
+            return "Iron Hoe";
         default:
             return "Error";
         }
@@ -569,6 +599,12 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Tbcnkzmb";
         case InventoryItemID::StoneBricks:
             return "Lbogpp\"g mksrkzk";
+        case InventoryItemID::WoodenHoe:
+            return "Egsgd&ppb& oqu\"eb"; // TODO make InventoryItemID an enum inside of InventoryItem struct (InventoryItemID -> InventoryItem::ID)
+        case InventoryItemID::StoneHoe:
+            return "Lbogppb& oqu\"eb";
+        case InventoryItemID::IronHoe:
+            return "Hgngjpb& oqu\"eb";
         default:
             return "P}kcmb";
         }
@@ -706,11 +742,15 @@ glImage *getItemImage(InventoryItemID item)
         return sprSign;
     case InventoryItemID::StoneBricks:
         return sprStoneBricks;
+    case InventoryItemID::WoodenHoe:
+        return _sprWoodenHoe;
+    case InventoryItemID::StoneHoe:
+        return _sprStoneHoe;
+    case InventoryItemID::IronHoe:
+        return _sprIronHoe;
     default:
-        break;
+        return _sprDummy;
     }
-
-    return _sprDummy;
 }
 
 InventoryItemID strToIID(std::string &sid)
@@ -836,6 +876,12 @@ InventoryItemID strToIID(std::string &sid)
         return InventoryItemID::Sign;
     else if (sid == "stonebricks")
         return InventoryItemID::StoneBricks;
+    else if (sid == "woodenhoe")
+        return InventoryItemID::WoodenHoe;
+    else if (sid == "stonehoe")
+        return InventoryItemID::StoneHoe;
+    else if (sid == "ironhoe")
+        return InventoryItemID::IronHoe;
 
     printf("'%s' is not a valid item string id\n", sid.c_str());
     return InventoryItemID::None;
