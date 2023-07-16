@@ -65,3 +65,8 @@ iron_axe
 wooden_sword
 stone_sword
 iron_sword
+
+# hoes
+wooden_hoe
+stone_hoe
+iron_hoe
