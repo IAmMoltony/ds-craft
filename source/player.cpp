@@ -1176,9 +1176,11 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                 chestOpen = true;
                                 chest = chestp;
                             }
-                            if (block->id() == BID_WOOD)
+                            else if ((block->id() == BID_GRASS || block->id() == BID_SNOWY_GRASS) && (itemid == InventoryItemID::WoodenHoe ||
+                                     itemid == InventoryItemID::StoneHoe || itemid == InventoryItemID::IronHoe))
                             {
-                                replaceBlock(*blocks, block.get(), std::make_unique<GrassBlock>(block->x, block->y));
+                                replaceBlock(*blocks, block.get(), std::make_unique<DirtBlock>(block->x, block->y));
+                                block->interact(itemid);
                             }
                             break;
                         }
