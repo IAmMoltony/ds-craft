@@ -225,6 +225,7 @@ enum class SlabID
     }                                                                                                    \
     void trapdid##TrapdoorBlock::interact(InventoryItemID item)                                          \
     {                                                                                                    \
+        (void)item;                                                                                      \
         open = !open;                                                                                    \
         if (open)                                                                                        \
             playsfx(4, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4);                          \
@@ -490,7 +491,6 @@ public:
 
     void draw(Camera &camera) override;
     bool solid(void) override;
-    void interact(InventoryItemID item) override;
     u16 id(void) override;
     Rect getRect(void) const override;
 
@@ -498,8 +498,6 @@ public:
     void setItem(u8 i, InventoryItem item);
     u16 getChestID(void);
 };
-
-// TODO remove override interact method from blocks that dont do anything when interacted with
 
 class SignBlock : public Block
 {
@@ -513,7 +511,6 @@ public:
 
     void draw(Camera &camera) override;
     void drawText(Camera &camera);
-    void interact(InventoryItemID item) override;
     bool solid(void) override;
     u16 id(void) override;
     Rect getRect(void) const override;

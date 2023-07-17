@@ -70,3 +70,6 @@ iron_sword
 wooden_hoe
 stone_hoe
 iron_hoe
+
+# shear
+shears

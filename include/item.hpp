@@ -77,6 +77,7 @@ enum class InventoryItemID
     WoodenHoe,
     StoneHoe,
     IronHoe,
+    Shears,
 };
 
 struct InventoryItem

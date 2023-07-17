@@ -614,10 +614,6 @@ bool ChestBlock::solid(void)
     return false;
 }
 
-void ChestBlock::interact(InventoryItemID item)
-{
-}
-
 u16 ChestBlock::id(void)
 {
     return BID_CHEST;
@@ -676,10 +672,6 @@ void SignBlock::drawText(Camera &camera)
 bool SignBlock::solid(void)
 {
     return false;
-}
-
-void SignBlock::interact(InventoryItemID item)
-{
 }
 
 u16 SignBlock::id(void)

@@ -7,6 +7,7 @@ static glImage _sprStick[1];
 static glImage _sprCoal[1];
 static glImage _sprIronIngot[1];
 static glImage _sprIronNugget[1];
+static glImage _sprShears[1];
 
 // food items
 
@@ -54,6 +55,7 @@ void loadItemTextures(void)
     loadImageAlpha(_sprCoal, 16, 16, coalPal, coalBitmap);
     loadImageAlpha(_sprIronIngot, 16, 16, iron_ingotPal, iron_ingotBitmap);
     loadImageAlpha(_sprIronNugget, 16, 16, iron_nuggetPal, iron_nuggetBitmap);
+    loadImageAlpha(_sprShears, 16, 16, shearsPal, shearsBitmap);
 
     loadImageAlpha(_sprRawPorkchop, 16, 16, porkchopPal, porkchopBitmap);
     loadImageAlpha(_sprCookedPorkchop, 16, 16, cooked_porkchopPal, cooked_porkchopBitmap);
@@ -88,6 +90,7 @@ void unloadItemTextures(void)
     unloadImage(_sprCoal);
     unloadImage(_sprIronIngot);
     unloadImage(_sprIronNugget);
+    unloadImage(_sprShears);
 
     unloadImage(_sprRawPorkchop);
     unloadImage(_sprCookedPorkchop);
@@ -321,6 +324,9 @@ std::string iidToString(InventoryItemID iid)
     case InventoryItemID::IronHoe:
         id = "ironhoe";
         break;
+    case InventoryItemID::Shears:
+        id = "shears";
+        break;
     }
     return id;
 }
@@ -464,6 +470,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Stone Hoe";
         case InventoryItemID::IronHoe:
             return "Iron Hoe";
+        case InventoryItemID::Shears:
+            return "Shears";
         default:
             return "Error";
         }
@@ -605,6 +613,8 @@ const char *getItemStr(Language lang, InventoryItemID iid)
             return "Lbogppb& oqu\"eb";
         case InventoryItemID::IronHoe:
             return "Hgngjpb& oqu\"eb";
+        case InventoryItemID::Shears:
+            return "Oqipky\"";
         default:
             return "P}kcmb";
         }
@@ -748,6 +758,8 @@ glImage *getItemImage(InventoryItemID item)
         return _sprStoneHoe;
     case InventoryItemID::IronHoe:
         return _sprIronHoe;
+    case InventoryItemID::Shears:
+        return _sprShears;
     default:
         return _sprDummy;
     }
@@ -756,6 +768,7 @@ glImage *getItemImage(InventoryItemID item)
 InventoryItemID strToIID(std::string &sid)
 {
     sid.erase(std::remove_if(sid.begin(), sid.end(), ::isspace), sid.end());
+
     if (sid == "none")
         return InventoryItemID::None;
     else if (sid == "grass")
@@ -882,6 +895,8 @@ InventoryItemID strToIID(std::string &sid)
         return InventoryItemID::StoneHoe;
     else if (sid == "ironhoe")
         return InventoryItemID::IronHoe;
+    else if (sid == "shears")
+        return InventoryItemID::Shears;
 
     printf("'%s' is not a valid item string id\n", sid.c_str());
     return InventoryItemID::None;

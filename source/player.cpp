@@ -176,6 +176,7 @@ static InventoryItemID _nonBlockItemIDs[] =
         InventoryItemID::WoodenHoe,
         InventoryItemID::StoneHoe,
         InventoryItemID::IronHoe,
+        InventoryItemID::Shears,
 };
 
 static InventoryItemID _toolItemIDs[] =
@@ -195,6 +196,7 @@ static InventoryItemID _toolItemIDs[] =
         InventoryItemID::WoodenHoe,
         InventoryItemID::StoneHoe,
         InventoryItemID::IronHoe,
+        InventoryItemID::Shears,
 };
 
 static InventoryItemID _nonSolidBlockItemIDs[] =
@@ -1683,6 +1685,14 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             block->hit(2);
                         else if (inventory[hotbarSelect].id == InventoryItemID::IronAxe)
                             block->hit(4);
+                        else
+                            block->hit();
+                        break;
+                    case BID_LEAVES:
+                    case BID_BIRCH_LEAVES:
+                    case BID_SPRUCE_LEAVES:
+                        if (inventory[hotbarSelect].id == InventoryItemID::Shears)
+                            block->hit(block->maxBrokenLevel + 1);
                         else
                             block->hit();
                         break;
