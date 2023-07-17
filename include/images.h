@@ -20,6 +20,7 @@
 #include "logo.h"
 #include "dummy.h"
 #include "cooked_porkchop.h"
+#include "shears.h"
 #include "wooden_shovel.h"
 #include "iron_sword.h"
 #include "wooden_hoe.h"
