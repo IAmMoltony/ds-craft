@@ -489,6 +489,12 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             // oh boi
             switch (id)
             {
+            case BID_GRASS:
+                blocks.emplace_back(new GrassBlock(x, y));
+                break;
+            case BID_DIRT:
+                blocks.emplace_back(new DirtBlock(x, y));
+                break;
             case BID_STONE:
                 blocks.emplace_back(new StoneBlock(x, y));
                 break;
