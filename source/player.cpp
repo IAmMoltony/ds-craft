@@ -1858,10 +1858,15 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             _spawnBlockParticles(blockParticles, sprCactus, block->x, block->y);
                             break;
                         case BID_DEAD_BUSH:
-                            entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), InventoryItem::ID::Stick));
-                            entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), InventoryItem::ID::Stick));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             _spawnBlockParticles(blockParticles, sprDeadBush, block->x, block->y);
+                            if (inventory[hotbarSelect].id == InventoryItem::ID::Shears)
+                                entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::DeadBush));
+                            else
+                            {
+                                entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), InventoryItem::ID::Stick));
+                                entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), InventoryItem::ID::Stick));
+                            }
                             break;
                         case BID_POPPY:
                             entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Poppy));
