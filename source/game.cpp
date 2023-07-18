@@ -657,7 +657,7 @@ void Game::draw(void)
             break;
         }
 
-        font.printCentered(0, 70, "Assets by Mojang");
+        font.printCentered(0, 70, "Assets by Mojang Studios");
         font.printCentered(0, 120, "(C) 2023 moltony");
         font.printCentered(0, 129, "Built with devkitARM");
 
