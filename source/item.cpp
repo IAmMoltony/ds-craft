@@ -765,6 +765,8 @@ glImage *getItemImage(InventoryItem::ID item)
     }
 }
 
+// TODO at first i thought that theres no way to improve to/from IID and sprite getting functions but just right now it hit me - we can just use a look up table
+
 InventoryItem::ID strToIID(std::string &sid)
 {
     sid.erase(std::remove_if(sid.begin(), sid.end(), ::isspace), sid.end());
