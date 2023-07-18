@@ -69,48 +69,27 @@ enum class SlabID
 
 // block implementations for blocks that
 // don't have anything really special.
-// they are used to save a lot of typing (and avoid manual copy-pasting) when
+// they are used to avoid manual copy-pasting when
 // adding a new block.
-// TODO merge NONSOLID and GENERIC_BLOCK_IMPL
-#define GENERIC_BLOCK_IMPL(block, spr, id_, maxBrokenLevel_)     \
-    block::block(s16 x, s16 y) : Block(x, y, maxBrokenLevel_)    \
-    {                                                            \
-    }                                                            \
-    void block::draw(Camera &camera)                             \
-    {                                                            \
-        glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, spr); \
-    }                                                            \
-    u16 block::id(void)                                          \
-    {                                                            \
-        return id_;                                              \
-    }                                                            \
-    Rect block::getRect(void) const                              \
-    {                                                            \
-        return Rect(x, y, 16, 16);                               \
-    }                                                            \
-    bool block::solid(void)                                      \
-    {                                                            \
-        return true;                                             \
-    }
-#define NONSOLID_BLOCK_IMPL(block, spr, id_, maxBrokenLevel_)    \
-    block::block(s16 x, s16 y) : Block(x, y, maxBrokenLevel_)    \
-    {                                                            \
-    }                                                            \
-    void block::draw(Camera &camera)                             \
-    {                                                            \
-        glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, spr); \
-    }                                                            \
-    u16 block::id(void)                                          \
-    {                                                            \
-        return id_;                                              \
-    }                                                            \
-    Rect block::getRect(void) const                              \
-    {                                                            \
-        return Rect(x, y, 16, 16);                               \
-    }                                                            \
-    bool block::solid(void)                                      \
-    {                                                            \
-        return false;                                            \
+#define GENERIC_BLOCK_IMPL(block, spr, id_, maxBrokenLevel_, solid_)     \
+    block::block(s16 x, s16 y) : Block(x, y, maxBrokenLevel_)           \
+    {                                                                   \
+    }                                                                   \
+    void block::draw(Camera &camera)                                    \
+    {                                                                   \
+        glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, spr);        \
+    }                                                                   \
+    u16 block::id(void)                                                 \
+    {                                                                   \
+        return id_;                                                     \
+    }                                                                   \
+    Rect block::getRect(void) const                                     \
+    {                                                                   \
+        return Rect(x, y, 16, 16);                                      \
+    }                                                                   \
+    bool block::solid(void)                                             \
+    {                                                                   \
+        return solid_;                                                  \
     }
 
 // generic declaration for most blocks

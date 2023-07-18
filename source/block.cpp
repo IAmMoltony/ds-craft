@@ -244,27 +244,27 @@ void replaceBlock(BlockList &blocks, const Block *oldBlock, std::unique_ptr<Bloc
 
 // generic block implementations
 
-GENERIC_BLOCK_IMPL(SnowyGrassBlock, sprSnowyGrass, BID_SNOWY_GRASS, 14)
-GENERIC_BLOCK_IMPL(StoneBlock, sprStone, BID_STONE, 16)
-GENERIC_BLOCK_IMPL(SandBlock, sprSand, BID_SAND, 13)
-GENERIC_BLOCK_IMPL(SandstoneBlock, sprSandstone, BID_SANDSTONE, 12)
-GENERIC_BLOCK_IMPL(PlanksBlock, sprPlanks, BID_PLANKS, 7)
-GENERIC_BLOCK_IMPL(BirchPlanksBlock, sprBirchPlanks, BID_BIRCH_PLANKS, 7)
-GENERIC_BLOCK_IMPL(SprucePlanksBlock, sprSprucePlanks, BID_SPRUCE_PLANKS, 7)
-GENERIC_BLOCK_IMPL(BedrockBlock, sprBedrock, BID_BEDROCK, (u8)-1)
-GENERIC_BLOCK_IMPL(CobblestoneBlock, sprCobblestone, BID_COBBLESTONE, 15)
-GENERIC_BLOCK_IMPL(CoalOreBlock, sprCoalOre, BID_COAL_ORE, 18)
-GENERIC_BLOCK_IMPL(CoalBlock, sprCoalBlock, BID_COAL_BLOCK, 18)
-GENERIC_BLOCK_IMPL(IronOreBlock, sprIronOre, BID_IRON_ORE, 20)
-GENERIC_BLOCK_IMPL(IronBlock, sprIronBlock, BID_IRON_BLOCK, 20)
-GENERIC_BLOCK_IMPL(StoneBricksBlock, sprStoneBricks, BID_STONE_BRICKS, 16)
+GENERIC_BLOCK_IMPL(SnowyGrassBlock, sprSnowyGrass, BID_SNOWY_GRASS, 14, true)
+GENERIC_BLOCK_IMPL(StoneBlock, sprStone, BID_STONE, 16, true)
+GENERIC_BLOCK_IMPL(SandBlock, sprSand, BID_SAND, 13, true)
+GENERIC_BLOCK_IMPL(SandstoneBlock, sprSandstone, BID_SANDSTONE, 12, true)
+GENERIC_BLOCK_IMPL(PlanksBlock, sprPlanks, BID_PLANKS, 7, true)
+GENERIC_BLOCK_IMPL(BirchPlanksBlock, sprBirchPlanks, BID_BIRCH_PLANKS, 7, true)
+GENERIC_BLOCK_IMPL(SprucePlanksBlock, sprSprucePlanks, BID_SPRUCE_PLANKS, 7, true)
+GENERIC_BLOCK_IMPL(BedrockBlock, sprBedrock, BID_BEDROCK, (u8)-1, true)
+GENERIC_BLOCK_IMPL(CobblestoneBlock, sprCobblestone, BID_COBBLESTONE, 15, true)
+GENERIC_BLOCK_IMPL(CoalOreBlock, sprCoalOre, BID_COAL_ORE, 18, true)
+GENERIC_BLOCK_IMPL(CoalBlock, sprCoalBlock, BID_COAL_BLOCK, 18, true)
+GENERIC_BLOCK_IMPL(IronOreBlock, sprIronOre, BID_IRON_ORE, 20, true)
+GENERIC_BLOCK_IMPL(IronBlock, sprIronBlock, BID_IRON_BLOCK, 20, true)
+GENERIC_BLOCK_IMPL(StoneBricksBlock, sprStoneBricks, BID_STONE_BRICKS, 16, true)
 
-NONSOLID_BLOCK_IMPL(WoodBlock, sprWood, BID_WOOD, 7)
-NONSOLID_BLOCK_IMPL(BirchWoodBlock, sprBirchWood, BID_BIRCH_WOOD, 7)
-NONSOLID_BLOCK_IMPL(SpruceWoodBlock, sprSpruceWood, BID_SPRUCE_WOOD, 7)
-NONSOLID_BLOCK_IMPL(CactusBlock, sprCactus, BID_CACTUS, 4)
-NONSOLID_BLOCK_IMPL(DeadBushBlock, sprDeadBush, BID_DEAD_BUSH, 1);
-NONSOLID_BLOCK_IMPL(LadderBlock, sprLadder, BID_LADDER, 2);
+GENERIC_BLOCK_IMPL(WoodBlock, sprWood, BID_WOOD, 7, false)
+GENERIC_BLOCK_IMPL(BirchWoodBlock, sprBirchWood, BID_BIRCH_WOOD, 7, false)
+GENERIC_BLOCK_IMPL(SpruceWoodBlock, sprSpruceWood, BID_SPRUCE_WOOD, 7, false)
+GENERIC_BLOCK_IMPL(CactusBlock, sprCactus, BID_CACTUS, 4, false)
+GENERIC_BLOCK_IMPL(DeadBushBlock, sprDeadBush, BID_DEAD_BUSH, 1, false)
+GENERIC_BLOCK_IMPL(LadderBlock, sprLadder, BID_LADDER, 2, false)
 
 DoorBlock::DoorBlock(s16 x, s16 y, s16 px, DoorType type) : Block(x, y, 7), open(true), facing(px > x), type(type)
 {
