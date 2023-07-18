@@ -586,14 +586,14 @@ void Game::draw(void)
                 switch (lang)
                 {
                 case Language::English:
-                    font.printCentered(0, 86, "\2:A Resume");
-                    font.printCentered(0, 102, "\2:B Save and quit");
-                    font.printCentered(0, 118, "\2:X Statistics");
+                    font.printCentered(0, 86, "\2:A  Resume");
+                    font.printCentered(0, 102, "\2:B  Save and quit");
+                    font.printCentered(0, 118, "\2:X  Statistics");
                     break;
                 case Language::Russian:
-                    fontRu.printCentered(0, 86, "\2:A Qsqfqniku#");
-                    fontRu.printCentered(0, 102, "\2:B Sqxsbpku# k d\"luk");
-                    fontRu.printCentered(0, 118, "\2:X Subuktukmb");
+                    fontRu.printCentered(0, 86, "\2:A  Qsqfqniku#");
+                    fontRu.printCentered(0, 102, "\2:B  Sqxsbpku# k d\"luk");
+                    fontRu.printCentered(0, 118, "\2:X  Subuktukmb");
                     break;
                 }
 
