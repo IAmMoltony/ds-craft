@@ -1337,8 +1337,8 @@ void Game::draw(void)
         break;
     }
 
-    // for debug purposes
 #if SHOW_POLYGON_RAM_COUNT
+    // for debug purposes
     int vc = 0;
     glGetInt(GL_GET_POLYGON_RAM_COUNT, &vc);
     printf("polygon ram count %d\n", vc);
@@ -1817,13 +1817,19 @@ void Game::update(void)
         }
         else if (down & KEY_DOWN)
         {
-            if ((size_t)(worldSelectSelected + 1) < worldSelectWorlds.size())
-                ++worldSelectSelected;
+            if (down & KEY_SELECT)
+                worldSelectSelected = worldSelectWorlds.size() - 1;
+            else
+                if ((size_t)(worldSelectSelected + 1) < worldSelectWorlds.size())
+                    ++worldSelectSelected;
         }
         else if (down & KEY_UP)
         {
-            if (worldSelectSelected - 1 >= 0)
-                --worldSelectSelected;
+            if (down & KEY_SELECT)
+                worldSelectSelected = 0;
+            else
+                if (worldSelectSelected - 1 >= 0)
+                    --worldSelectSelected;
         }
         break;
     case GameState::WorldSettings:
