@@ -402,6 +402,8 @@ void Game::enterWorldSelect(void)
 
 void Game::loadLocation(s16 oldLocation)
 {
+    // TODO this location system doesnt work, at least not correctly
+
     // 1. we save
 
     // 2. we load the location file
