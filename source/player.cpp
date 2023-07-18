@@ -1824,6 +1824,22 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                 _spawnBlockParticles(blockParticles, sprSpruceLeaves, block->x, block->y, RGB15(0, 11, 0));
                                 break;
                             }
+
+                            if (inventory[hotbarSelect].id == InventoryItem::ID::Shears)
+                            {
+                                switch (l->type)
+                                {
+                                case LeavesType::Oak:
+                                    entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Leaves));
+                                    break;
+                                case LeavesType::Birch:
+                                    entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::BirchLeaves));
+                                    break;
+                                case LeavesType::Spruce:
+                                    entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::SpruceLeaves));
+                                    break;
+                                }
+                            }
                             break;
                         }
                         case BID_SAND:
