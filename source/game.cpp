@@ -749,6 +749,7 @@ void Game::draw(void)
         switch (lang)
         {
         case Language::English:
+            // TODO move button tooltips in menus to its own function
             glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprBButton);
             font.print(15, SCREEN_HEIGHT - 28, "Back");
 
@@ -876,7 +877,7 @@ void Game::draw(void)
             {
                 glColor(RGB15(31, 0, 0));
                 font.print(15, SCREEN_HEIGHT / 2 + 8, "A world with that name already exists!");
-                glColor(RGB15(31, 31, 31));
+                glColor(RGB15(31, 31, 31)); // TODO make create world error positioned correctly
             }
             break;
         case Language::Russian:
