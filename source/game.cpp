@@ -1817,7 +1817,8 @@ void Game::update(void)
         }
         else if (down & KEY_DOWN)
         {
-            if (down & KEY_SELECT)
+            u32 held = keysHeld();
+            if (held & KEY_SELECT)
                 worldSelectSelected = worldSelectWorlds.size() - 1;
             else
                 if ((size_t)(worldSelectSelected + 1) < worldSelectWorlds.size())
@@ -1825,7 +1826,8 @@ void Game::update(void)
         }
         else if (down & KEY_UP)
         {
-            if (down & KEY_SELECT)
+            u32 held = keysHeld();
+            if (held & KEY_SELECT)
                 worldSelectSelected = 0;
             else
                 if (worldSelectSelected - 1 >= 0)
