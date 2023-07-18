@@ -6,13 +6,13 @@
 #include <iterator>
 #include <string>
 
-InventoryItemID strToIID(std::string &sid); // why is this here?
+InventoryItem::ID strToIID(std::string &sid); // why is this here?
 
 class CraftingRecipe
 {
 private:
     u8 count;
-    InventoryItemID output;
+    InventoryItem::ID output;
     std::string fileName;
     std::vector<InventoryItem> recipe;
 
@@ -27,6 +27,6 @@ public:
     std::string getFullName(Language lang, Player *player);
     std::string getFileName(void);
     u8 getCount(void);
-    InventoryItemID getOutput(void);
+    InventoryItem::ID getOutput(void);
     std::vector<InventoryItem> *getRecipe(void);
 };

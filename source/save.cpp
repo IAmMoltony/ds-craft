@@ -632,7 +632,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         else if (split[0] == "inventory")
         {
             u8 index = atoi(split[1].c_str());
-            InventoryItemID id = strToIID(split[2]);
+            InventoryItem::ID id = strToIID(split[2]);
             u8 count = atoi(split[3].c_str());
             InventoryItem item = {id, count};
             player.setItem(index, item);

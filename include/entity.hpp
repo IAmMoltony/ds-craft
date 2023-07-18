@@ -74,10 +74,10 @@ public:
 class DropEntity : public Entity
 {
 private:
-    InventoryItemID itemid;
+    InventoryItem::ID itemid;
 
 public:
-    DropEntity(s16 x, s16 y, InventoryItemID itemid);
+    DropEntity(s16 x, s16 y, InventoryItem::ID itemid);
     void draw(Camera camera) override;
     void update(BlockList &blocks, Camera camera, u16 frames) override;
     Rect getRectBottom(void) override;
@@ -87,5 +87,5 @@ public:
     Rect getRect(void) override;
     std::string id(void) override;
 
-    InventoryItemID getItemID(void);
+    InventoryItem::ID getItemID(void);
 };

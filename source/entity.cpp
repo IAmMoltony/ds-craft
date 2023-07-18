@@ -257,12 +257,12 @@ void PigEntity::onDealDamage(void)
 
 void PigEntity::onDeath(EntityList &entities)
 {
-    entities.emplace_back(new DropEntity(x, y, InventoryItemID::RawPorkchop));
+    entities.emplace_back(new DropEntity(x, y, InventoryItem::ID::RawPorkchop));
 }
 
 //----------------------------------------
 
-DropEntity::DropEntity(s16 x, s16 y, InventoryItemID itemid) : Entity(x, y), itemid(itemid)
+DropEntity::DropEntity(s16 x, s16 y, InventoryItem::ID itemid) : Entity(x, y), itemid(itemid)
 {
     health = 255;
 }
@@ -274,43 +274,43 @@ void DropEntity::draw(Camera camera)
     default:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALF_SCALE, GL_FLIP_NONE, getItemImage(itemid));
         break;
-    case InventoryItemID::Leaves:
+    case InventoryItem::ID::Leaves:
         glColor(RGB15(0, 22, 0));
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALF_SCALE, GL_FLIP_NONE, sprLeaves);
         glColor(RGB15(31, 31, 31));
         break;
-    case InventoryItemID::BirchLeaves:
+    case InventoryItem::ID::BirchLeaves:
         glColor(RGB15(20, 26, 19));
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALF_SCALE, GL_FLIP_NONE, sprBirchLeaves);
         glColor(RGB15(31, 31, 31));
         break;
-    case InventoryItemID::SpruceLeaves:
+    case InventoryItem::ID::SpruceLeaves:
         glColor(RGB15(0, 11, 0));
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALF_SCALE, GL_FLIP_NONE, sprSpruceLeaves);
         glColor(RGB15(31, 31, 31));
         break;
-    case InventoryItemID::Door:
+    case InventoryItem::ID::Door:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
         break;
-    case InventoryItemID::BirchDoor:
+    case InventoryItem::ID::BirchDoor:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
         break;
-    case InventoryItemID::SpruceDoor:
+    case InventoryItem::ID::SpruceDoor:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, (1 << 12) / 4, GL_FLIP_NONE, sprSpruceDoor);
         break;
-    case InventoryItemID::Glass:
+    case InventoryItem::ID::Glass:
         glSpriteScale(x + 4 - camera.x - 1, y + 4 - camera.y, HALF_SCALE, GL_FLIP_NONE, sprGlass);
         break;
-    case InventoryItemID::OakSlab:
+    case InventoryItem::ID::OakSlab:
         glSpritePartScale(sprPlanks, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALF_SCALE);
         break;
-    case InventoryItemID::BirchSlab:
+    case InventoryItem::ID::BirchSlab:
         glSpritePartScale(sprBirchPlanks, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALF_SCALE);
         break;
-    case InventoryItemID::SpruceSlab:
+    case InventoryItem::ID::SpruceSlab:
         glSpritePartScale(sprBirchPlanks, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALF_SCALE);
         break;
-    case InventoryItemID::CobblestoneSlab:
+    case InventoryItem::ID::CobblestoneSlab:
         glSpritePartScale(sprCobblestone, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALF_SCALE);
         break;
     }
@@ -386,7 +386,7 @@ std::string DropEntity::id(void)
     return "drop";
 }
 
-InventoryItemID DropEntity::getItemID(void)
+InventoryItem::ID DropEntity::getItemID(void)
 {
     return itemid;
 }

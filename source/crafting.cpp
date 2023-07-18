@@ -66,13 +66,13 @@ void CraftingRecipe::construct(const char *recipeFile)
 }
 
 CraftingRecipe::CraftingRecipe(const char *recipeFile)
-    : count(0), output(InventoryItemID::None), fileName(), recipe()
+    : count(0), output(InventoryItem::ID::None), fileName(), recipe()
 {
     construct(recipeFile);
 }
 
 CraftingRecipe::CraftingRecipe(const std::string &recipeFile)
-    : count(0), output(InventoryItemID::None), fileName(), recipe()
+    : count(0), output(InventoryItem::ID::None), fileName(), recipe()
 {
     construct(recipeFile.c_str());
 }
@@ -122,7 +122,7 @@ u8 CraftingRecipe::getCount(void)
     return count;
 }
 
-InventoryItemID CraftingRecipe::getOutput(void)
+InventoryItem::ID CraftingRecipe::getOutput(void)
 {
     return output;
 }

@@ -118,359 +118,359 @@ void unloadItemTextures(void)
     unloadImage(_sprDummy);
 }
 
-std::string iidToString(InventoryItemID iid)
+std::string iidToString(InventoryItem::ID iid)
 {
     std::string id;
     switch (iid)
     {
-    case InventoryItemID::None:
+    case InventoryItem::ID::None:
         id = "none";
         break;
-    case InventoryItemID::Grass:
+    case InventoryItem::ID::Grass:
         id = "grass";
         break;
-    case InventoryItemID::Dirt:
+    case InventoryItem::ID::Dirt:
         id = "dirt";
         break;
-    case InventoryItemID::Stone:
+    case InventoryItem::ID::Stone:
         id = "stone";
         break;
-    case InventoryItemID::Wood:
+    case InventoryItem::ID::Wood:
         id = "wood";
         break;
-    case InventoryItemID::BirchWood:
+    case InventoryItem::ID::BirchWood:
         id = "birchwood";
         break;
-    case InventoryItemID::SpruceWood:
+    case InventoryItem::ID::SpruceWood:
         id = "sprucewood";
         break;
-    case InventoryItemID::Leaves:
+    case InventoryItem::ID::Leaves:
         id = "leaves";
         break;
-    case InventoryItemID::BirchLeaves:
+    case InventoryItem::ID::BirchLeaves:
         id = "birchleaves";
         break;
-    case InventoryItemID::SpruceLeaves:
+    case InventoryItem::ID::SpruceLeaves:
         id = "spruceleaves";
         break;
-    case InventoryItemID::Sand:
+    case InventoryItem::ID::Sand:
         id = "sand";
         break;
-    case InventoryItemID::Sandstone:
+    case InventoryItem::ID::Sandstone:
         id = "sandstone";
         break;
-    case InventoryItemID::Cactus:
+    case InventoryItem::ID::Cactus:
         id = "cactus";
         break;
-    case InventoryItemID::DeadBush:
+    case InventoryItem::ID::DeadBush:
         id = "deadbush";
         break;
-    case InventoryItemID::Poppy:
+    case InventoryItem::ID::Poppy:
         id = "poppy";
         break;
-    case InventoryItemID::Dandelion:
+    case InventoryItem::ID::Dandelion:
         id = "dandelion";
         break;
-    case InventoryItemID::Door:
+    case InventoryItem::ID::Door:
         id = "door";
         break;
-    case InventoryItemID::BirchDoor:
+    case InventoryItem::ID::BirchDoor:
         id = "birchdoor";
         break;
-    case InventoryItemID::SpruceDoor:
+    case InventoryItem::ID::SpruceDoor:
         id = "sprucedoor";
         break;
-    case InventoryItemID::Planks:
+    case InventoryItem::ID::Planks:
         id = "planks";
         break;
-    case InventoryItemID::BirchPlanks:
+    case InventoryItem::ID::BirchPlanks:
         id = "birchplanks";
         break;
-    case InventoryItemID::SprucePlanks:
+    case InventoryItem::ID::SprucePlanks:
         id = "spruceplanks";
         break;
-    case InventoryItemID::Stick:
+    case InventoryItem::ID::Stick:
         id = "stick";
         break;
-    case InventoryItemID::SnowyGrass:
+    case InventoryItem::ID::SnowyGrass:
         id = "snowygrass";
         break;
-    case InventoryItemID::Sapling:
+    case InventoryItem::ID::Sapling:
         id = "sapling";
         break;
-    case InventoryItemID::BirchSapling:
+    case InventoryItem::ID::BirchSapling:
         id = "birchsapling";
         break;
-    case InventoryItemID::SpruceSapling:
+    case InventoryItem::ID::SpruceSapling:
         id = "sprucesapling";
         break;
-    case InventoryItemID::Cobblestone:
+    case InventoryItem::ID::Cobblestone:
         id = "cobblestone";
         break;
-    case InventoryItemID::CoalOre:
+    case InventoryItem::ID::CoalOre:
         id = "coalore";
         break;
-    case InventoryItemID::Coal:
+    case InventoryItem::ID::Coal:
         id = "coal";
         break;
-    case InventoryItemID::CoalBlock:
+    case InventoryItem::ID::CoalBlock:
         id = "coalblock";
         break;
-    case InventoryItemID::IronOre:
+    case InventoryItem::ID::IronOre:
         id = "ironore";
         break;
-    case InventoryItemID::IronIngot:
+    case InventoryItem::ID::IronIngot:
         id = "ironingot";
         break;
-    case InventoryItemID::IronNugget:
+    case InventoryItem::ID::IronNugget:
         id = "ironnugget";
         break;
-    case InventoryItemID::IronBlock:
+    case InventoryItem::ID::IronBlock:
         id = "ironblock";
         break;
-    case InventoryItemID::RawPorkchop:
+    case InventoryItem::ID::RawPorkchop:
         id = "rawporkchop";
         break;
-    case InventoryItemID::CookedPorkchop:
+    case InventoryItem::ID::CookedPorkchop:
         id = "cookedporkchop";
         break;
-    case InventoryItemID::Apple:
+    case InventoryItem::ID::Apple:
         id = "apple";
         break;
-    case InventoryItemID::Glass:
+    case InventoryItem::ID::Glass:
         id = "glass";
         break;
-    case InventoryItemID::OakTrapdoor:
+    case InventoryItem::ID::OakTrapdoor:
         id = "oaktrapdoor";
         break;
-    case InventoryItemID::BirchTrapdoor:
+    case InventoryItem::ID::BirchTrapdoor:
         id = "birchtrapdoor";
         break;
-    case InventoryItemID::SpruceTrapdoor:
+    case InventoryItem::ID::SpruceTrapdoor:
         id = "sprucetrapdoor";
         break;
-    case InventoryItemID::Ladder:
+    case InventoryItem::ID::Ladder:
         id = "ladder";
         break;
-    case InventoryItemID::OakSlab:
+    case InventoryItem::ID::OakSlab:
         id = "oakslab";
         break;
-    case InventoryItemID::BirchSlab:
+    case InventoryItem::ID::BirchSlab:
         id = "birchslab";
         break;
-    case InventoryItemID::SpruceSlab:
+    case InventoryItem::ID::SpruceSlab:
         id = "spruceslab";
         break;
-    case InventoryItemID::CobblestoneSlab:
+    case InventoryItem::ID::CobblestoneSlab:
         id = "cobblestoneslab";
         break;
-    case InventoryItemID::WoodenPickaxe:
+    case InventoryItem::ID::WoodenPickaxe:
         id = "woodenpickaxe";
         break;
-    case InventoryItemID::StonePickaxe:
+    case InventoryItem::ID::StonePickaxe:
         id = "stonepickaxe";
         break;
-    case InventoryItemID::IronPickaxe:
+    case InventoryItem::ID::IronPickaxe:
         id = "ironpickaxe";
         break;
-    case InventoryItemID::WoodenShovel:
+    case InventoryItem::ID::WoodenShovel:
         id = "woodenshovel";
         break;
-    case InventoryItemID::StoneShovel:
+    case InventoryItem::ID::StoneShovel:
         id = "stoneshovel";
         break;
-    case InventoryItemID::IronShovel:
+    case InventoryItem::ID::IronShovel:
         id = "ironshovel";
         break;
-    case InventoryItemID::WoodenAxe:
+    case InventoryItem::ID::WoodenAxe:
         id = "woodenaxe";
         break;
-    case InventoryItemID::StoneAxe:
+    case InventoryItem::ID::StoneAxe:
         id = "stoneaxe";
         break;
-    case InventoryItemID::IronAxe:
+    case InventoryItem::ID::IronAxe:
         id = "ironaxe";
         break;
-    case InventoryItemID::WoodenSword:
+    case InventoryItem::ID::WoodenSword:
         id = "woodensword";
         break;
-    case InventoryItemID::StoneSword:
+    case InventoryItem::ID::StoneSword:
         id = "stonesword";
         break;
-    case InventoryItemID::IronSword:
+    case InventoryItem::ID::IronSword:
         id = "ironsword";
         break;
-    case InventoryItemID::Sign:
+    case InventoryItem::ID::Sign:
         id = "sign";
         break;
-    case InventoryItemID::RedTulip:
+    case InventoryItem::ID::RedTulip:
         id = "redtulip";
         break;
-    case InventoryItemID::Chest:
+    case InventoryItem::ID::Chest:
         id = "chest";
         break;
-    case InventoryItemID::AnyPlanks:
+    case InventoryItem::ID::AnyPlanks:
         id = "anyplanks";
         break;
-    case InventoryItemID::StoneBricks:
+    case InventoryItem::ID::StoneBricks:
         id = "stonebricks";
         break;
-    case InventoryItemID::WoodenHoe:
+    case InventoryItem::ID::WoodenHoe:
         id = "woodenhoe";
         break;
-    case InventoryItemID::StoneHoe:
+    case InventoryItem::ID::StoneHoe:
         id = "stonehoe";
         break;
-    case InventoryItemID::IronHoe:
+    case InventoryItem::ID::IronHoe:
         id = "ironhoe";
         break;
-    case InventoryItemID::Shears:
+    case InventoryItem::ID::Shears:
         id = "shears";
         break;
     }
     return id;
 }
 
-const char *getItemStr(Language lang, InventoryItemID iid)
+const char *getItemStr(Language lang, InventoryItem::ID iid)
 {
     switch (lang)
     {
     case Language::English:
         switch (iid)
         {
-        case InventoryItemID::None:
+        case InventoryItem::ID::None:
             return "";
-        case InventoryItemID::Grass:
+        case InventoryItem::ID::Grass:
             return "Grass";
-        case InventoryItemID::Dirt:
+        case InventoryItem::ID::Dirt:
             return "Dirt";
-        case InventoryItemID::Stone:
+        case InventoryItem::ID::Stone:
             return "Stone";
-        case InventoryItemID::Leaves:
+        case InventoryItem::ID::Leaves:
             return "Oak Leaves";
-        case InventoryItemID::BirchLeaves:
+        case InventoryItem::ID::BirchLeaves:
             return "Birch Leaves";
-        case InventoryItemID::Wood:
+        case InventoryItem::ID::Wood:
             return "Oak Wood";
-        case InventoryItemID::BirchWood:
+        case InventoryItem::ID::BirchWood:
             return "Birch Wood";
-        case InventoryItemID::SpruceWood:
+        case InventoryItem::ID::SpruceWood:
             return "Spruce Wood";
-        case InventoryItemID::Sand:
+        case InventoryItem::ID::Sand:
             return "Sand";
-        case InventoryItemID::Sandstone:
+        case InventoryItem::ID::Sandstone:
             return "Sandstone";
-        case InventoryItemID::Cactus:
+        case InventoryItem::ID::Cactus:
             return "Cactus";
-        case InventoryItemID::DeadBush:
+        case InventoryItem::ID::DeadBush:
             return "Dead Bush";
-        case InventoryItemID::Poppy:
+        case InventoryItem::ID::Poppy:
             return "Poppy";
-        case InventoryItemID::Dandelion:
+        case InventoryItem::ID::Dandelion:
             return "Dandelion";
-        case InventoryItemID::RedTulip:
+        case InventoryItem::ID::RedTulip:
             return "Red Tulip";
-        case InventoryItemID::Door:
+        case InventoryItem::ID::Door:
             return "Door";
-        case InventoryItemID::BirchDoor:
+        case InventoryItem::ID::BirchDoor:
             return "Birch Door";
-        case InventoryItemID::SpruceDoor:
+        case InventoryItem::ID::SpruceDoor:
             return "Spruce Door";
-        case InventoryItemID::Planks:
+        case InventoryItem::ID::Planks:
             return "Oak Planks";
-        case InventoryItemID::BirchPlanks:
+        case InventoryItem::ID::BirchPlanks:
             return "Birch Planks";
-        case InventoryItemID::SprucePlanks:
+        case InventoryItem::ID::SprucePlanks:
             return "Spruce Planks";
-        case InventoryItemID::Stick:
+        case InventoryItem::ID::Stick:
             return "Stick";
-        case InventoryItemID::SnowyGrass:
+        case InventoryItem::ID::SnowyGrass:
             return "Snowy Grass";
-        case InventoryItemID::Sapling:
+        case InventoryItem::ID::Sapling:
             return "Oak Sapling";
-        case InventoryItemID::BirchSapling:
+        case InventoryItem::ID::BirchSapling:
             return "Birch Sapling";
-        case InventoryItemID::SpruceSapling:
+        case InventoryItem::ID::SpruceSapling:
             return "Spruce Sapling";
-        case InventoryItemID::Cobblestone:
+        case InventoryItem::ID::Cobblestone:
             return "Cobblestone";
-        case InventoryItemID::CoalOre:
+        case InventoryItem::ID::CoalOre:
             return "Coal Ore";
-        case InventoryItemID::Coal:
+        case InventoryItem::ID::Coal:
             return "Coal";
-        case InventoryItemID::CoalBlock:
+        case InventoryItem::ID::CoalBlock:
             return "Coal Block";
-        case InventoryItemID::IronOre:
+        case InventoryItem::ID::IronOre:
             return "Iron Ore";
-        case InventoryItemID::IronIngot:
+        case InventoryItem::ID::IronIngot:
             return "Iron Ingot";
-        case InventoryItemID::IronNugget:
+        case InventoryItem::ID::IronNugget:
             return "Iron Nugget";
-        case InventoryItemID::IronBlock:
+        case InventoryItem::ID::IronBlock:
             return "Iron Block";
-        case InventoryItemID::RawPorkchop:
+        case InventoryItem::ID::RawPorkchop:
             return "Raw Porkchop";
-        case InventoryItemID::CookedPorkchop:
+        case InventoryItem::ID::CookedPorkchop:
             return "Cooked Porkchop";
-        case InventoryItemID::Apple:
+        case InventoryItem::ID::Apple:
             return "Apple";
-        case InventoryItemID::Glass:
+        case InventoryItem::ID::Glass:
             return "Glass";
-        case InventoryItemID::OakTrapdoor:
+        case InventoryItem::ID::OakTrapdoor:
             return "Oak Trapdoor";
-        case InventoryItemID::BirchTrapdoor:
+        case InventoryItem::ID::BirchTrapdoor:
             return "Birch Trapdoor";
-        case InventoryItemID::SpruceTrapdoor:
+        case InventoryItem::ID::SpruceTrapdoor:
             return "Spruce Trapdoor";
-        case InventoryItemID::Ladder:
+        case InventoryItem::ID::Ladder:
             return "Ladder";
-        case InventoryItemID::Chest:
+        case InventoryItem::ID::Chest:
             return "Chest";
-        case InventoryItemID::OakSlab:
+        case InventoryItem::ID::OakSlab:
             return "Oak Slab";
-        case InventoryItemID::BirchSlab:
+        case InventoryItem::ID::BirchSlab:
             return "Birch Slab";
-        case InventoryItemID::SpruceSlab:
+        case InventoryItem::ID::SpruceSlab:
             return "Spruce Slab";
-        case InventoryItemID::CobblestoneSlab:
+        case InventoryItem::ID::CobblestoneSlab:
             return "Cobblestone Slab";
-        case InventoryItemID::AnyPlanks:
+        case InventoryItem::ID::AnyPlanks:
             return "Any Planks";
-        case InventoryItemID::WoodenPickaxe:
+        case InventoryItem::ID::WoodenPickaxe:
             return "Wooden Pickaxe";
-        case InventoryItemID::StonePickaxe:
+        case InventoryItem::ID::StonePickaxe:
             return "Stone Pickaxe";
-        case InventoryItemID::IronPickaxe:
+        case InventoryItem::ID::IronPickaxe:
             return "Iron Pickaxe";
-        case InventoryItemID::WoodenShovel:
+        case InventoryItem::ID::WoodenShovel:
             return "Wooden Shovel";
-        case InventoryItemID::StoneShovel:
+        case InventoryItem::ID::StoneShovel:
             return "Stone Shovel";
-        case InventoryItemID::IronShovel:
+        case InventoryItem::ID::IronShovel:
             return "Iron Shovel";
-        case InventoryItemID::WoodenAxe:
+        case InventoryItem::ID::WoodenAxe:
             return "Wooden Axe";
-        case InventoryItemID::StoneAxe:
+        case InventoryItem::ID::StoneAxe:
             return "Stone Axe";
-        case InventoryItemID::WoodenSword:
+        case InventoryItem::ID::WoodenSword:
             return "Wooden Sword";
-        case InventoryItemID::StoneSword:
+        case InventoryItem::ID::StoneSword:
             return "Stone Sword";
-        case InventoryItemID::IronSword:
+        case InventoryItem::ID::IronSword:
             return "Irn Sword";
-        case InventoryItemID::IronAxe:
+        case InventoryItem::ID::IronAxe:
             return "Iron Axe";
-        case InventoryItemID::Sign:
+        case InventoryItem::ID::Sign:
             return "Sign";
-        case InventoryItemID::StoneBricks:
+        case InventoryItem::ID::StoneBricks:
             return "Stone Bricks";
-        case InventoryItemID::WoodenHoe:
+        case InventoryItem::ID::WoodenHoe:
             return "Wooden Hoe";
-        case InventoryItemID::StoneHoe:
+        case InventoryItem::ID::StoneHoe:
             return "Stone Hoe";
-        case InventoryItemID::IronHoe:
+        case InventoryItem::ID::IronHoe:
             return "Iron Hoe";
-        case InventoryItemID::Shears:
+        case InventoryItem::ID::Shears:
             return "Shears";
         default:
             return "Error";
@@ -479,141 +479,141 @@ const char *getItemStr(Language lang, InventoryItemID iid)
     case Language::Russian:
         switch (iid)
         {
-        case InventoryItemID::None:
+        case InventoryItem::ID::None:
             return "";
-        case InventoryItemID::Grass:
+        case InventoryItem::ID::Grass:
             return "Tsbdb";
-        case InventoryItemID::Dirt:
+        case InventoryItem::ID::Dirt:
             return "Ds&j#";
-        case InventoryItemID::Stone:
+        case InventoryItem::ID::Stone:
             return "Lbogp#";
-        case InventoryItemID::Leaves:
+        case InventoryItem::ID::Leaves:
             return "Evcqd\"g nktu#&";
-        case InventoryItemID::BirchLeaves:
+        case InventoryItem::ID::BirchLeaves:
             return "Bgshjqd\"g nktu#&";
-        case InventoryItemID::SpruceLeaves:
+        case InventoryItem::ID::SpruceLeaves:
             return "Wdqgd\"g nktu#&";
-        case InventoryItemID::Wood:
+        case InventoryItem::ID::Wood:
             return "Evcqdqg fgsgdq";
-        case InventoryItemID::BirchWood:
+        case InventoryItem::ID::BirchWood:
             return "Bgshjqdqg fgsgdq";
-        case InventoryItemID::SpruceWood:
+        case InventoryItem::ID::SpruceWood:
             return "Wdqgdqg fgsgdq";
-        case InventoryItemID::Sand:
+        case InventoryItem::ID::Sand:
             return "Qgtqm";
-        case InventoryItemID::Sandstone:
+        case InventoryItem::ID::Sandstone:
             return "Qgtzbpkm";
-        case InventoryItemID::Cactus:
+        case InventoryItem::ID::Cactus:
             return "Lbmuvt";
-        case InventoryItemID::DeadBush:
+        case InventoryItem::ID::DeadBush:
             return "Nhsud\"l mvtu";
-        case InventoryItemID::Poppy:
+        case InventoryItem::ID::Poppy:
             return "Nbm";
-        case InventoryItemID::Dandelion:
+        case InventoryItem::ID::Dandelion:
             return "Pfvdbpzkm";
-        case InventoryItemID::RedTulip:
+        case InventoryItem::ID::RedTulip:
             return "Lsbtp\"l u%n#rbp";
-        case InventoryItemID::Door:
+        case InventoryItem::ID::Door:
             return "Edgs#";
-        case InventoryItemID::BirchDoor:
+        case InventoryItem::ID::BirchDoor:
             return "Bgshjqdb& fdgs#";
-        case InventoryItemID::SpruceDoor:
+        case InventoryItem::ID::SpruceDoor:
             return "Wdqgdb& fdgs#";
-        case InventoryItemID::Planks:
+        case InventoryItem::ID::Planks:
             return "Evcqd\"g fqtmk";
-        case InventoryItemID::BirchPlanks:
+        case InventoryItem::ID::BirchPlanks:
             return "Bgshjqd\"g fqtmk";
-        case InventoryItemID::SprucePlanks:
+        case InventoryItem::ID::SprucePlanks:
             return "Wdqgd\"g fqtmk";
-        case InventoryItemID::Stick:
+        case InventoryItem::ID::Stick:
             return "Qbnmb";
-        case InventoryItemID::SnowyGrass:
+        case InventoryItem::ID::SnowyGrass:
             return "Spgipb& usbdb";
-        case InventoryItemID::Sapling:
+        case InventoryItem::ID::Sapling:
             return "Sbigpgy fvcb";
-        case InventoryItemID::BirchSapling:
+        case InventoryItem::ID::BirchSapling:
             return "Sbigpgy Bgshj\"";
-        case InventoryItemID::SpruceSapling:
+        case InventoryItem::ID::SpruceSapling:
             return "Wdqgd\"l tbigpgy";
-        case InventoryItemID::Cobblestone:
+        case InventoryItem::ID::Cobblestone:
             return "Bvn\"ipkm";
-        case InventoryItemID::CoalOre:
+        case InventoryItem::ID::CoalOre:
             return "Ueqn#pb& svfb";
-        case InventoryItemID::Coal:
+        case InventoryItem::ID::Coal:
             return "Ueqn#";
-        case InventoryItemID::CoalBlock:
+        case InventoryItem::ID::CoalBlock:
             return "Ueqn#p\"l cnqm";
-        case InventoryItemID::IronOre:
+        case InventoryItem::ID::IronOre:
             return "Hgngjpb& svfb";
-        case InventoryItemID::IronIngot:
+        case InventoryItem::ID::IronIngot:
             return "Hgngjp\"l tnkuqm";
-        case InventoryItemID::IronNugget:
+        case InventoryItem::ID::IronNugget:
             return "Lvtqzgm igngjb";
-        case InventoryItemID::IronBlock:
+        case InventoryItem::ID::IronBlock:
             return "Hgngjp\"l cnqm";
-        case InventoryItemID::RawPorkchop:
+        case InventoryItem::ID::RawPorkchop:
             return "S\"sb& tdkpkpb";
-        case InventoryItemID::CookedPorkchop:
+        case InventoryItem::ID::CookedPorkchop:
             return "Hbsgpb& tdkpkpb";
-        case InventoryItemID::Apple:
+        case InventoryItem::ID::Apple:
             return "acnqmq";
-        case InventoryItemID::Glass:
+        case InventoryItem::ID::Glass:
             return "Sugmnq";
-        case InventoryItemID::OakTrapdoor:
+        case InventoryItem::ID::OakTrapdoor:
             return "Evcqd\"l n%m";
-        case InventoryItemID::BirchTrapdoor:
+        case InventoryItem::ID::BirchTrapdoor:
             return "Bgshjqd\"l n%m";
-        case InventoryItemID::SpruceTrapdoor:
+        case InventoryItem::ID::SpruceTrapdoor:
             return "Wdqgd\"l n%m";
-        case InventoryItemID::Ladder:
+        case InventoryItem::ID::Ladder:
             return "Mgtupkyb";
-        case InventoryItemID::Chest:
+        case InventoryItem::ID::Chest:
             return "Svpfvm";
-        case InventoryItemID::OakSlab:
+        case InventoryItem::ID::OakSlab:
             return "Evcqdb& rnkub";
-        case InventoryItemID::BirchSlab:
+        case InventoryItem::ID::BirchSlab:
             return "Bgshjqdb& rnkub";
-        case InventoryItemID::SpruceSlab:
+        case InventoryItem::ID::SpruceSlab:
             return "Wdqgdb& rnkub";
-        case InventoryItemID::CobblestoneSlab:
+        case InventoryItem::ID::CobblestoneSlab:
             return "Qnkub kj cvn\"ipkmb";
-        case InventoryItemID::AnyPlanks:
+        case InventoryItem::ID::AnyPlanks:
             return "M%c\"g fqtmk";
-        case InventoryItemID::WoodenPickaxe:
+        case InventoryItem::ID::WoodenPickaxe:
             return "Egsgd&ppb& mksmb";
-        case InventoryItemID::StonePickaxe:
+        case InventoryItem::ID::StonePickaxe:
             return "Lbogppb& mksmb";
-        case InventoryItemID::IronPickaxe:
+        case InventoryItem::ID::IronPickaxe:
             return "Hgngjpb& mksmb";
-        case InventoryItemID::WoodenShovel:
+        case InventoryItem::ID::WoodenShovel:
             return "Egsgd&ppb& nqrbub";
-        case InventoryItemID::StoneShovel:
+        case InventoryItem::ID::StoneShovel:
             return "Lbogppb& nqrbub";
-        case InventoryItemID::IronShovel:
+        case InventoryItem::ID::IronShovel:
             return "Hgngjpb& nqrbub";
-        case InventoryItemID::WoodenAxe:
+        case InventoryItem::ID::WoodenAxe:
             return "Egsgd&pp\"l uqrqs";
-        case InventoryItemID::StoneAxe:
+        case InventoryItem::ID::StoneAxe:
             return "Lbogpp\"l uqrqs";
-        case InventoryItemID::IronAxe:
+        case InventoryItem::ID::IronAxe:
             return "Hgngjp\"l uqrqs";
-        case InventoryItemID::WoodenSword:
+        case InventoryItem::ID::WoodenSword:
             return "Egsgd&pp\"l ogz";
-        case InventoryItemID::StoneSword:
+        case InventoryItem::ID::StoneSword:
             return "Lbogpp\"l ogz";
-        case InventoryItemID::IronSword:
+        case InventoryItem::ID::IronSword:
             return "Hgngjp\"l ogz";
-        case InventoryItemID::Sign:
+        case InventoryItem::ID::Sign:
             return "Tbcnkzmb";
-        case InventoryItemID::StoneBricks:
+        case InventoryItem::ID::StoneBricks:
             return "Lbogpp\"g mksrkzk";
-        case InventoryItemID::WoodenHoe:
-            return "Egsgd&ppb& oqu\"eb"; // TODO make InventoryItemID an enum inside of InventoryItem struct (InventoryItemID -> InventoryItem::ID)
-        case InventoryItemID::StoneHoe:
+        case InventoryItem::ID::WoodenHoe:
+            return "Egsgd&ppb& oqu\"eb";
+        case InventoryItem::ID::StoneHoe:
             return "Lbogppb& oqu\"eb";
-        case InventoryItemID::IronHoe:
+        case InventoryItem::ID::IronHoe:
             return "Hgngjpb& oqu\"eb";
-        case InventoryItemID::Shears:
+        case InventoryItem::ID::Shears:
             return "Oqipky\"";
         default:
             return "P}kcmb";
@@ -624,280 +624,280 @@ const char *getItemStr(Language lang, InventoryItemID iid)
     return "";
 }
 
-glImage *getItemImage(InventoryItemID item)
+glImage *getItemImage(InventoryItem::ID item)
 {
     switch (item)
     {
-    case InventoryItemID::Grass:
+    case InventoryItem::ID::Grass:
         return sprGrass;
-    case InventoryItemID::Dirt:
+    case InventoryItem::ID::Dirt:
         return sprDirt;
-    case InventoryItemID::Stone:
+    case InventoryItem::ID::Stone:
         return sprStone;
-    case InventoryItemID::Wood:
+    case InventoryItem::ID::Wood:
         return sprWood;
-    case InventoryItemID::BirchWood:
+    case InventoryItem::ID::BirchWood:
         return sprBirchWood;
-    case InventoryItemID::SpruceWood:
+    case InventoryItem::ID::SpruceWood:
         return sprSpruceWood;
-    case InventoryItemID::Leaves:
+    case InventoryItem::ID::Leaves:
         return sprLeaves;
-    case InventoryItemID::BirchLeaves:
+    case InventoryItem::ID::BirchLeaves:
         return sprBirchLeaves;
-    case InventoryItemID::SpruceLeaves:
+    case InventoryItem::ID::SpruceLeaves:
         return sprSpruceLeaves;
-    case InventoryItemID::Sand:
+    case InventoryItem::ID::Sand:
         return sprSand;
-    case InventoryItemID::Sandstone:
+    case InventoryItem::ID::Sandstone:
         return sprSandstone;
-    case InventoryItemID::Cactus:
+    case InventoryItem::ID::Cactus:
         return sprCactus;
-    case InventoryItemID::DeadBush:
+    case InventoryItem::ID::DeadBush:
         return sprDeadBush;
-    case InventoryItemID::Poppy:
+    case InventoryItem::ID::Poppy:
         return sprPoppy;
-    case InventoryItemID::Dandelion:
+    case InventoryItem::ID::Dandelion:
         return sprDandelion;
-    case InventoryItemID::RedTulip:
+    case InventoryItem::ID::RedTulip:
         return sprRedTulip;
-    case InventoryItemID::Door:
+    case InventoryItem::ID::Door:
         return sprDoor;
-    case InventoryItemID::BirchDoor:
+    case InventoryItem::ID::BirchDoor:
         return sprBirchDoor;
-    case InventoryItemID::SpruceDoor:
+    case InventoryItem::ID::SpruceDoor:
         return sprSpruceDoor;
-    case InventoryItemID::Planks:
+    case InventoryItem::ID::Planks:
         return sprPlanks;
-    case InventoryItemID::BirchPlanks:
+    case InventoryItem::ID::BirchPlanks:
         return sprBirchPlanks;
-    case InventoryItemID::SprucePlanks:
+    case InventoryItem::ID::SprucePlanks:
         return sprSprucePlanks;
-    case InventoryItemID::Stick:
+    case InventoryItem::ID::Stick:
         return _sprStick;
-    case InventoryItemID::SnowyGrass:
+    case InventoryItem::ID::SnowyGrass:
         return sprSnowyGrass;
-    case InventoryItemID::Sapling:
+    case InventoryItem::ID::Sapling:
         return sprSapling;
-    case InventoryItemID::BirchSapling:
+    case InventoryItem::ID::BirchSapling:
         return sprBirchSapling;
-    case InventoryItemID::SpruceSapling:
+    case InventoryItem::ID::SpruceSapling:
         return sprSpruceSapling;
-    case InventoryItemID::Cobblestone:
+    case InventoryItem::ID::Cobblestone:
         return sprCobblestone;
-    case InventoryItemID::CoalOre:
+    case InventoryItem::ID::CoalOre:
         return sprCoalOre;
-    case InventoryItemID::Coal:
+    case InventoryItem::ID::Coal:
         return _sprCoal;
-    case InventoryItemID::CoalBlock:
+    case InventoryItem::ID::CoalBlock:
         return sprCoalBlock;
-    case InventoryItemID::IronOre:
+    case InventoryItem::ID::IronOre:
         return sprIronOre;
-    case InventoryItemID::IronIngot:
+    case InventoryItem::ID::IronIngot:
         return _sprIronIngot;
-    case InventoryItemID::IronNugget:
+    case InventoryItem::ID::IronNugget:
         return _sprIronNugget;
-    case InventoryItemID::IronBlock:
+    case InventoryItem::ID::IronBlock:
         return sprIronBlock;
-    case InventoryItemID::RawPorkchop:
+    case InventoryItem::ID::RawPorkchop:
         return _sprRawPorkchop;
-    case InventoryItemID::CookedPorkchop:
+    case InventoryItem::ID::CookedPorkchop:
         return _sprCookedPorkchop;
-    case InventoryItemID::Apple:
+    case InventoryItem::ID::Apple:
         return _sprApple;
-    case InventoryItemID::Glass:
+    case InventoryItem::ID::Glass:
         return sprGlass;
-    case InventoryItemID::OakTrapdoor:
+    case InventoryItem::ID::OakTrapdoor:
         return sprOakTrapdoor;
-    case InventoryItemID::BirchTrapdoor:
+    case InventoryItem::ID::BirchTrapdoor:
         return sprBirchTrapdoor;
-    case InventoryItemID::SpruceTrapdoor:
+    case InventoryItem::ID::SpruceTrapdoor:
         return sprSpruceTrapdoor;
-    case InventoryItemID::Ladder:
+    case InventoryItem::ID::Ladder:
         return sprLadder;
-    case InventoryItemID::Chest:
+    case InventoryItem::ID::Chest:
         return sprChest;
-    case InventoryItemID::OakSlab:
+    case InventoryItem::ID::OakSlab:
         return sprPlanks;
-    case InventoryItemID::BirchSlab:
+    case InventoryItem::ID::BirchSlab:
         return sprBirchPlanks;
-    case InventoryItemID::SpruceSlab:
+    case InventoryItem::ID::SpruceSlab:
         return sprSprucePlanks;
-    case InventoryItemID::CobblestoneSlab:
+    case InventoryItem::ID::CobblestoneSlab:
         return sprCobblestone;
-    case InventoryItemID::WoodenPickaxe:
+    case InventoryItem::ID::WoodenPickaxe:
         return _sprWoodenPickaxe;
-    case InventoryItemID::StonePickaxe:
+    case InventoryItem::ID::StonePickaxe:
         return _sprStonePickaxe;
-    case InventoryItemID::IronPickaxe:
+    case InventoryItem::ID::IronPickaxe:
         return _sprIronPickaxe;
-    case InventoryItemID::WoodenShovel:
+    case InventoryItem::ID::WoodenShovel:
         return _sprWoodenShovel;
-    case InventoryItemID::StoneShovel:
+    case InventoryItem::ID::StoneShovel:
         return _sprStoneShovel;
-    case InventoryItemID::IronShovel:
+    case InventoryItem::ID::IronShovel:
         return _sprIronShovel;
-    case InventoryItemID::WoodenAxe:
+    case InventoryItem::ID::WoodenAxe:
         return _sprWoodenAxe;
-    case InventoryItemID::StoneAxe:
+    case InventoryItem::ID::StoneAxe:
         return _sprStoneAxe;
-    case InventoryItemID::IronAxe:
+    case InventoryItem::ID::IronAxe:
         return _sprIronAxe;
-    case InventoryItemID::WoodenSword:
+    case InventoryItem::ID::WoodenSword:
         return _sprWoodenSword;
-    case InventoryItemID::StoneSword:
+    case InventoryItem::ID::StoneSword:
         return _sprStoneSword;
-    case InventoryItemID::IronSword:
+    case InventoryItem::ID::IronSword:
         return _sprIronSword;
-    case InventoryItemID::Sign:
+    case InventoryItem::ID::Sign:
         return sprSign;
-    case InventoryItemID::StoneBricks:
+    case InventoryItem::ID::StoneBricks:
         return sprStoneBricks;
-    case InventoryItemID::WoodenHoe:
+    case InventoryItem::ID::WoodenHoe:
         return _sprWoodenHoe;
-    case InventoryItemID::StoneHoe:
+    case InventoryItem::ID::StoneHoe:
         return _sprStoneHoe;
-    case InventoryItemID::IronHoe:
+    case InventoryItem::ID::IronHoe:
         return _sprIronHoe;
-    case InventoryItemID::Shears:
+    case InventoryItem::ID::Shears:
         return _sprShears;
     default:
         return _sprDummy;
     }
 }
 
-InventoryItemID strToIID(std::string &sid)
+InventoryItem::ID strToIID(std::string &sid)
 {
     sid.erase(std::remove_if(sid.begin(), sid.end(), ::isspace), sid.end());
 
     if (sid == "none")
-        return InventoryItemID::None;
+        return InventoryItem::ID::None;
     else if (sid == "grass")
-        return InventoryItemID::Grass;
+        return InventoryItem::ID::Grass;
     else if (sid == "dirt")
-        return InventoryItemID::Dirt;
+        return InventoryItem::ID::Dirt;
     else if (sid == "stone")
-        return InventoryItemID::Stone;
+        return InventoryItem::ID::Stone;
     else if (sid == "wood")
-        return InventoryItemID::Wood;
+        return InventoryItem::ID::Wood;
     else if (sid == "birchwood")
-        return InventoryItemID::BirchWood;
+        return InventoryItem::ID::BirchWood;
     else if (sid == "sprucewood")
-        return InventoryItemID::SpruceWood;
+        return InventoryItem::ID::SpruceWood;
     else if (sid == "sand")
-        return InventoryItemID::Sand;
+        return InventoryItem::ID::Sand;
     else if (sid == "sandstone")
-        return InventoryItemID::Sandstone;
+        return InventoryItem::ID::Sandstone;
     else if (sid == "cactus")
-        return InventoryItemID::Cactus;
+        return InventoryItem::ID::Cactus;
     else if (sid == "deadbush")
-        return InventoryItemID::DeadBush;
+        return InventoryItem::ID::DeadBush;
     else if (sid == "poppy")
-        return InventoryItemID::Poppy;
+        return InventoryItem::ID::Poppy;
     else if (sid == "dandelion")
-        return InventoryItemID::Dandelion;
+        return InventoryItem::ID::Dandelion;
     else if (sid == "door")
-        return InventoryItemID::Door;
+        return InventoryItem::ID::Door;
     else if (sid == "birchdoor")
-        return InventoryItemID::BirchDoor;
+        return InventoryItem::ID::BirchDoor;
     else if (sid == "sprucedoor")
-        return InventoryItemID::SpruceDoor;
+        return InventoryItem::ID::SpruceDoor;
     else if (sid == "planks")
-        return InventoryItemID::Planks;
+        return InventoryItem::ID::Planks;
     else if (sid == "birchplanks")
-        return InventoryItemID::BirchPlanks;
+        return InventoryItem::ID::BirchPlanks;
     else if (sid == "spruceplanks")
-        return InventoryItemID::SprucePlanks;
+        return InventoryItem::ID::SprucePlanks;
     else if (sid == "stick")
-        return InventoryItemID::Stick;
+        return InventoryItem::ID::Stick;
     else if (sid == "snowygrass")
-        return InventoryItemID::SnowyGrass;
+        return InventoryItem::ID::SnowyGrass;
     else if (sid == "sapling")
-        return InventoryItemID::Sapling;
+        return InventoryItem::ID::Sapling;
     else if (sid == "birchsapling")
-        return InventoryItemID::BirchSapling;
+        return InventoryItem::ID::BirchSapling;
     else if (sid == "sprucesapling")
-        return InventoryItemID::SpruceSapling;
+        return InventoryItem::ID::SpruceSapling;
     else if (sid == "cobblestone")
-        return InventoryItemID::Cobblestone;
+        return InventoryItem::ID::Cobblestone;
     else if (sid == "coalore")
-        return InventoryItemID::CoalOre;
+        return InventoryItem::ID::CoalOre;
     else if (sid == "coal")
-        return InventoryItemID::Coal;
+        return InventoryItem::ID::Coal;
     else if (sid == "coalblock")
-        return InventoryItemID::CoalBlock;
+        return InventoryItem::ID::CoalBlock;
     else if (sid == "ironore")
-        return InventoryItemID::IronOre;
+        return InventoryItem::ID::IronOre;
     else if (sid == "ironingot")
-        return InventoryItemID::IronIngot;
+        return InventoryItem::ID::IronIngot;
     else if (sid == "ironblock")
-        return InventoryItemID::IronBlock;
+        return InventoryItem::ID::IronBlock;
     else if (sid == "ironnugget")
-        return InventoryItemID::IronNugget;
+        return InventoryItem::ID::IronNugget;
     else if (sid == "rawporkchop")
-        return InventoryItemID::RawPorkchop;
+        return InventoryItem::ID::RawPorkchop;
     else if (sid == "cookedporkchop")
-        return InventoryItemID::CookedPorkchop;
+        return InventoryItem::ID::CookedPorkchop;
     else if (sid == "apple")
-        return InventoryItemID::Apple;
+        return InventoryItem::ID::Apple;
     else if (sid == "glass")
-        return InventoryItemID::Glass;
+        return InventoryItem::ID::Glass;
     else if (sid == "oaktrapdoor")
-        return InventoryItemID::OakTrapdoor;
+        return InventoryItem::ID::OakTrapdoor;
     else if (sid == "birchtrapdoor")
-        return InventoryItemID::BirchTrapdoor;
+        return InventoryItem::ID::BirchTrapdoor;
     else if (sid == "sprucetrapdoor")
-        return InventoryItemID::SpruceTrapdoor;
+        return InventoryItem::ID::SpruceTrapdoor;
     else if (sid == "ladder")
-        return InventoryItemID::Ladder;
+        return InventoryItem::ID::Ladder;
     else if (sid == "chest")
-        return InventoryItemID::Chest;
+        return InventoryItem::ID::Chest;
     else if (sid == "oakslab")
-        return InventoryItemID::OakSlab;
+        return InventoryItem::ID::OakSlab;
     else if (sid == "cobblestoneslab")
-        return InventoryItemID::CobblestoneSlab;
+        return InventoryItem::ID::CobblestoneSlab;
     else if (sid == "anyplanks")
-        return InventoryItemID::AnyPlanks;
+        return InventoryItem::ID::AnyPlanks;
     else if (sid == "woodenpickaxe")
-        return InventoryItemID::WoodenPickaxe;
+        return InventoryItem::ID::WoodenPickaxe;
     else if (sid == "stonepickaxe")
-        return InventoryItemID::StonePickaxe;
+        return InventoryItem::ID::StonePickaxe;
     else if (sid == "ironpickaxe")
-        return InventoryItemID::IronPickaxe;
+        return InventoryItem::ID::IronPickaxe;
     else if (sid == "woodenshovel")
-        return InventoryItemID::WoodenShovel;
+        return InventoryItem::ID::WoodenShovel;
     else if (sid == "stoneshovel")
-        return InventoryItemID::StoneShovel;
+        return InventoryItem::ID::StoneShovel;
     else if (sid == "ironshovel")
-        return InventoryItemID::IronShovel;
+        return InventoryItem::ID::IronShovel;
     else if (sid == "woodenaxe")
-        return InventoryItemID::WoodenAxe;
+        return InventoryItem::ID::WoodenAxe;
     else if (sid == "stoneaxe")
-        return InventoryItemID::StoneAxe;
+        return InventoryItem::ID::StoneAxe;
     else if (sid == "ironaxe")
-        return InventoryItemID::IronAxe;
+        return InventoryItem::ID::IronAxe;
     else if (sid == "woodensword")
-        return InventoryItemID::WoodenSword;
+        return InventoryItem::ID::WoodenSword;
     else if (sid == "stonesword")
-        return InventoryItemID::StoneSword;
+        return InventoryItem::ID::StoneSword;
     else if (sid == "ironsword")
-        return InventoryItemID::IronSword;
+        return InventoryItem::ID::IronSword;
     else if (sid == "birchslab")
-        return InventoryItemID::BirchSlab;
+        return InventoryItem::ID::BirchSlab;
     else if (sid == "spruceslab")
-        return InventoryItemID::SpruceSlab;
+        return InventoryItem::ID::SpruceSlab;
     else if (sid == "sign")
-        return InventoryItemID::Sign;
+        return InventoryItem::ID::Sign;
     else if (sid == "stonebricks")
-        return InventoryItemID::StoneBricks;
+        return InventoryItem::ID::StoneBricks;
     else if (sid == "woodenhoe")
-        return InventoryItemID::WoodenHoe;
+        return InventoryItem::ID::WoodenHoe;
     else if (sid == "stonehoe")
-        return InventoryItemID::StoneHoe;
+        return InventoryItem::ID::StoneHoe;
     else if (sid == "ironhoe")
-        return InventoryItemID::IronHoe;
+        return InventoryItem::ID::IronHoe;
     else if (sid == "shears")
-        return InventoryItemID::Shears;
+        return InventoryItem::ID::Shears;
 
     printf("'%s' is not a valid item string id\n", sid.c_str());
-    return InventoryItemID::None;
+    return InventoryItem::ID::None;
 }

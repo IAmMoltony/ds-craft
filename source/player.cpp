@@ -152,89 +152,89 @@ void Player::unloadSounds(void)
     unloadsfx4(LADDER);
 }
 
-static InventoryItemID _nonBlockItemIDs[] =
+static InventoryItem::ID _nonBlockItemIDs[] =
     {
-        InventoryItemID::Stick,
-        InventoryItemID::Coal,
-        InventoryItemID::IronIngot,
-        InventoryItemID::IronNugget,
-        InventoryItemID::RawPorkchop,
-        InventoryItemID::CookedPorkchop,
-        InventoryItemID::Apple,
-        InventoryItemID::WoodenPickaxe,
-        InventoryItemID::StonePickaxe,
-        InventoryItemID::IronPickaxe,
-        InventoryItemID::WoodenShovel,
-        InventoryItemID::StoneShovel,
-        InventoryItemID::IronShovel,
-        InventoryItemID::WoodenAxe,
-        InventoryItemID::StoneAxe,
-        InventoryItemID::IronAxe,
-        InventoryItemID::WoodenSword,
-        InventoryItemID::StoneSword,
-        InventoryItemID::IronSword,
-        InventoryItemID::WoodenHoe,
-        InventoryItemID::StoneHoe,
-        InventoryItemID::IronHoe,
-        InventoryItemID::Shears,
+        InventoryItem::ID::Stick,
+        InventoryItem::ID::Coal,
+        InventoryItem::ID::IronIngot,
+        InventoryItem::ID::IronNugget,
+        InventoryItem::ID::RawPorkchop,
+        InventoryItem::ID::CookedPorkchop,
+        InventoryItem::ID::Apple,
+        InventoryItem::ID::WoodenPickaxe,
+        InventoryItem::ID::StonePickaxe,
+        InventoryItem::ID::IronPickaxe,
+        InventoryItem::ID::WoodenShovel,
+        InventoryItem::ID::StoneShovel,
+        InventoryItem::ID::IronShovel,
+        InventoryItem::ID::WoodenAxe,
+        InventoryItem::ID::StoneAxe,
+        InventoryItem::ID::IronAxe,
+        InventoryItem::ID::WoodenSword,
+        InventoryItem::ID::StoneSword,
+        InventoryItem::ID::IronSword,
+        InventoryItem::ID::WoodenHoe,
+        InventoryItem::ID::StoneHoe,
+        InventoryItem::ID::IronHoe,
+        InventoryItem::ID::Shears,
 };
 
-static InventoryItemID _toolItemIDs[] =
+static InventoryItem::ID _toolItemIDs[] =
     {
-        InventoryItemID::WoodenPickaxe,
-        InventoryItemID::StonePickaxe,
-        InventoryItemID::IronPickaxe,
-        InventoryItemID::WoodenShovel,
-        InventoryItemID::StoneShovel,
-        InventoryItemID::IronShovel,
-        InventoryItemID::WoodenAxe,
-        InventoryItemID::StoneAxe,
-        InventoryItemID::IronAxe,
-        InventoryItemID::WoodenSword,
-        InventoryItemID::StoneSword,
-        InventoryItemID::IronSword,
-        InventoryItemID::WoodenHoe,
-        InventoryItemID::StoneHoe,
-        InventoryItemID::IronHoe,
-        InventoryItemID::Shears,
+        InventoryItem::ID::WoodenPickaxe,
+        InventoryItem::ID::StonePickaxe,
+        InventoryItem::ID::IronPickaxe,
+        InventoryItem::ID::WoodenShovel,
+        InventoryItem::ID::StoneShovel,
+        InventoryItem::ID::IronShovel,
+        InventoryItem::ID::WoodenAxe,
+        InventoryItem::ID::StoneAxe,
+        InventoryItem::ID::IronAxe,
+        InventoryItem::ID::WoodenSword,
+        InventoryItem::ID::StoneSword,
+        InventoryItem::ID::IronSword,
+        InventoryItem::ID::WoodenHoe,
+        InventoryItem::ID::StoneHoe,
+        InventoryItem::ID::IronHoe,
+        InventoryItem::ID::Shears,
 };
 
-static InventoryItemID _nonSolidBlockItemIDs[] =
+static InventoryItem::ID _nonSolidBlockItemIDs[] =
     {
-        InventoryItemID::Wood,
-        InventoryItemID::BirchWood,
-        InventoryItemID::SpruceWood,
-        InventoryItemID::Leaves,
-        InventoryItemID::BirchLeaves,
-        InventoryItemID::SpruceWood,
-        InventoryItemID::Sapling,
-        InventoryItemID::BirchSapling,
-        InventoryItemID::SpruceSapling,
-        InventoryItemID::Poppy,
-        InventoryItemID::Dandelion,
-        InventoryItemID::RedTulip,
-        InventoryItemID::Ladder,
-        InventoryItemID::Chest,
-        InventoryItemID::Sign,
+        InventoryItem::ID::Wood,
+        InventoryItem::ID::BirchWood,
+        InventoryItem::ID::SpruceWood,
+        InventoryItem::ID::Leaves,
+        InventoryItem::ID::BirchLeaves,
+        InventoryItem::ID::SpruceWood,
+        InventoryItem::ID::Sapling,
+        InventoryItem::ID::BirchSapling,
+        InventoryItem::ID::SpruceSapling,
+        InventoryItem::ID::Poppy,
+        InventoryItem::ID::Dandelion,
+        InventoryItem::ID::RedTulip,
+        InventoryItem::ID::Ladder,
+        InventoryItem::ID::Chest,
+        InventoryItem::ID::Sign,
 };
 
-static InventoryItemID _slabItemIDs[] =
+static InventoryItem::ID _slabItemIDs[] =
     {
-        InventoryItemID::OakSlab,
-        InventoryItemID::CobblestoneSlab,
-        InventoryItemID::BirchSlab,
-        InventoryItemID::SpruceSlab,
+        InventoryItem::ID::OakSlab,
+        InventoryItem::ID::CobblestoneSlab,
+        InventoryItem::ID::BirchSlab,
+        InventoryItem::ID::SpruceSlab,
 };
 
 // check if the item is not a block item
-bool isItem(InventoryItemID id)
+bool isItem(InventoryItem::ID id)
 {
     static constexpr int n = sizeof(_nonBlockItemIDs) / sizeof(_nonBlockItemIDs[0]);
     return std::find(_nonBlockItemIDs, _nonBlockItemIDs + n, id) != _nonBlockItemIDs + n;
 }
 
 // check if the item is a tool
-bool isToolItem(InventoryItemID id)
+bool isToolItem(InventoryItem::ID id)
 {
     // block item
     if (!isItem(id))
@@ -245,7 +245,7 @@ bool isToolItem(InventoryItemID id)
 }
 
 // check if the item is a non-solid block
-bool isNonSolidBlockItem(InventoryItemID id)
+bool isNonSolidBlockItem(InventoryItem::ID id)
 {
     // not a block item
     if (isItem(id))
@@ -256,7 +256,7 @@ bool isNonSolidBlockItem(InventoryItemID id)
 }
 
 // check if the item is a slab
-bool isSlabItem(InventoryItemID id)
+bool isSlabItem(InventoryItem::ID id)
 {
     // not a block item
     if (isItem(id))
@@ -321,52 +321,52 @@ static void _drawInventory(InventoryItem inventory[], u8 itemCount, Font &font, 
         glColor(RGB15(31, 31, 31));
 
         // draw the item if theres more than 0 and it is not null
-        if (inventory[i].amount > 0 && inventory[i].id != InventoryItemID::None)
+        if (inventory[i].amount > 0 && inventory[i].id != InventoryItem::ID::None)
         {
             // get the id and amount
             u8 amount = inventory[i].amount;
-            InventoryItemID id = inventory[i].id;
+            InventoryItem::ID id = inventory[i].id;
 
             switch (id)
             {
             // some special cases
-            case InventoryItemID::Leaves:
+            case InventoryItem::ID::Leaves:
                 glColor(RGB15(0, 22, 0));
                 glSpriteScale(xx + 4, yy + 4, HALF_SCALE, GL_FLIP_NONE, sprLeaves);
                 glColor(RGB15(31, 31, 31));
                 break;
-            case InventoryItemID::BirchLeaves:
+            case InventoryItem::ID::BirchLeaves:
                 glColor(RGB15(20, 26, 19));
                 glSpriteScale(xx + 4, yy + 4, HALF_SCALE, GL_FLIP_NONE, sprBirchLeaves);
                 glColor(RGB15(31, 31, 31));
                 break;
-            case InventoryItemID::SpruceLeaves:
+            case InventoryItem::ID::SpruceLeaves:
                 glColor(RGB15(0, 11, 0));
                 glSpriteScale(xx + 4, yy + 4, HALF_SCALE, GL_FLIP_NONE, sprSpruceLeaves);
                 glColor(RGB15(31, 31, 31));
                 break;
-            case InventoryItemID::Door:
+            case InventoryItem::ID::Door:
                 glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
                 break;
-            case InventoryItemID::BirchDoor:
+            case InventoryItem::ID::BirchDoor:
                 glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
                 break;
-            case InventoryItemID::SpruceDoor:
+            case InventoryItem::ID::SpruceDoor:
                 glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprSpruceDoor);
                 break;
-            case InventoryItemID::Glass:
+            case InventoryItem::ID::Glass:
                 glSpriteScale(xx + 3, yy + 4, HALF_SCALE, GL_FLIP_NONE, sprGlass);
                 break;
-            case InventoryItemID::OakSlab:
+            case InventoryItem::ID::OakSlab:
                 glSpritePartScale(sprPlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALF_SCALE);
                 break;
-            case InventoryItemID::BirchSlab:
+            case InventoryItem::ID::BirchSlab:
                 glSpritePartScale(sprBirchPlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALF_SCALE);
                 break;
-            case InventoryItemID::SpruceSlab:
+            case InventoryItem::ID::SpruceSlab:
                 glSpritePartScale(sprSprucePlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALF_SCALE);
                 break;
-            case InventoryItemID::CobblestoneSlab:
+            case InventoryItem::ID::CobblestoneSlab:
                 glSpritePartScale(sprCobblestone, xx + 3, yy + 5, 0, 0, 16, 8, HALF_SCALE);
                 break;
             // default
@@ -437,7 +437,7 @@ void Player::drawBody(const Camera &camera)
                        (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), _sprPlayerHead);
 
     // draw item in hand
-    if (inventory[hotbarSelect].id != InventoryItemID::None)
+    if (inventory[hotbarSelect].id != InventoryItem::ID::None)
     {
         int xx = x - camera.x - (facing == Facing::Left ? 3 : -6);
         int yy = y - camera.y + 17;
@@ -450,43 +450,43 @@ void Player::drawBody(const Camera &camera)
         switch (inventory[hotbarSelect].id)
         {
         // some special cases
-        case InventoryItemID::Leaves:
+        case InventoryItem::ID::Leaves:
             glColor(RGB15(0, 22, 0));
             glSpriteScale(xx, yy, HALF_SCALE, flip, sprLeaves);
             glColor(RGB15(31, 31, 31));
             break;
-        case InventoryItemID::BirchLeaves:
+        case InventoryItem::ID::BirchLeaves:
             glColor(RGB15(20, 26, 19));
             glSpriteScale(xx, yy, HALF_SCALE, flip, sprBirchLeaves);
             glColor(RGB15(31, 31, 31));
             break;
-        case InventoryItemID::SpruceLeaves:
+        case InventoryItem::ID::SpruceLeaves:
             glColor(RGB15(0, 11, 0));
             glSpriteScale(xx, yy, HALF_SCALE, flip, sprSpruceLeaves);
             glColor(RGB15(31, 31, 31));
             break;
-        case InventoryItemID::Door:
+        case InventoryItem::ID::Door:
             glSpriteScale(xx, yy, (1 << 12) / 4, flip, sprDoor);
             break;
-        case InventoryItemID::BirchDoor:
+        case InventoryItem::ID::BirchDoor:
             glSpriteScale(xx, yy, (1 << 12) / 4, flip, sprBirchDoor);
             break;
-        case InventoryItemID::SpruceDoor:
+        case InventoryItem::ID::SpruceDoor:
             glSpriteScale(xx, yy, (1 << 12) / 4, flip, sprSpruceDoor);
             break;
-        case InventoryItemID::Glass:
+        case InventoryItem::ID::Glass:
             glSpriteScale(xx - 1, yy, HALF_SCALE, flip, sprGlass);
             break;
-        case InventoryItemID::OakSlab:
+        case InventoryItem::ID::OakSlab:
             glSpritePartScale(sprPlanks, xx - 1, yy + 2, 0, 0, 16, 8, HALF_SCALE);
             break;
-        case InventoryItemID::BirchSlab:
+        case InventoryItem::ID::BirchSlab:
             glSpritePartScale(sprBirchPlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALF_SCALE);
             break;
-        case InventoryItemID::SpruceSlab:
+        case InventoryItem::ID::SpruceSlab:
             glSpritePartScale(sprSprucePlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALF_SCALE);
             break;
-        case InventoryItemID::CobblestoneSlab:
+        case InventoryItem::ID::CobblestoneSlab:
             glSpritePartScale(sprCobblestone, xx - 1, yy + 2, 0, 0, 16, 8, HALF_SCALE);
             break;
         // default
@@ -582,14 +582,14 @@ void Player::drawHUD(const Camera &camera, Font &font)
     // draw the aim as user's color in the ds settings-colored square or a half-transparent
     // version of the block
 
-    InventoryItemID currid = inventory[hotbarSelect].id;
+    InventoryItem::ID currid = inventory[hotbarSelect].id;
 
     int xx = getRectAim(camera).x - camera.x;
     int yy = getRectAim(camera).y - camera.y;
-    if (currid == InventoryItemID::OakSlab || currid == InventoryItemID::CobblestoneSlab || currid == InventoryItemID::BirchSlab)
+    if (currid == InventoryItem::ID::OakSlab || currid == InventoryItem::ID::CobblestoneSlab || currid == InventoryItem::ID::BirchSlab)
         yy = getRectAimY8(camera).y - camera.y;
 
-    if (currid == InventoryItemID::None ||
+    if (currid == InventoryItem::ID::None ||
         isItem(currid))
         glBoxFilled(xx, yy,
                     xx + 15, yy + 15, (aimDist <= MAX_AIM_DISTANCE) ? getFavoriteColorRgb() : RGB15(31, 0, 0));
@@ -601,34 +601,34 @@ void Player::drawHUD(const Camera &camera, Font &font)
         switch (currid)
         {
         // some special cases
-        case InventoryItemID::Leaves:
+        case InventoryItem::ID::Leaves:
             glColor(RGB15(0, 22, 0));
             glSprite(xx, yy, GL_FLIP_NONE, sprLeaves);
             glColor(RGB15(31, 31, 31));
             break;
-        case InventoryItemID::BirchLeaves:
+        case InventoryItem::ID::BirchLeaves:
             glColor(RGB15(20, 26, 19));
             glSprite(xx, yy, GL_FLIP_NONE, sprBirchLeaves);
             glColor(RGB15(31, 31, 31));
             break;
-        case InventoryItemID::SpruceLeaves:
+        case InventoryItem::ID::SpruceLeaves:
             glColor(RGB15(0, 11, 0));
             glSprite(xx, yy, GL_FLIP_NONE, sprSpruceLeaves);
             glColor(RGB15(31, 31, 31));
             break;
-        case InventoryItemID::Glass:
+        case InventoryItem::ID::Glass:
             glSpriteScale(xx - 1, yy, HALF_SCALE, GL_FLIP_NONE, sprGlass);
             break;
-        case InventoryItemID::OakSlab:
+        case InventoryItem::ID::OakSlab:
             glSpritePart(sprPlanks, xx, yy + 8, 0, 0, 16, 8);
             break;
-        case InventoryItemID::BirchSlab:
+        case InventoryItem::ID::BirchSlab:
             glSpritePart(sprBirchPlanks, xx, yy + 8, 0, 0, 16, 8);
             break;
-        case InventoryItemID::SpruceSlab:
+        case InventoryItem::ID::SpruceSlab:
             glSpritePart(sprSprucePlanks, xx, yy + 8, 0, 0, 16, 8);
             break;
-        case InventoryItemID::CobblestoneSlab:
+        case InventoryItem::ID::CobblestoneSlab:
             glSpritePart(sprCobblestone, xx, yy + 8, 0, 0, 16, 8);
             break;
         // default
@@ -656,10 +656,10 @@ void Player::drawHUD(const Camera &camera, Font &font)
                  (i == hotbarSelect ? _sprInventorySlotSelect : _sprInventorySlot));
 
         // draw the item if it exists
-        if (inventory[i].amount > 0 && inventory[i].id != InventoryItemID::None)
+        if (inventory[i].amount > 0 && inventory[i].id != InventoryItem::ID::None)
         {
             // get the id and amount
-            InventoryItemID id = inventory[i].id;
+            InventoryItem::ID id = inventory[i].id;
             u8 amount = inventory[i].amount;
 
             int xxItem = i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2));
@@ -668,43 +668,43 @@ void Player::drawHUD(const Camera &camera, Font &font)
             switch (id)
             {
             // some special cases
-            case InventoryItemID::Leaves:
+            case InventoryItem::ID::Leaves:
                 glColor(RGB15(0, 22, 0));
                 glSpriteScale(xxItem + 4, yyItem + 4, HALF_SCALE, GL_FLIP_NONE, sprLeaves);
                 glColor(RGB15(31, 31, 31));
                 break;
-            case InventoryItemID::BirchLeaves:
+            case InventoryItem::ID::BirchLeaves:
                 glColor(RGB15(20, 26, 19));
                 glSpriteScale(xxItem + 4, yyItem + 4, HALF_SCALE, GL_FLIP_NONE, sprBirchLeaves);
                 glColor(RGB15(31, 31, 31));
                 break;
-            case InventoryItemID::SpruceLeaves:
+            case InventoryItem::ID::SpruceLeaves:
                 glColor(RGB15(0, 11, 0));
                 glSpriteScale(xxItem + 4, yyItem + 4, HALF_SCALE, GL_FLIP_NONE, sprSpruceLeaves);
                 glColor(RGB15(31, 31, 31));
                 break;
-            case InventoryItemID::Door:
+            case InventoryItem::ID::Door:
                 glSpriteScale(xxItem + 5, yyItem + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
                 break;
-            case InventoryItemID::BirchDoor:
+            case InventoryItem::ID::BirchDoor:
                 glSpriteScale(xxItem + 5, yyItem + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
                 break;
-            case InventoryItemID::SpruceDoor:
+            case InventoryItem::ID::SpruceDoor:
                 glSpriteScale(xxItem + 5, yyItem + 4, (1 << 12) / 4, GL_FLIP_NONE, sprSpruceDoor);
                 break;
-            case InventoryItemID::Glass:
+            case InventoryItem::ID::Glass:
                 glSpriteScale(xxItem - 1, yyItem, HALF_SCALE, GL_FLIP_NONE, sprGlass);
                 break;
-            case InventoryItemID::OakSlab:
+            case InventoryItem::ID::OakSlab:
                 glSpritePartScale(sprPlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE);
                 break;
-            case InventoryItemID::BirchSlab:
+            case InventoryItem::ID::BirchSlab:
                 glSpritePartScale(sprBirchPlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE);
                 break;
-            case InventoryItemID::SpruceSlab:
+            case InventoryItem::ID::SpruceSlab:
                 glSpritePartScale(sprSprucePlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE);
                 break;
-            case InventoryItemID::CobblestoneSlab:
+            case InventoryItem::ID::CobblestoneSlab:
                 glSpritePartScale(sprCobblestone, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE);
                 break;
             // default
@@ -867,8 +867,8 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     // move item (or stack)
 
                     // get the id and amount
-                    InventoryItemID msid = inventory[inventoryMoveSelect].id;
-                    InventoryItemID fsid = inventory[inventorySelect].id;
+                    InventoryItem::ID msid = inventory[inventoryMoveSelect].id;
+                    InventoryItem::ID fsid = inventory[inventorySelect].id;
                     u8 msa = inventory[inventoryMoveSelect].amount;
                     u8 fsa = inventory[inventorySelect].amount;
 
@@ -1091,13 +1091,13 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             {
                 switch (inventory[hotbarSelect].id)
                 {
-                case InventoryItemID::WoodenSword:
+                case InventoryItem::ID::WoodenSword:
                     entity->damage(entity->health % 2 + 1);
                     break;
-                case InventoryItemID::StoneSword:
+                case InventoryItem::ID::StoneSword:
                     entity->damage(3);
                     break;
-                case InventoryItemID::IronSword:
+                case InventoryItem::ID::IronSword:
                     entity->damage(4);
                     break;
                 default:
@@ -1126,28 +1126,28 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             // but if we are holding an item that we can use
             // then use it
 
-            InventoryItemID itemid = inventory[hotbarSelect].id;
+            InventoryItem::ID itemid = inventory[hotbarSelect].id;
             switch (itemid)
             {
-            case InventoryItemID::RawPorkchop:
+            case InventoryItem::ID::RawPorkchop:
                 if (health != 9)
                 {
                     _eatFood(&health, 2);
-                    removeItem(InventoryItemID::RawPorkchop);
+                    removeItem(InventoryItem::ID::RawPorkchop);
                 }
                 break;
-            case InventoryItemID::CookedPorkchop:
+            case InventoryItem::ID::CookedPorkchop:
                 if (health != 9)
                 {
                     _eatFood(&health, 4);
-                    removeItem(InventoryItemID::CookedPorkchop);
+                    removeItem(InventoryItem::ID::CookedPorkchop);
                 }
                 break;
-            case InventoryItemID::Apple:
+            case InventoryItem::ID::Apple:
                 if (health != 9)
                 {
                     _eatFood(&health, 2);
-                    removeItem(InventoryItemID::Apple);
+                    removeItem(InventoryItem::ID::Apple);
                 }
                 break;
             // block placing
@@ -1178,8 +1178,8 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                 chestOpen = true;
                                 chest = chestp;
                             }
-                            else if ((block->id() == BID_GRASS || block->id() == BID_SNOWY_GRASS) && (itemid == InventoryItemID::WoodenHoe ||
-                                     itemid == InventoryItemID::StoneHoe || itemid == InventoryItemID::IronHoe))
+                            else if ((block->id() == BID_GRASS || block->id() == BID_SNOWY_GRASS) && (itemid == InventoryItem::ID::WoodenHoe ||
+                                     itemid == InventoryItem::ID::StoneHoe || itemid == InventoryItem::ID::IronHoe))
                             {
                                 replaceBlock(*blocks, block.get(), std::make_unique<DirtBlock>(block->x, block->y));
                                 block->interact(itemid);
@@ -1194,7 +1194,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                                  Rect(snapToGrid(camera->x + aimX),
                                                       snapToGrid(camera->y + aimY), 16, 16));
 
-                InventoryItemID id = inventory[hotbarSelect].id;
+                InventoryItem::ID id = inventory[hotbarSelect].id;
                 // nonsolid blocks can be placed inside player because they are not solid
                 if (isNonSolidBlockItem(id))
                     shouldPlaceBlock = true;
@@ -1202,7 +1202,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 if (aimDist > MAX_AIM_DISTANCE)
                     shouldPlaceBlock = false;
 
-                if (shouldPlaceBlock && id != InventoryItemID::None)
+                if (shouldPlaceBlock && id != InventoryItem::ID::None)
                 {
                     // also check if there is a block that the block can be placed on
 
@@ -1246,65 +1246,65 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                         {
                         default:
                             break;
-                        case InventoryItemID::Grass:
+                        case InventoryItem::ID::Grass:
                             blocks->emplace_back(new GrassBlock(snapToGrid(camera->x + aimX),
                                                                 snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             break;
-                        case InventoryItemID::Dirt:
+                        case InventoryItem::ID::Dirt:
                             blocks->emplace_back(new DirtBlock(snapToGrid(camera->x + aimX),
                                                                snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndDirt1, &sndDirt2, &sndDirt3, &sndDirt4);
                             break;
-                        case InventoryItemID::Stone:
+                        case InventoryItem::ID::Stone:
                             blocks->emplace_back(new StoneBlock(snapToGrid(camera->x + aimX),
                                                                 snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             break;
-                        case InventoryItemID::Wood:
+                        case InventoryItem::ID::Wood:
                             blocks->emplace_back(new WoodBlock(snapToGrid(camera->x + aimX),
                                                                snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
-                        case InventoryItemID::BirchWood:
+                        case InventoryItem::ID::BirchWood:
                             blocks->emplace_back(new BirchWoodBlock(snapToGrid(camera->x + aimX),
                                                                     snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
-                        case InventoryItemID::SpruceWood:
+                        case InventoryItem::ID::SpruceWood:
                             blocks->emplace_back(new SpruceWoodBlock(snapToGrid(camera->x + aimX),
                                                                      snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
-                        case InventoryItemID::Leaves:
+                        case InventoryItem::ID::Leaves:
                             blocks->emplace_back(new LeavesBlock(snapToGrid(camera->x + aimX),
                                                                  snapToGrid(camera->y + aimY),
                                                                  LeavesType::Oak, false));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             break;
-                        case InventoryItemID::BirchLeaves:
+                        case InventoryItem::ID::BirchLeaves:
                             blocks->emplace_back(new LeavesBlock(snapToGrid(camera->x + aimX),
                                                                  snapToGrid(camera->y + aimY),
                                                                  LeavesType::Birch, false));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             break;
-                        case InventoryItemID::SpruceLeaves:
+                        case InventoryItem::ID::SpruceLeaves:
                             blocks->emplace_back(new LeavesBlock(snapToGrid(camera->x + aimX),
                                                                  snapToGrid(camera->y + aimY),
                                                                  LeavesType::Spruce, false));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             break;
-                        case InventoryItemID::Sand:
+                        case InventoryItem::ID::Sand:
                             blocks->emplace_back(new SandBlock(snapToGrid(camera->x + aimX),
                                                                snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndSand1, &sndSand2, &sndSand3, &sndSand4);
                             break;
-                        case InventoryItemID::Sandstone:
+                        case InventoryItem::ID::Sandstone:
                             blocks->emplace_back(new SandstoneBlock(snapToGrid(camera->x + aimX),
                                                                     snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             break;
-                        case InventoryItemID::Cactus:
+                        case InventoryItem::ID::Cactus:
                             canPlace = false;
                             for (size_t i = 0; i < blocks->size(); ++i)
                             {
@@ -1319,7 +1319,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                 playsfx(4, &sndCloth1, &sndCloth2, &sndCloth3, &sndCloth4);
                             }
                             break;
-                        case InventoryItemID::DeadBush:
+                        case InventoryItem::ID::DeadBush:
                             canPlace = false;
                             for (size_t i = 0; i < blocks->size(); ++i)
                             {
@@ -1334,7 +1334,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                 playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             }
                             break;
-                        case InventoryItemID::Poppy:
+                        case InventoryItem::ID::Poppy:
                             canPlace = false;
                             for (size_t i = 0; i < blocks->size(); ++i)
                             {
@@ -1349,7 +1349,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                 playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             }
                             break;
-                        case InventoryItemID::Dandelion:
+                        case InventoryItem::ID::Dandelion:
                             canPlace = false;
                             for (size_t i = 0; i < blocks->size(); ++i)
                             {
@@ -1365,7 +1365,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                 playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             }
                             break;
-                        case InventoryItemID::RedTulip:
+                        case InventoryItem::ID::RedTulip:
                             canPlace = false;
                             for (size_t i = 0; i < blocks->size(); ++i)
                             {
@@ -1381,42 +1381,42 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                 playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             }
                             break;
-                        case InventoryItemID::Door:
+                        case InventoryItem::ID::Door:
                             blocks->emplace_back(new DoorBlock(snapToGrid(camera->x + aimX),
                                                                snapToGrid(camera->y + aimY), x, DoorType::Oak));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
-                        case InventoryItemID::BirchDoor:
+                        case InventoryItem::ID::BirchDoor:
                             blocks->emplace_back(new DoorBlock(snapToGrid(camera->x + aimX),
                                                                snapToGrid(camera->y + aimY), x, DoorType::Birch));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
-                        case InventoryItemID::SpruceDoor:
+                        case InventoryItem::ID::SpruceDoor:
                             blocks->emplace_back(new DoorBlock(snapToGrid(camera->x + aimX),
                                                                snapToGrid(camera->y + aimY), x, DoorType::Spruce));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
-                        case InventoryItemID::Planks:
+                        case InventoryItem::ID::Planks:
                             blocks->emplace_back(new PlanksBlock(snapToGrid(camera->x + aimX),
                                                                  snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
-                        case InventoryItemID::BirchPlanks:
+                        case InventoryItem::ID::BirchPlanks:
                             blocks->emplace_back(new BirchPlanksBlock(snapToGrid(camera->x + aimX),
                                                                       snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
-                        case InventoryItemID::SprucePlanks:
+                        case InventoryItem::ID::SprucePlanks:
                             blocks->emplace_back(new SprucePlanksBlock(snapToGrid(camera->x + aimX),
                                                                        snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
-                        case InventoryItemID::SnowyGrass:
+                        case InventoryItem::ID::SnowyGrass:
                             blocks->emplace_back(new SnowyGrassBlock(snapToGrid(camera->x + aimX),
                                                                      snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndSnow1, &sndSnow2, &sndSnow3, &sndSnow4);
                             break;
-                        case InventoryItemID::Sapling:
+                        case InventoryItem::ID::Sapling:
                             canPlace = false;
                             for (size_t i = 0; i < blocks->size(); ++i)
                             {
@@ -1431,7 +1431,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                 playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             }
                             break;
-                        case InventoryItemID::BirchSapling:
+                        case InventoryItem::ID::BirchSapling:
                             canPlace = false;
                             for (size_t i = 0; i < blocks->size(); ++i)
                             {
@@ -1446,7 +1446,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                 playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             }
                             break;
-                        case InventoryItemID::SpruceSapling:
+                        case InventoryItem::ID::SpruceSapling:
                             canPlace = false;
                             for (size_t i = 0; i < blocks->size(); ++i)
                             {
@@ -1461,82 +1461,82 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                 playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             }
                             break;
-                        case InventoryItemID::Cobblestone:
+                        case InventoryItem::ID::Cobblestone:
                             blocks->emplace_back(new CobblestoneBlock(snapToGrid(camera->x + aimX),
                                                                       snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             break;
-                        case InventoryItemID::CoalOre:
+                        case InventoryItem::ID::CoalOre:
                             blocks->emplace_back(new CoalOreBlock(snapToGrid(camera->x + aimX),
                                                                   snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             break;
-                        case InventoryItemID::CoalBlock:
+                        case InventoryItem::ID::CoalBlock:
                             blocks->emplace_back(new CoalBlock(snapToGrid(camera->x + aimX),
                                                                snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             break;
-                        case InventoryItemID::IronOre:
+                        case InventoryItem::ID::IronOre:
                             blocks->emplace_back(new IronOreBlock(snapToGrid(camera->x + aimX),
                                                                   snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             break;
-                        case InventoryItemID::IronBlock:
+                        case InventoryItem::ID::IronBlock:
                             blocks->emplace_back(new IronBlock(snapToGrid(camera->x + aimX),
                                                                snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             break;
-                        case InventoryItemID::Glass:
+                        case InventoryItem::ID::Glass:
                             blocks->emplace_back(new GlassBlock(snapToGrid(camera->x + aimX),
                                                                 snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             break;
-                        case InventoryItemID::OakTrapdoor:
+                        case InventoryItem::ID::OakTrapdoor:
                             blocks->emplace_back(new OakTrapdoorBlock(snapToGrid(camera->x + aimX),
                                                                       snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
-                        case InventoryItemID::BirchTrapdoor:
+                        case InventoryItem::ID::BirchTrapdoor:
                             blocks->emplace_back(new BirchTrapdoorBlock(snapToGrid(camera->x + aimX),
                                                                         snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
-                        case InventoryItemID::SpruceTrapdoor:
+                        case InventoryItem::ID::SpruceTrapdoor:
                             blocks->emplace_back(new SpruceTrapdoorBlock(snapToGrid(camera->x + aimX),
                                                                          snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
-                        case InventoryItemID::Ladder:
+                        case InventoryItem::ID::Ladder:
                             blocks->emplace_back(new LadderBlock(snapToGrid(camera->x + aimX),
                                                                  snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
-                        case InventoryItemID::Chest:
+                        case InventoryItem::ID::Chest:
                             blocks->emplace_back(new ChestBlock(snapToGrid(camera->x + aimX),
                                                                 snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
-                        case InventoryItemID::OakSlab:
+                        case InventoryItem::ID::OakSlab:
                             blocks->emplace_back(new OakSlabBlock(snapToGrid(camera->x + aimX),
                                                                   snapToGrid8(camera->y + aimY)));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
-                        case InventoryItemID::BirchSlab:
+                        case InventoryItem::ID::BirchSlab:
                             blocks->emplace_back(new BirchSlabBlock(snapToGrid(camera->x + aimX),
                                                                     snapToGrid8(camera->y + aimY)));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
-                        case InventoryItemID::SpruceSlab:
+                        case InventoryItem::ID::SpruceSlab:
                             blocks->emplace_back(new BirchSlabBlock(snapToGrid(camera->x + aimX),
                                                                     snapToGrid8(camera->y + aimY)));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             break;
-                        case InventoryItemID::CobblestoneSlab:
+                        case InventoryItem::ID::CobblestoneSlab:
                             blocks->emplace_back(new CobblestoneSlabBlock(snapToGrid(camera->x + aimX),
                                                                           snapToGrid8(camera->y + aimY)));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             break;
-                        case InventoryItemID::Sign:
+                        case InventoryItem::ID::Sign:
                         {
                             SignBlock *newSignBlock = new SignBlock(snapToGrid(camera->x + aimX),
                                                                     snapToGrid(camera->y + aimY), "");
@@ -1545,7 +1545,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             keyboardShow();
                             break;
                         }
-                        case InventoryItemID::StoneBricks:
+                        case InventoryItem::ID::StoneBricks:
                             blocks->emplace_back(new StoneBricksBlock(snapToGrid(camera->x + aimX),
                                                                       snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
@@ -1555,7 +1555,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                         {
                             --inventory[hotbarSelect].amount;
                             if (inventory[hotbarSelect].amount == 0)
-                                inventory[hotbarSelect].id = InventoryItemID::None;
+                                inventory[hotbarSelect].id = InventoryItem::ID::None;
                             statsSetEntry("blocksplaced", statsGetEntry("blocksplaced") + 1);
                         }
                         ret = UpdateResult::BlockPlaced;
@@ -1641,11 +1641,11 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     case BID_IRON_BLOCK:
                     case BID_SANDSTONE:
                     case BID_STONE_BRICKS:
-                        if (inventory[hotbarSelect].id == InventoryItemID::WoodenPickaxe)
+                        if (inventory[hotbarSelect].id == InventoryItem::ID::WoodenPickaxe)
                             block->hit(block->brokenLevel % 2 + 1);
-                        else if (inventory[hotbarSelect].id == InventoryItemID::StonePickaxe)
+                        else if (inventory[hotbarSelect].id == InventoryItem::ID::StonePickaxe)
                             block->hit(3);
-                        else if (inventory[hotbarSelect].id == InventoryItemID::IronPickaxe)
+                        else if (inventory[hotbarSelect].id == InventoryItem::ID::IronPickaxe)
                             block->hit(5);
                         else
                             block->hit();
@@ -1654,11 +1654,11 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     case BID_SNOWY_GRASS:
                     case BID_DIRT:
                     case BID_SAND:
-                        if (inventory[hotbarSelect].id == InventoryItemID::WoodenShovel)
+                        if (inventory[hotbarSelect].id == InventoryItem::ID::WoodenShovel)
                             block->hit(block->brokenLevel % 2 + 2);
-                        else if (inventory[hotbarSelect].id == InventoryItemID::StoneShovel)
+                        else if (inventory[hotbarSelect].id == InventoryItem::ID::StoneShovel)
                             block->hit(4);
-                        else if (inventory[hotbarSelect].id == InventoryItemID::IronShovel)
+                        else if (inventory[hotbarSelect].id == InventoryItem::ID::IronShovel)
                             block->hit(6);
                         else
                             block->hit(2);
@@ -1679,11 +1679,11 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     case BID_BIRCH_TRAPDOOR:
                     case BID_SPRUCE_TRAPDOOR:
                     case BID_SIGN:
-                        if (inventory[hotbarSelect].id == InventoryItemID::WoodenAxe)
+                        if (inventory[hotbarSelect].id == InventoryItem::ID::WoodenAxe)
                             block->hit(block->brokenLevel % 2 + 1);
-                        else if (inventory[hotbarSelect].id == InventoryItemID::StoneAxe)
+                        else if (inventory[hotbarSelect].id == InventoryItem::ID::StoneAxe)
                             block->hit(2);
-                        else if (inventory[hotbarSelect].id == InventoryItemID::IronAxe)
+                        else if (inventory[hotbarSelect].id == InventoryItem::ID::IronAxe)
                             block->hit(4);
                         else
                             block->hit();
@@ -1691,7 +1691,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     case BID_LEAVES:
                     case BID_BIRCH_LEAVES:
                     case BID_SPRUCE_LEAVES:
-                        if (inventory[hotbarSelect].id == InventoryItemID::Shears)
+                        if (inventory[hotbarSelect].id == InventoryItem::ID::Shears)
                             block->hit(block->maxBrokenLevel + 1);
                         else
                             block->hit();
@@ -1756,32 +1756,32 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                         switch (bid)
                         {
                         case BID_GRASS:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Dirt));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Dirt));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             _spawnBlockParticles(blockParticles, sprGrass, block->x, block->y);
                             break;
                         case BID_DIRT:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Dirt));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Dirt));
                             playsfx(4, &sndDirt1, &sndDirt2, &sndDirt3, &sndDirt4);
                             _spawnBlockParticles(blockParticles, sprDirt, block->x, block->y);
                             break;
                         case BID_STONE:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Cobblestone));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Cobblestone));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             _spawnBlockParticles(blockParticles, sprStone, block->x, block->y);
                             break;
                         case BID_WOOD:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Wood));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Wood));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             _spawnBlockParticles(blockParticles, sprWood, block->x, block->y);
                             break;
                         case BID_BIRCH_WOOD:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::BirchWood));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::BirchWood));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             _spawnBlockParticles(blockParticles, sprBirchWood, block->x, block->y);
                             break;
                         case BID_SPRUCE_WOOD:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::SpruceWood));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::SpruceWood));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             _spawnBlockParticles(blockParticles, sprSpruceWood, block->x, block->y);
                             break;
@@ -1798,19 +1798,19 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                     switch (l->type)
                                     {
                                     case LeavesType::Oak:
-                                        entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Sapling));
+                                        entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Sapling));
                                         break;
                                     case LeavesType::Birch:
-                                        entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::BirchSapling));
+                                        entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::BirchSapling));
                                         break;
                                     case LeavesType::Spruce:
-                                        entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::SpruceSapling));
+                                        entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::SpruceSapling));
                                         break;
                                     }
                                 }
                                 // get an apple with 8% chance
                                 if (chance(8))
-                                    entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Apple));
+                                    entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Apple));
                             }
                             switch (l->type)
                             {
@@ -1827,113 +1827,113 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             break;
                         }
                         case BID_SAND:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Sand));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Sand));
                             playsfx(4, &sndSand1, &sndSand2, &sndSand3, &sndSand4);
                             _spawnBlockParticles(blockParticles, sprSand, block->x, block->y);
                             break;
                         case BID_SANDSTONE:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Sandstone));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Sandstone));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             _spawnBlockParticles(blockParticles, sprSandstone, block->x, block->y);
                             break;
                         case BID_CACTUS:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Cactus));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Cactus));
                             playsfx(4, &sndCloth1, &sndCloth2, &sndCloth3, &sndCloth4);
                             _spawnBlockParticles(blockParticles, sprCactus, block->x, block->y);
                             break;
                         case BID_DEAD_BUSH:
-                            entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), InventoryItemID::Stick));
-                            entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), InventoryItemID::Stick));
+                            entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), InventoryItem::ID::Stick));
+                            entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), InventoryItem::ID::Stick));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             _spawnBlockParticles(blockParticles, sprDeadBush, block->x, block->y);
                             break;
                         case BID_POPPY:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Poppy));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Poppy));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             _spawnBlockParticles(blockParticles, sprPoppy, block->x, block->y);
                             break;
                         case BID_DANDELION:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Dandelion));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Dandelion));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             _spawnBlockParticles(blockParticles, sprDandelion, block->x, block->y);
                             break;
                         case BID_RED_TULIP:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::RedTulip));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::RedTulip));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             _spawnBlockParticles(blockParticles, sprRedTulip, block->x, block->y);
                             break;
                         case BID_DOOR:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Door));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Door));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             _spawnBlockParticles(blockParticles, sprDoor, block->x, block->y);
                             break;
                         case BID_BIRCH_DOOR:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::BirchDoor));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::BirchDoor));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             _spawnBlockParticles(blockParticles, sprBirchDoor, block->x, block->y);
                             break;
                         case BID_SPRUCE_DOOR:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::SpruceDoor));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::SpruceDoor));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             _spawnBlockParticles(blockParticles, sprSpruceDoor, block->x, block->y);
                             break;
                         case BID_PLANKS:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Planks));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Planks));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             _spawnBlockParticles(blockParticles, sprPlanks, block->x, block->y);
                             break;
                         case BID_BIRCH_PLANKS:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::BirchPlanks));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::BirchPlanks));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             _spawnBlockParticles(blockParticles, sprBirchPlanks, block->x, block->y);
                             break;
                         case BID_SPRUCE_PLANKS:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::SprucePlanks));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::SprucePlanks));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             _spawnBlockParticles(blockParticles, sprSprucePlanks, block->x, block->y);
                             break;
                         case BID_SNOWY_GRASS:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Dirt));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Dirt));
                             playsfx(4, &sndSnow1, &sndSnow2, &sndSnow3, &sndSnow4);
                             _spawnBlockParticles(blockParticles, sprSnowyGrass, block->x, block->y);
                             break;
                         case BID_SAPLING:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Sapling));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Sapling));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             _spawnBlockParticles(blockParticles, sprSapling, block->x, block->y);
                             break;
                         case BID_BIRCH_SAPLING:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::BirchSapling));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::BirchSapling));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             _spawnBlockParticles(blockParticles, sprBirchSapling, block->x, block->y);
                             break;
                         case BID_SPRUCE_SAPLING:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::SpruceSapling));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::SpruceSapling));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             _spawnBlockParticles(blockParticles, sprSpruceSapling, block->x, block->y);
                             break;
                         case BID_COBBLESTONE:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Cobblestone));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Cobblestone));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             _spawnBlockParticles(blockParticles, sprCobblestone, block->x, block->y);
                             break;
                         case BID_COAL_ORE:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Coal));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Coal));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             _spawnBlockParticles(blockParticles, sprCoalOre, block->x, block->y);
                             break;
                         case BID_COAL_BLOCK:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::CoalBlock));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::CoalBlock));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             _spawnBlockParticles(blockParticles, sprCoalBlock, block->x, block->y);
                             break;
                         case BID_IRON_ORE:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::IronOre));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::IronOre));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             _spawnBlockParticles(blockParticles, sprIronOre, block->x, block->y);
                             break;
                         case BID_IRON_BLOCK:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::IronBlock));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::IronBlock));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             _spawnBlockParticles(blockParticles, sprIronBlock, block->x, block->y);
                             break;
@@ -1942,57 +1942,57 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             _spawnBlockParticles(blockParticles, sprGlass, block->x, block->y);
                             break;
                         case BID_OAK_TRAPDOOR:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::OakTrapdoor));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::OakTrapdoor));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             _spawnBlockParticles(blockParticles, sprOakTrapdoor, block->x, block->y);
                             break;
                         case BID_BIRCH_TRAPDOOR:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::BirchTrapdoor));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::BirchTrapdoor));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             _spawnBlockParticles(blockParticles, sprBirchTrapdoor, block->x, block->y);
                             break;
                         case BID_SPRUCE_TRAPDOOR:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::SpruceTrapdoor));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::SpruceTrapdoor));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             _spawnBlockParticles(blockParticles, sprSpruceTrapdoor, block->x, block->y);
                             break;
                         case BID_LADDER:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Ladder));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Ladder));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             _spawnBlockParticles(blockParticles, sprLadder, block->x, block->y);
                             break;
                         case BID_CHEST:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Chest));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Chest));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             _spawnBlockParticles(blockParticles, sprChest, block->x, block->y);
                             break;
                         case BID_OAK_SLAB:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::OakSlab));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::OakSlab));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             _spawnBlockParticles(blockParticles, sprPlanks, block->x, block->y);
                             break;
                         case BID_BIRCH_SLAB:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::BirchSlab));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::BirchSlab));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             _spawnBlockParticles(blockParticles, sprBirchPlanks, block->x, block->y);
                             break;
                         case BID_SPRUCE_SLAB:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::SpruceSlab));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::SpruceSlab));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             _spawnBlockParticles(blockParticles, sprSprucePlanks, block->x, block->y);
                             break;
                         case BID_COBBLESTONE_SLAB:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::CobblestoneSlab));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::CobblestoneSlab));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             _spawnBlockParticles(blockParticles, sprCobblestone, block->x, block->y);
                             break;
                         case BID_SIGN:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::Sign));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Sign));
                             playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
                             _spawnBlockParticles(blockParticles, sprSign, block->x, block->y);
                             break;
                         case BID_STONE_BRICKS:
-                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItemID::StoneBricks));
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::StoneBricks));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             _spawnBlockParticles(blockParticles, sprStoneBricks, block->x, block->y);
                             break;
@@ -2285,9 +2285,9 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
 
 bool Player::hasItem(InventoryItem item)
 {
-    if (item.id == InventoryItemID::AnyPlanks)
-        return hasItem({InventoryItemID::Planks, item.amount}) ||
-               hasItem({InventoryItemID::BirchPlanks, item.amount});
+    if (item.id == InventoryItem::ID::AnyPlanks)
+        return hasItem({InventoryItem::ID::Planks, item.amount}) ||
+               hasItem({InventoryItem::ID::BirchPlanks, item.amount});
 
     for (u8 i = 0; i < 20; ++i)
     {
@@ -2297,7 +2297,7 @@ bool Player::hasItem(InventoryItem item)
     return false;
 }
 
-void Player::addItem(InventoryItemID item)
+void Player::addItem(InventoryItem::ID item)
 {
     if (isInventoryFull())
         return;
@@ -2327,7 +2327,7 @@ void Player::addItem(InventoryItemID item)
     for (u8 i = 0; i < 20; ++i)
     {
         // if slot is empty, then occupy it
-        if (inventory[i].id == InventoryItemID::None)
+        if (inventory[i].id == InventoryItem::ID::None)
         {
             inventory[i].id = item;
             ++inventory[i].amount;
@@ -2336,7 +2336,7 @@ void Player::addItem(InventoryItemID item)
     }
 }
 
-void Player::addItem(InventoryItemID item, u8 amount)
+void Player::addItem(InventoryItem::ID item, u8 amount)
 {
     if (isInventoryFull())
         return;
@@ -2345,18 +2345,18 @@ void Player::addItem(InventoryItemID item, u8 amount)
         addItem(item);
 }
 
-void Player::removeItem(InventoryItemID item)
+void Player::removeItem(InventoryItem::ID item)
 {
-    if (item == InventoryItemID::AnyPlanks)
+    if (item == InventoryItem::ID::AnyPlanks)
     {
-        if (hasItem({InventoryItemID::Planks, 1}))
+        if (hasItem({InventoryItem::ID::Planks, 1}))
         {
-            removeItem(InventoryItemID::Planks);
+            removeItem(InventoryItem::ID::Planks);
             return;
         }
-        else if (hasItem({InventoryItemID::BirchPlanks, 1}))
+        else if (hasItem({InventoryItem::ID::BirchPlanks, 1}))
         {
-            removeItem(InventoryItemID::BirchPlanks);
+            removeItem(InventoryItem::ID::BirchPlanks);
             return;
         }
         else
@@ -2371,13 +2371,13 @@ void Player::removeItem(InventoryItemID item)
             --inventory[i].amount; // remove item
             // set it to none if no left
             if (inventory[i].amount == 0)
-                inventory[i].id = InventoryItemID::None;
+                inventory[i].id = InventoryItem::ID::None;
             return;
         }
     }
 }
 
-void Player::removeItem(InventoryItemID item, u8 amount)
+void Player::removeItem(InventoryItem::ID item, u8 amount)
 {
     for (u8 _ = 0; _ < amount; ++_)
         removeItem(item);
@@ -2463,14 +2463,14 @@ bool Player::isInventoryFull(void)
     return true;
 }
 
-bool Player::canAddItem(InventoryItemID item)
+bool Player::canAddItem(InventoryItem::ID item)
 {
     if (isInventoryFull()) // we cant add anything if our inventory is full
         return false;
 
     for (u8 i = 0; i < 20; ++i)
     {
-        if (inventory[i].id == InventoryItemID::None && inventory[i].amount == 0)
+        if (inventory[i].id == InventoryItem::ID::None && inventory[i].amount == 0)
             return true;
 
         if (inventory[i].id == item && inventory[i].amount < 64)
@@ -2520,11 +2520,11 @@ s16 Player::getHealth(void)
     return health;
 }
 
-u16 Player::countItems(InventoryItemID item)
+u16 Player::countItems(InventoryItem::ID item)
 {
-    if (item == InventoryItemID::AnyPlanks)
-        return countItems(InventoryItemID::Planks) + countItems(InventoryItemID::BirchPlanks) +
-               countItems(InventoryItemID::SprucePlanks);
+    if (item == InventoryItem::ID::AnyPlanks)
+        return countItems(InventoryItem::ID::Planks) + countItems(InventoryItem::ID::BirchPlanks) +
+               countItems(InventoryItem::ID::SprucePlanks);
 
     u16 count = 0;
     for (u8 i = 0; i < 20; ++i)
@@ -2638,25 +2638,25 @@ void Player::drawCrafting(Font &fontSmall, Font &fontSmallRu)
         default:
             glSpriteScale(slotX + 4, slotY + 4, HALF_SCALE, GL_FLIP_NONE, getItemImage(recipe.getOutput()));
             break;
-        case InventoryItemID::Door:
+        case InventoryItem::ID::Door:
             glSpriteScale(slotX + 4, slotY + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
             break;
-        case InventoryItemID::BirchDoor:
+        case InventoryItem::ID::BirchDoor:
             glSpriteScale(slotX + 4, slotY + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
             break;
-        case InventoryItemID::SpruceDoor:
+        case InventoryItem::ID::SpruceDoor:
             glSpriteScale(slotX + 4, slotY + 4, (1 << 12) / 4, GL_FLIP_NONE, sprSpruceDoor);
             break;
-        case InventoryItemID::OakSlab:
+        case InventoryItem::ID::OakSlab:
             glSpritePartScale(sprPlanks, slotX + 4, slotY + 4, 0, 0, 16, 8, HALF_SCALE);
             break;
-        case InventoryItemID::BirchSlab:
+        case InventoryItem::ID::BirchSlab:
             glSpritePartScale(sprBirchPlanks, slotX + 4, slotY + 4, 0, 0, 16, 8, HALF_SCALE);
             break;
-        case InventoryItemID::SpruceSlab:
+        case InventoryItem::ID::SpruceSlab:
             glSpritePartScale(sprSprucePlanks, slotX + 4, slotY + 4, 0, 0, 16, 8, HALF_SCALE);
             break;
-        case InventoryItemID::CobblestoneSlab:
+        case InventoryItem::ID::CobblestoneSlab:
             glSpritePartScale(sprCobblestone, slotX + 4, slotY + 4, 0, 0, 16, 8, HALF_SCALE);
             break;
         }

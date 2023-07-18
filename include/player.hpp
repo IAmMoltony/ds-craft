@@ -72,10 +72,10 @@ public:
     UpdateResult update(Camera *camera, BlockList *blocks, EntityList *entities, BlockParticleList *blockParticles, const u16 &frames);
     void updateCrafting(void);
     bool hasItem(InventoryItem item);
-    void addItem(InventoryItemID item);
-    void addItem(InventoryItemID item, u8 amount);
-    void removeItem(InventoryItemID item);
-    void removeItem(InventoryItemID item, u8 amount);
+    void addItem(InventoryItem::ID item);
+    void addItem(InventoryItem::ID item, u8 amount);
+    void removeItem(InventoryItem::ID item);
+    void removeItem(InventoryItem::ID item, u8 amount);
     void setX(s16 x);
     void setY(s16 y);
     void setAimX(s16 x);
@@ -90,7 +90,7 @@ public:
     bool moving(s16 oldX);
     bool dead(void);
     bool isInventoryFull(void);
-    bool canAddItem(InventoryItemID item);
+    bool canAddItem(InventoryItem::ID item);
     bool isInInventory(void);
     bool isInChest(void);
     bool isEditingSign(void);
@@ -99,7 +99,7 @@ public:
     s16 getSpawnX(void);
     s16 getSpawnY(void);
     s16 getHealth(void);
-    u16 countItems(InventoryItemID item);
+    u16 countItems(InventoryItem::ID item);
     Rect getRectBottom(void);
     Rect getRectTop(void);
     Rect getRectLeft(void);

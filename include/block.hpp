@@ -155,7 +155,7 @@ enum class SlabID
         trapd##TrapdoorBlock(s16 x, s16 y, bool open); \
         void draw(Camera &camera) override;            \
         bool solid(void) override;                     \
-        void interact(InventoryItemID item) override;  \
+        void interact(InventoryItem::ID item) override;  \
         u16 id(void) override;                         \
         Rect getRect(void) const override;             \
         bool isOpen(void);                             \
@@ -223,7 +223,7 @@ enum class SlabID
     {                                                                                                    \
         return !open;                                                                                    \
     }                                                                                                    \
-    void trapdid##TrapdoorBlock::interact(InventoryItemID item)                                          \
+    void trapdid##TrapdoorBlock::interact(InventoryItem::ID item)                                          \
     {                                                                                                    \
         (void)item;                                                                                      \
         open = !open;                                                                                    \
@@ -309,7 +309,7 @@ public:
     bool broken(void);
     virtual void draw(Camera &camera) = 0;
     virtual u16 id(void) = 0;
-    virtual void interact(InventoryItemID item);
+    virtual void interact(InventoryItem::ID item);
     virtual bool solid(void);
     virtual bool isSlab(void);
     virtual Rect getRect(void) const = 0;
@@ -395,7 +395,7 @@ public:
     DoorBlock(s16 x, s16 y, bool open, bool facing, DoorType type);
     void draw(Camera &camera) override;
     bool solid(void) override;
-    void interact(InventoryItemID item) override;
+    void interact(InventoryItem::ID item) override;
     u16 id(void) override;
     Rect getRect(void) const override;
     bool isOpen(void);
@@ -441,7 +441,7 @@ public:
     u16 id(void) override;
     Rect getRect(void) const override;
     bool solid(void) override;
-    void interact(InventoryItemID item) override;
+    void interact(InventoryItem::ID item) override;
     bool isFarmland(void);
 };
 

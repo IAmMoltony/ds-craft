@@ -217,7 +217,7 @@ bool Block::broken(void)
     return brokenLevel >= maxBrokenLevel;
 }
 
-void Block::interact(InventoryItemID item)
+void Block::interact(InventoryItem::ID item)
 {
     (void)item;
 }
@@ -302,7 +302,7 @@ bool DoorBlock::solid(void)
     return !open;
 }
 
-void DoorBlock::interact(InventoryItemID item)
+void DoorBlock::interact(InventoryItem::ID item)
 {
     (void)item;
     if (open)
@@ -437,9 +437,9 @@ bool DirtBlock::solid(void)
     return true;
 }
 
-void DirtBlock::interact(InventoryItemID item)
+void DirtBlock::interact(InventoryItem::ID item)
 {
-    if (!farmland && (item == InventoryItemID::WoodenHoe || item == InventoryItemID::StoneHoe || item == InventoryItemID::IronHoe))
+    if (!farmland && (item == InventoryItem::ID::WoodenHoe || item == InventoryItem::ID::StoneHoe || item == InventoryItem::ID::IronHoe))
         farmland = true;
 }
 
@@ -590,7 +590,7 @@ static u16 _nextChestID = 0;
 void ChestBlock::initItems(void)
 {
     for (u8 i = 0; i < 10; ++i)
-        items[i] = {InventoryItemID::None, 0};
+        items[i] = {InventoryItem::ID::None, 0};
 }
 
 ChestBlock::ChestBlock(s16 x, s16 y) : Block(x, y, 7), chid(_nextChestID++)
