@@ -1,5 +1,6 @@
 #include "item.hpp"
 #include "block.hpp"
+#include <map>
 
 // item images
 
@@ -624,148 +625,79 @@ const char *getItemStr(Language lang, InventoryItem::ID iid)
     return "";
 }
 
+static std::map<InventoryItem::ID, glImage *> _itemImages = {
+    {InventoryItem::ID::Grass, sprGrass},
+    {InventoryItem::ID::Dirt, sprDirt},
+    {InventoryItem::ID::Stone, sprStone},
+    {InventoryItem::ID::Wood, sprWood},
+    {InventoryItem::ID::BirchWood, sprBirchWood},
+    {InventoryItem::ID::SpruceWood, sprSpruceWood},
+    {InventoryItem::ID::Leaves, sprLeaves},
+    {InventoryItem::ID::BirchLeaves, sprBirchLeaves},
+    {InventoryItem::ID::SpruceLeaves, sprSpruceLeaves},
+    {InventoryItem::ID::Sand, sprSand},
+    {InventoryItem::ID::Sandstone, sprSandstone},
+    {InventoryItem::ID::Cactus, sprCactus},
+    {InventoryItem::ID::DeadBush, sprDeadBush},
+    {InventoryItem::ID::Poppy, sprPoppy},
+    {InventoryItem::ID::Dandelion, sprDandelion},
+    {InventoryItem::ID::RedTulip, sprRedTulip},
+    {InventoryItem::ID::Door, sprDoor},
+    {InventoryItem::ID::BirchDoor, sprBirchDoor},
+    {InventoryItem::ID::SpruceDoor, sprSpruceDoor},
+    {InventoryItem::ID::Planks, sprPlanks},
+    {InventoryItem::ID::BirchPlanks, sprBirchPlanks},
+    {InventoryItem::ID::SprucePlanks, sprSprucePlanks},
+    {InventoryItem::ID::Stick, _sprStick},
+    {InventoryItem::ID::SnowyGrass, sprSnowyGrass},
+    {InventoryItem::ID::Sapling, sprSapling},
+    {InventoryItem::ID::BirchSapling, sprBirchSapling},
+    {InventoryItem::ID::SpruceSapling, sprSpruceSapling},
+    {InventoryItem::ID::Cobblestone, sprCobblestone},
+    {InventoryItem::ID::CoalOre, sprCoalOre},
+    {InventoryItem::ID::Coal, _sprCoal},
+    {InventoryItem::ID::CoalBlock, sprCoalBlock},
+    {InventoryItem::ID::RawPorkchop, _sprRawPorkchop},
+    {InventoryItem::ID::CookedPorkchop, _sprCookedPorkchop},
+    {InventoryItem::ID::Apple, _sprApple},
+    {InventoryItem::ID::Glass, sprGlass},
+    {InventoryItem::ID::OakTrapdoor, sprOakTrapdoor},
+    {InventoryItem::ID::BirchTrapdoor, sprBirchTrapdoor},
+    {InventoryItem::ID::SpruceTrapdoor, sprSpruceTrapdoor},
+    {InventoryItem::ID::Ladder, sprLadder},
+    {InventoryItem::ID::Chest, sprChest},
+    {InventoryItem::ID::OakSlab, sprPlanks},
+    {InventoryItem::ID::BirchSlab, sprBirchPlanks},
+    {InventoryItem::ID::SpruceSlab, sprSprucePlanks},
+    {InventoryItem::ID::CobblestoneSlab, sprCobblestone},
+    {InventoryItem::ID::WoodenPickaxe, _sprWoodenPickaxe},
+    {InventoryItem::ID::StonePickaxe, _sprStonePickaxe},
+    {InventoryItem::ID::IronPickaxe, _sprIronPickaxe},
+    {InventoryItem::ID::WoodenShovel, _sprWoodenShovel},
+    {InventoryItem::ID::StoneShovel, _sprStoneShovel},
+    {InventoryItem::ID::IronShovel, _sprIronShovel},
+    {InventoryItem::ID::WoodenSword, _sprWoodenSword},
+    {InventoryItem::ID::StoneSword, _sprStoneSword},
+    {InventoryItem::ID::IronSword, _sprIronSword},
+    {InventoryItem::ID::WoodenHoe, _sprWoodenHoe},
+    {InventoryItem::ID::StoneHoe, _sprStoneHoe},
+    {InventoryItem::ID::IronHoe, _sprIronHoe},
+    {InventoryItem::ID::Sign, sprSign},
+    {InventoryItem::ID::IronOre, sprIronOre},
+    {InventoryItem::ID::IronBlock, sprIronBlock},
+    {InventoryItem::ID::IronIngot, _sprIronIngot},
+    {InventoryItem::ID::IronNugget, _sprIronNugget},
+    {InventoryItem::ID::StoneBricks, sprStoneBricks},
+    {InventoryItem::ID::Shears, _sprShears}
+};
+
 glImage *getItemImage(InventoryItem::ID item)
 {
-    switch (item)
-    {
-    case InventoryItem::ID::Grass:
-        return sprGrass;
-    case InventoryItem::ID::Dirt:
-        return sprDirt;
-    case InventoryItem::ID::Stone:
-        return sprStone;
-    case InventoryItem::ID::Wood:
-        return sprWood;
-    case InventoryItem::ID::BirchWood:
-        return sprBirchWood;
-    case InventoryItem::ID::SpruceWood:
-        return sprSpruceWood;
-    case InventoryItem::ID::Leaves:
-        return sprLeaves;
-    case InventoryItem::ID::BirchLeaves:
-        return sprBirchLeaves;
-    case InventoryItem::ID::SpruceLeaves:
-        return sprSpruceLeaves;
-    case InventoryItem::ID::Sand:
-        return sprSand;
-    case InventoryItem::ID::Sandstone:
-        return sprSandstone;
-    case InventoryItem::ID::Cactus:
-        return sprCactus;
-    case InventoryItem::ID::DeadBush:
-        return sprDeadBush;
-    case InventoryItem::ID::Poppy:
-        return sprPoppy;
-    case InventoryItem::ID::Dandelion:
-        return sprDandelion;
-    case InventoryItem::ID::RedTulip:
-        return sprRedTulip;
-    case InventoryItem::ID::Door:
-        return sprDoor;
-    case InventoryItem::ID::BirchDoor:
-        return sprBirchDoor;
-    case InventoryItem::ID::SpruceDoor:
-        return sprSpruceDoor;
-    case InventoryItem::ID::Planks:
-        return sprPlanks;
-    case InventoryItem::ID::BirchPlanks:
-        return sprBirchPlanks;
-    case InventoryItem::ID::SprucePlanks:
-        return sprSprucePlanks;
-    case InventoryItem::ID::Stick:
-        return _sprStick;
-    case InventoryItem::ID::SnowyGrass:
-        return sprSnowyGrass;
-    case InventoryItem::ID::Sapling:
-        return sprSapling;
-    case InventoryItem::ID::BirchSapling:
-        return sprBirchSapling;
-    case InventoryItem::ID::SpruceSapling:
-        return sprSpruceSapling;
-    case InventoryItem::ID::Cobblestone:
-        return sprCobblestone;
-    case InventoryItem::ID::CoalOre:
-        return sprCoalOre;
-    case InventoryItem::ID::Coal:
-        return _sprCoal;
-    case InventoryItem::ID::CoalBlock:
-        return sprCoalBlock;
-    case InventoryItem::ID::IronOre:
-        return sprIronOre;
-    case InventoryItem::ID::IronIngot:
-        return _sprIronIngot;
-    case InventoryItem::ID::IronNugget:
-        return _sprIronNugget;
-    case InventoryItem::ID::IronBlock:
-        return sprIronBlock;
-    case InventoryItem::ID::RawPorkchop:
-        return _sprRawPorkchop;
-    case InventoryItem::ID::CookedPorkchop:
-        return _sprCookedPorkchop;
-    case InventoryItem::ID::Apple:
-        return _sprApple;
-    case InventoryItem::ID::Glass:
-        return sprGlass;
-    case InventoryItem::ID::OakTrapdoor:
-        return sprOakTrapdoor;
-    case InventoryItem::ID::BirchTrapdoor:
-        return sprBirchTrapdoor;
-    case InventoryItem::ID::SpruceTrapdoor:
-        return sprSpruceTrapdoor;
-    case InventoryItem::ID::Ladder:
-        return sprLadder;
-    case InventoryItem::ID::Chest:
-        return sprChest;
-    case InventoryItem::ID::OakSlab:
-        return sprPlanks;
-    case InventoryItem::ID::BirchSlab:
-        return sprBirchPlanks;
-    case InventoryItem::ID::SpruceSlab:
-        return sprSprucePlanks;
-    case InventoryItem::ID::CobblestoneSlab:
-        return sprCobblestone;
-    case InventoryItem::ID::WoodenPickaxe:
-        return _sprWoodenPickaxe;
-    case InventoryItem::ID::StonePickaxe:
-        return _sprStonePickaxe;
-    case InventoryItem::ID::IronPickaxe:
-        return _sprIronPickaxe;
-    case InventoryItem::ID::WoodenShovel:
-        return _sprWoodenShovel;
-    case InventoryItem::ID::StoneShovel:
-        return _sprStoneShovel;
-    case InventoryItem::ID::IronShovel:
-        return _sprIronShovel;
-    case InventoryItem::ID::WoodenAxe:
-        return _sprWoodenAxe;
-    case InventoryItem::ID::StoneAxe:
-        return _sprStoneAxe;
-    case InventoryItem::ID::IronAxe:
-        return _sprIronAxe;
-    case InventoryItem::ID::WoodenSword:
-        return _sprWoodenSword;
-    case InventoryItem::ID::StoneSword:
-        return _sprStoneSword;
-    case InventoryItem::ID::IronSword:
-        return _sprIronSword;
-    case InventoryItem::ID::Sign:
-        return sprSign;
-    case InventoryItem::ID::StoneBricks:
-        return sprStoneBricks;
-    case InventoryItem::ID::WoodenHoe:
-        return _sprWoodenHoe;
-    case InventoryItem::ID::StoneHoe:
-        return _sprStoneHoe;
-    case InventoryItem::ID::IronHoe:
-        return _sprIronHoe;
-    case InventoryItem::ID::Shears:
-        return _sprShears;
-    default:
-        return _sprDummy;
-    }
+    auto it = _itemImages.find(item);
+    if (it != _itemImages.end())
+        return it->second;
+    return _sprDummy;
 }
-
-// TODO at first i thought that theres no way to improve to/from IID and sprite getting functions but just right now it hit me - we can just use a look up table
 
 InventoryItem::ID strToIID(std::string &sid)
 {
