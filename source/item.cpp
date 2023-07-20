@@ -695,9 +695,6 @@ glImage *getItemImage(InventoryItem::ID item)
 {
     auto it = _itemImages.find(item);
     if (it != _itemImages.end())
-        return it->second;
-    return _sprDummy;
-}
 
 InventoryItem::ID strToIID(std::string &sid)
 {

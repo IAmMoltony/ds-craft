@@ -10,8 +10,9 @@
 
 // TODO organize includes for all files
 
-struct InventoryItem
+class InventoryItem
 {
+public:
     enum class ID
     {
         None,
