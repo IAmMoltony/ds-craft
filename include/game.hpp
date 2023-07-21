@@ -209,6 +209,8 @@ public:
 
     Game();
 
+    u16 getFrameCounter(void);
+
     void drawMovingBackground(void);
     void draw(void);
     void update(void);

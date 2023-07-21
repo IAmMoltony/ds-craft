@@ -374,8 +374,6 @@ void Game::init(void)
     logoY = 16;
     editControlsSelected = 0;
     editControlsSetMode = false;
-
-    printf("%d\n", sizeof(ChestBlock));
 }
 
 void Game::showHelpScreen(const std::string &setting)
@@ -429,6 +427,11 @@ void Game::loadLocation(s16 oldLocation)
     }
 
     cameraFollowPlayer(false);
+}
+
+u16 Game::getFrameCounter(void)
+{
+    return frameCounter;
 }
 
 void Game::drawMovingBackground(void)
