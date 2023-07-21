@@ -276,7 +276,7 @@ Player::Player() : x(0), y(0), aimX(0), aimY(0), spawnX(0), spawnY(0), health(9)
 
     // initialize inventory with null items
     for (u8 i = 0; i < 20; ++i)
-        inventory[i] = NULL_ITEM;
+        inventory[i] = InventoryItem();
 }
 
 static void _drawInventory(InventoryItem inventory[], u8 itemCount, Font &font, u8 select,
@@ -891,7 +891,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             else
                             {
                                 inventory[inventorySelect] = {fsid, (u8)(fsa + msa)};
-                                inventory[inventoryMoveSelect] = NULL_ITEM;
+                                inventory[inventoryMoveSelect] = InventoryItem();
                             }
                         }
                         // moving (different id)
@@ -2448,7 +2448,7 @@ void Player::restoreHealth(void)
 void Player::resetInventory(void)
 {
     for (u8 i = 0; i < 20; ++i)
-        inventory[i] = NULL_ITEM;
+        inventory[i] = InventoryItem();
 }
 
 void Player::reset(void)

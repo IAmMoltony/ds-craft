@@ -590,7 +590,7 @@ static u16 _nextChestID = 0;
 void ChestBlock::initItems(void)
 {
     for (u8 i = 0; i < 10; ++i)
-        items[i] = {InventoryItem::ID::None, 0};
+        items[i] = InventoryItem();
 }
 
 ChestBlock::ChestBlock(s16 x, s16 y) : Block(x, y, 7), chid(_nextChestID++)

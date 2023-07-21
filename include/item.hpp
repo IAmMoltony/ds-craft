@@ -87,10 +87,15 @@ public:
 
     ID id;
     u8 amount;
+
+    InventoryItem(ID id, u8 amount);
+    InventoryItem(const InventoryItem &item);
+    InventoryItem();
+
+    InventoryItem &operator=(const InventoryItem &item);
+
     // TODO add durability for items
 };
-
-static inline constexpr InventoryItem NULL_ITEM = {InventoryItem::ID::None, 0};
 
 // TODO move item manip functions to static methods in InventoryItem
 

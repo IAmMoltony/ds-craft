@@ -2,6 +2,31 @@
 #include "block.hpp"
 #include <map>
 
+InventoryItem::InventoryItem(ID id, u8 amount) : id(id), amount(amount)
+{
+}
+
+InventoryItem::InventoryItem(const InventoryItem &item)
+{
+    id = item.id;
+    amount = item.amount;
+}
+
+InventoryItem::InventoryItem() : id(ID::None), amount(0)
+{
+}
+
+InventoryItem &InventoryItem::operator=(const InventoryItem &item)
+{
+    if (this == &item)
+        return *this;
+
+    id = item.id;
+    amount = item.amount;
+
+    return *this;
+}
+
 // item images
 
 static glImage _sprStick[1];
@@ -695,6 +720,9 @@ glImage *getItemImage(InventoryItem::ID item)
 {
     auto it = _itemImages.find(item);
     if (it != _itemImages.end())
+        return it->second;
+    return _sprDummy;
+}
 
 InventoryItem::ID strToIID(std::string &sid)
 {
