@@ -283,13 +283,9 @@ void DropEntity::draw(Camera camera)
         glSpritePartScale(getItemImage(itemid), x + 8 - camera.x - spin / 2, y + 4 - camera.y, spin / 2, 0, spin * 2, 16, HALF_SCALE);
         break;
     case InventoryItem::ID::Door:
-        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
-        break;
     case InventoryItem::ID::BirchDoor:
-        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
-        break;
     case InventoryItem::ID::SpruceDoor:
-        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, (1 << 12) / 4, GL_FLIP_NONE, sprSpruceDoor);
+        glSpritePartScale(getItemImage(itemid), x + 8 - camera.x - spin / 2, y + 4 - camera.y, spin / 2, 0, spin * 2, 16, (1 << 12) / 4);
         break;
     case InventoryItem::ID::Glass:
         glSpriteScale(x + 4 - camera.x - 1, y + 4 - camera.y, HALF_SCALE, GL_FLIP_NONE, sprGlass);
