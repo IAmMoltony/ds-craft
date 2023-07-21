@@ -629,13 +629,11 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             player.setHealth(atoi(split[1].c_str()));
         else if (split[0] == "spawnpoint")
             player.setSpawnPoint(atoi(split[1].c_str()), atoi(split[2].c_str()));
-        else if (split[0] == "inventory")
+        else if (split[0] == "inventory") // TODO use std::stoi instead of atoi
         {
-            u8 index = atoi(split[1].c_str());
-            InventoryItem::ID id = strToIID(split[2]);
-            u8 count = atoi(split[3].c_str());
-            InventoryItem item = {id, count};
-            player.setItem(index, item);
+            u8 index = std::stoi(split[1]);
+            u8 count = std::stoi(split[3]);
+            player.setItem(index, InventoryItem(split[2], count));
         }
     }
     playerInfo.close();
@@ -684,7 +682,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                 split.push_back(line3);
 
             if (split[0] == "chestitem")
-                chest->setItem(atoi(split[1].c_str()), {strToIID(split[2]), (u8)atoi(split[3].c_str())});
+                chest->setItem(atoi(split[1].c_str()), InventoryItem(split[2], (u8)std::stoi(split[3])));
             else if (split[0] == "position")
             {
                 chest->x = atoi(split[1].c_str());

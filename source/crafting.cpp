@@ -42,7 +42,7 @@ void CraftingRecipe::construct(const char *recipeFile)
         // add item if recipe mode
         if (recipeMode)
         {
-            InventoryItem item = {strToIID(split[0]), (u8)std::stoi(split[1])};
+            InventoryItem item = InventoryItem(split[0], (u8)std::stoi(split[1]));
             recipe.push_back(item);
         }
         else
@@ -54,7 +54,7 @@ void CraftingRecipe::construct(const char *recipeFile)
                 count = (u8)std::stoi(split[1]);
             // output
             else if (key == "output")
-                output = strToIID(split[1]);
+                output = InventoryItem(split[1], 1).id;
             else
             {
                 // oof

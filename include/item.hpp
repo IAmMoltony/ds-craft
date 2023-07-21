@@ -89,6 +89,7 @@ public:
     u8 amount;
 
     InventoryItem(ID id, u8 amount);
+    InventoryItem(const std::string &stringID, u8 amount);
     InventoryItem(const InventoryItem &item);
     InventoryItem();
 
@@ -104,4 +105,3 @@ void unloadItemTextures(void);
 std::string iidToString(InventoryItem::ID iid);
 const char *getItemStr(Language lang, InventoryItem::ID iid);
 glImage *getItemImage(InventoryItem::ID item);
-InventoryItem::ID strToIID(std::string &sid);
