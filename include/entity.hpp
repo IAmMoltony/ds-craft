@@ -75,6 +75,8 @@ class DropEntity : public Entity
 {
 private:
     InventoryItem::ID itemid;
+    u8 spin;
+    bool increment;
 
 public:
     DropEntity(s16 x, s16 y, InventoryItem::ID itemid);

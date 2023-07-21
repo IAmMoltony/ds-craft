@@ -1,5 +1,6 @@
 #include "entity.hpp"
 #include "save.hpp"
+#include "game.hpp"
 
 static glImage _sprPig[1];
 static unsigned short _sprPigDamagePal[16];
@@ -262,7 +263,7 @@ void PigEntity::onDeath(EntityList &entities)
 
 //----------------------------------------
 
-DropEntity::DropEntity(s16 x, s16 y, InventoryItem::ID itemid) : Entity(x, y), itemid(itemid)
+DropEntity::DropEntity(s16 x, s16 y, InventoryItem::ID itemid) : Entity(x, y), itemid(itemid), spin(0), increment(true)
 {
     health = 255;
 }
@@ -273,6 +274,9 @@ void DropEntity::draw(Camera camera)
     {
     default:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALF_SCALE, GL_FLIP_NONE, getItemImage(itemid));
+        break;
+    case InventoryItem::ID::Dirt:
+        glSpritePartScale(getItemImage(itemid), x + 8 - camera.x - spin / 2, y + 4 - camera.y, spin / 2, 0, spin * 2, 16, HALF_SCALE);
         break;
     case InventoryItem::ID::Leaves:
         glColor(RGB15(0, 22, 0));
@@ -323,6 +327,13 @@ void DropEntity::update(BlockList &blocks, Camera camera, u16 frames)
         y - camera.y < -40 ||
         y - camera.y > SCREEN_HEIGHT + 32)
         return;
+
+    if (Game::instance->getFrameCounter() % 2 == 0)
+    {
+        spin += (increment ? 1 : -1);
+        if (spin >= 8 || spin <= 0)
+            increment = !increment;
+    }
 
     y += velY;
     if (falling)
