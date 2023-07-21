@@ -270,28 +270,17 @@ DropEntity::DropEntity(s16 x, s16 y, InventoryItem::ID itemid) : Entity(x, y), i
 
 void DropEntity::draw(Camera camera)
 {
+    if (itemid == InventoryItem::ID::Leaves)
+        glColor(RGB15(0, 22, 0));
+    else if (itemid == InventoryItem::ID::BirchLeaves)
+        glColor(RGB15(20, 26, 19));
+    else if (itemid == InventoryItem::ID::SpruceLeaves)
+        glColor(RGB15(0, 11, 0));
+
     switch (itemid)
     {
     default:
-        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALF_SCALE, GL_FLIP_NONE, getItemImage(itemid));
-        break;
-    case InventoryItem::ID::Dirt:
         glSpritePartScale(getItemImage(itemid), x + 8 - camera.x - spin / 2, y + 4 - camera.y, spin / 2, 0, spin * 2, 16, HALF_SCALE);
-        break;
-    case InventoryItem::ID::Leaves:
-        glColor(RGB15(0, 22, 0));
-        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALF_SCALE, GL_FLIP_NONE, sprLeaves);
-        glColor(RGB15(31, 31, 31));
-        break;
-    case InventoryItem::ID::BirchLeaves:
-        glColor(RGB15(20, 26, 19));
-        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALF_SCALE, GL_FLIP_NONE, sprBirchLeaves);
-        glColor(RGB15(31, 31, 31));
-        break;
-    case InventoryItem::ID::SpruceLeaves:
-        glColor(RGB15(0, 11, 0));
-        glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, HALF_SCALE, GL_FLIP_NONE, sprSpruceLeaves);
-        glColor(RGB15(31, 31, 31));
         break;
     case InventoryItem::ID::Door:
         glSpriteScale(x + 4 - camera.x, y + 4 - camera.y, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
@@ -318,6 +307,8 @@ void DropEntity::draw(Camera camera)
         glSpritePartScale(sprCobblestone, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALF_SCALE);
         break;
     }
+
+    glColor(RGB15(31, 31, 31));
 }
 
 void DropEntity::update(BlockList &blocks, Camera camera, u16 frames)
