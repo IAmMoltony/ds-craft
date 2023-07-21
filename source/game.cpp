@@ -374,6 +374,8 @@ void Game::init(void)
     logoY = 16;
     editControlsSelected = 0;
     editControlsSetMode = false;
+
+    printf("%d\n", sizeof(ChestBlock));
 }
 
 void Game::showHelpScreen(const std::string &setting)

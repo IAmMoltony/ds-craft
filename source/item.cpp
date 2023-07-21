@@ -6,10 +6,8 @@ InventoryItem::InventoryItem(ID id, u8 amount) : id(id), amount(amount)
 {
 }
 
-InventoryItem::InventoryItem(const InventoryItem &item)
+InventoryItem::InventoryItem(const InventoryItem &item) : id(item.id), amount(item.amount)
 {
-    id = item.id;
-    amount = item.amount;
 }
 
 InventoryItem::InventoryItem() : id(ID::None), amount(0)
