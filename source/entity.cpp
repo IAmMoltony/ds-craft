@@ -291,16 +291,10 @@ void DropEntity::draw(Camera camera)
         glSpritePartScale(getItemImage(itemid), x + 8 - camera.x - spin / 2 - 1, y + 4 - camera.y, spin / 2, 0, spin * 2, 16, HALF_SCALE);
         break;
     case InventoryItem::ID::OakSlab:
-        glSpritePartScale(sprPlanks, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALF_SCALE);
-        break;
     case InventoryItem::ID::BirchSlab:
-        glSpritePartScale(sprBirchPlanks, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALF_SCALE);
-        break;
     case InventoryItem::ID::SpruceSlab:
-        glSpritePartScale(sprBirchPlanks, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALF_SCALE);
-        break;
     case InventoryItem::ID::CobblestoneSlab:
-        glSpritePartScale(sprCobblestone, x + 4 - camera.x, y + 6 - camera.y, 0, 0, 16, 8, HALF_SCALE);
+        glSpritePartScale(getItemImage(itemid), x + 8 - camera.x - spin / 2, y + 6 - camera.y, spin / 2, 0, spin * 2, 8, HALF_SCALE);
         break;
     }
 
