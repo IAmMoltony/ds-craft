@@ -1,4 +1,5 @@
 #include "terrain.hpp"
+#include "util.h"
 
 void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
 {

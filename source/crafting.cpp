@@ -1,5 +1,6 @@
 #include "crafting.hpp"
 #include <algorithm>
+#include "util.h"
 
 void CraftingRecipe::construct(const char *recipeFile)
 {

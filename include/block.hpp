@@ -1,18 +1,12 @@
 #pragma once
-#include "defines.h"
-#include "util.h"
-#include "soundbank.h"
-#include "images.h"
+
+#include <nds.h>
+#include <gl2d.h>
+#include <vector>
+#include <memory>
 #include "camera.h"
 #include "rect.hpp"
 #include "item.hpp"
-#include <vector>
-#include <memory>
-#include <string>
-#include <algorithm>
-#include <array>
-#include <gl2d.h>
-#include <maxmod9.h>
 
 #define BID_GRASS 1
 #define BID_DIRT 2

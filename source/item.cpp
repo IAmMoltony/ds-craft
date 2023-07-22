@@ -1,6 +1,9 @@
 #include "item.hpp"
-#include "block.hpp"
+#include <algorithm>
 #include <map>
+#include "images.h"
+#include "util.h"
+#include "block.hpp"
 
 InventoryItem::InventoryItem(ID id, u8 amount) : id(id), amount(amount)
 {
