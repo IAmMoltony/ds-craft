@@ -120,7 +120,7 @@ ARCH		:=	-mthumb -mthumb-interwork -march=armv5te -mtune=arm946e-s
 CFLAGS	:=	-g -Wall -Wextra \
                 -O2 -Os\
  			-march=armv5te -mtune=arm946e-s \
-			$(ARCH) -I../include\
+			$(ARCH) \
 			-fomit-frame-pointer\
 			-ffast-math
 
