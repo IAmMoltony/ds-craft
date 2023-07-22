@@ -263,7 +263,7 @@ void PigEntity::onDeath(EntityList &entities)
 
 //----------------------------------------
 
-DropEntity::DropEntity(s16 x, s16 y, InventoryItem::ID itemid) : Entity(x, y), itemid(itemid), spin(0), increment(true)
+DropEntity::DropEntity(s16 x, s16 y, InventoryItem::ID itemid) : Entity(x, y), itemid(itemid), spin(0), increment(true), upOffset(false)
 {
     health = 255;
 }
@@ -280,21 +280,21 @@ void DropEntity::draw(Camera camera)
     switch (itemid)
     {
     default:
-        glSpritePartScale(getItemImage(itemid), x + 8 - camera.x - spin / 2, y + 4 - camera.y, spin / 2, 0, spin * 2, 16, HALF_SCALE);
+        glSpritePartScale(getItemImage(itemid), x + 8 - camera.x - spin / 2, y + 4 - camera.y - (upOffset ? 1 : 0), spin / 2, 0, spin * 2, 16, HALF_SCALE);
         break;
     case InventoryItem::ID::Door:
     case InventoryItem::ID::BirchDoor:
     case InventoryItem::ID::SpruceDoor:
-        glSpritePartScale(getItemImage(itemid), x + 8 - camera.x - spin / 2, y + 4 - camera.y, spin / 2, 0, spin * 2, 16, (1 << 12) / 4);
+        glSpritePartScale(getItemImage(itemid), x + 8 - camera.x - spin / 2, y + 4 - camera.y - (upOffset ? 1 : 0), spin / 2, 0, spin * 2, 16, (1 << 12) / 4);
         break;
     case InventoryItem::ID::Glass:
-        glSpritePartScale(getItemImage(itemid), x + 8 - camera.x - spin / 2 - 1, y + 4 - camera.y, spin / 2, 0, spin * 2, 16, HALF_SCALE);
+        glSpritePartScale(getItemImage(itemid), x + 8 - camera.x - spin / 2 - 1, y + 4 - camera.y - (upOffset ? 1 : 0), spin / 2, 0, spin * 2, 16, HALF_SCALE);
         break;
     case InventoryItem::ID::OakSlab:
     case InventoryItem::ID::BirchSlab:
     case InventoryItem::ID::SpruceSlab:
     case InventoryItem::ID::CobblestoneSlab:
-        glSpritePartScale(getItemImage(itemid), x + 8 - camera.x - spin / 2, y + 6 - camera.y, spin / 2, 0, spin * 2, 8, HALF_SCALE);
+        glSpritePartScale(getItemImage(itemid), x + 8 - camera.x - spin / 2, y + 6 - camera.y - (upOffset ? 1 : 0), spin / 2, 0, spin * 2, 8, HALF_SCALE);
         break;
     }
 
@@ -315,6 +315,8 @@ void DropEntity::update(BlockList &blocks, Camera camera, u16 frames)
         if (spin >= 8 || spin <= 0)
             increment = !increment;
     }
+    if (Game::instance->getFrameCounter() % (4 * 8 * 2) == 0)
+        upOffset = !upOffset;
 
     y += velY;
     if (falling)
