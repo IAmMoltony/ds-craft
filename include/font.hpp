@@ -1,8 +1,7 @@
 #pragma once
+
 #include <nds.h>
 #include <gl2d.h>
-#include <stdarg.h>
-#include <stdio.h>
 #include <string>
 #include "defines.h"
 
@@ -15,7 +14,7 @@ private:
     CharWidthHandler chwHandler, chwhHeading;
 
 public:
-    glImage *spr;
+    glImage *spr; // why is this public
 
     Font();
     void load(glImage *fspr, const u32 frames, const unsigned int *texCoords,
