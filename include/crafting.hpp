@@ -1,12 +1,11 @@
 #pragma once
+
 #include "lang.hpp"
 #include "player.hpp"
 #include "fs.h"
 #include <sstream>
 #include <iterator>
 #include <string>
-
-InventoryItem::ID strToIID(std::string &sid); // why is this here?
 
 class CraftingRecipe
 {
