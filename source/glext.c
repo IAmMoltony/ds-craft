@@ -46,3 +46,21 @@ void glSpritePartScale(glImage *image, int x, int y, int xOff, int yOff, int w, 
     image->width = wOrig;
     image->height = hOrig;
 }
+
+void glSpritePartScaleFlip(glImage *image, int x, int y, int xOff, int yOff, int w, int h, s32 scale, GL_FLIP_MODE flip)
+{
+    int xOffOrig = image->u_off;
+    int yOffOrig = image->v_off;
+    int wOrig = image->width;
+    int hOrig = image->height;
+
+    image->u_off = xOff;
+    image->v_off = yOff;
+    image->width = w;
+    image->height = h;
+    glSpriteScale(x, y, scale, flip, image);
+    image->u_off = xOffOrig;
+    image->v_off = yOffOrig;
+    image->width = wOrig;
+    image->height = hOrig;
+}
