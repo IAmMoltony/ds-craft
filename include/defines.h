@@ -1,11 +1,5 @@
 #pragma once
 
-// TODO move this into util
-#define soundEffect(id)                            \
-    {                                              \
-        {id}, (int)(1.0f * (1 << 10)), 0, 255, 128 \
-    }
-
 #define declsfx4(effectname)            \
     mm_sound_effect snd##effectname##1; \
     mm_sound_effect snd##effectname##2; \

@@ -194,3 +194,14 @@ void hang(void)
         swiWaitForVBlank();
     __builtin_unreachable();
 }
+
+mm_sound_effect soundEffect(mm_word id)
+{
+    mm_sound_effect effect;
+    effect.id = id;
+    effect.rate = (int)(1.0f * (1 << 10));
+    effect.handle = 0;
+    effect.volume = 255;
+    effect.panning = 128;
+    return effect;
+}

@@ -23,6 +23,7 @@ extern "C"
     void loadImageAlpha(glImage *spr, int w, int h, const unsigned short *pal, const unsigned int *bitmap);
     void unloadImage(glImage *spr);
     void hang(void);
+    mm_sound_effect soundEffect(mm_word id);
 
 #ifdef __cplusplus
 }
