@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include <dirent.h>
 
 Game *Game::instance;
 

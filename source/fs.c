@@ -1,4 +1,10 @@
 #include "fs.h"
+#include <sys/stat.h>
+#include <stdio.h>
+#include <dirent.h>
+#include <errno.h>
+#include <fat.h>
+#include <filesystem.h>
 
 fsInitStatus fsInit(void)
 {

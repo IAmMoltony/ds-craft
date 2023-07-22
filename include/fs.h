@@ -1,15 +1,6 @@
 #pragma once
 
 #include <nds.h>
-#include <fat.h>
-#include <filesystem.h>
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <dirent.h>
-#include <errno.h>
-#include "defines.h"
 
 #ifdef __cplusplus
 extern "C"

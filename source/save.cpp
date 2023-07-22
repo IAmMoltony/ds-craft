@@ -1,4 +1,5 @@
 #include "save.hpp"
+#include <dirent.h>
 #include "stats.hpp"
 #include "random.hpp"
 
