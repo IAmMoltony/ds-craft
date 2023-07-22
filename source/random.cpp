@@ -15,5 +15,5 @@ u32 randomGenerate(void)
 
 u32 randomRange(u32 min, u32 max)
 {
-    return min + randomGenerate() % ((max + 1) - min)
+    return min + randomGenerate() % ((max + 1) - min);
 }
