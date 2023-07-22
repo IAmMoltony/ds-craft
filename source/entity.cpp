@@ -280,21 +280,21 @@ void DropEntity::draw(Camera camera)
     switch (itemid)
     {
     default:
-        glSpritePartScale(getItemImage(itemid), x + 8 - camera.x - spin / 2, y + 4 - camera.y - (upOffset ? 1 : 0), spin / 2, 0, spin * 2, 16, HALF_SCALE);
+        glSpritePartScaleFlip(getItemImage(itemid), x + 8 - camera.x - spin / 2, y + 4 - camera.y - (upOffset ? 1 : 0), spin / 2, 0, spin * 2, 16, HALF_SCALE, increment ? GL_FLIP_NONE : GL_FLIP_H);
         break;
     case InventoryItem::ID::Door:
     case InventoryItem::ID::BirchDoor:
     case InventoryItem::ID::SpruceDoor:
-        glSpritePartScale(getItemImage(itemid), x + 8 - camera.x - spin / 2, y + 4 - camera.y - (upOffset ? 1 : 0), spin / 2, 0, spin * 2, 16, (1 << 12) / 4);
+        glSpritePartScaleFlip(getItemImage(itemid), x + 8 - camera.x - spin / 2, y + 4 - camera.y - (upOffset ? 1 : 0), spin / 2, 0, spin * 2, 16, (1 << 12) / 4, increment ? GL_FLIP_NONE : GL_FLIP_H);
         break;
     case InventoryItem::ID::Glass:
-        glSpritePartScale(getItemImage(itemid), x + 8 - camera.x - spin / 2 - 1, y + 4 - camera.y - (upOffset ? 1 : 0), spin / 2, 0, spin * 2, 16, HALF_SCALE);
+        glSpritePartScaleFlip(getItemImage(itemid), x + 8 - camera.x - spin / 2 - 1, y + 4 - camera.y - (upOffset ? 1 : 0), spin / 2, 0, spin * 2, 16, HALF_SCALE, increment ? GL_FLIP_NONE : GL_FLIP_H);
         break;
     case InventoryItem::ID::OakSlab:
     case InventoryItem::ID::BirchSlab:
     case InventoryItem::ID::SpruceSlab:
     case InventoryItem::ID::CobblestoneSlab:
-        glSpritePartScale(getItemImage(itemid), x + 8 - camera.x - spin / 2, y + 6 - camera.y - (upOffset ? 1 : 0), spin / 2, 0, spin * 2, 8, HALF_SCALE);
+        glSpritePartScaleFlip(getItemImage(itemid), x + 8 - camera.x - spin / 2, y + 6 - camera.y - (upOffset ? 1 : 0), spin / 2, 0, spin * 2, 8, HALF_SCALE, increment ? GL_FLIP_NONE : GL_FLIP_H);
         break;
     }
 
