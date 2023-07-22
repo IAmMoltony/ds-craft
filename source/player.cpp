@@ -2030,11 +2030,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
 
             // if we collide with sign, then we show its text
             if (block->id() == BID_SIGN)
-            {
-                Block *b = block.get();
-                SignBlock *s = reinterpret_cast<SignBlock *>(b);
-                s->showText = block->getRect().intersects(getRectBottom());
-            }
+                reinterpret_cast<SignBlock *>(block.get())->showText = block->getRect().intersects(getRectBottom());
 
             // if block isnt solid then skip it
             if (!block->solid())
@@ -2058,7 +2054,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 if (airY >= 44) // if we fall too much
                 {
                     s16 damage = airY / 44;
-                    if (airY - 44 >= 9)
+                    if (airY - 44 >= 9) // TODO copy pasted value detected, move into define or constant.
                         damage += (airY - MAX_AIM_DISTANCE) / 9;
                     if (damage > 0)
                     {
@@ -2092,7 +2088,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                                  getRectBottom().w, getRectBottom().h)) &&
                 frames % 19 == 0)
             {
-                // this is for step sounds
+                // step sounds
                 if (moving(oldX))
                 {
                     u16 id = block->id();
