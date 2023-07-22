@@ -1,5 +1,10 @@
 #include "game.hpp"
+#include <iomanip>
 #include <dirent.h>
+#include "save.hpp"
+#include "random.hpp"
+#include "help.hpp"
+#include "stats.hpp"
 
 Game *Game::instance;
 

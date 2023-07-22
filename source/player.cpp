@@ -1,8 +1,12 @@
 // this file is very long
 
 #include "player.hpp"
+#include <fstream>
 #include "crafting.hpp"
 #include "game.hpp"
+#include "random.hpp"
+#include "stats.hpp"
+#include "util.h"
 
 static constexpr u8 MAX_AIM_DISTANCE = 67;
 

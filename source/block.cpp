@@ -1,5 +1,7 @@
 #include "block.hpp"
 #include "game.hpp"
+#include "util.h"
+#include "random.hpp"
 
 glImage sprGrass[1];
 glImage sprSnowyGrass[1];

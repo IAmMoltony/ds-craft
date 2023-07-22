@@ -1,6 +1,7 @@
 #include "entity.hpp"
 #include "save.hpp"
 #include "game.hpp"
+#include "random.hpp"
 
 static glImage _sprPig[1];
 static unsigned short _sprPigDamagePal[16];

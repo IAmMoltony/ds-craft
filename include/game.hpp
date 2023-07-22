@@ -1,17 +1,9 @@
 #pragma once
 
+#include <gl2d.h>
+#include <maxmod9.h>
 #include "player.hpp"
-#include "entity.hpp"
-#include "blockparticle.hpp"
 #include "uvcoord_font_si.h"
-#include "save.hpp"
-#include "gamever.hpp"
-#include "help.hpp"
-#include "random.hpp"
-#include "stats.hpp"
-#include <sstream>
-#include <regex>
-#include <iomanip>
 
 class Game
 {
@@ -114,7 +106,7 @@ private:
     BlockParticleList blockParticles;
     Player player;
 
-    glImage fontSmallImg[FONT_SI_NUM_IMAGES];
+    glImage fontSmallImg[FONT_SI_NUM_IMAGES]; // TODO rename uvcoord_font_si to something else
     glImage fontSmallRuImg[FONT_SI_NUM_IMAGES];
 
     GameState gameState;

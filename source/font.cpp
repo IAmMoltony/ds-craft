@@ -1,5 +1,6 @@
 #include "font.hpp"
 #include "game.hpp"
+#include "util.h"
 
 u8 Font::getCharWidth(char ch)
 {
