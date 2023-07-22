@@ -1,11 +1,8 @@
 #pragma once
-#include "fs.h"
+
+#include <nds.h>
+#include <string>
 #include "lang.hpp"
 #include "font.hpp"
-#include <string>
-#include <sstream>
-#include <nds.h>
-#include <gl2d.h>
-#include <maxmod9.h>
 
 void showHelp(const std::string &file, Language lang, Font font, Font fontRu, u16 &frames);

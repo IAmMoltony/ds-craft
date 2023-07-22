@@ -1,5 +1,6 @@
 #include "help.hpp"
 #include "game.hpp"
+#include <sstream>
 
 void showHelp(const std::string &file, Language lang, Font font, Font fontRu, u16 &frames)
 {
@@ -17,7 +18,7 @@ void showHelp(const std::string &file, Language lang, Font font, Font fontRu, u1
             ++frames;
 
             glBegin2D();
-            Game::instance->drawMovingBackground();
+            Game::instance->drawMovingBackground(); // TODO wh..why is drawMovingBackground not static?????????????????????
 
             switch (lang)
             {
