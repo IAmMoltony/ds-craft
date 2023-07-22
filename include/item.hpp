@@ -1,14 +1,9 @@
 #pragma once
 
 #include "lang.hpp"
-#include "images.h"
-#include "defines.h"
-#include "util.h"
 #include <nds.h>
 #include <gl2d.h>
 #include <string>
-
-// TODO organize includes for all files
 
 class InventoryItem
 {
