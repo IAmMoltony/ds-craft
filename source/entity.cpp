@@ -309,7 +309,7 @@ void DropEntity::update(BlockList &blocks, Camera camera, u16 frames)
         y - camera.y > SCREEN_HEIGHT + 32)
         return;
 
-    if (Game::instance->getFrameCounter() % 2 == 0)
+    if (Game::instance->getFrameCounter() % 4 == 0)
     {
         spin += (increment ? 1 : -1);
         if (spin >= 8 || spin <= 0)
