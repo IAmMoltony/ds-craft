@@ -690,6 +690,7 @@
 		<Unit filename="include/item.hpp" />
 		<Unit filename="include/lang.hpp" />
 		<Unit filename="include/player.hpp" />
+		<Unit filename="include/random.hpp" />
 		<Unit filename="include/rect.hpp" />
 		<Unit filename="include/save.hpp" />
 		<Unit filename="include/stats.hpp" />

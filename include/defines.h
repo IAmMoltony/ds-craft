@@ -1,12 +1,5 @@
 #pragma once
 
-// TODO literally replace this macro with a function in random.hpp
-#ifdef __cplusplus
-#define randomRange(a, b) ((a) + randomGenerate() % (((b) + 1) - (a)))
-#else
-#define randomRange(a, b) ((a) + rand() % (((b) + 1) - (a)))
-#endif
-
 // TODO move this into util
 #define soundEffect(id)                            \
     {                                              \
