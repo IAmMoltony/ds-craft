@@ -32,7 +32,7 @@
 			<Cursor1 position="342" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include/gamever.hpp" open="0" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include/gamever.hpp" open="1" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="257" topLine="0" />
 		</Cursor>
@@ -102,7 +102,7 @@
 			<Cursor1 position="1667" topLine="13" />
 		</Cursor>
 	</File>
-	<File name="source/player.cpp" open="1" top="1" tabpos="6" split="0" active="1" splitpos="538" zoom_1="-1" zoom_2="0">
+	<File name="source/player.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="538" zoom_1="-1" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="104667" topLine="2430" />
 		</Cursor>
@@ -132,7 +132,7 @@
 			<Cursor1 position="4104" topLine="92" />
 		</Cursor>
 	</File>
-	<File name="source/gamever.cpp" open="1" top="0" tabpos="21" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="source/gamever.cpp" open="1" top="1" tabpos="21" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="434" topLine="6" />
 		</Cursor>

@@ -1,5 +1,8 @@
 #include "gamever.hpp"
+#include <stdio.h>
 #include "defines.h"
+#include "fs.h"
+#include "util.h"
 
 static std::string _versionPrefix = "";
 static std::string _versionString = "";

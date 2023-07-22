@@ -5,6 +5,7 @@
 #include "random.hpp"
 #include "help.hpp"
 #include "stats.hpp"
+#include "util.h"
 
 Game *Game::instance;
 

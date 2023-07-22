@@ -1,9 +1,7 @@
 #pragma once
 
+#include <nds.h>
 #include <string>
-#include <stdio.h>
-#include "fs.h"
-#include "util.h"
 
 void gameverInit(void);
 const char *getVersionString(void);
