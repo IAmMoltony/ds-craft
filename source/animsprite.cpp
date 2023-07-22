@@ -1,4 +1,7 @@
 #include "animsprite.hpp"
+#include <limits.h>
+#include <stdio.h>
+#include "util.h"
 
 AnimatedSprite::AnimatedSprite(u8 framesPerImage, AnimatedSpriteMode mode,
                                std::initializer_list<glImage *> images)

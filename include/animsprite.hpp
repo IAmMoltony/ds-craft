@@ -1,11 +1,8 @@
 #pragma once
 
 #include <gl2d.h>
-#include <stdio.h>
-#include <limits.h>
 #include <vector>
 #include <initializer_list>
-#include "util.h"
 
 enum class AnimatedSpriteMode
 {
