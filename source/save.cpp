@@ -1,5 +1,6 @@
 #include "save.hpp"
 #include "stats.hpp"
+#include "random.hpp"
 
 std::string normalizeWorldFileName(const std::string &str)
 {
