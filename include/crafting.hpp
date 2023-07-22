@@ -2,9 +2,6 @@
 
 #include "lang.hpp"
 #include "player.hpp"
-#include "fs.h"
-#include <sstream>
-#include <iterator>
 #include <string>
 
 class CraftingRecipe

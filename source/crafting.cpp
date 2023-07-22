@@ -1,5 +1,7 @@
 #include "crafting.hpp"
 #include <algorithm>
+#include <sstream>
+#include <iterator>
 #include "util.h"
 
 void CraftingRecipe::construct(const char *recipeFile)
@@ -101,7 +103,7 @@ std::string CraftingRecipe::getFullName(Language lang, Player *player)
 
     // join with semicolon and space
     const char *delim = "; ";
-    std::ostringstream imploded;
+    std::ostringstream imploded; // php O_O
     std::copy(itemVec.begin(), itemVec.end(),
               std::ostream_iterator<std::string>(imploded, delim));
     std::string recipeStr = imploded.str();
