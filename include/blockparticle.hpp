@@ -1,8 +1,7 @@
 #pragma once
 
-#include "glext.h"
+#include <gl2d.h>
 #include "camera.h"
-#include "block.hpp"
 #include <vector>
 
 class BlockParticle
@@ -12,9 +11,10 @@ private:
     u8 lifetime, imageXOff, imageYOff;
     s16 x, y;
     float velX, velY;
+    rgb color;
 
 public:
-    BlockParticle(glImage *blockImage, u8 lifetime, int x, int y, float velX, float velY);
+    BlockParticle(glImage *blockImage, u8 lifetime, int x, int y, float velX, float velY, rgb color);
 
     void update(void);
     void draw(Camera camera);

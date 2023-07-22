@@ -771,12 +771,10 @@ static void _eatFood(s16 *health, u8 healthAdd)
 
 static void _spawnBlockParticles(BlockParticleList *blockParticles, glImage *image, int x, int y, rgb color)
 {
-    glColor(color);
-    blockParticles->push_back(BlockParticle(image, 120, x + 1, y + 1, -1, -3));
-    blockParticles->push_back(BlockParticle(image, 120, x + 8, y + 2, -1, -3));
-    blockParticles->push_back(BlockParticle(image, 120, x + 16 - 6, y + 1, 1, -3));
-    blockParticles->push_back(BlockParticle(image, 120, x + 4, y + 2, 1, -3));
-    glColor(RGB15(31, 31, 31));
+    blockParticles->push_back(BlockParticle(image, 120, x + 1, y + 1, -1, -3, color));
+    blockParticles->push_back(BlockParticle(image, 120, x + 8, y + 2, -1, -3, color));
+    blockParticles->push_back(BlockParticle(image, 120, x + 16 - 6, y + 1, 1, -3, color));
+    blockParticles->push_back(BlockParticle(image, 120, x + 4, y + 2, 1, -3, color));
 }
 
 static void _spawnBlockParticles(BlockParticleList *blockParticles, glImage *image, int x, int y)
@@ -1819,7 +1817,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                 break;
                             case LeavesType::Birch:
                                 _spawnBlockParticles(blockParticles, sprBirchLeaves, block->x, block->y, RGB15(20, 26, 19));
-                                break;
+                                break; // TODO rename leaves and planks and wood to oak leaves and planks
                             case LeavesType::Spruce:
                                 _spawnBlockParticles(blockParticles, sprSpruceLeaves, block->x, block->y, RGB15(0, 11, 0));
                                 break;

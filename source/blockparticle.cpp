@@ -1,8 +1,9 @@
 #include "blockparticle.hpp"
+#include "glext.h"
 
-BlockParticle::BlockParticle(glImage *blockImage, u8 lifetime, int x, int y, float velX, float velY) :
+BlockParticle::BlockParticle(glImage *blockImage, u8 lifetime, int x, int y, float velX, float velY, rgb color) :
     blockImage(blockImage), lifetime(lifetime), imageXOff(rand() % 12), imageYOff(rand() % 12), x(x), y(y), velX(velX),
-    velY(velY)
+    velY(velY), color(color)
 {
 }
 
@@ -20,10 +21,7 @@ void BlockParticle::update(void)
 
 void BlockParticle::draw(Camera camera)
 {
-    if (blockImage->textureID == sprLeaves->textureID)
-        glColor(RGB15(0, 22, 0));
-    if (blockImage->textureID == sprBirchLeaves->textureID)
-        glColor(RGB15(20, 26, 19));
+    glColor(color);
     glSpritePart(blockImage, x - camera.x, y - camera.y, imageXOff, imageYOff, 5, 5);
     glColor(RGB15(31, 31, 31));
 }
