@@ -12,3 +12,8 @@ u32 randomGenerate(void)
 {
     return _mtEngine();
 }
+
+u32 randomRange(u32 min, u32 max)
+{
+    return min + randomGenerate() % ((max + 1) - min)
+}
