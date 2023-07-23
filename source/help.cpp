@@ -18,7 +18,7 @@ void showHelp(const std::string &file, Language lang, Font font, Font fontRu, u1
             ++frames;
 
             glBegin2D();
-            Game::instance->drawMovingBackground(); // TODO wh..why is drawMovingBackground not static?????????????????????
+            Game::drawMovingBackground();
 
             switch (lang)
             {

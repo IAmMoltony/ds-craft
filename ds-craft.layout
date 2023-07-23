@@ -82,7 +82,7 @@
 			<Cursor1 position="1552" topLine="97" />
 		</Cursor>
 	</File>
-	<File name="source/util.c" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="source/util.c" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="3704" topLine="174" />
 		</Cursor>
@@ -152,7 +152,7 @@
 			<Cursor1 position="434" topLine="6" />
 		</Cursor>
 	</File>
-	<File name="source/game.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="577" zoom_1="1" zoom_2="1">
+	<File name="source/game.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="577" zoom_1="1" zoom_2="1">
 		<Cursor>
 			<Cursor1 position="11335" topLine="424" />
 		</Cursor>

@@ -203,7 +203,7 @@ public:
 
     u16 getFrameCounter(void);
 
-    void drawMovingBackground(void);
+    static void drawMovingBackground(void);
     void draw(void);
     void update(void);
     void run(void);

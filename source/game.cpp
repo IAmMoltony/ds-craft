@@ -449,7 +449,7 @@ void Game::drawMovingBackground(void)
     int oldHeight = sprDirt->height;
     sprDirt->width = SCREEN_WIDTH / 2 + 64;
     sprDirt->height = SCREEN_HEIGHT / 2;
-    glSpriteScale(0 - frameCounter % 64, 0, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
+    glSpriteScale(0 - instance->getFrameCounter() % 64, 0, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
     sprDirt->width = oldWidth;
     sprDirt->height = oldHeight;
     glColor(RGB15(31, 31, 31));
@@ -458,6 +458,7 @@ void Game::drawMovingBackground(void)
 static constexpr int WORLD_NAME_BOX_WIDTH = 190;
 static constexpr int WORLD_NAME_BOX_HEIGHT = 14;
 
+// TODO move this into controls manager
 static constexpr const char *CONTROLS_LABELS[] = {
     "Go left",
     "Go right",
