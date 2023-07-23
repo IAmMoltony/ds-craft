@@ -7,7 +7,7 @@ import pathlib
 def get_game_version():
     version = ""
     prefix = ""
-    with open("nitrofs/game.ver", "r") as f:
+    with open("nitrofiles/game.ver", "r") as f:
         data = f.read()
         data_split = data.split('\n')
         for i in range(4):
