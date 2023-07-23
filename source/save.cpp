@@ -295,7 +295,7 @@ unsigned int getWorldSeed(const std::string &file)
             split.push_back(line2);
 
         if (split[0] == "seed")
-            return atoi(split[1].c_str());
+            return std::stoi(split[1]);
     }
 
     return 0;
@@ -394,7 +394,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         if (split[0] == "location")
         {
             setLoc = true;
-            currentLocation = atoi(split[1].c_str());
+            currentLocation = std::stoi(split[1]);
         }
     }
     if (!setLoc)
@@ -485,10 +485,10 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         }
         else if (split[0] == "block") // block <x> <y> <id>
         {
-            s16 x = atoi(split[1].c_str());
-            s16 y = atoi(split[2].c_str());
-            u16 id = atoi(split[3].c_str());
-            // oh boi
+            s16 x = std::stoi(split[1]);
+            s16 y = std::stoi(split[2]);
+            u16 id = std::stoi(split[3]);
+
             switch (id)
             {
             case BID_GRASS:
@@ -603,8 +603,8 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         }
         else if (split[0] == "entity") // entity <x> <y> <id>
         {
-            s16 x = atoi(split[1].c_str());
-            s16 y = atoi(split[2].c_str());
+            s16 x = std::stoi(split[1]);
+            s16 y = std::stoi(split[2]);
             std::string id = split[3];
             if (id == "pig")
                 entities.emplace_back(new PigEntity(x, y));
@@ -624,14 +624,14 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
         if (split[0] == "position")
         {
-            player.setX(atoi(split[1].c_str()));
-            player.setY(atoi(split[2].c_str()));
+            player.setX(std::stoi(split[1]));
+            player.setY(std::stoi(split[2]));
         }
         else if (split[0] == "health")
-            player.setHealth(atoi(split[1].c_str()));
+            player.setHealth(std::stoi(split[1]));
         else if (split[0] == "spawnpoint")
-            player.setSpawnPoint(atoi(split[1].c_str()), atoi(split[2].c_str()));
-        else if (split[0] == "inventory") // TODO use std::stoi instead of atoi
+            player.setSpawnPoint(std::stoi(split[1]), std::stoi(split[2]));
+        else if (split[0] == "inventory")
         {
             u8 index = std::stoi(split[1]);
             u8 count = std::stoi(split[3]);
@@ -684,11 +684,11 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                 split.push_back(line3);
 
             if (split[0] == "chestitem")
-                chest->setItem(atoi(split[1].c_str()), InventoryItem(split[2], (u8)std::stoi(split[3])));
+                chest->setItem(std::stoi(split[1]), InventoryItem(split[2], (u8)std::stoi(split[3])));
             else if (split[0] == "position")
             {
-                chest->x = atoi(split[1].c_str());
-                chest->y = atoi(split[2].c_str());
+                chest->x = std::stoi(split[1]);
+                chest->y = std::stoi(split[2]);
             }
         }
         blocks.emplace_back(chest);
