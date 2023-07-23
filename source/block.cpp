@@ -57,6 +57,7 @@ void Block::loadTextures(void)
 {
     loadImage(sprGrass, 16, 16, grassBitmap);
     loadImage(sprSnowyGrass, 16, 16, snowy_grassBitmap);
+    loadImage(sprDirtPath, 16, 16, dirt_pathBitmap);
     loadImage(sprStone, 16, 16, stoneBitmap);
     loadImage(sprWood, 16, 16, oak_logBitmap);
     loadImage(sprBirchWood, 16, 16, birch_logBitmap);
@@ -77,7 +78,6 @@ void Block::loadTextures(void)
     loadImage(sprIronBlock, 16, 16, iron_blockBitmap);
     loadImage(sprStoneBricks, 16, 16, stone_bricksBitmap);
 
-    loadImageAlpha(sprDirtPath, 16, 16, dirt_pathPal, dirt_pathBitmap);
     loadImageAlpha(sprCactus, 16, 16, cactus_sidePal, cactus_sideBitmap);
     loadImageAlpha(sprDeadBush, 16, 16, dead_bushPal, dead_bushBitmap);
     loadImageAlpha(sprDandelion, 16, 16, dandelionPal, dandelionBitmap);
@@ -342,7 +342,7 @@ void DirtBlock::draw(Camera &camera)
     if (farmland)
         glSpritePart(sprDirt, x - camera.x, y - camera.y + 1, 0, 0, 16, 15);
     else if (path)
-        glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprDirtPath);
+        glSpritePart(sprDirtPath, x - camera.x, y - camera.y + 1, 0, 0, 16, 15);
     else
         glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprDirt);
 }
