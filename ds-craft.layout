@@ -102,7 +102,7 @@
 			<Cursor1 position="221" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="source/save.cpp" open="1" top="1" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="source/save.cpp" open="1" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="23193" topLine="672" />
 		</Cursor>
@@ -182,7 +182,7 @@
 			<Cursor1 position="408" topLine="10" />
 		</Cursor>
 	</File>
-	<File name="source/block.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="source/block.cpp" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="15746" topLine="576" />
 		</Cursor>

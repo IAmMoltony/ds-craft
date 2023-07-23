@@ -355,26 +355,6 @@ GENERIC_BLOCK_DECL(GlassBlock)
 GENERIC_BLOCK_DECL(LadderBlock)
 GENERIC_BLOCK_DECL(StoneBricksBlock)
 
-// TODO move DoorBlock declaration into non-generic block declarations section
-
-class DoorBlock : public Block
-{
-private:
-    bool open, facing;
-    DoorType type;
-
-public:
-    DoorBlock(s16 x, s16 y, s16 px, DoorType type);
-    DoorBlock(s16 x, s16 y, bool open, bool facing, DoorType type);
-    void draw(Camera &camera) override;
-    bool solid(void) override;
-    void interact(InventoryItem::ID item) override;
-    u16 id(void) override;
-    Rect getRect(void) const override;
-    bool isOpen(void);
-    bool getFacing(void);
-};
-
 SAPLING_DECL()
 SAPLING_DECL(Birch)
 SAPLING_DECL(Spruce)
@@ -448,6 +428,24 @@ public:
     bool solid(void) override;
     u16 id(void) override;
     Rect getRect(void) const override;
+};
+
+class DoorBlock : public Block
+{
+private:
+    bool open, facing;
+    DoorType type;
+
+public:
+    DoorBlock(s16 x, s16 y, s16 px, DoorType type);
+    DoorBlock(s16 x, s16 y, bool open, bool facing, DoorType type);
+    void draw(Camera &camera) override;
+    bool solid(void) override;
+    void interact(InventoryItem::ID item) override;
+    u16 id(void) override;
+    Rect getRect(void) const override;
+    bool isOpen(void);
+    bool getFacing(void);
 };
 
 class ChestBlock : public Block

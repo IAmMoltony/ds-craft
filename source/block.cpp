@@ -268,88 +268,6 @@ GENERIC_BLOCK_IMPL(CactusBlock, sprCactus, BID_CACTUS, 4, false)
 GENERIC_BLOCK_IMPL(DeadBushBlock, sprDeadBush, BID_DEAD_BUSH, 1, false)
 GENERIC_BLOCK_IMPL(LadderBlock, sprLadder, BID_LADDER, 2, false)
 
-DoorBlock::DoorBlock(s16 x, s16 y, s16 px, DoorType type) : Block(x, y, 7), open(true), facing(px > x), type(type)
-{
-}
-
-DoorBlock::DoorBlock(s16 x, s16 y, bool open, bool facing, DoorType type) : Block(x, y, 7), open(open), facing(facing), type(type)
-{
-}
-
-void DoorBlock::draw(Camera &camera)
-{
-    glImage *spr;
-    switch (type)
-    {
-    case DoorType::Oak:
-    default:
-        spr = sprDoor;
-        break;
-    case DoorType::Birch:
-        spr = sprBirchDoor;
-        break;
-    case DoorType::Spruce:
-        spr = sprSpruceDoor;
-        break;
-    }
-
-    if (open)
-        glSprite(x - camera.x - 1, y - camera.y, GL_FLIP_NONE, spr);
-    else
-        glSpriteScaleXY(x - camera.x - 1 + (facing ? 0 : 8), y - camera.y, 1 << 10, 1 << 12, (facing ? GL_FLIP_NONE : GL_FLIP_H), spr);
-}
-
-bool DoorBlock::solid(void)
-{
-    return !open;
-}
-
-void DoorBlock::interact(InventoryItem::ID item)
-{
-    (void)item;
-    if (open)
-    {
-        open = false;
-        playsfx(4, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4);
-    }
-    else
-    {
-        open = true;
-        playsfx(4, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4);
-    }
-}
-
-u16 DoorBlock::id(void)
-{
-    switch (type)
-    {
-    case DoorType::Oak:
-    default:
-        return BID_DOOR;
-    case DoorType::Birch:
-        return BID_BIRCH_DOOR;
-    case DoorType::Spruce:
-        return BID_SPRUCE_DOOR;
-    }
-}
-
-Rect DoorBlock::getRect(void) const
-{
-    if (open)
-        return Rect(x, y, 16, 32);
-    return Rect(x + (facing ? 0 : 11), y, 4, 32);
-}
-
-bool DoorBlock::isOpen(void)
-{
-    return open;
-}
-
-bool DoorBlock::getFacing(void)
-{
-    return facing;
-}
-
 SAPLING_IMPL(, sprSapling, BID_SAPLING)
 SAPLING_IMPL(Birch, sprBirchSapling, BID_BIRCH_SAPLING)
 SAPLING_IMPL(Spruce, sprSpruceSapling, BID_SPRUCE_SAPLING)
@@ -557,6 +475,90 @@ u16 FlowerBlock::id(void)
 Rect FlowerBlock::getRect(void) const
 {
     return Rect(x, y, 16, 16);
+}
+
+//---------------------------------------------
+
+DoorBlock::DoorBlock(s16 x, s16 y, s16 px, DoorType type) : Block(x, y, 7), open(true), facing(px > x), type(type)
+{
+}
+
+DoorBlock::DoorBlock(s16 x, s16 y, bool open, bool facing, DoorType type) : Block(x, y, 7), open(open), facing(facing), type(type)
+{
+}
+
+void DoorBlock::draw(Camera &camera)
+{
+    glImage *spr;
+    switch (type)
+    {
+    case DoorType::Oak:
+    default:
+        spr = sprDoor;
+        break;
+    case DoorType::Birch:
+        spr = sprBirchDoor;
+        break;
+    case DoorType::Spruce:
+        spr = sprSpruceDoor;
+        break;
+    }
+
+    if (open)
+        glSprite(x - camera.x - 1, y - camera.y, GL_FLIP_NONE, spr);
+    else
+        glSpriteScaleXY(x - camera.x - 1 + (facing ? 0 : 8), y - camera.y, 1 << 10, 1 << 12, (facing ? GL_FLIP_NONE : GL_FLIP_H), spr);
+}
+
+bool DoorBlock::solid(void)
+{
+    return !open;
+}
+
+void DoorBlock::interact(InventoryItem::ID item)
+{
+    (void)item;
+    if (open)
+    {
+        open = false;
+        playsfx(4, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4);
+    }
+    else
+    {
+        open = true;
+        playsfx(4, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4);
+    }
+}
+
+u16 DoorBlock::id(void)
+{
+    switch (type)
+    {
+    case DoorType::Oak:
+    default:
+        return BID_DOOR;
+    case DoorType::Birch:
+        return BID_BIRCH_DOOR;
+    case DoorType::Spruce:
+        return BID_SPRUCE_DOOR;
+    }
+}
+
+Rect DoorBlock::getRect(void) const
+{
+    if (open)
+        return Rect(x, y, 16, 32);
+    return Rect(x + (facing ? 0 : 11), y, 4, 32);
+}
+
+bool DoorBlock::isOpen(void)
+{
+    return open;
+}
+
+bool DoorBlock::getFacing(void)
+{
+    return facing;
 }
 
 //---------------------------------------------
