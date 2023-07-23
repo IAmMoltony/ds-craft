@@ -74,6 +74,7 @@
 #include "destroy_stage_5.h"
 #include "birchdoor.h"
 #include "sand.h"
+#include "grass_path.h"
 #include "chest.h"
 #include "spruce_leaves_a.h"
 #include "planks.h"
