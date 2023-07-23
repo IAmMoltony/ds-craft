@@ -216,7 +216,8 @@ clean:
 
 #---------------------------------------------------------------------------------
 run:
-	@if [ "$(EMULATOR)" == "" ]; then echo "Please specify the emulator: $(MAKE) run EMULATOR=/path/to/emulator"; exit 1; fi
+	@if [ -z "$(EMULATOR)" ]; then echo >&2 "Please specify the emulator."; exit 1; fi
+	@command -v $(EMULATOR) >/dev/null 2>&1 || { echo >&2 "Emulator $(EMULATOR) not found. Please install it or set the correct path."; exit 1; }
 	$(SILENTMSG) run ...
 	$(SILENTCMD)$(EMULATOR) $(TARGET).nds
 
