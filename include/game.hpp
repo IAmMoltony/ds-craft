@@ -3,7 +3,7 @@
 #include <gl2d.h>
 #include <maxmod9.h>
 #include "player.hpp"
-#include "uvcoord_font_si.h"
+#include "font_uvcoord.h"
 
 class Game
 {
@@ -106,8 +106,8 @@ private:
     BlockParticleList blockParticles;
     Player player;
 
-    glImage fontSmallImg[FONT_SI_NUM_IMAGES]; // TODO rename uvcoord_font_si to something else
-    glImage fontSmallRuImg[FONT_SI_NUM_IMAGES];
+    glImage fontSmallImg[FONT_NUM_IMAGES]; // TODO rename uvcoord_font_si to something else
+    glImage fontSmallRuImg[FONT_NUM_IMAGES];
 
     GameState gameState;
     Camera camera;

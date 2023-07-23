@@ -205,12 +205,12 @@ void Game::playPopSound(void)
 void Game::loadFonts(void)
 {
     // load fonts
-    font.load(fontSmallImg, FONT_SI_NUM_IMAGES, font_si_texcoords, GL_RGB256,
+    font.load(fontSmallImg, FONT_NUM_IMAGES, fontTexCoords, GL_RGB256,
               TEXTURE_SIZE_64, TEXTURE_SIZE_128,
               GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
               256, font_smallPal, reinterpret_cast<const u8 *>(font_smallBitmap));
 
-    fontRu.load(fontSmallRuImg, FONT_SI_NUM_IMAGES, font_si_texcoords, GL_RGB256,
+    fontRu.load(fontSmallRuImg, FONT_NUM_IMAGES, fontTexCoords, GL_RGB256,
                 TEXTURE_SIZE_64, TEXTURE_SIZE_128,
                 GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
                 256, font_small_ru1Pal, reinterpret_cast<const u8 *>(font_small_ru1Bitmap));
