@@ -354,6 +354,8 @@ u16 DirtBlock::id(void)
 
 Rect DirtBlock::getRect(void) const
 {
+    if (farmland || path)
+        return Rect(x, y + 1, 16, 15);
     return Rect(x, y, 16, 16);
 }
 
