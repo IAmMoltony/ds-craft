@@ -342,7 +342,7 @@ void DirtBlock::draw(Camera &camera)
     if (farmland)
         glSpritePart(sprDirt, x - camera.x, y - camera.y + 1, 0, 0, 16, 15);
     else if (path)
-        glSpritePart(sprDirtPath, x - camera.x, y - camera.y + 1, 0, 0, 16, 15);
+        glSpritePart(sprDirtPath, x - camera.x, y - camera.y + 1, 0, 1, 16, 15);
     else
         glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprDirt);
 }
