@@ -6,6 +6,7 @@
 glImage sprGrass[1];
 glImage sprSnowyGrass[1];
 glImage sprDirt[1];
+glImage sprDirtPath[1];
 glImage sprStone[1];
 glImage sprWood[1];
 glImage sprBirchWood[1];
@@ -76,6 +77,7 @@ void Block::loadTextures(void)
     loadImage(sprIronBlock, 16, 16, iron_blockBitmap);
     loadImage(sprStoneBricks, 16, 16, stone_bricksBitmap);
 
+    loadImageAlpha(sprDirtPath, 16, 16, dirt_pathPal, dirt_pathBitmap);
     loadImageAlpha(sprCactus, 16, 16, cactus_sidePal, cactus_sideBitmap);
     loadImageAlpha(sprDeadBush, 16, 16, dead_bushPal, dead_bushBitmap);
     loadImageAlpha(sprDandelion, 16, 16, dandelionPal, dandelionBitmap);
@@ -123,6 +125,7 @@ void Block::unloadTextures(void)
 {
     unloadImage(sprGrass);
     unloadImage(sprSnowyGrass);
+    unloadImage(sprDirtPath);
     unloadImage(sprStone);
     unloadImage(sprWood);
     unloadImage(sprBirchWood);
@@ -326,11 +329,11 @@ GrassType GrassBlock::getGrassType(void)
 
 //-----------------------------------------
 
-DirtBlock::DirtBlock(s16 x, s16 y) : Block(x, y, 14), farmland(false)
+DirtBlock::DirtBlock(s16 x, s16 y) : Block(x, y, 14), farmland(false), path(false)
 {
 }
 
-DirtBlock::DirtBlock(s16 x, s16 y, bool farmland) : Block(x, y, 14), farmland(farmland)
+DirtBlock::DirtBlock(s16 x, s16 y, bool farmland, bool path) : Block(x, y, 14), farmland(farmland), path(path)
 {
 }
 
@@ -338,6 +341,8 @@ void DirtBlock::draw(Camera &camera)
 {
     if (farmland)
         glSpritePart(sprDirt, x - camera.x, y - camera.y + 1, 0, 0, 16, 15);
+    else if (path)
+        glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprDirtPath);
     else
         glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprDirt);
 }
@@ -359,13 +364,28 @@ bool DirtBlock::solid(void)
 
 void DirtBlock::interact(InventoryItem::ID item)
 {
-    if (!farmland && (item == InventoryItem::ID::WoodenHoe || item == InventoryItem::ID::StoneHoe || item == InventoryItem::ID::IronHoe))
+    if (!farmland && (item == InventoryItem::ID::WoodenHoe || item == InventoryItem::ID::StoneHoe
+        || item == InventoryItem::ID::IronHoe))
+    {
         farmland = true;
+        path = false;
+    }
+    else if (!path && (item == InventoryItem::ID::WoodenShovel || item == InventoryItem::ID::StoneShovel
+             || item == InventoryItem::ID::IronShovel))
+    {
+        farmland = false;
+        path = true;
+    }
 }
 
 bool DirtBlock::isFarmland(void)
 {
     return farmland;
+}
+
+bool DirtBlock::isPath(void)
+{
+    return path;
 }
 
 //-----------------------------------------

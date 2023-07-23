@@ -215,9 +215,10 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         case BID_DIRT:
         {
             DirtBlock *dirt = reinterpret_cast<DirtBlock *>(block.get());
-            char cf = dirt->isFarmland() ? '1' : '0';
+            char chf = dirt->isFarmland() ? '1' : '0';
+            char chp = dirt->isPath() ? '1' : '0';
 
-            wld << "dirt " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << cf << '\n';
+            wld << "dirt " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << chf << ' ' << chp << '\n';
             break;
         }
         // every other block
@@ -351,14 +352,19 @@ static void _argParseGrass(const std::vector<std::string> &split, s16 &x, s16 &y
     }
 }
 
-static void _argParseDirt(const std::vector<std::string> &split, s16 &x, s16 &y, bool &farmland)
+static void _argParseDirt(const std::vector<std::string> &split, s16 &x, s16 &y, bool &farmland, bool &path)
 {
     _argParseXY(split, x, y);
 
-    if (split.size() >= 4)
+    if (split.size() == 4)
         farmland = std::stoi(split[3]) == 1;
+    else if (split.size() == 5)
+        path = std::stoi(split[4]) == 1; // TODO remove unnecessary std::stoi and just compare the string
     else
         farmland = false;
+
+    if (farmland && path)
+        farmland = path = false;
 }
 
 void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
@@ -479,9 +485,10 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         {
             s16 x = 0, y = 0;
             bool farmland = false;
-            _argParseDirt(split, x, y, farmland);
+            bool path = false;
+            _argParseDirt(split, x, y, farmland, path);
 
-            blocks.emplace_back(new DirtBlock(x, y, farmland));
+            blocks.emplace_back(new DirtBlock(x, y, farmland, path));
         }
         else if (split[0] == "block") // block <x> <y> <id>
         {

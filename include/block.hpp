@@ -384,11 +384,11 @@ public:
 class DirtBlock : public Block
 {
 private:
-    bool farmland;
+    bool farmland, path;
 
 public:
     DirtBlock(s16 x, s16 y);
-    DirtBlock(s16 x, s16 y, bool farmland);
+    DirtBlock(s16 x, s16 y, bool farmland, bool path);
 
     void draw(Camera &camera) override;
     u16 id(void) override;
@@ -396,6 +396,7 @@ public:
     bool solid(void) override;
     void interact(InventoryItem::ID item) override;
     bool isFarmland(void);
+    bool isPath(void);
 };
 
 class LeavesBlock : public Block
