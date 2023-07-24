@@ -30,7 +30,6 @@ AUDIO           :=      audio
 NITRODATA       :=      nitrofiles
 
 CURDIR_BASENAME := $(shell basename $(CURDIR))
-
 ifeq ($(CURDIR_BASENAME),build)
 VERSION_MAJOR  := $(shell sed '1!d' ../$(NITRODATA)/game.ver)
 VERSION_MINOR  := $(shell sed '2!d' ../$(NITRODATA)/game.ver)
