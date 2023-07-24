@@ -32,3 +32,6 @@ __pycache__/
 
 # backup files
 *~
+
+# vim swap files
+*.swp
