@@ -897,7 +897,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             }
                         }
                         // moving (different id)
-                        else
+                        else // TODO ok so this section of the code is really stupid in terms of the names. i need to make the names more descriptive. And add some comments explaining what actually happens.
                         {
                             inventory[inventoryMoveSelect] = {fsid, fsa};
                             inventory[inventorySelect] = {msid, msa};
