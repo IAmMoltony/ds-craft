@@ -270,10 +270,13 @@ void Game::init(void)
     glFlush(0);
     swiWaitForVBlank();
 
+    printf("Initializing filesystem\n");
+
     // init filesystem
     fsInitStatus fsInitSt = fsInit();
     if (fsInitSt != FS_INIT_STATUS_OK)
     {
+        printf("failed");
         AssetManager::loadDirtBlock();
         loadFonts();
         while (true)
@@ -305,8 +308,12 @@ void Game::init(void)
         }
     }
 
+    printf("Initializing game version\n");
+
     // init game version
     gameverInit();
+
+    printf("Initializing sound\n");
 
     // init sound
     mmInitDefault((char *)"nitro:/soundbank.bin");
@@ -316,19 +323,29 @@ void Game::init(void)
     fsCreateDir(WORLDS_DIR);
     fsCreateDir(CONFIG_DIR);
 
+    printf("Initializing crafting\n");
+
     // init crafting
     Player::initCrafting();
+
+    printf("Loading assets\n");
 
     // load some assets
     AssetManager::loadGeneralAssets();
     sndPop = soundEffect(SFX_POP);
     sndClick = soundEffect(SFX_CLICK);
 
+    printf("Loading settings\n");
+
     // load settings
     SettingsManager::loadSettings();
 
+    printf("Loading controls\n");
+
     // load controls
     ControlsManager::loadControls();
+
+    printf("Initializing RNG\n");
 
     // set up random number generator
     u32 randomSeed;
@@ -344,6 +361,8 @@ void Game::init(void)
     randomSeed ^= stringHash(std::to_string(stringHash(getUserMessage())).c_str());
     randomSetSeed(randomSeed);
     srand(time(NULL));
+
+    printf("Loading menu assets\n");
 
     // load assets for menu
     AssetManager::loadMenuAssets();
