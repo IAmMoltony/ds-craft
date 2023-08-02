@@ -886,7 +886,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             {
                                 u8 sum = fromSelectAmount + moveSelectAmount;
                                 u8 fromSelectNewAmount = 64;
-                                u8 moveSelectNewAmount = sum - moveSelectAmount; // TODO sum - MSA is just FSA
+                                u8 moveSelectNewAmount = sum - moveSelectAmount;
                                 inventory[inventorySelect] = {fromSelectItemID, fromSelectNewAmount};
                                 inventory[inventoryMoveSelect] = {moveSelectItemID, moveSelectNewAmount};
                             }
