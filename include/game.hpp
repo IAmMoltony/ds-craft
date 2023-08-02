@@ -106,7 +106,7 @@ private:
     BlockParticleList blockParticles;
     Player player;
 
-    glImage fontSmallImg[FONT_NUM_IMAGES]; // TODO rename uvcoord_font_si to something else
+    glImage fontSmallImg[FONT_NUM_IMAGES];
     glImage fontSmallRuImg[FONT_NUM_IMAGES];
 
     GameState gameState;
