@@ -260,8 +260,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
     // world meta
     std::ofstream wldmeta(worldFolder + "/world.meta");
-    wldmeta << "worldname " << name << "\ngameversion " << getVersionString() << "\nseed " << std::to_string(seed) <<
-                   "\nlocation " << std::to_string(currentLocation);
+    wldmeta << "worldname " << name << "\ngameversion " << getVersionString() << "\nseed " << std::to_string(seed) << "\nlocation " << std::to_string(currentLocation);
     wldmeta.close();
 
     // player info
@@ -357,9 +356,9 @@ static void _argParseDirt(const std::vector<std::string> &split, s16 &x, s16 &y,
     _argParseXY(split, x, y);
 
     if (split.size() == 4)
-        farmland = std::stoi(split[3]) == 1;
+        farmland = split[3] == "1";
     else if (split.size() == 5)
-        path = std::stoi(split[4]) == 1; // TODO remove unnecessary std::stoi and just compare the string
+        path = split[4] == "1";
     else
         farmland = false;
 
