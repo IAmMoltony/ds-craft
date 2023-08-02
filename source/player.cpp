@@ -274,7 +274,8 @@ Player::Player() : x(0), y(0), aimX(0), aimY(0), spawnX(0), spawnY(0), health(9)
                    chestSelect(0), chestMoveSelect(40), normalSpriteFPI(0), spawnImmunity(SPAWN_IMMUNITY), velX(0), velY(0), falling(true), jumping(false), fullInventory(false), inventoryCrafting(false),
                    chestOpen(false), sneaking(false), facing(Facing::Right),
                    chest(nullptr), sign(nullptr), bodySprite(AnimatedSprite(5, AnimatedSpriteMode::ReverseLoop,
-                                             {_sprPlayerBody[0], _sprPlayerBody[1], _sprPlayerBody[2]})), aimDist(0)
+                                                                            {_sprPlayerBody[0], _sprPlayerBody[1], _sprPlayerBody[2]})),
+                   aimDist(0)
 {
     normalSpriteFPI = bodySprite.getFramesPerImage();
 
@@ -869,38 +870,37 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     // move item (or stack)
 
                     // get the id and amount
-                    InventoryItem::ID msid = inventory[inventoryMoveSelect].id;
-                    InventoryItem::ID fsid = inventory[inventorySelect].id;
-                    u8 msa = inventory[inventoryMoveSelect].amount;
-                    u8 fsa = inventory[inventorySelect].amount;
+                    InventoryItem::ID moveSelectItemID = inventory[inventoryMoveSelect].id;
+                    InventoryItem::ID fromSelectItemID = inventory[inventorySelect].id;
+                    u8 moveSelectAmount = inventory[inventoryMoveSelect].amount;
+                    u8 fromSelectAmount = inventory[inventorySelect].amount;
 
                     // if they arent the same then move/stack
                     if (inventorySelect != inventoryMoveSelect)
                     {
                         // stacking (same id)
-                        if (msid == fsid)
+                        if (moveSelectItemID == fromSelectItemID)
                         {
                             // stacking >64 items
-                            if (fsa + msa > 64)
+                            if (fromSelectAmount + moveSelectAmount > 64)
                             {
-                                u8 sum = fsa + msa;
-                                u8 fsna = 64;
-                                u8 msna = sum - msa;
-                                inventory[inventorySelect] = {fsid, fsna};
-                                inventory[inventoryMoveSelect] = {msid, msna};
+                                u8 sum = fromSelectAmount + moveSelectAmount;
+                                u8 fromSelectNewAmount = 64;
+                                u8 moveSelectNewAmount = sum - moveSelectAmount; // TODO sum - MSA is just FSA
+                                inventory[inventorySelect] = {fromSelectItemID, fromSelectNewAmount};
+                                inventory[inventoryMoveSelect] = {moveSelectItemID, moveSelectNewAmount};
                             }
                             // stacking <= 64 items
                             else
                             {
-                                inventory[inventorySelect] = {fsid, (u8)(fsa + msa)};
+                                inventory[inventorySelect] = {fromSelectItemID, (u8)(fromSelectAmount + moveSelectAmount)};
                                 inventory[inventoryMoveSelect] = InventoryItem();
                             }
                         }
                         // moving (different id)
-                        else // TODO ok so this section of the code is really stupid in terms of the names. i need to make the names more descriptive. And add some comments explaining what actually happens.
                         {
-                            inventory[inventoryMoveSelect] = {fsid, fsa};
-                            inventory[inventorySelect] = {msid, msa};
+                            inventory[inventoryMoveSelect] = {fromSelectItemID, fromSelectAmount};
+                            inventory[inventorySelect] = {moveSelectItemID, moveSelectAmount};
                         }
                     }
                     // move-unselect (lol)
@@ -1182,9 +1182,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             }
                             else if ((block->id() == BID_GRASS || block->id() == BID_SNOWY_GRASS))
                             {
-                                if (itemid == InventoryItem::ID::WoodenHoe || itemid == InventoryItem::ID::StoneHoe
-                                    || itemid == InventoryItem::ID::IronHoe || itemid == InventoryItem::ID::WoodenShovel
-                                    || itemid == InventoryItem::ID::StoneShovel || itemid == InventoryItem::ID::IronShovel)
+                                if (itemid == InventoryItem::ID::WoodenHoe || itemid == InventoryItem::ID::StoneHoe || itemid == InventoryItem::ID::IronHoe || itemid == InventoryItem::ID::WoodenShovel || itemid == InventoryItem::ID::StoneShovel || itemid == InventoryItem::ID::IronShovel)
                                 {
                                     replaceBlock(*blocks, block.get(), std::make_unique<DirtBlock>(block->x, block->y));
                                     block->interact(itemid);
