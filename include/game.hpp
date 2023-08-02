@@ -76,6 +76,18 @@ public:
         static u32 getButton(u8 button);
         static void setButton(u8 button, u32 key);
 
+        static inline constexpr const char *CONTROLS_LABELS[] = {
+            "Go left",
+            "Go right",
+            "Jump",
+            "Sneak",
+            "D-Pad aim",
+            "Open/close inventory",
+            "Pause",
+            "Interact/Place block",
+            "Attack/Break block",
+        };
+
     private:
         static u32 buttons[NUM_BUTTONS];
 

@@ -477,19 +477,6 @@ void Game::drawMovingBackground(void)
 static constexpr int WORLD_NAME_BOX_WIDTH = 190;
 static constexpr int WORLD_NAME_BOX_HEIGHT = 14;
 
-// TODO move this into controls manager
-static constexpr const char *CONTROLS_LABELS[] = {
-    "Go left",
-    "Go right",
-    "Jump",
-    "Sneak",
-    "D-Pad aim",
-    "Open/close inventory",
-    "Pause",
-    "Interact/Place block",
-    "Attack/Break block",
-};
-
 static glImage *_keyCodeToImage(u32 keyCode)
 {
     switch (keyCode)
@@ -1363,7 +1350,7 @@ void Game::draw(void)
                 glSprite(SCREEN_WIDTH / 2 - 121 + 113, 48 + i * 40 - offset, GL_FLIP_H, sprWorldLabel);
             }
 
-            font.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 10 - offset, CONTROLS_LABELS[i]);
+            font.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 10 - offset, ControlsManager::CONTROLS_LABELS[i]);
             glSprite(SCREEN_WIDTH / 2 + 121 - 32, 48 + i * 40 + 10 - offset, GL_FLIP_NONE, _keyCodeToImage(ControlsManager::getButton(i)));
         }
         break;
