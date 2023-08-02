@@ -2385,6 +2385,8 @@ void Game::SettingsManager::loadSettings(void)
     {
         char *data = fsReadFile(CONFIG_DIR "/autosave.cfg");
         autoSaveSeconds = std::stoi(std::string(data));
+        if (autoSaveSeconds == 1)
+            autoSaveSeconds = 15;
     }
     else
         fsWrite(CONFIG_DIR "/autosave.cfg", "1");
