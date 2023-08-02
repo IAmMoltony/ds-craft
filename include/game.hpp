@@ -29,7 +29,7 @@ public:
     {
     public:
         static bool transparentLeaves;
-        static bool autoSave;
+        static u8 autoSaveSeconds;
         static bool smoothCamera;
         static bool autoJump;
         static bool touchToMove;

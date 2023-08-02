@@ -1124,17 +1124,17 @@ void Game::draw(void)
             glColor(RGB15(0, 31, 0));
         switch (lang)
         {
-        case Language::English:
-            if (SettingsManager::autoSave)
-                font.printCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Auto save ON <" : "Auto save ON");
+        case Language::English: // TODO change to printfCentered
+            if (SettingsManager::autoSaveSeconds)
+                font.printCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? std::string("> Auto save: every " + std::to_string(SettingsManager::autoSaveSeconds) + " seconds <") : std::string("Auto save: every " + std::to_string(SettingsManager::autoSaveSeconds) + " seconds"));
             else
-                font.printCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Auto save OFF <" : "Auto save OFF");
+                font.printCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Auto save off <" : "Auto save off");
             break;
         case Language::Russian:
-            if (SettingsManager::autoSave)
-                fontRu.printCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Aduq tqxsbpgpkg CLM '" : "Aduq tqxsbpgpkg CLM");
+            if (SettingsManager::autoSaveSeconds)
+                fontRu.printCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? std::string("> Aduq tqxsbpgpkg: mbif\"g " + std::to_string(SettingsManager::autoSaveSeconds) + " tgmvpf '") : std::string("Aduq tqxsbpgpkg: mbif\"g " + std::to_string(SettingsManager::autoSaveSeconds) + " tgmvpf"));
             else
-                fontRu.printCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Aduq tqxsbpgpkg C]LM '" : "Aduq tqxsbpgpkg C]LM");
+                fontRu.printCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Aduq tqxsbpgpkg d\"mn '" : "Aduq tqxsbpgpkg d\"mn");
             break;
         }
         glColor(RGB15(31, 31, 31));
@@ -1393,7 +1393,7 @@ void Game::update(void)
     {
     case GameState::Game:
         // save every 900 frames (15s) and if player wants to auto save
-        if (frameCounter % 900 == 0 && SettingsManager::autoSave)
+        if (SettingsManager::autoSaveSeconds && frameCounter % (SettingsManager::autoSaveSeconds * 60) == 0)
         {
             saveWorld(worldName, blocks, entities, player, getWorldSeed(worldName), currentLocation);
             showSaveText = true;
@@ -1852,18 +1852,16 @@ void Game::update(void)
             u32 held = keysHeld();
             if (held & KEY_SELECT)
                 worldSelectSelected = worldSelectWorlds.size() - 1;
-            else
-                if ((size_t)(worldSelectSelected + 1) < worldSelectWorlds.size())
-                    ++worldSelectSelected;
+            else if ((size_t)(worldSelectSelected + 1) < worldSelectWorlds.size())
+                ++worldSelectSelected;
         }
         else if (down & KEY_UP)
         {
             u32 held = keysHeld();
             if (held & KEY_SELECT)
                 worldSelectSelected = 0;
-            else
-                if (worldSelectSelected - 1 >= 0)
-                    --worldSelectSelected;
+            else if (worldSelectSelected - 1 >= 0)
+                --worldSelectSelected;
         }
         break;
     case GameState::WorldSettings:
@@ -2065,9 +2063,31 @@ void Game::update(void)
                 fsWrite(CONFIG_DIR "/trleaves.cfg", SettingsManager::transparentLeaves ? "1" : "0");
                 break;
             case SETTING_AUTO_SAVE:
-                SettingsManager::autoSave = !SettingsManager::autoSave;
-                fsWrite(CONFIG_DIR "/autosave.cfg", SettingsManager::autoSave ? "1" : "0");
+            {
+                static u8 autoSaveValues[] = {0, 5, 10, 15, 30, 60};
+                static int numAutoSaveValues = sizeof(autoSaveValues) / sizeof(autoSaveValues[0]);
+
+                int currentIndex = -1;
+                for (int i = 0; i < numAutoSaveValues; i++)
+                {
+                    if (SettingsManager::autoSaveSeconds == autoSaveValues[i])
+                    {
+                        currentIndex = i;
+                        break;
+                    }
+                }
+
+                if (currentIndex == -1)
+                {
+                    SettingsManager::autoSaveSeconds = autoSaveValues[0];
+                    break;
+                }
+
+                int nextIndex = (currentIndex + 1) % numAutoSaveValues;
+                SettingsManager::autoSaveSeconds = autoSaveValues[nextIndex];
+                fsWrite(CONFIG_DIR "/autosave.cfg", std::to_string(SettingsManager::autoSaveSeconds).c_str());
                 break;
+            }
             case SETTING_SMOOTH_CAMERA:
                 SettingsManager::smoothCamera = !SettingsManager::smoothCamera;
                 fsWrite(CONFIG_DIR "/smoothcam.cfg", SettingsManager::smoothCamera ? "1" : "0");
@@ -2330,7 +2350,7 @@ void Game::AssetManager::unloadMenuAssets(void)
 }
 
 bool Game::SettingsManager::transparentLeaves = false;
-bool Game::SettingsManager::autoSave = true;
+u8 Game::SettingsManager::autoSaveSeconds = 15;
 bool Game::SettingsManager::smoothCamera = true;
 bool Game::SettingsManager::autoJump = false;
 bool Game::SettingsManager::touchToMove = false;
@@ -2364,7 +2384,7 @@ void Game::SettingsManager::loadSettings(void)
     if (fsFileExists(CONFIG_DIR "/autosave.cfg"))
     {
         char *data = fsReadFile(CONFIG_DIR "/autosave.cfg");
-        autoSave = data[0] == '1';
+        autoSaveSeconds = std::stoi(std::string(data));
     }
     else
         fsWrite(CONFIG_DIR "/autosave.cfg", "1");
@@ -2605,6 +2625,7 @@ u8 Game::ControlsManager::buttonIDIndex(const std::string &buttonID)
 
 void Game::ControlsManager::setButton(u8 button, u32 key)
 {
+    // if button index invalid or key is not valid
     if (button >= NUM_BUTTONS || (key != KEY_A && key != KEY_B && key != KEY_X && key != KEY_Y && key != KEY_LEFT &&
                                   key != KEY_RIGHT && key != KEY_UP && key != KEY_DOWN && key != KEY_SELECT &&
                                   key != KEY_START && key != KEY_L && key != KEY_R))
