@@ -213,7 +213,7 @@ static glImage _sprIronHoe[1];
 
 static glImage _sprDummy[1];
 
-void loadItemTextures(void)
+void InventoryItem::loadTextures(void)
 {
     loadImageAlpha(_sprStick, 16, 16, stickPal, stickBitmap);
     loadImageAlpha(_sprCoal, 16, 16, coalPal, coalBitmap);
@@ -248,7 +248,7 @@ void loadItemTextures(void)
     loadImage(_sprDummy, 16, 16, dummyBitmap);
 }
 
-void unloadItemTextures(void)
+void InventoryItem::unloadTextures(void)
 {
     unloadImage(_sprStick);
     unloadImage(_sprCoal);

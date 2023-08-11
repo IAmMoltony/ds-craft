@@ -91,12 +91,11 @@ public:
     InventoryItem &operator=(const InventoryItem &item);
 
     // TODO add durability for items
+
+    static void loadTextures(void);
+    static void unloadTextures(void);
 };
 
-// TODO move item manip functions to static methods in InventoryItem
-
-void loadItemTextures(void);
-void unloadItemTextures(void);
 std::string iidToString(InventoryItem::ID iid);
 const char *getItemStr(Language lang, InventoryItem::ID iid);
 glImage *getItemImage(InventoryItem::ID item);
