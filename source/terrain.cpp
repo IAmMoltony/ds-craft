@@ -32,6 +32,8 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
             biome = 3;
         if (forceBiome >= 0)
             biome = forceBiome;
+        // TODO make biome numbers into defines and/or/maybe constants
+        // TODO also turn into switch statmetn!
         if (biome == 0)
         {
             for (u16 i = k * SCREEN_WIDTH * 2 / 16; i < k * SCREEN_WIDTH * 2 / 16 + SCREEN_WIDTH * 2 / 16; ++i)
