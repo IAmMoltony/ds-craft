@@ -42,7 +42,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
 
                 // create grass
                 if (chance(60))
-                    blocks.emplace_back(new Grass(i * 16, y - 16));
+                    blocks.emplace_back(new Grass(i * 16, y - 16, GrassType::Normal));
 
                 // create pig with 10% chance
                 if (chance(10))
@@ -138,6 +138,10 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                 ++sinceLastTree;
                 blocks.emplace_back(new SnowyGrassBlock(i * 16, y));
 
+                // create grass
+                if (chance(60))
+                    blocks.emplace_back(new Grass(i * 16, y - 16, GrassType::Normal));
+
                 if (chance(10))
                     entities.emplace_back(new PigEntity(i * 16, y - 64));
 
@@ -167,10 +171,14 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
         {
             for (u16 i = k * SCREEN_WIDTH * 2; i < k * SCREEN_WIDTH * 2 + SCREEN_WIDTH * 2; i += 16)
             {
-                // same thing as plains but with more flower (and a little more y change)
+                // same thing as forest except more flowers and less trees
 
                 ++sinceLastTree;
                 blocks.emplace_back(new GrassBlock(i, y));
+
+                // create grass
+                if (chance(60)) // TODO move chance() into random.hpp
+                    blocks.emplace_back(new Grass(i * 16, y - 16, GrassType::Normal));
 
                 if (chance(10))
                     entities.emplace_back(new PigEntity(i, y - 64));
@@ -189,7 +197,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                 blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
 
                 bool placedTree = false;
-                if (chance(36) && sinceLastTree > treeInterval)
+                if (chance(55) && sinceLastTree > treeInterval)
                 {
                     placedTree = true;
                     treeInterval = spawnTree(blocks, i * 16, y, (randomGenerate() % 2) ? TreeType::Birch : TreeType::Oak);
@@ -209,6 +217,10 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
             {
                 ++sinceLastTree;
                 blocks.emplace_back(new GrassBlock(i * 16, y, GrassType::Spruce));
+
+                // create grass
+                if (chance(60))
+                    blocks.emplace_back(new Grass(i * 16, y - 16, GrassType::Spruce));
 
                 // create pig with 10% chance
                 if (chance(10))
