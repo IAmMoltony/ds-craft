@@ -156,6 +156,7 @@ InventoryItem::InventoryItem() : id(ID::None), amount(0)
 
 InventoryItem &InventoryItem::operator=(const InventoryItem &item)
 {
+    // self assignment check
     if (this == &item)
         return *this;
 
