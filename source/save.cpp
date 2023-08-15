@@ -197,6 +197,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         {
             GrassBlock *grass = reinterpret_cast<GrassBlock *>(block.get());
 
+            // TODO move grass type to string into function
             std::string stringType; // string type
             switch (grass->getType())
             {
@@ -219,6 +220,25 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             char chp = dirt->isPath() ? '1' : '0';
 
             wld << "dirt " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << chf << ' ' << chp << '\n';
+            break;
+        }
+        // grass
+        case BID_GRASS2:
+        {
+            Grass *grass = reinterpret_cast<Grass *>(block.get());
+
+            std::string stringType; // string type
+            switch (grass->getType())
+            {
+            case GrassType::Normal:
+                stringType = "normal";
+                break;
+            case GrassType::Spruce:
+                stringType = "spruce";
+                break;
+            }
+
+            wld << "grass " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << stringType << '\n';
             break;
         }
         // every other block
@@ -335,7 +355,7 @@ static void _argParseSign(const std::vector<std::string> &split, s16 &x, s16 &y,
         text.pop_back();
 }
 
-static void _argParseGrass(const std::vector<std::string> &split, s16 &x, s16 &y, GrassType &type)
+static void _argParseGrassBlock(const std::vector<std::string> &split, s16 &x, s16 &y, GrassType &type)
 {
     _argParseXY(split, x, y);
     const std::string &st = split[3]; // string type
@@ -476,9 +496,17 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         {
             s16 x = 0, y = 0;
             GrassType type;
-            _argParseGrass(split, x, y, type);
+            _argParseGrassBlock(split, x, y, type);
 
             blocks.emplace_back(new GrassBlock(x, y, type));
+        }
+        else if (split[0] == "grass") // grass <x> <y> [type]
+        {
+            s16 x = 0, y = 0;
+            GrassType type;
+            _argParseGrassBlock(split, x, y, type); // grass and grass block LITERALLY have the same args
+
+            blocks.emplace_back(new Grass(x, y, type));
         }
         else if (split[0] == "dirt") // dirt <x> <y> [is farmland]
         {
