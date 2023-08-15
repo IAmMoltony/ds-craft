@@ -52,6 +52,7 @@
 #define BID_IRON_ORE 42
 #define BID_IRON_BLOCK 43
 #define BID_STONE_BRICKS 44
+#define BID_GRASS2 45
 
 enum class SlabID
 {
@@ -292,6 +293,7 @@ void replaceBlock(BlockList &blocks, const Block *oldBlock, std::unique_ptr<Bloc
 
 // block sprites
 extern glImage sprGrass[1];
+extern glImage sprGrass2[1]; // image for the non block grass
 extern glImage sprDirt[1];
 extern glImage sprStone[1];
 extern glImage sprWood[1];
@@ -381,7 +383,23 @@ public:
     u16 id(void) override;
     Rect getRect(void) const override;
     bool solid(void) override;
-    GrassType getGrassType(void);
+    GrassType getGrassType(void); // TODO rename to just getType because it is literally obvious that we are getting grass type
+};
+
+class Grass : public Block
+{
+private:
+    GrassType type;
+
+public:
+    Grass(s16 x, s16 y);
+    Grass(s16 x, s16 y, GrassType type);
+
+    void draw(Camera &camera) override;
+    u16 id(void) override;
+    Rect getRect(void) const override;
+    bool solid(void) override;
+    GrassType getType(void);
 };
 
 class DirtBlock : public Block

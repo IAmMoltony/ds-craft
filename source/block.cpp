@@ -4,6 +4,7 @@
 #include "random.hpp"
 
 glImage sprGrass[1];
+glImage sprGrass2[1];
 glImage sprSnowyGrass[1];
 glImage sprDirt[1];
 glImage sprDirtPath[1];
@@ -78,6 +79,7 @@ void Block::loadTextures(void)
     loadImage(sprIronBlock, 16, 16, iron_blockBitmap);
     loadImage(sprStoneBricks, 16, 16, stone_bricksBitmap);
 
+    loadImageAlpha(sprGrass2, 16, 16, grass2Pal, grass2Bitmap);
     loadImageAlpha(sprCactus, 16, 16, cactus_sidePal, cactus_sideBitmap);
     loadImageAlpha(sprDeadBush, 16, 16, dead_bushPal, dead_bushBitmap);
     loadImageAlpha(sprDandelion, 16, 16, dandelionPal, dandelionBitmap);
@@ -325,6 +327,51 @@ bool GrassBlock::solid(void)
 }
 
 GrassType GrassBlock::getGrassType(void)
+{
+    return type;
+}
+
+//-----------------------------------------
+
+Grass::Grass(s16 x, s16 y) : Block(x, y, 1), type(GrassType::Normal)
+{
+}
+
+Grass::Grass(s16 x, s16 y, GrassType type) : Block(x, y, 1), type(type)
+{
+}
+
+void Grass::draw(Camera &camera)
+{
+    switch (type)
+    {
+    case GrassType::Normal:
+        glColor(GrassBlock::COLOR_NORMAL);
+        break;
+    case GrassType::Spruce:
+        glColor(GrassBlock::COLOR_SPRUCE);
+        break;
+    }
+    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprGrass2);
+    glColor(RGB15(31, 31, 31));
+}
+
+u16 Grass::id(void)
+{
+    return BID_GRASS2;
+}
+
+Rect Grass::getRect(void) const
+{
+    return Rect(x, y, 16, 16);
+}
+
+bool Grass::solid(void)
+{
+    return false;
+}
+
+GrassType Grass::getType(void)
 {
     return type;
 }
