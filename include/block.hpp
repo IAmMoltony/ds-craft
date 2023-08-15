@@ -371,6 +371,9 @@ private:
     GrassType type;
 
 public:
+    static inline constexpr COLOR_NORMAL = RGB15(15, 23, 13);
+    static inline constexpr COLOR_SPRUCE = RGB8(32, 138, 83);
+
     GrassBlock(s16 x, s16 y);
     GrassBlock(s16 x, s16 y, GrassType type);
 

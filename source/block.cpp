@@ -249,6 +249,7 @@ void replaceBlock(BlockList &blocks, const Block *oldBlock, std::unique_ptr<Bloc
 
 // generic block implementations
 
+// solid blocks
 GENERIC_BLOCK_IMPL(SnowyGrassBlock, sprSnowyGrass, BID_SNOWY_GRASS, 14, true)
 GENERIC_BLOCK_IMPL(StoneBlock, sprStone, BID_STONE, 16, true)
 GENERIC_BLOCK_IMPL(SandBlock, sprSand, BID_SAND, 13, true)
@@ -264,6 +265,7 @@ GENERIC_BLOCK_IMPL(IronOreBlock, sprIronOre, BID_IRON_ORE, 20, true)
 GENERIC_BLOCK_IMPL(IronBlock, sprIronBlock, BID_IRON_BLOCK, 20, true)
 GENERIC_BLOCK_IMPL(StoneBricksBlock, sprStoneBricks, BID_STONE_BRICKS, 16, true)
 
+// not solid blocks
 GENERIC_BLOCK_IMPL(WoodBlock, sprWood, BID_WOOD, 7, false)
 GENERIC_BLOCK_IMPL(BirchWoodBlock, sprBirchWood, BID_BIRCH_WOOD, 7, false)
 GENERIC_BLOCK_IMPL(SpruceWoodBlock, sprSpruceWood, BID_SPRUCE_WOOD, 7, false)
@@ -296,10 +298,10 @@ void GrassBlock::draw(Camera &camera)
     switch (type)
     {
     case GrassType::Normal:
-        glColor(RGB15(15, 23, 13));
+        glColor(COLOR_NORMAL);
         break;
     case GrassType::Spruce:
-        glColor(RGB8(32, 138, 83));
+        glColor(COLOR_SPRUCE);
         break;
     }
 
