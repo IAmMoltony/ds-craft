@@ -198,7 +198,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             GrassBlock *grass = reinterpret_cast<GrassBlock *>(block.get());
 
             std::string stringType; // string type
-            switch (grass->getGrassType())
+            switch (grass->getType())
             {
             case GrassType::Normal:
                 stringType = "normal";

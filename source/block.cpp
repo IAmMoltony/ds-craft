@@ -326,7 +326,7 @@ bool GrassBlock::solid(void)
     return true;
 }
 
-GrassType GrassBlock::getGrassType(void)
+GrassType GrassBlock::getType(void)
 {
     return type;
 }

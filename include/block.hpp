@@ -383,7 +383,7 @@ public:
     u16 id(void) override;
     Rect getRect(void) const override;
     bool solid(void) override;
-    GrassType getGrassType(void); // TODO rename to just getType because it is literally obvious that we are getting grass type
+    GrassType getType(void);
 };
 
 class Grass : public Block
