@@ -7,7 +7,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
     // this forces only a certain biome to spawn.
     // if less than 0, no biome is forced.
     // (useful for debugging)
-    static constexpr s8 forceBiome = 0;
+    static constexpr s8 forceBiome = -1;
 
     time_t curTime = time(NULL);
     struct tm *timeStruct = gmtime((const time_t *)&curTime);
