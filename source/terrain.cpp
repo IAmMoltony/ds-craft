@@ -152,7 +152,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                 blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
 
                 bool placedTree = false;
-                if (chance(20) && sinceLastTree > treeInterval)
+                if (chance(40) && sinceLastTree > treeInterval)
                 {
                     placedTree = true;
                     treeInterval = spawnTree(blocks, i * 16, y, (randomGenerate() % 2) ? TreeType::Birch : TreeType::Oak);
