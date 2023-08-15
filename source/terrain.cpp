@@ -7,7 +7,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
     // this forces only a certain biome to spawn.
     // if less than 0, no biome is forced.
     // (useful for debugging)
-    static constexpr s8 forceBiome = -1;
+    static constexpr s8 forceBiome = 0;
 
     time_t curTime = time(NULL);
     struct tm *timeStruct = gmtime((const time_t *)&curTime);
@@ -39,6 +39,10 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
             {
                 ++sinceLastTree;
                 blocks.emplace_back(new GrassBlock(i * 16, y));
+
+                // create grass
+                if (chance(60))
+                    blocks.emplace_back(new Grass(i * 16, y - 16));
 
                 // create pig with 10% chance
                 if (chance(10))
