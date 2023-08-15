@@ -23,10 +23,9 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
         // biomes
         // 0 = forest biome
         // 1 = desert biome
-        // 2 = plains biome
-        // 3 = snow biome
-        // 4 = flower biome
-        // 5 = spruce forest biome
+        // 2 = snow biome
+        // 3 = flower biome
+        // 4 = spruce forest biome
         u8 biome = randomRange(0, 5);
         if (onlyWinterBiome)
             biome = 3;
@@ -128,46 +127,6 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
         }
         else if (biome == 2)
         {
-            for (u16 i = k * SCREEN_WIDTH * 2; i < k * SCREEN_WIDTH * 2 + SCREEN_WIDTH * 2; i += 16)
-            {
-                // same thing as forest but with less trees and y change
-
-                ++sinceLastTree;
-                blocks.emplace_back(new GrassBlock(i, y));
-
-                if (chance(10))
-                    entities.emplace_back(new PigEntity(i, y - 64));
-
-                for (s16 j = y + 16; j < y + 16 * 4; j += 16)
-                    blocks.emplace_back(new DirtBlock(i, j));
-                for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
-                {
-                    if (chance(11))
-                        blocks.emplace_back(new IronOreBlock(i, j));
-                    else if (chance(16))
-                        blocks.emplace_back(new CoalOreBlock(i, j));
-                    else
-                        blocks.emplace_back(new StoneBlock(i, j));
-                }
-                blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
-
-                bool placedTree = false;
-                if (chance(40) && sinceLastTree > treeInterval)
-                {
-                    placedTree = true;
-                    treeInterval = spawnTree(blocks, i * 16, y, (randomGenerate() % 2) ? TreeType::Birch : TreeType::Oak);
-                    sinceLastTree = 0;
-                }
-
-                if (!placedTree && chance(40))
-                    blocks.emplace_back(new FlowerBlock(i, y - 16));
-
-                if (chance(10))
-                    y += randomRange(-1, 1) * 16;
-            }
-        }
-        else if (biome == 3)
-        {
             for (u16 i = k * SCREEN_WIDTH * 2 / 16; i < k * SCREEN_WIDTH * 2 / 16 + SCREEN_WIDTH * 2 / 16; ++i)
             {
                 // same thing as forest but snow
@@ -200,7 +159,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                 y += randomRange(-1, 2) * 16;
             }
         }
-        else if (biome == 4)
+        else if (biome == 3)
         {
             for (u16 i = k * SCREEN_WIDTH * 2; i < k * SCREEN_WIDTH * 2 + SCREEN_WIDTH * 2; i += 16)
             {
@@ -240,7 +199,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                     y += randomRange(-1, 1) * 16;
             }
         }
-        else if (biome == 5)
+        else if (biome == 4)
         {
             for (u16 i = k * SCREEN_WIDTH * 2 / 16; i < k * SCREEN_WIDTH * 2 / 16 + SCREEN_WIDTH * 2 / 16; ++i)
             {
