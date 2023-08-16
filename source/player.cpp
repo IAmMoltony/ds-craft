@@ -284,6 +284,7 @@ Player::Player() : x(0), y(0), aimX(0), aimY(0), spawnX(0), spawnY(0), health(9)
         inventory[i] = InventoryItem();
 }
 
+// function for drawing an inventory aka list of items
 static void _drawInventory(InventoryItem inventory[], u8 itemCount, Font &font, u8 select,
                            u8 moveSelect)
 {
@@ -335,6 +336,11 @@ static void _drawInventory(InventoryItem inventory[], u8 itemCount, Font &font, 
             switch (id)
             {
             // some special cases
+            case InventoryItem::ID::Grass2:
+                glColor(GrassBlock::COLOR_NORMAL);
+                glSpriteScale(xx + 4, yy + 4, HALF_SCALE, GL_FLIP_NONE, sprGrass2);
+                glColor(RGB15(31, 31, 31));
+                break;
             case InventoryItem::ID::Leaves:
                 glColor(RGB15(0, 22, 0));
                 glSpriteScale(xx + 4, yy + 4, HALF_SCALE, GL_FLIP_NONE, sprLeaves);
@@ -1255,6 +1261,25 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                                                 snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             break;
+                        case InventoryItem::ID::Grass2:
+                            canPlace = false;
+                            for (size_t i = 0; i < blocks->size(); ++i)
+                            {
+                                if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
+                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_GRASS || blocks->at(i)->id() == BID_DIRT || blocks->at(i)->id() == BID_SNOWY_GRASS))
+                                {
+                                    if (blocks->at(i)->id() == BID_DIRT && !reinterpret_cast<DirtBlock *>(blocks->at(i).get())->isFarmland() && !reinterpret_cast<DirtBlock *>(blocks->at(i).get())->isPath())
+                                        canPlace = true;
+                                }
+                            }
+                            if (canPlace)
+                            {
+                                blocks->emplace_back(new Grass(snapToGrid(camera->x + aimX),
+                                                               snapToGrid(camera->y + aimY),
+                                                               GrassType::Normal));
+                                playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
+                            }
+                            break;
                         case InventoryItem::ID::Dirt:
                             blocks->emplace_back(new DirtBlock(snapToGrid(camera->x + aimX),
                                                                snapToGrid(camera->y + aimY)));
@@ -1777,7 +1802,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                 entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Grass2));
                             }
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
-                            _spawnBlockParticles(blockParticles, sprGrass2, block->x, block->y);
+                            _spawnBlockParticles(blockParticles, sprGrass2, block->x, block->y, GrassBlock::COLOR_NORMAL);
                             break;
                         case BID_DIRT:
                             entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Dirt));

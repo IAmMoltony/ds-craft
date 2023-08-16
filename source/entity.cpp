@@ -278,6 +278,8 @@ void DropEntity::draw(Camera camera)
         glColor(RGB15(20, 26, 19));
     else if (itemid == InventoryItem::ID::SpruceLeaves)
         glColor(RGB15(0, 11, 0));
+    else if (itemid == InventoryItem::ID::Grass2)
+        glColor(GrassBlock::COLOR_NORMAL);
 
     switch (itemid)
     {
