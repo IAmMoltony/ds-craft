@@ -22,6 +22,8 @@ InventoryItem::InventoryItem(const std::string &stringID, u8 amount) : id(ID::No
         id = InventoryItem::ID::None;
     else if (sid == "grass")
         id = InventoryItem::ID::Grass;
+    else if (sid == "grass2")
+        id = InventoryItem::ID::Grass2;
     else if (sid == "dirt")
         id = InventoryItem::ID::Dirt;
     else if (sid == "stone")
@@ -294,6 +296,9 @@ std::string iidToString(InventoryItem::ID iid)
     case InventoryItem::ID::Grass:
         id = "grass";
         break;
+    case InventoryItem::ID::Grass2:
+        id = "grass2";
+        break;
     case InventoryItem::ID::Dirt:
         id = "dirt";
         break;
@@ -506,6 +511,8 @@ const char *getItemStr(Language lang, InventoryItem::ID iid)
         case InventoryItem::ID::None:
             return "";
         case InventoryItem::ID::Grass:
+            return "Grass Block";
+        case InventoryItem::ID::Grass2:
             return "Grass";
         case InventoryItem::ID::Dirt:
             return "Dirt";
@@ -647,7 +654,7 @@ const char *getItemStr(Language lang, InventoryItem::ID iid)
         case InventoryItem::ID::None:
             return "";
         case InventoryItem::ID::Grass:
-            return "Tsbdb";
+            return "Bnqm usbd\"";
         case InventoryItem::ID::Dirt:
             return "Ds&j#";
         case InventoryItem::ID::Stone:
@@ -791,6 +798,7 @@ const char *getItemStr(Language lang, InventoryItem::ID iid)
 
 static std::map<InventoryItem::ID, glImage *> _itemImages = {
     {InventoryItem::ID::Grass, sprGrass},
+    {InventoryItem::ID::Grass2, sprGrass2},
     {InventoryItem::ID::Dirt, sprDirt},
     {InventoryItem::ID::Stone, sprStone},
     {InventoryItem::ID::Wood, sprWood},

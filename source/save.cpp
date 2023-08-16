@@ -10,6 +10,9 @@ std::string normalizeWorldFileName(const std::string &str)
     // e.g.
     // mY cOoL wOrLd LoL :D -> my_cool_world_lol__d
 
+    // spaces and special chars -> _
+    // upper case letters -> lower case letters
+
     std::string wfn = str; // world file name
 
     // replace punctuation and spaces with underscores

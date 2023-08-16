@@ -12,6 +12,7 @@ public:
     {
         None,
         Grass,
+        Grass2,
         Dirt,
         Stone,
         Wood,

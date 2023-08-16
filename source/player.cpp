@@ -1770,6 +1770,15 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             _spawnBlockParticles(blockParticles, sprGrass, block->x, block->y);
                             break;
+                        case BID_GRASS2:
+                            if (inventory[hotbarSelect].id == InventoryItem::ID::Shears)
+                            {
+                                // get grass
+                                entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Grass2));
+                            }
+                            playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
+                            _spawnBlockParticles(blockParticles, sprGrass2, block->x, block->y);
+                            break;
                         case BID_DIRT:
                             entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Dirt));
                             playsfx(4, &sndDirt1, &sndDirt2, &sndDirt3, &sndDirt4);
@@ -1835,6 +1844,8 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                 break;
                             }
 
+                            // TODO we shouldnt be able to get sapling if we cut leaves with shears
+
                             if (inventory[hotbarSelect].id == InventoryItem::ID::Shears)
                             {
                                 switch (l->type)
@@ -1874,6 +1885,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                 entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::DeadBush));
                             else
                             {
+                                // sticks
                                 entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), InventoryItem::ID::Stick));
                                 entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), InventoryItem::ID::Stick));
                             }
@@ -2050,12 +2062,15 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             }
 
             // collision
+
+            // collision with block on top
             if (block->getRect().intersects(getRectTop()))
             {
                 velY = 0;
                 y = block->getRect().y + block->getRect().h + 1;
             }
 
+            // collision with block on bottom
             if (block->getRect().intersects(getRectBottom()))
             {
                 falling = jumping = false;
@@ -2064,9 +2079,9 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 if (airY >= 44) // if we fall too much
                 {
                     s16 damage = airY / 44;
-                    if (airY - 44 >= 9) // TODO copy pasted value detected, move into define or constant.
-                        damage += (airY - MAX_AIM_DISTANCE) / 9;
-                    if (damage > 0)
+                    if (airY - 44 >= 9) // TODO figure out what 44 is and move it into like a define or smth
+                        damage += (airY - MAX_AIM_DISTANCE) / 9; // do some complicated tomfoolery
+                    if (damage > 0) // if we got fall damage
                     {
                         health -= damage;
 
@@ -2186,6 +2201,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 // touch to move
                 if (!(keys & KEY_X))
                 {
+                    // TODO why is touch to move still a thing
                     if (Game::SettingsManager::touchToMove)
                     {
                         if (aimX < SCREEN_WIDTH / 2)
@@ -2251,6 +2267,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
         else
             facing = Facing::Right;
 
+        // aiming with d pad
         if (keys & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_DPAD_AIM))
         {
             u32 kdown = keysDown();
@@ -2274,10 +2291,11 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
         else if (right && !left)
             velX = 2;
 
+        // make player slow if sneaking
         if (sneaking)
             velX /= 2;
 
-        // stop whem player don't press d-pad
+        // stop whem player isnt pressing d-pad
         if ((right && left) || (!right && !left))
             velX = 0;
 
@@ -2293,7 +2311,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
 
     if (y > 860)
     {
-        // die when fall under the world (som ehow)
+        // die when fall under the world
         health = -1;
         airY = 0;
         playsfx(3, &sndHit1, &sndHit2, &sndHit3);
@@ -2324,6 +2342,7 @@ bool Player::hasItem(InventoryItem item)
     return false;
 }
 
+// TODO add a return value to this function
 void Player::addItem(InventoryItem::ID item)
 {
     if (isInventoryFull())
