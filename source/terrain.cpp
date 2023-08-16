@@ -21,20 +21,15 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
     for (u8 k = 0; k < 2; ++k)
     {
         // biomes
-        // 0 = forest biome
-        // 1 = desert biome
-        // 2 = snow biome
-        // 3 = flower biome
-        // 4 = spruce forest biome
+        // see terrain.hpp
         u8 biome = randomRange(0, 5);
         if (onlyWinterBiome)
             biome = 3;
         if (forceBiome >= 0)
             biome = forceBiome;
-        // TODO make biome numbers into defines and/or/maybe constants
-        // TODO also turn into switch statmetn!
-        if (biome == 0)
+        switch (biome)
         {
+        case BIOME_FOREST:
             for (u16 i = k * SCREEN_WIDTH * 2 / 16; i < k * SCREEN_WIDTH * 2 / 16 + SCREEN_WIDTH * 2 / 16; ++i)
             {
                 ++sinceLastTree;
@@ -78,9 +73,8 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
 
                 y += randomRange(-1, 2) * 16;
             }
-        }
-        else if (biome == 1)
-        {
+            break;
+        case BIOME_DESERT:
             for (u16 i = k * SCREEN_WIDTH * 2 / 16; i < k * SCREEN_WIDTH * 2 / 16 + SCREEN_WIDTH * 2 / 16; ++i)
             {
                 ++sinceLastTree;
@@ -128,13 +122,10 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
 
                 y += randomRange(-1, 1) * 16;
             }
-        }
-        else if (biome == 2)
-        {
+            break;
+        case BIOME_SNOW:
             for (u16 i = k * SCREEN_WIDTH * 2 / 16; i < k * SCREEN_WIDTH * 2 / 16 + SCREEN_WIDTH * 2 / 16; ++i)
             {
-                // same thing as forest but snow
-
                 ++sinceLastTree;
                 blocks.emplace_back(new SnowyGrassBlock(i * 16, y));
 
@@ -166,13 +157,10 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
 
                 y += randomRange(-1, 2) * 16;
             }
-        }
-        else if (biome == 3)
-        {
+            break;
+        case BIOME_FLOWER:
             for (u16 i = k * SCREEN_WIDTH * 2; i < k * SCREEN_WIDTH * 2 + SCREEN_WIDTH * 2; i += 16)
             {
-                // same thing as forest except more flowers and less trees
-
                 ++sinceLastTree;
                 blocks.emplace_back(new GrassBlock(i, y));
 
@@ -210,9 +198,8 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
                 if (chance(30))
                     y += randomRange(-1, 1) * 16;
             }
-        }
-        else if (biome == 4)
-        {
+            break;
+        case BIOME_SPRUCE:
             for (u16 i = k * SCREEN_WIDTH * 2 / 16; i < k * SCREEN_WIDTH * 2 / 16 + SCREEN_WIDTH * 2 / 16; ++i)
             {
                 ++sinceLastTree;

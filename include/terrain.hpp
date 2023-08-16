@@ -5,6 +5,12 @@
 #include <algorithm>
 #include <numeric>
 
+#define BIOME_FOREST 0
+#define BIOME_DESERT 1
+#define BIOME_SNOW 2
+#define BIOME_FLOWER 3
+#define BIOME_SPRUCE 4
+
 enum class TreeType
 {
     Oak,
