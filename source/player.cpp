@@ -2386,6 +2386,11 @@ void Player::removeItem(InventoryItem::ID item)
             removeItem(InventoryItem::ID::BirchPlanks);
             return;
         }
+        else if (hasItem({InventoryItem::ID::SprucePlanks, 1}))
+        {
+            removeItem(InventoryItem::ID::SprucePlanks);
+            return;
+        }
         else
             return;
     }
@@ -2549,6 +2554,9 @@ s16 Player::getHealth(void)
 
 u16 Player::countItems(InventoryItem::ID item)
 {
+    // special case for any planks
+    // (we count all planks types)
+    // TODO put plank types into array or smth
     if (item == InventoryItem::ID::AnyPlanks)
         return countItems(InventoryItem::ID::Planks) + countItems(InventoryItem::ID::BirchPlanks) +
                countItems(InventoryItem::ID::SprucePlanks);
