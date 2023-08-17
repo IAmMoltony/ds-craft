@@ -56,6 +56,7 @@ public:
     static void unloadSounds(void);
 
     static inline constexpr float JUMP_SPEED = 4.0f;
+    static inline s16 VOID_Y = 860;
 
     Player();
 
@@ -96,6 +97,7 @@ public:
     bool isInInventory(void);
     bool isInChest(void);
     bool isEditingSign(void);
+    bool inVoid(void);
     s16 getX(void);
     s16 getY(void);
     s16 getSpawnX(void);

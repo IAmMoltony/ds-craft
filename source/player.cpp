@@ -2389,7 +2389,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
     }
 
     // die when fall under the world
-    if (y > 860)
+    if (inVoid())
     {
         if (Game::instance->getFrameCounter() % 40 == 0)
         {
@@ -2646,6 +2646,11 @@ bool Player::isInChest(void)
 bool Player::isEditingSign(void)
 {
     return sign != nullptr;
+}
+
+bool Player::inVoid(void)
+{
+    return y >= VOID_Y;
 }
 
 s16 Player::getX(void)
