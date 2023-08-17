@@ -148,10 +148,15 @@ InventoryItem::InventoryItem(const std::string &stringID, u8 amount) : id(ID::No
         id = InventoryItem::ID::IronHoe;
     else if (sid == "shears")
         id = InventoryItem::ID::Shears;
+    else if (sid == "wheatseeds")
+        id = InventoryItem::ID::WheatSeeds;
+    else if (sid == "wheat")
+        id = InventoryItem::ID::Wheat;
     else
         printf("'%s' is not a valid item string id\n", sid.c_str());
 }
 
+// initialize with default values
 InventoryItem::InventoryItem() : id(ID::None), amount(0)
 {
 }
@@ -212,6 +217,11 @@ static glImage _sprWoodenHoe[1];
 static glImage _sprStoneHoe[1];
 static glImage _sprIronHoe[1];
 
+// farming stuff
+
+static glImage _sprWheatSeeds[1];
+static glImage _sprWheat[1];
+
 // dummy
 
 static glImage _sprDummy[1];
@@ -248,6 +258,9 @@ void InventoryItem::loadTextures(void)
     loadImageAlpha(_sprStoneHoe, 16, 16, stone_hoePal, stone_hoeBitmap);
     loadImageAlpha(_sprIronHoe, 16, 16, iron_hoePal, iron_hoeBitmap);
 
+    loadImageAlpha(_sprWheatSeeds, 16, 16, wheat_seedsPal, wheat_seedsBitmap);
+    loadImageAlpha(_sprWheat, 16, 16, wheatPal, wheatBitmap);
+
     loadImage(_sprDummy, 16, 16, dummyBitmap);
 }
 
@@ -281,6 +294,9 @@ void InventoryItem::unloadTextures(void)
     unloadImage(_sprWoodenHoe);
     unloadImage(_sprStoneHoe);
     unloadImage(_sprIronHoe);
+
+    unloadImage(_sprWheatSeeds);
+    unloadImage(_sprWheat);
 
     unloadImage(_sprDummy);
 }
@@ -497,6 +513,12 @@ std::string iidToString(InventoryItem::ID iid)
     case InventoryItem::ID::Shears:
         id = "shears";
         break;
+    case InventoryItem::ID::WheatSeeds:
+        id = "wheatseeds";
+        break;
+    case InventoryItem::ID::Wheat:
+        id = "wheat";
+        break;
     }
     return id;
 }
@@ -644,6 +666,10 @@ const char *getItemStr(Language lang, InventoryItem::ID iid)
             return "Iron Hoe";
         case InventoryItem::ID::Shears:
             return "Shears";
+        case InventoryItem::ID::WheatSeeds:
+            return "Wheat Seeds";
+        case InventoryItem::ID::Wheat:
+            return "Wheat";
         default:
             return "Error";
         }
@@ -787,6 +813,10 @@ const char *getItemStr(Language lang, InventoryItem::ID iid)
             return "Hgngjpb& oqu\"eb";
         case InventoryItem::ID::Shears:
             return "Oqipky\"";
+        case InventoryItem::ID::WheatSeeds:
+            return "Sgogpb r}gpky\"";
+        case InventoryItem::ID::Wheat:
+            return "Q}gpkyb";
         default:
             return "P}kcmb";
         }
@@ -863,7 +893,9 @@ static std::map<InventoryItem::ID, glImage *> _itemImages = {
     {InventoryItem::ID::IronIngot, _sprIronIngot},
     {InventoryItem::ID::IronNugget, _sprIronNugget},
     {InventoryItem::ID::StoneBricks, sprStoneBricks},
-    {InventoryItem::ID::Shears, _sprShears}
+    {InventoryItem::ID::Shears, _sprShears},
+    {InventoryItem::ID::WheatSeeds, _sprWheatSeeds},
+    {InventoryItem::ID::Wheat, _sprWheat}
 };
 
 glImage *getItemImage(InventoryItem::ID item)

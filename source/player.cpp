@@ -440,6 +440,7 @@ void Player::drawBody(const Camera &camera)
 
     // head rotates to a weird angle with certain values of aim y
     // and this fixes it (hopefully)
+    // TODO some angles are still glitched
     if (((aimY >= 97 && aimY <= 102) || aimY == 107) && facing == Facing::Right)
         glSprite(x - 2 - camera.x, y - 1 - camera.y, GL_FLIP_NONE, _sprPlayerHead);
     // otherwise just rotate like normal
@@ -612,6 +613,11 @@ void Player::drawHUD(const Camera &camera, Font &font)
         switch (currid)
         {
         // some special cases
+        case InventoryItem::ID::Grass2:
+            glColor(GrassBlock::COLOR_NORMAL);
+            glSprite(xx, yy, GL_FLIP_NONE, getItemImage(currid));
+            glColor(RGB13(31, 31, 31));
+            break;
         case InventoryItem::ID::Leaves:
             glColor(RGB15(0, 22, 0));
             glSprite(xx, yy, GL_FLIP_NONE, sprLeaves);
@@ -679,6 +685,11 @@ void Player::drawHUD(const Camera &camera, Font &font)
             switch (id)
             {
             // some special cases
+            case InventoryItem::ID::Grass2:
+                glColor(GrassBlock::COLOR_NORMAL);
+                glSpriteScale(xxItem + 4, yy + 4, HALF_SCALE, GL_FLIP_NONE, getItemImage(currid));
+                glColor(RGB13(31, 31, 31));
+                break;
             case InventoryItem::ID::Leaves:
                 glColor(RGB15(0, 22, 0));
                 glSpriteScale(xxItem + 4, yyItem + 4, HALF_SCALE, GL_FLIP_NONE, sprLeaves);
@@ -904,6 +915,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             }
                         }
                         // moving (different id)
+                        // TODO uhh is this right? I think there is supposed to be `else' here
                         {
                             inventory[inventoryMoveSelect] = {fromSelectItemID, fromSelectAmount};
                             inventory[inventorySelect] = {moveSelectItemID, moveSelectAmount};
@@ -1585,12 +1597,37 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                                                       snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             break;
+                        case InventoryItem::ID::WheatSeeds:
+                            canPlace = false;
+                            for (size_t i = 0; i < blocks->size(); ++i)
+                            {
+                                if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
+                                    blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_GRASS || blocks->at(i)->id() == BID_DIRT || blocks->at(i)->id() == BID_SNOWY_GRASS))
+                                {
+                                    // only place on dirt that is farmland
+                                    if (blocks->at(i)->id() == BID_DIRT && reinterpret_cast<DirtBlock *>(blocks->at(i).get())->isFarmland())
+                                        canPlace = true;
+                                }
+                            }
+                            if (canPlace)
+                            {
+                                // TODO change this to wheat block when i add it
+                                blocks->emplace_back(new Grass(snapToGrid(camera->x + aimX),
+                                                               snapToGrid(camera->y + aimY),
+                                                               GrassType::Normal));
+                                playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
+                            }
+                            break;
                         }
                         if (canPlace)
                         {
+                            // remove 1 of the item
                             --inventory[hotbarSelect].amount;
+
+                            // if amount is 0, set id to none
                             if (inventory[hotbarSelect].amount == 0)
                                 inventory[hotbarSelect].id = InventoryItem::ID::None;
+
                             statsSetEntry("blocksplaced", statsGetEntry("blocksplaced") + 1);
                         }
                         ret = UpdateResult::BlockPlaced;
@@ -2076,6 +2113,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             }
 
             // if we collide with sign, then we show its text
+            // TODO make this code not look intimidating
             if (block->id() == BID_SIGN)
                 reinterpret_cast<SignBlock *>(block.get())->showText = block->getRect().intersects(getRectBottom());
 
@@ -2284,6 +2322,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             velY = 0;
         }
 
+        // play ladder climb sound every 29 (for some reason) frames if climbing ladder
         if (collideLadder && frames % 29 == 0 && oldY != y)
             playsfx(4, &sndLadder1, &sndLadder2, &sndLadder3, &sndLadder4);
 
@@ -2306,6 +2345,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             if (kdown & KEY_RIGHT)
                 aimX += 16;
 
+            // snap aim to grid
             aimX = snapToGrid(aimX) + 8;
             aimY = snapToGrid(aimY) + 8;
         }
@@ -2324,6 +2364,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
         if ((right && left) || (!right && !left))
             velX = 0;
 
+        // aim out of bounds checking
         if (aimX < 0)
             aimX = 0;
         if (aimY < 0)
@@ -2334,14 +2375,16 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             aimY = SCREEN_HEIGHT;
     }
 
+    // die when fall under the world
+    // TODO instead of instakilling the player, we should decrement his health instead
     if (y > 860)
     {
-        // die when fall under the world
         health = -1;
         airY = 0;
         playsfx(3, &sndHit1, &sndHit2, &sndHit3);
     }
 
+    // animation
     if (moving(oldX) && !fullInventory && !inventoryCrafting && !chestOpen)
         bodySprite.update();
     else
@@ -2355,10 +2398,12 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
 
 bool Player::hasItem(InventoryItem item)
 {
+    // any planks handling
     if (item.id == InventoryItem::ID::AnyPlanks)
         return hasItem({InventoryItem::ID::Planks, item.amount}) ||
                hasItem({InventoryItem::ID::BirchPlanks, item.amount});
 
+    // go through every single item in inventory and check if we have that item
     for (u8 i = 0; i < 20; ++i)
     {
         if (inventory[i].id == item.id && inventory[i].amount >= item.amount)
@@ -2370,11 +2415,12 @@ bool Player::hasItem(InventoryItem item)
 // TODO add a return value to this function
 void Player::addItem(InventoryItem::ID item)
 {
+    // cant add any items if inventory is full
     if (isInventoryFull())
         return;
 
     u8 maxStack = 64;
-    if (isToolItem(item))
+    if (isToolItem(item)) // max stack for tool items (e.g. pickaxes, swords and such) is 1
         maxStack = 1;
 
     // find the stack (if item is stackable)
@@ -2409,15 +2455,19 @@ void Player::addItem(InventoryItem::ID item)
 
 void Player::addItem(InventoryItem::ID item, u8 amount)
 {
+    // cant add item if inventory is full
     if (isInventoryFull())
         return;
 
+    // execute addItem multiple times
+    // TODO i suspect there is a better way of doing this
     for (u8 _ = 0; _ < amount; ++_)
         addItem(item);
 }
 
 void Player::removeItem(InventoryItem::ID item)
 {
+    // remove ALL planks from inventory if removing AnyPlanks
     if (item == InventoryItem::ID::AnyPlanks)
     {
         if (hasItem({InventoryItem::ID::Planks, 1}))
@@ -2455,9 +2505,12 @@ void Player::removeItem(InventoryItem::ID item)
 
 void Player::removeItem(InventoryItem::ID item, u8 amount)
 {
+    // TODO again i suspect there is a better way than calling the remove item function multiple times
     for (u8 _ = 0; _ < amount; ++_)
         removeItem(item);
 }
+
+// setters (they are super boring)
 
 void Player::setX(s16 x)
 {
@@ -2497,17 +2550,20 @@ void Player::setHealth(s16 health)
 
 void Player::restoreHealth(void)
 {
-    health = 9;
+    health = 9; // TODO move 9 (full health) into constant
 }
 
 void Player::resetInventory(void)
 {
+    // initialize the inventory with default values
     for (u8 i = 0; i < 20; ++i)
         inventory[i] = InventoryItem();
 }
 
 void Player::reset(void)
 {
+    // reset everything
+
     restoreHealth();
     resetInventory();
     setX(0);
@@ -2532,6 +2588,7 @@ bool Player::dead(void)
 
 bool Player::isInventoryFull(void)
 {
+    // TODO this function does not work correctly with unstackable items. that's why i should add a function for getting max stack for item.
     for (u8 i = 0; i < 20; ++i)
         if (inventory[i].amount < 64)
             return false;
@@ -2546,15 +2603,20 @@ bool Player::canAddItem(InventoryItem::ID item)
 
     for (u8 i = 0; i < 20; ++i)
     {
+        // empty slot
         if (inventory[i].id == InventoryItem::ID::None && inventory[i].amount == 0)
             return true;
 
+        // not empty slot but it's the target item and the stack is not full
+        // TODO again this doesnt work with unstackable items
         if (inventory[i].id == item && inventory[i].amount < 64)
             return true;
     }
 
     return false;
 }
+
+// getters (also boring)
 
 bool Player::isInInventory(void)
 {
@@ -2600,17 +2662,20 @@ u16 Player::countItems(InventoryItem::ID item)
 {
     // special case for any planks
     // (we count all planks types)
-    // TODO put plank types into array or smth
+    // TODO put plank types into array or smth so that i dont have to go through each function that handles AnyPlanks and change it when i add new wood type
     if (item == InventoryItem::ID::AnyPlanks)
         return countItems(InventoryItem::ID::Planks) + countItems(InventoryItem::ID::BirchPlanks) +
                countItems(InventoryItem::ID::SprucePlanks);
 
     u16 count = 0;
     for (u8 i = 0; i < 20; ++i)
+        // if target item, add its amount
         if (inventory[i].id == item)
             count += inventory[i].amount;
     return count;
 }
+
+// hitboxes
 
 Rect Player::getRectBottom()
 {
@@ -2663,11 +2728,15 @@ void Player::initCrafting(void)
     std::string line;
     while (std::getline(craftingOrder, line))
     {
+        // this is here so that CRLF works ok
         if (line.find('\r') != std::string::npos)
             line.pop_back();
 
+        // ignore comments and empty lines
         if (line.empty() || line[0] == '#')
             continue;
+
+        // check if recipe actually exists
         if (!fsFileExists(std::string("nitro:/crafting/" + line + ".rcp").c_str()))
         {
             printf("warning: recipe '%s' doesn't exist skipping\n", line.c_str());
@@ -2682,6 +2751,8 @@ static bool _canCraft(Player *pThis, CraftingRecipe recipe)
     std::vector<InventoryItem> *rvec = recipe.getRecipe(); // recipe vector
     for (auto item : *rvec)
     {
+        // TODO think of better names for these variables
+
         u16 pcount = pThis->countItems(item.id); // player count (??????????????????????????????????????????????????????????????????????????)
         u8 rcount = item.amount;                 // recipe count
         if (pcount < rcount)
@@ -2699,15 +2770,18 @@ void Player::drawCrafting(Font &fontSmall, Font &fontSmallRu)
     for (size_t i = 0; i < numRecipes; ++i)
     {
         // calculate the position of the current slot
-        // 14 = num slots per row
+        // TODO move 16 and 60 either into constants or make them arguments
         u8 slotX = 16 + (i % RECIPES_PER_ROW) * 16;
         u8 slotY = 60 + (i / RECIPES_PER_ROW) * 16;
 
         CraftingRecipe recipe = _craftingRecipes[i];
 
         bool cc = _canCraft(this, recipe);
+
+        // if can't craft, make slot red
         if (!cc)
             glColor(RGB15(31, 0, 0));
+
         glSprite(slotX, slotY, GL_FLIP_NONE,
                  craftingSelect == i ? _sprInventorySlotSelect : _sprInventorySlot);
         glColor(RGB15(31, 31, 31));
@@ -2717,6 +2791,7 @@ void Player::drawCrafting(Font &fontSmall, Font &fontSmallRu)
         default:
             glSpriteScale(slotX + 4, slotY + 4, HALF_SCALE, GL_FLIP_NONE, getItemImage(recipe.getOutput()));
             break;
+        // special cases
         case InventoryItem::ID::Door:
             glSpriteScale(slotX + 4, slotY + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
             break;
@@ -2740,10 +2815,13 @@ void Player::drawCrafting(Font &fontSmall, Font &fontSmallRu)
             break;
         }
 
+        // draw number if the recipe outputs more than 1 item
         if (recipe.getCount() > 1)
             fontSmall.printfShadow(slotX, slotY + 3, "%d", recipe.getCount());
     }
 
+    // print recipe full name
+    // TODO again 16 and 35 are magic values
     CraftingRecipe recipe = _craftingRecipes[craftingSelect];
     switch (Game::instance->lang)
     {
@@ -2761,7 +2839,6 @@ void Player::updateCrafting(void)
     u32 kdown = keysDown();
     if (kdown & KEY_A)
     {
-        // when a is pressed, craft (if can)
         bool crafted = false;
 
         CraftingRecipe recipe = _craftingRecipes[craftingSelect];
@@ -2771,14 +2848,19 @@ void Player::updateCrafting(void)
         {
             crafted = true;
             addItem(recipe.getOutput(), recipe.getCount());
+
+            // remove the recipe ingredients
             std::vector<InventoryItem> *rvec = recipe.getRecipe();
             for (auto item : *rvec)
                 removeItem(item.id, item.amount);
         }
 
+        // play click sound if crafted successfully
         if (crafted)
             mmEffectEx(&Game::instance->sndClick);
     }
+
+    // moving selection
     if (kdown & KEY_LEFT)
     {
         if (craftingSelect - 1 < 0)
@@ -2793,7 +2875,7 @@ void Player::updateCrafting(void)
     }
     else if (kdown & KEY_DOWN)
     {
-        if ((std::vector<CraftingRecipe>::size_type)(craftingSelect + 14) <= _craftingRecipes.size() - 1)
+        if ((std::vector<CraftingRecipe>::size_type)(craftingSelect + RECIPES_PER_ROW) <= _craftingRecipes.size() - 1)
             craftingSelect += 14;
     }
     else if (kdown & KEY_UP)
@@ -2808,7 +2890,7 @@ void Player::jump(void)
     if (!jumping)
     {
         jumping = true;
-        velY = -4;
+        velY = -4; // TODO literally move jump speed into a constant
         statsSetEntry("timesjumped", statsGetEntry("timesjumped") + 1);
     }
 }

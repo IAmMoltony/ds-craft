@@ -79,6 +79,8 @@ public:
         StoneHoe,
         IronHoe,
         Shears,
+        WheatSeeds,
+        Wheat,
     };
 
     ID id;
