@@ -2118,10 +2118,17 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 }
             }
 
-            // if we collide with sign, then we show its text
-            // TODO make this code not look intimidating
             if (block->id() == BID_SIGN)
-                reinterpret_cast<SignBlock *>(block.get())->showText = block->getRect().intersects(getRectBottom());
+            {
+                // show text if bottom hitbox colliding with sign
+                bool shouldShowText = getRectBottom().intersects(block->getRect());
+
+                // get sign block
+                SignBlock *sign = reinterpret_cast<SignBlock *>(block.get());
+
+                // set sign's showText property
+                sign->showTest = shouldShowText;
+            }
 
             // if block isnt solid then skip it
             if (!block->solid())
