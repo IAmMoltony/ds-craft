@@ -1111,15 +1111,15 @@ void Game::draw(void)
             glColor(RGB15(0, 31, 0));
         switch (lang)
         {
-        case Language::English: // TODO change to printfCentered
+        case Language::English:
             if (SettingsManager::autoSaveSeconds)
-                font.printCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? std::string("> Auto save: every " + std::to_string(SettingsManager::autoSaveSeconds) + " seconds <") : std::string("Auto save: every " + std::to_string(SettingsManager::autoSaveSeconds) + " seconds"));
+                font.printfCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Auto save: every %d seconds <" : "Auto save: every %d seconds", SettingsManager::autoSaveSeconds);
             else
                 font.printCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Auto save off <" : "Auto save off");
             break;
         case Language::Russian:
             if (SettingsManager::autoSaveSeconds)
-                fontRu.printCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? std::string("> Aduq tqxsbpgpkg: mbif\"g " + std::to_string(SettingsManager::autoSaveSeconds) + " tgmvpf '") : std::string("Aduq tqxsbpgpkg: mbif\"g " + std::to_string(SettingsManager::autoSaveSeconds) + " tgmvpf"));
+                fontRu.printfCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Aduq tqxsbpgpkg: mbif\"g %d tgmvpf '" : "Aduq tqxsbpgpkg: mbif\"g %d tgmvpf", SettingsManager::autoSaveSeconds);
             else
                 fontRu.printCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Aduq tqxsbpgpkg d\"mn '" : "Aduq tqxsbpgpkg d\"mn");
             break;
