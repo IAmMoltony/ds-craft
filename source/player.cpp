@@ -2389,12 +2389,14 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
     }
 
     // die when fall under the world
-    // TODO instead of instakilling the player, we should decrement his health instead
     if (y > 860)
     {
-        health = -1;
+        if (Game::instance->getFrameCounter() % 40 == 0)
+        {
+            playsfx(3, &sndHit1, &sndHit2, &sndHit3);
+            --health;
+        }
         airY = 0;
-        playsfx(3, &sndHit1, &sndHit2, &sndHit3);
     }
 
     // animation
