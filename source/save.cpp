@@ -95,6 +95,21 @@ std::string getWorldVersion(const std::string &file)
     return gameVersion;
 }
 
+static std::string _grassTypeToString(GrassType type)
+{
+    std::string stringType; // string type
+    switch (grass->getType())
+    {
+    case GrassType::Normal:
+        stringType = "normal";
+        break;
+    case GrassType::Spruce:
+        stringType = "spruce";
+        break;
+    }
+    return stringType;
+}
+
 void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                Player &player, u64 seed, s16 currentLocation)
 {
@@ -199,18 +214,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         case BID_GRASS:
         {
             GrassBlock *grass = reinterpret_cast<GrassBlock *>(block.get());
-
-            // TODO move grass type to string into function
-            std::string stringType; // string type
-            switch (grass->getType())
-            {
-            case GrassType::Normal:
-                stringType = "normal";
-                break;
-            case GrassType::Spruce:
-                stringType = "spruce";
-                break;
-            }
+            std::string stringType = _grassTypeToString(grass->getType());
 
             wld << "grassblock " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << stringType + '\n';
             break;
@@ -229,17 +233,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         case BID_GRASS2:
         {
             Grass *grass = reinterpret_cast<Grass *>(block.get());
-
-            std::string stringType; // string type
-            switch (grass->getType())
-            {
-            case GrassType::Normal:
-                stringType = "normal";
-                break;
-            case GrassType::Spruce:
-                stringType = "spruce";
-                break;
-            }
+            std::string stringType = _grassTypeToString(grass->getType());
 
             wld << "grass " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << stringType << '\n';
             break;
