@@ -55,6 +55,8 @@ public:
     static void loadSounds(void);
     static void unloadSounds(void);
 
+    static inline constexpr float JUMP_SPEED = 4.0f;
+
     Player();
 
     // these are deleted because i will not use them

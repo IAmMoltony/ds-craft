@@ -2901,7 +2901,7 @@ void Player::jump(void)
     if (!jumping)
     {
         jumping = true;
-        velY = -4; // TODO literally move jump speed into a constant
+        velY = -JUMP_SPEED;
         statsSetEntry("timesjumped", statsGetEntry("timesjumped") + 1);
     }
 }
