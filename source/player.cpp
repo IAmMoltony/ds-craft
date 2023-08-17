@@ -1841,7 +1841,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             else
                             {
                                 // get seeds with 50% chance
-                                if (chance(50))
+                                if (randomChance(50))
                                     entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::WheatSeeds));
                             }
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
@@ -1880,7 +1880,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             if (l->isNatural())
                             {
                                 // get a sapling with 10% chance
-                                if (chance(10))
+                                if (randomChance(10))
                                 {
                                     switch (l->type)
                                     {
@@ -1896,7 +1896,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                     }
                                 }
                                 // get an apple with 8% chance
-                                if (chance(8))
+                                if (randomChance(8))
                                     entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Apple));
                             }
                             switch (l->type)

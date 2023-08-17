@@ -144,7 +144,7 @@ void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
         facing = facing == Facing::Right ? Facing::Left : Facing::Right;
 
     // jump randomly
-    if (chance(11))
+    if (randomChance(11))
     {
         if (!jumping)
         {
@@ -154,7 +154,7 @@ void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
     }
 
     // stop or start moving randomly
-    if (chance(3))
+    if (randomChance(3))
         moving = !moving;
 
     // always move if panic
@@ -218,7 +218,7 @@ void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
     }
 
     // randomly make sound
-    if (chance(1) && chance(51))
+    if (randomChance(1) && randomChance(51))
         playsfx(3, &sndPigSay1, &sndPigSay2, &sndPigSay3);
 }
 

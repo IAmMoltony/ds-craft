@@ -17,11 +17,6 @@ void playsfx(u8 count, ...)
     va_end(args);
 }
 
-bool chance(u8 percent)
-{
-    return rand() % 100 <= percent;
-}
-
 int snapToGrid(int x)
 {
     return round(x / 16) * 16;
