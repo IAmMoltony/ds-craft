@@ -616,7 +616,7 @@ void Player::drawHUD(const Camera &camera, Font &font)
         case InventoryItem::ID::Grass2:
             glColor(GrassBlock::COLOR_NORMAL);
             glSprite(xx, yy, GL_FLIP_NONE, getItemImage(currid));
-            glColor(RGB13(31, 31, 31));
+            glColor(RGB15(31, 31, 31));
             break;
         case InventoryItem::ID::Leaves:
             glColor(RGB15(0, 22, 0));
@@ -688,7 +688,7 @@ void Player::drawHUD(const Camera &camera, Font &font)
             case InventoryItem::ID::Grass2:
                 glColor(GrassBlock::COLOR_NORMAL);
                 glSpriteScale(xxItem + 4, yy + 4, HALF_SCALE, GL_FLIP_NONE, getItemImage(currid));
-                glColor(RGB13(31, 31, 31));
+                glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItem::ID::Leaves:
                 glColor(RGB15(0, 22, 0));
@@ -1837,6 +1837,12 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             {
                                 // get grass
                                 entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Grass2));
+                            }
+                            else
+                            {
+                                // get seeds with 50% chance
+                                if (chance(50))
+                                    entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::WheatSeeds));
                             }
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             _spawnBlockParticles(blockParticles, sprGrass2, block->x, block->y, GrassBlock::COLOR_NORMAL);
