@@ -2127,7 +2127,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 SignBlock *sign = reinterpret_cast<SignBlock *>(block.get());
 
                 // set sign's showText property
-                sign->showTest = shouldShowText;
+                sign->showText = shouldShowText;
             }
 
             // if block isnt solid then skip it
