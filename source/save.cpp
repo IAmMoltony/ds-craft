@@ -97,8 +97,8 @@ std::string getWorldVersion(const std::string &file)
 
 static std::string _grassTypeToString(GrassType type)
 {
-    std::string stringType; // string type
-    switch (grass->getType())
+    std::string stringType;
+    switch (type)
     {
     case GrassType::Normal:
         stringType = "normal";
