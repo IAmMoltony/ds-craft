@@ -515,7 +515,10 @@ void Game::draw(void)
     switch (gameState)
     {
     case GameState::Game:
-        glBoxFilledGradient(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(10, 17, 26), RGB15(15, 23, 31), RGB15(15, 23, 31), RGB15(10, 17, 26));
+        if (player.inVoid())
+            glBoxFilled(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(0, 0, 0));
+        else
+            glBoxFilledGradient(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(10, 17, 26), RGB15(15, 23, 31), RGB15(15, 23, 31), RGB15(10, 17, 26));
 
         // draw blocks
         for (auto &block : blocks)
