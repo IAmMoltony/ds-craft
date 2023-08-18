@@ -34,6 +34,12 @@ InventoryItem::InventoryItem(const std::string &stringID, u8 amount) : id(ID::No
         id = InventoryItem::ID::BirchWood;
     else if (sid == "sprucewood")
         id = InventoryItem::ID::SpruceWood;
+    else if (sid == "leaves")
+        id = InventoryItem::ID::Leaves;
+    else if (sid == "birchleaves")
+        id = InventoryItem::ID::BirchLeaves;
+    else if (sid == "spruceleaves")
+        id = InventoryItem::ID::SpruceLeaves;
     else if (sid == "sand")
         id = InventoryItem::ID::Sand;
     else if (sid == "sandstone")
@@ -46,6 +52,8 @@ InventoryItem::InventoryItem(const std::string &stringID, u8 amount) : id(ID::No
         id = InventoryItem::ID::Poppy;
     else if (sid == "dandelion")
         id = InventoryItem::ID::Dandelion;
+    else if (sid == "redtulip")
+        id = InventoryItem::ID::RedTulip;
     else if (sid == "door")
         id = InventoryItem::ID::Door;
     else if (sid == "birchdoor")
