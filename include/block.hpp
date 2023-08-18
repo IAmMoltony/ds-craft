@@ -530,6 +530,23 @@ SLAB_DECL(Cobblestone)
 SLAB_DECL(Birch)
 SLAB_DECL(Spruce)
 
+class WheatBlock : public Block
+{
+private:
+    u8 grow; // grow
+    u16 growInterval; // how many frames need to pass before next grow stage
+
+public:
+    WheatBlock(s16 x, s16 y);
+    WheatBlock(s16 x, s16 y, u8 grow);
+
+    void draw(Camera &camera) override;
+    u16 id(void) override;
+    Rect getRect(void) const override;
+    bool solid(void) override;
+    void grow(void);
+};
+
 void resetNextChestID(void);
 
 struct BlockCompareKey
