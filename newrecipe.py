@@ -105,6 +105,7 @@ def main():
         print("All done!")
         exit(0)
     os.rename(f"{argv[1]}.rcp", f"nitrofiles/crafting/{argv[1]}.rcp")
+    print("OK")
 
 
 if __name__ == "__main__":
