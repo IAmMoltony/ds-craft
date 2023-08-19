@@ -408,12 +408,8 @@ static void _argParseDirt(const std::vector<std::string> &split, s16 &x, s16 &y,
 
     // i dont know if this works but i think it does
 
-    if (split.size() == 4)
-        farmland = split[3] == "1";
-    else if (split.size() == 5)
-        path = split[4] == "1";
-    else
-        farmland = false;
+    farmland = split[3] == "1";
+    path = split[4] == "1";
 
     if (farmland && path)
         farmland = path = false;
