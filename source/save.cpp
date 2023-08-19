@@ -359,7 +359,7 @@ static void _argParseDoor(const std::vector<std::string> &split, s16 &x, s16 &y,
 {
     _argParseXY(split, x, y);
     open = split[3] == "1";
-    facing = split[4] == "1"; // TODO make facing have Facing type and not bool
+    facing = split[4] == "1";
 }
 
 static void _argParseTrapdoor(const std::vector<std::string> &split, s16 &x, s16 &y, bool &open)

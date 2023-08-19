@@ -457,7 +457,7 @@ public:
 class DoorBlock : public Block
 {
 private:
-    bool open, facing;
+    bool open, facing; // TODO make facing be Facing type
     DoorType type;
 
 public:
