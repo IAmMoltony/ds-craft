@@ -1910,8 +1910,6 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                 break;
                             }
 
-                            // TODO we shouldnt be able to get sapling if we cut leaves with shears
-
                             if (inventory[hotbarSelect].id == InventoryItem::ID::Shears)
                             {
                                 switch (l->type)
