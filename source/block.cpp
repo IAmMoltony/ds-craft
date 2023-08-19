@@ -841,6 +841,11 @@ bool WheatBlock::solid(void)
     return false;
 }
 
+Rect WheatBlock::getRect(void) const
+{
+    return Rect(x, y, 16, 16);
+}
+
 void WheatBlock::grow(void)
 {
     if (--growInterval == 0)

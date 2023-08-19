@@ -527,6 +527,8 @@ public:
     SlabID getSlabID(void) const;
 };
 
+// TODO make getRect have a default implementation because copy pasting the same function into every single block class with no difference (except when needed e.g. trapdoors, doors, slabs, ...) is BAD and i should have thought of this in the past, when i was designing the very foundation for this game. but it's NOT too late to change this!!
+
 SLAB_DECL(Oak)
 SLAB_DECL(Cobblestone)
 SLAB_DECL(Birch)
@@ -551,6 +553,7 @@ public:
     void draw(Camera &camera) override;
     u16 id(void) override;
     bool solid(void) override;
+    Rect getRect(void) const override;
     void grow(void);
     u8 getGrowStage(void);
 };

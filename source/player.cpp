@@ -1611,10 +1611,8 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             }
                             if (canPlace)
                             {
-                                // TODO change this to wheat block when i add it
-                                blocks->emplace_back(new Grass(snapToGrid(camera->x + aimX),
-                                                               snapToGrid(camera->y + aimY),
-                                                               GrassType::Normal));
+                                blocks->emplace_back(new WheatBlock(snapToGrid(camera->x + aimX),
+                                                                    snapToGrid(camera->y + aimY)));
                                 playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             }
                             break;
@@ -1628,7 +1626,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             if (inventory[hotbarSelect].amount == 0)
                                 inventory[hotbarSelect].id = InventoryItem::ID::None;
 
-                            statsSetEntry("blocksplaced", statsGetEntry("blocksplaced") + 1);
+                            statsSetEntry("blocksplaced", statsGetEntry("blocksplaced") + 1); // update stats
                         }
                         ret = UpdateResult::BlockPlaced;
                     }

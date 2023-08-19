@@ -1479,6 +1479,7 @@ void Game::update(void)
                 }
                 else if (block->id() == BID_SPRUCE_SAPLING)
                 {
+                    // TODO simplify conversion from block to sapling blocks
                     Block *b = block.get();
                     SpruceSaplingBlock *sapling = static_cast<SpruceSaplingBlock *>(b);
                     sapling->update();
@@ -1491,6 +1492,12 @@ void Game::update(void)
                         spawnTree(blocks, x, y + 16, TreeType::Spruce);
                         std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort blocks
                     }
+                }
+                else if (block->id() == BID_WHEAT)
+                {
+                    WheatBlock *wheat = reinterpret_cast<WheatBlock *>(block.get());
+                    // make wheat grow!!!
+                    wheat->grow();
                 }
                 // TODO there should be a function for updating sapling
             }
