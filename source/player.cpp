@@ -2111,7 +2111,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             {
                                 entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::WheatSeeds));
                                 entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Wheat));
-                            }
+                            } // TODO make some grit files symlinks because copypasting basically the same file but with different names is kinda bad tbh
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             _spawnBlockParticles(blockParticles, sprWheatBlock[reinterpret_cast<WheatBlock *>(block.get())->getGrowStage()], block->x, block->y);
                             break;
