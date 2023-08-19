@@ -31,12 +31,13 @@ std::string normalizeWorldFileName(const std::string &str)
                        return std::tolower(ch);
                    });
 
-    // done *insert like emoji*
     return wfn;
 }
 
 std::string getWorldFile(const std::string &name)
 {
+    // very simple. we normalize the world filename, turn it into world path and then
+    // if it's not found, we return "(NO WORLD FILE)"; else we return the path
     std::string fn = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(name);
     return fsFolderExists(fn.c_str()) ? fn : "(NO WORLD FILE)";
 }
@@ -49,6 +50,7 @@ std::string getWorldName(const std::string &file)
         std::string line;
         while (std::getline(wldMetaStream, line))
         {
+            // split the line
             std::stringstream ss(line);
             std::string line2;
             std::vector<std::string> split;
@@ -58,33 +60,39 @@ std::string getWorldName(const std::string &file)
             if (split[0] == "worldname")
             {
                 std::string worldName = "";
+
+                // get the world name from the split
                 for (size_t i = 1; i < split.size(); ++i)
                     worldName += split[i] + ' ';
-                worldName.pop_back();
+
+                worldName.pop_back(); // remove extra space
                 return worldName;
             }
         }
     }
-    return "\1\4\3\2"; // return a string that cant be entered by user (at least not normally)
+    return "\1\4\3\2"; // return a string that cant be entered by user (at least not normally) to signify error
 }
 
 std::string getWorldVersion(const std::string &file)
 {
+    // if the world doesn't exist or no meta file, return error version
     if (!fsFolderExists(std::string("fat:/dscraft_data/worlds/" + file).c_str()) ||
         !fsFileExists(std::string("fat:/dscraft_data/worlds/" + file + "/world.meta").c_str()))
-        return "alpha0.0.0"; // error ^-^
+        return "alpha0.0.0";
 
     std::ifstream wldMeta("fat:/dscraft_data/worlds/" + file + "/world.meta");
     std::string line;
-    std::string gameVersion = "alpha0.0.0";
+    std::string gameVersion = "alpha0.0.0"; // alpha0.0.0 by default (returned when gameversion not found in metafile)
     while (std::getline(wldMeta, line))
     {
+        // split
         std::stringstream ss(line);
         std::string line2;
         std::vector<std::string> split;
         while (std::getline(ss, line2, ' '))
             split.push_back(line2);
 
+        // gameversion field found
         if (split[0] == "gameversion")
         {
             gameVersion = split[1];
@@ -125,10 +133,14 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
     // create file
     fsCreateDir(worldFolder.c_str());
+
+    // create required files and directories
     fsCreateDir(std::string(worldFolder + "/locations").c_str());
     fsCreateDir(std::string(worldFolder + "/chests").c_str());
     fsCreateFile(std::string(worldFolder + "/world.meta").c_str());
     fsCreateFile(std::string(worldFolder + "/player.info").c_str());
+
+    // open current location file
     std::ofstream wld(worldFolder + "/locations/location" + std::to_string(currentLocation) + ".wld");
 
     // save blocks
@@ -153,6 +165,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                 wld << "spruce";
                 break;
             }
+            // TODO create functions for writing block to file (e.g. _writeGeneric, _writeDoor etc)
             wld << "door " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << std::to_string(door->isOpen()) << ' ' << std::to_string(door->getFacing()) << '\n';
             break;
         }
@@ -173,7 +186,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         // spruce trapdoor
         case BID_SPRUCE_TRAPDOOR:
         {
-            // TODO merge trapdoors
+            // TODO merge trapdoors into 1 (one) class kinda like leaves
             SpruceTrapdoorBlock *trapdoor = reinterpret_cast<SpruceTrapdoorBlock *>(block.get());
             wld << "sprucetrapdoor " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << std::to_string(trapdoor->isOpen()) << '\n';
             break;
@@ -260,6 +273,8 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         if (block->id() == BID_CHEST)
         {
             ChestBlock *chest = reinterpret_cast<ChestBlock *>(block.get());
+
+            // open chest file
             std::ofstream chestFile(worldFolder + "/chests/chest" + std::to_string(chest->getChestID()) + ".cst");
 
             // save position
@@ -271,7 +286,6 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                 chestFile << "chestitem " << std::to_string(i) << ' ' << iidToString(chestItems[i].id) << ' ' << std::to_string(chestItems[i].amount) << '\n';
 
             chestFile.close();
-            break;
         }
     }
 
