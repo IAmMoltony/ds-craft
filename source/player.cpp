@@ -181,7 +181,10 @@ static InventoryItem::ID _nonBlockItemIDs[] =
         InventoryItem::ID::StoneHoe,
         InventoryItem::ID::IronHoe,
         InventoryItem::ID::Shears,
+        InventoryItem::ID::Wheat,
 };
+
+// technically wheat seeds are a block item bc u can place them
 
 static InventoryItem::ID _toolItemIDs[] =
     {
@@ -220,6 +223,7 @@ static InventoryItem::ID _nonSolidBlockItemIDs[] =
         InventoryItem::ID::Ladder,
         InventoryItem::ID::Chest,
         InventoryItem::ID::Sign,
+        InventoryItem::ID::WheatSeeds,
 };
 
 static InventoryItem::ID _slabItemIDs[] =
