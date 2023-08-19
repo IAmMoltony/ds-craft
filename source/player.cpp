@@ -2105,6 +2105,16 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                             _spawnBlockParticles(blockParticles, sprStoneBricks, block->x, block->y);
                             break;
+                        case BID_WHEAT:
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::WheatSeeds));
+                            if (reinterpret_cast<WheatBlock *>(block.get())->fullyGrown())
+                            {
+                                entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::WheatSeeds));
+                                entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Wheat));
+                            }
+                            playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
+                            _spawnBlockParticles(blockParticles, sprWheatBlock[reinterpret_cast<WheatBlock *>(block.get())->getGrowStage()], block->x, block->y);
+                            break;
                         }
 
                         remove = true;
