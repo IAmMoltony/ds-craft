@@ -53,6 +53,7 @@
 #define BID_IRON_BLOCK 43
 #define BID_STONE_BRICKS 44
 #define BID_GRASS2 45
+#define BID_WHEAT 46
 
 enum class SlabID
 {
@@ -332,6 +333,7 @@ extern glImage sprLadder[1];
 extern glImage sprChest[1];
 extern glImage sprSign[1];
 extern glImage sprStoneBricks[1];
+extern glImage sprWheatBlock[8][1];
 
 // generic block declarations
 
@@ -533,18 +535,24 @@ SLAB_DECL(Spruce)
 class WheatBlock : public Block
 {
 private:
-    u8 grow; // grow
+    u8 growStage;
     u16 growInterval; // how many frames need to pass before next grow stage
+
+    static inline constexpr u16 GROW_INTERVAL_MIN = 1700;
+    static inline constexpr u16 GROW_INTERVAL_MAX = 2500;
+    static inline constexpr u8 MAX_GROW_STAGE = 7;
+
+    void setGrowInterval(void);
 
 public:
     WheatBlock(s16 x, s16 y);
-    WheatBlock(s16 x, s16 y, u8 grow);
+    WheatBlock(s16 x, s16 y, u8 growStage);
 
     void draw(Camera &camera) override;
     u16 id(void) override;
-    Rect getRect(void) const override;
     bool solid(void) override;
     void grow(void);
+    u8 getGrowStage(void);
 };
 
 void resetNextChestID(void);

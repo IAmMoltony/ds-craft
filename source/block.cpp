@@ -45,7 +45,9 @@ glImage sprSign[1];
 glImage sprIronOre[1];
 glImage sprIronBlock[1];
 glImage sprStoneBricks[1];
+glImage sprWheatBlock[8][1];
 
+// TODO these are suposed to be static!!!
 glImage sprBlockBreak[10][1];
 glImage sprGrassOverlay[1];
 
@@ -95,6 +97,15 @@ void Block::loadTextures(void)
     loadImageAlpha(sprOakTrapdoor, 16, 16, oak_trapdoorPal, oak_trapdoorBitmap);
     loadImageAlpha(sprLadder, 16, 16, ladderPal, ladderBitmap);
     loadImageAlpha(sprSign, 16, 16, signPal, signBitmap);
+
+    loadImageAlpha(sprWheatBlock[0], 16, 16, wheat_stage0Pal, wheat_stage0Bitmap);
+    loadImageAlpha(sprWheatBlock[1], 16, 16, wheat_stage1Pal, wheat_stage1Bitmap);
+    loadImageAlpha(sprWheatBlock[2], 16, 16, wheat_stage2Pal, wheat_stage2Bitmap);
+    loadImageAlpha(sprWheatBlock[3], 16, 16, wheat_stage3Pal, wheat_stage3Bitmap);
+    loadImageAlpha(sprWheatBlock[4], 16, 16, wheat_stage4Pal, wheat_stage4Bitmap);
+    loadImageAlpha(sprWheatBlock[5], 16, 16, wheat_stage5Pal, wheat_stage5Bitmap);
+    loadImageAlpha(sprWheatBlock[6], 16, 16, wheat_stage6Pal, wheat_stage6Bitmap);
+    loadImageAlpha(sprWheatBlock[7], 16, 16, wheat_stage7Pal, wheat_stage7Bitmap);
 
     loadImageAlpha(sprBlockBreak[0], 16, 16, destroy_stage_0Pal, destroy_stage_0Bitmap);
     loadImageAlpha(sprBlockBreak[1], 16, 16, destroy_stage_1Pal, destroy_stage_1Bitmap);
@@ -165,16 +176,12 @@ void Block::unloadTextures(void)
     unloadImage(sprIronOre);
     unloadImage(sprIronBlock);
     unloadImage(sprStoneBricks);
-    unloadImage(sprBlockBreak[0]);
-    unloadImage(sprBlockBreak[1]);
-    unloadImage(sprBlockBreak[2]);
-    unloadImage(sprBlockBreak[3]);
-    unloadImage(sprBlockBreak[4]);
-    unloadImage(sprBlockBreak[5]);
-    unloadImage(sprBlockBreak[6]);
-    unloadImage(sprBlockBreak[7]);
-    unloadImage(sprBlockBreak[8]);
-    unloadImage(sprBlockBreak[9]);
+
+    for (u8 i = 0; i < 10; ++i)
+        unloadImage(sprBlockBreak[i]);
+    for (u8 i = 0; i < 8; ++i)
+        unloadImage(sprWheatBlock[i]);
+
     unloadImage(sprGrassOverlay);
 }
 
@@ -804,37 +811,49 @@ SLAB_IMPL(Spruce, sprSprucePlanks, BID_SPRUCE_SLAB, 6)
 
 //----------------------------------------
 
-WheatBlock(s16 x, s16 y)
+void WheatBlock::setGrowInterval(void)
 {
-
+    growInterval = randomRange(GROW_INTERVAL_MIN, GROW_INTERVAL_MAX);
 }
 
-WheatBlock(s16 x, s16 y, u8 grow)
+WheatBlock::WheatBlock(s16 x, s16 y) : Block(x, y, 1), growStage(0), growInterval(0)
 {
-
+    setGrowInterval();
 }
 
-void draw(Camera &camera)
+WheatBlock::WheatBlock(s16 x, s16 y, u8 growStage) : Block(x, y, 1), growStage(growStage), growInterval(0)
 {
-
+    setGrowInterval();
 }
 
-u16 id(void)
+void WheatBlock::draw(Camera &camera)
 {
-
+    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprWheatBlock[growStage]);
 }
 
-Rect getRect(void) const
+u16 WheatBlock::id(void)
 {
-
+    return BID_WHEAT;
 }
 
-bool solid(void)
+bool WheatBlock::solid(void)
 {
-
+    return false;
 }
 
-void grow(void)
+void WheatBlock::grow(void)
 {
+    if (--growInterval == 0)
+    {
+        setGrowInterval(); // randomize grow interval
 
+        // next stage
+        if (++growStage > MAX_GROW_STAGE)
+            growStage = MAX_GROW_STAGE; // prevent grow being over max grow level
+    }
+}
+
+u8 WheatBlock::getGrowStage(void)
+{
+    return growStage;
 }
