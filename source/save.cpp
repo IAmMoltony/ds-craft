@@ -255,7 +255,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         case BID_WHEAT:
         {
             WheatBlock *wheat = reinterpret_cast<WheatBlock *>(block.get());
-            wld << "wheat " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << wheat->getGrowStage() << '\n';
+            wld << "wheat " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << std::to_string(wheat->getGrowStage()) << '\n';
             break;
         }
         // every other block
@@ -785,14 +785,18 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
 void renameWorld(const std::string &oldName, const std::string &newName)
 {
+    // check if exist
     const std::string oldNameNormalized = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(oldName);
     if (!fsFolderExists(oldNameNormalized.c_str()))
         return;
 
+    // read metafile
     std::string wldMeta = std::string(fsReadFile(std::string(oldNameNormalized + "/world.meta").c_str()));
+
     size_t worldnamePos = wldMeta.find("worldname ");
     if (worldnamePos != std::string::npos)
     {
+        // i have NO idea what this is doing
         size_t lineEnd = wldMeta.find('\n', worldnamePos);
         if (lineEnd == std::string::npos)
             lineEnd = wldMeta.size();
@@ -801,5 +805,6 @@ void renameWorld(const std::string &oldName, const std::string &newName)
         wldMeta.replace(worldnamePos + 10, lineEnd - (worldnamePos + 10), newName);
     }
 
+    // put new world.meta back
     fsWrite(std::string(oldNameNormalized + "/world.meta").c_str(), wldMeta.c_str());
 }
