@@ -862,3 +862,8 @@ u8 WheatBlock::getGrowStage(void)
 {
     return growStage;
 }
+
+bool WheatBlock::fullyGrown(void)
+{
+    return growStage >= MAX_GROW_STAGE;
+}

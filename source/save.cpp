@@ -251,6 +251,13 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             wld << "grass " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << stringType << '\n';
             break;
         }
+        // wheat
+        case BID_WHEAT:
+        {
+            WheatBlock *wheat = reinterpret_cast<WheatBlock *>(block.get());
+            wld << "wheat " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << wheat->getGrowStage() << '\n';
+            break;
+        }
         // every other block
         default:
             wld << "block " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << std::to_string(id) << '\n';
@@ -272,6 +279,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     {
         if (block->id() == BID_CHEST)
         {
+            // convert block to chest
             ChestBlock *chest = reinterpret_cast<ChestBlock *>(block.get());
 
             // open chest file
@@ -298,6 +306,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     std::ofstream playerinfo(worldFolder + "/player.info");
     playerinfo << "position " << player.getX() << ' ' << player.getY() << "\nspawnpoint " << player.getSpawnX() << ' ' << player.getSpawnY() << "\nhealth " << player.getHealth() << '\n';
     std::array<InventoryItem, 20> playerInventory = player.getInventory();
+
     // save inventory
     for (u8 i = 0; i < 20; ++i)
         playerinfo << "inventory " << std::to_string(i) << ' ' << iidToString(playerInventory[i].id) << ' ' << std::to_string(playerInventory[i].amount) << '\n';
@@ -305,6 +314,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
     randomSetSeed(seed);
 
+    // save stats
     statsSetWorld(name);
     statsSave();
 }
@@ -312,6 +322,8 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 unsigned int getWorldSeed(const std::string &file)
 {
     std::string worldFolder = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(file);
+
+    // check if the world like actually exists
     if (!fsFolderExists(worldFolder.c_str()))
         return 0;
 
@@ -319,21 +331,26 @@ unsigned int getWorldSeed(const std::string &file)
     std::string line;
     while (std::getline(wldMeta, line))
     {
+        // split line
         std::string line2;
         std::stringstream lineStream(line);
         std::vector<std::string> split;
         while (std::getline(lineStream, line2, ' '))
             split.push_back(line2);
 
+        // seed found
         if (split[0] == "seed")
             return std::stoi(split[1]);
     }
 
+    // 0 = fallback
     return 0;
 }
 
 static void _argParseXY(const std::vector<std::string> &split, s16 &x, s16 &y)
 {
+    // trivially obvious function
+
     x = std::stoi(split[1]);
     y = std::stoi(split[2]);
 }
@@ -342,7 +359,7 @@ static void _argParseDoor(const std::vector<std::string> &split, s16 &x, s16 &y,
 {
     _argParseXY(split, x, y);
     open = split[3] == "1";
-    facing = split[4] == "1"; // why is this a bool
+    facing = split[4] == "1"; // TODO make facing have Facing type and not bool
 }
 
 static void _argParseTrapdoor(const std::vector<std::string> &split, s16 &x, s16 &y, bool &open)
@@ -355,13 +372,16 @@ static void _argParseSign(const std::vector<std::string> &split, s16 &x, s16 &y,
 {
     _argParseXY(split, x, y);
 
+    // TODO is there literally any reason that this is implemented as an ostringstream being converted to a string???
+
     std::ostringstream oss;
 
     for (size_t i = 3; i < split.size(); ++i)
-        oss << split[i] << " ";
+        oss << split[i] << ' ';
 
     text = oss.str();
 
+    // remove last space if needed
     if (!text.empty())
         text.pop_back();
 }
@@ -386,6 +406,8 @@ static void _argParseDirt(const std::vector<std::string> &split, s16 &x, s16 &y,
 {
     _argParseXY(split, x, y);
 
+    // i dont know if this works but i think it does
+
     if (split.size() == 4)
         farmland = split[3] == "1";
     else if (split.size() == 5)
@@ -395,6 +417,15 @@ static void _argParseDirt(const std::vector<std::string> &split, s16 &x, s16 &y,
 
     if (farmland && path)
         farmland = path = false;
+}
+
+// TODO define a type for std::vector<std::string>
+
+static void _argParseWheat(const std::vector<std::string> &split, s16 &x, s16 &y, u8 &growStage)
+{
+    _argParseXY(split, x, y);
+
+    growStage = std::stoi(split[3]);
 }
 
 void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
@@ -417,10 +448,11 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     }
 
     std::ifstream wldMeta(worldFolder + "/world.meta");
-    std::string wldmline;
+    std::string wldmline; // TODO rename to wldMetaLine
     bool setLoc = false;
     while (std::getline(wldMeta, wldmline))
     {
+        // split line
         std::stringstream ss(wldmline);
         std::string line2;
         std::vector<std::string> split;
@@ -434,7 +466,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         }
     }
     if (!setLoc)
-        currentLocation = 0;
+        currentLocation = 0; // default location is 0
 
     std::ifstream wld(worldFolder + "/locations/location" + std::to_string(currentLocation) + ".wld");
     std::string line;
@@ -495,7 +527,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
             blocks.emplace_back(new SpruceTrapdoorBlock(x, y, open));
         }
-        else if (split[0] == "sign")
+        else if (split[0] == "sign") // sign <x> <y> <text separated by spaces>
         {
             s16 x = 0, y = 0;
             std::string text = "";
@@ -528,8 +560,17 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
             blocks.emplace_back(new DirtBlock(x, y, farmland, path));
         }
+        else if (split[0] == "wheat") // wheat <x> <y> <grow stage>
+        {
+            s16 x = 0, y = 0;
+            u8 growStage = 0;
+            _argParseWheat(split, x, y, growStage);
+
+            blocks.emplace_back(new WheatBlock(x, y, growStage));
+        }
         else if (split[0] == "block") // block <x> <y> <id>
         {
+            //extract X, Y AND ID
             s16 x = std::stoi(split[1]);
             s16 y = std::stoi(split[2]);
             u16 id = std::stoi(split[3]);

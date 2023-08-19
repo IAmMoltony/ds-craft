@@ -556,6 +556,7 @@ public:
     Rect getRect(void) const override;
     void grow(void);
     u8 getGrowStage(void);
+    bool fullyGrown(void);
 };
 
 void resetNextChestID(void);
