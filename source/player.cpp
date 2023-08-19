@@ -182,6 +182,7 @@ static InventoryItem::ID _nonBlockItemIDs[] =
         InventoryItem::ID::IronHoe,
         InventoryItem::ID::Shears,
         InventoryItem::ID::Wheat,
+        InventoryItem::ID::Bread,
 };
 
 // technically wheat seeds are a block item bc u can place them
