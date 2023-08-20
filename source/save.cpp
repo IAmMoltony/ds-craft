@@ -118,6 +118,20 @@ static std::string _grassTypeToString(GrassType type)
     return stringType;
 }
 
+static void _writeDoor(std::ofstream &wld, DoorBlock *door)
+{
+    switch (id)
+    {
+    case BID_BIRCH_DOOR:
+        wld << "birch";
+        break;
+    case BID_SPRUCE_DOOR:
+        wld << "spruce";
+        break;
+    }
+    wld << "door " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << std::to_string(door->isOpen()) << ' ' << std::to_string(door->getFacing()) << '\n';
+}
+
 void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                Player &player, u64 seed, s16 currentLocation)
 {
@@ -156,17 +170,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         case BID_SPRUCE_DOOR:
         {
             DoorBlock *door = reinterpret_cast<DoorBlock *>(block.get());
-            switch (id)
-            {
-            case BID_BIRCH_DOOR:
-                wld << "birch";
-                break;
-            case BID_SPRUCE_DOOR:
-                wld << "spruce";
-                break;
-            }
-            // TODO create functions for writing block to file (e.g. _writeGeneric, _writeDoor etc)
-            wld << "door " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << std::to_string(door->isOpen()) << ' ' << std::to_string(door->getFacing()) << '\n';
+            _writeDoor(wld, door);
             break;
         }
         // oak trapdoor
