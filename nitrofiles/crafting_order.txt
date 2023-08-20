@@ -43,6 +43,7 @@ iron_block
 
 # food
 cooked_porkchop
+bread
 
 # tools
 

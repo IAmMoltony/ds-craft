@@ -418,6 +418,7 @@ void Player::draw(const Camera &camera, Font &font, Font &fontRu)
     else
         drawHUD(camera, font);
 
+    // TODO make a define for enabling/disabling drawing hitboxes
     // getRectBottom().draw(camera, RGB15(31, 0, 0));
     // getRectTop().draw(camera, RGB15(0, 31, 0));
     // getRectLeft().draw(camera, RGB15(0, 0, 31));
@@ -1008,10 +1009,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             u8 select = chestSelect - selectOffset;
             u8 maxItems = (selectOffset == 0) ? 10 : 20;
 
-            // these if statements check if a direction is pressed
-            // and if yes move cursor to that direction
-            // but also check if we are on boundaries
-            // and if we are then dont move
+            // moving around in inventory
             if (left)
             {
                 if (select - 1 >= 0)
@@ -1152,6 +1150,8 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             // then use it
 
             InventoryItem::ID itemid = inventory[hotbarSelect].id;
+            // TODO remove copypasting from eating food
+            // what i can do is have item ids and how much health they give to an array
             switch (itemid)
             {
             case InventoryItem::ID::RawPorkchop:
@@ -1173,6 +1173,13 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 {
                     _eatFood(&health, 2);
                     removeItem(InventoryItem::ID::Apple);
+                }
+                break;
+            case InventoryItem::ID::Bread:
+                if (health != 9)
+                {
+                    _eatFood(&health, 5);
+                    removeItem(InventoryItem::ID::Bread);
                 }
                 break;
             // block placing
@@ -1205,6 +1212,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             }
                             else if ((block->id() == BID_GRASS || block->id() == BID_SNOWY_GRASS))
                             {
+                                // turn into farmland
                                 if (itemid == InventoryItem::ID::WoodenHoe || itemid == InventoryItem::ID::StoneHoe || itemid == InventoryItem::ID::IronHoe || itemid == InventoryItem::ID::WoodenShovel || itemid == InventoryItem::ID::StoneShovel || itemid == InventoryItem::ID::IronShovel)
                                 {
                                     replaceBlock(*blocks, block.get(), std::make_unique<DirtBlock>(block->x, block->y));

@@ -159,7 +159,9 @@ InventoryItem::InventoryItem(const std::string &stringID, u8 amount) : id(ID::No
     else if (sid == "wheatseeds")
         id = InventoryItem::ID::WheatSeeds;
     else if (sid == "wheat")
-        id = InventoryItem::ID::Wheat;
+        id = InventoryItem::ID::Wheat; // TODO InventoryItem::ID -> ID (in this function it'd be obvious)
+    else if (sid == "bread")
+        id = InventoryItem::ID::Bread;
     else
         printf("'%s' is not a valid item string id\n", sid.c_str());
 }
@@ -194,6 +196,7 @@ static glImage _sprShears[1];
 static glImage _sprRawPorkchop[1];
 static glImage _sprCookedPorkchop[1];
 static glImage _sprApple[1];
+static glImage _sprBread[1];
 
 // pickaxes
 
@@ -245,6 +248,7 @@ void InventoryItem::loadTextures(void)
     loadImageAlpha(_sprRawPorkchop, 16, 16, porkchopPal, porkchopBitmap);
     loadImageAlpha(_sprCookedPorkchop, 16, 16, cooked_porkchopPal, cooked_porkchopBitmap);
     loadImageAlpha(_sprApple, 16, 16, applePal, appleBitmap);
+    loadImageAlpha(_sprBread, 16, 16, breadPal, breadBitmap);
 
     loadImageAlpha(_sprWoodenPickaxe, 16, 16, wooden_pickaxePal, wooden_pickaxeBitmap);
     loadImageAlpha(_sprStonePickaxe, 16, 16, stone_pickaxePal, stone_pickaxeBitmap);
@@ -283,6 +287,7 @@ void InventoryItem::unloadTextures(void)
     unloadImage(_sprRawPorkchop);
     unloadImage(_sprCookedPorkchop);
     unloadImage(_sprApple);
+    unloadImage(_sprBread);
 
     unloadImage(_sprWoodenPickaxe);
     unloadImage(_sprStonePickaxe);
@@ -527,6 +532,9 @@ std::string iidToString(InventoryItem::ID iid)
     case InventoryItem::ID::Wheat:
         id = "wheat";
         break;
+    case InventoryItem::ID::Bread:
+        id = "bread";
+        break;
     }
     return id;
 }
@@ -678,6 +686,8 @@ const char *getItemStr(Language lang, InventoryItem::ID iid)
             return "Wheat Seeds";
         case InventoryItem::ID::Wheat:
             return "Wheat";
+        case InventoryItem::ID::Bread:
+            return "Bread";
         default:
             return "Error";
         }
@@ -825,6 +835,8 @@ const char *getItemStr(Language lang, InventoryItem::ID iid)
             return "Sgogpb r}gpky\"";
         case InventoryItem::ID::Wheat:
             return "Q}gpkyb";
+        case InventoryItem::ID::Bread:
+            return "Wngc";
         default:
             return "P}kcmb";
         }
@@ -903,7 +915,8 @@ static std::map<InventoryItem::ID, glImage *> _itemImages = {
     {InventoryItem::ID::StoneBricks, sprStoneBricks},
     {InventoryItem::ID::Shears, _sprShears},
     {InventoryItem::ID::WheatSeeds, _sprWheatSeeds},
-    {InventoryItem::ID::Wheat, _sprWheat}
+    {InventoryItem::ID::Wheat, _sprWheat},
+    {InventoryItem::ID::Bread, _sprBread}
 };
 
 glImage *getItemImage(InventoryItem::ID item)

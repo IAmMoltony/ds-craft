@@ -81,6 +81,7 @@ public:
         Shears,
         WheatSeeds,
         Wheat,
+        Bread,
     };
 
     ID id;
