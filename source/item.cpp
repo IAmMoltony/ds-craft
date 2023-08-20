@@ -162,6 +162,8 @@ InventoryItem::InventoryItem(const std::string &stringID, u8 amount) : id(ID::No
         id = InventoryItem::ID::Wheat; // TODO InventoryItem::ID -> ID (in this function it'd be obvious)
     else if (sid == "bread")
         id = InventoryItem::ID::Bread;
+    else if (sid == "haybale")
+        id = InventoryItem::ID::HayBale;
     else
         printf("'%s' is not a valid item string id\n", sid.c_str());
 }
