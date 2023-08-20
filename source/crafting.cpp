@@ -3,6 +3,7 @@
 #include <sstream>
 #include <iterator>
 #include "util.h"
+#include "save.hpp"
 
 void CraftingRecipe::construct(const char *recipeFile)
 {
