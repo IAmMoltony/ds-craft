@@ -535,6 +535,9 @@ std::string iidToString(InventoryItem::ID iid)
     case InventoryItem::ID::Bread:
         id = "bread";
         break;
+    case InventoryItem::ID::HayBale:
+        id = "haybale";
+        break;
     }
     return id;
 }
@@ -688,6 +691,8 @@ const char *getItemStr(Language lang, InventoryItem::ID iid)
             return "Wheat";
         case InventoryItem::ID::Bread:
             return "Bread";
+        case InventoryItem::ID::HayBale:
+            return "Hay Bale";
         default:
             return "Error";
         }
@@ -837,6 +842,8 @@ const char *getItemStr(Language lang, InventoryItem::ID iid)
             return "Q}gpkyb";
         case InventoryItem::ID::Bread:
             return "Wngc";
+        case InventoryItem::ID::HayBale:
+            return "Spqr tgpb";
         default:
             return "P}kcmb";
         }
@@ -916,7 +923,8 @@ static std::map<InventoryItem::ID, glImage *> _itemImages = {
     {InventoryItem::ID::Shears, _sprShears},
     {InventoryItem::ID::WheatSeeds, _sprWheatSeeds},
     {InventoryItem::ID::Wheat, _sprWheat},
-    {InventoryItem::ID::Bread, _sprBread}
+    {InventoryItem::ID::Bread, _sprBread},
+    {InventoryItem::ID::HayBale, sprHayBale}
 };
 
 glImage *getItemImage(InventoryItem::ID item)

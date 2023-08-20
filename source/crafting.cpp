@@ -6,6 +6,8 @@
 
 void CraftingRecipe::construct(const char *recipeFile)
 {
+    // TODO optimize this function
+
     std::string path = "nitro:/crafting/" + std::string(recipeFile) + ".rcp";
     fileName = recipeFile;
 

@@ -34,7 +34,7 @@ public:
         Planks,
         BirchPlanks,
         SprucePlanks,
-        AnyPlanks,
+        AnyPlanks, // not a real item, only used in crafting
         Stick,
         SnowyGrass,
         Sapling,
@@ -82,6 +82,7 @@ public:
         WheatSeeds,
         Wheat,
         Bread,
+        HayBale,
     };
 
     ID id;

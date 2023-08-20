@@ -1629,6 +1629,11 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                 playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             }
                             break;
+                        case InventoryItem::ID::HayBale:
+                            blocks->emplace_back(new HayBaleBlock(snapToGrid(camera->x + aimX),
+                                                                  snapToGrid(camera->y + aimY)));
+                            playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
+                            break;
                         }
                         if (canPlace)
                         {
@@ -2126,6 +2131,11 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             _spawnBlockParticles(blockParticles, sprWheatBlock[reinterpret_cast<WheatBlock *>(block.get())->getGrowStage()], block->x, block->y);
                             break;
+                        case BID_HAY_BALE:
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::HayBale));
+                            playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
+                            _spawnBlockParticles(blockParticles, sprHayBale, block->x, block->y);
+                            break;
                         }
 
                         remove = true;
@@ -2215,6 +2225,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     switch (id)
                     {
                     case BID_GRASS:
+                    case BID_HAY_BALE:
                         playsfx(4, &sndStepGrass1, &sndStepGrass2, &sndStepGrass3, &sndStepGrass4);
                         break;
                     case BID_DIRT:

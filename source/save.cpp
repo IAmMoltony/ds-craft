@@ -718,6 +718,9 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
             case BID_STONE_BRICKS:
                 blocks.emplace_back(new StoneBricksBlock(x, y));
                 break;
+            case BID_HAY_BALE:
+                blocks.emplace_back(new HayBaleBlock(x, y));
+                break;
             }
         }
         else if (split[0] == "entity") // entity <x> <y> <id>

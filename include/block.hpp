@@ -54,6 +54,7 @@
 #define BID_STONE_BRICKS 44
 #define BID_GRASS2 45
 #define BID_WHEAT 46
+#define BID_HAY_BALE 47
 
 enum class SlabID
 {
@@ -334,6 +335,7 @@ extern glImage sprChest[1];
 extern glImage sprSign[1];
 extern glImage sprStoneBricks[1];
 extern glImage sprWheatBlock[8][1];
+extern glImage sprHayBale[1];
 
 // generic block declarations
 
@@ -358,6 +360,7 @@ GENERIC_BLOCK_DECL(IronBlock)
 GENERIC_BLOCK_DECL(GlassBlock)
 GENERIC_BLOCK_DECL(LadderBlock)
 GENERIC_BLOCK_DECL(StoneBricksBlock)
+GENERIC_BLOCK_DECL(HayBaleBlock)
 
 SAPLING_DECL()
 SAPLING_DECL(Birch)

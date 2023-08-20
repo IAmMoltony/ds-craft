@@ -46,6 +46,7 @@ glImage sprIronOre[1];
 glImage sprIronBlock[1];
 glImage sprStoneBricks[1];
 glImage sprWheatBlock[8][1];
+glImage sprHayBale[1];
 
 // TODO these are suposed to be static!!!
 glImage sprBlockBreak[10][1];
@@ -80,6 +81,7 @@ void Block::loadTextures(void)
     loadImage(sprIronOre, 16, 16, iron_oreBitmap);
     loadImage(sprIronBlock, 16, 16, iron_blockBitmap);
     loadImage(sprStoneBricks, 16, 16, stone_bricksBitmap);
+    loadImage(sprHayBale, 16, 16, hay_baleBitmap);
 
     loadImageAlpha(sprGrass2, 16, 16, grass2Pal, grass2Bitmap);
     loadImageAlpha(sprCactus, 16, 16, cactus_sidePal, cactus_sideBitmap);
@@ -176,6 +178,7 @@ void Block::unloadTextures(void)
     unloadImage(sprIronOre);
     unloadImage(sprIronBlock);
     unloadImage(sprStoneBricks);
+    unloadImage(sprHayBale);
 
     for (u8 i = 0; i < 10; ++i)
         unloadImage(sprBlockBreak[i]);
@@ -273,6 +276,7 @@ GENERIC_BLOCK_IMPL(CoalBlock, sprCoalBlock, BID_COAL_BLOCK, 18, true)
 GENERIC_BLOCK_IMPL(IronOreBlock, sprIronOre, BID_IRON_ORE, 20, true)
 GENERIC_BLOCK_IMPL(IronBlock, sprIronBlock, BID_IRON_BLOCK, 20, true)
 GENERIC_BLOCK_IMPL(StoneBricksBlock, sprStoneBricks, BID_STONE_BRICKS, 16, true)
+GENERIC_BLOCK_IMPL(HayBaleBlock, sprHayBale, BID_HAY_BALE, 7, true)
 
 // not solid blocks
 GENERIC_BLOCK_IMPL(WoodBlock, sprWood, BID_WOOD, 7, false)
