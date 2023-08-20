@@ -132,6 +132,45 @@ static void _writeDoor(std::ofstream &wld, DoorBlock *door)
     wld << "door " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << std::to_string(door->isOpen()) << ' ' << std::to_string(door->getFacing()) << '\n';
 }
 
+static void _writeLeaves(std::ofstream &wld, LeavesBlock *leaves)
+{
+    std::string lid = "";
+
+    switch (leaves->type)
+    {
+    case LeavesType::Oak:
+        lid = std::to_string(BID_LEAVES);
+        break;
+    case LeavesType::Birch:
+        lid = std::to_string(BID_BIRCH_LEAVES);
+        break;
+    case LeavesType::Spruce:
+        lid = std::to_string(BID_SPRUCE_LEAVES);
+        break;
+    }
+
+    wld << "block " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << lid << '\n';
+}
+
+static void _writeSign(std::ofstream &wld, SignBlock *sign)
+{
+    wld << "sign " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << sign->getText() << '\n';
+}
+
+static void _writeGrass(std::ofstream &wld, GrassBlock *grass)
+{
+    std::string stringType = _grassTypeToString(grass->getType());
+    wld << "grassblock " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << stringType + '\n';
+}
+
+static void _writeDirt(std::ofstream &wld, DirtBlock *dirt)
+{
+    char chf = dirt->isFarmland() ? '1' : '0';
+    char chp = dirt->isPath() ? '1' : '0';
+
+    wld << "dirt " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << chf << ' ' << chp << '\n';
+}
+
 void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                Player &player, u64 seed, s16 currentLocation)
 {
@@ -201,49 +240,29 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         // leaves
         case BID_LEAVES:
         {
-            std::string lid = "";
             LeavesBlock *leaves = reinterpret_cast<LeavesBlock *>(block.get());
-
-            switch (leaves->type)
-            {
-            case LeavesType::Oak:
-                lid = std::to_string(BID_LEAVES);
-                break;
-            case LeavesType::Birch:
-                lid = std::to_string(BID_BIRCH_LEAVES);
-                break;
-            case LeavesType::Spruce:
-                lid = std::to_string(BID_SPRUCE_LEAVES);
-                break;
-            }
-
-            wld << "block " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << lid << '\n';
+            _writeLeaves(wld, leaves);
             break;
         }
         // sign
         case BID_SIGN:
         {
             SignBlock *sign = reinterpret_cast<SignBlock *>(block.get());
-            wld << "sign " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << sign->getText() << '\n';
+            _writeSign(wld, sign);
             break;
         }
         // grass block
         case BID_GRASS:
         {
             GrassBlock *grass = reinterpret_cast<GrassBlock *>(block.get());
-            std::string stringType = _grassTypeToString(grass->getType());
-
-            wld << "grassblock " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << stringType + '\n';
+            _writeGrass(wld, grass);
             break;
         }
         // dirt
         case BID_DIRT:
         {
             DirtBlock *dirt = reinterpret_cast<DirtBlock *>(block.get());
-            char chf = dirt->isFarmland() ? '1' : '0';
-            char chp = dirt->isPath() ? '1' : '0';
-
-            wld << "dirt " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << chf << ' ' << chp << '\n';
+            _writeDirt(wld, dirt);
             break;
         }
         // grass
