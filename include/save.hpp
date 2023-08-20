@@ -10,6 +10,8 @@
 #include <fstream>
 #include <regex>
 
+typedef std::vector<std::string> StringVector;
+
 std::string normalizeWorldFileName(const std::string &str);
 std::string getWorldFile(const std::string &name);
 std::string getWorldName(const std::string &file);

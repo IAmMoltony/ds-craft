@@ -31,7 +31,7 @@ void CraftingRecipe::construct(const char *recipeFile)
     while (std::getline(iss, line))
     {
         // split the line
-        std::vector<std::string> split;
+        StringVector split;
         std::stringstream ss(line);
         std::string line2;
         while (std::getline(ss, line2, ' '))
@@ -93,7 +93,7 @@ std::string CraftingRecipe::getFullName(Language lang, Player *player)
         name = nm;
 
     // create item strings
-    std::vector<std::string> itemVec;
+    StringVector itemVec;
 
     std::transform(recipe.begin(), recipe.end(), itemVec.begin(), std::back_inserter(itemVec),
                    [player, lang](InventoryItem item, const std::string &str)

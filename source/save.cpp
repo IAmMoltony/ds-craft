@@ -53,7 +53,7 @@ std::string getWorldName(const std::string &file)
             // split the line
             std::stringstream ss(line);
             std::string line2;
-            std::vector<std::string> split;
+            StringVector split;
             while (std::getline(ss, line2, ' '))
                 split.push_back(line2);
 
@@ -88,7 +88,7 @@ std::string getWorldVersion(const std::string &file)
         // split
         std::stringstream ss(line);
         std::string line2;
-        std::vector<std::string> split;
+        StringVector split;
         while (std::getline(ss, line2, ' '))
             split.push_back(line2);
 
@@ -371,7 +371,7 @@ unsigned int getWorldSeed(const std::string &file)
         // split line
         std::string line2;
         std::stringstream lineStream(line);
-        std::vector<std::string> split;
+        StringVector split;
         while (std::getline(lineStream, line2, ' '))
             split.push_back(line2);
 
@@ -384,7 +384,7 @@ unsigned int getWorldSeed(const std::string &file)
     return 0;
 }
 
-static void _argParseXY(const std::vector<std::string> &split, s16 &x, s16 &y)
+static void _argParseXY(const StringVector &split, s16 &x, s16 &y)
 {
     // trivially obvious function
 
@@ -392,20 +392,20 @@ static void _argParseXY(const std::vector<std::string> &split, s16 &x, s16 &y)
     y = std::stoi(split[2]);
 }
 
-static void _argParseDoor(const std::vector<std::string> &split, s16 &x, s16 &y, bool &open, bool &facing)
+static void _argParseDoor(const StringVector &split, s16 &x, s16 &y, bool &open, bool &facing)
 {
     _argParseXY(split, x, y);
     open = split[3] == "1";
     facing = split[4] == "1";
 }
 
-static void _argParseTrapdoor(const std::vector<std::string> &split, s16 &x, s16 &y, bool &open)
+static void _argParseTrapdoor(const StringVector &split, s16 &x, s16 &y, bool &open)
 {
     _argParseXY(split, x, y);
     open = split[3] == "1";
 }
 
-static void _argParseSign(const std::vector<std::string> &split, s16 &x, s16 &y, std::string &text)
+static void _argParseSign(const StringVector &split, s16 &x, s16 &y, std::string &text)
 {
     _argParseXY(split, x, y);
 
@@ -423,7 +423,7 @@ static void _argParseSign(const std::vector<std::string> &split, s16 &x, s16 &y,
         text.pop_back();
 }
 
-static void _argParseGrassBlock(const std::vector<std::string> &split, s16 &x, s16 &y, GrassType &type)
+static void _argParseGrassBlock(const StringVector &split, s16 &x, s16 &y, GrassType &type)
 {
     _argParseXY(split, x, y);
     const std::string &st = split[3]; // string type
@@ -439,7 +439,7 @@ static void _argParseGrassBlock(const std::vector<std::string> &split, s16 &x, s
     }
 }
 
-static void _argParseDirt(const std::vector<std::string> &split, s16 &x, s16 &y, bool &farmland, bool &path)
+static void _argParseDirt(const StringVector &split, s16 &x, s16 &y, bool &farmland, bool &path)
 {
     _argParseXY(split, x, y);
 
@@ -452,9 +452,7 @@ static void _argParseDirt(const std::vector<std::string> &split, s16 &x, s16 &y,
         farmland = path = false;
 }
 
-// TODO define a type for std::vector<std::string>
-
-static void _argParseWheat(const std::vector<std::string> &split, s16 &x, s16 &y, u8 &growStage)
+static void _argParseWheat(const StringVector &split, s16 &x, s16 &y, u8 &growStage)
 {
     _argParseXY(split, x, y);
 
@@ -488,7 +486,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         // split line
         std::stringstream ss(wldMetaLine);
         std::string line2;
-        std::vector<std::string> split;
+        StringVector split;
         while (std::getline(ss, line2, ' '))
             split.push_back(line2);
 
@@ -506,7 +504,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     while (std::getline(wld, line)) // for each line in the file
     {
         // split line by spaces
-        std::vector<std::string> split;
+        StringVector split;
         std::stringstream ss(line);
         std::string line2;
         while (std::getline(ss, line2, ' '))
@@ -738,7 +736,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     while (std::getline(playerInfo, line))
     {
         // split line by spaces
-        std::vector<std::string> split;
+        StringVector split;
         std::stringstream ss(line);
         std::string line2;
         while (std::getline(ss, line2, ' '))
@@ -799,7 +797,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         while (std::getline(chestFile, line2))
         {
             // split line by spaces
-            std::vector<std::string> split;
+            StringVector split;
             std::stringstream ssChest(line2);
             std::string line3;
             while (std::getline(ssChest, line3, ' '))

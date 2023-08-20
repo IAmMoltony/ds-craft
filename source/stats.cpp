@@ -53,7 +53,7 @@ void statsLoad(void)
     std::string line;
     while (std::getline(ifs, line))
     {
-        std::vector<std::string> split;
+        StringVector split;
         std::string line2;
         std::stringstream ss(line);
         while (std::getline(ss, line2, ' '))
