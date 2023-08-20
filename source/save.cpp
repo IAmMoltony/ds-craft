@@ -444,12 +444,12 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     }
 
     std::ifstream wldMeta(worldFolder + "/world.meta");
-    std::string wldmline; // TODO rename to wldMetaLine
+    std::string wldMetaline;
     bool setLoc = false;
-    while (std::getline(wldMeta, wldmline))
+    while (std::getline(wldMeta, wldMetaline))
     {
         // split line
-        std::stringstream ss(wldmline);
+        std::stringstream ss(wldMetaline);
         std::string line2;
         std::vector<std::string> split;
         while (std::getline(ss, line2, ' '))
