@@ -920,7 +920,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             }
                         }
                         // moving (different id)
-                        // TODO uhh is this right? I think there is supposed to be `else' here
+                        else
                         {
                             inventory[inventoryMoveSelect] = {fromSelectItemID, fromSelectAmount};
                             inventory[inventorySelect] = {moveSelectItemID, moveSelectAmount};
