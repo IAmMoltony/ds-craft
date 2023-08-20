@@ -177,6 +177,16 @@ static void _writeGrass2(std::ofstream &wld, Grass* grass)
     wld << "grass " << std::to_string(grass->x) << ' ' << std::to_string(grass->y) << ' ' << stringType << '\n';
 }
 
+static void _writeWheat(std::ofstream &wld, WheatBlock *wheat)
+{
+    wld << "wheat " << std::to_string(wheat->x) << ' ' << std::to_string(wheat->y) << ' ' << std::to_string(wheat->getGrowStage()) << '\n';
+}
+
+static void _writeGeneric(std::ofstream &wld, std::unique_ptr<Block> &block)
+{
+    wld << "block " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << std::to_string(block->id()) << '\n';
+}
+
 void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                Player &player, u64 seed, s16 currentLocation)
 {
@@ -282,12 +292,12 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         case BID_WHEAT:
         {
             WheatBlock *wheat = reinterpret_cast<WheatBlock *>(block.get());
-            wld << "wheat " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << std::to_string(wheat->getGrowStage()) << '\n';
+            _writeWheat(wld, wheat);
             break;
         }
         // every other block
         default:
-            wld << "block " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << std::to_string(id) << '\n';
+            _writeGeneric(wld, block);
             break;
         }
     }
