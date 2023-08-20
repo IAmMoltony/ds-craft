@@ -1164,7 +1164,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             case InventoryItem::ID::CookedPorkchop:
                 if (health != 9)
                 {
-                    _eatFood(&health, 4);
+                    _eatFood(&health, 5);
                     removeItem(InventoryItem::ID::CookedPorkchop);
                 }
                 break;
@@ -1178,7 +1178,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             case InventoryItem::ID::Bread:
                 if (health != 9)
                 {
-                    _eatFood(&health, 5);
+                    _eatFood(&health, 4);
                     removeItem(InventoryItem::ID::Bread);
                 }
                 break;
