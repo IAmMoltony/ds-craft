@@ -188,7 +188,7 @@ static void _writeGeneric(std::ofstream &wld, std::unique_ptr<Block> &block)
 }
 
 void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
-               Player &player, u64 seed, s16 currentLocation)
+               Player &player, u32 seed, s16 currentLocation)
 {
     std::string worldFolder = WORLDS_DIR "/" + normalizeWorldFileName(name);
 

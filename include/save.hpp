@@ -16,7 +16,7 @@ std::string getWorldName(const std::string &file);
 std::string getWorldVersion(const std::string &file);
 unsigned int getWorldSeed(const std::string &file);
 void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
-               Player &player, u64 seed, s16 currentLocation);
+               Player &player, u32 seed, s16 currentLocation);
 void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                Player &player, s16 &currentLocation);
 void renameWorld(const std::string &oldName, const std::string &newName);
