@@ -8,6 +8,7 @@ AnimatedSprite::AnimatedSprite(u8 framesPerImage, AnimatedSpriteMode mode,
     : frames(std::vector<glImage *>(images)), img(0), frame(0),
       framesPerImage(framesPerImage), reverseLoopDirection(1), mode(mode)
 {
+    // too many frames
     if (frames.size() > SCHAR_MAX)
     {
         printf("Too many frames (expected less than or equal to %d, got %zu)", SCHAR_MAX, frames.size());
@@ -26,20 +27,26 @@ void AnimatedSprite::update(void)
     ++frame;
     if (frame == framesPerImage)
     {
+        // next frame
+
         frame = 0;
         switch (mode)
         {
         case AnimatedSpriteMode::Normal:
-            ++img;
+            ++img; // next image
+
+            // go back to 1st image
             if (img >= frames.size())
                 img = 0;
             break;
         case AnimatedSpriteMode::ReverseLoop:
+            // next/prev image depending on direction
             if (reverseLoopDirection == 0)
                 --img;
             else
                 ++img;
 
+            // last or first frame, go in reverse
             if (img == frames.size() - 1)
                 reverseLoopDirection = 0;
             else if (img == 0)
