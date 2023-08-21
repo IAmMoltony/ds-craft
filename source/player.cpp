@@ -2786,12 +2786,6 @@ void Player::initCrafting(void)
         if (line.empty() || line[0] == '#')
             continue;
 
-        // check if recipe actually exists
-        if (!fsFileExists(std::string("nitro:/crafting/" + line + ".rcp").c_str()))
-        {
-            printf("warning: recipe '%s' doesn't exist skipping\n", line.c_str());
-            continue;
-        }
         _craftingRecipes.push_back(CraftingRecipe(line));
     }
 }
