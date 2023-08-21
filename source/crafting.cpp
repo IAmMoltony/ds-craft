@@ -7,8 +7,6 @@
 
 void CraftingRecipe::construct(const char *recipeFile)
 {
-    // TODO optimize this function
-
     std::string path = "nitro:/crafting/" + std::string(recipeFile) + ".rcp";
     fileName = recipeFile;
 
@@ -19,31 +17,28 @@ void CraftingRecipe::construct(const char *recipeFile)
         hang();
     }
 
-    std::string contents = std::string(fsReadFile(path.c_str()));
-
-    // support for CLRF line endings
-    size_t pos = 0;
-    while ((pos = contents.find("\r\n", pos)) != std::string::npos)
-        contents.replace(pos, 2, "\n");
-
-    std::istringstream iss(contents);
+    std::ifstream ifs(path);
     std::string line;
     bool recipeMode = false;
-    while (std::getline(iss, line))
+    while (std::getline(ifs, line))
     {
+        // CRLF support
+        if (line.back() == '\r')
+            line.pop_back();
+
+        // switch to recipe mode
+        if (line == "RECIPE")
+        {
+            recipeMode = true;
+            continue;
+        }
+
         // split the line
         StringVector split;
         std::stringstream ss(line);
         std::string line2;
         while (std::getline(ss, line2, ' '))
             split.push_back(line2);
-
-        // switch to recipe mode
-        if (line.rfind("RECIPE", 0) == 0)
-        {
-            recipeMode = true;
-            continue;
-        }
 
         // add item if recipe mode
         if (recipeMode)

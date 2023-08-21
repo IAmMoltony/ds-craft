@@ -2778,15 +2778,13 @@ void Player::initCrafting(void)
     std::string line;
     while (std::getline(craftingOrder, line))
     {
-        // this is here so that CRLF works ok
-        if (line.find('\r') != std::string::npos)
+        // crlf support
+        if (line.back() == '\r')
             line.pop_back();
 
         // ignore comments and empty lines
-        if (line.empty() || line[0] == '#')
-            continue;
-
-        _craftingRecipes.push_back(CraftingRecipe(line));
+        if (!line.empty() && line[0] != '#')
+            _craftingRecipes.push_back(CraftingRecipe(line));
     }
 }
 
