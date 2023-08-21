@@ -48,9 +48,8 @@ glImage sprStoneBricks[1];
 glImage sprWheatBlock[8][1];
 glImage sprHayBale[1];
 
-// TODO these are suposed to be static!!!
-glImage sprBlockBreak[10][1];
-glImage sprGrassOverlay[1];
+static glImage _sprBlockBreak[10][1];
+static glImage _sprGrassOverlay[1];
 
 declsfx4(DoorOpen);
 declsfx4(DoorClose);
@@ -109,18 +108,18 @@ void Block::loadTextures(void)
     loadImageAlpha(sprWheatBlock[6], 16, 16, wheat_stage6Pal, wheat_stage6Bitmap);
     loadImageAlpha(sprWheatBlock[7], 16, 16, wheat_stage7Pal, wheat_stage7Bitmap);
 
-    loadImageAlpha(sprBlockBreak[0], 16, 16, destroy_stage_0Pal, destroy_stage_0Bitmap);
-    loadImageAlpha(sprBlockBreak[1], 16, 16, destroy_stage_1Pal, destroy_stage_1Bitmap);
-    loadImageAlpha(sprBlockBreak[2], 16, 16, destroy_stage_2Pal, destroy_stage_2Bitmap);
-    loadImageAlpha(sprBlockBreak[3], 16, 16, destroy_stage_3Pal, destroy_stage_3Bitmap);
-    loadImageAlpha(sprBlockBreak[4], 16, 16, destroy_stage_4Pal, destroy_stage_4Bitmap);
-    loadImageAlpha(sprBlockBreak[5], 16, 16, destroy_stage_5Pal, destroy_stage_5Bitmap);
-    loadImageAlpha(sprBlockBreak[6], 16, 16, destroy_stage_6Pal, destroy_stage_6Bitmap);
-    loadImageAlpha(sprBlockBreak[7], 16, 16, destroy_stage_7Pal, destroy_stage_7Bitmap);
-    loadImageAlpha(sprBlockBreak[8], 16, 16, destroy_stage_8Pal, destroy_stage_8Bitmap);
-    loadImageAlpha(sprBlockBreak[9], 16, 16, destroy_stage_9Pal, destroy_stage_9Bitmap);
+    loadImageAlpha(_sprBlockBreak[0], 16, 16, destroy_stage_0Pal, destroy_stage_0Bitmap);
+    loadImageAlpha(_sprBlockBreak[1], 16, 16, destroy_stage_1Pal, destroy_stage_1Bitmap);
+    loadImageAlpha(_sprBlockBreak[2], 16, 16, destroy_stage_2Pal, destroy_stage_2Bitmap);
+    loadImageAlpha(_sprBlockBreak[3], 16, 16, destroy_stage_3Pal, destroy_stage_3Bitmap);
+    loadImageAlpha(_sprBlockBreak[4], 16, 16, destroy_stage_4Pal, destroy_stage_4Bitmap);
+    loadImageAlpha(_sprBlockBreak[5], 16, 16, destroy_stage_5Pal, destroy_stage_5Bitmap);
+    loadImageAlpha(_sprBlockBreak[6], 16, 16, destroy_stage_6Pal, destroy_stage_6Bitmap);
+    loadImageAlpha(_sprBlockBreak[7], 16, 16, destroy_stage_7Pal, destroy_stage_7Bitmap);
+    loadImageAlpha(_sprBlockBreak[8], 16, 16, destroy_stage_8Pal, destroy_stage_8Bitmap);
+    loadImageAlpha(_sprBlockBreak[9], 16, 16, destroy_stage_9Pal, destroy_stage_9Bitmap);
 
-    loadImageAlpha(sprGrassOverlay, 16, 8, grass_overlayPal, grass_overlayBitmap);
+    loadImageAlpha(_sprGrassOverlay, 16, 8, grass_overlayPal, grass_overlayBitmap);
 
     if (Game::SettingsManager::transparentLeaves)
     {
@@ -181,11 +180,11 @@ void Block::unloadTextures(void)
     unloadImage(sprHayBale);
 
     for (u8 i = 0; i < 10; ++i)
-        unloadImage(sprBlockBreak[i]);
+        unloadImage(_sprBlockBreak[i]);
     for (u8 i = 0; i < 8; ++i)
         unloadImage(sprWheatBlock[i]);
 
-    unloadImage(sprGrassOverlay);
+    unloadImage(_sprGrassOverlay);
 }
 
 void Block::loadSounds(void)
@@ -216,7 +215,7 @@ void Block::drawBreaking(Camera &camera)
 
     float textureIndex = ((float)brokenLevel / (float)maxBrokenLevel) * 10 - 1;
     textureIndex = std::max(0, std::min((int)textureIndex, 10 - 1));
-    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprBlockBreak[(int)textureIndex]);
+    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, _sprBlockBreak[(int)textureIndex]);
 }
 
 void Block::hit(void)
@@ -318,7 +317,7 @@ void GrassBlock::draw(Camera &camera)
         break;
     }
 
-    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprGrassOverlay);
+    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, _sprGrassOverlay);
     glColor(RGB15(31, 31, 31));
 }
 
