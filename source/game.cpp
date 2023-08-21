@@ -324,9 +324,12 @@ void Game::init(void)
     fsCreateDir(CONFIG_DIR);
 
     printf("Initializing crafting\n");
+    cpuStartTiming(0);
 
     // init crafting
     Player::initCrafting();
+
+    printf("Took %f seconds\n", (float)cpuEndTiming() / BUS_CLOCK);
 
     printf("Loading assets\n");
 
