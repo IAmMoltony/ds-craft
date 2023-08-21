@@ -411,14 +411,8 @@ static void _argParseSign(const StringVector &split, s16 &x, s16 &y, std::string
 {
     _argParseXY(split, x, y);
 
-    // TODO is there literally any reason that this is implemented as an ostringstream being converted to a string???
-
-    std::ostringstream oss;
-
     for (size_t i = 3; i < split.size(); ++i)
-        oss << split[i] << ' ';
-
-    text = oss.str();
+        text += split[i] + ' ';
 
     // remove last space if needed
     if (!text.empty())

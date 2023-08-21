@@ -483,7 +483,7 @@ bool LeavesBlock::solid(void)
 
 u16 LeavesBlock::id(void)
 {
-    return BID_LEAVES;
+    return BID_LEAVES; // TODO make this return the specific leaves BID
 }
 
 Rect LeavesBlock::getRect(void) const
