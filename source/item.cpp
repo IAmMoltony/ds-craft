@@ -19,151 +19,151 @@ InventoryItem::InventoryItem(const std::string &stringID, u8 amount) : id(ID::No
     sid.erase(std::remove_if(sid.begin(), sid.end(), ::isspace), sid.end());
 
     if (sid == "none")
-        id = InventoryItem::ID::None;
+        id = ID::None;
     else if (sid == "grass")
-        id = InventoryItem::ID::Grass;
+        id = ID::Grass;
     else if (sid == "grass2")
-        id = InventoryItem::ID::Grass2;
+        id = ID::Grass2;
     else if (sid == "dirt")
-        id = InventoryItem::ID::Dirt;
+        id = ID::Dirt;
     else if (sid == "stone")
-        id = InventoryItem::ID::Stone;
+        id = ID::Stone;
     else if (sid == "wood")
-        id = InventoryItem::ID::Wood;
+        id = ID::Wood;
     else if (sid == "birchwood")
-        id = InventoryItem::ID::BirchWood;
+        id = ID::BirchWood;
     else if (sid == "sprucewood")
-        id = InventoryItem::ID::SpruceWood;
+        id = ID::SpruceWood;
     else if (sid == "leaves")
-        id = InventoryItem::ID::Leaves;
+        id = ID::Leaves;
     else if (sid == "birchleaves")
-        id = InventoryItem::ID::BirchLeaves;
+        id = ID::BirchLeaves;
     else if (sid == "spruceleaves")
-        id = InventoryItem::ID::SpruceLeaves;
+        id = ID::SpruceLeaves;
     else if (sid == "sand")
-        id = InventoryItem::ID::Sand;
+        id = ID::Sand;
     else if (sid == "sandstone")
-        id = InventoryItem::ID::Sandstone;
+        id = ID::Sandstone;
     else if (sid == "cactus")
-        id = InventoryItem::ID::Cactus;
+        id = ID::Cactus;
     else if (sid == "deadbush")
-        id = InventoryItem::ID::DeadBush;
+        id = ID::DeadBush;
     else if (sid == "poppy")
-        id = InventoryItem::ID::Poppy;
+        id = ID::Poppy;
     else if (sid == "dandelion")
-        id = InventoryItem::ID::Dandelion;
+        id = ID::Dandelion;
     else if (sid == "redtulip")
-        id = InventoryItem::ID::RedTulip;
+        id = ID::RedTulip;
     else if (sid == "door")
-        id = InventoryItem::ID::Door;
+        id = ID::Door;
     else if (sid == "birchdoor")
-        id = InventoryItem::ID::BirchDoor;
+        id = ID::BirchDoor;
     else if (sid == "sprucedoor")
-        id = InventoryItem::ID::SpruceDoor;
+        id = ID::SpruceDoor;
     else if (sid == "planks")
-        id = InventoryItem::ID::Planks;
+        id = ID::Planks;
     else if (sid == "birchplanks")
-        id = InventoryItem::ID::BirchPlanks;
+        id = ID::BirchPlanks;
     else if (sid == "spruceplanks")
-        id = InventoryItem::ID::SprucePlanks;
+        id = ID::SprucePlanks;
     else if (sid == "stick")
-        id = InventoryItem::ID::Stick;
+        id = ID::Stick;
     else if (sid == "snowygrass")
-        id = InventoryItem::ID::SnowyGrass;
+        id = ID::SnowyGrass;
     else if (sid == "sapling")
-        id = InventoryItem::ID::Sapling;
+        id = ID::Sapling;
     else if (sid == "birchsapling")
-        id = InventoryItem::ID::BirchSapling;
+        id = ID::BirchSapling;
     else if (sid == "sprucesapling")
-        id = InventoryItem::ID::SpruceSapling;
+        id = ID::SpruceSapling;
     else if (sid == "cobblestone")
-        id = InventoryItem::ID::Cobblestone;
+        id = ID::Cobblestone;
     else if (sid == "coalore")
-        id = InventoryItem::ID::CoalOre;
+        id = ID::CoalOre;
     else if (sid == "coal")
-        id = InventoryItem::ID::Coal;
+        id = ID::Coal;
     else if (sid == "coalblock")
-        id = InventoryItem::ID::CoalBlock;
+        id = ID::CoalBlock;
     else if (sid == "ironore")
-        id = InventoryItem::ID::IronOre;
+        id = ID::IronOre;
     else if (sid == "ironingot")
-        id = InventoryItem::ID::IronIngot;
+        id = ID::IronIngot;
     else if (sid == "ironblock")
-        id = InventoryItem::ID::IronBlock;
+        id = ID::IronBlock;
     else if (sid == "ironnugget")
-        id = InventoryItem::ID::IronNugget;
+        id = ID::IronNugget;
     else if (sid == "rawporkchop")
-        id = InventoryItem::ID::RawPorkchop;
+        id = ID::RawPorkchop;
     else if (sid == "cookedporkchop")
-        id = InventoryItem::ID::CookedPorkchop;
+        id = ID::CookedPorkchop;
     else if (sid == "apple")
-        id = InventoryItem::ID::Apple;
+        id = ID::Apple;
     else if (sid == "glass")
-        id = InventoryItem::ID::Glass;
+        id = ID::Glass;
     else if (sid == "oaktrapdoor")
-        id = InventoryItem::ID::OakTrapdoor;
+        id = ID::OakTrapdoor;
     else if (sid == "birchtrapdoor")
-        id = InventoryItem::ID::BirchTrapdoor;
+        id = ID::BirchTrapdoor;
     else if (sid == "sprucetrapdoor")
-        id = InventoryItem::ID::SpruceTrapdoor;
+        id = ID::SpruceTrapdoor;
     else if (sid == "ladder")
-        id = InventoryItem::ID::Ladder;
+        id = ID::Ladder;
     else if (sid == "chest")
-        id = InventoryItem::ID::Chest;
+        id = ID::Chest;
     else if (sid == "oakslab")
-        id = InventoryItem::ID::OakSlab;
+        id = ID::OakSlab;
     else if (sid == "cobblestoneslab")
-        id = InventoryItem::ID::CobblestoneSlab;
+        id = ID::CobblestoneSlab;
     else if (sid == "anyplanks")
-        id = InventoryItem::ID::AnyPlanks;
+        id = ID::AnyPlanks;
     else if (sid == "woodenpickaxe")
-        id = InventoryItem::ID::WoodenPickaxe;
+        id = ID::WoodenPickaxe;
     else if (sid == "stonepickaxe")
-        id = InventoryItem::ID::StonePickaxe;
+        id = ID::StonePickaxe;
     else if (sid == "ironpickaxe")
-        id = InventoryItem::ID::IronPickaxe;
+        id = ID::IronPickaxe;
     else if (sid == "woodenshovel")
-        id = InventoryItem::ID::WoodenShovel;
+        id = ID::WoodenShovel;
     else if (sid == "stoneshovel")
-        id = InventoryItem::ID::StoneShovel;
+        id = ID::StoneShovel;
     else if (sid == "ironshovel")
-        id = InventoryItem::ID::IronShovel;
+        id = ID::IronShovel;
     else if (sid == "woodenaxe")
-        id = InventoryItem::ID::WoodenAxe;
+        id = ID::WoodenAxe;
     else if (sid == "stoneaxe")
-        id = InventoryItem::ID::StoneAxe;
+        id = ID::StoneAxe;
     else if (sid == "ironaxe")
-        id = InventoryItem::ID::IronAxe;
+        id = ID::IronAxe;
     else if (sid == "woodensword")
-        id = InventoryItem::ID::WoodenSword;
+        id = ID::WoodenSword;
     else if (sid == "stonesword")
-        id = InventoryItem::ID::StoneSword;
+        id = ID::StoneSword;
     else if (sid == "ironsword")
-        id = InventoryItem::ID::IronSword;
+        id = ID::IronSword;
     else if (sid == "birchslab")
-        id = InventoryItem::ID::BirchSlab;
+        id = ID::BirchSlab;
     else if (sid == "spruceslab")
-        id = InventoryItem::ID::SpruceSlab;
+        id = ID::SpruceSlab;
     else if (sid == "sign")
-        id = InventoryItem::ID::Sign;
+        id = ID::Sign;
     else if (sid == "stonebricks")
-        id = InventoryItem::ID::StoneBricks;
+        id = ID::StoneBricks;
     else if (sid == "woodenhoe")
-        id = InventoryItem::ID::WoodenHoe;
+        id = ID::WoodenHoe;
     else if (sid == "stonehoe")
-        id = InventoryItem::ID::StoneHoe;
+        id = ID::StoneHoe;
     else if (sid == "ironhoe")
-        id = InventoryItem::ID::IronHoe;
+        id = ID::IronHoe;
     else if (sid == "shears")
-        id = InventoryItem::ID::Shears;
+        id = ID::Shears;
     else if (sid == "wheatseeds")
-        id = InventoryItem::ID::WheatSeeds;
+        id = ID::WheatSeeds;
     else if (sid == "wheat")
-        id = InventoryItem::ID::Wheat; // TODO InventoryItem::ID -> ID (in this function it'd be obvious)
+        id = ID::Wheat;
     else if (sid == "bread")
-        id = InventoryItem::ID::Bread;
+        id = ID::Bread;
     else if (sid == "haybale")
-        id = InventoryItem::ID::HayBale;
+        id = ID::HayBale;
     else
         printf("'%s' is not a valid item string id\n", sid.c_str());
 }
