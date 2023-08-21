@@ -35,3 +35,6 @@ __pycache__/
 
 # vim swap files
 *.swp
+
+# cccc
+.cccc/
