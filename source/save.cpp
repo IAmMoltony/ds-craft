@@ -37,16 +37,18 @@ std::string normalizeWorldFileName(const std::string &str)
 std::string getWorldFile(const std::string &name)
 {
     // very simple. we normalize the world filename, turn it into world path and then
-    // if it's not found, we return "(NO WORLD FILE)"; else we return the path
+    // if it's not found, we return "(NO WORLD FILE)" otherwise we return the path
     std::string fn = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(name);
     return fsFolderExists(fn.c_str()) ? fn : "(NO WORLD FILE)";
 }
 
 std::string getWorldName(const std::string &file)
 {
-    if (fsFileExists(std::string(file + "/world.meta").c_str()))
+    std::string wldMetaPath = file + "/world.meta";
+
+    if (fsFileExists(wldMetaPath.c_str()))
     {
-        std::ifstream wldMetaStream(file + "/world.meta");
+        std::ifstream wldMetaStream(wldMetaPath);
         std::string line;
         while (std::getline(wldMetaStream, line))
         {
