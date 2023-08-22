@@ -680,8 +680,9 @@ void Game::draw(void)
         }
 
         font.printCentered(0, 70, "Assets by Mojang Studios");
-        font.printCentered(0, 120, "(C) 2023 moltony");
-        font.printCentered(0, 129, "Built with devkitARM");
+        font.printCentered(0, 111, "(C) 2023 moltony");
+        font.printCentered(0, 120, "Built with devkitARM");
+        font.printCentered(0, 129, "Licensed under MIT license");
 
         glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprBButton);
         glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprAButton);
