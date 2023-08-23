@@ -1,0 +1,31 @@
+Loot tables!
+
+Loot tables are basically arrays of chest states.
+Example of loot table file:
+
+apple 1 3 3
+STATE
+bread 3 0 3
+
+This loot table defines 2 states.
+The first contains one apple at position 3,3
+The second contains three bread at position 0,3
+
+A loot table can have as many states as needed. Even just one.
+All chest cells that are not described get filled with null-items (zero of none).
+
+When a loot table is applied to a chest, the chest gets wiped and one of the loot table's states gets applied.
+
+Each state starts with a line that reads `STATE'. It's only there for separating states.
+Note: the first state has to not start with `STATE'.
+
+Items have the folliwing syntax:
+
+ItemID Count PosX PosY
+
+ItemID: item ID
+Count: how many items there should be in the cell
+PosX: zero-based X position of the cell that the item should be placed in.
+PosY: same as PosX but for Y position
+
+If ItemID is invalid, PosX is greater than 9 or PosY is greater than 9, then an error will occur.
