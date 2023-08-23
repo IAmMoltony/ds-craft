@@ -722,6 +722,12 @@ void ChestBlock::setItem(u8 i, InventoryItem item)
     items[i] = item;
 }
 
+void ChestBlock::clear(void)
+{
+    for (int i = 0; i < 10; ++i)
+        items[i] = InventoryItem();
+}
+
 u16 ChestBlock::getChestID(void)
 {
     return chid;
