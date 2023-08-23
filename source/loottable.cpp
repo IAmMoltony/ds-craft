@@ -46,11 +46,11 @@ void LootTable::load(const char *tableFile)
             }
 
             // allocate states array
-            states = (ChestBlock::State **)malloc(numStates * sizeof(ChestBlock::State *));
+            states = (ChestBlock::State *)malloc(numStates * sizeof(ChestBlock::State));
 
             // allocate states in array
             for (u16 i = 0; i < numStates; ++i)
-                states[i] = malloc(sizeof(ChestBlock::State));
+                states[i] = (ChestBlock::State *)malloc(sizeof(ChestBlock::State));
 
             numStatesMode = false;
         }

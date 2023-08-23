@@ -6,7 +6,7 @@ class LootTable
 {
 private:
     u16 numStates;
-    ChestBlock::State *states[];
+    ChestBlock::State states[];
 
     void load(const char *tableFile);
 
