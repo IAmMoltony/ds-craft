@@ -1387,7 +1387,7 @@ void Game::update(void)
     switch (gameState)
     {
     case GameState::Game:
-        // save every 900 frames (15s) and if player wants to auto save
+        // auto saving
         if (SettingsManager::autoSaveSeconds && frameCounter % (SettingsManager::autoSaveSeconds * 60) == 0)
         {
             saveWorld(worldName, blocks, entities, player, getWorldSeed(worldName), currentLocation);

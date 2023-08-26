@@ -689,6 +689,7 @@
 		<Unit filename="include/images.h" />
 		<Unit filename="include/item.hpp" />
 		<Unit filename="include/lang.hpp" />
+		<Unit filename="include/loottable.hpp" />
 		<Unit filename="include/player.hpp" />
 		<Unit filename="include/random.hpp" />
 		<Unit filename="include/rect.hpp" />
@@ -3612,6 +3613,7 @@
 		</Unit>
 		<Unit filename="source/help.cpp" />
 		<Unit filename="source/item.cpp" />
+		<Unit filename="source/loottable.cpp" />
 		<Unit filename="source/main.cpp" />
 		<Unit filename="source/player.cpp" />
 		<Unit filename="source/random.cpp" />
