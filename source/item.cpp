@@ -1,6 +1,7 @@
 #include "item.hpp"
 #include <algorithm>
 #include <map>
+#include <unordered_map>
 #include "images.h"
 #include "util.h"
 #include "block.hpp"
@@ -13,159 +14,96 @@ InventoryItem::InventoryItem(const InventoryItem &item) : id(item.id), amount(it
 {
 }
 
+static std::map<std::string, InventoryItem::ID> _stringIDTable = {
+    {"none", InventoryItem::ID::None},
+    {"grass", InventoryItem::ID::Grass},
+    {"grass2", InventoryItem::ID::Grass2},
+    {"dirt", InventoryItem::ID::Dirt},
+    {"stone", InventoryItem::ID::Stone},
+    {"wood", InventoryItem::ID::Wood},
+    {"birchwood", InventoryItem::ID::BirchWood},
+    {"sprucewood", InventoryItem::ID::SpruceWood},
+    {"leaves", InventoryItem::ID::Leaves},
+    {"birchleaves", InventoryItem::ID::BirchLeaves},
+    {"spruceleaves", InventoryItem::ID::SpruceLeaves},
+    {"sand", InventoryItem::ID::Sand},
+    {"sandstone", InventoryItem::ID::Sandstone},
+    {"cactus", InventoryItem::ID::Cactus},
+    {"deadbush", InventoryItem::ID::DeadBush},
+    {"poppy", InventoryItem::ID::Poppy},
+    {"dandelion", InventoryItem::ID::Dandelion},
+    {"redtulip", InventoryItem::ID::RedTulip},
+    {"door", InventoryItem::ID::Door},
+    {"birchdoor", InventoryItem::ID::BirchDoor},
+    {"sprucedoor", InventoryItem::ID::SpruceDoor},
+    {"planks", InventoryItem::ID::Planks},
+    {"birchplanks", InventoryItem::ID::BirchPlanks},
+    {"spruceplanks", InventoryItem::ID::SprucePlanks},
+    {"stick", InventoryItem::ID::Stick},
+    {"snowygrass", InventoryItem::ID::SnowyGrass},
+    {"sapling", InventoryItem::ID::Sapling},
+    {"birchsapling", InventoryItem::ID::BirchSapling},
+    {"sprucesapling", InventoryItem::ID::SpruceSapling},
+    {"cobblestone", InventoryItem::ID::Cobblestone},
+    {"coalore", InventoryItem::ID::CoalOre},
+    {"coal", InventoryItem::ID::Coal},
+    {"coalblock", InventoryItem::ID::CoalBlock},
+    {"ironore", InventoryItem::ID::IronOre},
+    {"ironingot", InventoryItem::ID::IronIngot},
+    {"ironblock", InventoryItem::ID::IronBlock},
+    {"ironnugget", InventoryItem::ID::IronNugget},
+    {"rawporkchop", InventoryItem::ID::RawPorkchop},
+    {"cookedporkchop", InventoryItem::ID::CookedPorkchop},
+    {"apple", InventoryItem::ID::Apple},
+    {"glass", InventoryItem::ID::Glass},
+    {"oaktrapdoor", InventoryItem::ID::OakTrapdoor},
+    {"birchtrapdoor", InventoryItem::ID::BirchTrapdoor},
+    {"sprucetrapdoor", InventoryItem::ID::SpruceTrapdoor},
+    {"ladder", InventoryItem::ID::Ladder},
+    {"chest", InventoryItem::ID::Chest},
+    {"oakslab", InventoryItem::ID::OakSlab},
+    {"cobblestoneslab", InventoryItem::ID::CobblestoneSlab},
+    {"anyplanks", InventoryItem::ID::AnyPlanks},
+    {"woodenpickaxe", InventoryItem::ID::WoodenPickaxe},
+    {"stonepickaxe", InventoryItem::ID::StonePickaxe},
+    {"ironpickaxe", InventoryItem::ID::IronPickaxe},
+    {"woodenshovel", InventoryItem::ID::WoodenShovel},
+    {"stoneshovel", InventoryItem::ID::StoneShovel},
+    {"ironshovel", InventoryItem::ID::IronShovel},
+    {"woodenaxe", InventoryItem::ID::WoodenAxe},
+    {"stoneaxe", InventoryItem::ID::StoneAxe},
+    {"ironaxe", InventoryItem::ID::IronAxe},
+    {"woodensword", InventoryItem::ID::WoodenSword},
+    {"stonesword", InventoryItem::ID::StoneSword},
+    {"ironsword", InventoryItem::ID::IronSword},
+    {"birchslab", InventoryItem::ID::BirchSlab},
+    {"spruceslab", InventoryItem::ID::SpruceSlab},
+    {"sign", InventoryItem::ID::Sign},
+    {"stonebricks", InventoryItem::ID::StoneBricks},
+    {"woodenhoe", InventoryItem::ID::WoodenHoe},
+    {"stonehoe", InventoryItem::ID::StoneHoe},
+    {"ironhoe", InventoryItem::ID::IronHoe},
+    {"shears", InventoryItem::ID::Shears},
+    {"wheatseeds", InventoryItem::ID::WheatSeeds},
+    {"wheat", InventoryItem::ID::Wheat},
+    {"bread", InventoryItem::ID::Bread},
+    {"haybale", InventoryItem::ID::HayBale}
+};
+
 InventoryItem::InventoryItem(const std::string &stringID, u8 amount) : id(ID::None), amount(amount)
 {
     std::string sid = *&stringID;
+
+    // remove spaces
     sid.erase(std::remove_if(sid.begin(), sid.end(), ::isspace), sid.end());
 
-    if (sid == "none")
-        id = ID::None;
-    else if (sid == "grass")
-        id = ID::Grass;
-    else if (sid == "grass2")
-        id = ID::Grass2;
-    else if (sid == "dirt")
-        id = ID::Dirt;
-    else if (sid == "stone")
-        id = ID::Stone;
-    else if (sid == "wood")
-        id = ID::Wood;
-    else if (sid == "birchwood")
-        id = ID::BirchWood;
-    else if (sid == "sprucewood")
-        id = ID::SpruceWood;
-    else if (sid == "leaves")
-        id = ID::Leaves;
-    else if (sid == "birchleaves")
-        id = ID::BirchLeaves;
-    else if (sid == "spruceleaves")
-        id = ID::SpruceLeaves;
-    else if (sid == "sand")
-        id = ID::Sand;
-    else if (sid == "sandstone")
-        id = ID::Sandstone;
-    else if (sid == "cactus")
-        id = ID::Cactus;
-    else if (sid == "deadbush")
-        id = ID::DeadBush;
-    else if (sid == "poppy")
-        id = ID::Poppy;
-    else if (sid == "dandelion")
-        id = ID::Dandelion;
-    else if (sid == "redtulip")
-        id = ID::RedTulip;
-    else if (sid == "door")
-        id = ID::Door;
-    else if (sid == "birchdoor")
-        id = ID::BirchDoor;
-    else if (sid == "sprucedoor")
-        id = ID::SpruceDoor;
-    else if (sid == "planks")
-        id = ID::Planks;
-    else if (sid == "birchplanks")
-        id = ID::BirchPlanks;
-    else if (sid == "spruceplanks")
-        id = ID::SprucePlanks;
-    else if (sid == "stick")
-        id = ID::Stick;
-    else if (sid == "snowygrass")
-        id = ID::SnowyGrass;
-    else if (sid == "sapling")
-        id = ID::Sapling;
-    else if (sid == "birchsapling")
-        id = ID::BirchSapling;
-    else if (sid == "sprucesapling")
-        id = ID::SpruceSapling;
-    else if (sid == "cobblestone")
-        id = ID::Cobblestone;
-    else if (sid == "coalore")
-        id = ID::CoalOre;
-    else if (sid == "coal")
-        id = ID::Coal;
-    else if (sid == "coalblock")
-        id = ID::CoalBlock;
-    else if (sid == "ironore")
-        id = ID::IronOre;
-    else if (sid == "ironingot")
-        id = ID::IronIngot;
-    else if (sid == "ironblock")
-        id = ID::IronBlock;
-    else if (sid == "ironnugget")
-        id = ID::IronNugget;
-    else if (sid == "rawporkchop")
-        id = ID::RawPorkchop;
-    else if (sid == "cookedporkchop")
-        id = ID::CookedPorkchop;
-    else if (sid == "apple")
-        id = ID::Apple;
-    else if (sid == "glass")
-        id = ID::Glass;
-    else if (sid == "oaktrapdoor")
-        id = ID::OakTrapdoor;
-    else if (sid == "birchtrapdoor")
-        id = ID::BirchTrapdoor;
-    else if (sid == "sprucetrapdoor")
-        id = ID::SpruceTrapdoor;
-    else if (sid == "ladder")
-        id = ID::Ladder;
-    else if (sid == "chest")
-        id = ID::Chest;
-    else if (sid == "oakslab")
-        id = ID::OakSlab;
-    else if (sid == "cobblestoneslab")
-        id = ID::CobblestoneSlab;
-    else if (sid == "anyplanks")
-        id = ID::AnyPlanks;
-    else if (sid == "woodenpickaxe")
-        id = ID::WoodenPickaxe;
-    else if (sid == "stonepickaxe")
-        id = ID::StonePickaxe;
-    else if (sid == "ironpickaxe")
-        id = ID::IronPickaxe;
-    else if (sid == "woodenshovel")
-        id = ID::WoodenShovel;
-    else if (sid == "stoneshovel")
-        id = ID::StoneShovel;
-    else if (sid == "ironshovel")
-        id = ID::IronShovel;
-    else if (sid == "woodenaxe")
-        id = ID::WoodenAxe;
-    else if (sid == "stoneaxe")
-        id = ID::StoneAxe;
-    else if (sid == "ironaxe")
-        id = ID::IronAxe;
-    else if (sid == "woodensword")
-        id = ID::WoodenSword;
-    else if (sid == "stonesword")
-        id = ID::StoneSword;
-    else if (sid == "ironsword")
-        id = ID::IronSword;
-    else if (sid == "birchslab")
-        id = ID::BirchSlab;
-    else if (sid == "spruceslab")
-        id = ID::SpruceSlab;
-    else if (sid == "sign")
-        id = ID::Sign;
-    else if (sid == "stonebricks")
-        id = ID::StoneBricks;
-    else if (sid == "woodenhoe")
-        id = ID::WoodenHoe;
-    else if (sid == "stonehoe")
-        id = ID::StoneHoe;
-    else if (sid == "ironhoe")
-        id = ID::IronHoe;
-    else if (sid == "shears")
-        id = ID::Shears;
-    else if (sid == "wheatseeds")
-        id = ID::WheatSeeds;
-    else if (sid == "wheat")
-        id = ID::Wheat;
-    else if (sid == "bread")
-        id = ID::Bread;
-    else if (sid == "haybale")
-        id = ID::HayBale;
-    else
-        printf("'%s' is not a valid item string id\n", sid.c_str());
+    const std::map<std::string, ID>::iterator itemPair = _stringIDTable.find(sid);
+    if (itemPair == _stringIDTable.end())
+    {
+        printf("`%s' is not a valid item string ID\n", sid.c_str());
+        return;
+    }
+    id = itemPair->second;
 }
 
 // initialize with default values
