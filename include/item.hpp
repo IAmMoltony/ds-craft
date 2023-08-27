@@ -102,5 +102,5 @@ public:
 };
 
 std::string iidToString(InventoryItem::ID iid);
-const char *getItemStr(Language lang, InventoryItem::ID iid);
+const char *getItemStr(Language lang, InventoryItem::ID iid); // TODO rename this to getItemName or smth smh
 glImage *getItemImage(InventoryItem::ID item);
