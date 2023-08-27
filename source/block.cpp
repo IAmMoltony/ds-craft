@@ -233,6 +233,11 @@ bool Block::broken(void)
     return brokenLevel >= maxBrokenLevel;
 }
 
+Rect Block::getRect(void) const
+{
+    return Rect(x, y, 16, 16);
+}
+
 void Block::interact(InventoryItem::ID item)
 {
     (void)item;
@@ -326,11 +331,6 @@ u16 GrassBlock::id(void)
     return BID_GRASS;
 }
 
-Rect GrassBlock::getRect(void) const
-{
-    return Rect(x, y, 16, 16);
-}
-
 bool GrassBlock::solid(void)
 {
     return true;
@@ -371,11 +371,6 @@ u16 Grass::id(void)
     return BID_GRASS2;
 }
 
-Rect Grass::getRect(void) const
-{
-    return Rect(x, y, 16, 16);
-}
-
 bool Grass::solid(void)
 {
     return false;
@@ -409,13 +404,6 @@ void DirtBlock::draw(Camera &camera)
 u16 DirtBlock::id(void)
 {
     return BID_DIRT;
-}
-
-Rect DirtBlock::getRect(void) const
-{
-    if (farmland || path)
-        return Rect(x, y + 1, 16, 15);
-    return Rect(x, y, 16, 16);
 }
 
 bool DirtBlock::solid(void)
@@ -485,11 +473,6 @@ u16 LeavesBlock::id(void)
     return BID_LEAVES; // TODO make this return the specific leaves BID
 }
 
-Rect LeavesBlock::getRect(void) const
-{
-    return Rect(x, y, 16, 16);
-}
-
 bool LeavesBlock::isNatural(void)
 {
     return natural;
@@ -551,11 +534,6 @@ u16 FlowerBlock::id(void)
     case FlowerType::RedTulip:
         return BID_RED_TULIP;
     }
-}
-
-Rect FlowerBlock::getRect(void) const
-{
-    return Rect(x, y, 16, 16);
 }
 
 //---------------------------------------------
@@ -658,11 +636,6 @@ u16 GlassBlock::id(void)
     return BID_GLASS;
 }
 
-Rect GlassBlock::getRect(void) const
-{
-    return Rect(x, y, 16, 16);
-}
-
 bool GlassBlock::solid(void)
 {
     return true;
@@ -702,11 +675,6 @@ bool ChestBlock::solid(void)
 u16 ChestBlock::id(void)
 {
     return BID_CHEST;
-}
-
-Rect ChestBlock::getRect(void) const
-{
-    return Rect(x, y, 16, 16);
 }
 
 std::array<InventoryItem, 10> ChestBlock::getItems(void)
@@ -768,11 +736,6 @@ bool SignBlock::solid(void)
 u16 SignBlock::id(void)
 {
     return BID_SIGN;
-}
-
-Rect SignBlock::getRect(void) const
-{
-    return Rect(x, y, 16, 16);
 }
 
 const std::string SignBlock::getText(void) const
@@ -848,11 +811,6 @@ u16 WheatBlock::id(void)
 bool WheatBlock::solid(void)
 {
     return false;
-}
-
-Rect WheatBlock::getRect(void) const
-{
-    return Rect(x, y, 16, 16);
 }
 
 void WheatBlock::grow(void)

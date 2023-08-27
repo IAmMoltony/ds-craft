@@ -80,10 +80,6 @@ enum class SlabID
     {                                                                   \
         return id_;                                                     \
     }                                                                   \
-    Rect block::getRect(void) const                                     \
-    {                                                                   \
-        return Rect(x, y, 16, 16);                                      \
-    }                                                                   \
     bool block::solid(void)                                             \
     {                                                                   \
         return solid_;                                                  \
@@ -97,7 +93,6 @@ enum class SlabID
         block(s16 x, s16 y);                \
         void draw(Camera &camera) override; \
         u16 id(void) override;              \
-        Rect getRect(void) const override;  \
         bool solid(void) override;          \
     };
 
@@ -114,27 +109,26 @@ enum class SlabID
         void draw(Camera &camera) override; \
         bool solid(void) override;          \
         u16 id(void) override;              \
-        Rect getRect(void) const override;  \
         bool hasGrown(void);                \
         void update(void);                  \
     };
 
 // generic declaration for trapdoors
-#define TRAPDOOR_DECL(trapd)                           \
-    class trapd##TrapdoorBlock : public Block          \
-    {                                                  \
-    private:                                           \
-        bool open;                                     \
-                                                       \
-    public:                                            \
-        trapd##TrapdoorBlock(s16 x, s16 y);            \
-        trapd##TrapdoorBlock(s16 x, s16 y, bool open); \
-        void draw(Camera &camera) override;            \
-        bool solid(void) override;                     \
-        void interact(InventoryItem::ID item) override;  \
-        u16 id(void) override;                         \
-        Rect getRect(void) const override;             \
-        bool isOpen(void);                             \
+#define TRAPDOOR_DECL(trapd)                            \
+    class trapd##TrapdoorBlock : public Block           \
+    {                                                   \
+    private:                                            \
+        bool open;                                      \
+                                                        \
+    public:                                             \
+        trapd##TrapdoorBlock(s16 x, s16 y);             \
+        trapd##TrapdoorBlock(s16 x, s16 y, bool open);  \
+        void draw(Camera &camera) override;             \
+        bool solid(void) override;                      \
+        void interact(InventoryItem::ID item) override; \
+        u16 id(void) override;                          \
+        Rect getRect(void) const;                       \
+        bool isOpen(void);                              \
     };
 
 // slabs
@@ -163,10 +157,6 @@ enum class SlabID
     u16 saplingid##SaplingBlock::id(void)                                                                         \
     {                                                                                                             \
         return bid;                                                                                               \
-    }                                                                                                             \
-    Rect saplingid##SaplingBlock::getRect(void) const                                                             \
-    {                                                                                                             \
-        return Rect(x, y, 16, 16);                                                                                \
     }                                                                                                             \
     bool saplingid##SaplingBlock::hasGrown(void)                                                                  \
     {                                                                                                             \
@@ -199,7 +189,7 @@ enum class SlabID
     {                                                                                                    \
         return !open;                                                                                    \
     }                                                                                                    \
-    void trapdid##TrapdoorBlock::interact(InventoryItem::ID item)                                          \
+    void trapdid##TrapdoorBlock::interact(InventoryItem::ID item)                                        \
     {                                                                                                    \
         (void)item;                                                                                      \
         open = !open;                                                                                    \
@@ -288,7 +278,7 @@ public:
     virtual void interact(InventoryItem::ID item);
     virtual bool solid(void);
     virtual bool isSlab(void);
-    virtual Rect getRect(void) const = 0;
+    Rect getRect(void) const;
 };
 
 void replaceBlock(BlockList &blocks, const Block *oldBlock, std::unique_ptr<Block> newBlock);
@@ -386,7 +376,6 @@ public:
 
     void draw(Camera &camera) override;
     u16 id(void) override;
-    Rect getRect(void) const override;
     bool solid(void) override;
     GrassType getType(void);
 };
@@ -402,7 +391,6 @@ public:
 
     void draw(Camera &camera) override;
     u16 id(void) override;
-    Rect getRect(void) const override;
     bool solid(void) override;
     GrassType getType(void);
 };
@@ -418,7 +406,6 @@ public:
 
     void draw(Camera &camera) override;
     u16 id(void) override;
-    Rect getRect(void) const override;
     bool solid(void) override;
     void interact(InventoryItem::ID item) override;
     bool isFarmland(void);
@@ -438,7 +425,6 @@ public:
     void draw(Camera &camera) override;
     bool solid(void) override;
     u16 id(void) override;
-    Rect getRect(void) const override;
     bool isNatural(void);
 };
 
@@ -454,7 +440,6 @@ public:
     void draw(Camera &camera) override;
     bool solid(void) override;
     u16 id(void) override;
-    Rect getRect(void) const override;
 };
 
 class DoorBlock : public Block
@@ -470,7 +455,7 @@ public:
     bool solid(void) override;
     void interact(InventoryItem::ID item) override;
     u16 id(void) override;
-    Rect getRect(void) const override;
+    Rect getRect(void) const;
     bool isOpen(void);
     bool getFacing(void);
 };
@@ -494,7 +479,6 @@ public:
     void draw(Camera &camera) override;
     bool solid(void) override;
     u16 id(void) override;
-    Rect getRect(void) const override;
 
     std::array<InventoryItem, 10> getItems(void);
     void setItem(u8 i, InventoryItem item);
@@ -516,7 +500,6 @@ public:
     void drawText(Camera &camera);
     bool solid(void) override;
     u16 id(void) override;
-    Rect getRect(void) const override;
     const std::string getText(void) const;
     void setText(const std::string &text);
 };
@@ -531,11 +514,9 @@ public:
 
     bool solid(void) override;
     bool isSlab(void) override;
-    Rect getRect(void) const override;
+    Rect getRect(void) const;
     SlabID getSlabID(void) const;
 };
-
-// TODO make getRect have a default implementation because copy pasting the same function into every single block class with no difference (except when needed e.g. trapdoors, doors, slabs, ...) is BAD and i should have thought of this in the past, when i was designing the very foundation for this game. but it's NOT too late to change this!!
 
 SLAB_DECL(Oak)
 SLAB_DECL(Cobblestone)
@@ -561,7 +542,6 @@ public:
     void draw(Camera &camera) override;
     u16 id(void) override;
     bool solid(void) override;
-    Rect getRect(void) const override;
     void grow(void);
     u8 getGrowStage(void);
     bool fullyGrown(void);
