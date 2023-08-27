@@ -38,3 +38,6 @@ __pycache__/
 
 # cccc
 .cccc/
+
+# code blocks auto save
+*.save
