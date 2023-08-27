@@ -693,7 +693,7 @@ void Player::drawHUD(const Camera &camera, Font &font)
             // some special cases
             case InventoryItem::ID::Grass2:
                 glColor(GrassBlock::COLOR_NORMAL);
-                glSpriteScale(xxItem + 4, yy + 4, HALF_SCALE, GL_FLIP_NONE, getItemImage(currid));
+                glSpriteScale(xxItem + 4, yyItem + 4, HALF_SCALE, GL_FLIP_NONE, getItemImage(currid));
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItem::ID::Leaves:
@@ -746,6 +746,10 @@ void Player::drawHUD(const Camera &camera, Font &font)
                                   SCREEN_HEIGHT - 9, "%u", amount);
         }
     }
+
+    // draw item name
+    if (inventory[hotbarSelect].id != InventoryItem::ID::None)
+        font.printShadowCentered(0, SCREEN_HEIGHT - 27, getItemStr(Game::instance->lang, inventory[hotbarSelect].id));
 
     // health bar drawing
     for (u8 i = 0; i < 10; ++i)
