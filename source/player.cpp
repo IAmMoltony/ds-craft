@@ -2147,8 +2147,9 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 }
             }
 
-            if (block->id() == BID_SIGN)
+            switch (block->id())
             {
+            case BID_SIGN: {
                 // show text if bottom hitbox colliding with sign
                 bool shouldShowText = getRectBottom().intersects(block->getRect());
 
@@ -2157,6 +2158,13 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
 
                 // set sign's showText property
                 sign->showText = shouldShowText;
+                break;
+            }
+            case BID_CACTUS:
+                // damage every 70 frames and if colliding with sign
+                if (Game::instance->getFrameCounter() % 70 == 0 && getRectBottom().intersects(block->getRect()))
+                    doDamage(1, camera);
+                break;
             }
 
             // if block isnt solid then skip it
@@ -2187,16 +2195,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     if (airY - 44 >= 9) // TODO figure out what 44 is and move it into like a define or smth
                         damage += (airY - MAX_AIM_DISTANCE) / 9; // do some complicated tomfoolery
                     if (damage > 0) // if we got fall damage
-                    {
-                        health -= damage;
-
-                        // play sound
-                        playsfx(3, &sndHit1, &sndHit2, &sndHit3);
-
-                        // shake
-                        camera->x += randomRange(-50, 50);
-                        camera->y += randomRange(-50, 50);
-                    }
+                        doDamage(damage, camera);
                 }
                 airY = 0;
             }
@@ -2619,6 +2618,18 @@ void Player::reset(void)
     chest = nullptr;
     chestOpen = false;
     sign = nullptr;
+}
+
+void Player::doDamage(u16 damage, Camera *camera)
+{
+    health -= damage;
+
+    // play sound
+    playsfx(3, &sndHit1, &sndHit2, &sndHit3);
+
+    // shake
+    camera->x += randomRange(-50, 50);
+    camera->y += randomRange(-50, 50);
 }
 
 bool Player::moving(s16 oldX)

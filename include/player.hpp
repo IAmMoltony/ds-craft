@@ -89,6 +89,7 @@ public:
     void restoreHealth(void);
     void resetInventory(void);
     void reset(void);
+    void doDamage(u16 damage, Camera *camera);
 
     bool moving(s16 oldX);
     bool dead(void);
