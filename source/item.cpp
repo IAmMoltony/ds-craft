@@ -1,7 +1,6 @@
 #include "item.hpp"
 #include <algorithm>
 #include <map>
-#include <unordered_map>
 #include "images.h"
 #include "util.h"
 #include "block.hpp"
