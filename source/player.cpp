@@ -2161,8 +2161,8 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 break;
             }
             case BID_CACTUS:
-                // damage every 70 frames and if colliding with sign
-                if (Game::instance->getFrameCounter() % 70 == 0 && getRectBottom().intersects(block->getRect()))
+                // damage if colliding with cactus
+                if (Game::instance->getFrameCounter() % 26 == 0 && getRectBottom().intersects(block->getRect()))
                     doDamage(1, camera);
                 break;
             }
