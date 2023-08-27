@@ -2785,6 +2785,8 @@ static std::vector<CraftingRecipe> _craftingRecipes;
 
 void Player::initCrafting(void)
 {
+    std::map<std::string, float> loadTimes;
+
     std::ifstream craftingOrder("nitro:/crafting_order.txt");
     std::string line;
     while (std::getline(craftingOrder, line))
@@ -2795,8 +2797,36 @@ void Player::initCrafting(void)
 
         // ignore comments and empty lines
         if (!line.empty() && line[0] != '#')
+        {
+            cpuStartTiming(0);
             _craftingRecipes.push_back(CraftingRecipe(line));
+            float timeTook = (float)cpuEndTiming() / BUS_CLOCK;
+            printf("loaded %s in %f s\n", line.c_str(), timeTook);
+            loadTimes[line] = timeTook;
+        }
     }
+
+    float lowest = 999.0f;
+    float highest = 0.0f;
+    std::string lowestName = "";
+    std::string highestName = "";
+    printf("Calculating load results\n");
+    for (const auto &pair : loadTimes)
+    {
+        if (pair.second < lowest)
+        {
+            lowest = pair.second;
+            lowestName = pair.first;
+        }
+        if (pair.second > highest)
+        {
+            highest = pair.second;
+            highestName = pair.first;
+        }
+    }
+
+    printf(" *** Load Results ***\n");
+    printf("Fastest time: %f (%s)\nSlowest time: %f (%s)\n", lowest, lowestName.c_str(), highest, highestName.c_str());
 }
 
 static bool _canCraft(Player *pThis, CraftingRecipe recipe)
@@ -2935,6 +2965,8 @@ void Player::updateCrafting(void)
             craftingSelect -= 14;
     }
 }
+
+// this file is already almost 3000 lines
 
 void Player::jump(void)
 {
