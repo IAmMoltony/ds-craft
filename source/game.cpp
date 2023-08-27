@@ -6,7 +6,6 @@
 #include "help.hpp"
 #include "stats.hpp"
 #include "util.h"
-#include "loottable.hpp"
 
 Game *Game::instance;
 
@@ -401,9 +400,6 @@ void Game::init(void)
     logoY = 16;
     editControlsSelected = 0;
     editControlsSetMode = false;
-
-    LootTable *test = new LootTable("test");
-    delete test;
 }
 
 void Game::showHelpScreen(const std::string &setting)
