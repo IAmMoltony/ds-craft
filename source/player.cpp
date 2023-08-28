@@ -1659,7 +1659,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
         {
             // when r pressed go to next hotbar slot
             ++hotbarSelect;
-            if (hotbarSelect > 4)
+            if (hotbarSelect > NUM_HOTBAR_SLOTS - 1)
                 hotbarSelect = 0;
         }
         if (down & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_OPEN_INVENTORY))
