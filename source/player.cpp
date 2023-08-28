@@ -539,11 +539,11 @@ void Player::drawInventory(Font &font, Font &fontRu)
         switch (Game::instance->lang)
         {
         case Language::English:
-            font.printShadow(110, 46, getItemStr(Language::English, inventory[inventorySelect].id));
+            font.printShadow(110, 46, getItemName(Language::English, inventory[inventorySelect].id));
             font.printShadow(16, 46 + 48 + 23, "Press L to see crafting menu");
             break;
         case Language::Russian:
-            fontRu.printShadow(110, 46, getItemStr(Language::Russian, inventory[inventorySelect].id));
+            fontRu.printShadow(110, 46, getItemName(Language::Russian, inventory[inventorySelect].id));
             fontRu.printShadow(16, 62 + 28 + 23, "Obiokug \3L \3zuqc\" rgsgluk d ogp% tqjfbpk&", &font);
             break;
         }
@@ -749,7 +749,7 @@ void Player::drawHUD(const Camera &camera, Font &font)
 
     // draw item name
     if (inventory[hotbarSelect].id != InventoryItem::ID::None)
-        font.printShadowCentered(0, SCREEN_HEIGHT - 27, getItemStr(Game::instance->lang, inventory[hotbarSelect].id));
+        font.printShadowCentered(0, SCREEN_HEIGHT - 27, getItemName(Game::instance->lang, inventory[hotbarSelect].id));
 
     // health bar drawing
     for (u8 i = 0; i < 10; ++i)

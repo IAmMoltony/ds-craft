@@ -481,7 +481,7 @@ std::string iidToString(InventoryItem::ID iid)
     return id;
 }
 
-const char *getItemStr(Language lang, InventoryItem::ID iid)
+const char *getItemName(Language lang, InventoryItem::ID iid)
 {
     switch (lang)
     {

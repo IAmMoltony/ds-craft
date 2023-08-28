@@ -81,7 +81,7 @@ CraftingRecipe::CraftingRecipe(const std::string &recipeFile)
 std::string CraftingRecipe::getFullName(Language lang, Player *player)
 {
     // get name
-    std::string nm = getItemStr(lang, output);
+    std::string nm = getItemName(lang, output);
     std::string name;
     if (count > 1)
         name = std::to_string(count) + " " + nm;
@@ -97,7 +97,7 @@ std::string CraftingRecipe::getFullName(Language lang, Player *player)
                         (void)str; // trash the string
                         return std::to_string(player->countItems(item.id)) + '/' +
                             std::to_string(item.amount) + ' ' +
-                            std::string(getItemStr(lang, item.id)); });
+                            std::string(getItemName(lang, item.id)); });
 
     // join with semicolon and space
     const char *delim = "; ";
