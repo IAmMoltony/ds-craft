@@ -256,9 +256,9 @@ char *fsHumanreadFileSize(double size)
     static const char *units[] =
         {
             "B",
-            "KB",
-            "MB",
-            "GB",
+            "KiB",
+            "MiB",
+            "GiB",
         };
     while (size > 1024)
     {
