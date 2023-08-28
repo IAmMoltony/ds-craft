@@ -62,6 +62,7 @@ public:
     static inline constexpr s16 VOID_Y = 860;
     static inline constexpr s16 FULL_HEALTH = 9;
     static inline constexpr u8 MAX_AIM_DISTANCE = 67;
+    static inline constexpr u8 NUM_HOTBAR_SLOTS = 5;
 
     Player();
 

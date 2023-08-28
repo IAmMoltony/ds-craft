@@ -608,8 +608,7 @@ void Player::drawHUD(const Camera &camera, Font &font)
     if (currid == InventoryItem::ID::OakSlab || currid == InventoryItem::ID::CobblestoneSlab || currid == InventoryItem::ID::BirchSlab)
         yy = getRectAimY8(camera).y - camera.y;
 
-    if (currid == InventoryItem::ID::None ||
-        isItem(currid))
+    if (currid == InventoryItem::ID::None || isItem(currid))
         glBoxFilled(xx, yy,
                     xx + 15, yy + 15, (aimDist <= MAX_AIM_DISTANCE) ? getFavoriteColorRgb() : RGB15(31, 0, 0));
     else
@@ -673,7 +672,7 @@ void Player::drawHUD(const Camera &camera, Font &font)
     glColor(RGB15(31, 31, 31));
 
     // hotbar drawing
-    for (u8 i = 0; i < 5; i++)
+    for (u8 i = 0; i < NUM_HOTBAR_SLOTS; i++)
     {
         // draw the slot
         glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)), SCREEN_HEIGHT - 16, GL_FLIP_NONE,
@@ -1160,28 +1159,28 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             switch (itemid)
             {
             case InventoryItem::ID::RawPorkchop:
-                if (health != 9)
+                if (health != FULL_HEALTH)
                 {
                     _eatFood(&health, 2);
                     removeItem(InventoryItem::ID::RawPorkchop);
                 }
                 break;
             case InventoryItem::ID::CookedPorkchop:
-                if (health != 9)
+                if (health != FULL_HEALTH)
                 {
                     _eatFood(&health, 5);
                     removeItem(InventoryItem::ID::CookedPorkchop);
                 }
                 break;
             case InventoryItem::ID::Apple:
-                if (health != 9)
+                if (health != FULL_HEALTH)
                 {
                     _eatFood(&health, 2);
-                    removeItem(InventoryItem::ID::Apple);
+                    removeItem(InventoryItem::ID::Apple); // TODO refactor food eating
                 }
                 break;
             case InventoryItem::ID::Bread:
-                if (health != 9)
+                if (health != FULL_HEALTH)
                 {
                     _eatFood(&health, 4);
                     removeItem(InventoryItem::ID::Bread);
@@ -1278,8 +1277,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 {
                     // place a block or interact
                     // some blocks can only be placed on certain other blocks
-                    if (inventory[hotbarSelect].amount > 0 &&
-                        !isItem(id))
+                    if (inventory[hotbarSelect].amount > 0 && !isItem(id))
                     {
                         bool canPlace = true; // can place block
                         switch (id)
