@@ -41,3 +41,6 @@ __pycache__/
 
 # code blocks auto save
 *.save
+
+# doxygen documentations
+docs/

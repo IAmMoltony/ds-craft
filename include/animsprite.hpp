@@ -4,8 +4,14 @@
 #include <vector>
 #include <initializer_list>
 
+/**
+ * \brief Enum for how AnimatedSprite will behave
+*/
 enum class AnimatedSpriteMode
 {
+    /**
+     * \brief eifjefoiwj
+    */
     Normal,
     ReverseLoop,
 };
