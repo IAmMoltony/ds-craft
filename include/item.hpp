@@ -5,9 +5,15 @@
 #include <gl2d.h>
 #include <string>
 
+/**
+ * @brief Class representing inventory item
+*/
 class InventoryItem
 {
 public:
+    /**
+     * @brief Enum representing the inventory item ID
+    */
     enum class ID
     {
         None,
@@ -85,22 +91,75 @@ public:
         HayBale,
     };
 
+    /**
+     * @brief The item's ID
+    */
     ID id;
+
+    /**
+     * @brief How many of the item there is
+    */
     u8 amount;
 
+    /**
+     * @brief Inventory item constructor using the ID and amount
+     * @param id the ID of the item
+     * @param amount the item amount
+    */
     InventoryItem(ID id, u8 amount);
+
+    /**
+     * @brief Inventory item constructor using the string representation of the ID and amount
+     * @param stringID string representation of the ID
+     * @param amount the item amount
+    */
     InventoryItem(const std::string &stringID, u8 amount);
+
+    /**
+     * @brief Copy constructor
+     * @param item the item to copy from
+    */
     InventoryItem(const InventoryItem &item);
+
+    /**
+     * @brief Inventory item default constructor
+    */
     InventoryItem();
 
+    /**
+     * @brief The = operator for inventory item
+     * @param item item to copy the properties from
+    */
     InventoryItem &operator=(const InventoryItem &item);
 
     // TODO add durability for items
 
+    /**
+     * @brief Load item textures
+    */
+
+    /**
+     * @brief Unload item textures
+    */
     static void loadTextures(void);
     static void unloadTextures(void);
 };
 
+/**
+ * @brief Convert item ID to its string representation
+ * @param iid item ID to convert
+*/
 std::string iidToString(InventoryItem::ID iid);
-const char *getItemName(Language lang, InventoryItem::ID iid);
+
+/**
+ * @brief Get item name
+ * @param lang language to use
+ * @param iid item ID to get the name of
+*/
+const char *getItemName(Language lang, InventoryItem::ID iid); // TODO lang is  available from Game::instance
+
+/**
+ * @brief Get item image corresponding to the item ID
+ * @param item item ID
+*/
 glImage *getItemImage(InventoryItem::ID item);

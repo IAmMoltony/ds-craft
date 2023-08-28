@@ -7,10 +7,13 @@ extern "C"
 {
 #endif
 
+    /**
+     * @brief Enum for representing user's favorite color, set through DS settings
+     *
+     * Color names taken from melonDS
+    */
     enum FavoriteColor
     {
-        // this is how the colors are called in melonDS
-
         FAVCOL_GREYISHBLUE,
         FAVCOL_BROWN,
         FAVCOL_RED,
@@ -29,15 +32,37 @@ extern "C"
         FAVCOL_DARKPINK,
     };
 
+    /**
+     * @brief Structure for user's birthday
+    */
     typedef struct
     {
         uint8_t day, month;
     } Birthday;
 
+    /**
+     * @brief Get user's favorite color
+    */
     enum FavoriteColor getFavoriteColor(void);
+
+    /**
+     * @brief Get user's favorite color as a color value
+    */
     rgb getFavoriteColorRgb(void);
+
+    /**
+     * @brief Get user's birthday
+    */
     Birthday getBirthday(void);
+
+    /**
+     * @brief Get user's name
+    */
     const char *getUserName(void);
+
+    /**
+     * @brief Get user's birthday
+    */
     const char *getUserMessage(void);
 
 #ifdef __cplusplus

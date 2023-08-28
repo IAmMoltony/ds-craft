@@ -8,6 +8,9 @@
 class Game
 {
 public:
+    /**
+     * @brief Class for managing worlds
+    */
     class WorldManager
     {
     public:
@@ -15,29 +18,65 @@ public:
         WorldManager(WorldManager &) = delete;
         ~WorldManager() = delete;
 
+        /**
+         * @brief Struct for representing basic world info
+        */
         struct WorldInfo
         {
             std::string name;
-            int size; // in bytes
+
+            /**
+             * @note size is in bytes
+            */
+            int size;
         };
+
         typedef std::vector<WorldInfo> WorldList;
 
+        /**
+         * @brief Get info about worlds stored in the worlds directory
+        */
         static WorldList getWorlds(void);
     };
 
+    /**
+     * @brief Class for holding and managing settings
+    */
     class SettingsManager
     {
     public:
+        /**
+         * @brief Whether leaves are transparent or not
+        */
         static bool transparentLeaves;
+
+        /**
+         * @brief How many seconds need to pass between each auto save
+        */
         static u8 autoSaveSeconds;
+
+        /**
+         * @brief Whether the camera is smooth or not
+        */
         static bool smoothCamera;
+
+        /**
+         * @brief Auto jump setting
+        */
         static bool autoJump;
+
+        /**
+         * @brief I should remove this feature
+        */
         static bool touchToMove;
 
         SettingsManager() = delete;
         SettingsManager(SettingsManager &) = delete;
         ~SettingsManager() = delete;
 
+        /**
+         * @brief Load settings from the config directory
+        */
         static void loadSettings(void);
     };
 
@@ -71,11 +110,32 @@ public:
         ControlsManager(ControlsManager &) = delete;
         ~ControlsManager() = delete;
 
+        /**
+         * @brief Load controls from config directory
+        */
         static void loadControls(void);
+
+        /**
+         * @brief Save controls to config directory
+        */
         static void saveControls(void);
+
+        /**
+         * @brief Get the button code for specific button
+         * @param button button to get the key code for
+        */
         static u32 getButton(u8 button);
+
+        /**
+         * @brief Set button's key code
+         * @param button button to set key code for
+         * @param key key code to set
+        */
         static void setButton(u8 button, u32 key);
 
+        /**
+         * @brief Names for controls. Used in controls editor.
+        */
         static inline constexpr const char *CONTROLS_LABELS[] = {
             "Go left",
             "Go right",
@@ -91,10 +151,20 @@ public:
     private:
         static u32 buttons[NUM_BUTTONS];
 
+        /**
+         * @brief Write default controls
+        */
         static void writeDefaultControls(void);
+
+        /**
+         * @brief Convert string representation of button ID to button ID
+        */
         static u8 buttonIDIndex(const std::string &buttonID);
     };
 
+    /**
+     * @brief Enum representing game state
+    */
     enum class GameState
     {
         Game,
@@ -150,52 +220,204 @@ private:
     u8 editControlsSelected;
     bool editControlsSetMode;
 
+    /**
+     * @brief Quit the game
+     *
+     * This function unloads the current world, game assets and loads menu assets - all with an unload screen
+    */
     void gameQuit(void);
+
+    /**
+     * @brief Play the "pop" sound with a random pitch
+    */
     void playPopSound(void);
+
+    /**
+     * @brief Load fonts
+    */
     void loadFonts(void);
+
+    /**
+     * @brief Initialize the game. This game is run once after boot.
+    */
     void init(void);
+
+    /**
+     * @brief Show help screen for the specific setting
+     * @param setting setting to show the help screen for
+    */
     void showHelpScreen(const std::string &setting);
+
+    /**
+     * @brief Enter world select screen
+    */
     void enterWorldSelect(void);
+
+    /**
+     * @brief Load location
+     * @param oldLocation old location
+    */
     void loadLocation(s16 oldLocation);
+
+    /**
+     * @brief Make the camera follow the player
+     * @param smooth whether the camera following should be smooth or not
+    */
     void cameraFollowPlayer(bool smooth);
+
+    /**
+     * @brief Draw the dirt background and the rows of dirt blocks on top and bottom
+    */
     void drawMenuBackground(void);
+
+    /**
+     * @brief Draw stats screen
+    */
     void drawStatsScreen(void);
 
 public:
+    /**
+     * @brief Instance of the game
+    */
     static Game *instance;
 
+    /**
+     * @brief Character width handler for small font
+     * @param ch character to handle
+    */
     static u8 fontSmallCharWidthHandler(char ch);
+
+    /**
+     * @brief Character width handler for big font
+     * @param ch character to handle
+    */
     static u8 fontBigCharWidthHandler(char ch);
+
+    /**
+     * @brief Character width handler for small Russian font
+     * @param ch character to handle
+    */
     static u8 fontSmallRuCharWidthHandler(char ch);
+
+    /**
+     * @brief Character width handler for big Russian font
+     * @param ch character to handle
+    */
     static u8 fontBigRuCharWidthHandler(char ch);
 
+    /**
+     * @brief Game logo
+    */
     glImage sprLogo[1];
+
+    /**
+     * @brief Sprite for the A button
+    */
     glImage sprAButton[1];
+
+    /**
+     * @brief Sprite for the B button
+    */
     glImage sprBButton[1];
+
+    /**
+     * @brief Sprite for the X button
+    */
     glImage sprXButton[1];
+
+    /**
+     * @brief Sprite for the Y button
+    */
     glImage sprYButton[1];
+
+    /**
+     * @brief Sprite for the L button
+    */
     glImage sprLButton[1];
+
+    /**
+     * @brief Sprite for the R button
+    */
     glImage sprRButton[1];
+
+    /**
+     * @brief Sprite for left on the D-Pad
+    */
     glImage sprLeftButton[1];
+
+    /**
+     * @brief Sprite for right on the D-Pad
+    */
     glImage sprRightButton[1];
+
+    /**
+     * @brief Sprite for up on the D-Pad
+    */
     glImage sprUpButton[1];
+
+    /**
+     * @brief Sprite for down on the D-Pad
+    */
     glImage sprDownButton[1];
+
+    /**
+     * @brief Sprite for the Select button
+    */
     glImage sprSelectButton[1];
+
+    /**
+     * @brief Sprite for the Start button
+    */
     glImage sprStartButton[1];
 
+    /**
+     * @brief Sprite for the world label (more like world label background)
+    */
     glImage sprWorldLabel[1];
+
+    /**
+     * @brief Sprite for the world label when it is selected
+    */
     glImage sprWorldLabelSelect[1];
 
+    /**
+     * @brief Sprite for English language
+    */
     glImage sprLangEnglish[1];
+
+    /**
+     * @brief Sprite for Russian language
+    */
     glImage sprLangRussian[1];
 
+    /**
+     * @brief Click sound effect
+    */
     mm_sound_effect sndClick;
+
+    /**
+     * @brief Pop sound effect
+    */
     mm_sound_effect sndPop;
 
-    Font font, fontRu;
+    /**
+     * @brief Englsh font
+    */
+    Font font;
 
+    /**
+     * @brief Russian font
+    */
+    Font fontRu;
+
+    /**
+     * @brief Current language
+    */
     Language lang;
 
+    /**
+     * @brief Class for managing assets
+    */
     class AssetManager
     {
     public:
@@ -203,18 +425,53 @@ public:
         AssetManager(AssetManager &) = delete;
         ~AssetManager() = delete;
 
+        /**
+         * @brief Load the dirt block sprite
+         *
+         * dirt block is special
+        */
         static void loadDirtBlock(void);
+
+        /**
+         * @brief Load assets used by both gameplay and menus
+        */
         static void loadGeneralAssets(void);
+
+        /**
+         * @brief Load assets used by gameplay
+        */
         static void loadGameAssets(void);
+
+        /**
+         * @brief Unload assets used by gameplay
+        */
         static void unloadGameAssets(void);
+
+        /**
+         * @brief Load assets used by menus
+        */
         static void loadMenuAssets(void);
+
+        /**
+         * @brief Unload assets used by menus
+        */
         static void unloadMenuAssets(void);
     };
 
+    /**
+     * @brief Game constructor
+    */
     Game();
 
+    /**
+     * @brief Get frame counter
+     * @see frameCounter
+    */
     u16 getFrameCounter(void);
 
+    /**
+     * @brief
+    */
     static void drawMovingBackground(void);
     void draw(void);
     void update(void);
