@@ -470,10 +470,22 @@ public:
     u16 getFrameCounter(void);
 
     /**
-     * @brief
+     * @brief Draw scroling dirt background
     */
     static void drawMovingBackground(void);
+
+    /**
+     * @brief Draw game
+    */
     void draw(void);
+
+    /**
+     * @brief Update game
+    */
     void update(void);
+
+    /**
+     * @brief Run game
+    */
     void run(void);
 };
