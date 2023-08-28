@@ -647,7 +647,7 @@ static u16 _nextChestID = 0;
 
 void ChestBlock::initItems(void)
 {
-    for (u8 i = 0; i < 10; ++i)
+    for (u8 i = 0; i < NUM_ITEMS; ++i)
         items[i] = InventoryItem();
 }
 
@@ -677,10 +677,10 @@ u16 ChestBlock::id(void)
     return BID_CHEST;
 }
 
-std::array<InventoryItem, 10> ChestBlock::getItems(void)
+std::array<InventoryItem, NUM_ITEMS> ChestBlock::getItems(void)
 {
-    std::array<InventoryItem, 10> inv;
-    for (u8 i = 0; i < 10; ++i)
+    std::array<InventoryItem, NUM_ITEMS> inv;
+    for (u8 i = 0; i < NUM_ITEMS; ++i)
         inv[i] = items[i];
     return inv;
 }
@@ -692,7 +692,7 @@ void ChestBlock::setItem(u8 i, InventoryItem item)
 
 void ChestBlock::clear(void)
 {
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < NUM_ITEMS; ++i)
         items[i] = InventoryItem();
 }
 

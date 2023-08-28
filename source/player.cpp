@@ -8,8 +8,6 @@
 #include "stats.hpp"
 #include "util.h"
 
-static constexpr u8 MAX_AIM_DISTANCE = 67;
-
 // gui images
 
 static glImage _sprInventorySlot[1];
@@ -275,7 +273,7 @@ bool isSlabItem(InventoryItem::ID id)
     return std::find(_slabItemIDs, _slabItemIDs + n, id) != _slabItemIDs + n;
 }
 
-Player::Player() : x(0), y(0), aimX(0), aimY(0), spawnX(0), spawnY(0), health(9), airY(0), hotbarSelect(0), inventorySelect(0), inventoryMoveSelect(20), craftingSelect(0),
+Player::Player() : x(0), y(0), aimX(0), aimY(0), spawnX(0), spawnY(0), health(FULL_HEALTH), airY(0), hotbarSelect(0), inventorySelect(0), inventoryMoveSelect(NUM_INVENTORY_ITEMS), craftingSelect(0),
                    chestSelect(0), chestMoveSelect(40), normalSpriteFPI(0), spawnImmunity(SPAWN_IMMUNITY), velX(0), velY(0), falling(true), jumping(false), fullInventory(false), inventoryCrafting(false),
                    chestOpen(false), sneaking(false), facing(Facing::Right),
                    chest(nullptr), sign(nullptr), bodySprite(AnimatedSprite(5, AnimatedSpriteMode::ReverseLoop,
@@ -285,7 +283,7 @@ Player::Player() : x(0), y(0), aimX(0), aimY(0), spawnX(0), spawnY(0), health(9)
     normalSpriteFPI = bodySprite.getFramesPerImage();
 
     // initialize inventory with null items
-    for (u8 i = 0; i < 20; ++i)
+    for (u8 i = 0; i < NUM_INVENTORY_ITEMS; ++i)
         inventory[i] = InventoryItem();
 }
 
@@ -469,7 +467,7 @@ void Player::drawBody(const Camera &camera)
         {
         // some special cases
         case InventoryItem::ID::Leaves:
-            glColor(RGB15(0, 22, 0));
+            glColor(RGB15(0, 22, 0)); // TODO move leaves colors into constants
             glSpriteScale(xx, yy, HALF_SCALE, flip, sprLeaves);
             glColor(RGB15(31, 31, 31));
             break;
@@ -484,17 +482,17 @@ void Player::drawBody(const Camera &camera)
             glColor(RGB15(31, 31, 31));
             break;
         case InventoryItem::ID::Door:
-            glSpriteScale(xx, yy, (1 << 12) / 4, flip, sprDoor);
+            glSpriteScale(xx, yy, SCALE_NORMAL / 4, flip, sprDoor);
             break;
         case InventoryItem::ID::BirchDoor:
-            glSpriteScale(xx, yy, (1 << 12) / 4, flip, sprBirchDoor);
+            glSpriteScale(xx, yy, SCALE_NORMAL / 4, flip, sprBirchDoor);
             break;
         case InventoryItem::ID::SpruceDoor:
-            glSpriteScale(xx, yy, (1 << 12) / 4, flip, sprSpruceDoor);
+            glSpriteScale(xx, yy, SCALE_NORMAL / 4, flip, sprSpruceDoor);
             break;
         case InventoryItem::ID::Glass:
             glSpriteScale(xx - 1, yy, HALF_SCALE, flip, sprGlass);
-            break;
+            break; // TODO move 16 into a constant in Block class
         case InventoryItem::ID::OakSlab:
             glSpritePartScale(sprPlanks, xx - 1, yy + 2, 0, 0, 16, 8, HALF_SCALE);
             break;
@@ -534,7 +532,7 @@ void Player::drawInventory(Font &font, Font &fontRu)
         drawCrafting(font, fontRu);
     else
     {
-        _drawInventory(inventory, 20, font, inventorySelect, inventoryMoveSelect);
+        _drawInventory(inventory, NUM_INVENTORY_ITEMS, font, inventorySelect, inventoryMoveSelect);
 
         switch (Game::instance->lang)
         {
@@ -558,8 +556,11 @@ void Player::drawChest(Font &font, Font &fontRu)
     switch (Game::instance->lang)
     {
     case Language::English:
-        font.drawHeadingShadow(chestSelect < 20 ? "Chest" : "Inventory");
-        font.printShadow(16, SCREEN_HEIGHT - 32, chestSelect < 20 ? "\2:Y Switch to inventory" : "\2:Y Switch to chest");
+        // if chest select is less than num of inventory items
+        // then that means we are in chest
+        // TODO a better approach would be to move checking if editing chest and not inventory into its own function
+        font.drawHeadingShadow(chestSelect < NUM_INVENTORY_ITEMS ? "Chest" : "Inventory");
+        font.printShadow(16, SCREEN_HEIGHT - 32, chestSelect < NUM_INVENTORY_ITEMS ? "\2:Y Switch to inventory" : "\2:Y Switch to chest");
         break;
     case Language::Russian:
         fontRu.drawHeadingShadow(chestSelect < 20 ? "Svpfvm" : "Jpdgpubs#");
@@ -567,10 +568,10 @@ void Player::drawChest(Font &font, Font &fontRu)
         break;
     }
 
-    if (chestSelect < 20)
-        _drawInventory(chest->getItems().data(), 10, font, chestSelect, chestMoveSelect);
+    if (chestSelect < NUM_INVENTORY_ITEMS)
+        _drawInventory(chest->getItems().data(), ChestBlock::NUM_ITEMS, font, chestSelect, chestMoveSelect);
     else
-        _drawInventory(inventory, 20, font, chestSelect - 20, chestMoveSelect - 20);
+        _drawInventory(inventory, NUM_INVENTORY_ITEMS, font, chestSelect - NUM_INVENTORY_ITEMS, chestMoveSelect - NUM_INVENTORY_ITEMS);
 }
 
 void Player::drawSign(Font &font, Font &fontRu)
@@ -2598,7 +2599,7 @@ void Player::setHealth(s16 health)
 
 void Player::restoreHealth(void)
 {
-    health = 9; // TODO move 9 (full health) into constant
+    health = FULL_HEALTH;
 }
 
 void Player::resetInventory(void)

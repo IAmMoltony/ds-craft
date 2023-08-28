@@ -463,12 +463,12 @@ public:
 class ChestBlock : public Block
 {
 public:
-    typedef InventoryItem State[10];
+    static inline constexpr u8 NUM_ITEMS = 10;
 
 private:
     u16 chid; // that means we cant have more than 65536 chests per world
     // TODO chests don't work with locations
-    State items;
+    InventoryItem items[NUM_ITEMS];
 
     void initItems(void);
 
@@ -480,7 +480,7 @@ public:
     bool solid(void) override;
     u16 id(void) override;
 
-    std::array<InventoryItem, 10> getItems(void);
+    std::array<InventoryItem, NUM_ITEMS> getItems(void);
     void setItem(u8 i, InventoryItem item);
     void clear(void);
     u16 getChestID(void);

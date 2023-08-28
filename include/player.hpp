@@ -23,6 +23,9 @@
 
 class Player
 {
+public:
+    static constexpr u8 NUM_INVENTORY_ITEMS = 20;
+
 private:
     s16 x, y, aimX, aimY, spawnX, spawnY, health;
     u16 airY;
@@ -31,7 +34,7 @@ private:
     float velX, velY;
     bool falling, jumping, fullInventory, inventoryCrafting, chestOpen, sneaking;
     Facing facing;
-    InventoryItem inventory[20];
+    InventoryItem inventory[NUM_INVENTORY_ITEMS];
     ChestBlock *chest;
     SignBlock *sign;
     AnimatedSprite bodySprite;
@@ -56,7 +59,9 @@ public:
     static void unloadSounds(void);
 
     static inline constexpr float JUMP_SPEED = 4.0f;
-    static inline s16 VOID_Y = 860;
+    static inline constexpr s16 VOID_Y = 860;
+    static inline constexpr s16 FULL_HEALTH = 9;
+    static inline constexpr u8 MAX_AIM_DISTANCE = 67;
 
     Player();
 
@@ -112,7 +117,7 @@ public:
     Rect getRectSlab(void); // weird name but it is the rect that slab collides with to make the player go up
     Rect getRectAim(Camera camera);
     Rect getRectAimY8(Camera camera); // getRectAim but instead of using spanToGrid on Y, it uses snapToGrid8
-    std::array<InventoryItem, 20> getInventory(void);
+    std::array<InventoryItem, NUM_INVENTORY_ITEMS> getInventory(void);
 
     static void initCrafting(void);
 };
