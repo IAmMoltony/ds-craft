@@ -677,7 +677,7 @@ u16 ChestBlock::id(void)
     return BID_CHEST;
 }
 
-std::array<InventoryItem, NUM_ITEMS> ChestBlock::getItems(void)
+std::array<InventoryItem, ChestBlock::NUM_ITEMS> ChestBlock::getItems(void)
 {
     std::array<InventoryItem, NUM_ITEMS> inv;
     for (u8 i = 0; i < NUM_ITEMS; ++i)
