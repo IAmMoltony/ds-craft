@@ -5,14 +5,6 @@
 
 std::string normalizeWorldFileName(const std::string &str)
 {
-    // this function turns world name
-    // into file name
-    // e.g.
-    // mY cOoL wOrLd LoL :D -> my_cool_world_lol__d
-
-    // spaces and special chars -> _
-    // upper case letters -> lower case letters
-
     std::string wfn = str; // world file name
 
     // replace punctuation and spaces with underscores
@@ -36,8 +28,6 @@ std::string normalizeWorldFileName(const std::string &str)
 
 std::string getWorldFile(const std::string &name)
 {
-    // very simple. we normalize the world filename, turn it into world path and then
-    // if it's not found, we return "(NO WORLD FILE)" otherwise we return the path
     std::string fn = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(name);
     return fsFolderExists(fn.c_str()) ? fn : "(NO WORLD FILE)";
 }
@@ -78,11 +68,11 @@ std::string getWorldName(const std::string &file)
 std::string getWorldVersion(const std::string &file)
 {
     // if the world doesn't exist or no meta file, return error version
-    if (!fsFolderExists(std::string("fat:/dscraft_data/worlds/" + file).c_str()) ||
-        !fsFileExists(std::string("fat:/dscraft_data/worlds/" + file + "/world.meta").c_str()))
+    if (!fsFolderExists(std::string(WORLDS_DIR "/" + file).c_str()) ||
+        !fsFileExists(std::string(WORLDS_DIR "/" + file + "/world.meta").c_str()))
         return "alpha0.0.0";
 
-    std::ifstream wldMeta("fat:/dscraft_data/worlds/" + file + "/world.meta");
+    std::ifstream wldMeta(WORLDS_DIR "/" + file + "/world.meta");
     std::string line;
     std::string gameVersion = "alpha0.0.0"; // alpha0.0.0 by default (returned when gameversion not found in metafile)
     while (std::getline(wldMeta, line))
