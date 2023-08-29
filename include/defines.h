@@ -55,3 +55,5 @@
 #define DATA_DIR "fat:/dscraft_data"
 #define WORLDS_DIR DATA_DIR "/worlds"
 #define CONFIG_DIR DATA_DIR "/config"
+
+// TODO move constants from this file to a config file in NitroFS so that it is possible to update these settings without recompiling 90% of the game
