@@ -1,3 +1,57 @@
+/**
+ * @mainpage DS-Craft documentation
+ *
+ * @ref animsprite.hpp "Animated Sprite documentation"
+ *
+ * @ref block.hpp "Block documentation"
+ *
+ * @ref blockparticle.hpp "Block Particle documentation"
+ *
+ * @ref camera.h "Camera documentation"
+ *
+ * @ref crafting.hpp "Crafting documentation"
+ *
+ * @ref entity.hpp "Entity documentation"
+ *
+ * @ref font.hpp "Font documentation"
+ *
+ * @ref fs.h "File System documentation"
+ *
+ * @ref game.hpp "Game documentation"
+ *
+ * @ref gamever.hpp "Game Version documentation"
+ *
+ * @ref glext.h "GL Extensions documentation"
+ *
+ * @ref help.hpp "Help Screen documentation"
+ *
+ * @ref item.hpp "Inventory Item documentation"
+ *
+ * @ref lang.hpp "Language documentation"
+ *
+ * @ref player.hpp "Player documentation"
+ *
+ * @ref random.hpp "Random Number Generator documentation"
+ *
+ * @ref rect.hpp "Rectangle documentation"
+ *
+ * @ref save.hpp "Save System documentation"
+ *
+ * @ref stats.hpp "Stats System documentation"
+ *
+ * @ref terrain.hpp "Terrain Generation documentation"
+ *
+ * @ref userinfo.h "User Information documentation"
+ *
+ * @ref util.h "Utility Function documentation"
+ *
+ * @section extlinks External links
+ *
+ * <a href="https://github.com/IAmMoltony/ds-craft">GitHub</a>
+ *
+ * <a href="https://iammoltony.github.io/ds-craft/index.html">Home page</a>
+*/
+
 #pragma once
 
 #include <gl2d.h>
