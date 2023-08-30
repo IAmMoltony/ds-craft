@@ -1,3 +1,8 @@
+/**
+ * @file animsprite.hpp
+ * @brief Animated sprite class
+*/
+
 #pragma once
 
 #include <gl2d.h>

@@ -23,8 +23,6 @@ Note that Code::Blocks support is only supported on Linux.
 
 ## Screenshots
 
-**TODO**: update screenshots to newer game version
-
 ![Screenshot 1](./screenshots/shot1.png)
 ![Screenshot 2](./screenshots/shot2.png)
 ![Screenshot 3](./screenshots/shot3.png)

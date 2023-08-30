@@ -1,3 +1,8 @@
+/**
+ * @file block.hpp
+ * @brief Blocks and block functions
+*/
+
 #pragma once
 
 #include <nds.h>

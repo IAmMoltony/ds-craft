@@ -1,3 +1,9 @@
+/**
+ * @file defines.h
+ * @brief Global macros and constants
+ * @note This file is goingto go away soon because changing a constant and causing the entire game to recompile is not good.
+*/
+
 #pragma once
 
 #define declsfx4(effectname)            \

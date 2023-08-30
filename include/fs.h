@@ -1,3 +1,8 @@
+/**
+ * @file fs.h
+ * @brief Filesystem utility functions
+*/
+
 #pragma once
 
 #include <nds.h>

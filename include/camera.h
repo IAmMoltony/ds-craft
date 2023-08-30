@@ -1,3 +1,8 @@
+/**
+ * @file camera.h
+ * @brief Camera structure
+*/
+
 #pragma once
 
 /**

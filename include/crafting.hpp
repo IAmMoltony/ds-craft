@@ -1,3 +1,8 @@
+/**
+ * @file crafting.hpp
+ * @brief Crafting recipe class
+*/
+
 #pragma once
 
 #include "lang.hpp"

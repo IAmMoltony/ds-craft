@@ -1,3 +1,8 @@
+/**
+ * @file blockparticle.hpp
+ * @brief Block particle class
+*/
+
 #pragma once
 
 #include <gl2d.h>
