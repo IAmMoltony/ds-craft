@@ -1,3 +1,8 @@
+/**
+ * @file userinfo.h
+ * @brief Functions for getting user's info
+*/
+
 #pragma once
 
 #include <nds.h>

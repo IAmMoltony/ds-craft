@@ -1,3 +1,8 @@
+/**
+ * @file font.hpp
+ * @brief Font class used to print stuff to the screen
+*/
+
 #pragma once
 
 #include <nds.h>

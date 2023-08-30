@@ -1,3 +1,9 @@
+/**
+ * @file player.hpp
+ * @brief Player, crafting and inventory management.
+ * @note i should refactor this
+*/
+
 #pragma once
 #include "soundbank.h"
 #include "defines.h"

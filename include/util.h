@@ -1,3 +1,8 @@
+/**
+ * @file util.h
+ * @brief Random utility functions
+*/
+
 #pragma once
 
 #include <maxmod9.h>

@@ -1,4 +1,10 @@
+/**
+ * @file save.hpp
+ * @brief Functions for saving and loading worlds
+*/
+
 #pragma once
+
 #include "player.hpp"
 #include "crafting.hpp"
 #include "terrain.hpp"

@@ -52,6 +52,11 @@
  * <a href="https://iammoltony.github.io/ds-craft/index.html">Home page</a>
 */
 
+/**
+ * @file game.hpp
+ * @brief Classes for managing the game
+*/
+
 #pragma once
 
 #include <gl2d.h>

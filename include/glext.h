@@ -1,4 +1,7 @@
-// gl extensions
+/**
+ * @file glext.h
+ * @brief Custom GL2D extensions
+*/
 
 #pragma once
 

@@ -1,3 +1,8 @@
+/**
+ * @file stats.hpp
+ * @brief Statistics system
+*/
+
 #pragma once
 
 #include <map>

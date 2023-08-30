@@ -1,3 +1,8 @@
+/**
+ * @file lang.hpp
+ * @brief Enum representing game language
+*/
+
 #pragma once
 
 /**

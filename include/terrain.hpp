@@ -1,4 +1,10 @@
+/**
+ * @file terrain.hpp
+ * @brief Functions for generating terrain
+*/
+
 #pragma once
+
 #include "player.hpp"
 #include <time.h>
 #include <limits.h>

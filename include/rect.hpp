@@ -1,3 +1,8 @@
+/**
+ * @file rect.hpp
+ * @brief Rectangle class
+*/
+
 #pragma once
 
 #include "defines.h"

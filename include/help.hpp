@@ -1,3 +1,8 @@
+/**
+ * @file help.hpp
+ * @brief Help system
+*/
+
 #pragma once
 
 #include <nds.h>

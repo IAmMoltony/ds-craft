@@ -1,3 +1,8 @@
+/**
+ * @file random.hpp
+ * @brief Random number generation
+*/
+
 #pragma once
 
 #include <nds.h>

@@ -1,3 +1,8 @@
+/**
+ * @file entity.hpp
+ * @brief Entity classes and functions
+*/
+
 #pragma once
 
 #include "camera.h"

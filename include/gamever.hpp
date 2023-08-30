@@ -1,3 +1,8 @@
+/**
+ * @file gamever.hpp
+ * @brief Game version management
+*/
+
 #pragma once
 
 #include <nds.h>
