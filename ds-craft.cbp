@@ -682,6 +682,7 @@
 		<Unit filename="include/defines.h" />
 		<Unit filename="include/entity.hpp" />
 		<Unit filename="include/font.hpp" />
+		<Unit filename="include/font_uvcoord.h" />
 		<Unit filename="include/fs.h" />
 		<Unit filename="include/game.hpp" />
 		<Unit filename="include/gamever.hpp" />
@@ -690,6 +691,7 @@
 		<Unit filename="include/images.h" />
 		<Unit filename="include/item.hpp" />
 		<Unit filename="include/lang.hpp" />
+		<Unit filename="include/log.h" />
 		<Unit filename="include/loottable.hpp" />
 		<Unit filename="include/player.hpp" />
 		<Unit filename="include/random.hpp" />
@@ -3617,6 +3619,9 @@
 		</Unit>
 		<Unit filename="source/help.cpp" />
 		<Unit filename="source/item.cpp" />
+		<Unit filename="source/log.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="source/loottable.cpp" />
 		<Unit filename="source/main.cpp" />
 		<Unit filename="source/player.cpp" />

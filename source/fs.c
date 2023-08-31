@@ -60,12 +60,10 @@ void fsDeleteDir(const char *name)
     char path[PATH_MAX];
 
     dir = opendir(name);
-    if (dir == NULL)
+    if (!dir && configGetInt("fsErrorMessages"))
     {
-#if FS_ERROR_MESSAGES
         printf("fsDeleteDir: opendir error\n");
         perror(name);
-#endif
         return;
     }
 
@@ -78,24 +76,20 @@ void fsDeleteDir(const char *name)
             fsDeleteDir(path);
         else
         {
-            if (unlink(path) != 0)
+            if (unlink(path) != 0 && configGetInt("fsErrorMessages"))
             {
-#if FS_ERROR_MESSAGES
                 printf("fsDeleteDir: unlink error\n");
                 perror(path);
-#endif
             }
         }
     }
 
     closedir(dir);
 
-    if (remove(name) != 0)
+    if (remove(name) != 0 && configGetInt("fsErrorMessages"))
     {
-#if FS_ERROR_MESSAGES
         printf("fsDeleteDir: rmdir error\n");
         perror(name);
-#endif
     }
 }
 
@@ -116,9 +110,8 @@ bool fsFolderExists(const char *name)
         return false;
     else
     {
-#if FS_ERROR_MESSAGES
-        perror("fsFolderExists: opendir() failed");
-#endif
+        if (configGetInt("fsErrorMessages"))
+            perror("fsFolderExists: opendir() failed");
         return false;
     }
 
@@ -131,10 +124,11 @@ bool fsIsDir(const char *name)
 
     if (stat(name, &fileStat) == -1)
     {
-#if FS_ERROR_MESSAGES
-        printf("fsIsDir failed: ");
-        perror(name);
-#endif
+        if (configGetInt("fsErrorMessages"))
+        {
+            printf("fsIsDir failed: ");
+            perror(name);
+        }
         return false;
     }
 
@@ -163,13 +157,11 @@ char *fsReadFile(const char *name)
         }
         fclose(fp);
     }
-#if FS_ERROR_MESSAGES
-    else
+    else if (configGetInt("fsErrorMessages"))
     {
         printf("fsReadFile failed (name: %s)\n", name);
         perror(name);
     }
-#endif
 
     return buf;
 }
@@ -179,10 +171,11 @@ long fsGetFileSize(const char *name)
     FILE *fp = fopen(name, "r");
     if (!fp)
     {
-#if FS_ERROR_MESSAGES
-        printf("fsGetFileSize failed: ");
-        perror(name);
-#endif
+        if (configGetInt("fsErrorMessages"))
+        {
+            printf("fsGetFileSize failed: ");
+            perror(name);
+        }
         return -1;
     }
 
@@ -198,10 +191,11 @@ long fsGetDirSize(const char *name)
 
     if (!d)
     {
-#if FS_ERROR_MESSAGES
-        printf("fsGetDirSize: opendir() failed with name ");
-        perror(name);
-#endif
+        if (configGetInt("fsErrorMessages"))
+        {
+            printf("fsGetDirSize: opendir() failed with name ");
+            perror(name);
+        }
         return -1;
     }
 
@@ -212,9 +206,8 @@ long fsGetDirSize(const char *name)
         char *fullFileName = malloc(strlen(name) + strlen(de->d_name) + 2);
         if (!fullFileName)
         {
-#if FS_ERROR_MESSAGES
-            printf("fsGetDirSize: failed to allocate memory\n");
-#endif
+            if (configGetInt("fsErrorMessages"))
+                printf("fsGetDirSize: failed to allocate memory\n");
             return -1;
         }
         strcpy(fullFileName, name);

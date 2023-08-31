@@ -7,6 +7,7 @@
 #include "stats.hpp"
 #include "util.h"
 #include "config.h"
+#include "log.h"
 
 Game *Game::instance;
 
@@ -313,12 +314,18 @@ void Game::init(void)
 
     printf("Loading config\n");
 
+    // init config
     configInit();
 
     printf("Initializing game version\n");
 
     // init game version
     gameverInit();
+
+    printf("Initializing logging\n");
+
+    // init logging
+    logInit(LOG_WARNING, configGet("logFile"));
 
     printf("Initializing sound\n");
 
@@ -1367,12 +1374,13 @@ void Game::draw(void)
         break;
     }
 
-#if SHOW_POLYGON_RAM_COUNT
-    // for debug purposes
-    int vc = 0;
-    glGetInt(GL_GET_POLYGON_RAM_COUNT, &vc);
-    printf("polygon ram count %d\n", vc);
-#endif
+    if (configGetInt("showPolygonRamCount"))
+    {
+        // for debug purposes
+        int vc = 0;
+        glGetInt(GL_GET_POLYGON_RAM_COUNT, &vc);
+        printf("polygon ram count %d\n", vc);
+    }
 }
 
 void Game::update(void)
@@ -1814,9 +1822,8 @@ void Game::update(void)
                     std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
 
                     mmEffectEx(&sndClick);
-#if CLEAR_CONSOLE_ON_PLAY
-                    consoleClear();
-#endif
+                    if (configGetInt("clearConsoleOnPlay"))
+                        consoleClear();
                     player.setAimX(SCREEN_WIDTH / 2);
                     player.setAimY(SCREEN_HEIGHT / 2);
                     gameState = GameState::Game;
