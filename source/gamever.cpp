@@ -4,6 +4,7 @@
 #include "fs.h"
 #include "util.h"
 #include "config.h"
+#include "log.h"
 
 static std::string _versionPrefix = "";
 static std::string _versionString = "";
@@ -13,13 +14,12 @@ static u8 _versionPatch = 0;
 
 void gameverInit(void)
 {
-    if (!fsFileExists("nitro:/game.ver"))
+    FILE *f = fopen("nitro:/game.ver", "r");
+    if (!f)
     {
-        printf("game.ver not found");
+        logMessage(LOG_ERROR, "Failed opening game version file because %s", strerror(errno));
         hang();
     }
-
-    FILE *f = fopen("nitro:/game.ver", "r");
     u8 count = 0;
     if (f)
     {
