@@ -317,7 +317,7 @@ void Game::init(void)
     gameverInit();
 
     // init logging
-    logInit(LOG_WARNING, configGet("logFile"));
+    logInit((LogLevel)configGetInt("logLevel"), configGet("logFile"));
 
     logMessage(LOG_INFO, "Initializing sound");
 
