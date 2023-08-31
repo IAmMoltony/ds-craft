@@ -81,7 +81,6 @@ void configInit(void)
             memcpy(current->value, valueBuf, valueLen);
         }
     }
-    printf("config loaded\n");
 
     fclose(configFile);
 }

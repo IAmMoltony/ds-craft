@@ -7,6 +7,7 @@
 #include "random.hpp"
 #include "stats.hpp"
 #include "util.h"
+#include "log.h"
 
 // gui images
 
@@ -2804,7 +2805,7 @@ void Player::initCrafting(void)
             cpuStartTiming(0);
             _craftingRecipes.push_back(CraftingRecipe(line));
             float timeTook = (float)cpuEndTiming() / BUS_CLOCK;
-            printf("loaded %s in %f s\n", line.c_str(), timeTook);
+            logMessage(LOG_INFO, "loaded %s in %f s", line.c_str(), timeTook);
             loadTimes[line] = timeTook;
         }
     }
@@ -2813,7 +2814,7 @@ void Player::initCrafting(void)
     float highest = 0.0f;
     std::string lowestName = "";
     std::string highestName = "";
-    printf("Calculating load results\n");
+    logMessage(LOG_INFO, "calculating crafting load results...");
     for (const auto &pair : loadTimes)
     {
         if (pair.second < lowest)
@@ -2828,8 +2829,8 @@ void Player::initCrafting(void)
         }
     }
 
-    printf(" *** Load Results ***\n");
-    printf("Fastest time: %f (%s)\nSlowest time: %f (%s)\n", lowest, lowestName.c_str(), highest, highestName.c_str());
+    logMessage(LOG_INFO, "*** Load Results\nFastest time: %f (%s)\nSlowest time: %f (%s)", lowest, lowestName.c_str(),
+               highest, highestName.c_str());
 }
 
 static bool _canCraft(Player *pThis, CraftingRecipe recipe)

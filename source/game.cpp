@@ -274,13 +274,11 @@ void Game::init(void)
     glFlush(0);
     swiWaitForVBlank();
 
-    printf("Initializing filesystem\n");
-
     // init filesystem
     fsInitStatus fsInitSt = fsInit();
     if (fsInitSt != FS_INIT_STATUS_OK)
     {
-        printf("failed");
+        logMessage(LOG_ERROR, "Error initializing filesystem");
         AssetManager::loadDirtBlock();
         loadFonts();
         while (true)
@@ -312,22 +310,16 @@ void Game::init(void)
         }
     }
 
-    printf("Loading config\n");
-
     // init config
     configInit();
-
-    printf("Initializing game version\n");
 
     // init game version
     gameverInit();
 
-    printf("Initializing logging\n");
-
     // init logging
     logInit(LOG_WARNING, configGet("logFile"));
 
-    printf("Initializing sound\n");
+    logMessage(LOG_INFO, "Initializing sound");
 
     // init sound
     mmInitDefault((char *)"nitro:/soundbank.bin");
@@ -337,29 +329,29 @@ void Game::init(void)
     fsCreateDir(configGet("worldsDir"));
     fsCreateDir(configGet("configDir"));
 
-    printf("Initializing crafting\n");
+    logMessage(LOG_INFO, "Initializing crafting");
 
     // init crafting
     Player::initCrafting();
 
-    printf("Loading assets\n");
+    logMessage(LOG_INFO, "Loading general assets");
 
     // load some assets
     AssetManager::loadGeneralAssets();
     sndPop = soundEffect(SFX_POP);
     sndClick = soundEffect(SFX_CLICK);
 
-    printf("Loading settings\n");
+    logMessage(LOG_INFO, "Loading settings");
 
     // load settings
     SettingsManager::loadSettings();
 
-    printf("Loading controls\n");
+    logMessage(LOG_INFO, "Loading controls");
 
     // load controls
     ControlsManager::loadControls();
 
-    printf("Initializing RNG\n");
+    logMessage(LOG_INFO, "Initializing RNG");
 
     // set up random number generator
     u32 randomSeed;
@@ -376,7 +368,7 @@ void Game::init(void)
     randomSetSeed(randomSeed);
     srand(time(NULL));
 
-    printf("Loading menu assets\n");
+    logMessage(LOG_INFO, "Loading menu assets");
 
     // load assets for menu
     AssetManager::loadMenuAssets();
