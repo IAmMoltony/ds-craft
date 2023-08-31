@@ -677,6 +677,7 @@
 		<Unit filename="include/block.hpp" />
 		<Unit filename="include/blockparticle.hpp" />
 		<Unit filename="include/camera.h" />
+		<Unit filename="include/config.h" />
 		<Unit filename="include/crafting.hpp" />
 		<Unit filename="include/defines.h" />
 		<Unit filename="include/entity.hpp" />
@@ -3600,6 +3601,9 @@
 		<Unit filename="source/animsprite.cpp" />
 		<Unit filename="source/block.cpp" />
 		<Unit filename="source/blockparticle.cpp" />
+		<Unit filename="source/config.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="source/crafting.cpp" />
 		<Unit filename="source/entity.cpp" />
 		<Unit filename="source/font.cpp" />

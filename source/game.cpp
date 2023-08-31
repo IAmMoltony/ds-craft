@@ -6,6 +6,7 @@
 #include "help.hpp"
 #include "stats.hpp"
 #include "util.h"
+#include "config.h"
 
 Game *Game::instance;
 
@@ -196,6 +197,8 @@ u8 Game::fontBigRuCharWidthHandler(char ch)
 
 void Game::playPopSound(void)
 {
+    // rate is essentially pitch
+
     mm_hword oldRate = sndPop.rate;
     sndPop.rate = randomRange(512, 2048);
     mmEffectEx(&sndPop);
@@ -307,6 +310,10 @@ void Game::init(void)
             swiWaitForVBlank();
         }
     }
+
+    printf("Loading config\n");
+
+    configInit();
 
     printf("Initializing game version\n");
 
