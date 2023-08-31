@@ -19,7 +19,7 @@ void BlockParticle::update(void)
         velY = 6;
 }
 
-void BlockParticle::draw(Camera camera)
+void BlockParticle::draw(const Camera &camera)
 {
     glColor(color);
     glSpritePart(blockImage, x - camera.x, y - camera.y, imageXOff, imageYOff, 5, 5);

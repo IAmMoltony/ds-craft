@@ -48,7 +48,7 @@ public:
      * @brief Check if the rectangle intersects with another rectangle
      * @param other rectangle to check intersection with
     */
-    bool intersects(Rect other); // TODO `other' can be a const reference
+    bool intersects(const Rect &other);
 
     /**
      * @brief Check if there is a point inside of the rectangle
@@ -62,5 +62,5 @@ public:
      * @param camera camera
      * @param color the color to draw the rectangle with
     */
-    void draw(Camera camera, int color); // TODO make `camera' a const reference
+    void draw(const Camera &camera, int color);
 };

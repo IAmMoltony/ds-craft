@@ -208,7 +208,7 @@ Block::Block(s16 x, s16 y, u8 maxBrokenLevel) : x(x), y(y), brokenLevel(0), maxB
 {
 }
 
-void Block::drawBreaking(Camera &camera)
+void Block::drawBreaking(const Camera &camera)
 {
     if (!brokenLevel)
         return;
@@ -308,7 +308,7 @@ GrassBlock::GrassBlock(s16 x, s16 y, GrassType type) : Block(x, y, 14), type(typ
 {
 }
 
-void GrassBlock::draw(Camera &camera)
+void GrassBlock::draw(const Camera &camera)
 {
     glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprGrass);
 
@@ -351,7 +351,7 @@ Grass::Grass(s16 x, s16 y, GrassType type) : Block(x, y, 1), type(type)
 {
 }
 
-void Grass::draw(Camera &camera)
+void Grass::draw(const Camera &camera)
 {
     switch (type)
     {
@@ -391,7 +391,7 @@ DirtBlock::DirtBlock(s16 x, s16 y, bool farmland, bool path) : Block(x, y, 14), 
 {
 }
 
-void DirtBlock::draw(Camera &camera)
+void DirtBlock::draw(const Camera &camera)
 {
     if (farmland)
         glSpritePart(sprDirt, x - camera.x, y - camera.y + 1, 0, 0, 16, 15);
@@ -443,7 +443,7 @@ LeavesBlock::LeavesBlock(s16 x, s16 y, LeavesType type, bool natural) : Block(x,
 {
 }
 
-void LeavesBlock::draw(Camera &camera)
+void LeavesBlock::draw(const Camera &camera)
 {
     switch (type)
     {
@@ -500,7 +500,7 @@ FlowerBlock::FlowerBlock(s16 x, s16 y, FlowerType type) : Block(x, y, 1), type(t
 {
 }
 
-void FlowerBlock::draw(Camera &camera)
+void FlowerBlock::draw(const Camera &camera)
 {
     switch (type)
     {
@@ -546,7 +546,7 @@ DoorBlock::DoorBlock(s16 x, s16 y, bool open, bool facing, DoorType type) : Bloc
 {
 }
 
-void DoorBlock::draw(Camera &camera)
+void DoorBlock::draw(const Camera &camera)
 {
     glImage *spr;
     switch (type)
@@ -626,7 +626,7 @@ GlassBlock::GlassBlock(s16 x, s16 y) : Block(x, y, 6)
 {
 }
 
-void GlassBlock::draw(Camera &camera)
+void GlassBlock::draw(const Camera &camera)
 {
     glSprite(x - camera.x - 1, y - camera.y, GL_FLIP_NONE, sprGlass);
 }
@@ -662,7 +662,7 @@ ChestBlock::ChestBlock(s16 x, s16 y, u16 id) : Block(x, y, 7), chid(id)
     initItems();
 }
 
-void ChestBlock::draw(Camera &camera)
+void ChestBlock::draw(const Camera &camera)
 {
     glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprChest);
 }
@@ -712,12 +712,12 @@ SignBlock::SignBlock(s16 x, s16 y, const std::string &text) : Block(x, y, 6), te
 {
 }
 
-void SignBlock::draw(Camera &camera)
+void SignBlock::draw(const Camera &camera)
 {
     glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprSign);
 }
 
-void SignBlock::drawText(Camera &camera)
+void SignBlock::drawText(const Camera &camera)
 {
     if (showText)
     {
@@ -798,7 +798,7 @@ WheatBlock::WheatBlock(s16 x, s16 y, u8 growStage) : Block(x, y, 1), growStage(g
     setGrowInterval();
 }
 
-void WheatBlock::draw(Camera &camera)
+void WheatBlock::draw(const Camera &camera)
 {
     glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprWheatBlock[growStage]);
 }

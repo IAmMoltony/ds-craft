@@ -77,11 +77,11 @@ enum class SlabID
  * @param maxBrokenLevel_ maximum brokenness level
  * @param solid_ whether the block is solid
 */
-#define GENERIC_BLOCK_IMPL(block, spr, id_, maxBrokenLevel_, solid_)     \
+#define GENERIC_BLOCK_IMPL(block, spr, id_, maxBrokenLevel_, solid_)    \
     block::block(s16 x, s16 y) : Block(x, y, maxBrokenLevel_)           \
     {                                                                   \
     }                                                                   \
-    void block::draw(Camera &camera)                                    \
+    void block::draw(const Camera &camera)                              \
     {                                                                   \
         glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, spr);        \
     }                                                                   \
@@ -98,34 +98,34 @@ enum class SlabID
  * @brief Generic block declaration
  * @param block block class name
 */
-#define GENERIC_BLOCK_DECL(block)           \
-    class block : public Block              \
-    {                                       \
-    public:                                 \
-        block(s16 x, s16 y);                \
-        void draw(Camera &camera) override; \
-        u16 id(void) override;              \
-        bool solid(void) override;          \
+#define GENERIC_BLOCK_DECL(block)                \
+    class block : public Block                   \
+    {                                            \
+    public:                                      \
+        block(s16 x, s16 y);                     \
+        void draw(const Camera &camera) override;\
+        u16 id(void) override;                   \
+        bool solid(void) override;               \
     };
 
 /**
  * @brief Generic sapling implementation
  * @param sapl sapling name (resulting class name is sapl + SaplingBlock)
 */
-#define SAPLING_DECL(sapl)                  \
-    class sapl##SaplingBlock : public Block \
-    {                                       \
-    private:                                \
-        u16 growTime;                       \
-        bool grown;                         \
-                                            \
-    public:                                 \
-        sapl##SaplingBlock(s16 x, s16 y);   \
-        void draw(Camera &camera) override; \
-        bool solid(void) override;          \
-        u16 id(void) override;              \
-        bool hasGrown(void);                \
-        void update(void);                  \
+#define SAPLING_DECL(sapl)                       \
+    class sapl##SaplingBlock : public Block      \
+    {                                            \
+    private:                                     \
+        u16 growTime;                            \
+        bool grown;                              \
+                                                 \
+    public:                                      \
+        sapl##SaplingBlock(s16 x, s16 y);        \
+        void draw(const Camera &camera) override;\
+        bool solid(void) override;               \
+        u16 id(void) override;                   \
+        bool hasGrown(void);                     \
+        void update(void);                       \
     };
 
 /**
@@ -141,7 +141,7 @@ enum class SlabID
     public:                                             \
         trapd##TrapdoorBlock(s16 x, s16 y);             \
         trapd##TrapdoorBlock(s16 x, s16 y, bool open);  \
-        void draw(Camera &camera) override;             \
+        void draw(const Camera &camera) override;       \
         bool solid(void) override;                      \
         void interact(InventoryItem::ID item) override; \
         u16 id(void) override;                          \
@@ -153,13 +153,13 @@ enum class SlabID
  * @brief Generic slab declaration
  * @param slabid slab name (resulting class name is slabid + SlabBlock)
 */
-#define SLAB_DECL(slabid)                      \
-    class slabid##SlabBlock : public SlabBlock \
-    {                                          \
-    public:                                    \
-        slabid##SlabBlock(s16 x, s16 y);       \
-        void draw(Camera &camera) override;    \
-        u16 id(void) override;                 \
+#define SLAB_DECL(slabid)                         \
+    class slabid##SlabBlock : public SlabBlock    \
+    {                                             \
+    public:                                       \
+        slabid##SlabBlock(s16 x, s16 y);          \
+        void draw(const Camera &camera) override; \
+        u16 id(void) override;                    \
     };
 
 /**
@@ -172,7 +172,7 @@ enum class SlabID
     saplingid##SaplingBlock::saplingid##SaplingBlock(s16 x, s16 y) : Block(x, y, 1), growTime(1200), grown(false) \
     {                                                                                                             \
     }                                                                                                             \
-    void saplingid##SaplingBlock::draw(Camera &camera)                                                            \
+    void saplingid##SaplingBlock::draw(const Camera &camera)                                                      \
     {                                                                                                             \
         glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, spr);                                                  \
     }                                                                                                             \
@@ -209,7 +209,7 @@ enum class SlabID
     trapdid##TrapdoorBlock::trapdid##TrapdoorBlock(s16 x, s16 y, bool open) : Block(x, y, 6), open(open) \
     {                                                                                                    \
     }                                                                                                    \
-    void trapdid##TrapdoorBlock::draw(Camera &camera)                                                    \
+    void trapdid##TrapdoorBlock::draw(const Camera &camera)                                              \
     {                                                                                                    \
         if (open)                                                                                        \
             glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, spr);                                     \
@@ -253,7 +253,7 @@ enum class SlabID
     slabid##SlabBlock::slabid##SlabBlock(s16 x, s16 y) : SlabBlock(x, y, SlabID::slabid, maxBrokenLevel_) \
     {                                                                                                     \
     }                                                                                                     \
-    void slabid##SlabBlock::draw(Camera &camera)                                                          \
+    void slabid##SlabBlock::draw(const Camera &camera)                                                    \
     {                                                                                                     \
         glSpritePart(spr, x - camera.x, y - camera.y + 8, 0, 0, 16, 8);                                   \
     }                                                                                                     \
@@ -364,7 +364,7 @@ public:
     /**
      * @brief Draw block breaking
     */
-    void drawBreaking(Camera &camera);
+    void drawBreaking(const Camera &camera);
 
     /**
      * @brief Hit the block once.
@@ -387,7 +387,7 @@ public:
      * @brief Draw the block
      * @param camera camera to use
     */
-    virtual void draw(Camera &camera) = 0; // TODO make the camera reference a constant
+    virtual void draw(const Camera &camera) = 0;
 
     /**
      * @brief Get the block's ID
@@ -532,7 +532,7 @@ public:
     GrassBlock(s16 x, s16 y);
     GrassBlock(s16 x, s16 y, GrassType type);
 
-    void draw(Camera &camera) override;
+    void draw(const Camera &camera) override;
     u16 id(void) override;
     bool solid(void) override;
 
@@ -556,7 +556,7 @@ public:
     Grass(s16 x, s16 y);
     Grass(s16 x, s16 y, GrassType type);
 
-    void draw(Camera &camera) override;
+    void draw(const Camera &camera) override;
     u16 id(void) override;
     bool solid(void) override;
     GrassType getType(void);
@@ -588,7 +588,7 @@ public:
     */
     DirtBlock(s16 x, s16 y, bool farmland, bool path);
 
-    void draw(Camera &camera) override;
+    void draw(const Camera &camera) override;
     u16 id(void) override;
     bool solid(void) override;
     void interact(InventoryItem::ID item) override;
@@ -627,7 +627,7 @@ public:
 
     LeavesBlock(s16 x, s16 y, LeavesType type, bool natural = true);
 
-    void draw(Camera &camera) override;
+    void draw(const Camera &camera) override;
     bool solid(void) override;
     u16 id(void) override;
 
@@ -650,7 +650,7 @@ public:
     FlowerBlock(s16 x, s16 y);
     FlowerBlock(s16 x, s16 y, FlowerType type);
 
-    void draw(Camera &camera) override;
+    void draw(const Camera &camera) override;
     bool solid(void) override;
     u16 id(void) override;
 };
@@ -680,7 +680,7 @@ private:
 public:
     DoorBlock(s16 x, s16 y, s16 px, DoorType type);
     DoorBlock(s16 x, s16 y, bool open, bool facing, DoorType type);
-    void draw(Camera &camera) override;
+    void draw(const Camera &camera) override;
     bool solid(void) override;
     void interact(InventoryItem::ID item) override;
     u16 id(void) override;
@@ -730,7 +730,7 @@ public:
     ChestBlock(s16 x, s16 y);
     ChestBlock(s16 x, s16 y, u16 id);
 
-    void draw(Camera &camera) override;
+    void draw(const Camera &camera) override;
     bool solid(void) override;
     u16 id(void) override;
 
@@ -772,8 +772,8 @@ public:
 
     SignBlock(s16 x, s16 y, const std::string &text);
 
-    void draw(Camera &camera) override;
-    void drawText(Camera &camera);
+    void draw(const Camera &camera) override;
+    void drawText(const Camera &camera);
     bool solid(void) override;
     u16 id(void) override;
 
@@ -859,7 +859,7 @@ public:
     WheatBlock(s16 x, s16 y);
     WheatBlock(s16 x, s16 y, u8 growStage);
 
-    void draw(Camera &camera) override;
+    void draw(const Camera &camera) override;
     u16 id(void) override;
     bool solid(void) override;
 

@@ -82,7 +82,7 @@ public:
      * @brief Draw the particle
      * @param camera camera
     */
-    void draw(Camera camera); // TODO make const reference
+    void draw(const Camera &camera);
 
     /**
      * @brief Check if the particle's lifetime is up
