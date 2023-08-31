@@ -62,7 +62,9 @@ void logMessage(const LogLevel level, const char *format, ...)
         return;
     }
 
-    fprintf(f, "[%s] ", _logLevelNames[level]);
+	char *rnTime = _getTimeString();
+    fprintf(f, "[%s] %s ", _logLevelNames[level], rnTime);
+    free(rnTime);
     vfprintf(f, format, l2);
     fputc('\n', f);
 
