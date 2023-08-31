@@ -3,6 +3,7 @@
 #include "defines.h"
 #include "fs.h"
 #include "util.h"
+#include "config.h"
 
 static std::string _versionPrefix = "";
 static std::string _versionString = "";
@@ -19,8 +20,8 @@ void gameverInit(void)
     }
 
     FILE *f;
-    if (fsFileExists(DATA_DIR "/version_override.ver"))
-        f = fopen("nitro:/version_override.ver", "r");
+    if (fsFileExists(std::string(std::string(configGet("dataDir")) + "/version_override.ver").c_str()))
+        f = fopen(std::string(std::string(configGet("dataDir")) + "/version_override.ver").c_str(), "r");
     else
         f = fopen("nitro:/game.ver", "r");
     u8 count = 0;

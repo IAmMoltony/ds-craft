@@ -326,9 +326,9 @@ void Game::init(void)
     mmInitDefault((char *)"nitro:/soundbank.bin");
 
     // create folders
-    fsCreateDir(DATA_DIR);
-    fsCreateDir(WORLDS_DIR);
-    fsCreateDir(CONFIG_DIR);
+    fsCreateDir(configGet("dataDir"));
+    fsCreateDir(configGet("worldsDir"));
+    fsCreateDir(configGet("configDir"));
 
     printf("Initializing crafting\n");
 
@@ -374,7 +374,7 @@ void Game::init(void)
     // load assets for menu
     AssetManager::loadMenuAssets();
 
-    gameState = fsFileExists(CONFIG_DIR "/lang.cfg")
+    gameState = fsFileExists(std::string(std::string(configGet("configDir")) + "/lang.cfg").c_str())
                     ? GameState::TitleScreen
                     : GameState::LanguageSelect;
     if (gameState == GameState::LanguageSelect)
@@ -1922,12 +1922,16 @@ void Game::update(void)
                                       .base(),
                                   renameWorldName.end());
 
-            if (fsFolderExists(std::string(WORLDS_DIR "/" + normalizeWorldFileName(renameWorldName)).c_str()))
+            // man idk anymore
+            if (fsFolderExists(std::string(std::string(configGet("worldsDir")) + "/" +
+                                           normalizeWorldFileName(renameWorldName)).c_str()))
                 renameWorldDuplError = true;
             else
             {
                 renameWorld(worldSelectWorlds[worldSelectSelected].name, renameWorldName);
-                rename(std::string(WORLDS_DIR "/" + normalizeWorldFileName(worldSelectWorlds[worldSelectSelected].name)).c_str(), std::string(WORLDS_DIR "/" + normalizeWorldFileName(renameWorldName)).c_str());
+                rename(std::string(std::string(configGet("worldsDir")) + "/" +
+                                   normalizeWorldFileName(worldSelectWorlds[worldSelectSelected].name)).c_str(),
+                       std::string(std::string(configGet("worldsDir")) + "/" + normalizeWorldFileName(renameWorldName)).c_str());
                 keyboardHide();
                 enterWorldSelect();
             }
@@ -1966,7 +1970,7 @@ void Game::update(void)
                                       .base(),
                                   createWorldName.end());
 
-            if (fsFolderExists(std::string(WORLDS_DIR "/" + normalizeWorldFileName(createWorldName)).c_str()))
+            if (fsFolderExists(std::string(std::string(configGet("worldsDir")) + "/" + normalizeWorldFileName(createWorldName)).c_str()))
                 createWorldError = true;
             else
             {
@@ -2032,7 +2036,7 @@ void Game::update(void)
             itoa(langSelectSelected, saveDataBuf, 10);
             lang = (langSelectSelected == LANGUAGE_SELECT_ENGLISH) ? Language::English
                                                                    : Language::Russian;
-            fsWrite(CONFIG_DIR "/lang.cfg", saveDataBuf);
+            fsWrite(std::string(std::string(configGet("configDir")) + "/lang.cfg").c_str(), saveDataBuf);
 
             mmEffectEx(&sndClick);
             gameState = GameState::TitleScreen;
@@ -2065,7 +2069,7 @@ void Game::update(void)
                 break;
             case SETTING_TRANSPARENT_LEAVES:
                 SettingsManager::transparentLeaves = !SettingsManager::transparentLeaves;
-                fsWrite(CONFIG_DIR "/trleaves.cfg", SettingsManager::transparentLeaves ? "1" : "0");
+                fsWrite(std::string(std::string(configGet("configDir")) + "/trleaves.cfg").c_str(), SettingsManager::transparentLeaves ? "1" : "0");
                 break;
             case SETTING_AUTO_SAVE:
             {
@@ -2090,20 +2094,20 @@ void Game::update(void)
 
                 int nextIndex = (currentIndex + 1) % numAutoSaveValues;
                 SettingsManager::autoSaveSeconds = autoSaveValues[nextIndex];
-                fsWrite(CONFIG_DIR "/autosave.cfg", std::to_string(SettingsManager::autoSaveSeconds).c_str());
+                fsWrite(std::string(std::string(configGet("configDir")) + "/autosave.cfg").c_str(), std::to_string(SettingsManager::autoSaveSeconds).c_str());
                 break;
             }
             case SETTING_SMOOTH_CAMERA:
                 SettingsManager::smoothCamera = !SettingsManager::smoothCamera;
-                fsWrite(CONFIG_DIR "/smoothcam.cfg", SettingsManager::smoothCamera ? "1" : "0");
+                fsWrite(std::string(std::string(configGet("configDir")) + "/smoothcam.cfg").c_str(), SettingsManager::smoothCamera ? "1" : "0");
                 break;
             case SETTING_TOUCH_TO_MOVE:
                 SettingsManager::touchToMove = !SettingsManager::touchToMove;
-                fsWrite(CONFIG_DIR "/touchtomove.cfg", SettingsManager::touchToMove ? "1" : "0");
+                fsWrite(std::string(std::string(configGet("configDir")) + "/touchtomove.cfg").c_str(), SettingsManager::touchToMove ? "1" : "0");
                 break;
             case SETTING_AUTO_JUMP:
                 SettingsManager::autoJump = !SettingsManager::autoJump;
-                fsWrite(CONFIG_DIR "/autojump.cfg", SettingsManager::autoJump ? "1" : "0");
+                fsWrite(std::string(std::string(configGet("configDir")) + "/autojump.cfg").c_str(), SettingsManager::autoJump ? "1" : "0");
                 break;
             case SETTING_DELETE_ALL_WORLDS:
                 gameState = GameState::DeleteAllWorlds;
@@ -2155,7 +2159,7 @@ void Game::update(void)
         if (down & KEY_A)
         {
             worldSelectSelected = 0;
-            fsDeleteDir(std::string(WORLDS_DIR "/" + normalizeWorldFileName(worldSelectWorlds[deleteWorldSelected].name)).c_str());
+            fsDeleteDir(std::string(std::string(configGet("worldsDir")) + "/" + normalizeWorldFileName(worldSelectWorlds[deleteWorldSelected].name)).c_str());
             worldSelectWorlds.erase(worldSelectWorlds.begin() + deleteWorldSelected);
             deleteWorldSelected = 0;
             gameState = GameState::WorldSelect;
@@ -2170,8 +2174,8 @@ void Game::update(void)
     case GameState::DeleteAllWorlds:
         if (down & KEY_A)
         {
-            fsDeleteDir(WORLDS_DIR);
-            fsCreateDir(WORLDS_DIR);
+            fsDeleteDir(configGet("worldsDir"));
+            fsCreateDir(configGet("worldsDir"));
             gameState = GameState::Settings;
         }
         else if (down & KEY_B)
@@ -2251,7 +2255,7 @@ Game::WorldManager::WorldList Game::WorldManager::getWorlds(void)
 {
     // first we iterate through the world directory
     DIR *dp;
-    dp = opendir(WORLDS_DIR);
+    dp = opendir(configGet("worldsDir"));
     struct dirent *ep;
     std::string dls; // directory list string
     while ((ep = readdir(dp)) != NULL)
@@ -2268,17 +2272,20 @@ Game::WorldManager::WorldList Game::WorldManager::getWorlds(void)
         if (line == "." || line == "..")
             continue;
 
-        if (!fsIsDir(std::string(WORLDS_DIR "/" + line).c_str()))
-            continue;
+        const char *worldFile = std::string(std::string(configGet("worldsDir")) + "/" + line).c_str();
 
-        if (!fsFileExists(std::string(WORLDS_DIR "/" + line).c_str()))
-            continue;
+        if (!fsIsDir(worldFile))
+            continue; // not directory
 
-        std::string worldName = getWorldName(WORLDS_DIR "/" + line);
+        if (!fsFileExists(worldFile))
+            continue; // doesn't exist (?????)
+                      // TODO is this even necessary???
+
+        std::string worldName = getWorldName(worldFile);
         if (worldName == "\1\4\3\2")
-            continue;
+            continue; // world.meta corrupted
 
-        int size = fsGetDirSize(std::string(WORLDS_DIR "/" + line).c_str());
+        int size = fsGetDirSize(worldFile);
         worlds.push_back({worldName, size});
     }
 
@@ -2363,65 +2370,71 @@ bool Game::SettingsManager::touchToMove = false;
 void Game::SettingsManager::loadSettings(void)
 {
     // language setting
-    if (fsFileExists(CONFIG_DIR "/lang.cfg"))
+    if (fsFileExists(std::string(std::string(configGet("configDir")) + "/lang.cfg").c_str()))
     {
-        char *data = fsReadFile(CONFIG_DIR "/lang.cfg");
-        if (data[0] == '1')
-            Game::instance->lang = Language::Russian;
-        else if (data[0] != '0') // invalid lang
+        char *data = fsReadFile(std::string(std::string(configGet("configDir")) + "/lang.cfg").c_str());
+        switch (data[0])
         {
+        case '0':
+            Game::instance->lang = Language::English;
+            break;
+        case '1':
+            Game::instance->lang = Language::Russian;
+            break;
+        default:
             printf("invalid language code %c", data[0]);
             while (true)
                 ;
+            break;
         }
     }
 
     // transparent leaves setting
-    if (fsFileExists(CONFIG_DIR "/trleaves.cfg"))
+    if (fsFileExists(std::string(std::string(configGet("configDir")) + "/trleaves.cfg").c_str()))
     {
-        char *data = fsReadFile(CONFIG_DIR "/trleaves.cfg");
+        char *data = fsReadFile(std::string(std::string(configGet("configDir")) + "/trleaves.cfg").c_str());
         transparentLeaves = data[0] == '1';
     }
     else
-        fsWrite(CONFIG_DIR "/trleaves.cfg", "0");
+        fsWrite(std::string(std::string(configGet("configDir")) + "/trleaves.cfg").c_str(), "0");
 
     // auto save setting
-    if (fsFileExists(CONFIG_DIR "/autosave.cfg"))
+    if (fsFileExists(std::string(std::string(configGet("configDir")) + "/autosave.cfg").c_str()))
     {
-        char *data = fsReadFile(CONFIG_DIR "/autosave.cfg");
+        char *data = fsReadFile(std::string(std::string(configGet("configDir")) + "/autosave.cfg").c_str());
         autoSaveSeconds = std::stoi(std::string(data));
         if (autoSaveSeconds == 1)
             autoSaveSeconds = 15;
     }
     else
-        fsWrite(CONFIG_DIR "/autosave.cfg", "1");
+        fsWrite(std::string(std::string(configGet("configDir")) + "/autosave.cfg").c_str(), "1");
 
     // smooth camera setting
-    if (fsFileExists(CONFIG_DIR "/smoothcam.cfg"))
+    if (fsFileExists(std::string(std::string(configGet("configDir")) + "/smoothcam.cfg").c_str()))
     {
-        char *data = fsReadFile(CONFIG_DIR "/smoothcam.cfg");
+        char *data = fsReadFile(std::string(std::string(configGet("configDir")) + "/smoothcam.cfg").c_str());
         smoothCamera = data[0] == '1';
     }
     else
-        fsWrite(CONFIG_DIR "/smoothcam.cfg", "1");
+        fsWrite(std::string(std::string(configGet("configDir")) + "/smoothcam.cfg").c_str(), "1");
 
     // touch to move setting
-    if (fsFileExists(CONFIG_DIR "/touchtomove.cfg"))
+    if (fsFileExists(std::string(std::string(configGet("configDir")) + "/touchtomove.cfg").c_str()))
     {
-        char *data = fsReadFile(CONFIG_DIR "/touchtomove.cfg");
+        char *data = fsReadFile(std::string(std::string(configGet("configDir")) + "/touchtomove.cfg").c_str());
         touchToMove = data[0] == '1';
     }
     else
-        fsWrite(CONFIG_DIR "/touchtomove.cfg", "1");
+        fsWrite(std::string(std::string(configGet("configDir")) + "/touchtomove.cfg").c_str(), "1");
 
     // auto jump setting
-    if (fsFileExists(CONFIG_DIR "/autojump.cfg"))
+    if (fsFileExists(std::string(std::string(configGet("configDir")) + "/autojump.cfg").c_str()))
     {
-        char *data = fsReadFile(CONFIG_DIR "/autojump.cfg");
+        char *data = fsReadFile(std::string(std::string(configGet("configDir")) + "/autojump.cfg").c_str());
         autoJump = data[0] == '1';
     }
     else
-        fsWrite(CONFIG_DIR "/autojump.cfg", "0");
+        fsWrite(std::string(std::string(configGet("configDir")) + "/autojump.cfg").c_str(), "0");
 }
 
 void Game::cameraFollowPlayer(bool smooth)
@@ -2554,10 +2567,11 @@ u32 Game::ControlsManager::buttons[Game::ControlsManager::NUM_BUTTONS];
 
 void Game::ControlsManager::loadControls(void)
 {
-    if (!fsFileExists(CONFIG_DIR "/controls.cfg"))
+    // write default controls if controls file not found
+    if (!fsFileExists(std::string(std::string(configGet("configDir")) + "/controls.cfg").c_str()))
         writeDefaultControls();
 
-    std::ifstream ifs(CONFIG_DIR "/controls.cfg");
+    std::ifstream ifs(std::string(std::string(configGet("configDir")) + "/controls.cfg").c_str());
     std::string line;
     while (std::getline(ifs, line, '\n'))
     {
@@ -2578,7 +2592,7 @@ void Game::ControlsManager::loadControls(void)
 
 void Game::ControlsManager::saveControls(void)
 {
-    std::ofstream ofs(CONFIG_DIR "/controls.cfg");
+    std::ofstream ofs(std::string(std::string(configGet("configDir")) + "/controls.cfg").c_str());
     ofs << "goleft " << buttons[BUTTON_GO_LEFT] << "\ngoright " << buttons[BUTTON_GO_RIGHT] << "\njump " << buttons[BUTTON_JUMP]
         << "\nsneak " << buttons[BUTTON_SNEAK] << "\ndpadaim " << buttons[BUTTON_DPAD_AIM] << "\nopeninventory "
         << buttons[BUTTON_OPEN_INVENTORY] << "\npause " << buttons[BUTTON_PAUSE] << "\ninteract " << buttons[BUTTON_INTERACT]

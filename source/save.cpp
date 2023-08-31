@@ -2,6 +2,7 @@
 #include <dirent.h>
 #include "stats.hpp"
 #include "random.hpp"
+#include "config.h"
 
 std::string normalizeWorldFileName(const std::string &str)
 {
@@ -68,11 +69,11 @@ std::string getWorldName(const std::string &file)
 std::string getWorldVersion(const std::string &file)
 {
     // if the world doesn't exist or no meta file, return error version
-    if (!fsFolderExists(std::string(WORLDS_DIR "/" + file).c_str()) ||
-        !fsFileExists(std::string(WORLDS_DIR "/" + file + "/world.meta").c_str()))
+    if (!fsFolderExists(std::string(std::string(configGet("worldsDir")) + "/" + file).c_str()) ||
+        !fsFileExists(std::string(std::string(configGet("worldsDir")) + "/" + file + "/world.meta").c_str()))
         return "alpha0.0.0";
 
-    std::ifstream wldMeta(WORLDS_DIR "/" + file + "/world.meta");
+    std::ifstream wldMeta(std::string(configGet("worldsDir")) + "/" + file + "/world.meta");
     std::string line;
     std::string gameVersion = "alpha0.0.0"; // alpha0.0.0 by default (returned when gameversion not found in metafile)
     while (std::getline(wldMeta, line))
@@ -182,7 +183,7 @@ static void _writeGeneric(std::ofstream &wld, std::unique_ptr<Block> &block)
 void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                Player &player, u32 seed, s16 currentLocation)
 {
-    std::string worldFolder = WORLDS_DIR "/" + normalizeWorldFileName(name);
+    std::string worldFolder = std::string(configGet("worldsDir")) + "/" + normalizeWorldFileName(name);
 
     // generate terrain in case folder doesn't exist or specified location's file doesn't exist
     if (!fsFolderExists(worldFolder.c_str()) || !fsFileExists(std::string(worldFolder + "/locations/location" + std::to_string(currentLocation) + ".wld").c_str()))
@@ -448,7 +449,7 @@ static void _argParseWheat(const StringVector &split, s16 &x, s16 &y, u8 &growSt
 void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                Player &player, s16 &currentLocation)
 {
-    std::string worldFolder = std::string(WORLDS_DIR "/" + name);
+    std::string worldFolder = std::string(std::string(configGet("worldsDir")) + "/" + name);
 
     // clear the current world state
     blocks.clear();
