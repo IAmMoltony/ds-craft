@@ -5,6 +5,7 @@
 #include <errno.h>
 #include <fat.h>
 #include <filesystem.h>
+#include "config.h"
 
 fsInitStatus fsInit(void)
 {
@@ -26,29 +27,24 @@ void fsCreateDir(const char *name)
 void fsCreateFile(const char *name)
 {
     FILE *fp = fopen(name, "w");
-#if FS_ERROR_MESSAGES
-    if (!fp)
+    if (!fp && configGetInt("fsErrorMessages"))
     {
         printf("fsCreateFile failed (name: %s)\n", name);
         perror(name);
         return;
     }
-#endif
     fclose(fp);
 }
 
 void fsWrite(const char *file, const char *data)
 {
     FILE *fp = fopen(file, "w");
-#if FS_ERROR_MESSAGES
-    if (fputs(data, fp) < 0)
+    if (fputs(data, fp) < 0 && configGet("fsErrorMessages"))
     {
         printf("fsWrite failed (name: %s)\n", file);
         perror(file);
     }
-#else
     fputs(data, fp);
-#endif
     fclose(fp);
 }
 
