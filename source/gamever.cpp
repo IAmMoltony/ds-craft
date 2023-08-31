@@ -19,11 +19,7 @@ void gameverInit(void)
         hang();
     }
 
-    FILE *f;
-    if (fsFileExists(std::string(std::string(configGet("dataDir")) + "/version_override.ver").c_str()))
-        f = fopen(std::string(std::string(configGet("dataDir")) + "/version_override.ver").c_str(), "r");
-    else
-        f = fopen("nitro:/game.ver", "r");
+    FILE *f = fopen("nitro:/game.ver", "r");
     u8 count = 0;
     if (f)
     {
