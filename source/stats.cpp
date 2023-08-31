@@ -1,5 +1,6 @@
 #include "stats.hpp"
 #include "save.hpp"
+#include "log.h"
 
 static std::string _currentWorld = "";
 static std::map<std::string, int> _stats;
@@ -14,14 +15,19 @@ void statsSetWorld(const std::string &worldName)
     std::string worldFolder = getWorldFile(worldName);
     if (!fsFolderExists(worldFolder.c_str()))
     {
-        printf("statsSetWorld: world %s (%s) doesnt exist\n", worldName.c_str(),
+        logMessage(LOG_ERROR, "statsSetWorld: world %s (%s) doesnt exist", worldName.c_str(),
                normalizeWorldFileName(worldName).c_str());
         return;
     }
 
+    logMessage(LOG_INFO, "setting stats world to `%s'", worldName.c_str());
+
     _currentWorld = worldFolder;
     if (!fsFileExists(_getStatsFile().c_str()))
+    {
+        logMessage(LOG_INFO, "Stats file does not exist. Creating.");
         fsCreateFile(_getStatsFile().c_str());
+    }
 }
 
 int statsGetEntry(const std::string &entryKey)
@@ -38,6 +44,8 @@ void statsSetEntry(const std::string &entryKey, int value)
 
 void statsSave(void)
 {
+    logMessage(LOG_INFO, "saving stats");
+
     std::ofstream ofs(_getStatsFile());
     for (const auto &entry : _stats)
     {
@@ -49,6 +57,8 @@ void statsSave(void)
 
 void statsLoad(void)
 {
+    logMessage(LOG_INFO, "Loading stats from file %s", _getStatsFile());
+
     std::ifstream ifs(_getStatsFile());
     std::string line;
     while (std::getline(ifs, line))

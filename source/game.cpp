@@ -2276,10 +2276,6 @@ Game::WorldManager::WorldList Game::WorldManager::getWorlds(void)
         if (!fsIsDir(worldFile.c_str()))
             continue; // not directory
 
-        if (!fsFileExists(worldFile.c_str()))
-            continue; // doesn't exist (?????)
-                      // TODO is this even necessary???
-
         std::string worldName = getWorldName(std::string(worldFile.c_str()));
         if (worldName == "\1\4\3\2")
             continue; // world.meta corrupted
@@ -2607,6 +2603,8 @@ u32 Game::ControlsManager::getButton(u8 button)
 
 void Game::ControlsManager::writeDefaultControls(void)
 {
+    logMessage(LOG_INFO, "Writing default controls");
+
     buttons[BUTTON_GO_LEFT] = DEFAULT_GO_LEFT;
     buttons[BUTTON_GO_RIGHT] = DEFAULT_GO_RIGHT;
     buttons[BUTTON_JUMP] = DEFAULT_JUMP;

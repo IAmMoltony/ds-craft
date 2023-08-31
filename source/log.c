@@ -13,6 +13,16 @@ static const char *_logLevelNames[] = {
     "ERROR",
 };
 
+static char *_getTimeString(void)
+{
+    char *rnTime = malloc(28 * sizeof(char));
+    struct tm *tminfo;
+    time_t tmr = time(NULL);
+    tminfo = localtime(&tmr);
+    strftime(rnTime, 28, "%Y-%m-%d %H:%M:%S", tminfo);
+    return rnTime;
+}
+
 void logInit(const LogLevel level, const char *logFileName)
 {
     logSetLevel(level);
@@ -25,13 +35,9 @@ void logInit(const LogLevel level, const char *logFileName)
         return;
     }
 
-    char rnTime[28]; // right now time
-    struct tm *tminfo;
-    time_t tmr = time(NULL);
-    tminfo = localtime(&tmr);
-    strftime(rnTime, 28, "%Y-%m-%d %H:%M:%S", tminfo);
-
+    char *rnTime = _getTimeString();
     fprintf(f, " *** Log Started %s\n", rnTime);
+    free(rnTime);
 
     fclose(f);
 }

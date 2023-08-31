@@ -3,6 +3,7 @@
 #include "stats.hpp"
 #include "random.hpp"
 #include "config.h"
+#include "log.h"
 
 std::string normalizeWorldFileName(const std::string &str)
 {
@@ -451,6 +452,8 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 {
     std::string worldFolder = std::string(std::string(configGet("worldsDir")) + "/" + name);
 
+    logMessage(LOG_INFO, "Loading world with name `%s' folder `%s'", name.c_str(), worldFolder.c_str());
+
     // clear the current world state
     blocks.clear();
     entities.clear();
@@ -461,7 +464,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     // we can't load something that doesn't exist
     if (!fsFolderExists(worldFolder.c_str()))
     {
-        printf("%s doesnt exist\n", worldFolder.c_str());
+        logMessage(LOG_ERROR, "folder %s does not exist", worldFolder.c_str());
         return;
     }
 
@@ -485,6 +488,8 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     }
     if (!setLoc)
         currentLocation = 0; // default location is 0
+
+    logMessage(LOG_INFO, "current location is %d", currentLocation);
 
     std::ifstream wld(worldFolder + "/locations/location" + std::to_string(currentLocation) + ".wld");
     std::string line;
@@ -777,9 +782,12 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         std::ifstream chestFile(chestFileName);
         if (chestFile.bad())
         {
-            printf("bad chest file %s\n", line.c_str());
+            logMessage(LOG_ERROR, "bad chest file %s", line.c_str());
             continue;
         }
+
+        logMessage(LOG_INFO, "Loading chest with ID %d", chestID);
+
         std::string line2;
         while (std::getline(chestFile, line2))
         {
