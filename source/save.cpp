@@ -351,7 +351,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
 unsigned int getWorldSeed(const std::string &file)
 {
-    std::string worldFolder = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(file);
+    std::string worldFolder = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(file); // TODO HARDCODED WORLD PATH!!!
 
     // check if the world like actually exists
     if (!fsFolderExists(worldFolder.c_str()))

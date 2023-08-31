@@ -2272,20 +2272,20 @@ Game::WorldManager::WorldList Game::WorldManager::getWorlds(void)
         if (line == "." || line == "..")
             continue;
 
-        const char *worldFile = std::string(std::string(configGet("worldsDir")) + "/" + line).c_str();
+        std::string worldFile = std::string(configGet("worldsDir")) + "/" + line;
 
-        if (!fsIsDir(worldFile))
+        if (!fsIsDir(worldFile.c_str()))
             continue; // not directory
 
-        if (!fsFileExists(worldFile))
+        if (!fsFileExists(worldFile.c_str()))
             continue; // doesn't exist (?????)
                       // TODO is this even necessary???
 
-        std::string worldName = getWorldName(worldFile);
+        std::string worldName = getWorldName(std::string(worldFile.c_str()));
         if (worldName == "\1\4\3\2")
             continue; // world.meta corrupted
 
-        int size = fsGetDirSize(worldFile);
+        int size = fsGetDirSize(worldFile.c_str());
         worlds.push_back({worldName, size});
     }
 
