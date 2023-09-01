@@ -13,7 +13,7 @@ static std::string _getStatsFile(void)
 void statsSetWorld(const std::string &worldName)
 {
     std::string worldFolder = getWorldFile(worldName);
-    if (!fsFolderExists(worldFolder.c_str()))
+    if (!fsDirExists(worldFolder.c_str()))
     {
         logMessage(LOG_ERROR, "statsSetWorld: world %s (%s) doesnt exist", worldName.c_str(),
                normalizeWorldFileName(worldName).c_str());

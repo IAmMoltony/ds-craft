@@ -30,8 +30,8 @@ std::string normalizeWorldFileName(const std::string &str)
 
 std::string getWorldFile(const std::string &name)
 {
-    std::string fn = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(name);
-    return fsFolderExists(fn.c_str()) ? fn : "(NO WORLD FILE)";
+    std::string fn = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(name); // TODO hardcoded world path??? (???)
+    return fsDirExists(fn.c_str()) ? fn : "(NO WORLD FILE)";
 }
 
 std::string getWorldName(const std::string &file)
@@ -70,7 +70,7 @@ std::string getWorldName(const std::string &file)
 std::string getWorldVersion(const std::string &file)
 {
     // if the world doesn't exist or no meta file, return error version
-    if (!fsFolderExists(std::string(std::string(configGet("worldsDir")) + "/" + file).c_str()) ||
+    if (!fsDirExists(std::string(std::string(configGet("worldsDir")) + "/" + file).c_str()) ||
         !fsFileExists(std::string(std::string(configGet("worldsDir")) + "/" + file + "/world.meta").c_str()))
         return "alpha0.0.0";
 
@@ -187,7 +187,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     std::string worldFolder = std::string(configGet("worldsDir")) + "/" + normalizeWorldFileName(name);
 
     // generate terrain in case folder doesn't exist or specified location's file doesn't exist
-    if (!fsFolderExists(worldFolder.c_str()) || !fsFileExists(std::string(worldFolder + "/locations/location" + std::to_string(currentLocation) + ".wld").c_str()))
+    if (!fsDirExists(worldFolder.c_str()) || !fsFileExists(std::string(worldFolder + "/locations/location" + std::to_string(currentLocation) + ".wld").c_str()))
     {
         blocks.clear();
         entities.clear();
@@ -355,7 +355,7 @@ unsigned int getWorldSeed(const std::string &file)
     std::string worldFolder = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(file); // TODO HARDCODED WORLD PATH!!!
 
     // check if the world like actually exists
-    if (!fsFolderExists(worldFolder.c_str()))
+    if (!fsDirExists(worldFolder.c_str()))
         return 0;
 
     std::ifstream wldMeta(worldFolder + "/world.meta");
@@ -462,7 +462,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     player.setSpawnPoint(0, 0);
 
     // we can't load something that doesn't exist
-    if (!fsFolderExists(worldFolder.c_str()))
+    if (!fsDirExists(worldFolder.c_str()))
     {
         logMessage(LOG_ERROR, "folder %s does not exist", worldFolder.c_str());
         return;
@@ -820,7 +820,7 @@ void renameWorld(const std::string &oldName, const std::string &newName)
 {
     // check if exist
     const std::string oldNameNormalized = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(oldName);
-    if (!fsFolderExists(oldNameNormalized.c_str()))
+    if (!fsDirExists(oldNameNormalized.c_str()))
         return;
 
     // read metafile

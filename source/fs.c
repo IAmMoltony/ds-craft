@@ -98,7 +98,7 @@ bool fsFileExists(const char *name)
     return access(name, F_OK) == 0;
 }
 
-bool fsFolderExists(const char *name)
+bool fsDirExists(const char *name)
 {
     DIR *dir = opendir(name);
     if (dir)
@@ -111,7 +111,7 @@ bool fsFolderExists(const char *name)
     else
     {
         if (configGetInt("fsErrorMessages"))
-            perror("fsFolderExists: opendir() failed");
+            perror("fsDirExists: opendir() failed"); // TODO make fs errors also print to log
         return false;
     }
 

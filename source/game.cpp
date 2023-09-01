@@ -1922,7 +1922,7 @@ void Game::update(void)
                                   renameWorldName.end());
 
             // man idk anymore
-            if (fsFolderExists(std::string(std::string(configGet("worldsDir")) + "/" +
+            if (fsDirExists(std::string(std::string(configGet("worldsDir")) + "/" +
                                            normalizeWorldFileName(renameWorldName)).c_str()))
                 renameWorldDuplError = true;
             else
@@ -1969,7 +1969,7 @@ void Game::update(void)
                                       .base(),
                                   createWorldName.end());
 
-            if (fsFolderExists(std::string(std::string(configGet("worldsDir")) + "/" + normalizeWorldFileName(createWorldName)).c_str()))
+            if (fsDirExists(std::string(std::string(configGet("worldsDir")) + "/" + normalizeWorldFileName(createWorldName)).c_str()))
                 createWorldError = true;
             else
             {

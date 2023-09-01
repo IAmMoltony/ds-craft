@@ -14,7 +14,7 @@ static u8 _versionPatch = 0;
 
 void gameverInit(void)
 {
-    FILE *f = fopen(configGet("gameVersionFile", "r");
+    FILE *f = fopen(configGet("gameVersionFile"), "r");
     if (!f)
     {
         logMessage(LOG_ERROR, "Failed opening game version file because %s", strerror(errno));

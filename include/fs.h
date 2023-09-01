@@ -91,7 +91,7 @@ extern "C"
      * @brief Check if a directory exists
      * @param name name of the directory to check
     */
-    bool fsFolderExists(const char *name); // TODO rename to fsDirExists (for consistency)
+    bool fsDirExists(const char *name);
 
     /**
      * @brief Check if the given item is a directory
