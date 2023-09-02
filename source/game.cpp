@@ -1460,8 +1460,7 @@ void Game::update(void)
                 // if sapling
                 if (block->id() == BID_SAPLING)
                 {
-                    Block *b = block.get();
-                    SaplingBlock *sapling = static_cast<SaplingBlock *>(b);
+                    SaplingBlock *sapling = static_cast<SaplingBlock *>(block.get());
                     sapling->update();
                     if (sapling->hasGrown())
                     {
@@ -1475,8 +1474,7 @@ void Game::update(void)
                 }
                 else if (block->id() == BID_BIRCH_SAPLING)
                 {
-                    Block *b = block.get();
-                    BirchSaplingBlock *sapling = static_cast<BirchSaplingBlock *>(b);
+                    BirchSaplingBlock *sapling = static_cast<BirchSaplingBlock *>(block.get());
                     sapling->update();
                     if (sapling->hasGrown())
                     {
@@ -1490,9 +1488,7 @@ void Game::update(void)
                 }
                 else if (block->id() == BID_SPRUCE_SAPLING)
                 {
-                    // TODO simplify conversion from block to sapling blocks
-                    Block *b = block.get();
-                    SpruceSaplingBlock *sapling = static_cast<SpruceSaplingBlock *>(b);
+                    SpruceSaplingBlock *sapling = static_cast<SpruceSaplingBlock *>(block.get());
                     sapling->update();
                     if (sapling->hasGrown())
                     {
