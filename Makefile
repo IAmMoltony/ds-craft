@@ -200,7 +200,7 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-iquote $(CURDIR)/$(dir)) \
 
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
-.PHONY: $(BUILD) clean run cleanbuild
+.PHONY: $(BUILD) clean run
 
 #---------------------------------------------------------------------------------
 $(BUILD):
@@ -219,10 +219,6 @@ run:
 	@command -v $(EMULATOR) >/dev/null 2>&1 || { echo >&2 "Emulator $(EMULATOR) not found. Please install it or set the correct path."; exit 1; }
 	$(SILENTMSG) run ...
 	$(SILENTCMD)$(EMULATOR) $(TARGET).nds
-
-#---------------------------------------------------------------------------------
-# for code blocks
-cleanbuild: clean
 
 #---------------------------------------------------------------------------------
 else
