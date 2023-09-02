@@ -742,7 +742,6 @@ public:
 
     /**
      * @brief Clear the chest by initializing it with default values
-     * @todo Clear and initItems are the same function but just copy pasted.
     */
     void clear(void);
 
