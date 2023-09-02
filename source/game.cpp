@@ -243,7 +243,10 @@ static constexpr u8 SETTING_EDIT_CONTROLS = 7;
 
 void Game::init(void)
 {
-    // keyboard init
+    // set exception handler
+    defaultExceptionHandler();
+
+    // keyboard innit
     keyboardDemoInit();
     keyboardHide();
 
