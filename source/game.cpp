@@ -410,7 +410,7 @@ void Game::init(void)
 
 void Game::showHelpScreen(const std::string &setting)
 {
-    showHelp(setting, lang, font, fontRu, frameCounter);
+    showHelp(setting, font, fontRu, frameCounter);
 }
 
 void Game::enterWorldSelect(void)

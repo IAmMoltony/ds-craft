@@ -13,12 +13,8 @@
 /**
  * @brief Show help screen
  * @param file help file
- * @param lang current language
  * @param font font
  * @param fontRu font (for russian language)
- * @param frames frame counter
+ * @param frames frame counter. Passed as reference because it is modified in the function.
 */
-void showHelp(const std::string &file, Language lang, Font font, Font fontRu, u16 &frames);
-
-// TODO lang can be ommitted entirely because it is available from Game::instance
-// TODO same with frames
+void showHelp(const std::string &file, Font font, Font fontRu, u16 &frames);

@@ -2,10 +2,10 @@
 #include "game.hpp"
 #include <sstream>
 
-void showHelp(const std::string &file, Language lang, Font font, Font fontRu, u16 &frames)
+void showHelp(const std::string &file, Font font, Font fontRu, u16 &frames)
 {
     const std::string filename = "nitro:/help/" + file + "_" +
-                                 ((lang == Language::English) ? "en" : "ru") + ".txt";
+                                 ((Game::instance->lang == Language::English) ? "en" : "ru") + ".txt";
     if (!fsFileExists(filename.c_str()))
     {
         // oops
@@ -20,7 +20,7 @@ void showHelp(const std::string &file, Language lang, Font font, Font fontRu, u1
             glBegin2D();
             Game::drawMovingBackground();
 
-            switch (lang)
+            switch (Game::instance->lang)
             {
             case Language::English:
                 font.drawHeading("oops");
@@ -67,7 +67,7 @@ void showHelp(const std::string &file, Language lang, Font font, Font fontRu, u1
         glBegin2D();
         Game::instance->drawMovingBackground();
 
-        switch (lang)
+        switch (Game::instance->lang)
         {
         case Language::English:
             font.drawHeading("Help");
