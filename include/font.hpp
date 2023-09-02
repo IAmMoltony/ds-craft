@@ -44,10 +44,6 @@ private:
 public:
     glImage *spr; // why is this public
 
-    // TODO merge constructor and load function
-    // the only reason that they are separated is because
-    // i borrowed code from GL2D examples
-
     /**
      * @brief Font constructor
     */
