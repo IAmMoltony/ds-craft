@@ -547,13 +547,12 @@ public:
     /**
      * @brief Get the crosshair's hitbox
     */
-    Rect getRectAim(Camera camera);
+    Rect getRectAim(const Camera &camera);
 
     /**
      * @brief Get the crosshair's hitbox but the Y bosition is snapped to 8-pixels instead of 16
-     * @todo const reference camera
     */
-    Rect getRectAimY8(Camera camera);
+    Rect getRectAimY8(const Camera &camera);
 
     /**
      * @brief Get a copy of the player's inventory

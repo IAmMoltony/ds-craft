@@ -2770,12 +2770,12 @@ Rect Player::getRectSlab(void)
     return Rect(x + 10, y + 25, 2, 2);
 }
 
-Rect Player::getRectAim(Camera camera)
+Rect Player::getRectAim(const Camera &camera)
 {
     return Rect(snapToGrid(aimX + camera.x), snapToGrid(aimY + camera.y), 16, 16);
 }
 
-Rect Player::getRectAimY8(Camera camera)
+Rect Player::getRectAimY8(const Camera &camera)
 {
     return Rect(snapToGrid(aimX + camera.x), snapToGrid8(aimY + camera.y), 16, 16);
 }
