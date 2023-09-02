@@ -1,10 +1,11 @@
 #include "help.hpp"
 #include "game.hpp"
+#include "config.h"
 #include <sstream>
 
 void showHelp(const std::string &file, Font font, Font fontRu, u16 &frames)
 {
-    const std::string filename = "nitro:/help/" + file + "_" +
+    const std::string filename = std::string(configGet("helpDir")) + "/" + file + "_" +
                                  ((Game::instance->lang == Language::English) ? "en" : "ru") + ".txt";
     if (!fsFileExists(filename.c_str()))
     {
