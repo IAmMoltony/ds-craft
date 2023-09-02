@@ -161,7 +161,7 @@ std::string iidToString(InventoryItem::ID iid);
  * @param lang language to use
  * @param iid item ID to get the name of
 */
-const char *getItemName(Language lang, InventoryItem::ID iid); // TODO lang is  available from Game::instance
+const char *getItemName(InventoryItem::ID iid);
 
 /**
  * @brief Get item image corresponding to the item ID

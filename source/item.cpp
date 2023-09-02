@@ -4,6 +4,7 @@
 #include "images.h"
 #include "util.h"
 #include "block.hpp"
+#include "game.cpp"
 
 InventoryItem::InventoryItem(ID id, u8 amount) : id(id), amount(amount)
 {
@@ -481,9 +482,9 @@ std::string iidToString(InventoryItem::ID iid)
     return id;
 }
 
-const char *getItemName(Language lang, InventoryItem::ID iid)
+const char *getItemName(InventoryItem::ID iid)
 {
-    switch (lang)
+    switch (Game::instance->lang)
     {
     case Language::English:
         switch (iid)
