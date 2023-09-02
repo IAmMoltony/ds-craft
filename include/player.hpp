@@ -295,9 +295,8 @@ public:
      * @brief Draw crafting screen
      * @param fontSmall English font
      * @param fontSmallRu Russian font
-     * @todo Rename fontSmall and fontSmallRu to font and fontRu respectively
     */
-    void drawCrafting(Font &fontSmall, Font &fontSmallRu);
+    void drawCrafting(Font &font, Font &fontRu);
 
     /**
      * @brief Draw the player's body (and head)

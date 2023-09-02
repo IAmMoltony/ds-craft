@@ -2849,7 +2849,7 @@ static bool _canCraft(Player *pThis, CraftingRecipe recipe)
 
 static constexpr u8 RECIPES_PER_ROW = 14;
 
-void Player::drawCrafting(Font &fontSmall, Font &fontSmallRu)
+void Player::drawCrafting(Font &font, Font &fontRu)
 {
     size_t numRecipes = _craftingRecipes.size();
 
@@ -2903,7 +2903,7 @@ void Player::drawCrafting(Font &fontSmall, Font &fontSmallRu)
 
         // draw number if the recipe outputs more than 1 item
         if (recipe.getCount() > 1)
-            fontSmall.printfShadow(slotX, slotY + 3, "%d", recipe.getCount());
+            font.printfShadow(slotX, slotY + 3, "%d", recipe.getCount());
     }
 
     // print recipe full name
@@ -2912,10 +2912,10 @@ void Player::drawCrafting(Font &fontSmall, Font &fontSmallRu)
     switch (Game::instance->lang)
     {
     case Language::English:
-        fontSmall.printShadow(16, 35, recipe.getFullName(this));
+        font.printShadow(16, 35, recipe.getFullName(this));
         break;
     case Language::Russian:
-        fontSmallRu.printShadow(16, 35, recipe.getFullName(this));
+        fontRu.printShadow(16, 35, recipe.getFullName(this));
         break;
     }
 }
