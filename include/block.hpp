@@ -283,15 +283,6 @@ enum class LeavesType
 };
 
 /**
- * @brief Enum representing type of grass
-*/
-enum class GrassType
-{
-    Normal,
-    Spruce,
-};
-
-/**
  * @brief Enum representing type of door
 */
 enum class DoorType
@@ -508,15 +499,24 @@ TRAPDOOR_DECL(Spruce)
 
 /**
  * @brief Class representing a grass block
- * @todo Move GrassType to this class
 */
 class GrassBlock : public Block
 {
+public:
+    /**
+    * @brief Enum representing type of grass
+    */
+    enum class Type
+    {
+        Normal,
+        Spruce,
+    };
+
 private:
     /**
-     * @brief The grass' type
+     * @brief The type of the grass
     */
-    GrassType type;
+    Type type;
 
 public:
     /**
@@ -530,7 +530,7 @@ public:
     static inline constexpr rgb COLOR_SPRUCE = RGB8(32, 138, 83);
 
     GrassBlock(s16 x, s16 y);
-    GrassBlock(s16 x, s16 y, GrassType type);
+    GrassBlock(s16 x, s16 y, Type type);
 
     void draw(const Camera &camera) override;
     u16 id(void) override;
@@ -539,7 +539,7 @@ public:
     /**
      * @brief Get the type of the grass
     */
-    GrassType getType(void);
+    Type getType(void);
 };
 
 /**
@@ -550,16 +550,17 @@ public:
 class Grass : public Block
 {
 private:
-    GrassType type;
+    GrassBlock::Type type;
 
 public:
     Grass(s16 x, s16 y);
-    Grass(s16 x, s16 y, GrassType type);
+    Grass(s16 x, s16 y, GrassBlock::Type type);
 
     void draw(const Camera &camera) override;
     u16 id(void) override;
     bool solid(void) override;
-    GrassType getType(void);
+
+    GrassBlock::Type getType(void);
 };
 
 /**

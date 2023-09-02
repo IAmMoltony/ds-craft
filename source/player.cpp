@@ -1306,7 +1306,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             {
                                 blocks->emplace_back(new Grass(snapToGrid(camera->x + aimX),
                                                                snapToGrid(camera->y + aimY),
-                                                               GrassType::Normal));
+                                                               GrassBlock::Type::Normal));
                                 playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             }
                             break;

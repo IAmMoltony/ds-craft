@@ -300,11 +300,11 @@ TRAPDOOR_IMPL(Spruce, sprSpruceTrapdoor, BID_SPRUCE_TRAPDOOR)
 
 // non-generic implementations
 
-GrassBlock::GrassBlock(s16 x, s16 y) : Block(x, y, 14), type(GrassType::Normal)
+GrassBlock::GrassBlock(s16 x, s16 y) : Block(x, y, 14), type(Type::Normal)
 {
 }
 
-GrassBlock::GrassBlock(s16 x, s16 y, GrassType type) : Block(x, y, 14), type(type)
+GrassBlock::GrassBlock(s16 x, s16 y, Type type) : Block(x, y, 14), type(type)
 {
 }
 
@@ -314,10 +314,10 @@ void GrassBlock::draw(const Camera &camera)
 
     switch (type)
     {
-    case GrassType::Normal:
+    case Type::Normal:
         glColor(COLOR_NORMAL);
         break;
-    case GrassType::Spruce:
+    case Type::Spruce:
         glColor(COLOR_SPRUCE);
         break;
     }
@@ -336,18 +336,18 @@ bool GrassBlock::solid(void)
     return true;
 }
 
-GrassType GrassBlock::getType(void)
+GrassBlock::Type GrassBlock::getType(void)
 {
     return type;
 }
 
 //-----------------------------------------
 
-Grass::Grass(s16 x, s16 y) : Block(x, y, 1), type(GrassType::Normal)
+Grass::Grass(s16 x, s16 y) : Block(x, y, 1), type(GrassBlock::Type::Normal)
 {
 }
 
-Grass::Grass(s16 x, s16 y, GrassType type) : Block(x, y, 1), type(type)
+Grass::Grass(s16 x, s16 y, GrassBlock::Type type) : Block(x, y, 1), type(type)
 {
 }
 
@@ -355,10 +355,10 @@ void Grass::draw(const Camera &camera)
 {
     switch (type)
     {
-    case GrassType::Normal:
+    case GrassBlock::Type::Normal:
         glColor(GrassBlock::COLOR_NORMAL);
         break;
-    case GrassType::Spruce:
+    case GrassBlock::Type::Spruce:
         glColor(GrassBlock::COLOR_SPRUCE);
         break;
     }
@@ -376,7 +376,7 @@ bool Grass::solid(void)
     return false;
 }
 
-GrassType Grass::getType(void)
+GrassBlock::Type Grass::getType(void)
 {
     return type;
 }

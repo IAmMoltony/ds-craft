@@ -37,7 +37,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
 
                 // create grass
                 if (randomChance(60))
-                    blocks.emplace_back(new Grass(i * 16, y - 16, GrassType::Normal));
+                    blocks.emplace_back(new Grass(i * 16, y - 16, GrassBlock::Type::Normal));
 
                 // create pig with 10% chance
                 if (randomChance(10))
@@ -131,7 +131,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
 
                 // create grass
                 if (randomChance(60))
-                    blocks.emplace_back(new Grass(i * 16, y - 16, GrassType::Normal));
+                    blocks.emplace_back(new Grass(i * 16, y - 16, GrassBlock::Type::Normal));
 
                 if (randomChance(10))
                     entities.emplace_back(new PigEntity(i * 16, y - 64));
@@ -166,7 +166,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
 
                 // create grass
                 if (randomChance(60))
-                    blocks.emplace_back(new Grass(i * 16, y - 16, GrassType::Normal));
+                    blocks.emplace_back(new Grass(i * 16, y - 16, GrassBlock::Type::Normal));
 
                 if (randomChance(10))
                     entities.emplace_back(new PigEntity(i, y - 64));
@@ -203,11 +203,11 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
             for (u16 i = k * SCREEN_WIDTH * 2 / 16; i < k * SCREEN_WIDTH * 2 / 16 + SCREEN_WIDTH * 2 / 16; ++i)
             {
                 ++sinceLastTree;
-                blocks.emplace_back(new GrassBlock(i * 16, y, GrassType::Spruce));
+                blocks.emplace_back(new GrassBlock(i * 16, y, GrassBlock::Type::Spruce));
 
                 // create grass
                 if (randomChance(60))
-                    blocks.emplace_back(new Grass(i * 16, y - 16, GrassType::Spruce));
+                    blocks.emplace_back(new Grass(i * 16, y - 16, GrassBlock::Type::Spruce));
 
                 // create pig with 10% chance
                 if (randomChance(10))

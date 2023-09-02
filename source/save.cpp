@@ -97,15 +97,15 @@ std::string getWorldVersion(const std::string &file)
     return gameVersion;
 }
 
-static std::string _grassTypeToString(GrassType type)
+static std::string _grassTypeToString(GrassBlock::Type type)
 {
     std::string stringType;
     switch (type)
     {
-    case GrassType::Normal:
+    case GrassBlock::Type::Normal:
         stringType = "normal";
         break;
-    case GrassType::Spruce:
+    case GrassBlock::Type::Spruce:
         stringType = "spruce";
         break;
     }
@@ -411,19 +411,19 @@ static void _argParseSign(const StringVector &split, s16 &x, s16 &y, std::string
         text.pop_back();
 }
 
-static void _argParseGrassBlock(const StringVector &split, s16 &x, s16 &y, GrassType &type)
+static void _argParseGrassBlock(const StringVector &split, s16 &x, s16 &y, GrassBlock::Type &type)
 {
     _argParseXY(split, x, y);
     const std::string &st = split[3]; // string type
 
     if (st == "spruce")
-        type = GrassType::Spruce;
+        type = GrassBlock::Type::Spruce;
     else if (st == "normal")
-        type = GrassType::Normal;
+        type = GrassBlock::Type::Normal;
     else
     {
         printf("warning: unknown grass type %s; defaulting to normal\n", st.c_str());
-        type = GrassType::Normal;
+        type = GrassBlock::Type::Normal;
     }
 }
 
@@ -561,7 +561,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         else if (split[0] == "grassblock") // grassblock <x> <y> [type]
         {
             s16 x = 0, y = 0;
-            GrassType type;
+            GrassBlock::Type type;
             _argParseGrassBlock(split, x, y, type);
 
             blocks.emplace_back(new GrassBlock(x, y, type));
@@ -569,7 +569,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
         else if (split[0] == "grass") // grass <x> <y> [type]
         {
             s16 x = 0, y = 0;
-            GrassType type;
+            GrassBlock::Type type;
             _argParseGrassBlock(split, x, y, type); // grass and grass block LITERALLY have the same args
 
             blocks.emplace_back(new Grass(x, y, type));
