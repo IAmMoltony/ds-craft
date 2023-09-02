@@ -55,7 +55,16 @@ public:
 
     /**
      * @brief Load the font
-     * @todo document params
+     * @param fspr sprite to load font sheet into
+     * @param frames how many font glyphs there are
+     * @param texCoords font texture coordinates
+     * @param type font texture type
+     * @param sizeX texture X size (GL_TEXTURE_SIZE_ENUM)
+     * @param sizeY texture Y size (GL_TEXTURE_SIZE_ENUM)
+     * @param par parameter (???)
+     * @param palWidth how big the palette is
+     * @param pal font texture palette
+     * @param bitmap font bitmap
      */
     void load(glImage *fspr, const u32 frames, const unsigned int *texCoords,
               GL_TEXTURE_TYPE_ENUM type, int sizeX, int sizeY, int par, int palWidth,
