@@ -9,7 +9,7 @@
 
 void CraftingRecipe::construct(const char *recipeFile)
 {
-    std::string path = configGet("craftingDir") + std::string(recipeFile) + ".rcp";
+    std::string path = configGet("craftingDir") + "/" + std::string(recipeFile) + ".rcp";
     fileName = recipeFile;
 
     // check if file exists
