@@ -643,23 +643,16 @@ bool GlassBlock::solid(void)
 
 //---------------------------------------------
 
-static u16 _nextChestID = 0;
-
-void ChestBlock::initItems(void)
-{
-    for (u8 i = 0; i < NUM_ITEMS; ++i)
-        items[i] = InventoryItem();
-}
 
 ChestBlock::ChestBlock(s16 x, s16 y) : Block(x, y, 7), chid(_nextChestID++)
 {
-    initItems();
+    clear();
 }
 
 ChestBlock::ChestBlock(s16 x, s16 y, u16 id) : Block(x, y, 7), chid(id)
 {
     _nextChestID = id + 1;
-    initItems();
+    clear();
 }
 
 void ChestBlock::draw(const Camera &camera)

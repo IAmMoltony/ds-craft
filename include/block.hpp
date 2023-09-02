@@ -722,11 +722,6 @@ private:
     */
     InventoryItem items[NUM_ITEMS];
 
-    /**
-     * @brief Initialize items with default values
-    */
-    void initItems(void);
-
 public:
     ChestBlock(s16 x, s16 y);
     ChestBlock(s16 x, s16 y, u16 id);
