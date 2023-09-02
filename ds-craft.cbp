@@ -18,6 +18,14 @@
 				<Linker>
 					<Add option="-s" />
 				</Linker>
+				<MakeCommands>
+					<Build command="$make -f $makefile $target DEVKITPRO=/opt/devkitpro DEVKITARM=/opt/devkitpro/devkitARM" />
+					<CompileFile command="$make -f $makefile $file DEVKITPRO=/opt/devkitpro DEVKITARM=/opt/devkitpro/devkitARM" />
+					<Clean command="$make -f $makefile clean DEVKITPRO=/opt/devkitpro DEVKITARM=/opt/devkitpro/devkitARM" />
+					<DistClean command="$make -f $makefile distclean$target" />
+					<AskRebuildNeeded command="$make -q -f $makefile $target DEVKITPRO=/opt/devkitpro DEVKITARM=/opt/devkitpro/devkitARM" />
+					<SilentBuild command="$make -f $makefile $target DEVKITPRO=/opt/devkitpro DEVKITARM=/opt/devkitpro/devkitARM &gt; $(CMD_NULL)" />
+				</MakeCommands>
 			</Target>
 			<Target title="clean">
 				<Option output="ds-craft" prefix_auto="1" extension_auto="1" />
@@ -681,6 +689,7 @@
 		<Unit filename="include/crafting.hpp" />
 		<Unit filename="include/defines.h" />
 		<Unit filename="include/entity.hpp" />
+		<Unit filename="include/facing.hpp" />
 		<Unit filename="include/font.hpp" />
 		<Unit filename="include/font_uvcoord.h" />
 		<Unit filename="include/fs.h" />
