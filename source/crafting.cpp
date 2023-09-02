@@ -4,10 +4,11 @@
 #include <iterator>
 #include "util.h"
 #include "save.hpp"
+#include "game.hpp"
 
 void CraftingRecipe::construct(const char *recipeFile)
 {
-    std::string path = "nitro:/crafting/" + std::string(recipeFile) + ".rcp";
+    std::string path = "nitro:/crafting/" + std::string(recipeFile) + ".rcp"; // TODO move nitro:/crafting into config
     fileName = recipeFile;
 
     // check if file exists

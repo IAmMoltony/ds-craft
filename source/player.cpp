@@ -2911,10 +2911,10 @@ void Player::drawCrafting(Font &fontSmall, Font &fontSmallRu)
     switch (Game::instance->lang)
     {
     case Language::English:
-        fontSmall.printShadow(16, 35, recipe.getFullName(Game::instance->lang, this));
+        fontSmall.printShadow(16, 35, recipe.getFullName(this));
         break;
     case Language::Russian:
-        fontSmallRu.printShadow(16, 35, recipe.getFullName(Game::instance->lang, this));
+        fontSmallRu.printShadow(16, 35, recipe.getFullName(this));
         break;
     }
 }
