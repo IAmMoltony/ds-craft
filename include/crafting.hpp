@@ -86,5 +86,5 @@ public:
     /**
      * @brief Get list of items to craft the recipe
     */
-    std::vector<InventoryItem> *getRecipe(void); // TODO this could potentially be used to alter the crafting recipe contents because we are literally giving the caller the pointer to our items vector. are we cool with that?
+    std::vector<InventoryItem> *getRecipe(void);
 };
