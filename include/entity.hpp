@@ -9,12 +9,7 @@
 #include "defines.h"
 #include "block.hpp"
 #include "animsprite.hpp"
-
-enum class Facing
-{
-    Left,
-    Right, // TODO why is this in...entity, of all places???????
-};
+#include "facing.hpp"
 
 class Entity;
 
