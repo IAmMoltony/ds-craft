@@ -58,12 +58,11 @@ public:
 
     /**
      * @brief Get the full name of the recipe
-     * @param lang language to use
      * @param player player (used for item count in the inventory)
      *
      * The full name is used in the crafting recipe screen
     */
-    std::string getFullName(Language lang, Player *player); // TODO lang is available from Game::instance
+    std::string getFullName(Player *player);
 
     /**
      * @brief Get recipe file name

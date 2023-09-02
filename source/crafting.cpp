@@ -78,8 +78,10 @@ CraftingRecipe::CraftingRecipe(const std::string &recipeFile)
     construct(recipeFile.c_str());
 }
 
-std::string CraftingRecipe::getFullName(Language lang, Player *player)
+std::string CraftingRecipe::getFullName(Player *player)
 {
+    Language lang = Game::instance->lang;
+
     // get name
     std::string nm = getItemName(lang, output);
     std::string name;
