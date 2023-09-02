@@ -4,7 +4,7 @@
 #include "images.h"
 #include "util.h"
 #include "block.hpp"
-#include "game.cpp"
+#include "game.hpp"
 
 InventoryItem::InventoryItem(ID id, u8 amount) : id(id), amount(amount)
 {
