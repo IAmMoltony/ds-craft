@@ -322,7 +322,7 @@ void Game::init(void)
     logMessage(LOG_INFO, "Initializing sound");
 
     // init sound
-    mmInitDefault((char *)"nitro:/soundbank.bin");
+    mmInitDefault((char *)configGet("soundbankFile"));
 
     // create folders
     fsCreateDir(configGet("dataDir"));

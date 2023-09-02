@@ -8,6 +8,7 @@
 #include "stats.hpp"
 #include "util.h"
 #include "log.h"
+#include "config.h"
 
 // gui images
 
@@ -2791,7 +2792,7 @@ void Player::initCrafting(void)
 {
     std::map<std::string, float> loadTimes;
 
-    std::ifstream craftingOrder("nitro:/crafting_order.txt");
+    std::ifstream craftingOrder(configGet("craftingOrderFile"));
     std::string line;
     while (std::getline(craftingOrder, line))
     {
