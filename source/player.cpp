@@ -418,12 +418,14 @@ void Player::draw(const Camera &camera, Font &font, Font &fontRu)
     else
         drawHUD(camera, font);
 
-    // TODO make a define for enabling/disabling drawing hitboxes
-    // getRectBottom().draw(camera, RGB15(31, 0, 0));
-    // getRectTop().draw(camera, RGB15(0, 31, 0));
-    // getRectLeft().draw(camera, RGB15(0, 0, 31));
-    // getRectRight().draw(camera, RGB15(31, 31, 0));
-    // getRectSlab().draw(camera, RGB15(0, 31, 31));
+    if (configGetInt("drawPlayerHitboxes"))
+    {
+        getRectBottom().draw(camera, RGB15(31, 0, 0));
+        getRectTop().draw(camera, RGB15(0, 31, 0));
+        getRectLeft().draw(camera, RGB15(0, 0, 31));
+        getRectRight().draw(camera, RGB15(31, 31, 0));
+        getRectSlab().draw(camera, RGB15(0, 31, 31));
+    }
 }
 
 void Player::drawBody(const Camera &camera)
