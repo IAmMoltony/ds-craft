@@ -30,7 +30,7 @@ std::string normalizeWorldFileName(const std::string &str)
 
 std::string getWorldFile(const std::string &name)
 {
-    std::string fn = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(name); // TODO hardcoded world path??? (???)
+    std::string fn = std::string(configGet("worldsDir")) + "/" + normalizeWorldFileName(name);
     return fsDirExists(fn.c_str()) ? fn : "(NO WORLD FILE)";
 }
 
@@ -352,7 +352,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 
 unsigned int getWorldSeed(const std::string &file)
 {
-    std::string worldFolder = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(file); // TODO HARDCODED WORLD PATH!!!
+    std::string worldFolder = std::string(configGet("worldsDir")) + "/" + normalizeWorldFileName(file);
 
     // check if the world like actually exists
     if (!fsDirExists(worldFolder.c_str()))
@@ -819,7 +819,7 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
 void renameWorld(const std::string &oldName, const std::string &newName)
 {
     // check if exist
-    const std::string oldNameNormalized = "fat:/dscraft_data/worlds/" + normalizeWorldFileName(oldName);
+    const std::string oldNameNormalized = std::string(configGet("worldsDir")) + "/" + normalizeWorldFileName(oldName);
     if (!fsDirExists(oldNameNormalized.c_str()))
         return;
 
