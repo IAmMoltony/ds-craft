@@ -300,7 +300,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
     for (auto &entity : entities)
     {
         std::string id = entity->id();
-        wld << "entity " << std::to_string(entity->getX()) << ' ' << std::to_string(entity->getY()) << ' ' << id << '\n';
+        wld << "entity " << std::to_string(entity->x) << ' ' << std::to_string(entity->y) << ' ' << id << '\n';
     }
 
     wld.close();

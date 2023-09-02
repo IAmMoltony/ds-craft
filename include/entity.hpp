@@ -145,18 +145,6 @@ public:
     virtual void onDeath(EntityList &entities);
 
     /**
-     * @brief Get entity's X position
-     * @todo Remove this because x is public
-    */
-    s16 getX(void);
-
-    /**
-     * @brief Get entity's Y position
-     * @todo Remove this because y is public
-    */
-    s16 getY(void);
-
-    /**
      * @brief Check if the entity is dead
     */
     bool dead(void);

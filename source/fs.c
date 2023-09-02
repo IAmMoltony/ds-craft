@@ -10,10 +10,10 @@
 fsInitStatus fsInit(void)
 {
     // TODO this doesnt work on real hardware (thx Its-Andy9 for pointing out)
-    if (!nitroFSInit(NULL))
-        return FS_INIT_STATUS_NITROFS_ERROR;
     if (!fatInitDefault())
         return FS_INIT_STATUS_FAT_ERROR;
+    if (!nitroFSInit(NULL))
+        return FS_INIT_STATUS_NITROFS_ERROR;
     return FS_INIT_STATUS_OK;
 }
 

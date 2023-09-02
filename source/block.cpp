@@ -643,6 +643,7 @@ bool GlassBlock::solid(void)
 
 //---------------------------------------------
 
+static u16 _nextChestID = 0;
 
 ChestBlock::ChestBlock(s16 x, s16 y) : Block(x, y, 7), chid(_nextChestID++)
 {

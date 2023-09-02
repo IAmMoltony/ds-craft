@@ -39,16 +39,6 @@ Entity::Entity(s16 x, s16 y) : x(x), y(y), velX(0), velY(0), falling(true), jump
 {
 }
 
-s16 Entity::getX(void)
-{
-    return x;
-}
-
-s16 Entity::getY(void)
-{
-    return y;
-}
-
 bool Entity::dead(void)
 {
     return health < 0;
