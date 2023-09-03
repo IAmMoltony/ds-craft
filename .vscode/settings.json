@@ -81,5 +81,6 @@
         "REWRITE"
     ],
     "python.analysis.typeCheckingMode": "basic",
-    "C_Cpp.default.compilerPath": "/opt/devkitpro/devkitARM/bin/arm-none-eabi-gcc"
+    // TODO is there way to have multiple compilers and vscode will just use the one it likes?
+    "C_Cpp.default.compilerPath": "E:\\devkitPro\\devkitARM\\bin\\arm-none-eabi-gcc.exe"
 }
