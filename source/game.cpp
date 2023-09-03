@@ -12,7 +12,7 @@
 
 Game *Game::instance;
 
-Game::Game() : blocks(), entities(), blockParticles(), player(), gameState(GameState::TitleScreen), camera({0, 0}),
+Game::Game() : blocks(), entities(), blockParticles(), player(), gameState(State::TitleScreen), camera({0, 0}),
                frameCounter(0), saveTextTimer(0), worldSelectSelected(0), langSelectSelected(0),
                deleteWorldSelected(0), renameWorldSelected(0), worldSelectWorlds(), showSaveText(false),
                paused(false), showStats(false), worldName(), createWorldName(), createWorldSeed(), renameWorldName(),
@@ -378,9 +378,9 @@ void Game::init(void)
     AssetManager::loadMenuAssets();
 
     gameState = fsFileExists(std::string(std::string(configGet("configDir")) + "/lang.cfg").c_str())
-                    ? GameState::TitleScreen
-                    : GameState::LanguageSelect;
-    if (gameState == GameState::LanguageSelect)
+                    ? State::TitleScreen
+                    : State::LanguageSelect;
+    if (gameState == State::LanguageSelect)
     {
         loadImageAlpha(sprLangEnglish, 16, 16, englishPal, englishBitmap);
         loadImageAlpha(sprLangRussian, 16, 16, russianPal, russianBitmap);
@@ -419,7 +419,7 @@ void Game::showHelpScreen(const std::string &setting)
 
 void Game::enterWorldSelect(void)
 {
-    gameState = GameState::WorldSelect;
+    gameState = State::WorldSelect;
     glBegin2D();
     drawMovingBackground();
     switch (lang)
@@ -524,7 +524,7 @@ void Game::draw(void)
 {
     switch (gameState)
     {
-    case GameState::Game:
+    case State::Game:
         if (player.inVoid())
             glBoxFilled(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(0, 0, 0));
         else
@@ -641,7 +641,7 @@ void Game::draw(void)
             }
         }
         break;
-    case GameState::TitleScreen:
+    case State::TitleScreen:
         drawMovingBackground();
 
         glSpriteScale(SCREEN_WIDTH / 2 - 96, logoY, (1 << 12) * 2, GL_FLIP_NONE, sprLogo);
@@ -676,7 +676,7 @@ void Game::draw(void)
             }
         }
         break;
-    case GameState::Credits:
+    case State::Credits:
         drawMenuBackground();
 
         switch (lang)
@@ -708,7 +708,7 @@ void Game::draw(void)
             break;
         }
         break;
-    case GameState::WorldSelect:
+    case State::WorldSelect:
         drawMenuBackground();
 
         if (worldSelectWorlds.size() == 0)
@@ -820,7 +820,7 @@ void Game::draw(void)
             break;
         }
         break;
-    case GameState::WorldSettings:
+    case State::WorldSettings:
     {
         WorldManager::WorldInfo worldInfo = worldSelectWorlds[worldSelectSelected];
         std::string worldInfoName = worldInfo.name;
@@ -888,7 +888,7 @@ void Game::draw(void)
 
         break;
     }
-    case GameState::RenameWorld:
+    case State::RenameWorld:
         drawMenuBackground();
 
         switch (lang)
@@ -938,7 +938,7 @@ void Game::draw(void)
         glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprAButton);
         font.print(15, SCREEN_HEIGHT - 15, "OK");
         break;
-    case GameState::CreateWorld:
+    case State::CreateWorld:
         drawMenuBackground();
 
         switch (lang)
@@ -1030,7 +1030,7 @@ void Game::draw(void)
             break;
         }
         break;
-    case GameState::LanguageSelect:
+    case State::LanguageSelect:
         drawMenuBackground();
 
         glSprite(SCREEN_WIDTH / 2 - 8, 60, GL_FLIP_NONE, sprLangEnglish);
@@ -1057,7 +1057,7 @@ void Game::draw(void)
 
         font.drawHeading("Select language");
         break;
-    case GameState::VersionInfo:
+    case State::VersionInfo:
         drawMenuBackground();
 
         switch (lang)
@@ -1086,7 +1086,7 @@ void Game::draw(void)
             break;
         }
         break;
-    case GameState::Settings:
+    case State::Settings:
         drawMenuBackground();
 
         if (settingsSelect == SETTING_LANGUAGE_SELECT)
@@ -1252,7 +1252,7 @@ void Game::draw(void)
             break;
         }
         break;
-    case GameState::DeleteWorld:
+    case State::DeleteWorld:
         drawMenuBackground();
 
         switch (lang)
@@ -1294,7 +1294,7 @@ void Game::draw(void)
             break;
         }
         break;
-    case GameState::DeleteAllWorlds:
+    case State::DeleteAllWorlds:
         drawMenuBackground();
 
         switch (lang)
@@ -1319,7 +1319,7 @@ void Game::draw(void)
             break;
         }
         break;
-    case GameState::EditControls:
+    case State::EditControls:
         drawMenuBackground();
 
         glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprBButton);
@@ -1385,7 +1385,7 @@ void Game::update(void)
     scanKeys();
     u32 down = keysDown();
 
-    if (gameState != GameState::Game)
+    if (gameState != State::Game)
         paused = false;
 
     if (frameCounter % 50 == 0)
@@ -1393,7 +1393,7 @@ void Game::update(void)
 
     switch (gameState)
     {
-    case GameState::Game:
+    case State::Game:
         // auto saving
         if (SettingsManager::autoSaveSeconds && frameCounter % (SettingsManager::autoSaveSeconds * 60) == 0)
         {
@@ -1420,7 +1420,7 @@ void Game::update(void)
             gameQuit();
 
             // go to menu and play a click sound
-            gameState = GameState::TitleScreen;
+            gameState = State::TitleScreen;
             mmEffectEx(&sndClick);
         }
         if (down & KEY_X && paused && !showStats)
@@ -1634,13 +1634,13 @@ void Game::update(void)
             {
                 gameQuit();
 
-                gameState = GameState::TitleScreen;
+                gameState = State::TitleScreen;
                 mmEffectEx(&sndClick);
             }
         }
         cameraFollowPlayer(SettingsManager::smoothCamera);
         break;
-    case GameState::TitleScreen:
+    case State::TitleScreen:
         if (down & KEY_A || down & KEY_START)
         {
             switch (titleScreenSelect)
@@ -1651,11 +1651,11 @@ void Game::update(void)
                 mmEffectEx(&sndClick);
                 break;
             case TITLE_SCREEN_CREDITS:
-                gameState = GameState::Credits;
+                gameState = State::Credits;
                 mmEffectEx(&sndClick);
                 break;
             case TITLE_SCREEN_SETTINGS:
-                gameState = GameState::Settings;
+                gameState = State::Settings;
                 mmEffectEx(&sndClick);
                 break;
             }
@@ -1680,23 +1680,23 @@ void Game::update(void)
         if (logoFall)
             ++logoY;
         break;
-    case GameState::Credits:
+    case State::Credits:
         if (down & KEY_B)
         {
             mmEffectEx(&sndClick);
-            gameState = GameState::TitleScreen;
+            gameState = State::TitleScreen;
         }
         else if (down & KEY_A)
         {
             mmEffectEx(&sndClick);
-            gameState = GameState::VersionInfo;
+            gameState = State::VersionInfo;
         }
         break;
-    case GameState::WorldSelect:
+    case State::WorldSelect:
         if (down & KEY_B)
         {
             mmEffectEx(&sndClick);
-            gameState = GameState::TitleScreen;
+            gameState = State::TitleScreen;
         }
         else if (down & KEY_X)
         {
@@ -1818,7 +1818,7 @@ void Game::update(void)
                         consoleClear();
                     player.setAimX(SCREEN_WIDTH / 2);
                     player.setAimY(SCREEN_HEIGHT / 2);
-                    gameState = GameState::Game;
+                    gameState = State::Game;
                     swiWaitForVBlank();
                     return;
                 }
@@ -1829,12 +1829,12 @@ void Game::update(void)
             if (worldSelectWorlds.size() > 0)
             {
                 mmEffectEx(&sndClick);
-                gameState = GameState::WorldSettings;
+                gameState = State::WorldSettings;
             }
         }
         else if (down & KEY_A)
         {
-            gameState = GameState::CreateWorld;
+            gameState = State::CreateWorld;
             u32 matches = 0;
             std::regex defWorldNameRegex("(World\\s?)(\\d*)?");
             for (auto world : worldSelectWorlds)
@@ -1868,10 +1868,10 @@ void Game::update(void)
                 --worldSelectSelected;
         }
         break;
-    case GameState::WorldSettings:
+    case State::WorldSettings:
         if (down & KEY_B)
         {
-            gameState = GameState::WorldSelect;
+            gameState = State::WorldSelect;
             mmEffectEx(&sndClick);
         }
         else if ((down & KEY_DOWN) || (down & KEY_UP))
@@ -1882,7 +1882,7 @@ void Game::update(void)
             {
                 mmEffectEx(&sndClick);
                 deleteWorldSelected = worldSelectSelected;
-                gameState = GameState::DeleteWorld;
+                gameState = State::DeleteWorld;
             }
             else
             {
@@ -1890,11 +1890,11 @@ void Game::update(void)
                 renameWorldSelected = worldSelectSelected;
                 keyboardShow();
                 renameWorldName = "";
-                gameState = GameState::RenameWorld;
+                gameState = State::RenameWorld;
             }
         }
         break;
-    case GameState::RenameWorld:
+    case State::RenameWorld:
     {
         int chi = keyboardUpdate();
         u8 ch = (u8)chi;
@@ -1903,7 +1903,7 @@ void Game::update(void)
         {
             keyboardHide();
             renameWorldDuplError = false;
-            gameState = GameState::WorldSettings;
+            gameState = State::WorldSettings;
             mmEffectEx(&sndClick);
         }
         else if (down & KEY_A || ch == '\n')
@@ -1923,13 +1923,15 @@ void Game::update(void)
 
             // man idk anymore
             if (fsDirExists(std::string(std::string(configGet("worldsDir")) + "/" +
-                                           normalizeWorldFileName(renameWorldName)).c_str()))
+                                        normalizeWorldFileName(renameWorldName))
+                                .c_str()))
                 renameWorldDuplError = true;
             else
             {
                 renameWorld(worldSelectWorlds[worldSelectSelected].name, renameWorldName);
                 rename(std::string(std::string(configGet("worldsDir")) + "/" +
-                                   normalizeWorldFileName(worldSelectWorlds[worldSelectSelected].name)).c_str(),
+                                   normalizeWorldFileName(worldSelectWorlds[worldSelectSelected].name))
+                           .c_str(),
                        std::string(std::string(configGet("worldsDir")) + "/" + normalizeWorldFileName(renameWorldName)).c_str());
                 keyboardHide();
                 enterWorldSelect();
@@ -1942,7 +1944,7 @@ void Game::update(void)
             renameWorldName += ch;
         break;
     }
-    case GameState::CreateWorld:
+    case State::CreateWorld:
     {
         int chi = keyboardUpdate();
         u8 ch = (u8)chi;
@@ -1951,7 +1953,7 @@ void Game::update(void)
         {
             createWorldError = false;
             keyboardHide();
-            gameState = GameState::WorldSelect;
+            gameState = State::WorldSelect;
             mmEffectEx(&sndClick);
         }
         else if (down & KEY_A || ch == '\n')
@@ -2022,7 +2024,7 @@ void Game::update(void)
         }
         break;
     }
-    case GameState::LanguageSelect:
+    case State::LanguageSelect:
         if (down & KEY_SELECT)
         {
             if (++langSelectSelected > LANGUAGE_SELECT_RUSSIAN)
@@ -2038,31 +2040,31 @@ void Game::update(void)
             fsWrite(std::string(std::string(configGet("configDir")) + "/lang.cfg").c_str(), saveDataBuf);
 
             mmEffectEx(&sndClick);
-            gameState = GameState::TitleScreen;
+            gameState = State::TitleScreen;
             unloadImage(sprLangEnglish);
             unloadImage(sprLangRussian);
             frameCounter = 0;
         }
         break;
-    case GameState::VersionInfo:
+    case State::VersionInfo:
         if (down & KEY_B)
         {
             mmEffectEx(&sndClick);
-            gameState = GameState::Credits;
+            gameState = State::Credits;
         }
         break;
-    case GameState::Settings:
+    case State::Settings:
         if (down & KEY_B)
         {
             mmEffectEx(&sndClick);
-            gameState = GameState::TitleScreen;
+            gameState = State::TitleScreen;
         }
         else if (down & KEY_A)
         {
             switch (settingsSelect)
             {
             case SETTING_LANGUAGE_SELECT:
-                gameState = GameState::LanguageSelect;
+                gameState = State::LanguageSelect;
                 loadImageAlpha(sprLangEnglish, 16, 16, englishPal, englishBitmap);
                 loadImageAlpha(sprLangRussian, 16, 16, russianPal, russianBitmap);
                 break;
@@ -2109,10 +2111,10 @@ void Game::update(void)
                 fsWrite(std::string(std::string(configGet("configDir")) + "/autojump.cfg").c_str(), SettingsManager::autoJump ? "1" : "0");
                 break;
             case SETTING_DELETE_ALL_WORLDS:
-                gameState = GameState::DeleteAllWorlds;
+                gameState = State::DeleteAllWorlds;
                 break;
             case SETTING_EDIT_CONTROLS:
-                gameState = GameState::EditControls;
+                gameState = State::EditControls;
                 break;
             }
             mmEffectEx(&sndClick);
@@ -2154,33 +2156,33 @@ void Game::update(void)
                 settingsSelect = 0;
         }
         break;
-    case GameState::DeleteWorld:
+    case State::DeleteWorld:
         if (down & KEY_A)
         {
             worldSelectSelected = 0;
             fsDeleteDir(std::string(std::string(configGet("worldsDir")) + "/" + normalizeWorldFileName(worldSelectWorlds[deleteWorldSelected].name)).c_str());
             worldSelectWorlds.erase(worldSelectWorlds.begin() + deleteWorldSelected);
             deleteWorldSelected = 0;
-            gameState = GameState::WorldSelect;
+            gameState = State::WorldSelect;
             mmEffectEx(&sndClick);
         }
         else if (down & KEY_B)
         {
-            gameState = GameState::WorldSelect;
+            gameState = State::WorldSelect;
             mmEffectEx(&sndClick);
         }
         break;
-    case GameState::DeleteAllWorlds:
+    case State::DeleteAllWorlds:
         if (down & KEY_A)
         {
             fsDeleteDir(configGet("worldsDir"));
             fsCreateDir(configGet("worldsDir"));
-            gameState = GameState::Settings;
+            gameState = State::Settings;
         }
         else if (down & KEY_B)
-            gameState = GameState::Settings;
+            gameState = State::Settings;
         break;
-    case GameState::EditControls:
+    case State::EditControls:
         if (editControlsSetMode)
         {
             if (down && !(down & KEY_TOUCH))
@@ -2214,7 +2216,7 @@ void Game::update(void)
         else
         {
             if (down & KEY_B)
-                gameState = GameState::Settings;
+                gameState = State::Settings;
             else if (down & KEY_DOWN)
             {
                 ++editControlsSelected;
