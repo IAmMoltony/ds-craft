@@ -1233,7 +1233,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     }
                 }
 
-                bool shouldPlaceBlock = !Rect(x, y, PLAYER_WIDTH, PLAYER_HEIGHT)
+                bool shouldPlaceBlock = !Rect(x, y, WIDTH, HEIGHT)
                                              .intersects(
                                                  Rect(snapToGrid(camera->x + aimX),
                                                       snapToGrid(camera->y + aimY), 16, 16));
@@ -2157,7 +2157,8 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
 
             switch (block->id())
             {
-            case BID_SIGN: {
+            case BID_SIGN:
+            {
                 // show text if bottom hitbox colliding with sign
                 bool shouldShowText = getRectBottom().intersects(block->getRect());
 
@@ -2200,9 +2201,9 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 if (airY >= 44) // if we fall too much
                 {
                     s16 damage = airY / 44;
-                    if (airY - 44 >= 9) // TODO figure out what 44 is and move it into like a define or smth
+                    if (airY - 44 >= 9)                          // TODO figure out what 44 is and move it into like a define or smth
                         damage += (airY - MAX_AIM_DISTANCE) / 9; // do some complicated tomfoolery
-                    if (damage > 0) // if we got fall damage
+                    if (damage > 0)                              // if we got fall damage
                         doDamage(damage, camera);
                 }
                 airY = 0;
@@ -2748,22 +2749,22 @@ u16 Player::countItems(InventoryItem::ID item)
 
 Rect Player::getRectBottom()
 {
-    return Rect(x + PLAYER_WIDTH / 4, y + PLAYER_HEIGHT / 2, PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2);
+    return Rect(x + WIDTH / 4, y + HEIGHT / 2, WIDTH / 2, HEIGHT / 2);
 }
 
 Rect Player::getRectTop()
 {
-    return Rect(x + PLAYER_WIDTH / 4, y, PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2);
+    return Rect(x + WIDTH / 4, y, WIDTH / 2, HEIGHT / 2);
 }
 
 Rect Player::getRectLeft()
 {
-    return Rect(x, y + PLAYER_HEIGHT / 4, PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2);
+    return Rect(x, y + HEIGHT / 4, WIDTH / 2, HEIGHT / 2);
 }
 
 Rect Player::getRectRight()
 {
-    return Rect(x + PLAYER_WIDTH / 2, y + PLAYER_HEIGHT / 4, PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2);
+    return Rect(x + WIDTH / 2, y + HEIGHT / 4, WIDTH / 2, HEIGHT / 2);
 }
 
 Rect Player::getRectSlab(void)
