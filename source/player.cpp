@@ -6,6 +6,7 @@
 #include "game.hpp"
 #include "random.hpp"
 #include "stats.hpp"
+#include "controlsmgr.hpp"
 #include "util.h"
 #include "log.h"
 #include "config.h"
@@ -828,7 +829,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
     {
         u32 kdown = keysDown();
 
-        if (kdown & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_OPEN_INVENTORY))
+        if (kdown & ControlsManager::getButton(ControlsManager::BUTTON_OPEN_INVENTORY))
         {
             // when select is pressed, close inventory
             fullInventory = false;
@@ -945,7 +946,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
     {
         u32 kdown = keysDown();
 
-        if (kdown & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_OPEN_INVENTORY))
+        if (kdown & ControlsManager::getButton(ControlsManager::BUTTON_OPEN_INVENTORY))
         {
             chestOpen = false;
             chest = nullptr;
@@ -1117,7 +1118,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
         for (auto &entity : *entities)
         {
             if (entity->getRect().intersects(getRectAim(*camera)) &&
-                down & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_ATTACK) &&
+                down & ControlsManager::getButton(ControlsManager::BUTTON_ATTACK) &&
                 entity->id().rfind("drop", 0) != 0)
             {
                 switch (inventory[hotbarSelect].id)
@@ -1150,7 +1151,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 }
             }
         }
-        if (down & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_INTERACT))
+        if (down & ControlsManager::getButton(ControlsManager::BUTTON_INTERACT))
         {
             // when the A button is pressed, either interact or place block
             // and interact if there is a block, place if there isnt
@@ -1666,7 +1667,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             if (hotbarSelect > NUM_HOTBAR_SLOTS - 1)
                 hotbarSelect = 0;
         }
-        if (down & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_OPEN_INVENTORY))
+        if (down & ControlsManager::getButton(ControlsManager::BUTTON_OPEN_INVENTORY))
         {
             fullInventory = true;
             mmEffectEx(&Game::instance->sndClick);
@@ -1678,15 +1679,15 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
         bool right = false;
         bool up = false;
         bool downButton = false; // down is already defined
-        if (!(keys & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_DPAD_AIM)))
+        if (!(keys & ControlsManager::getButton(ControlsManager::BUTTON_DPAD_AIM)))
         {
-            u32 buttonLeft = Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_GO_LEFT);
-            u32 buttonRight = Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_GO_RIGHT);
+            u32 buttonLeft = ControlsManager::getButton(ControlsManager::BUTTON_GO_LEFT);
+            u32 buttonRight = ControlsManager::getButton(ControlsManager::BUTTON_GO_RIGHT);
 
-            up = keys & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_JUMP);
+            up = keys & ControlsManager::getButton(ControlsManager::BUTTON_JUMP);
             left = keys & buttonLeft;
             right = keys & buttonRight;
-            downButton = keys & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_SNEAK);
+            downButton = keys & ControlsManager::getButton(ControlsManager::BUTTON_SNEAK);
         }
 
         sneaking = downButton;
@@ -1712,7 +1713,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             if (block->getRect().x - camera->x > SCREEN_WIDTH + 48)
                 break;
 
-            if (rdown & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_ATTACK))
+            if (rdown & ControlsManager::getButton(ControlsManager::BUTTON_ATTACK))
             {
                 // if block touch aim then block break
                 // and we cant break bedrock
@@ -2371,7 +2372,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             velY = 0;
         }
 
-        // play ladder climb sound every 29 (for some reason) frames if climbing ladder
+        // play ladder climb sound every 29 (for no reason) frames if climbing ladder
         if (collideLadder && frames % 29 == 0 && oldY != y)
             playsfx(4, &sndLadder1, &sndLadder2, &sndLadder3, &sndLadder4);
 
@@ -2381,7 +2382,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             facing = Facing::Right;
 
         // aiming with d pad
-        if (keys & Game::ControlsManager::getButton(Game::ControlsManager::BUTTON_DPAD_AIM))
+        if (keys & ControlsManager::getButton(ControlsManager::BUTTON_DPAD_AIM))
         {
             u32 kdown = keysDown();
 
