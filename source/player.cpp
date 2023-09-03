@@ -754,7 +754,17 @@ void Player::drawHUD(const Camera &camera, Font &font)
 
     // draw item name
     if (inventory[hotbarSelect].id != InventoryItem::ID::None)
-        font.printShadowCentered(0, SCREEN_HEIGHT - 27, getItemName(inventory[hotbarSelect].id));
+    {
+        switch (lang)
+        {
+        case Language::English:
+            font.printShadowCentered(0, SCREEN_HEIGHT - 27, getItemName(inventory[hotbarSelect].id));
+            break;
+        case Language::Russian:
+            fontRu.printShadowCentered(0, SCREEN_HEIGHT - 27, getItemName(inventory[hotbarSelect].id));
+            break;
+        }
+    }
 
     // health bar drawing
     for (u8 i = 0; i < 10; ++i)

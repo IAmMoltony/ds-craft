@@ -60,7 +60,8 @@
         "xstring": "cpp",
         "xhash": "cpp",
         "xtree": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "xlocmon": "cpp"
     },
     "editor.formatOnSave": true,
     "files.eol": "\n",
