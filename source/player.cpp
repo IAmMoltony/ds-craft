@@ -477,7 +477,7 @@ void Player::drawBody(const Camera &camera)
             glColor(RGB15(31, 31, 31));
             break;
         case InventoryItem::ID::BirchLeaves:
-            glColor();
+            glColor(LeavesBlock::COLOR_BIRCH);
             glSpriteScale(xx, yy, HALF_SCALE, flip, sprBirchLeaves);
             glColor(RGB15(31, 31, 31));
             break;
@@ -599,7 +599,7 @@ void Player::drawSign(Font &font, Font &fontRu)
     font.printCentered(0, SCREEN_HEIGHT / 2 - 5, std::string(sign->getText() + '_'));
 }
 
-void Player::drawHUD(const Camera &camera, Font &font)
+void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
 {
     glPolyFmt(POLY_ALPHA(10) | POLY_CULL_NONE | POLY_ID(1));
 
@@ -640,7 +640,7 @@ void Player::drawHUD(const Camera &camera, Font &font)
             glColor(RGB15(31, 31, 31));
             break;
         case InventoryItem::ID::SpruceLeaves:
-            glColor();
+            glColor(LeavesBlock::COLOR_LEAVES);
             glSprite(xx, yy, GL_FLIP_NONE, sprSpruceLeaves);
             glColor(RGB15(31, 31, 31));
             break;
@@ -755,7 +755,7 @@ void Player::drawHUD(const Camera &camera, Font &font)
     // draw item name
     if (inventory[hotbarSelect].id != InventoryItem::ID::None)
     {
-        switch (lang)
+        switch (Game::instance->lang)
         {
         case Language::English:
             font.printShadowCentered(0, SCREEN_HEIGHT - 27, getItemName(inventory[hotbarSelect].id));

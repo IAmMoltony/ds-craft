@@ -16,7 +16,7 @@ void statsSetWorld(const std::string &worldName)
     if (!fsDirExists(worldFolder.c_str()))
     {
         logMessage(LOG_ERROR, "statsSetWorld: world %s (%s) doesnt exist", worldName.c_str(),
-               normalizeWorldFileName(worldName).c_str());
+                   normalizeWorldFileName(worldName).c_str());
         return;
     }
 
@@ -70,7 +70,16 @@ void statsLoad(void)
             split.push_back(line2);
 
         std::string key = split[0];
+
+        // check if value is number
+        if (!(!split[1].empty() && std::find_if(split[1].begin(),
+                                                split[1].end(), [](unsigned char c)
+                                                { return !std::isdigit(c); }) == split[1].end();))
+        {
+            logMessage(LOG_WARNING, "Value of key %s in stats file %s is not a number. Skipping.", key.c_str(), _getStatsFile().c_str());
+            continue;
+        }
         int value = std::stoi(split[1]);
         _stats[key] = value;
-    } // TODO add error checking
+    }
 }

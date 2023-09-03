@@ -339,7 +339,7 @@ public:
      * @param camera camera to use
      * @param font font
      */
-    void drawHUD(const Camera &camera, Font &font);
+    void drawHUD(const Camera &camera, Font &font, Font &fontRu);
 
     /**
      * @brief Update the player
