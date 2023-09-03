@@ -9,9 +9,13 @@
  *
  * @ref camera.h "Camera documentation"
  *
+ * @ref config.h "Global Game Configuration documentation"
+ *
  * @ref crafting.hpp "Crafting documentation"
  *
  * @ref entity.hpp "Entity documentation"
+ *
+ * @ref facing.hpp "Facing documentation"
  *
  * @ref font.hpp "Font documentation"
  *
@@ -29,6 +33,8 @@
  *
  * @ref lang.hpp "Language documentation"
  *
+ * @ref log.h "Logger documentation"
+ *
  * @ref player.hpp "Player documentation"
  *
  * @ref random.hpp "Random Number Generator documentation"
@@ -44,6 +50,8 @@
  * @ref userinfo.h "User Information documentation"
  *
  * @ref util.h "Utility Function documentation"
+ *
+ * @ref worldmgr.hpp "World Manager documentation"
  *
  * @section extlinks External links
  *
@@ -62,42 +70,12 @@
 #include <gl2d.h>
 #include <maxmod9.h>
 #include "player.hpp"
+#include "worldmgr.hpp"
 #include "font_uvcoord.h"
 
 class Game
 {
 public:
-    /**
-     * @brief Class for managing worlds
-    */
-    class WorldManager
-    {
-    public:
-        WorldManager() = delete;
-        WorldManager(WorldManager &) = delete;
-        ~WorldManager() = delete;
-
-        /**
-         * @brief Struct for representing basic world info
-        */
-        struct WorldInfo
-        {
-            std::string name;
-
-            /**
-             * @note size is in bytes
-            */
-            int size;
-        };
-
-        typedef std::vector<WorldInfo> WorldList;
-
-        /**
-         * @brief Get info about worlds stored in the worlds directory
-        */
-        static WorldList getWorlds(void);
-    };
-
     /**
      * @brief Class for holding and managing settings
     */
