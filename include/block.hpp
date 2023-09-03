@@ -1,7 +1,7 @@
 /**
  * @file block.hpp
  * @brief Blocks and block functions
-*/
+ */
 
 #pragma once
 
@@ -76,62 +76,62 @@ enum class SlabID
  * @param id_ block ID
  * @param maxBrokenLevel_ maximum brokenness level
  * @param solid_ whether the block is solid
-*/
-#define GENERIC_BLOCK_IMPL(block, spr, id_, maxBrokenLevel_, solid_)    \
-    block::block(s16 x, s16 y) : Block(x, y, maxBrokenLevel_)           \
-    {                                                                   \
-    }                                                                   \
-    void block::draw(const Camera &camera)                              \
-    {                                                                   \
-        glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, spr);        \
-    }                                                                   \
-    u16 block::id(void)                                                 \
-    {                                                                   \
-        return id_;                                                     \
-    }                                                                   \
-    bool block::solid(void)                                             \
-    {                                                                   \
-        return solid_;                                                  \
+ */
+#define GENERIC_BLOCK_IMPL(block, spr, id_, maxBrokenLevel_, solid_) \
+    block::block(s16 x, s16 y) : Block(x, y, maxBrokenLevel_)        \
+    {                                                                \
+    }                                                                \
+    void block::draw(const Camera &camera)                           \
+    {                                                                \
+        glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, spr);     \
+    }                                                                \
+    u16 block::id(void)                                              \
+    {                                                                \
+        return id_;                                                  \
+    }                                                                \
+    bool block::solid(void)                                          \
+    {                                                                \
+        return solid_;                                               \
     }
 
 /**
  * @brief Generic block declaration
  * @param block block class name
-*/
-#define GENERIC_BLOCK_DECL(block)                \
-    class block : public Block                   \
-    {                                            \
-    public:                                      \
-        block(s16 x, s16 y);                     \
-        void draw(const Camera &camera) override;\
-        u16 id(void) override;                   \
-        bool solid(void) override;               \
+ */
+#define GENERIC_BLOCK_DECL(block)                 \
+    class block : public Block                    \
+    {                                             \
+    public:                                       \
+        block(s16 x, s16 y);                      \
+        void draw(const Camera &camera) override; \
+        u16 id(void) override;                    \
+        bool solid(void) override;                \
     };
 
 /**
  * @brief Generic sapling implementation
  * @param sapl sapling name (resulting class name is sapl + SaplingBlock)
-*/
-#define SAPLING_DECL(sapl)                       \
-    class sapl##SaplingBlock : public Block      \
-    {                                            \
-    private:                                     \
-        u16 growTime;                            \
-        bool grown;                              \
-                                                 \
-    public:                                      \
-        sapl##SaplingBlock(s16 x, s16 y);        \
-        void draw(const Camera &camera) override;\
-        bool solid(void) override;               \
-        u16 id(void) override;                   \
-        bool hasGrown(void);                     \
-        void update(void);                       \
+ */
+#define SAPLING_DECL(sapl)                        \
+    class sapl##SaplingBlock : public Block       \
+    {                                             \
+    private:                                      \
+        u16 growTime;                             \
+        bool grown;                               \
+                                                  \
+    public:                                       \
+        sapl##SaplingBlock(s16 x, s16 y);         \
+        void draw(const Camera &camera) override; \
+        bool solid(void) override;                \
+        u16 id(void) override;                    \
+        bool hasGrown(void);                      \
+        void update(void);                        \
     };
 
 /**
  * @brief Generic trapdoor declaration
  * @param trapd trapdoor name (resulting class name is trapd + TrapdoorBlock)
-*/
+ */
 #define TRAPDOOR_DECL(trapd)                            \
     class trapd##TrapdoorBlock : public Block           \
     {                                                   \
@@ -152,7 +152,7 @@ enum class SlabID
 /**
  * @brief Generic slab declaration
  * @param slabid slab name (resulting class name is slabid + SlabBlock)
-*/
+ */
 #define SLAB_DECL(slabid)                         \
     class slabid##SlabBlock : public SlabBlock    \
     {                                             \
@@ -167,7 +167,7 @@ enum class SlabID
  * @param splingid sapling name (class name without the SaplingBlock part)
  * @param spr block sprite
  * @param bid block ID
-*/
+ */
 #define SAPLING_IMPL(saplingid, spr, bid)                                                                         \
     saplingid##SaplingBlock::saplingid##SaplingBlock(s16 x, s16 y) : Block(x, y, 1), growTime(1200), grown(false) \
     {                                                                                                             \
@@ -201,7 +201,7 @@ enum class SlabID
  * @param trapdid trapdoor name (class name without the TrapdoorBlock part)
  * @param spr block sprite
  * @param bid block ID
-*/
+ */
 #define TRAPDOOR_IMPL(trapdid, spr, bid)                                                                 \
     trapdid##TrapdoorBlock::trapdid##TrapdoorBlock(s16 x, s16 y) : Block(x, y, 6), open(false)           \
     {                                                                                                    \
@@ -248,7 +248,7 @@ enum class SlabID
  * @param spr block sprite
  * @param bid block ID
  * @param maxBrokenLevel_ maximum brokenness level
-*/
+ */
 #define SLAB_IMPL(slabid, spr, bid, maxBrokenLevel_)                                                      \
     slabid##SlabBlock::slabid##SlabBlock(s16 x, s16 y) : SlabBlock(x, y, SlabID::slabid, maxBrokenLevel_) \
     {                                                                                                     \
@@ -264,7 +264,7 @@ enum class SlabID
 
 /**
  * @brief Enum representing type of flower
-*/
+ */
 enum class FlowerType
 {
     Dandelion,
@@ -274,7 +274,7 @@ enum class FlowerType
 
 /**
  * @brief Enum representing type of leaves
-*/
+ */
 enum class LeavesType
 {
     Oak,
@@ -284,7 +284,7 @@ enum class LeavesType
 
 /**
  * @brief Enum representing type of door
-*/
+ */
 enum class DoorType
 {
     Oak,
@@ -301,42 +301,42 @@ class Block
 public:
     /**
      * @brief Load block textures
-    */
+     */
     static void loadTextures(void);
 
     /**
      * @brief Unload block textures
-    */
+     */
     static void unloadTextures(void);
 
     /**
      * @brief Load block sounds
-    */
+     */
     static void loadSounds(void);
 
     /**
      * @brief Unload block sounds
-    */
+     */
     static void unloadSounds(void);
 
     /**
      * @brief Block X position
-    */
+     */
     s16 x;
 
     /**
      * @brief Block Y position
-    */
+     */
     s16 y;
 
     /**
      * @brief How much broken the block is
-    */
+     */
     u8 brokenLevel;
 
     /**
      * @brief Block's max brokenness level
-    */
+     */
     u8 maxBrokenLevel;
 
     /**
@@ -344,68 +344,68 @@ public:
      * @param x Block X position
      * @param y Block Y position
      * @param maxBrokenLevel maximum brokenness level of the block
-    */
+     */
     Block(s16 x, s16 y, u8 maxBrokenLevel);
 
     /**
      * @brief Block destructor
-    */
+     */
     virtual ~Block() = default;
 
     /**
      * @brief Draw block breaking
-    */
+     */
     void drawBreaking(const Camera &camera);
 
     /**
      * @brief Hit the block once.
      *
      * Equivalent to calling `hit(1)`. Hitting a block increases its brokenness level.
-    */
+     */
     void hit(void);
 
     /**
      * @brief Hit the block `times` times.
-    */
+     */
     void hit(u8 times);
 
     /**
      * @brief Check if the block is broken
-    */
+     */
     bool broken(void);
 
     /**
      * @brief Draw the block
      * @param camera camera to use
-    */
+     */
     virtual void draw(const Camera &camera) = 0;
 
     /**
      * @brief Get the block's ID
-    */
+     */
     virtual u16 id(void) = 0;
 
     /**
      * @brief Interact with the block using the specified item.
      * @param item the item to use to interact with the block
-    */
+     */
     virtual void interact(InventoryItem::ID item);
 
     /**
      * @brief Check if the block is solid
      *
      * If a block is not solid then the player can go through it
-    */
+     */
     virtual bool solid(void);
 
     /**
      * @brief Check if the block is a slab
-    */
+     */
     virtual bool isSlab(void);
 
     /**
      * @brief Get the block's hitbox
-    */
+     */
     Rect getRect(void) const;
 };
 
@@ -415,7 +415,7 @@ public:
  * @param oldBlock the block to replace
  * @param newBlock the block that `oldBlock` will be replaced with
  * @note If `oldBlock` does not exist in `blocks`, then no replacement will be done. This is the worst-case scenario.
-*/
+ */
 void replaceBlock(BlockList &blocks, const Block *oldBlock, std::unique_ptr<Block> newBlock);
 
 // block sprites
@@ -499,13 +499,13 @@ TRAPDOOR_DECL(Spruce)
 
 /**
  * @brief Class representing a grass block
-*/
+ */
 class GrassBlock : public Block
 {
 public:
     /**
-    * @brief Enum representing type of grass
-    */
+     * @brief Enum representing type of grass
+     */
     enum class Type
     {
         Normal,
@@ -515,18 +515,18 @@ public:
 private:
     /**
      * @brief The type of the grass
-    */
+     */
     Type type;
 
 public:
     /**
      * @brief Normal grass color
-    */
+     */
     static inline constexpr rgb COLOR_NORMAL = RGB15(15, 23, 13);
 
     /**
      * @brief Grass color in spruce biome
-    */
+     */
     static inline constexpr rgb COLOR_SPRUCE = RGB8(32, 138, 83);
 
     GrassBlock(s16 x, s16 y);
@@ -538,7 +538,7 @@ public:
 
     /**
      * @brief Get the type of the grass
-    */
+     */
     Type getType(void);
 };
 
@@ -546,7 +546,7 @@ public:
  * @brief Class representing some grass
  * @note this class is nearly identical to GrassBlock except that it's not solid and it uses a different prite
  * @see GrassBlock
-*/
+ */
 class Grass : public Block
 {
 private:
@@ -565,18 +565,18 @@ public:
 
 /**
  * @brief Class representing a dirt block
-*/
+ */
 class DirtBlock : public Block
 {
 private:
     /**
      * @brief Whether you can plant crops on the block or not
-    */
+     */
     bool farmland;
 
     /**
      * @brief Whether this block is a path block
-    */
+     */
     bool path;
 
 public:
@@ -586,7 +586,7 @@ public:
      * @brief Dirt block constructor
      * @see framland
      * @see path
-    */
+     */
     DirtBlock(s16 x, s16 y, bool farmland, bool path);
 
     void draw(const Camera &camera) override;
@@ -596,18 +596,18 @@ public:
 
     /**
      * @brief Check if the block is farmland
-    */
+     */
     bool isFarmland(void);
 
     /**
      * @brief Check if the block is path block
-    */
+     */
     bool isPath(void);
 };
 
 /**
  * @brief Class representing a leaves block
-*/
+ */
 class LeavesBlock : public Block
 {
 private:
@@ -615,15 +615,30 @@ private:
      * @brief This value is true if the block has been grown from a sapling or has been generated by the terrain generation
      *
      * This is used so that saplings can't be duped infinitely
-    */
+     */
     bool natural;
 
 public:
     /**
+     * @brief Oak leaves color
+     */
+    static constexpr rgb COLOR_OAK = RGB15(0, 22, 0);
+
+    /**
+     * @brief Birch leaves color
+     */
+    static constexpr rgb COLOR_BIRCH = RGB15(20, 26, 19);
+
+    /**
+     * @brief Spruce leaves color
+     */
+    static constexpr rgb COLOR_SPRUCE = RGB15(0, 11, 0);
+
+    /**
      * @brief Leaves type
      * @see LeavesType
      * @todo Move leaves type into this class
-    */
+     */
     LeavesType type;
 
     LeavesBlock(s16 x, s16 y, LeavesType type, bool natural = true);
@@ -635,13 +650,13 @@ public:
     /**
      * @brief Check if the leaves are natural
      * @see natural
-    */
+     */
     bool isNatural(void);
 };
 
 /**
  * @brief Class representing a flower block
-*/
+ */
 class FlowerBlock : public Block
 {
 private:
@@ -658,24 +673,24 @@ public:
 
 /**
  * @brief Class representing a door block
-*/
+ */
 class DoorBlock : public Block
 {
 private:
     /**
      * @brief whether the door is open or not
-    */
+     */
     bool open;
 
     /**
      * @brief Where the door is facing
      * @todo Add explanation for which bool value is left and which is right
-    */
+     */
     bool facing;
 
     /**
      * @brief The door type
-    */
+     */
     DoorType type;
 
 public:
@@ -689,24 +704,24 @@ public:
 
     /**
      * @brief Check if the door is open
-    */
+     */
     bool isOpen(void);
 
     /**
      * @brief Get the door's facing
-    */
+     */
     bool getFacing(void);
 };
 
 /**
  * @brief Class representing a chest block
-*/
+ */
 class ChestBlock : public Block
 {
 public:
     /**
      * @brief The number of items that can fit in one chest
-    */
+     */
     static inline constexpr u8 NUM_ITEMS = 10;
 
 private:
@@ -714,12 +729,12 @@ private:
      * @brief The chest's ID, used in saving/loading to differentiate chests
      * @note Because this value is an unsigned 16-bit value, that means that there can't be more than 65535 worlds per one world.
      * @todo Chests dont work with locations
-    */
+     */
     u16 chid;
 
     /**
      * @brief The chest's items
-    */
+     */
     InventoryItem items[NUM_ITEMS];
 
 public:
@@ -732,34 +747,34 @@ public:
 
     /**
      * @brief Get items as a std::array
-    */
+     */
     std::array<InventoryItem, NUM_ITEMS> getItems(void);
 
     /**
      * @brief Set an item in the chest
-    */
+     */
     void setItem(u8 i, InventoryItem item);
 
     /**
      * @brief Clear the chest by initializing it with default values
-    */
+     */
     void clear(void);
 
     /**
      * @brief Get the chest's ID
-    */
+     */
     u16 getChestID(void);
 };
 
 /**
  * @brief Class representing a sign block
-*/
+ */
 class SignBlock : public Block
 {
 private:
     /**
      * @brief The text that is written on the sign
-    */
+     */
     std::string text;
 
 public:
@@ -774,26 +789,26 @@ public:
 
     /**
      * @brief Get the sign's text
-    */
+     */
     const std::string getText(void) const;
 
     /**
      * @brief Set the sign's text
      * @param text new text
-    */
+     */
     void setText(const std::string &text);
 };
 
 /**
  * @brief Class representing a slab. Parent class of all slab blocks.
  * @todo Add stone brick slabs
-*/
+ */
 class SlabBlock : public Block
 {
 private:
     /**
      * @brief The slab's ID
-    */
+     */
     SlabID slabID;
 
 public:
@@ -805,7 +820,7 @@ public:
 
     /**
      * @brief Get the slab's ID
-    */
+     */
     SlabID getSlabID(void) const;
 };
 
@@ -819,35 +834,35 @@ class WheatBlock : public Block
 private:
     /**
      * @brief Current growth stage
-    */
+     */
     u8 growStage;
 
     /**
      * @brief How many frames need to pass to progress to next growth stage
-    */
+     */
     u16 growInterval;
 
     /**
      * @brief Minimum grow interval
      * @see growInteval
-    */
+     */
     static inline constexpr u16 GROW_INTERVAL_MIN = 1700;
 
     /**
      * @brief Maximum grow interval
      * @see growInterval
-    */
+     */
     static inline constexpr u16 GROW_INTERVAL_MAX = 2500;
 
     /**
      * @brief Maximum growth stage
      * @see growStage
-    */
+     */
     static inline constexpr u8 MAX_GROW_STAGE = 7;
 
     /**
      * @brief Set grow interval to a random value between `GROW_INTERVAL_MIN` and `GROW_INTERVAL_MAX`
-    */
+     */
     void setGrowInterval(void);
 
 public:
@@ -860,28 +875,28 @@ public:
 
     /**
      * @brief Update the growth of the block. This function is called every frame.
-    */
+     */
     void grow(void);
 
     /**
      * @brief Get current growth stage
-    */
+     */
     u8 getGrowStage(void);
 
     /**
      * @brief Check if the wheat block is fully grown or not
-    */
+     */
     bool fullyGrown(void);
 };
 
 /**
  * @brief Reset next chest ID to 0
-*/
+ */
 void resetNextChestID(void);
 
 /**
  * @brief Block compare key, used for sorting blocks
-*/
+ */
 struct BlockCompareKey
 {
     inline bool operator()(const std::unique_ptr<Block> &b1, const std::unique_ptr<Block> &b2)

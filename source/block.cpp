@@ -413,14 +413,12 @@ bool DirtBlock::solid(void)
 
 void DirtBlock::interact(InventoryItem::ID item)
 {
-    if (!farmland && (item == InventoryItem::ID::WoodenHoe || item == InventoryItem::ID::StoneHoe
-        || item == InventoryItem::ID::IronHoe))
+    if (!farmland && (item == InventoryItem::ID::WoodenHoe || item == InventoryItem::ID::StoneHoe || item == InventoryItem::ID::IronHoe))
     {
         farmland = true;
         path = false;
     }
-    else if (!path && (item == InventoryItem::ID::WoodenShovel || item == InventoryItem::ID::StoneShovel
-             || item == InventoryItem::ID::IronShovel))
+    else if (!path && (item == InventoryItem::ID::WoodenShovel || item == InventoryItem::ID::StoneShovel || item == InventoryItem::ID::IronShovel))
     {
         farmland = false;
         path = true;
@@ -448,15 +446,15 @@ void LeavesBlock::draw(const Camera &camera)
     switch (type)
     {
     case LeavesType::Oak:
-        glColor(RGB15(0, 22, 0));
+        glColor(COLOR_OAK);
         glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprLeaves);
         break;
     case LeavesType::Birch:
-        glColor(RGB15(20, 26, 19));
+        glColor(COLOR_BIRCH);
         glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprBirchLeaves);
         break;
     case LeavesType::Spruce:
-        glColor(RGB15(0, 11, 0));
+        glColor(COLOR_SPRUCE);
         glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprSpruceLeaves);
         break;
     }

@@ -348,17 +348,17 @@ static void _drawInventory(InventoryItem inventory[], u8 itemCount, Font &font, 
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItem::ID::Leaves:
-                glColor(RGB15(0, 22, 0));
+                glColor(LeavesBlock::COLOR_OAK);
                 glSpriteScale(xx + 4, yy + 4, HALF_SCALE, GL_FLIP_NONE, sprLeaves);
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItem::ID::BirchLeaves:
-                glColor(RGB15(20, 26, 19));
+                glColor(LeavesBlock::COLOR_BIRCH);
                 glSpriteScale(xx + 4, yy + 4, HALF_SCALE, GL_FLIP_NONE, sprBirchLeaves);
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItem::ID::SpruceLeaves:
-                glColor(RGB15(0, 11, 0));
+                glColor(LeavesBlock::COLOR_SPRUCE);
                 glSpriteScale(xx + 4, yy + 4, HALF_SCALE, GL_FLIP_NONE, sprSpruceLeaves);
                 glColor(RGB15(31, 31, 31));
                 break;
@@ -472,17 +472,17 @@ void Player::drawBody(const Camera &camera)
         {
         // some special cases
         case InventoryItem::ID::Leaves:
-            glColor(RGB15(0, 22, 0)); // TODO move leaves colors into constants
+            glColor(LeavesBlock::COLOR_OAK);
             glSpriteScale(xx, yy, HALF_SCALE, flip, sprLeaves);
             glColor(RGB15(31, 31, 31));
             break;
         case InventoryItem::ID::BirchLeaves:
-            glColor(RGB15(20, 26, 19));
+            glColor();
             glSpriteScale(xx, yy, HALF_SCALE, flip, sprBirchLeaves);
             glColor(RGB15(31, 31, 31));
             break;
         case InventoryItem::ID::SpruceLeaves:
-            glColor(RGB15(0, 11, 0));
+            glColor(LeavesBlock::COLOR_SPRUCE);
             glSpriteScale(xx, yy, HALF_SCALE, flip, sprSpruceLeaves);
             glColor(RGB15(31, 31, 31));
             break;
@@ -630,17 +630,17 @@ void Player::drawHUD(const Camera &camera, Font &font)
             glColor(RGB15(31, 31, 31));
             break;
         case InventoryItem::ID::Leaves:
-            glColor(RGB15(0, 22, 0));
+            glColor(LeavesBlock::COLOR_OAK);
             glSprite(xx, yy, GL_FLIP_NONE, sprLeaves);
             glColor(RGB15(31, 31, 31));
             break;
         case InventoryItem::ID::BirchLeaves:
-            glColor(RGB15(20, 26, 19));
+            glColor(LeavesBlock::COLOR_BIRCH);
             glSprite(xx, yy, GL_FLIP_NONE, sprBirchLeaves);
             glColor(RGB15(31, 31, 31));
             break;
         case InventoryItem::ID::SpruceLeaves:
-            glColor(RGB15(0, 11, 0));
+            glColor();
             glSprite(xx, yy, GL_FLIP_NONE, sprSpruceLeaves);
             glColor(RGB15(31, 31, 31));
             break;
@@ -702,17 +702,17 @@ void Player::drawHUD(const Camera &camera, Font &font)
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItem::ID::Leaves:
-                glColor(RGB15(0, 22, 0));
+                glColor(LeavesBlock::COLOR_OAK);
                 glSpriteScale(xxItem + 4, yyItem + 4, HALF_SCALE, GL_FLIP_NONE, sprLeaves);
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItem::ID::BirchLeaves:
-                glColor(RGB15(20, 26, 19));
+                glColor(LeavesBlock::COLOR_BIRCH);
                 glSpriteScale(xxItem + 4, yyItem + 4, HALF_SCALE, GL_FLIP_NONE, sprBirchLeaves);
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItem::ID::SpruceLeaves:
-                glColor(RGB15(0, 11, 0));
+                glColor(LeavesBlock::COLOR_SPRUCE);
                 glSpriteScale(xxItem + 4, yyItem + 4, HALF_SCALE, GL_FLIP_NONE, sprSpruceLeaves);
                 glColor(RGB15(31, 31, 31));
                 break;
@@ -1926,13 +1926,13 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             switch (l->type)
                             {
                             case LeavesType::Oak:
-                                _spawnBlockParticles(blockParticles, sprLeaves, block->x, block->y, RGB15(0, 22, 0));
+                                _spawnBlockParticles(blockParticles, sprLeaves, block->x, block->y, LeavesBlock::COLOR_OAK);
                                 break;
                             case LeavesType::Birch:
-                                _spawnBlockParticles(blockParticles, sprBirchLeaves, block->x, block->y, RGB15(20, 26, 19));
+                                _spawnBlockParticles(blockParticles, sprBirchLeaves, block->x, block->y, LeavesBlock::COLOR_BIRCH);
                                 break; // TODO rename leaves and planks and wood to oak leaves and planks
                             case LeavesType::Spruce:
-                                _spawnBlockParticles(blockParticles, sprSpruceLeaves, block->x, block->y, RGB15(0, 11, 0));
+                                _spawnBlockParticles(blockParticles, sprSpruceLeaves, block->x, block->y, LeavesBlock::COLOR_SPRUCE);
                                 break;
                             }
 
