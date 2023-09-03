@@ -640,7 +640,7 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
             glColor(RGB15(31, 31, 31));
             break;
         case InventoryItem::ID::SpruceLeaves:
-            glColor(LeavesBlock::COLOR_LEAVES);
+            glColor(LeavesBlock::COLOR_SPRUCE);
             glSprite(xx, yy, GL_FLIP_NONE, sprSpruceLeaves);
             glColor(RGB15(31, 31, 31));
             break;
