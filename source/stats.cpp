@@ -74,7 +74,7 @@ void statsLoad(void)
         // check if value is number
         if (!(!split[1].empty() && std::find_if(split[1].begin(),
                                                 split[1].end(), [](unsigned char c)
-                                                { return !std::isdigit(c); }) == split[1].end();))
+                                                { return !std::isdigit(c); }) == split[1].end()))
         {
             logMessage(LOG_WARNING, "Value of key %s in stats file %s is not a number. Skipping.", key.c_str(), _getStatsFile().c_str());
             continue;
