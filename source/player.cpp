@@ -417,7 +417,7 @@ void Player::draw(const Camera &camera, Font &font, Font &fontRu)
     else if (sign) // sign edit interface
         drawSign(font, fontRu);
     else
-        drawHUD(camera, font);
+        drawHUD(camera, font, fontRu);
 
     if (configGetInt("drawPlayerHitboxes"))
     {
