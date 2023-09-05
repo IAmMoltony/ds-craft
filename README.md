@@ -2,6 +2,8 @@
 
 DS-Craft is a Minecraft clone for Nintendo DS, written in C and C++.
 
+**Development is currently slowed down because I have school :c**
+
 ## Dependencies
 
 - devkitPro for Nintendo DS (NDS) development ([how to install](https://devkitpro.org/wiki/Getting_Started))
