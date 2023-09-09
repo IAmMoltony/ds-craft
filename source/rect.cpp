@@ -1,4 +1,5 @@
 #include "rect.hpp"
+#include "glext.h"
 
 Rect::Rect(s16 x, s16 y, s16 w, s16 h) : x(x), y(y), w(w), h(h)
 {
