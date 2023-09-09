@@ -437,7 +437,7 @@ bool DirtBlock::isPath(void)
 
 //-----------------------------------------
 
-LeavesBlock::LeavesBlock(s16 x, s16 y, LeavesType type, bool natural) : Block(x, y, 5), natural(natural), type(type)
+LeavesBlock::LeavesBlock(s16 x, s16 y, Type type, bool natural) : Block(x, y, 5), natural(natural), type(type)
 {
 }
 
@@ -445,15 +445,15 @@ void LeavesBlock::draw(const Camera &camera)
 {
     switch (type)
     {
-    case LeavesType::Oak:
+    case Type::Oak:
         glColor(COLOR_OAK);
         glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprLeaves);
         break;
-    case LeavesType::Birch:
+    case Type::Birch:
         glColor(COLOR_BIRCH);
         glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprBirchLeaves);
         break;
-    case LeavesType::Spruce:
+    case Type::Spruce:
         glColor(COLOR_SPRUCE);
         glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprSpruceLeaves);
         break;
