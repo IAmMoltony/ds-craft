@@ -2,7 +2,7 @@
 
 DS-Craft is a Minecraft clone for Nintendo DS, written in C and C++.
 
-**Development is currently slowed down because I have school :c**
+**Note**: The development of this project is currently not very active because I have school.
 
 ## Dependencies
 
@@ -33,6 +33,6 @@ If you want to run from Code::Blocks, then you will need to set the emulator in 
 
 Mojang - textures, font and sounds
 
-The libnds example authors
+The libnds example authors <3
 
 [This tutorial](https://www.youtube.com/watch?v=yb6QJl6mqf4)
