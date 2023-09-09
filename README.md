@@ -21,7 +21,7 @@ To build, press the Build button on the top of the window. To run, press the Run
 
 If you want to run from Code::Blocks, then you will need to set the emulator in the `codeblocks_run` file.
 
-Note that Code::Blocks support is only supported on Linux.
+**Note**: Code::Blocks support was added only with Linux in mind.
 
 ## Screenshots
 
