@@ -1553,7 +1553,7 @@ void Game::update(void)
 
             // sort blocks when placed block
             Player::UpdateResult playerUpdateResult =
-                player.update(&camera, &blocks, &entities, &blockParticles, frameCounter);
+                player.update(&camera, &blocks, &entities, &blockParticles);
             switch (playerUpdateResult)
             {
             case Player::UpdateResult::BlockPlaced:

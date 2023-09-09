@@ -348,9 +348,8 @@ public:
      * @param entities list of entities
      * @param blockParticles list of block particles
      * @param frames frame counter
-     * @todo frame counter can be got from Game::instance
      */
-    UpdateResult update(Camera *camera, BlockList *blocks, EntityList *entities, BlockParticleList *blockParticles, const u16 &frames);
+    UpdateResult update(Camera *camera, BlockList *blocks, EntityList *entities, BlockParticleList *blockParticles);
 
     /**
      * @brief Update crafting screen

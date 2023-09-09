@@ -829,11 +829,12 @@ static void _spawnBlockParticles(BlockParticleList *blockParticles, glImage *ima
     _spawnBlockParticles(blockParticles, image, x, y, RGB15(31, 31, 31));
 }
 
-Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityList *entities, BlockParticleList *blockParticles, const u16 &frames)
+Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityList *entities, BlockParticleList *blockParticles)
 {
     s16 oldX = x;
     s16 oldY = y;
     UpdateResult ret = UpdateResult::None;
+    u16 frames = Game::instance->getFrameCounter();
 
     if (fullInventory) // inventory update
     {
