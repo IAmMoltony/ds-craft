@@ -1,3 +1,3 @@
 #!/bin/sh
 clear
-grep -rnw ./source ./include -e 'TODO' -e '@todo' --color
+grep -rn ./source ./include -e 'TODO' -e '@todo' --color
