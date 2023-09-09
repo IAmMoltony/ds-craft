@@ -3,6 +3,7 @@
 #include "game.hpp"
 #include "random.hpp"
 #include "util.h"
+#include "glext.h"
 
 static glImage _sprPig[1];
 static unsigned short _sprPigDamagePal[16];

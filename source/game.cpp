@@ -9,6 +9,7 @@
 #include "util.h"
 #include "config.h"
 #include "log.h"
+#include "glext.h"
 
 Game *Game::instance;
 

@@ -6,7 +6,6 @@
 
 #pragma once
 #include "soundbank.h"
-#include "defines.h"
 #include "camera.h"
 #include "images.h"
 #include "fs.h"

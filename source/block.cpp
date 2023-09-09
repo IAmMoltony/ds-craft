@@ -1,6 +1,7 @@
 #include "block.hpp"
 #include "game.hpp"
 #include "util.h"
+#include "glext.h"
 #include "random.hpp"
 
 glImage sprGrass[1];

@@ -8,7 +8,7 @@
 #include <nds.h>
 #include <gl2d.h>
 #include <string>
-#include "defines.h"
+#include "util.h"
 
 /**
  * @brief Class for a font

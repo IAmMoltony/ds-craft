@@ -1,6 +1,6 @@
 /**
  * @file glext.h
- * @brief Custom GL2D extensions
+ * @brief Custom GL2D functions
 */
 
 #pragma once

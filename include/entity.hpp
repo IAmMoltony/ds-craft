@@ -6,7 +6,6 @@
 #pragma once
 
 #include "camera.h"
-#include "defines.h"
 #include "block.hpp"
 #include "animsprite.hpp"
 #include "facing.hpp"

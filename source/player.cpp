@@ -10,6 +10,7 @@
 #include "util.h"
 #include "log.h"
 #include "config.h"
+#include "glext.h"
 
 // gui images
 

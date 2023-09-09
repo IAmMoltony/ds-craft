@@ -1,6 +1,5 @@
 #include "gamever.hpp"
 #include <stdio.h>
-#include "defines.h"
 #include "fs.h"
 #include "util.h"
 #include "config.h"

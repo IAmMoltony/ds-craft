@@ -5,9 +5,8 @@
 
 #pragma once
 
-#include "defines.h"
+#include <nds/ndstypes.h>
 #include "camera.h"
-#include "glext.h"
 
 /**
  * @brief Class representing a rectangle
