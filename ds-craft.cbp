@@ -686,6 +686,7 @@
 		<Unit filename="include/blockparticle.hpp" />
 		<Unit filename="include/camera.h" />
 		<Unit filename="include/config.h" />
+		<Unit filename="include/controlsmgr.hpp" />
 		<Unit filename="include/crafting.hpp" />
 		<Unit filename="include/defines.h" />
 		<Unit filename="include/entity.hpp" />
@@ -712,6 +713,7 @@
 		<Unit filename="include/util.h" />
 		<Unit filename="include/uvcoord_font_16x16.h" />
 		<Unit filename="include/uvcoord_font_si.h" />
+		<Unit filename="include/worldmgr.hpp" />
 		<Unit filename="mcsnd/ambient/cave/cave1.ogg" />
 		<Unit filename="mcsnd/ambient/cave/cave10.ogg" />
 		<Unit filename="mcsnd/ambient/cave/cave11.ogg" />
@@ -3615,6 +3617,7 @@
 		<Unit filename="source/config.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="source/controlsmgr.cpp" />
 		<Unit filename="source/crafting.cpp" />
 		<Unit filename="source/entity.cpp" />
 		<Unit filename="source/font.cpp" />
@@ -3645,6 +3648,7 @@
 		<Unit filename="source/util.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="source/worldmgr.cpp" />
 		<Unit filename="strencode.py" />
 		<Unit filename="worldwselect_concept.png" />
 		<Extensions>
