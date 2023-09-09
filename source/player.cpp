@@ -497,7 +497,7 @@ void Player::drawBody(const Camera &camera)
             break;
         case InventoryItem::ID::Glass:
             glSpriteScale(xx - 1, yy, HALF_SCALE, flip, sprGlass);
-            break; // TODO move 16 into a constant in Block class
+            break;
         case InventoryItem::ID::OakSlab:
             glSpritePartScale(sprPlanks, xx - 1, yy + 2, 0, 0, 16, 8, HALF_SCALE);
             break;
