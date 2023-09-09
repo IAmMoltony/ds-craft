@@ -33,6 +33,34 @@ public:
      */
     static bool touchToMove;
 
+    // default values
+
+    /**
+     * @brief Default value for transparent leaves setting
+     */
+    static inline bool TRANSPARENT_LEAVES_DEFAULT = false;
+
+    /**
+     * @brief Default value for auto save setting
+     */
+    static inline u8 AUTO_SAVE_SECONDS_DEFAULT = 15;
+
+    /**
+     * @brief Default value for smooth camera setting
+     */
+    static inline bool SMOOTH_CAMERA_DEFAULT = true;
+
+    /**
+     * @brief Default value for auto jump setting
+     */
+    static inline bool AUTO_JUMP_DEFAULT = false;
+
+    /**
+     * @brief Default value for a feature that I should remove (aka touch to move)
+     * @todo Remove touch to move. I am not happy with how this feature turned out.
+     */
+    static inline bool TOUCH_TO_MOVE_DEFAULT = false;
+
     SettingsManager() = delete;
     SettingsManager(SettingsManager &) = delete;
     ~SettingsManager() = delete;

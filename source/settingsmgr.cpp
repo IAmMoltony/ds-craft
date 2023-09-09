@@ -4,13 +4,11 @@
 #include "config.h"
 #include "log.h"
 
-// TODO move default settings values into constants
-
-bool SettingsManager::transparentLeaves = false;
-u8 SettingsManager::autoSaveSeconds = 15;
-bool SettingsManager::smoothCamera = true;
-bool SettingsManager::autoJump = false;
-bool SettingsManager::touchToMove = false;
+bool SettingsManager::transparentLeaves = SettingsManager::TRANSPARENT_LEAVES_DEFAULT;
+u8 SettingsManager::autoSaveSeconds = SettingsManager::AUTO_SAVE_SECONDS_DEFAULT;
+bool SettingsManager::smoothCamera = SettingsManager::SMOOTH_CAMERA_DEFAULT;
+bool SettingsManager::autoJump = SettingsManager::AUTO_JUMP_DEFAULT;
+bool SettingsManager::touchToMove = SettingsManager::TOUCH_TO_MOVE_DEFAULT;
 
 void SettingsManager::loadSettings(void)
 {
@@ -60,7 +58,7 @@ void SettingsManager::loadSettings(void)
         transparentLeaves = data[0] == '1';
     }
     else
-        fsWrite(std::string(std::string(configGet("configDir")) + "/trleaves.cfg").c_str(), "0");
+        fsWrite(std::string(std::string(configGet("configDir")) + "/trleaves.cfg").c_str(), std::to_string(TRANSPARENT_LEAVES_DEFAULT ? 1 : 0).c_str());
 
     // auto save setting
     if (fsFileExists(std::string(std::string(configGet("configDir")) + "/autosave.cfg").c_str()))
@@ -74,7 +72,7 @@ void SettingsManager::loadSettings(void)
         }
     }
     else
-        fsWrite(std::string(std::string(configGet("configDir")) + "/autosave.cfg").c_str(), "1");
+        fsWrite(std::string(std::string(configGet("configDir")) + "/autosave.cfg").c_str(), std::to_string(AUTO_SAVE_SECONDS_DEFAULT ? 1 : 0).c_str());
 
     // smooth camera setting
     if (fsFileExists(std::string(std::string(configGet("configDir")) + "/smoothcam.cfg").c_str()))
@@ -83,7 +81,7 @@ void SettingsManager::loadSettings(void)
         smoothCamera = data[0] == '1';
     }
     else
-        fsWrite(std::string(std::string(configGet("configDir")) + "/smoothcam.cfg").c_str(), "1");
+        fsWrite(std::string(std::string(configGet("configDir")) + "/smoothcam.cfg").c_str(), std::to_string(SMOOTH_CAMERA_DEFAULT ? 1 : 0).c_str());
 
     // touch to move setting
     if (fsFileExists(std::string(std::string(configGet("configDir")) + "/touchtomove.cfg").c_str()))
@@ -92,7 +90,7 @@ void SettingsManager::loadSettings(void)
         touchToMove = data[0] == '1';
     }
     else
-        fsWrite(std::string(std::string(configGet("configDir")) + "/touchtomove.cfg").c_str(), "1");
+        fsWrite(std::string(std::string(configGet("configDir")) + "/touchtomove.cfg").c_str(), std::to_string(TOUCH_TO_MOVE_DEFAULT ? 1 : 0).c_str());
 
     // auto jump setting
     if (fsFileExists(std::string(std::string(configGet("configDir")) + "/autojump.cfg").c_str()))
@@ -101,5 +99,5 @@ void SettingsManager::loadSettings(void)
         autoJump = data[0] == '1';
     }
     else
-        fsWrite(std::string(std::string(configGet("configDir")) + "/autojump.cfg").c_str(), "0");
+        fsWrite(std::string(std::string(configGet("configDir")) + "/autojump.cfg").c_str(), std::to_string(AUTO_JUMP_DEFAULT ? 1 : 0).c_str());
 }
