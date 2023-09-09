@@ -132,13 +132,13 @@ static void _writeLeaves(std::ofstream &wld, LeavesBlock *leaves)
 
     switch (leaves->type)
     {
-    case LeavesType::Oak:
+    case LeavesBlock::Type::Oak:
         lid = std::to_string(BID_LEAVES);
         break;
-    case LeavesType::Birch:
+    case LeavesBlock::Type::Birch:
         lid = std::to_string(BID_BIRCH_LEAVES);
         break;
-    case LeavesType::Spruce:
+    case LeavesBlock::Type::Spruce:
         lid = std::to_string(BID_SPRUCE_LEAVES);
         break;
     }
@@ -619,13 +619,13 @@ void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
                 blocks.emplace_back(new SpruceWoodBlock(x, y));
                 break;
             case BID_LEAVES:
-                blocks.emplace_back(new LeavesBlock(x, y, LeavesType::Oak));
+                blocks.emplace_back(new LeavesBlock(x, y, LeavesBlock::Type::Oak));
                 break;
             case BID_BIRCH_LEAVES:
-                blocks.emplace_back(new LeavesBlock(x, y, LeavesType::Birch));
+                blocks.emplace_back(new LeavesBlock(x, y, LeavesBlock::Type::Birch));
                 break;
             case BID_SPRUCE_LEAVES:
-                blocks.emplace_back(new LeavesBlock(x, y, LeavesType::Spruce));
+                blocks.emplace_back(new LeavesBlock(x, y, LeavesBlock::Type::Spruce));
                 break;
             case BID_SAND:
                 blocks.emplace_back(new SandBlock(x, y));

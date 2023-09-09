@@ -1295,7 +1295,15 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                     // some blocks can only be placed on certain other blocks
                     if (inventory[hotbarSelect].amount > 0 && !isItem(id))
                     {
-                        bool canPlace = true; // can place block
+                        // TODO.
+                        // This code.
+                        // This code sucks.
+                        // This code has copy-pasting.
+                        // Copy-pasting == bad.
+                        // I should remove copy pasting from this code.
+                        // As soon as possible.
+
+                        bool canPlace = true; // can place block?
                         switch (id)
                         {
                         default:
@@ -1352,19 +1360,19 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                         case InventoryItem::ID::Leaves:
                             blocks->emplace_back(new LeavesBlock(snapToGrid(camera->x + aimX),
                                                                  snapToGrid(camera->y + aimY),
-                                                                 LeavesType::Oak, false));
+                                                                 LeavesBlock::Type::Oak, false));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             break;
                         case InventoryItem::ID::BirchLeaves:
                             blocks->emplace_back(new LeavesBlock(snapToGrid(camera->x + aimX),
                                                                  snapToGrid(camera->y + aimY),
-                                                                 LeavesType::Birch, false));
+                                                                 LeavesBlock::Type::Birch, false));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             break;
                         case InventoryItem::ID::SpruceLeaves:
                             blocks->emplace_back(new LeavesBlock(snapToGrid(camera->x + aimX),
                                                                  snapToGrid(camera->y + aimY),
-                                                                 LeavesType::Spruce, false));
+                                                                 LeavesBlock::Type::Spruce, false));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             break;
                         case InventoryItem::ID::Sand:
@@ -1919,13 +1927,13 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                                 {
                                     switch (l->type)
                                     {
-                                    case LeavesType::Oak:
+                                    case LeavesBlock::Type::Oak:
                                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Sapling));
                                         break;
-                                    case LeavesType::Birch:
+                                    case LeavesBlock::Type::Birch:
                                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::BirchSapling));
                                         break;
-                                    case LeavesType::Spruce:
+                                    case LeavesBlock::Type::Spruce:
                                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::SpruceSapling));
                                         break;
                                     }
@@ -1936,13 +1944,13 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             }
                             switch (l->type)
                             {
-                            case LeavesType::Oak:
+                            case LeavesBlock::Type::Oak:
                                 _spawnBlockParticles(blockParticles, sprLeaves, block->x, block->y, LeavesBlock::COLOR_OAK);
                                 break;
-                            case LeavesType::Birch:
+                            case LeavesBlock::Type::Birch:
                                 _spawnBlockParticles(blockParticles, sprBirchLeaves, block->x, block->y, LeavesBlock::COLOR_BIRCH);
                                 break; // TODO rename leaves and planks and wood to oak leaves and planks
-                            case LeavesType::Spruce:
+                            case LeavesBlock::Type::Spruce:
                                 _spawnBlockParticles(blockParticles, sprSpruceLeaves, block->x, block->y, LeavesBlock::COLOR_SPRUCE);
                                 break;
                             }
@@ -1951,13 +1959,13 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                             {
                                 switch (l->type)
                                 {
-                                case LeavesType::Oak:
+                                case LeavesBlock::Type::Oak:
                                     entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Leaves));
                                     break;
-                                case LeavesType::Birch:
+                                case LeavesBlock::Type::Birch:
                                     entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::BirchLeaves));
                                     break;
-                                case LeavesType::Spruce:
+                                case LeavesBlock::Type::Spruce:
                                     entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::SpruceLeaves));
                                     break;
                                 }
