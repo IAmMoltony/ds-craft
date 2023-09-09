@@ -206,18 +206,18 @@ private:
 
     /**
      * @brief Spin counter
-     * @todo think of better description for this thing
+     *
+     * Basically this thing controls which frame the spinning animation is at
     */
     u8 spin;
 
     /**
-     * @brief If true, incerment spin counter, otherwise, decrement it
+     * @brief If this is set to true, then `spin` will be incremented, or decremented if false.
     */
     bool increment;
 
     /**
-     * @brief If true, the drop will be slightly a bit more up
-     * @todo uhh also think of better description
+     * @brief If true, the drop will appear to be a bit higher than normal
     */
     bool upOffset;
 
