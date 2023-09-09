@@ -6,6 +6,7 @@
 #include "help.hpp"
 #include "stats.hpp"
 #include "controlsmgr.hpp"
+#include "settingsmgr.hpp"
 #include "util.h"
 #include "config.h"
 #include "log.h"
@@ -2320,82 +2321,6 @@ void Game::AssetManager::unloadMenuAssets(void)
     unloadImage(Game::instance->sprWorldLabelSelect);
     unloadImage(Game::instance->sprLangEnglish);
     unloadImage(Game::instance->sprLangRussian);
-}
-
-bool Game::SettingsManager::transparentLeaves = false;
-u8 Game::SettingsManager::autoSaveSeconds = 15;
-bool Game::SettingsManager::smoothCamera = true;
-bool Game::SettingsManager::autoJump = false;
-bool Game::SettingsManager::touchToMove = false;
-
-void Game::SettingsManager::loadSettings(void)
-{
-    // language setting
-    if (fsFileExists(std::string(std::string(configGet("configDir")) + "/lang.cfg").c_str()))
-    {
-        char *data = fsReadFile(std::string(std::string(configGet("configDir")) + "/lang.cfg").c_str());
-        switch (data[0])
-        {
-        case '0':
-            Game::instance->lang = Language::English;
-            break;
-        case '1':
-            Game::instance->lang = Language::Russian;
-            break;
-        default:
-            printf("invalid language code %c", data[0]);
-            while (true)
-                ;
-            break;
-        }
-    }
-
-    // transparent leaves setting
-    if (fsFileExists(std::string(std::string(configGet("configDir")) + "/trleaves.cfg").c_str()))
-    {
-        char *data = fsReadFile(std::string(std::string(configGet("configDir")) + "/trleaves.cfg").c_str());
-        transparentLeaves = data[0] == '1';
-    }
-    else
-        fsWrite(std::string(std::string(configGet("configDir")) + "/trleaves.cfg").c_str(), "0");
-
-    // auto save setting
-    if (fsFileExists(std::string(std::string(configGet("configDir")) + "/autosave.cfg").c_str()))
-    {
-        char *data = fsReadFile(std::string(std::string(configGet("configDir")) + "/autosave.cfg").c_str());
-        autoSaveSeconds = std::stoi(std::string(data));
-        if (autoSaveSeconds == 1)
-            autoSaveSeconds = 15;
-    }
-    else
-        fsWrite(std::string(std::string(configGet("configDir")) + "/autosave.cfg").c_str(), "1");
-
-    // smooth camera setting
-    if (fsFileExists(std::string(std::string(configGet("configDir")) + "/smoothcam.cfg").c_str()))
-    {
-        char *data = fsReadFile(std::string(std::string(configGet("configDir")) + "/smoothcam.cfg").c_str());
-        smoothCamera = data[0] == '1';
-    }
-    else
-        fsWrite(std::string(std::string(configGet("configDir")) + "/smoothcam.cfg").c_str(), "1");
-
-    // touch to move setting
-    if (fsFileExists(std::string(std::string(configGet("configDir")) + "/touchtomove.cfg").c_str()))
-    {
-        char *data = fsReadFile(std::string(std::string(configGet("configDir")) + "/touchtomove.cfg").c_str());
-        touchToMove = data[0] == '1';
-    }
-    else
-        fsWrite(std::string(std::string(configGet("configDir")) + "/touchtomove.cfg").c_str(), "1");
-
-    // auto jump setting
-    if (fsFileExists(std::string(std::string(configGet("configDir")) + "/autojump.cfg").c_str()))
-    {
-        char *data = fsReadFile(std::string(std::string(configGet("configDir")) + "/autojump.cfg").c_str());
-        autoJump = data[0] == '1';
-    }
-    else
-        fsWrite(std::string(std::string(configGet("configDir")) + "/autojump.cfg").c_str(), "0");
 }
 
 void Game::cameraFollowPlayer(bool smooth)

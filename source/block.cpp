@@ -3,6 +3,7 @@
 #include "util.h"
 #include "glext.h"
 #include "random.hpp"
+#include "settingsmgr.hpp"
 
 glImage sprGrass[1];
 glImage sprGrass2[1];
@@ -122,7 +123,7 @@ void Block::loadTextures(void)
 
     loadImageAlpha(_sprGrassOverlay, 16, 8, grass_overlayPal, grass_overlayBitmap);
 
-    if (Game::SettingsManager::transparentLeaves)
+    if (SettingsManager::transparentLeaves)
     {
         loadImageAlpha(sprLeaves, 16, 16, oak_leaves_aPal, oak_leaves_aBitmap);
         loadImageAlpha(sprBirchLeaves, 16, 16, birch_leaves_aPal, birch_leaves_aBitmap);

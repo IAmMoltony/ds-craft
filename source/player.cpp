@@ -7,6 +7,7 @@
 #include "random.hpp"
 #include "stats.hpp"
 #include "controlsmgr.hpp"
+#include "settingsmgr.hpp"
 #include "util.h"
 #include "log.h"
 #include "config.h"
@@ -2235,7 +2236,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             {
                 x = block->getRect().x + block->getRect().w;
 
-                if (Game::SettingsManager::autoJump && velX < 0 && !jumping)
+                if (SettingsManager::autoJump && velX < 0 && !jumping)
                 {
                     --y;
                     jump();
@@ -2299,7 +2300,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
             if (block->getRect().intersects(getRectRight()))
             {
                 x = block->getRect().x - 12;
-                if (Game::SettingsManager::autoJump && velX > 0 && !jumping)
+                if (SettingsManager::autoJump && velX > 0 && !jumping)
                 {
                     --y;
                     jump();
@@ -2336,7 +2337,7 @@ Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityLis
                 if (!(keys & KEY_X))
                 {
                     // TODO why is touch to move still a thing
-                    if (Game::SettingsManager::touchToMove)
+                    if (SettingsManager::touchToMove)
                     {
                         if (aimX < SCREEN_WIDTH / 2)
                         {
