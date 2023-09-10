@@ -350,7 +350,7 @@ void Game::init(void)
     logMessage(LOG_INFO, "Loading settings");
 
     // load settings
-    SettingsManager::loadSettings();
+    SettingsManager::loadSettingsLegacy();
 
     logMessage(LOG_INFO, "Loading controls");
 

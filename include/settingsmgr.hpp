@@ -66,7 +66,22 @@ public:
     ~SettingsManager() = delete;
 
     /**
-     * @brief Load settings from the config directory
+     * @brief Load settings (legcay format)
      */
-    static void loadSettings(void);
+    static void loadSettingsLegacy(void);
+
+    /**
+     * @brief Remove legacy format settings
+     */
+    static void removeLegacySettings(void);
+
+    /**
+     * @brief Update settings to new format
+     */
+    static void updateSettingsFormat(void);
+
+    /**
+     * @brief Save settings is new format
+     */
+    static void saveSettings(void);
 };

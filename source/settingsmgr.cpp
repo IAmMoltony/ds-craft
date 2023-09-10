@@ -12,7 +12,7 @@ bool SettingsManager::smoothCamera = SettingsManager::SMOOTH_CAMERA_DEFAULT;
 bool SettingsManager::autoJump = SettingsManager::AUTO_JUMP_DEFAULT;
 bool SettingsManager::touchToMove = SettingsManager::TOUCH_TO_MOVE_DEFAULT;
 
-void SettingsManager::loadSettings(void)
+void SettingsManager::loadSettingsLegacy(void)
 {
     // TODO rename this function to loadSettingsLegacy or something like that and create new settings system
     // see, a file on the disk takes up at least one cluster
@@ -102,4 +102,43 @@ void SettingsManager::loadSettings(void)
     }
     else
         fsWrite(std::string(std::string(configGet("configDir")) + "/autojump.cfg").c_str(), std::to_string(AUTO_JUMP_DEFAULT ? 1 : 0).c_str());
+}
+
+// list of legacy settings files
+static const char *_legacySettingsFiles[] = {
+    "lang",
+    "trleaves",
+    "autojump",
+    "smoothcam",
+    "touchtomove",
+};
+
+static constexpr u8 _numLegacySettingsFiles = sizeof(_legacySettingsFiles) / sizeof(_legacySettingsFiles[0]);
+
+void SettingsManager::removeLegacySettings(void)
+{
+    for (u8 i = 0; i < _numLegacySettingsFiles; ++i)
+        // delete (config dir)/(file name).cfg
+        fsDeleteFile(std::string(std::string(configGet("configDir")) + "/" + _legacySettingsFiles[i] + ".cfg").c_str());
+}
+
+void SettingsManager::updateSettingsFormat(void)
+{
+    // check if we need to update
+    if (fsFileExists(std::string(std::string(configGet("configDir")) + "/settings.cfg").c_str()))
+        return;
+
+    // load legacy settings
+    loadSettingsLegacy();
+
+    // write settings to in new format
+    saveSettings();
+
+    // delete legacy settings
+    removeLegacySettings();
+}
+
+void SettingsManager::saveSettings(void)
+{
+    // open na file
 }
