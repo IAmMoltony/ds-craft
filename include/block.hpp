@@ -1,11 +1,11 @@
 #pragma once
-#include <defines.h>
+#include "defines.h"
 #include <gl2d.h>
 #include <maxmod9.h>
-#include <soundbank.h>
-#include <images.h>
-#include <camera.h>
-#include <rect.hpp>
+#include "soundbank.h"
+#include "images.h"
+#include "camera.h"
+#include "rect.hpp"
 #include <vector>
 #include <memory>
 #include <string>

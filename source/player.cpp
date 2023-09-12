@@ -1,4 +1,4 @@
-#include <player.hpp>
+#include "player.hpp"
 
 // gui images
 static glImage sprInventorySlot[1];

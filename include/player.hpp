@@ -4,13 +4,13 @@
 #include <gl2d.h>
 #include <maxmod9.h>
 #include <soundbank.h>
-#include <defines.h>
-#include <camera.h>
-#include <images.h>
+#include "defines.h"
+#include "camera.h"
+#include "images.h"
 #include <math.h>
 #include <stdio.h>
-#include <block.hpp>
-#include <font.hpp>
+#include "block.hpp"
+#include "font.hpp"
 #define NULLITEM {InventoryItemID::None, 0}
 
 enum class InventoryItemID

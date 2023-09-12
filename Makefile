@@ -25,7 +25,7 @@ BUILD		:=	build
 SOURCES		:=	source
 DATA		:=	data
 INCLUDES	:=	include
-GRAPHICS	:=      $(sort $(dir $(wildcard gfx/*/)))
+GRAPHICS	:=      gfx
 AUDIO           :=      audio
 NITRODATA       :=      nitrofiles
 
@@ -241,11 +241,11 @@ endif
 PYTHON_VERSION_MIN := 3.0
 PYTHON_VERSION_CUR := $(shell $(PYTHON) -c 'import sys; print("%d.%d"% sys.version_info[0:2])')
 PYTHON_VERSION_OK := $(shell $(PYTHON) -c 'import sys; cur_ver = sys.version_info[0:2]; min_ver = tuple(map(int, "$(PYTHON_VERSION_MIN)".split("."))); print(int(cur_ver >= min_ver))')
-ifeq ($(PYTHON_VERSION_OK), 0)
+ifeq ($(PYTHON_VERSION_OK),0)
     $(error "Need python version >= $(PYTHON_VERSION_MIN). Current version is $(PYTHON_VERSION_CUR)")
 endif
 
-../include/images.h: $(shell find ../gfx/* -name *.png) $(shell find ../gfx/* -name *.bmp)
+../include/images.h: $(shell find ../gfx -name *.png) $(shell find ../gfx -name *.bmp)
 	$(SILENTMSG) generating $(notdir $@)
 	$(SILENTCMD)$(PYTHON) ../genimagesh.py $@
 

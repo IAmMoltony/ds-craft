@@ -3,17 +3,16 @@
 #include <nds/arm9/input.h>
 #include <gl2d.h>
 #include <maxmod9.h>
-#include <images.h>
-#include <uvcoord_font_16x16.h>
-#include <uvcoord_font_si.h>
-#include <soundbank.h>
-#include <soundbank_bin.h>
-#include <camera.h>
+#include "images.h"
+#include "uvcoord_font_16x16.h"
+#include "uvcoord_font_si.h"
+#include "soundbank.h"
+#include "camera.h"
 #include <time.h>
 #include <stdio.h>
-#include <block.hpp>
-#include <player.hpp>
-#include <font.hpp>
+#include "block.hpp"
+#include "player.hpp"
+#include "font.hpp"
 #include <algorithm>
 
 int main(int argc, char **argv)
@@ -23,7 +22,7 @@ int main(int argc, char **argv)
     videoSetMode(MODE_5_3D);
     glScreen2D();
 
-    mmInitDefaultMem((mm_addr)soundbank_bin);
+    mmInitDefault((char *)"nitro:/soundbank.bin");
 
     vramSetBankA(VRAM_A_TEXTURE);
     vramSetBankB(VRAM_B_TEXTURE);
