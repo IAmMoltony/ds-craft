@@ -1,2 +1,0 @@
-Change language
-This setting allows you to change the game's language.

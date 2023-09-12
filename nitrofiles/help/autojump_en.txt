@@ -1,2 +1,0 @@
-Auto jump
-If on& player jumps automatically when running into a block.
