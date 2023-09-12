@@ -11,8 +11,8 @@ def main():
     script_dir = Path(os.path.dirname(os.path.realpath(__file__)))
     gfx_dir = script_dir / "gfx"
 
-    png_files = list(gfx_dir.glob("**/*.png"))
-    bmp_files = list(gfx_dir.glob("**/*.bmp"))
+    png_files = list(gfx_dir.glob("**/*.png")) + list(gfx_dir.glob("*.png"))
+    bmp_files = list(gfx_dir.glob("**/*.bmp")) + list(gfx_dir.glob("*.bmp"))
     images = png_files + bmp_files
 
     print(f"Found {len(images)} image files")
