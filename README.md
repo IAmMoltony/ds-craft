@@ -4,6 +4,10 @@ DS-Craft is a Minecraft demake for Nintendo DS written in C and C++. Inspired by
 
 **Note**: The development of this project is currently not very active because I have school.
 
+## Branch Note
+
+This branch was created so that alpha1.2 can be built on multiple platforms, not just Windows. The code is basically the same, all changes are only there to be compatible with the new build system.
+
 ## Dependencies
 
 - devkitPro for Nintendo DS (NDS) development ([how to install](https://devkitpro.org/wiki/Getting_Started))
