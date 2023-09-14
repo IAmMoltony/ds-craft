@@ -22,5 +22,30 @@ at least cows. this way you will be able to milk them and uhh well rn it will no
 
 4. furnaces
 
+5. day night cycle
+
+this would require a lighting system. i tried to implement a lighting system before, but the method i used was SUPER inefficient.
+however, i have thought of an algorithm that might just do the job.
+
+6. lighting
+
+after scratching my head for about 10 minutes, i remembered that c++ has something called a map. the map's key can be a std::pair of 2 numbers,
+representing the coordinates. then we copy the block pointer pointers into the map, and iterate through it.
+
+so it will look like this [pseudocode]:
+
+void calculateLighting(BlockList &blocks) {
+	std::map<Block::Position, Block::Pointer *> blocksMap;
+	for (block in blocks) {
+		blocksMap[block.getPosition()] = &block;
+	}
+
+	for (block in blocksMap) {
+		block.calculateLighting(blocksMap);
+	}
+
+	// and we don't even need to copy anything back into the blocks vector
+}
+
 
    - moltony :3
