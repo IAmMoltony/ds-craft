@@ -773,8 +773,6 @@ SLAB_IMPL(Cobblestone, sprCobblestone, BID_COBBLESTONE_SLAB, 12)
 SLAB_IMPL(Birch, sprBirchPlanks, BID_BIRCH_SLAB, 6)
 SLAB_IMPL(Spruce, sprSprucePlanks, BID_SPRUCE_SLAB, 6)
 
-// TODO i know this place is not really where to put this kind of todo but after playtesting i noticed that oak leaves turn into oak trapdoors when having them in inventory and reloading the world???
-
 //----------------------------------------
 
 void WheatBlock::setGrowInterval(void)
