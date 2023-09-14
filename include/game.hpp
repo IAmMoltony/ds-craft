@@ -21,6 +21,8 @@
  *
  * @ref font.hpp "Font documentation"
  *
+ * @ref font_uvcoord.h "Font UV coordinates documentation"
+ *
  * @ref fs.h "File System documentation"
  *
  * @ref game.hpp "Game documentation"
