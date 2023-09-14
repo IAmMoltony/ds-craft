@@ -47,5 +47,7 @@ void calculateLighting(BlockList &blocks) {
 	// and we don't even need to copy anything back into the blocks vector
 }
 
+the algorithm above will be a lot a lot a lot more optimized than iterating millions of times in a vector just to see if there are 2 blocks above the current block lol
+
 
    - moltony :3
