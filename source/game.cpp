@@ -244,6 +244,8 @@ static constexpr u8 SETTING_AUTO_JUMP = 5;
 static constexpr u8 SETTING_DELETE_ALL_WORLDS = 6;
 static constexpr u8 SETTING_EDIT_CONTROLS = 7;
 
+static constexpr u8 SETTING_LAST = SETTING_EDIT_CONTROLS;
+
 void Game::init(void)
 {
     // set exception handler
@@ -2150,7 +2152,7 @@ void Game::update(void)
         }
         else if (down & KEY_SELECT)
         {
-            if (++settingsSelect > SETTING_EDIT_CONTROLS) // TODO make last settings selection value into a constant (SETTING_LAST)
+            if (++settingsSelect > SETTING_LAST)
                 settingsSelect = 0;
         }
         break;
