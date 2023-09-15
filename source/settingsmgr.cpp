@@ -49,7 +49,7 @@ void SettingsManager::loadSettingsLegacy(void)
             break;
         default:
             logMessage(LOG_WARNING, "Invalid language code '%c'; defaulting to English");
-            Game::instance->lang = Language::English; // TODO move lang from Game to here
+            Game::instance->lang = Language::English;
             break;
         }
     }
