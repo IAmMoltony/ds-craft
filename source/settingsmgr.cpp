@@ -15,8 +15,8 @@ bool SettingsManager::touchToMove = SettingsManager::TOUCH_TO_MOVE_DEFAULT;
 
 void SettingsManager::loadSettingsLegacy(void)
 {
-    // TODO rename this function to loadSettingsLegacy or something like that and create new settings system
-    // see, a file on the disk takes up at least one cluster
+    // * Old comment of me rambling about the old settings system:
+    // a file on the disk takes up at least one cluster
     // and if the file is 1 character long (like most settings files are) it will take up one cluster.
     // let's assume that our SD card has a cluster size of 512 bytes.
     // for just 5 settings, this will take up roughly 2.5 kilobytes. that's WAY more than what our settings weigh!
@@ -27,7 +27,7 @@ void SettingsManager::loadSettingsLegacy(void)
     // old settings will be silently transitioned into the old format, and old settings files will be
     // removed. this functionality of upgrading the settings format will be in a function called `updateSettingsFormat()'.
     // -- Conclusion --
-    // the current settings format is bad and uses way more space than it needs to, and I should fix that.
+    // the old settings format is bad and uses way more space than it needs to.
     // my reasoning might not be correct, but mtransitioning from using a billion files for storing settings to
     // having just a single file is still better.
 
@@ -152,7 +152,7 @@ void SettingsManager::saveSettings(void)
     }
 
     // write settings
-    fprintf(settingsFile, "trleaves %d\nautosave %d\nsmoothcam %d\nautojump %d\ntouchtomove %d\n", transparentLeaves, autoSaveSeconds, smoothCamera, autoJump, touchToMove);
+    fprintf(settingsFile, "trleaves %d\nautosave %d\nsmoothcam %d\nautojump %d\ntouchtomove %d\nlang %d\n", transparentLeaves, autoSaveSeconds, smoothCamera, autoJump, touchToMove, Game::instance->lang == Language::English ? 0 : 1);
 
     // don't forget to close
     fclose(settingsFile);
@@ -207,6 +207,16 @@ void SettingsManager::loadSettings(void)
         {
             // touch to move setting
             touchToMove = std::stoi(split[1]);
+        }
+        else if (split[0] == "lang")
+        {
+            // language setting
+            if (split[1] == "0")
+                Game::instance->lang = Language::English;
+            else if (split[1] == "1")
+                Game::instance->lang = Language::Russian;
+            else
+                logMessage(LOG_WARNING, "Invalid language code %s", split[1].c_str());
         }
         else
         {

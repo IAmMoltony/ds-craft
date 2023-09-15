@@ -382,14 +382,7 @@ void Game::init(void)
     // load assets for menu
     AssetManager::loadMenuAssets();
 
-    gameState = fsFileExists(std::string(std::string(configGet("configDir")) + "/lang.cfg").c_str())
-                    ? State::TitleScreen
-                    : State::LanguageSelect;
-    if (gameState == State::LanguageSelect)
-    {
-        loadImageAlpha(sprLangEnglish, 16, 16, englishPal, englishBitmap);
-        loadImageAlpha(sprLangRussian, 16, 16, russianPal, russianBitmap);
-    }
+    gameState = State::TitleScreen;
     camera = {0, 0};
     frameCounter = 0;
     saveTextTimer = 0;
