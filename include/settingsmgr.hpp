@@ -81,7 +81,9 @@ public:
     static void updateSettingsFormat(void);
 
     /**
-     * @brief Save settings is new format
+     * @brief Save settings in new format
      */
     static void saveSettings(void);
+
+
 };
