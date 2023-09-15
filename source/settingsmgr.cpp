@@ -1,5 +1,6 @@
 #include "settingsmgr.hpp"
 #include "game.hpp"
+#include "save.hpp"
 #include "fs.h"
 #include "config.h"
 #include "log.h"
@@ -141,4 +142,76 @@ void SettingsManager::updateSettingsFormat(void)
 void SettingsManager::saveSettings(void)
 {
     // open na file
+    FILE *settingsFile = fopen(std::string(std::string(configGet("configDir")) + "/settings.cfg").c_str(), "w");
+
+    // check if error
+    if (!settingsFile)
+    {
+        logMessage(LOG_ERROR, "error opening settings file: %s", strerror(errno));
+        return;
+    }
+
+    // write settings
+    fprintf(settingsFile, "trleaves %d\nautosave %d\nsmoothcam %d\nautojump %d\ntouchtomove %d\n", transparentLeaves, autoSaveSeconds, smoothCamera, autoJump, touchToMove);
+
+    // don't forget to close
+    fclose(settingsFile);
+}
+
+void SettingsManager::loadSettings(void)
+{
+    // open file
+    std::ifstream file(std::string(std::string(configGet("configDir")) + "/settings.cfg"));
+
+    // check if error
+    if (file.bad())
+    {
+        logMessage(LOG_ERROR, "error opening settings file: %s", strerror(errno));
+        return;
+    }
+
+    // TODO move unique ptr of block, block list and such into Block class (not separate)
+    // e.g. Block::List
+
+    // read
+    std::string line;
+    while (std::getline(file, line))
+    {
+        StringVector split;
+        std::string line2;
+        std::stringstream ss(line);
+        while (std::getline(ss, line2, ' '))
+            split.push_back(line2);
+
+        if (split[0] == "trleaves")
+        {
+            // transparent leaves setting
+            transparentLeaves = std::stoi(split[1]);
+        }
+        else if (split[0] == "autosave")
+        {
+            // auto save setting
+            autoSaveSeconds = std::stoi(split[1]);
+        }
+        else if (split[0] == "smoothcam")
+        {
+            // smooth camera setting
+            smoothCamera = std::stoi(split[1]);
+        }
+        else if (split[0] == "autojump")
+        {
+            // auto jump setting
+            autoJump = std::stoi(split[1]);
+        }
+        else if (split[0] == "touchtomove")
+        {
+            // touch to move setting
+            touchToMove = std::stoi(split[1]);
+        }
+        else
+        {
+            // invalid key
+            logMessage(LOG_WARNING, "Invalid setting %s", split[0].c_str());
+        }
+    }
 }

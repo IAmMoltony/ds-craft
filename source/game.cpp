@@ -349,8 +349,11 @@ void Game::init(void)
 
     logMessage(LOG_INFO, "Loading settings");
 
+    // update settings if need to
+    SettingsManager::updateSettingsFormat();
+
     // load settings
-    SettingsManager::loadSettingsLegacy();
+    SettingsManager::loadSettings();
 
     logMessage(LOG_INFO, "Loading controls");
 
@@ -1074,7 +1077,7 @@ void Game::draw(void)
 
         font.printCentered(0, 50, "Compiled on:");
         font.printCentered(0, 61, __DATE__ " " __TIME__);
-        font.printCentered(0, 72, "Compiled with GCC " __VERSION__);
+        font.printCentered(0, 72, "Compiled with GCC version " __VERSION__);
         font.printfCentered(0, 93, "Version %s", getVersionString());
 
         glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprBButton);
@@ -2039,7 +2042,7 @@ void Game::update(void)
             itoa(langSelectSelected, saveDataBuf, 10);
             lang = (langSelectSelected == LANGUAGE_SELECT_ENGLISH) ? Language::English
                                                                    : Language::Russian;
-            fsWrite(std::string(std::string(configGet("configDir")) + "/lang.cfg").c_str(), saveDataBuf);
+            SettingsManager::saveSettings();
 
             mmEffectEx(&sndClick);
             gameState = State::TitleScreen;
@@ -2072,7 +2075,7 @@ void Game::update(void)
                 break;
             case SETTING_TRANSPARENT_LEAVES:
                 SettingsManager::transparentLeaves = !SettingsManager::transparentLeaves;
-                fsWrite(std::string(std::string(configGet("configDir")) + "/trleaves.cfg").c_str(), SettingsManager::transparentLeaves ? "1" : "0");
+                SettingsManager::saveSettings();
                 break;
             case SETTING_AUTO_SAVE:
             {
@@ -2097,20 +2100,20 @@ void Game::update(void)
 
                 int nextIndex = (currentIndex + 1) % numAutoSaveValues;
                 SettingsManager::autoSaveSeconds = autoSaveValues[nextIndex];
-                fsWrite(std::string(std::string(configGet("configDir")) + "/autosave.cfg").c_str(), std::to_string(SettingsManager::autoSaveSeconds).c_str());
+                SettingsManager::saveSettings();
                 break;
             }
             case SETTING_SMOOTH_CAMERA:
                 SettingsManager::smoothCamera = !SettingsManager::smoothCamera;
-                fsWrite(std::string(std::string(configGet("configDir")) + "/smoothcam.cfg").c_str(), SettingsManager::smoothCamera ? "1" : "0");
+                SettingsManager::saveSettings();
                 break;
             case SETTING_TOUCH_TO_MOVE:
                 SettingsManager::touchToMove = !SettingsManager::touchToMove;
-                fsWrite(std::string(std::string(configGet("configDir")) + "/touchtomove.cfg").c_str(), SettingsManager::touchToMove ? "1" : "0");
+                SettingsManager::saveSettings();
                 break;
             case SETTING_AUTO_JUMP:
                 SettingsManager::autoJump = !SettingsManager::autoJump;
-                fsWrite(std::string(std::string(configGet("configDir")) + "/autojump.cfg").c_str(), SettingsManager::autoJump ? "1" : "0");
+                SettingsManager::saveSettings();
                 break;
             case SETTING_DELETE_ALL_WORLDS:
                 gameState = State::DeleteAllWorlds;
@@ -2154,7 +2157,7 @@ void Game::update(void)
         }
         else if (down & KEY_SELECT)
         {
-            if (++settingsSelect > SETTING_EDIT_CONTROLS)
+            if (++settingsSelect > SETTING_EDIT_CONTROLS) // TODO make last settings selection value into a constant (SETTING_LAST)
                 settingsSelect = 0;
         }
         break;

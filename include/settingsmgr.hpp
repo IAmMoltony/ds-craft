@@ -66,7 +66,7 @@ public:
     ~SettingsManager() = delete;
 
     /**
-     * @brief Load settings (legcay format)
+     * @brief Load settings (legacy format)
      */
     static void loadSettingsLegacy(void);
 
@@ -85,5 +85,8 @@ public:
      */
     static void saveSettings(void);
 
-
+    /**
+     * @brief Load settings in new format
+     */
+    static void loadSettings(void);
 };
