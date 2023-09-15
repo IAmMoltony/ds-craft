@@ -82,7 +82,7 @@ void PigEntity::draw(Camera camera)
     }
 }
 
-void PigEntity::update(BlockList &blocks, Camera camera, u16 frames)
+void PigEntity::update(Block::List &blocks, Camera camera, u16 frames)
 {
     // don't update if off screen
     if (x - camera.x < -20 ||
@@ -296,7 +296,7 @@ void DropEntity::draw(Camera camera)
     glColor(RGB15(31, 31, 31));
 }
 
-void DropEntity::update(BlockList &blocks, Camera camera, u16 frames)
+void DropEntity::update(Block::List &blocks, Camera camera, u16 frames)
 {
     if (x - camera.x < -20 ||
         x - camera.x > SCREEN_WIDTH ||

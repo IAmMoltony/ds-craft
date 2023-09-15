@@ -99,7 +99,7 @@ public:
      * @param camera camera (used for culling)
      * @param frames frame counter
     */
-    virtual void update(BlockList &blocks, Camera camera, u16 frames) = 0; // TODO const reference camera; frames can be pulled from Game
+    virtual void update(Block::List &blocks, Camera camera, u16 frames) = 0; // TODO const reference camera; frames can be pulled from Game
 
     /**
      * @brief Get bottom hitbox of the entity
@@ -183,8 +183,9 @@ private:
 
 public:
     PigEntity(s16 x, s16 y);
+
     void draw(Camera camera) override; // TODO const refernce
-    void update(BlockList &blocks, Camera camera, u16 frames) override; // TODO const reference and getFrameCounter()
+    void update(Block::List &blocks, Camera camera, u16 frames) override; // TODO const reference and getFrameCounter()
     Rect getRectBottom(void) override;
     Rect getRectTop(void) override;
     Rect getRectLeft(void) override;
@@ -226,8 +227,9 @@ public:
      * @param itemid drop's item ID
     */
     DropEntity(s16 x, s16 y, InventoryItem::ID itemid);
+
     void draw(Camera camera) override;
-    void update(BlockList &blocks, Camera camera, u16 frames) override;
+    void update(Block::List &blocks, Camera camera, u16 frames) override;
     Rect getRectBottom(void) override;
     Rect getRectTop(void) override;
     Rect getRectLeft(void) override;

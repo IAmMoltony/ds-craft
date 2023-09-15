@@ -67,7 +67,7 @@ unsigned int getWorldSeed(const std::string &file);
  * @param seed world seed
  * @param currentLocation current location
 */
-void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
+void saveWorld(const std::string &name, Block::List &blocks, EntityList &entities,
                Player &player, u32 seed, s16 currentLocation);
 
 /**
@@ -76,7 +76,7 @@ void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
  *
  * Parameters are same as saveworld but they are written to because we load from file
 */
-void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
+void loadWorld(const std::string &name, Block::List &blocks, EntityList &entities,
                Player &player, s16 &currentLocation);
 
 /**

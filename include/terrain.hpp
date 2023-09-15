@@ -11,6 +11,8 @@
 #include <algorithm>
 #include <numeric>
 
+// TODO constexprs
+
 #define BIOME_FOREST 0
 #define BIOME_DESERT 1
 #define BIOME_SNOW 2
@@ -33,7 +35,7 @@ enum class TreeType
  * @param entities where to put entities
  * @param player player
 */
-void generateTerrain(BlockList &blocks, EntityList &entities, Player &player);
+void generateTerrain(Block::List &blocks, EntityList &entities, Player &player);
 
 /**
  * @brief Spawn a tree at the given location
@@ -43,4 +45,4 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player);
  * @param treeType tree type
  * @see TreeType
 */
-int spawnTree(BlockList &blocks, s16 x, s16 y, TreeType treeType);
+int spawnTree(Block::List &blocks, s16 x, s16 y, TreeType treeType);

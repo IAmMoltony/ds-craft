@@ -101,7 +101,7 @@ public:
     };
 
 private:
-    BlockList blocks;
+    Block::List blocks;
     EntityList entities;
     BlockParticleList blockParticles;
     Player player;

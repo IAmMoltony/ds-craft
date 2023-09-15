@@ -255,7 +255,7 @@ bool Block::isSlab(void)
     return false;
 }
 
-void replaceBlock(BlockList &blocks, const Block *oldBlock, std::unique_ptr<Block> newBlock)
+void replaceBlock(Block::List &blocks, const Block *oldBlock, Block::Pointer newBlock)
 {
     for (auto &block : blocks)
         if (block.get() == oldBlock)

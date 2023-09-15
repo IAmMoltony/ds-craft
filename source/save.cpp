@@ -176,12 +176,14 @@ static void _writeWheat(std::ofstream &wld, WheatBlock *wheat)
     wld << "wheat " << std::to_string(wheat->x) << ' ' << std::to_string(wheat->y) << ' ' << std::to_string(wheat->getGrowStage()) << '\n';
 }
 
-static void _writeGeneric(std::ofstream &wld, std::unique_ptr<Block> &block)
+// TODO any reason why blocks in write functions aren't const?
+
+static void _writeGeneric(std::ofstream &wld, Block::Pointer &block)
 {
     wld << "block " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << std::to_string(block->id()) << '\n';
 }
 
-void saveWorld(const std::string &name, BlockList &blocks, EntityList &entities,
+void saveWorld(const std::string &name, Block::List &blocks, EntityList &entities,
                Player &player, u32 seed, s16 currentLocation)
 {
     std::string worldFolder = std::string(configGet("worldsDir")) + "/" + normalizeWorldFileName(name);
@@ -447,7 +449,7 @@ static void _argParseWheat(const StringVector &split, s16 &x, s16 &y, u8 &growSt
     growStage = std::stoi(split[3]);
 }
 
-void loadWorld(const std::string &name, BlockList &blocks, EntityList &entities,
+void loadWorld(const std::string &name, Block::List &blocks, EntityList &entities,
                Player &player, s16 &currentLocation)
 {
     std::string worldFolder = std::string(std::string(configGet("worldsDir")) + "/" + name);

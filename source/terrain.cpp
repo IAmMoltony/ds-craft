@@ -2,7 +2,7 @@
 #include "util.h"
 #include "random.hpp"
 
-void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
+void generateTerrain(Block::List &blocks, EntityList &entities, Player &player)
 {
     // this forces only a certain biome to spawn.
     // if less than 0, no biome is forced.
@@ -251,7 +251,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
     player.setX(1024 / 2 - 8);
     s16 maxY = INT16_MAX;
     maxY = std::accumulate(blocks.begin(), blocks.end(), maxY,
-        [](s16 acc, const std::unique_ptr<Block> &block)
+        [](s16 acc, const Block::Pointer &block)
         {
             if (block->y < acc)
                 return block->y;
@@ -261,7 +261,7 @@ void generateTerrain(BlockList &blocks, EntityList &entities, Player &player)
     player.setSpawnPoint(1024 / 2 - 8, maxY);
 }
 
-int spawnTree(BlockList &blocks, s16 x, s16 y, TreeType treeType)
+int spawnTree(Block::List &blocks, s16 x, s16 y, TreeType treeType)
 {
     u8 treeVariant = randomGenerate() % 2;
     switch (treeType)

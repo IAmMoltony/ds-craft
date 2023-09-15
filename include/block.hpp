@@ -284,11 +284,12 @@ enum class DoorType
 
 class Block;
 
-typedef std::vector<std::unique_ptr<Block>> BlockList;
-
 class Block
 {
 public:
+    typedef std::unique_ptr<Block> Pointer;
+    typedef std::vector<Pointer> List;
+
     /**
      * @brief Load block textures
      */
@@ -406,7 +407,7 @@ public:
  * @param newBlock the block that `oldBlock` will be replaced with
  * @note If `oldBlock` does not exist in `blocks`, then no replacement will be done. This is the worst-case scenario.
  */
-void replaceBlock(BlockList &blocks, const Block *oldBlock, std::unique_ptr<Block> newBlock);
+void replaceBlock(Block::List &blocks, const Block *oldBlock, Block::Pointer newBlock);
 
 // block sprites
 extern glImage sprGrass[1];
@@ -898,7 +899,7 @@ void resetNextChestID(void);
  */
 struct BlockCompareKey
 {
-    inline bool operator()(const std::unique_ptr<Block> &b1, const std::unique_ptr<Block> &b2)
+    inline bool operator()(const Block::Pointer &b1, const Block::Pointer &b2)
     {
         return (b1->getRect().x < b2->getRect().x);
     }

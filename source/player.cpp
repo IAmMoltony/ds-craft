@@ -831,7 +831,7 @@ static void _spawnBlockParticles(BlockParticleList *blockParticles, glImage *ima
     _spawnBlockParticles(blockParticles, image, x, y, RGB15(31, 31, 31));
 }
 
-Player::UpdateResult Player::update(Camera *camera, BlockList *blocks, EntityList *entities, BlockParticleList *blockParticles)
+Player::UpdateResult Player::update(Camera *camera, Block::List *blocks, EntityList *entities, BlockParticleList *blockParticles)
 {
     s16 oldX = x;
     s16 oldY = y;

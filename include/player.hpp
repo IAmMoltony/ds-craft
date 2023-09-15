@@ -348,7 +348,7 @@ public:
      * @param blockParticles list of block particles
      * @param frames frame counter
      */
-    UpdateResult update(Camera *camera, BlockList *blocks, EntityList *entities, BlockParticleList *blockParticles);
+    UpdateResult update(Camera *camera, Block::List *blocks, EntityList *entities, BlockParticleList *blockParticles);
 
     /**
      * @brief Update crafting screen
