@@ -49,10 +49,23 @@
     snd##effectname##2 = soundEffect(SFX_##effectid##2); \
     snd##effectname##3 = soundEffect(SFX_##effectid##3);
 
-// scale stuff
+/**
+ * @brief Normal scale
+ *
+ * Use multiple of this to change scale in functions that support rendering with scale
+ */
 #define SCALE_NORMAL (1 << 12)
+
+/**
+ * @brief Get a multiple of normal scale
+ * @param times Multiple of `SCALE_NORMAL`
+ */
 #define SCALE(times) (SCALE_NORMAL * (times))
-#define HALF_SCALE ((1 << 12) / 2)
+
+/**
+ * @brief Half of normal scale
+ */
+#define HALF_SCALE (SCALE_NORMAL / 2)
 
 #ifdef __cplusplus
 extern "C"
