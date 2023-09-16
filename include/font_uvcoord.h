@@ -11,8 +11,6 @@
 
 #pragma once
 
-// TODO use these constants in the font loading (i dont think that BITMAP_WIDTH and HEIGHT are used)
-
 /**
  * @brief Width of the font bitmap
  */
@@ -132,4 +130,3 @@ inline const unsigned int fontTexCoords[] = {
     24, 99, 8, 9,  // 94
     24, 108, 8, 9, // 95
 };
-
