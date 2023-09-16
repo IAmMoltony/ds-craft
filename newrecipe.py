@@ -1,6 +1,8 @@
 # newrecipe.py
 # Script for creating a new recipe
 
+# TODO make this script use argparse
+
 from dataclasses import dataclass
 import sys
 import os
