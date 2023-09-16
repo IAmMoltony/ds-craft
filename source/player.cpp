@@ -565,17 +565,16 @@ void Player::drawChest(Font &font, Font &fontRu)
     case Language::English:
         // if chest select is less than num of inventory items
         // then that means we are in chest
-        // TODO a better approach would be to move checking if editing chest and not inventory into its own function
-        font.drawHeadingShadow(chestSelect < NUM_INVENTORY_ITEMS ? "Chest" : "Inventory");
-        font.printShadow(16, SCREEN_HEIGHT - 32, chestSelect < NUM_INVENTORY_ITEMS ? "\2:Y Switch to inventory" : "\2:Y Switch to chest");
+        font.drawHeadingShadow(isEditingChestAndNotInventory() ? "Chest" : "Inventory");
+        font.printShadow(16, SCREEN_HEIGHT - 32, isEditingChestAndNotInventory() ? "\2:Y Switch to inventory" : "\2:Y Switch to chest");
         break;
     case Language::Russian:
-        fontRu.drawHeadingShadow(chestSelect < 20 ? "Svpfvm" : "Jpdgpubs#");
-        fontRu.printShadow(16, SCREEN_HEIGHT - 32, chestSelect < 20 ? "\2:Y Qgsgmn%zku#t& pb kpdgpubs#" : "\2:Y Qgsgmn%zku#t& pb tvpfvm");
+        fontRu.drawHeadingShadow(isEditingChestAndNotInventory() ? "Svpfvm" : "Jpdgpubs#");
+        fontRu.printShadow(16, SCREEN_HEIGHT - 32, isEditingChestAndNotInventory() ? "\2:Y Qgsgmn%zku#t& pb kpdgpubs#" : "\2:Y Qgsgmn%zku#t& pb tvpfvm");
         break;
     }
 
-    if (chestSelect < NUM_INVENTORY_ITEMS)
+    if (isEditingChestAndNotInventory())
         _drawInventory(chest->getItems().data(), ChestBlock::NUM_ITEMS, font, chestSelect, chestMoveSelect);
     else
         _drawInventory(inventory, NUM_INVENTORY_ITEMS, font, chestSelect - NUM_INVENTORY_ITEMS, chestMoveSelect - NUM_INVENTORY_ITEMS);
@@ -967,15 +966,17 @@ Player::UpdateResult Player::update(Camera *camera, Block::List *blocks, EntityL
         }
         else if (kdown & KEY_Y)
         {
+            // switch to/from inventory and chest
+
             u8 oldChestSelect = chestSelect;
 
-            if (chestSelect < 20)
-                chestSelect += 20;
+            if (isEditingChestAndNotInventory())
+                chestSelect += NUM_INVENTORY_ITEMS;
             else
-                chestSelect -= 20;
+                chestSelect -= NUM_INVENTORY_ITEMS;
 
-            if (oldChestSelect >= 20 && chestSelect >= 10)
-                chestSelect -= 10;
+            if (oldChestSelect >= NUM_INVENTORY_ITEMS && chestSelect >= ChestBlock::NUM_ITEMS)
+                chestSelect -= ChestBlock::NUM_ITEMS;
         }
         else if (kdown & KEY_A)
         {
@@ -983,35 +984,37 @@ Player::UpdateResult Player::update(Camera *camera, Block::List *blocks, EntityL
                 chestMoveSelect = chestSelect;
             else
             {
+                // TODO add comments to this part
+
                 u8 moveFrom = 0; // 0 = chest, 1 = inventory
                 u8 moveTo = 0;   // same thing as moveFrom
 
-                if (chestMoveSelect >= 20)
+                if (chestMoveSelect >= NUM_INVENTORY_ITEMS)
                     moveFrom = 1;
-                if (chestSelect >= 20)
+                if (chestSelect >= NUM_INVENTORY_ITEMS)
                     moveTo = 1;
 
                 InventoryItem toItem;
                 InventoryItem fromItem;
                 if (moveFrom)
                 {
-                    fromItem = inventory[chestMoveSelect - 20];
+                    fromItem = inventory[chestMoveSelect - NUM_INVENTORY_ITEMS];
                     toItem = chest->getItems()[chestSelect];
                 }
                 else
                 {
                     fromItem = chest->getItems()[chestMoveSelect];
-                    toItem = inventory[chestSelect - 20];
+                    toItem = inventory[chestSelect - NUM_INVENTORY_ITEMS];
                 }
 
                 if (moveFrom && !moveTo)
                 {
                     chest->setItem(chestSelect, fromItem);
-                    inventory[chestMoveSelect - 20] = toItem;
+                    inventory[chestMoveSelect - NUM_INVENTORY_ITEMS] = toItem;
                 }
                 else if (moveTo && !moveFrom)
                 {
-                    inventory[chestSelect - 20] = fromItem;
+                    inventory[chestSelect - NUM_INVENTORY_ITEMS] = fromItem;
                     chest->setItem(chestMoveSelect, toItem);
                 }
 
@@ -1027,9 +1030,9 @@ Player::UpdateResult Player::update(Camera *camera, Block::List *blocks, EntityL
 
         if (left || right || up || down)
         {
-            u8 selectOffset = ((chestSelect < 20) ? 0 : 20);
+            u8 selectOffset = ((isEditingChestAndNotInventory()) ? 0 : NUM_INVENTORY_ITEMS);
             u8 select = chestSelect - selectOffset;
-            u8 maxItems = (selectOffset == 0) ? 10 : 20;
+            u8 maxItems = (selectOffset == 0) ? ChestBlock::NUM_ITEMS : NUM_INVENTORY_ITEMS;
 
             // moving around in inventory
             if (left)
@@ -2712,6 +2715,11 @@ bool Player::isInInventory(void)
 bool Player::isInChest(void)
 {
     return chest != nullptr;
+}
+
+bool Player::isEditingChestAndNotInventory(void)
+{
+    return chestSelect < NUM_INVENTORY_ITEMS;
 }
 
 bool Player::isEditingSign(void)

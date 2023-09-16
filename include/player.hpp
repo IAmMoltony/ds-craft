@@ -212,6 +212,12 @@ private:
      */
     void jump(void);
 
+    /**
+     * @brief Check if the player is editing the chest and not their inventory in the chest edit interface
+     * @todo Think of a better name for this function
+     */
+    bool isEditingChestAndNotInventory(void);
+
 public:
     /**
      * @brief Result of the update() function
