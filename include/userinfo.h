@@ -1,6 +1,6 @@
 /**
  * @file userinfo.h
- * @brief Functions for getting user's info
+ * @brief Functions for getting user's info from DS firmware
 */
 
 #pragma once
