@@ -813,21 +813,7 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
 
 static void _eatFood(s16 *health, u8 healthAdd)
 {
-    u8 effect = rand() % 3;
-    // TODO switch to playsfx
-    switch (effect)
-    {
-    case 0:
-        mmEffectEx(&sndEat1);
-        break;
-    case 1:
-        mmEffectEx(&sndEat2);
-        break;
-    case 2:
-        mmEffectEx(&sndEat3);
-        break;
-    }
-
+    playsfx(3, &sndEat1, &sndEat2, &sndEat3);
     *health += healthAdd;
     if (*health > 9)
         *health = 9;
