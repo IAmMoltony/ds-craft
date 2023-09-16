@@ -7,6 +7,7 @@
 
 /**
  * @brief Structure for the game camera
+ * @todo Turn this into more than just a container for 2 ints
 */
 typedef struct camera
 {
