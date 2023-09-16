@@ -168,9 +168,6 @@ void SettingsManager::loadSettings(void)
         return;
     }
 
-    // TODO move unique ptr of block, block list and such into Block class (not separate)
-    // e.g. Block::List
-
     // read
     std::string line;
     while (std::getline(file, line))
