@@ -99,10 +99,6 @@ enum class SlabID
  * @param block block class name
  */
 #define GENERIC_BLOCK_DECL(block)                 \
-    /**
-     * @brief Generic block
-     */                                           \
-                                                  \
     class block : public Block                    \
     {                                             \
     public:                                       \
