@@ -639,7 +639,7 @@ const char *getItemName(InventoryItem::ID iid)
             return "Bread";
         case InventoryItem::ID::HayBale:
             return "Hay Bale";
-        case InventoryItem::ID::StoneBricksSlab;
+        case InventoryItem::ID::StoneBricksSlab:
             return "Stone Bricks Slab";
         default:
             return "Error";
