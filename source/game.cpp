@@ -1402,7 +1402,7 @@ void Game::update(void)
         }
 
         if (frameCounter % 60 == 0 && !paused)
-            statsSetEntry("timeplayed", statsGetEntry("timeplayed") + 1);
+            statsSetEntry(STATS_KEY_TIME_PLAYED, statsGetEntry(STATS_KEY_TIME_PLAYED) + 1);
 
         if (down & ControlsManager::getButton(ControlsManager::BUTTON_PAUSE) && !paused) // bring up pause menu
         {
@@ -2376,8 +2376,8 @@ void Game::drawStatsScreen(void)
         timePlayedStream << "Csgo& d kesg: ";
         break;
     }
-    int timePlayed = statsGetEntry("timeplayed");
-    if (timePlayed >= 86400)
+    int timePlayed = statsGetEntry(STATS_KEY_TIME_PLAYED);
+    if (timePlayed >= 86400) // 86400 seconds = 1 day
     {
         float days = (float)timePlayed / 86400.0f;
         float hours = (float)timePlayed / 3600.0f;
@@ -2393,7 +2393,7 @@ void Game::drawStatsScreen(void)
             break;
         }
     }
-    else if (timePlayed >= 3600)
+    else if (timePlayed >= 3600) // 3600 seconds = 1 hour
     {
         float hours = (float)timePlayed / 3600.0f;
         switch (lang)
@@ -2406,7 +2406,7 @@ void Game::drawStatsScreen(void)
             break;
         }
     }
-    else if (timePlayed >= 60)
+    else if (timePlayed >= 60) // 60 seconds = 1 minute
     {
         float minutes = (float)timePlayed / 60.0f;
         switch (lang)
@@ -2434,15 +2434,15 @@ void Game::drawStatsScreen(void)
     {
     case Language::English:
         font.print(10, 47, timePlayedStream.str());
-        font.print(10, 58, std::string("Blocks placed: " + std::to_string(statsGetEntry("blocksplaced"))));
-        font.print(10, 69, std::string("Blocks broken: " + std::to_string(statsGetEntry("blocksbroken"))));
-        font.print(10, 80, std::string("Times jumped: " + std::to_string(statsGetEntry("timesjumped"))));
+        font.print(10, 58, std::string("Blocks placed: " + std::to_string(statsGetEntry(STATS_KEY_BLOCKS_PLACED))));
+        font.print(10, 69, std::string("Blocks broken: " + std::to_string(statsGetEntry(STATS_KEY_BLOCKS_BROKEN))));
+        font.print(10, 80, std::string("Times jumped: " + std::to_string(statsGetEntry(STATS_KEY_TIMES_JUMPED))));
         break;
     case Language::Russian:
         fontRu.print(10, 47, timePlayedStream.str());
-        fontRu.print(10, 58, std::string("Qqtubdngpq cnqmqd: " + std::to_string(statsGetEntry("blocksplaced"))));
-        fontRu.print(10, 69, std::string("Rbjsv}gpq cnqmqd: " + std::to_string(statsGetEntry("blocksbroken"))));
-        fontRu.print(10, 80, std::string("Lqnkzgtudq rs\"imqd: " + std::to_string(statsGetEntry("timesjumped"))));
+        fontRu.print(10, 58, std::string("Qqtubdngpq cnqmqd: " + std::to_string(statsGetEntry(STATS_KEY_BLOCKS_PLACED))));
+        fontRu.print(10, 69, std::string("Rbjsv}gpq cnqmqd: " + std::to_string(statsGetEntry(STATS_KEY_BLOCKS_BROKEN))));
+        fontRu.print(10, 80, std::string("Lqnkzgtudq rs\"imqd: " + std::to_string(statsGetEntry(STATS_KEY_TIMES_JUMPED))));
         break;
     }
 }

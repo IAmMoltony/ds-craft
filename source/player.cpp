@@ -1683,7 +1683,7 @@ Player::UpdateResult Player::update(Camera *camera, Block::List *blocks, EntityL
                             if (inventory[hotbarSelect].amount == 0)
                                 inventory[hotbarSelect].id = InventoryItem::ID::None;
 
-                            statsSetEntry("blocksplaced", statsGetEntry("blocksplaced") + 1); // update stats
+                            statsSetEntry(STATS_KEY_BLOCKS_PLACED, statsGetEntry(STATS_KEY_BLOCKS_PLACED) + 1); // update stats
                         }
                         ret = UpdateResult::BlockPlaced;
                     }
@@ -2338,7 +2338,7 @@ Player::UpdateResult Player::update(Camera *camera, Block::List *blocks, EntityL
         if (remove)
         {
             blocks->erase(blocks->begin() + removei);
-            statsSetEntry("blocksbroken", statsGetEntry("blocksbroken") + 1);
+            statsSetEntry(STATS_KEY_BLOCKS_BROKEN, statsGetEntry(STATS_KEY_BLOCKS_BROKEN) + 1);
         }
 
         if (keys & KEY_TOUCH)
