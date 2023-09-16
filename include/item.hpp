@@ -142,11 +142,11 @@ public:
     /**
      * @brief Load item textures
     */
+    static void loadTextures(void);
 
     /**
      * @brief Unload item textures
     */
-    static void loadTextures(void);
     static void unloadTextures(void);
 };
 
