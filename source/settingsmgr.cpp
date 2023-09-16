@@ -5,8 +5,6 @@
 #include "config.h"
 #include "log.h"
 
-// TODO make function that write default settings
-
 bool SettingsManager::transparentLeaves = SettingsManager::TRANSPARENT_LEAVES_DEFAULT;
 u8 SettingsManager::autoSaveSeconds = SettingsManager::AUTO_SAVE_SECONDS_DEFAULT;
 bool SettingsManager::smoothCamera = SettingsManager::SMOOTH_CAMERA_DEFAULT;
