@@ -10,9 +10,9 @@
 */
 typedef enum
 {
-    LOG_INFO = 0,
-    LOG_WARNING = 1,
-    LOG_ERROR = 2,
+    LOG_INFO = 0, /**< Information: Status or progress of the program */
+    LOG_WARNING = 1, /**< Warning: Something is a bit off, but we can still continue */
+    LOG_ERROR = 2, /**< Error: We are in trouble! */
 } LogLevel;
 
 #ifdef __cplusplus
