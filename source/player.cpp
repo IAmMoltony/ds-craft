@@ -2881,6 +2881,10 @@ static bool _canCraft(Player *pThis, CraftingRecipe recipe)
 }
 
 static constexpr u8 RECIPES_PER_ROW = 14;
+static constexpr u8 CRAFTING_SLOTS_X = 16;
+static constexpr u8 CRAFTING_SLOTS_Y = 60;
+static constexpr u8 RECIPE_NAME_X = 16;
+static constexpr u8 RECIPE_NAME_Y = 35;
 
 void Player::drawCrafting(Font &font, Font &fontRu)
 {
@@ -2889,9 +2893,8 @@ void Player::drawCrafting(Font &font, Font &fontRu)
     for (size_t i = 0; i < numRecipes; ++i)
     {
         // calculate the position of the current slot
-        // TODO move 16 and 60 either into constants or make them arguments
-        u8 slotX = 16 + (i % RECIPES_PER_ROW) * 16;
-        u8 slotY = 60 + (i / RECIPES_PER_ROW) * 16;
+        u8 slotX = CRAFTING_SLOTS_X + (i % RECIPES_PER_ROW) * 16;
+        u8 slotY = CRAFTING_SLOTS_Y + (i / RECIPES_PER_ROW) * 16;
 
         CraftingRecipe recipe = _craftingRecipes[i];
 
@@ -2940,15 +2943,14 @@ void Player::drawCrafting(Font &font, Font &fontRu)
     }
 
     // print recipe full name
-    // TODO again 16 and 35 are magic values
     CraftingRecipe recipe = _craftingRecipes[craftingSelect];
     switch (Game::instance->lang)
     {
     case Language::English:
-        font.printShadow(16, 35, recipe.getFullName(this));
+        font.printShadow(RECIPE_NAME_X, RECIPE_NAME_Y, recipe.getFullName(this));
         break;
     case Language::Russian:
-        fontRu.printShadow(16, 35, recipe.getFullName(this));
+        fontRu.printShadow(RECIPE_NAME_X, RECIPE_NAME_Y, recipe.getFullName(this));
         break;
     }
 }
