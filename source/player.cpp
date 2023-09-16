@@ -236,6 +236,7 @@ static InventoryItem::ID _slabItemIDs[] =
         InventoryItem::ID::CobblestoneSlab,
         InventoryItem::ID::BirchSlab,
         InventoryItem::ID::SpruceSlab,
+        InventoryItem::ID::StoneBricksSlab,
 };
 
 // check if the item is not a block item
@@ -266,6 +267,8 @@ bool isNonSolidBlockItem(InventoryItem::ID id)
     static constexpr int n = sizeof(_nonSolidBlockItemIDs) / sizeof(_nonSolidBlockItemIDs[0]);
     return std::find(_nonSolidBlockItemIDs, _nonSolidBlockItemIDs + n, id) != _nonSolidBlockItemIDs + n;
 }
+
+// TODO move is<...> item into item class (called like item.isNonSolidBlock() for example)
 
 // check if the item is a slab
 bool isSlabItem(InventoryItem::ID id)
@@ -387,6 +390,9 @@ static void _drawInventory(InventoryItem inventory[], u8 itemCount, Font &font, 
                 break;
             case InventoryItem::ID::CobblestoneSlab:
                 glSpritePartScale(sprCobblestone, xx + 3, yy + 5, 0, 0, 16, 8, HALF_SCALE);
+                break;
+            case InventoryItem::ID::StoneBricksSlab:
+                glSpritePartScale(sprStoneBricks, xx + 3, yy + 5, 0, 0, 16, 8, HALF_SCALE);
                 break;
             // default
             default:
@@ -511,6 +517,9 @@ void Player::drawBody(const Camera &camera)
             break;
         case InventoryItem::ID::CobblestoneSlab:
             glSpritePartScale(sprCobblestone, xx - 1, yy + 2, 0, 0, 16, 8, HALF_SCALE);
+            break;
+        case InventoryItem::ID::StoneBricksSlab:
+            glSpritePartScale(sprStoneBricks, xx - 1, yy + 2, 0, 0, 16, 8, HALF_SCALE);
             break;
         // default
         default:
@@ -660,6 +669,9 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
         case InventoryItem::ID::CobblestoneSlab:
             glSpritePart(sprCobblestone, xx, yy + 8, 0, 0, 16, 8);
             break;
+        case InventoryItem::ID::StoneBricksSlab:
+            glSpritePart(sprStoneBricks, xx, yy + 8, 0, 0, 16, 8);
+            break;
         // default
         default:
             glSprite(xx, yy, GL_FLIP_NONE, getItemImage(currid));
@@ -741,6 +753,9 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
             case InventoryItem::ID::CobblestoneSlab:
                 glSpritePartScale(sprCobblestone, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE);
                 break;
+            case InventoryItem::ID::StoneBricksSlab:
+                glSpritePartScale(sprStoneBricks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE);
+                break;
             // default
             default:
                 glSpriteScale(xxItem + 4, yyItem + 4, HALF_SCALE, GL_FLIP_NONE, getItemImage(id));
@@ -799,6 +814,7 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
 static void _eatFood(s16 *health, u8 healthAdd)
 {
     u8 effect = rand() % 3;
+    // TODO switch to playsfx
     switch (effect)
     {
     case 0:
@@ -1666,6 +1682,11 @@ Player::UpdateResult Player::update(Camera *camera, Block::List *blocks, EntityL
                                                                   snapToGrid(camera->y + aimY)));
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             break;
+                        case InventoryItem::ID::StoneBricksSlab:
+                            blocks->emplace_back(new StoneBricksSlabBlock(snapToGrid(camera->x + aimX),
+                                                                          snapToGrid8(camera->y + aimY)));
+                            playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
+                            break;
                         }
                         if (canPlace)
                         {
@@ -1689,7 +1710,7 @@ Player::UpdateResult Player::update(Camera *camera, Block::List *blocks, EntityL
             // when r pressed go to next hotbar slot
             ++hotbarSelect;
             if (hotbarSelect > NUM_HOTBAR_SLOTS - 1)
-                hotbarSelect = 0;
+                hotbarSelect = 0; // reset to 1st slot
         }
         if (down & ControlsManager::getButton(ControlsManager::BUTTON_OPEN_INVENTORY))
         {
@@ -1761,6 +1782,7 @@ Player::UpdateResult Player::update(Camera *camera, Block::List *blocks, EntityL
                     case BID_IRON_BLOCK:
                     case BID_SANDSTONE:
                     case BID_STONE_BRICKS:
+                    case BID_STONE_BRICKS_SLAB:
                         if (inventory[hotbarSelect].id == InventoryItem::ID::WoodenPickaxe)
                             block->hit(block->brokenLevel % 2 + 1);
                         else if (inventory[hotbarSelect].id == InventoryItem::ID::StonePickaxe)
@@ -1839,6 +1861,7 @@ Player::UpdateResult Player::update(Camera *camera, Block::List *blocks, EntityL
                     case BID_COAL_BLOCK:
                     case BID_GLASS:
                     case BID_STONE_BRICKS:
+                    case BID_STONE_BRICKS_SLAB:
                         playsfx(4, &sndStepStone1, &sndStepStone2, &sndStepStone3, &sndStepStone4);
                         break;
                     case BID_WOOD:
@@ -1881,15 +1904,15 @@ Player::UpdateResult Player::update(Camera *camera, Block::List *blocks, EntityL
                             _spawnBlockParticles(blockParticles, sprGrass, block->x, block->y);
                             break;
                         case BID_GRASS2:
-                            if (inventory[hotbarSelect].id == InventoryItem::ID::Shears)
+                            if (inventory[hotbarSelect].id == InventoryItem::ID::Shears) // broken with shears
                             {
                                 // get grass
                                 entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Grass2));
                             }
-                            else
+                            else // broken with anything else
                             {
-                                // get seeds with 50% chance
-                                if (randomChance(50))
+                                // get seeds with 60% chance
+                                if (randomChance(60))
                                     entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::WheatSeeds));
                             }
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
@@ -2168,6 +2191,11 @@ Player::UpdateResult Player::update(Camera *camera, Block::List *blocks, EntityL
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                             _spawnBlockParticles(blockParticles, sprHayBale, block->x, block->y);
                             break;
+                        case BID_STONE_BRICKS_SLAB:
+                            entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::StoneBricksSlab));
+                            playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
+                            _spawnBlockParticles(blockParticles, sprStoneBricks, block->x, block->y);
+                            break;
                         }
 
                         remove = true;
@@ -2274,6 +2302,7 @@ Player::UpdateResult Player::update(Camera *camera, Block::List *blocks, EntityL
                     case BID_GLASS:
                     case BID_COBBLESTONE_SLAB:
                     case BID_STONE_BRICKS:
+                    case BID_STONE_BRICKS_SLAB:
                         playsfx(4, &sndStepStone1, &sndStepStone2, &sndStepStone3, &sndStepStone4);
                         break;
                     case BID_SAND:
@@ -2435,7 +2464,7 @@ Player::UpdateResult Player::update(Camera *camera, Block::List *blocks, EntityL
         if (sneaking)
             velX /= 2;
 
-        // stop whem player isnt pressing d-pad
+        // stop when player isn't pressing left or right or is pressing both left and right
         if ((right && left) || (!right && !left))
             velX = 0;
 
@@ -2455,6 +2484,7 @@ Player::UpdateResult Player::update(Camera *camera, Block::List *blocks, EntityL
     {
         if (Game::instance->getFrameCounter() % 40 == 0)
         {
+            // get damage every 40 frames
             playsfx(3, &sndHit1, &sndHit2, &sndHit3);
             --health;
         }
@@ -2478,7 +2508,8 @@ bool Player::hasItem(InventoryItem item)
     // any planks handling
     if (item.id == InventoryItem::ID::AnyPlanks)
         return hasItem({InventoryItem::ID::Planks, item.amount}) ||
-               hasItem({InventoryItem::ID::BirchPlanks, item.amount});
+               hasItem({InventoryItem::ID::BirchPlanks, item.amount}) ||
+               hasItem({InventoryItem::ID::SprucePlanks, item.amount});
 
     // go through every single item in inventory and check if we have that item
     for (u8 i = 0; i < 20; ++i)

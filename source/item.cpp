@@ -87,7 +87,8 @@ static std::map<std::string, InventoryItem::ID> _stringIDTable = {
     {"wheatseeds", InventoryItem::ID::WheatSeeds},
     {"wheat", InventoryItem::ID::Wheat},
     {"bread", InventoryItem::ID::Bread},
-    {"haybale", InventoryItem::ID::HayBale}
+    {"haybale", InventoryItem::ID::HayBale},
+    {"stonebricksslab", InventoryItem::ID::StoneBricksSlab},
 };
 
 InventoryItem::InventoryItem(const std::string &stringID, u8 amount) : id(ID::None), amount(amount)
@@ -253,6 +254,8 @@ void InventoryItem::unloadTextures(void)
 
     unloadImage(_sprDummy);
 }
+
+// TODO make a 2-way map for string IDs
 
 std::string iidToString(InventoryItem::ID iid)
 {
@@ -478,6 +481,9 @@ std::string iidToString(InventoryItem::ID iid)
     case InventoryItem::ID::HayBale:
         id = "haybale";
         break;
+    case InventoryItem::ID::StoneBricksSlab:
+        id = "stonebricksslab";
+        break;
     }
     return id;
 }
@@ -633,6 +639,8 @@ const char *getItemName(InventoryItem::ID iid)
             return "Bread";
         case InventoryItem::ID::HayBale:
             return "Hay Bale";
+        case InventoryItem::ID::StoneBricksSlab;
+            return "Stone Bricks Slab";
         default:
             return "Error";
         }
@@ -784,6 +792,8 @@ const char *getItemName(InventoryItem::ID iid)
             return "Wngc";
         case InventoryItem::ID::HayBale:
             return "Spqr tgpb";
+        case InventoryItem::ID::StoneBricksSlab:
+            return "Qnkub kj mbogpp\"x mksrkzgl";
         default:
             return "P}kcmb";
         }
@@ -864,7 +874,8 @@ static std::map<InventoryItem::ID, glImage *> _itemImages = {
     {InventoryItem::ID::WheatSeeds, _sprWheatSeeds},
     {InventoryItem::ID::Wheat, _sprWheat},
     {InventoryItem::ID::Bread, _sprBread},
-    {InventoryItem::ID::HayBale, sprHayBale}
+    {InventoryItem::ID::HayBale, sprHayBale},
+    {InventoryItem::ID::StoneBricksSlab, sprStoneBricks},
 };
 
 glImage *getItemImage(InventoryItem::ID item)

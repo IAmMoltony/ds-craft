@@ -60,6 +60,7 @@
 #define BID_GRASS2 45
 #define BID_WHEAT 46
 #define BID_HAY_BALE 47
+#define BID_STONE_BRICKS_SLAB 48
 
 enum class SlabID
 {
@@ -67,6 +68,7 @@ enum class SlabID
     Cobblestone,
     Birch,
     Spruce,
+    StoneBricks,
 };
 
 /**
@@ -801,7 +803,6 @@ public:
 
 /**
  * @brief Class representing a slab. Parent class of all slab blocks.
- * @todo Add stone brick slabs
  */
 class SlabBlock : public Block
 {
@@ -828,6 +829,7 @@ SLAB_DECL(Oak)
 SLAB_DECL(Cobblestone)
 SLAB_DECL(Birch)
 SLAB_DECL(Spruce)
+SLAB_DECL(StoneBricks)
 
 class WheatBlock : public Block
 {

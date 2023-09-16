@@ -94,6 +94,7 @@ public:
         Wheat,
         Bread,
         HayBale,
+        StoneBricksSlab,
     };
 
     /**

@@ -772,6 +772,7 @@ SLAB_IMPL(Oak, sprPlanks, BID_OAK_SLAB, 6)
 SLAB_IMPL(Cobblestone, sprCobblestone, BID_COBBLESTONE_SLAB, 12)
 SLAB_IMPL(Birch, sprBirchPlanks, BID_BIRCH_SLAB, 6)
 SLAB_IMPL(Spruce, sprSprucePlanks, BID_SPRUCE_SLAB, 6)
+SLAB_IMPL(StoneBricks, sprStoneBricks, BID_STONE_BRICKS_SLAB, 13)
 
 //----------------------------------------
 
