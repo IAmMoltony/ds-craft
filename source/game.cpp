@@ -910,7 +910,7 @@ void Game::draw(void)
             {
                 glColor(RGB15(31, 0, 0));
                 font.print(15, SCREEN_HEIGHT / 2 + 8, "A world with that name already exists!");
-                glColor(RGB15(31, 31, 31)); // TODO make create world error positioned correctly
+                glColor(RGB15(31, 31, 31));
             }
             break;
         case Language::Russian:
@@ -965,10 +965,10 @@ void Game::draw(void)
             switch (lang)
             {
             case Language::English:
-                font.printCentered(0, 108, "A world with that name already exists!");
+                font.printCentered(0, 119, "A world with that name already exists!");
                 break;
             case Language::Russian:
-                fontRu.printCentered(0, 108, "Nks t ubmko kogpgo vig tv~gtudvgu<");
+                fontRu.printCentered(0, 119, "Nks t ubmko kogpgo vig tv~gtudvgu<");
                 break;
             }
             glColor(RGB15(31, 31, 31));
