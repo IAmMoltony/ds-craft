@@ -224,14 +224,14 @@ void Game::showButtonTooltips(Font *font, Font *font2, glImage *t1, const char *
 
     if (t3)
     {
-        glSprite(93, SCREEN_HEIGHT - 30, GL_FLIP_NONE, t3);
-        font->print(106, SCREEN_HEIGHT - 28, s3, 0, 0, font2);
+        glSprite(105, SCREEN_HEIGHT - 30, GL_FLIP_NONE, t3);
+        font->print(118, SCREEN_HEIGHT - 28, s3, 0, 0, font2);
     }
 
     if (t4)
     {
-        glSprite(93, SCREEN_HEIGHT - 17, GL_FLIP_NONE, t4);
-        font->print(106, SCREEN_HEIGHT - 15, s4, 0, 0, font2);
+        glSprite(105, SCREEN_HEIGHT - 17, GL_FLIP_NONE, t4);
+        font->print(118, SCREEN_HEIGHT - 15, s4, 0, 0, font2);
     }
 }
 
