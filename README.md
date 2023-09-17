@@ -7,7 +7,7 @@ DS-Craft is a Minecraft demake for Nintendo DS written in C and C++. Inspired by
 ## Dependencies
 
 - devkitPro for Nintendo DS (NDS) development ([how to install](https://devkitpro.org/wiki/Getting_Started))
-- Python 3 (For building `images.h` which is required for building)
+- Python 3 (For generating `images.h` which is required for building)
 
 ## Building and running
 
