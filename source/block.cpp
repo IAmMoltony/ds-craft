@@ -328,7 +328,7 @@ void GrassBlock::draw(const Camera &camera)
     glColor(RGB15(31, 31, 31));
 }
 
-u16 GrassBlock::id(void)
+u16 GrassBlock::id(void) const
 {
     return BID_GRASS;
 }
@@ -368,7 +368,7 @@ void Grass::draw(const Camera &camera)
     glColor(RGB15(31, 31, 31));
 }
 
-u16 Grass::id(void)
+u16 Grass::id(void) const
 {
     return BID_GRASS2;
 }
@@ -403,7 +403,7 @@ void DirtBlock::draw(const Camera &camera)
         glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprDirt);
 }
 
-u16 DirtBlock::id(void)
+u16 DirtBlock::id(void) const
 {
     return BID_DIRT;
 }
@@ -468,7 +468,7 @@ bool LeavesBlock::solid(void)
     return false;
 }
 
-u16 LeavesBlock::id(void)
+u16 LeavesBlock::id(void) const
 {
     return BID_LEAVES; // TODO make this return the specific leaves BID
 }
@@ -521,7 +521,7 @@ bool FlowerBlock::solid(void)
     return false;
 }
 
-u16 FlowerBlock::id(void)
+u16 FlowerBlock::id(void) const
 {
     switch (type)
     {
@@ -589,7 +589,7 @@ void DoorBlock::interact(InventoryItem::ID item)
     }
 }
 
-u16 DoorBlock::id(void)
+u16 DoorBlock::id(void) const
 {
     switch (type)
     {
@@ -631,7 +631,7 @@ void GlassBlock::draw(const Camera &camera)
     glSprite(x - camera.x - 1, y - camera.y, GL_FLIP_NONE, sprGlass);
 }
 
-u16 GlassBlock::id(void)
+u16 GlassBlock::id(void) const
 {
     return BID_GLASS;
 }
@@ -666,7 +666,7 @@ bool ChestBlock::solid(void)
     return false;
 }
 
-u16 ChestBlock::id(void)
+u16 ChestBlock::id(void) const
 {
     return BID_CHEST;
 }
@@ -727,7 +727,7 @@ bool SignBlock::solid(void)
     return false;
 }
 
-u16 SignBlock::id(void)
+u16 SignBlock::id(void) const
 {
     return BID_SIGN;
 }
@@ -796,7 +796,7 @@ void WheatBlock::draw(const Camera &camera)
     glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprWheatBlock[growStage]);
 }
 
-u16 WheatBlock::id(void)
+u16 WheatBlock::id(void) const
 {
     return BID_WHEAT;
 }

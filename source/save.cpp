@@ -112,7 +112,7 @@ static std::string _grassTypeToString(GrassBlock::Type type)
     return stringType;
 }
 
-static void _writeDoor(std::ofstream &wld, const DoorBlock *door)
+static void _writeDoor(std::ofstream &wld, DoorBlock *door)
 {
     switch (door->id())
     {
@@ -126,7 +126,7 @@ static void _writeDoor(std::ofstream &wld, const DoorBlock *door)
     wld << "door " << std::to_string(door->x) << ' ' << std::to_string(door->y) << ' ' << std::to_string(door->isOpen()) << ' ' << std::to_string(door->getFacing()) << '\n';
 }
 
-static void _writeLeaves(std::ofstream &wld, const LeavesBlock *leaves)
+static void _writeLeaves(std::ofstream &wld, LeavesBlock *leaves)
 {
     std::string lid = "";
 
@@ -146,18 +146,18 @@ static void _writeLeaves(std::ofstream &wld, const LeavesBlock *leaves)
     wld << "block " << std::to_string(leaves->x) << ' ' << std::to_string(leaves->y) << ' ' << lid << '\n';
 }
 
-static void _writeSign(std::ofstream &wld, const SignBlock *sign)
+static void _writeSign(std::ofstream &wld, SignBlock *sign)
 {
     wld << "sign " << std::to_string(sign->x) << ' ' << std::to_string(sign->y) << ' ' << sign->getText() << '\n';
 }
 
-static void _writeGrass(std::ofstream &wld, const GrassBlock *grass)
+static void _writeGrass(std::ofstream &wld, GrassBlock *grass)
 {
     std::string stringType = _grassTypeToString(grass->getType());
     wld << "grassblock " << std::to_string(grass->x) << ' ' << std::to_string(grass->y) << ' ' << stringType + '\n';
 }
 
-static void _writeDirt(std::ofstream &wld, const DirtBlock *dirt)
+static void _writeDirt(std::ofstream &wld, DirtBlock *dirt)
 {
     char chf = dirt->isFarmland() ? '1' : '0';
     char chp = dirt->isPath() ? '1' : '0';
@@ -165,18 +165,18 @@ static void _writeDirt(std::ofstream &wld, const DirtBlock *dirt)
     wld << "dirt " << std::to_string(dirt->x) << ' ' << std::to_string(dirt->y) << ' ' << chf << ' ' << chp << '\n';
 }
 
-static void _writeGrass2(std::ofstream &wld, const Grass* grass)
+static void _writeGrass2(std::ofstream &wld, Grass* grass)
 {
     std::string stringType = _grassTypeToString(grass->getType());
     wld << "grass " << std::to_string(grass->x) << ' ' << std::to_string(grass->y) << ' ' << stringType << '\n';
 }
 
-static void _writeWheat(std::ofstream &wld, const WheatBlock *wheat)
+static void _writeWheat(std::ofstream &wld, WheatBlock *wheat)
 {
     wld << "wheat " << std::to_string(wheat->x) << ' ' << std::to_string(wheat->y) << ' ' << std::to_string(wheat->getGrowStage()) << '\n';
 }
 
-static void _writeGeneric(std::ofstream &wld, const Block::Pointer &block)
+static void _writeGeneric(std::ofstream &wld, Block::Pointer &block)
 {
     wld << "block " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << std::to_string(block->id()) << '\n';
 }

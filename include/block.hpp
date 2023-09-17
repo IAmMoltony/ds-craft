@@ -87,7 +87,7 @@ enum class SlabID
     {                                                                \
         glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, spr);     \
     }                                                                \
-    u16 block::id(void)                                              \
+    u16 block::id(void) const                                        \
     {                                                                \
         return id_;                                                  \
     }                                                                \
@@ -106,7 +106,7 @@ enum class SlabID
     public:                                       \
         block(s16 x, s16 y);                      \
         void draw(const Camera &camera) override; \
-        u16 id(void) override;                    \
+        u16 id(void) const override;              \
         bool solid(void) override;                \
     };
 
@@ -125,7 +125,7 @@ enum class SlabID
         sapl##SaplingBlock(s16 x, s16 y);         \
         void draw(const Camera &camera) override; \
         bool solid(void) override;                \
-        u16 id(void) override;                    \
+        u16 id(void) const override;              \
         bool hasGrown(void);                      \
         void update(void);                        \
     };
@@ -146,7 +146,7 @@ enum class SlabID
         void draw(const Camera &camera) override;       \
         bool solid(void) override;                      \
         void interact(InventoryItem::ID item) override; \
-        u16 id(void) override;                          \
+        u16 id(void) const override;                    \
         Rect getRect(void) const;                       \
         bool isOpen(void);                              \
     };
@@ -161,7 +161,7 @@ enum class SlabID
     public:                                       \
         slabid##SlabBlock(s16 x, s16 y);          \
         void draw(const Camera &camera) override; \
-        u16 id(void) override;                    \
+        u16 id(void) const override;              \
     };
 
 /**
@@ -182,7 +182,7 @@ enum class SlabID
     {                                                                                                             \
         return false;                                                                                             \
     }                                                                                                             \
-    u16 saplingid##SaplingBlock::id(void)                                                                         \
+    u16 saplingid##SaplingBlock::id(void) const                                                                   \
     {                                                                                                             \
         return bid;                                                                                               \
     }                                                                                                             \
@@ -231,7 +231,7 @@ enum class SlabID
         else                                                                                             \
             playsfx(4, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4);                      \
     }                                                                                                    \
-    u16 trapdid##TrapdoorBlock::id(void)                                                                 \
+    u16 trapdid##TrapdoorBlock::id(void) const                                                           \
     {                                                                                                    \
         return bid;                                                                                      \
     }                                                                                                    \
@@ -259,7 +259,7 @@ enum class SlabID
     {                                                                                                     \
         glSpritePart(spr, x - camera.x, y - camera.y + 8, 0, 0, 16, 8);                                   \
     }                                                                                                     \
-    u16 slabid##SlabBlock::id(void)                                                                       \
+    u16 slabid##SlabBlock::id(void) const                                                                 \
     {                                                                                                     \
         return bid;                                                                                       \
     }
@@ -376,7 +376,7 @@ public:
     /**
      * @brief Get the block's ID
      */
-    virtual u16 id(void) = 0;
+    virtual u16 id(void) const = 0;
 
     /**
      * @brief Interact with the block using the specified item.
@@ -526,7 +526,7 @@ public:
     GrassBlock(s16 x, s16 y, Type type);
 
     void draw(const Camera &camera) override;
-    u16 id(void) override;
+    u16 id(void) const override;
     bool solid(void) override;
 
     /**
@@ -550,7 +550,7 @@ public:
     Grass(s16 x, s16 y, GrassBlock::Type type);
 
     void draw(const Camera &camera) override;
-    u16 id(void) override;
+    u16 id(void) const override;
     bool solid(void) override;
 
     GrassBlock::Type getType(void);
@@ -583,7 +583,7 @@ public:
     DirtBlock(s16 x, s16 y, bool farmland, bool path);
 
     void draw(const Camera &camera) override;
-    u16 id(void) override;
+    u16 id(void) const override;
     bool solid(void) override;
     void interact(InventoryItem::ID item) override;
 
@@ -647,7 +647,7 @@ public:
 
     void draw(const Camera &camera) override;
     bool solid(void) override;
-    u16 id(void) override;
+    u16 id(void) const override;
 
     /**
      * @brief Check if the leaves are natural
@@ -670,7 +670,7 @@ public:
 
     void draw(const Camera &camera) override;
     bool solid(void) override;
-    u16 id(void) override;
+    u16 id(void) const override;
 };
 
 /**
@@ -701,7 +701,7 @@ public:
     void draw(const Camera &camera) override;
     bool solid(void) override;
     void interact(InventoryItem::ID item) override;
-    u16 id(void) override;
+    u16 id(void) const override;
     Rect getRect(void) const;
 
     /**
@@ -745,7 +745,7 @@ public:
 
     void draw(const Camera &camera) override;
     bool solid(void) override;
-    u16 id(void) override;
+    u16 id(void) const override;
 
     /**
      * @brief Get items as a std::array
@@ -787,7 +787,7 @@ public:
     void draw(const Camera &camera) override;
     void drawText(const Camera &camera);
     bool solid(void) override;
-    u16 id(void) override;
+    u16 id(void) const override;
 
     /**
      * @brief Get the sign's text
@@ -872,7 +872,7 @@ public:
     WheatBlock(s16 x, s16 y, u8 growStage);
 
     void draw(const Camera &camera) override;
-    u16 id(void) override;
+    u16 id(void) const override;
     bool solid(void) override;
 
     /**
