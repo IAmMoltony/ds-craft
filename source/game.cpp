@@ -1,6 +1,7 @@
 #include "game.hpp"
 #include <iomanip>
 #include <dirent.h>
+#include <libfatversion.h>
 #include "save.hpp"
 #include "random.hpp"
 #include "help.hpp"
