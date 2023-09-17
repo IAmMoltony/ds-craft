@@ -30,9 +30,10 @@ Game::Game() : blocks(), entities(), blockParticles(), player(), gameState(State
 
 void Game::gameQuit(void)
 {
-    // unload asset screen
     glBegin2D();
     drawMovingBackground();
+
+    // render "unload game assets" screen
     switch (lang)
     {
     case Language::English:
@@ -42,13 +43,16 @@ void Game::gameQuit(void)
         fontRu.printCentered(0, 50, "C\"esvjmb sgtvstqd kes\"...");
         break;
     }
+
     glEnd2D();
     glFlush(0);
 
-    AssetManager::unloadGameAssets();
+    AssetManager::unloadGameAssets(); // unload game assets
 
     glBegin2D();
     drawMovingBackground();
+
+    // show "loading menu assets" screen
     switch (lang)
     {
     case Language::English:
@@ -61,7 +65,7 @@ void Game::gameQuit(void)
     glEnd2D();
     glFlush(0);
 
-    AssetManager::loadMenuAssets();
+    AssetManager::loadMenuAssets(); // load menu assets
 
     // save world screen
     glBegin2D();
@@ -81,6 +85,8 @@ void Game::gameQuit(void)
     }
     glEnd2D();
     glFlush(0);
+
+    // save the world
     saveWorld(worldName, blocks, entities, player, getWorldSeed(worldName), currentLocation);
 
     // reset player state
@@ -134,7 +140,7 @@ u8 Game::fontSmallCharWidthHandler(char ch)
     case '\'':
     case '.':
         return 2;
-    case ']' + 1: // copyright symbol
+    case ']' + 1: // ^
     case '_':
         return 9;
     case '@':
@@ -146,7 +152,7 @@ u8 Game::fontSmallCharWidthHandler(char ch)
 
 u8 Game::fontBigCharWidthHandler(char ch)
 {
-    return fontSmallCharWidthHandler(ch) * 2;
+    return fontSmallCharWidthHandler(ch) * 2; // small char width handler but twice as big
 }
 
 u8 Game::fontSmallRuCharWidthHandler(char ch)
@@ -197,17 +203,44 @@ u8 Game::fontSmallRuCharWidthHandler(char ch)
 
 u8 Game::fontBigRuCharWidthHandler(char ch)
 {
-    return fontSmallRuCharWidthHandler(ch) * 2;
+    return fontSmallRuCharWidthHandler(ch) * 2; // small char width handler but twice as big
+}
+
+void Game::showButtonTooltips(Font *font, Font *font2, glImage *t1, const char *s1, glImage *t2, const char *s2, glImage *t3, const char *s3, glImage *t4, const char *s4)
+{
+    // this code is really boring
+
+    if (t1)
+    {
+        glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, t1);
+        font->print(15, SCREEN_HEIGHT - 28, s1, 0, 0, font2);
+    }
+
+    if (t2)
+    {
+        glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, t2);
+        font->print(15, SCREEN_HEIGHT - 15, s2, 0, 0, font2);
+    }
+
+    if (t3)
+    {
+        glSprite(93, SCREEN_HEIGHT - 30, GL_FLIP_NONE, t3);
+        font->print(106, SCREEN_HEIGHT - 28, s3, 0, 0, font2);
+    }
+
+    if (t4)
+    {
+        glSprite(93, SCREEN_HEIGHT - 17, GL_FLIP_NONE, t4);
+        font->print(106, SCREEN_HEIGHT - 15, s4, 0, 0, font2);
+    }
 }
 
 void Game::playPopSound(void)
 {
-    // rate is essentially pitch
-
-    mm_hword oldRate = sndPop.rate;
-    sndPop.rate = randomRange(512, 2048);
-    mmEffectEx(&sndPop);
-    sndPop.rate = oldRate;
+    mm_hword oldRate = sndPop.rate; // save old rate
+    sndPop.rate = randomRange(512, 2048); // set rate to random rate
+    mmEffectEx(&sndPop); // play sound
+    sndPop.rate = oldRate; // restore old rate
 }
 
 void Game::loadFonts(void)
@@ -223,18 +256,25 @@ void Game::loadFonts(void)
                 GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT,
                 256, font_small_ru1Pal, reinterpret_cast<const u8 *>(font_small_ru1Bitmap));
 
+    // set cwh's
     font.setCharWidthHandler(fontSmallCharWidthHandler);
     font.setHeadingCharWidthHandler(fontBigCharWidthHandler);
     fontRu.setCharWidthHandler(fontSmallRuCharWidthHandler);
     fontRu.setHeadingCharWidthHandler(fontBigRuCharWidthHandler);
 }
 
+// title screen selection values
+
 static constexpr u8 TITLE_SCREEN_PLAY = 0;
 static constexpr u8 TITLE_SCREEN_CREDITS = 1;
 static constexpr u8 TITLE_SCREEN_SETTINGS = 2;
 
+// language select screen selection values
+
 static constexpr u8 LANGUAGE_SELECT_ENGLISH = 0;
 static constexpr u8 LANGUAGE_SELECT_RUSSIAN = 1;
+
+// settings screen selection values
 
 static constexpr u8 SETTING_LANGUAGE_SELECT = 0;
 static constexpr u8 SETTING_TRANSPARENT_LEAVES = 1;
@@ -244,7 +284,6 @@ static constexpr u8 SETTING_TOUCH_TO_MOVE = 4;
 static constexpr u8 SETTING_AUTO_JUMP = 5;
 static constexpr u8 SETTING_DELETE_ALL_WORLDS = 6;
 static constexpr u8 SETTING_EDIT_CONTROLS = 7;
-
 static constexpr u8 SETTING_LAST = SETTING_EDIT_CONTROLS;
 
 void Game::init(void)
@@ -367,24 +406,25 @@ void Game::init(void)
 
     // set up random number generator
     u32 randomSeed;
-    randomSeed = PersonalData->rtcOffset;
-    randomSeed += time(NULL);
-    randomSeed ^= stringHash(getUserName());
-    Birthday bDay = getBirthday();
-    randomSeed -= bDay.day * bDay.month;
-    randomSeed ^= getFavoriteColorRgb() * getFavoriteColor();
-    randomSeed += (PersonalData->calX1 * PersonalData->calX2) ^ (PersonalData->calY1 * PersonalData->calY2);
-    randomSeed -= PersonalData->calY1px;
-    randomSeed ^= PersonalData->language;
-    randomSeed ^= stringHash(std::to_string(stringHash(getUserMessage())).c_str());
-    randomSetSeed(randomSeed);
-    srand(time(NULL));
+    randomSeed = PersonalData->rtcOffset; // set seed to RTC offset from the firmware
+    randomSeed += time(NULL); // add the time value
+    randomSeed ^= stringHash(getUserName()); // XOR by the hash of user name
+    Birthday bDay = getBirthday(); // get birthday
+    randomSeed -= bDay.day * bDay.month; // subtract by day times month of birthday
+    randomSeed ^= getFavoriteColorRgb() * getFavoriteColor(); // XOR by the product of RGB favorite color and enum value favorite color
+    randomSeed += (PersonalData->calX1 * PersonalData->calX2) ^ (PersonalData->calY1 * PersonalData->calY2); // add calibration stuff
+    randomSeed -= PersonalData->calY1px; // subtract first Y calibration value in pixels (i think)
+    randomSeed ^= PersonalData->language; // XOR by firmware language
+    randomSeed ^= stringHash(std::to_string(stringHash(getUserMessage())).c_str()); // XOR by user message hash's hash
+    randomSetSeed(randomSeed); // set seed
+    srand(time(NULL)); // set seed for stuff that doesn't need to be THAT random
 
     logMessage(LOG_INFO, "Loading menu assets");
 
     // load assets for menu
     AssetManager::loadMenuAssets();
 
+    // init values of stuff
     gameState = State::TitleScreen;
     camera = {0, 0};
     frameCounter = 0;
@@ -473,17 +513,24 @@ u16 Game::getFrameCounter(void)
 
 void Game::drawMovingBackground(void)
 {
-    // draw the moving background seen in menus
-    glColor(RGB15(15, 15, 15));
-    int oldWidth = sprDirt->width;
-    int oldHeight = sprDirt->height;
+    glColor(RGB15(15, 15, 15)); // set color to gray (to make dirt darker)
+    int oldWidth = sprDirt->width; // save the old width
+    int oldHeight = sprDirt->height; // save the old height
+
+    // resize dirt block
+    // resizing a sprite bigger than it actually it is will result in it repeating
     sprDirt->width = SCREEN_WIDTH / 2 + 64;
     sprDirt->height = SCREEN_HEIGHT / 2;
+
+    // draw sprite with 2x scale
     glSpriteScale(0 - instance->getFrameCounter() % 64, 0, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
-    sprDirt->width = oldWidth;
-    sprDirt->height = oldHeight;
-    glColor(RGB15(31, 31, 31));
+    sprDirt->width = oldWidth; // restore width
+    sprDirt->height = oldHeight; // restore height
+    glColor(RGB15(31, 31, 31)); // reset color to white
 }
+
+// width & height of the world name box
+// and the world seed box
 
 static constexpr int WORLD_NAME_BOX_WIDTH = 190;
 static constexpr int WORLD_NAME_BOX_HEIGHT = 14;
@@ -527,6 +574,7 @@ void Game::draw(void)
     {
     case State::Game:
         if (player.inVoid())
+            // if player is in the void then make the sky black
             glBoxFilled(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(0, 0, 0));
         else
             glBoxFilledGradient(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(10, 17, 26), RGB15(15, 23, 31), RGB15(15, 23, 31), RGB15(10, 17, 26));
@@ -549,13 +597,16 @@ void Game::draw(void)
             entity->draw(camera);
 
         if (!player.dead())
+            // draw player if he not died
             player.draw(camera, font, fontRu);
         else
         {
+            // draw red semi transparent box that takes up literally the entire screen
             glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(8));
             glBoxFilled(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(31, 0, 0));
             glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(8));
 
+            // draw game over text
             switch (lang)
             {
             case Language::English:
@@ -566,6 +617,7 @@ void Game::draw(void)
                 break;
             }
 
+            // draw respawn and quit buttons
             switch (lang)
             {
             case Language::English:
@@ -578,6 +630,7 @@ void Game::draw(void)
             }
         }
 
+        // update signs if player is not in any menu
         if (!player.isInInventory() && !player.isInChest() && !player.isEditingSign())
             for (auto &block : blocks)
             {
@@ -589,9 +642,11 @@ void Game::draw(void)
                 }
             }
 
+        // draw block particles
         for (auto particle : blockParticles)
             particle.draw(camera);
 
+        // draw game version (half transparent)
         glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(4));
         font.printf(3, 3, "%s", getVersionString());
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(4));
@@ -611,10 +666,14 @@ void Game::draw(void)
 
         if (paused)
         {
+            // pause menu and stats menu
+
             if (showStats)
-                drawStatsScreen();
+                drawStatsScreen(); // if player is on stats screen then draw stats screen
             else
             {
+                // draw pause menu
+
                 drawMenuBackground();
                 switch (lang)
                 {
@@ -645,8 +704,12 @@ void Game::draw(void)
     case State::TitleScreen:
         drawMovingBackground();
 
+        showButtonTooltips(&font, nullptr, sprAButton, "asfd", nullptr, nullptr, sprXButton, "cheese", sprDirt, "lmao");
+
+        // draw the game logo
         glSpriteScale(SCREEN_WIDTH / 2 - 96, logoY, (1 << 12) * 2, GL_FLIP_NONE, sprLogo);
 
+        // draw buttons
         for (u8 i = 0; i < 3; ++i)
         {
             glPolyFmt(POLY_ALPHA(29) | POLY_CULL_NONE);
@@ -655,6 +718,8 @@ void Game::draw(void)
             glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
             glBoxStroke(SCREEN_WIDTH / 2 - 45, 70 + i * 30, 90, 22,
                         titleScreenSelect == i ? RGB15(31, 31, 31) : RGB15(9, 9, 9));
+
+            // TODO move title screen button llabels into an array or smth
             switch (i)
             {
             case TITLE_SCREEN_PLAY:
@@ -680,6 +745,7 @@ void Game::draw(void)
     case State::Credits:
         drawMenuBackground();
 
+        // draw credits heading
         switch (lang)
         {
         case Language::English:
@@ -690,6 +756,7 @@ void Game::draw(void)
             break;
         }
 
+        // draw credits
         font.printCentered(0, 70, "Assets by Mojang Studios");
         font.printCentered(0, 111, "(C) 2023 moltony");
         font.printCentered(0, 120, "Built with devkitARM");
@@ -783,7 +850,6 @@ void Game::draw(void)
         switch (lang)
         {
         case Language::English:
-            // TODO move button tooltips in menus to its own function
             glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprBButton);
             font.print(15, SCREEN_HEIGHT - 28, "Back");
 
