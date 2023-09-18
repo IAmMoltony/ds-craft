@@ -760,17 +760,13 @@ void Game::draw(void)
         font.printCentered(0, 120, "Built with devkitARM");
         font.printCentered(0, 129, "Licensed under MIT license");
 
-        glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprBButton);
-        glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprAButton);
         switch (lang)
         {
         case Language::English:
-            font.print(15, SCREEN_HEIGHT - 15, "Back");
-            font.print(15, SCREEN_HEIGHT - 28, "More");
+            showButtonTooltips(&font, nullptr, sprBButton, "Back", sprAButton, "More", nullptr, nullptr, nullptr, nullptr);
             break;
         case Language::Russian:
-            fontRu.print(15, SCREEN_HEIGHT - 15, "Objbf");
-            fontRu.print(15, SCREEN_HEIGHT - 28, "F~h");
+            showButtonTooltips(&fontRu, nullptr, sprBButton, "Objbf", sprAButton, "F~h", nullptr, nullptr, nullptr, nullptr);
             break;
         }
         break;
