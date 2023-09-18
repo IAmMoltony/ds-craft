@@ -844,30 +844,10 @@ void Game::draw(void)
         switch (lang)
         {
         case Language::English:
-            glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprBButton);
-            font.print(15, SCREEN_HEIGHT - 28, "Back");
-
-            glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprAButton);
-            font.print(15, SCREEN_HEIGHT - 15, "New world");
-
-            glSprite(93, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprXButton);
-            font.print(106, SCREEN_HEIGHT - 28, "Play world");
-
-            glSprite(93, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprYButton);
-            font.print(106, SCREEN_HEIGHT - 15, "World settings");
+            showButtonTooltips(font, nullptr, sprBButton, "Back", sprAButton, "New world", sprXButton, "Play world", sprYButton, "World settings");
             break;
         case Language::Russian:
-            glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprBButton);
-            fontRu.print(15, SCREEN_HEIGHT - 28, "Objbf");
-
-            glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprAButton);
-            fontRu.print(15, SCREEN_HEIGHT - 15, "Oqd\"l oks");
-
-            glSprite(93, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprXButton);
-            fontRu.print(106, SCREEN_HEIGHT - 28, "Jesbu#");
-
-            glSprite(93, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprYButton);
-            fontRu.print(106, SCREEN_HEIGHT - 15, "Obtusqlmk");
+            showButtonTooltips(font2, nullptr, sprBButton, "Objbf", sprAButton, "Oqd\"l oks", sprXButton, "Jesbu#", sprYButton, "Obtusqlmk");
             break;
         }
 
