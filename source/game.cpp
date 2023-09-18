@@ -564,7 +564,7 @@ static glImage *_keyCodeToImage(u32 keyCode)
     case KEY_DOWN:
         return Game::instance->sprDownButton;
     default:
-        return sprCactus;
+        return sprCactus; // return cactus on failure (???)
     }
 }
 
