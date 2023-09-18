@@ -19,33 +19,26 @@ void gameverInit(void)
         logMessage(LOG_ERROR, "Failed opening game version file because %s", strerror(errno));
         hang();
     }
+
     u8 count = 0;
-    if (f)
+    char line[20];
+    while (fgets(line, sizeof(line), f) != NULL)
     {
-        char line[20];
-        while (fgets(line, sizeof(line), f) != NULL)
-        {
-            if (line[strlen(line) - 1] == '\n')
-                line[strlen(line) - 1] = 0; // remove \n
+        if (line[strlen(line) - 1] == '\n')
+            line[strlen(line) - 1] = 0; // remove \n
 
-            if (count == 0)
-                _versionMajor = atoi(line);
-            else if (count == 1)
-                _versionMinor = atoi(line);
-            else if (count == 2)
-                _versionPatch = atoi(line);
-            else if (count == 3)
-                _versionPrefix = std::string(line);
+        if (count == 0)
+            _versionMajor = atoi(line);
+        else if (count == 1)
+            _versionMinor = atoi(line);
+        else if (count == 2)
+            _versionPatch = atoi(line);
+        else if (count == 3)
+            _versionPrefix = std::string(line);
 
-            ++count;
-        }
-        fclose(f);
+        ++count;
     }
-    else
-    {
-        printf("there was problem opening game.ver file");
-        hang();
-    }
+    fclose(f);
 
     // if patch is 0, then don't put patch in version string
     if (_versionPatch == 0)

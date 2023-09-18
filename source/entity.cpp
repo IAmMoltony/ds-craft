@@ -307,7 +307,7 @@ void DropEntity::update(Block::List &blocks, Camera camera, u16 frames)
     if (Game::instance->getFrameCounter() % 4 == 0)
     {
         spin += (increment ? 1 : -1);
-        if (spin >= 8 || spin <= 0)
+        if (spin >= 8 || spin == 0)
             increment = !increment;
     }
     if (Game::instance->getFrameCounter() % (4 * 8 * 2) == 0)

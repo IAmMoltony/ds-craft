@@ -22,6 +22,7 @@ void configInit(void)
     {
         perror("error opening nitro:/config.cfg");
         hang();
+        //return; // this is here so that cppcheck won't get angry
     }
 
     char buf[MAX_LINE_LEN];

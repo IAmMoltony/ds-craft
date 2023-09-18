@@ -176,7 +176,7 @@ static void _writeWheat(std::ofstream &wld, WheatBlock *wheat)
     wld << "wheat " << std::to_string(wheat->x) << ' ' << std::to_string(wheat->y) << ' ' << std::to_string(wheat->getGrowStage()) << '\n';
 }
 
-static void _writeGeneric(std::ofstream &wld, Block::Pointer &block)
+static void _writeGeneric(std::ofstream &wld, const Block::Pointer &block)
 {
     wld << "block " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << std::to_string(block->id()) << '\n';
 }

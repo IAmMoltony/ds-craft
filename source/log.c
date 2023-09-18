@@ -65,6 +65,8 @@ void logMessage(const LogLevel level, const char *format, ...)
     if (!f)
     {
         perror(_logFileName);
+        va_end(l);
+        va_end(l2);
         return;
     }
 

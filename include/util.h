@@ -145,7 +145,7 @@ extern "C"
     /**
      * @brief Completely hang the entire system
     */
-    void hang(void);
+    __attribute__((noreturn)) void hang(void);
 
     /**
      * @brief Create a sound effect
