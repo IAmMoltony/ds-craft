@@ -704,8 +704,6 @@ void Game::draw(void)
     case State::TitleScreen:
         drawMovingBackground();
 
-        showButtonTooltips(&font, nullptr, sprAButton, "asfd", nullptr, nullptr, sprXButton, "cheese", sprDirt, "lmao");
-
         // draw the game logo
         glSpriteScale(SCREEN_WIDTH / 2 - 96, logoY, (1 << 12) * 2, GL_FLIP_NONE, sprLogo);
 
