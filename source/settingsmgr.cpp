@@ -13,7 +13,7 @@ bool SettingsManager::touchToMove = SettingsManager::TOUCH_TO_MOVE_DEFAULT;
 
 void SettingsManager::loadSettingsLegacy(void)
 {
-    // * Old comment of me rambling about the old settings system:
+    // * Old comment of me rambling about the old settings system (new settings system has not been introduced yet):
     // a file on the disk takes up at least one cluster
     // and if the file is 1 character long (like most settings files are) it will take up one cluster.
     // let's assume that our SD card has a cluster size of 512 bytes.
