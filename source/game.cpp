@@ -269,6 +269,20 @@ static constexpr u8 TITLE_SCREEN_PLAY = 0;
 static constexpr u8 TITLE_SCREEN_CREDITS = 1;
 static constexpr u8 TITLE_SCREEN_SETTINGS = 2;
 
+// title screen labels
+
+static constexpr const char *TITLE_SCREEN_LABELS_EN[] = {
+    [TITLE_SCREEN_PLAY] = "Play",
+    [TITLE_SCREEN_CREDITS] = "Credits",
+    [TITLE_SCREEN_SETTINGS] = "Settings",
+};
+
+static constexpr const char *TITLE_SCREEN_LABELS_RU[] = {
+    [TITLE_SCREEN_PLAY] = "Jesbu#",
+    [TITLE_SCREEN_CREDITS] = "Tkus\"",
+    [TITLE_SCREEN_SETTINGS] = "Obtusqlmk",
+};
+
 // language select screen selection values
 
 static constexpr u8 LANGUAGE_SELECT_ENGLISH = 0;
@@ -717,27 +731,10 @@ void Game::draw(void)
             glBoxStroke(SCREEN_WIDTH / 2 - 45, 70 + i * 30, 90, 22,
                         titleScreenSelect == i ? RGB15(31, 31, 31) : RGB15(9, 9, 9));
 
-            // TODO move title screen button llabels into an array or smth
-            switch (i)
-            {
-            case TITLE_SCREEN_PLAY:
-                if (lang == Language::English)
-                    font.printCentered(0, 77 + i * 30, "Play");
-                else
-                    fontRu.printCentered(0, 77 + i * 30, "Jesbu#");
-                break;
-            case TITLE_SCREEN_CREDITS:
-                if (lang == Language::English)
-                    font.printCentered(0, 77 + i * 30, "Credits");
-                else
-                    fontRu.printCentered(0, 77 + i * 30, "Tkus\"");
-                break;
-            case TITLE_SCREEN_SETTINGS:
-                if (lang == Language::English)
-                    font.printCentered(0, 77 + i * 30, "Settings");
-                else
-                    fontRu.printCentered(0, 77 + i * 30, "Obtusqlmk");
-            }
+            if (lang == Language::English)
+                font.printCentered(0, 77 + i * 30, TITLE_SCREEN_LABELS_EN[i]);
+            else
+                fontRu.printCentered(0, 77 + i * 30, TITLE_SCREEN_LABELS_RU[i]);
         }
         break;
     case State::Credits:
@@ -844,10 +841,10 @@ void Game::draw(void)
         switch (lang)
         {
         case Language::English:
-            showButtonTooltips(font, nullptr, sprBButton, "Back", sprAButton, "New world", sprXButton, "Play world", sprYButton, "World settings");
+            showButtonTooltips(&font, nullptr, sprBButton, "Back", sprAButton, "New world", sprXButton, "Play world", sprYButton, "World settings");
             break;
         case Language::Russian:
-            showButtonTooltips(font2, nullptr, sprBButton, "Objbf", sprAButton, "Oqd\"l oks", sprXButton, "Jesbu#", sprYButton, "Obtusqlmk");
+            showButtonTooltips(&fontRu, nullptr, sprBButton, "Objbf", sprAButton, "Oqd\"l oks", sprXButton, "Jesbu#", sprYButton, "Obtusqlmk");
             break;
         }
 
