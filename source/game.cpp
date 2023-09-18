@@ -894,6 +894,8 @@ void Game::draw(void)
             glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
             glBoxStroke(SCREEN_WIDTH / 2 - 45, 90 + i * 30, 90, 22,
                         worldSettingsSelect == i ? RGB15(31, 31, 31) : RGB15(9, 9, 9));
+
+            // TODO add array labels here too
             switch (i)
             {
             case 0:
