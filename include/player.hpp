@@ -377,6 +377,51 @@ public:
     void updateInventory(void);
 
     /**
+     * @brief Switch between chest and inventory in chest screen
+     */
+    void switchChestInventory(void);
+
+    /**
+     * @brief Close chest
+     */
+    void closeChest(void);
+
+    /**
+     * @brief Update selected slot in chest
+     */
+    void updateChestSelection(void);
+
+    /**
+     * @brief Update chest interaction screen
+     */
+    void updateChest(void);
+
+    /**
+     * @brief Add character to sign that is currently edited
+     */
+    void addSignChar(int chInt);
+
+    /**
+     * @brief Update sign edit screen
+     */
+    void updateSign(void);
+
+    /**
+     * @brief Apply velocity and calculate gravity
+     */
+    void applyVelocity(void);
+
+    /**
+     * @brief Pick up item drops that are on the ground
+     */
+    void pickUpItems(void);
+
+    /**
+     * @brief Update spawn immunity
+     */
+    void updateSpawnImmunity(void);
+
+    /**
      * @brief Check if the player has the item
      * @param item item to check if player has it
      * @note This function also checks the amount

@@ -850,6 +850,7 @@ Player::UpdateResult Player::update(Camera *camera, Block::List *blocks, EntityL
             inventoryCrafting = false;
             mmEffectEx(&Game::instance->sndClick);
         }
+        // I just realized that you can open crafting while being in a chest
         if (kdown & KEY_L)
         {
             // when l is pressed, open crafting (or close)
@@ -865,218 +866,17 @@ Player::UpdateResult Player::update(Camera *camera, Block::List *blocks, EntityL
             updateInventory();
     }
     else if (chestOpen)
-    {
-        u32 kdown = keysDown();
-
-        if (kdown & ControlsManager::getButton(ControlsManager::BUTTON_OPEN_INVENTORY))
-        {
-            chestOpen = false;
-            chest = nullptr;
-            chestSelect = 0;
-        }
-        else if (kdown & KEY_Y)
-        {
-            // switch to/from inventory and chest
-
-            u8 oldChestSelect = chestSelect;
-
-            if (isEditingChestAndNotInventory())
-                chestSelect += NUM_INVENTORY_ITEMS;
-            else
-                chestSelect -= NUM_INVENTORY_ITEMS;
-
-            if (oldChestSelect >= NUM_INVENTORY_ITEMS && chestSelect >= ChestBlock::NUM_ITEMS)
-                chestSelect -= ChestBlock::NUM_ITEMS;
-        }
-        else if (kdown & KEY_A)
-        {
-            if (chestMoveSelect == 40)
-                chestMoveSelect = chestSelect;
-            else
-            {
-                // TODO add comments to this part
-
-                u8 moveFrom = 0; // 0 = chest, 1 = inventory
-                u8 moveTo = 0;   // same thing as moveFrom
-
-                if (chestMoveSelect >= NUM_INVENTORY_ITEMS)
-                    moveFrom = 1;
-                if (chestSelect >= NUM_INVENTORY_ITEMS)
-                    moveTo = 1;
-
-                InventoryItem toItem;
-                InventoryItem fromItem;
-                if (moveFrom)
-                {
-                    fromItem = inventory[chestMoveSelect - NUM_INVENTORY_ITEMS];
-                    toItem = chest->getItems()[chestSelect];
-                }
-                else
-                {
-                    fromItem = chest->getItems()[chestMoveSelect];
-                    toItem = inventory[chestSelect - NUM_INVENTORY_ITEMS];
-                }
-
-                if (moveFrom && !moveTo)
-                {
-                    chest->setItem(chestSelect, fromItem);
-                    inventory[chestMoveSelect - NUM_INVENTORY_ITEMS] = toItem;
-                }
-                else if (moveTo && !moveFrom)
-                {
-                    inventory[chestSelect - NUM_INVENTORY_ITEMS] = fromItem;
-                    chest->setItem(chestMoveSelect, toItem);
-                }
-
-                chestMoveSelect = 40;
-            }
-        }
-
-        // inventory navigation
-        bool left = kdown & KEY_LEFT;
-        bool right = kdown & KEY_RIGHT;
-        bool up = kdown & KEY_UP;
-        bool down = kdown & KEY_DOWN;
-
-        if (left || right || up || down)
-        {
-            u8 selectOffset = ((isEditingChestAndNotInventory()) ? 0 : NUM_INVENTORY_ITEMS);
-            u8 select = chestSelect - selectOffset;
-            u8 maxItems = (selectOffset == 0) ? ChestBlock::NUM_ITEMS : NUM_INVENTORY_ITEMS;
-
-            // moving around in inventory
-            if (left)
-            {
-                if (select - 1 >= 0)
-                {
-                    if (select - 1 != 4 &&
-                        select - 1 != 9 &&
-                        select - 1 != 14)
-                        --select;
-                }
-            }
-            else if (right)
-            {
-                if (select + 1 < maxItems)
-                {
-                    if (select + 1 != 5 &&
-                        select + 1 != 10 &&
-                        select + 1 != 15)
-                        ++select;
-                }
-            }
-            else if (up)
-            {
-                if (select - 5 >= 0)
-                    select -= 5;
-            }
-            else if (down)
-            {
-                if (select + 5 < maxItems)
-                    select += 5;
-            }
-
-            chestSelect = select + selectOffset;
-        }
-    }
+        updateChest();
     else if (sign)
-    {
-        int chi = keyboardUpdate();
-
-        u32 kdown = keysDown();
-        if (kdown & KEY_A)
-            chi = '\n';
-
-        if (chi > 0)
-        {
-            char ch = (char)chi;
-            scanKeys();
-            if (ch == '\n')
-            {
-                sign = nullptr;
-                keyboardHide();
-                return UpdateResult::None;
-            }
-            else if (chi == 8)
-            {
-                if (sign->getText().size() != 0)
-                {
-                    std::string textCopy = sign->getText();
-                    textCopy.pop_back();
-                    sign->setText(textCopy);
-                }
-                return UpdateResult::None;
-            }
-            sign->setText(sign->getText() + ch);
-
-            if (Game::instance->font.getTextWidth(std::string(sign->getText() + '_')) > 75 * 2 - 10)
-            {
-                std::string textCopy = sign->getText();
-                textCopy.pop_back();
-                sign->setText(textCopy);
-            }
-        }
-    }
+        updateSign();
     else
     {
-        // spawn immunity
-        if (spawnImmunity)
-        {
-            --spawnImmunity;
-            restoreHealth();
-        }
-
-        // move
-        x += velX;
-        y += velY;
-
-        // gravity
-        if (falling || jumping)
-        {
-            velY += 0.3f;
-            ++airY;
-            if (velY > 5)
-                // cap fall speed
-                velY = 5;
-        }
+        updateSpawnImmunity();
+        applyVelocity();
+        pickUpItems();
 
         u32 down = keysDown();
-        for (auto &entity : *entities)
-        {
-            if (entity->getRect().intersects(getRectAim(*camera)) &&
-                down & ControlsManager::getButton(ControlsManager::BUTTON_ATTACK) &&
-                entity->id().rfind("drop", 0) != 0)
-            {
-                switch (inventory[hotbarSelect].id)
-                {
-                case InventoryItem::ID::WoodenSword:
-                    entity->damage(entity->health % 2 + 1);
-                    break;
-                case InventoryItem::ID::StoneSword:
-                    entity->damage(3);
-                    break;
-                case InventoryItem::ID::IronSword:
-                    entity->damage(4);
-                    break;
-                default:
-                    entity->damage(1);
-                    break;
-                }
-                u8 effect = rand() % 3;
-                switch (effect)
-                {
-                case 0:
-                    mmEffectEx(&sndHit1);
-                    break;
-                case 1:
-                    mmEffectEx(&sndHit2);
-                    break;
-                case 2:
-                    mmEffectEx(&sndHit3);
-                    break;
-                }
-            }
-        }
+
         if (down & ControlsManager::getButton(ControlsManager::BUTTON_INTERACT))
         {
             // when the A button is pressed, either interact or place block
@@ -2490,6 +2290,243 @@ void Player::updateInventory(void)
             }
             // move-unselect (lol)
             inventoryMoveSelect = 20;
+        }
+    }
+}
+
+void Player::switchChestInventory(void)
+{
+    if (!chest)
+        return; // not editing any chest
+
+    u8 oldChestSelect = chestSelect;
+
+    if (isEditingChestAndNotInventory())
+        chestSelect += NUM_INVENTORY_ITEMS;
+    else
+        chestSelect -= NUM_INVENTORY_ITEMS;
+
+    if (oldChestSelect >= NUM_INVENTORY_ITEMS && chestSelect >= ChestBlock::NUM_ITEMS)
+        chestSelect -= ChestBlock::NUM_ITEMS;
+}
+
+void Player::closeChest(void)
+{
+    chestOpen = false;
+    chest = nullptr;
+    chestSelect = 0;
+}
+
+void Player::updateChestSelection(void)
+{
+    bool left = kdown & KEY_LEFT;
+    bool right = kdown & KEY_RIGHT;
+    bool up = kdown & KEY_UP;
+    bool down = kdown & KEY_DOWN;
+
+    if (left || right || up || down)
+    {
+        u8 selectOffset = ((isEditingChestAndNotInventory()) ? 0 : NUM_INVENTORY_ITEMS);
+        u8 select = chestSelect - selectOffset;
+        u8 maxItems = (selectOffset == 0) ? ChestBlock::NUM_ITEMS : NUM_INVENTORY_ITEMS;
+
+        if (left)
+        {
+            if (select - 1 >= 0)
+            {
+                if (select - 1 != 4 &&
+                    select - 1 != 9 &&
+                    select - 1 != 14)
+                    --select;
+            }
+        }
+        else if (right)
+        {
+            if (select + 1 < maxItems)
+            {
+                if (select + 1 != 5 &&
+                    select + 1 != 10 &&
+                    select + 1 != 15)
+                    ++select;
+            }
+        }
+        else if (up)
+        {
+            if (select - 5 >= 0)
+                select -= 5;
+        }
+        else if (down)
+        {
+            if (select + 5 < maxItems)
+                select += 5;
+        }
+
+        chestSelect = select + selectOffset;
+    }
+}
+
+void Player::updateChest(void)
+{
+    u32 kdown = keysDown();
+
+    if (kdown & ControlsManager::getButton(ControlsManager::BUTTON_OPEN_INVENTORY))
+        closeChest();
+    else if (kdown & KEY_Y)
+        switchChestInventory();
+    else if (kdown & KEY_A)
+    {
+        if (chestMoveSelect == 40)
+            chestMoveSelect = chestSelect;
+        else
+        {
+            // TODO add comments to this part
+
+            u8 moveFrom = 0; // 0 = chest, 1 = inventory
+            u8 moveTo = 0;   // same thing as moveFrom
+
+            if (chestMoveSelect >= NUM_INVENTORY_ITEMS)
+                moveFrom = 1;
+            if (chestSelect >= NUM_INVENTORY_ITEMS)
+                moveTo = 1;
+
+            InventoryItem toItem;
+            InventoryItem fromItem;
+            if (moveFrom)
+            {
+                fromItem = inventory[chestMoveSelect - NUM_INVENTORY_ITEMS];
+                toItem = chest->getItems()[chestSelect];
+            }
+            else
+            {
+                fromItem = chest->getItems()[chestMoveSelect];
+                toItem = inventory[chestSelect - NUM_INVENTORY_ITEMS];
+            }
+
+            if (moveFrom && !moveTo)
+            {
+                chest->setItem(chestSelect, fromItem);
+                inventory[chestMoveSelect - NUM_INVENTORY_ITEMS] = toItem;
+            }
+            else if (moveTo && !moveFrom)
+            {
+                inventory[chestSelect - NUM_INVENTORY_ITEMS] = fromItem;
+                chest->setItem(chestMoveSelect, toItem);
+            }
+
+            chestMoveSelect = 40;
+        }
+    }
+
+    updateChestSelection();
+}
+
+void Player::addSignChar(int chInt)
+{
+    char ch = (char)chInt;
+    scanKeys();
+    if (ch == '\n')
+    {
+        sign = nullptr;
+        keyboardHide();
+    }
+    else if (chInt == 8)
+    {
+        // backspace
+        if (sign->getText().size() != 0)
+        {
+            std::string textCopy = sign->getText();
+            textCopy.pop_back();
+            sign->setText(textCopy);
+        }
+    }
+    else
+    {
+        sign->setText(sign->getText() + ch);
+    }
+
+    // check if too much text
+    if (Game::instance->font.getTextWidth(std::string(sign->getText() + '_')) > 75 * 2 - 10)
+    {
+        std::string textCopy = sign->getText();
+        textCopy.pop_back();
+        sign->setText(textCopy);
+    }
+}
+
+void Player::updateSign(void)
+{
+    int chi = keyboardUpdate();
+
+    u32 kdown = keysDown();
+    if (kdown & KEY_A)
+        chi = '\n';
+
+    if (chi > 0)
+        addSignChar(chi);
+}
+
+void Player::applyVelocity(void)
+{
+    // move
+    x += velX;
+    y += velY;
+
+    // gravity
+    if (falling || jumping)
+    {
+        velY += 0.3f;
+        ++airY;
+        if (velY > 5)
+            // cap fall speed
+            velY = 5;
+    }
+}
+
+void Player::updateSpawnImmunity(void)
+{
+    if (spawnImmunity)
+    {
+        --spawnImmunity;
+        restoreHealth();
+    }
+}
+
+void Player::pickUpItems(void)
+{
+    for (auto &entity : *entities)
+    {
+        if (entity->getRect().intersects(getRectAim(*camera)) &&
+            down & ControlsManager::getButton(ControlsManager::BUTTON_ATTACK) &&
+            entity->id().rfind("drop", 0) != 0)
+        {
+            switch (inventory[hotbarSelect].id)
+            {
+            case InventoryItem::ID::WoodenSword:
+                entity->damage(entity->health % 2 + 1);
+                break;
+            case InventoryItem::ID::StoneSword:
+                entity->damage(3);
+                break;
+            case InventoryItem::ID::IronSword:
+                entity->damage(4);
+                break;
+            default:
+                entity->damage(1);
+                break;
+            }
+            u8 effect = rand() % 3;
+            switch (effect)
+            {
+            case 0:
+                mmEffectEx(&sndHit1);
+                break;
+            case 1:
+                mmEffectEx(&sndHit2);
+                break;
+            case 2:
+                mmEffectEx(&sndHit3);
+                break;
+            }
         }
     }
 }
