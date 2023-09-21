@@ -367,6 +367,11 @@ public:
     UpdateResult update(Camera *camera, Block::List *blocks, EntityList *entities, BlockParticleList *blockParticles);
 
     /**
+     * @brief Update full inventory
+     */
+    void updateFullInventory(void);
+
+    /**
      * @brief Update crafting screen
      */
     void updateCrafting(void);
@@ -420,6 +425,11 @@ public:
      * @brief Update spawn immunity
      */
     void updateSpawnImmunity(void);
+
+    /**
+     * @brief Update gameplay
+     */
+    void updateGameplay(void);
 
     /**
      * @brief Check if the player has the item
