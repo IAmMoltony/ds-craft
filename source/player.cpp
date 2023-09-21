@@ -837,7 +837,6 @@ Player::UpdateResult Player::update(Camera *camera, Block::List *blocks, EntityL
     s16 oldX = x;
     s16 oldY = y;
     UpdateResult ret = UpdateResult::None;
-    u16 frames = Game::instance->getFrameCounter();
 
     if (fullInventory) // inventory update
         updateFullInventory();
@@ -846,7 +845,7 @@ Player::UpdateResult Player::update(Camera *camera, Block::List *blocks, EntityL
     else if (sign)
         updateSign();
     else
-        updateGameplay(); // TODO think of better name that updateGameplay
+        ret = updateGameplay(oldX, oldY, blocks, entities, blockParticles, camera); // TODO think of better name that updateGameplay
 
     // die when fall under the world
     if (inVoid())
@@ -1021,6 +1020,8 @@ void Player::closeChest(void)
 
 void Player::updateChestSelection(void)
 {
+    u32 kdown = keysDown();
+
     bool left = kdown & KEY_LEFT;
     bool right = kdown & KEY_RIGHT;
     bool up = kdown & KEY_UP;
@@ -1193,8 +1194,10 @@ void Player::updateSpawnImmunity(void)
     }
 }
 
-void Player::pickUpItems(void)
+void Player::pickUpItems(EntityList *entities, Camera *camera)
 {
+    u32 down = keysDown();
+
     for (auto &entity : *entities)
     {
         if (entity->getRect().intersects(getRectAim(*camera)) &&
@@ -1233,11 +1236,14 @@ void Player::pickUpItems(void)
     }
 }
 
-void Player::updateGameplay(void)
+Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blocks, EntityList *entities,
+                                            BlockParticleList *blockParticles, Camera *camera)
 {
+    UpdateResult ret = UpdateResult::None;
+
     updateSpawnImmunity();
     applyVelocity();
-    pickUpItems();
+    pickUpItems(entities, camera);
 
     u32 down = keysDown();
 
@@ -1776,29 +1782,6 @@ void Player::updateGameplay(void)
         mmEffectEx(&Game::instance->sndClick);
     }
 
-    // controls
-    u32 keys = keysHeld();
-    bool left = false;
-    bool right = false;
-    bool up = false;
-    bool downButton = false; // down is already defined
-    if (!(keys & ControlsManager::getButton(ControlsManager::BUTTON_DPAD_AIM)))
-    {
-        u32 buttonLeft = ControlsManager::getButton(ControlsManager::BUTTON_GO_LEFT);
-        u32 buttonRight = ControlsManager::getButton(ControlsManager::BUTTON_GO_RIGHT);
-
-        up = keys & ControlsManager::getButton(ControlsManager::BUTTON_JUMP);
-        left = keys & buttonLeft;
-        right = keys & buttonRight;
-        downButton = keys & ControlsManager::getButton(ControlsManager::BUTTON_SNEAK);
-    }
-
-    sneaking = downButton;
-    if (sneaking)
-        bodySprite.setFramesPerImage(normalSpriteFPI * 2);
-    else
-        bodySprite.setFramesPerImage(normalSpriteFPI);
-
     u32 rdown = keysDownRepeat();
     // breaking blocks
     size_t removei = 0;  // remove index
@@ -2334,7 +2317,7 @@ void Player::updateGameplay(void)
 
         if (block->getRect().intersects(Rect(getRectBottom().x, getRectBottom().y + 1,
                                              getRectBottom().w, getRectBottom().h)) &&
-            frames % 19 == 0)
+            Game::instance->getFrameCounter() % 19 == 0)
         {
             // step sounds
             if (moving(oldX))
@@ -2401,7 +2384,7 @@ void Player::updateGameplay(void)
         {
             Rect rectSlabRight = getRectSlab();
             Rect rectSlabLeft = Rect(rectSlabRight.x - 12, rectSlabRight.y, rectSlabRight.w, rectSlabRight.h);
-            if ((block->getRect().intersects(rectSlabRight) || block->getRect().intersects(rectSlabLeft)) && (left || right))
+            if ((block->getRect().intersects(rectSlabRight) || block->getRect().intersects(rectSlabLeft)) && (moving(oldX)))
                 y -= 8;
         }
         ++i;
@@ -2413,6 +2396,8 @@ void Player::updateGameplay(void)
         statsSetEntry(STATS_KEY_BLOCKS_BROKEN, statsGetEntry(STATS_KEY_BLOCKS_BROKEN) + 1);
     }
 
+    u32 keys = keysHeld();
+
     if (keys & KEY_TOUCH)
     {
         touchPosition touchPos;
@@ -2422,28 +2407,6 @@ void Player::updateGameplay(void)
             // aiming
             aimX = touchPos.px;
             aimY = touchPos.py;
-
-            // touch to move
-            if (!(keys & KEY_X))
-            {
-                // TODO why is touch to move still a thing
-                if (SettingsManager::touchToMove)
-                {
-                    if (aimX < SCREEN_WIDTH / 2)
-                    {
-                        left = true;
-                        right = false;
-                    }
-                    else
-                    {
-                        right = true;
-                        left = false;
-                    }
-
-                    if (aimY < SCREEN_HEIGHT / 2 - 10)
-                        up = true;
-                }
-            }
         }
     }
 
@@ -2467,6 +2430,63 @@ void Player::updateGameplay(void)
         }
     }
 
+    updateLadder(oldY, collideLadder);
+    updateFacing(camera);
+    updateControls(collideLadder);
+
+    // aim out of bounds checking
+    if (aimX < 0)
+        aimX = 0;
+    if (aimY < 0)
+        aimY = 0;
+    if (aimX > SCREEN_WIDTH)
+        aimX = SCREEN_WIDTH;
+    if (aimY > SCREEN_HEIGHT)
+        aimY = SCREEN_HEIGHT;
+
+    return ret;
+}
+
+void Player::updateLadder(s16 oldY, bool collideLadder)
+{
+    if (collideLadder)
+    {
+        jumping = false;
+        airY = 0;
+        velY = 0;
+    }
+
+    // play ladder climb sound every 29 (for no reason) frames if climbing ladder
+    if (collideLadder && Game::instance->getFrameCounter() % 29 == 0 && oldY != y)
+        playsfx(4, &sndLadder1, &sndLadder2, &sndLadder3, &sndLadder4);
+}
+
+void Player::updateFacing(Camera *camera)
+{
+    if (aimX < x - camera->x + _sprPlayerBody[0]->width / 2)
+        facing = Facing::Left;
+    else
+        facing = Facing::Right;
+}
+
+void Player::updateControls(bool collideLadder)
+{
+    u32 keys = keysHeld();
+    bool left = false;
+    bool right = false;
+    bool up = false;
+    bool down = false;
+    if (!(keys & ControlsManager::getButton(ControlsManager::BUTTON_DPAD_AIM)))
+    {
+        u32 buttonLeft = ControlsManager::getButton(ControlsManager::BUTTON_GO_LEFT);
+        u32 buttonRight = ControlsManager::getButton(ControlsManager::BUTTON_GO_RIGHT);
+
+        up = keys & ControlsManager::getButton(ControlsManager::BUTTON_JUMP);
+        left = keys & buttonLeft;
+        right = keys & buttonRight;
+        down = keys & ControlsManager::getButton(ControlsManager::BUTTON_SNEAK);
+    }
+
     if (up)
     {
         if (collideLadder)
@@ -2477,34 +2497,22 @@ void Player::updateGameplay(void)
     else if (collideLadder)
         ++y;
 
-    if (collideLadder)
-    {
-        jumping = false;
-        airY = 0;
-        velY = 0;
-    }
-
-    // play ladder climb sound every 29 (for no reason) frames if climbing ladder
-    if (collideLadder && frames % 29 == 0 && oldY != y)
-        playsfx(4, &sndLadder1, &sndLadder2, &sndLadder3, &sndLadder4);
-
-    if (aimX < x - camera->x + _sprPlayerBody[0]->width / 2)
-        facing = Facing::Left;
+    sneaking = down;
+    if (sneaking)
+        bodySprite.setFramesPerImage(normalSpriteFPI * 2);
     else
-        facing = Facing::Right;
+        bodySprite.setFramesPerImage(normalSpriteFPI);
 
     // aiming with d pad
     if (keys & ControlsManager::getButton(ControlsManager::BUTTON_DPAD_AIM))
     {
-        u32 kdown = keysDown();
-
-        if (kdown & KEY_UP)
+        if (up)
             aimY -= 16;
-        if (kdown & KEY_DOWN)
+        if (down)
             aimY += 16;
-        if (kdown & KEY_LEFT)
+        if (left)
             aimX -= 16;
-        if (kdown & KEY_RIGHT)
+        if (right)
             aimX += 16;
 
         // snap aim to grid
@@ -2525,16 +2533,6 @@ void Player::updateGameplay(void)
     // stop when player isn't pressing left or right or is pressing both left and right
     if ((right && left) || (!right && !left))
         velX = 0;
-
-    // aim out of bounds checking
-    if (aimX < 0)
-        aimX = 0;
-    if (aimY < 0)
-        aimY = 0;
-    if (aimX > SCREEN_WIDTH)
-        aimX = SCREEN_WIDTH;
-    if (aimY > SCREEN_HEIGHT)
-        aimY = SCREEN_HEIGHT;
 }
 
 bool Player::hasItem(InventoryItem item)

@@ -419,7 +419,7 @@ public:
     /**
      * @brief Pick up item drops that are on the ground
      */
-    void pickUpItems(void);
+    void pickUpItems(EntityList *entities, Camera *camera);
 
     /**
      * @brief Update spawn immunity
@@ -429,7 +429,24 @@ public:
     /**
      * @brief Update gameplay
      */
-    void updateGameplay(void);
+    UpdateResult updateGameplay(s16 oldX, s16 oldY, Block::List *blocks, EntityList *entities, BlockParticleList *blockParticles, Camera *camera);
+
+    /**
+     * @brief Update ladder climbing
+     */
+    void updateLadder(s16 oldY, bool collideLadder);
+
+    /**
+     * @brief Update facing
+     */
+    void updateFacing(Camera *camera);
+
+    /**
+     * @brief Update controls
+     *
+     * By updating controls i mean checking if the player is pressing buttons and stuff like that
+     */
+    void updateControls(bool collideLadder);
 
     /**
      * @brief Check if the player has the item
