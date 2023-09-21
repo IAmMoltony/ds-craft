@@ -2472,18 +2472,16 @@ void Player::updateFacing(Camera *camera)
 void Player::updateControls(bool collideLadder)
 {
     u32 keys = keysHeld();
+    u32 kdown = keysDown();
     bool left = false;
     bool right = false;
     bool up = false;
     bool down = false;
     if (!(keys & ControlsManager::getButton(ControlsManager::BUTTON_DPAD_AIM)))
     {
-        u32 buttonLeft = ControlsManager::getButton(ControlsManager::BUTTON_GO_LEFT);
-        u32 buttonRight = ControlsManager::getButton(ControlsManager::BUTTON_GO_RIGHT);
-
         up = keys & ControlsManager::getButton(ControlsManager::BUTTON_JUMP);
-        left = keys & buttonLeft;
-        right = keys & buttonRight;
+        left = keys & ControlsManager::getButton(ControlsManager::BUTTON_GO_LEFT);
+        right = keys & ControlsManager::getButton(ControlsManager::BUTTON_GO_RIGHT);
         down = keys & ControlsManager::getButton(ControlsManager::BUTTON_SNEAK);
     }
 
@@ -2506,13 +2504,13 @@ void Player::updateControls(bool collideLadder)
     // aiming with d pad
     if (keys & ControlsManager::getButton(ControlsManager::BUTTON_DPAD_AIM))
     {
-        if (up)
+        if (kdown & ControlsManager::getButton(ControlsManager::BUTTON_JUMP))
             aimY -= 16;
-        if (down)
+        if (kdown & ControlsManager::getButton(ControlsManager::BUTTON_SNEAK))
             aimY += 16;
-        if (left)
+        if (kdown & ControlsManager::getButton(ControlsManager::BUTTON_GO_LEFT))
             aimX -= 16;
-        if (right)
+        if (kdown & ControlsManager::getButton(ControlsManager::BUTTON_GO_RIGHT))
             aimX += 16;
 
         // snap aim to grid
