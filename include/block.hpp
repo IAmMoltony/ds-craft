@@ -12,6 +12,7 @@
 #include "camera.h"
 #include "rect.hpp"
 #include "item.hpp"
+#include "util.h"
 
 #define BID_GRASS 1
 #define BID_DIRT 2
@@ -413,8 +414,10 @@ void replaceBlock(Block::List &blocks, const Block *oldBlock, Block::Pointer new
 
 // block sprites
 extern glImage sprGrass[1];
+extern glImage sprGrassOverlay[1];
 extern glImage sprGrass2[1]; // image for the non block grass
 extern glImage sprDirt[1];
+extern glImage sprDirtPath[1];
 extern glImage sprStone[1];
 extern glImage sprWood[1];
 extern glImage sprBirchWood[1];
@@ -426,6 +429,7 @@ extern glImage sprSand[1];
 extern glImage sprSandstone[1];
 extern glImage sprCactus[1];
 extern glImage sprDeadBush[1];
+extern glImage sprBedrock[1];
 extern glImage sprPoppy[1];
 extern glImage sprDandelion[1];
 extern glImage sprRedTulip[1];
@@ -454,6 +458,9 @@ extern glImage sprSign[1];
 extern glImage sprStoneBricks[1];
 extern glImage sprWheatBlock[8][1];
 extern glImage sprHayBale[1];
+
+declsfx4(DoorOpen);
+declsfx4(DoorClose);
 
 // generic block declarations
 
