@@ -220,6 +220,16 @@ private:
 
 public:
     /**
+     * @brief Inventory slot texture
+     */
+    static glImage sprInventorySlot[1];
+
+    /**
+     * @brief Inventory slot texture for when a slot is selected
+     */
+    static glImage sprInventorySlotSelect[1];
+
+    /**
      * @brief Result of the update() function
      */
     enum class UpdateResult
