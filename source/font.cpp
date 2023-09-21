@@ -259,7 +259,7 @@ void Font::printfCentered(int x, int y, const char *format, ...)
     char *str = reinterpret_cast<char *>(malloc(150 * sizeof(char)));
 
     // get formatted string
-    vsprintf(str, format, args);
+    vsnprintf(str, 150, format, args);
 
     // print
     printCentered(x, y, str);
@@ -279,7 +279,7 @@ void Font::printfScaleCentered(int x, int y, s32 scale, const char *format, ...)
     char *str = reinterpret_cast<char *>(malloc(150 * sizeof(char)));
 
     // get formatted string
-    vsprintf(str, format, args);
+    vsnprintf(str, 150, format, args);
 
     // print with scale
     printCentered(x, y, str, NULL, scale);
@@ -299,7 +299,7 @@ void Font::printf(int x, int y, const char *format, ...)
     char *str = reinterpret_cast<char *>(malloc(150 * sizeof(char)));
 
     // get formatted string
-    vsprintf(str, format, args);
+    vsnprintf(str, 150, format, args);
 
     // print
     print(x, y, str);
@@ -319,7 +319,7 @@ void Font::printfDoubleFont(int x, int y, Font *font2, const char *format, ...)
     char *str = reinterpret_cast<char *>(malloc(150 * sizeof(char)));
 
     // get formatted string
-    vsprintf(str, format, args);
+    vsnprintf(str, 150, format, args);
 
     // print
     print(x, y, str, 0, 0, font2);
@@ -339,7 +339,7 @@ void Font::printfScale(int x, int y, s32 scale, const char *format, ...)
     char *str = reinterpret_cast<char *>(malloc(150 * sizeof(char)));
 
     // get formatted string
-    vsprintf(str, format, args);
+    vsnprintf(str, 150, format, args);
 
     // print but with sacle
     print(x, y, str, 0, 0, NULL, scale);
@@ -388,7 +388,7 @@ void Font::printfShadow(int x, int y, const char *format, ...)
 
     // alloc string and get formatted
     char *str = reinterpret_cast<char *>(malloc(150 * sizeof(char)));
-    vsprintf(str, format, args);
+    vsnprintf(str, 150, format, args);
 
     printShadow(x, y, str);
 
@@ -405,7 +405,7 @@ void Font::printfScaleShadow(int x, int y, s32 scale, const char *format, ...)
 
     // alloc string and get formatted
     char *str = reinterpret_cast<char *>(malloc(150 * sizeof(char)));
-    vsprintf(str, format, args);
+    vsnprintf(str, 150, format, args);
 
     // shadow part
     glColor(RGB15(0, 0, 0));
