@@ -862,99 +862,7 @@ Player::UpdateResult Player::update(Camera *camera, Block::List *blocks, EntityL
         if (inventoryCrafting)
             updateCrafting();
         else
-        {
-            // inventory navigation
-            bool left = kdown & KEY_LEFT;
-            bool right = kdown & KEY_RIGHT;
-            bool up = kdown & KEY_UP;
-            bool down = kdown & KEY_DOWN;
-
-            // these if statements check if a direction is pressed
-            // and if yes move cursor to that direction
-            // but also check if we are on boundaries
-            // and if we are then dont move
-            if (left)
-            {
-                if (inventorySelect - 1 >= 0)
-                {
-                    if (inventorySelect - 1 != 4 &&
-                        inventorySelect - 1 != 9 &&
-                        inventorySelect - 1 != 14)
-                        --inventorySelect;
-                }
-            }
-            else if (right)
-            {
-                if (inventorySelect + 1 < 20)
-                {
-                    if (inventorySelect + 1 != 5 &&
-                        inventorySelect + 1 != 10 &&
-                        inventorySelect + 1 != 15)
-                        ++inventorySelect;
-                }
-            }
-            else if (up)
-            {
-                if (inventorySelect - 5 >= 0)
-                    inventorySelect -= 5;
-            }
-            else if (down)
-            {
-                if (inventorySelect + 5 < 20)
-                    inventorySelect += 5;
-            }
-
-            if (kdown & KEY_A)
-            {
-                // when a pressed
-                if (inventoryMoveSelect == 20)
-                    // if nothing is move-selected then
-                    // move-select current selected slot
-                    inventoryMoveSelect = inventorySelect;
-                else
-                {
-                    // move item (or stack)
-
-                    // get the id and amount
-                    InventoryItem::ID moveSelectItemID = inventory[inventoryMoveSelect].id;
-                    InventoryItem::ID fromSelectItemID = inventory[inventorySelect].id;
-                    u8 moveSelectAmount = inventory[inventoryMoveSelect].amount;
-                    u8 fromSelectAmount = inventory[inventorySelect].amount;
-
-                    // if they arent the same then move/stack
-                    if (inventorySelect != inventoryMoveSelect)
-                    {
-                        // stacking (same id)
-                        if (moveSelectItemID == fromSelectItemID)
-                        {
-                            // stacking >64 items
-                            if (fromSelectAmount + moveSelectAmount > 64)
-                            {
-                                u8 sum = fromSelectAmount + moveSelectAmount;
-                                u8 fromSelectNewAmount = 64;
-                                u8 moveSelectNewAmount = sum - moveSelectAmount;
-                                inventory[inventorySelect] = {fromSelectItemID, fromSelectNewAmount};
-                                inventory[inventoryMoveSelect] = {moveSelectItemID, moveSelectNewAmount};
-                            }
-                            // stacking <= 64 items
-                            else
-                            {
-                                inventory[inventorySelect] = {fromSelectItemID, (u8)(fromSelectAmount + moveSelectAmount)};
-                                inventory[inventoryMoveSelect] = InventoryItem();
-                            }
-                        }
-                        // moving (different id)
-                        else
-                        {
-                            inventory[inventoryMoveSelect] = {fromSelectItemID, fromSelectAmount};
-                            inventory[inventorySelect] = {moveSelectItemID, moveSelectAmount};
-                        }
-                    }
-                    // move-unselect (lol)
-                    inventoryMoveSelect = 20;
-                }
-            }
-        }
+            updateInventory();
     }
     else if (chestOpen)
     {
@@ -2487,6 +2395,103 @@ Player::UpdateResult Player::update(Camera *camera, Block::List *blocks, EntityL
     // printf("%d\n", aimDist);
 
     return ret; // yes
+}
+
+void Player::updateInventory(void)
+{
+    u32 kdown = keysDown();
+
+    // inventory navigation
+    bool left = kdown & KEY_LEFT;
+    bool right = kdown & KEY_RIGHT;
+    bool up = kdown & KEY_UP;
+    bool down = kdown & KEY_DOWN;
+
+    // these if statements check if a direction is pressed
+    // and if yes move cursor to that direction
+    // but also check if we are on boundaries
+    // and if we are then dont move
+    if (left)
+    {
+        if (inventorySelect - 1 >= 0)
+        {
+            if (inventorySelect - 1 != 4 &&
+                inventorySelect - 1 != 9 &&
+                inventorySelect - 1 != 14)
+                --inventorySelect;
+        }
+    }
+    else if (right)
+    {
+        if (inventorySelect + 1 < 20)
+        {
+            if (inventorySelect + 1 != 5 &&
+                inventorySelect + 1 != 10 &&
+                inventorySelect + 1 != 15)
+                ++inventorySelect;
+        }
+    }
+    else if (up)
+    {
+        if (inventorySelect - 5 >= 0)
+            inventorySelect -= 5;
+    }
+    else if (down)
+    {
+        if (inventorySelect + 5 < 20)
+            inventorySelect += 5;
+    }
+
+    if (kdown & KEY_A)
+    {
+        // when a pressed
+        if (inventoryMoveSelect == 20)
+            // if nothing is move-selected then
+            // move-select current selected slot
+            inventoryMoveSelect = inventorySelect;
+        else
+        {
+            // move item (or stack)
+
+            // get the id and amount
+            InventoryItem::ID moveSelectItemID = inventory[inventoryMoveSelect].id;
+            InventoryItem::ID fromSelectItemID = inventory[inventorySelect].id;
+            u8 moveSelectAmount = inventory[inventoryMoveSelect].amount;
+            u8 fromSelectAmount = inventory[inventorySelect].amount;
+
+            // if they arent the same then move/stack
+            if (inventorySelect != inventoryMoveSelect)
+            {
+                // stacking (same id)
+                if (moveSelectItemID == fromSelectItemID)
+                {
+                    // stacking >64 items
+                    if (fromSelectAmount + moveSelectAmount > 64)
+                    {
+                        u8 sum = fromSelectAmount + moveSelectAmount;
+                        u8 fromSelectNewAmount = 64;
+                        u8 moveSelectNewAmount = sum - moveSelectAmount;
+                        inventory[inventorySelect] = {fromSelectItemID, fromSelectNewAmount};
+                        inventory[inventoryMoveSelect] = {moveSelectItemID, moveSelectNewAmount};
+                    }
+                    // stacking <= 64 items
+                    else
+                    {
+                        inventory[inventorySelect] = {fromSelectItemID, (u8)(fromSelectAmount + moveSelectAmount)};
+                        inventory[inventoryMoveSelect] = InventoryItem();
+                    }
+                }
+                // moving (different id)
+                else
+                {
+                    inventory[inventoryMoveSelect] = {fromSelectItemID, fromSelectAmount};
+                    inventory[inventorySelect] = {moveSelectItemID, moveSelectAmount};
+                }
+            }
+            // move-unselect (lol)
+            inventoryMoveSelect = 20;
+        }
+    }
 }
 
 bool Player::hasItem(InventoryItem item)

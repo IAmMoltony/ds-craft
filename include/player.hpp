@@ -372,6 +372,11 @@ public:
     void updateCrafting(void);
 
     /**
+     * @brief Update inventory screen
+     */
+    void updateInventory(void);
+
+    /**
      * @brief Check if the player has the item
      * @param item item to check if player has it
      * @note This function also checks the amount
