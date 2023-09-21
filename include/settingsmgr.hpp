@@ -89,4 +89,10 @@ public:
      * @brief Load settings in new format
      */
     static void loadSettings(void);
+
+private:
+    /**
+     * @brief Load legacy laguage setting
+     */
+    static void loadLanguageLegacy(void);
 };

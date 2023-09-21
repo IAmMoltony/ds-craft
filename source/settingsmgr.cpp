@@ -11,6 +11,29 @@ bool SettingsManager::smoothCamera = SettingsManager::SMOOTH_CAMERA_DEFAULT;
 bool SettingsManager::autoJump = SettingsManager::AUTO_JUMP_DEFAULT;
 bool SettingsManager::touchToMove = SettingsManager::TOUCH_TO_MOVE_DEFAULT;
 
+void SettingsManager::loadLanguageLegacy(void)
+{
+    if (fsFileExists(std::string(std::string(configGet("configDir")) + "/lang.cfg").c_str()))
+    {
+        logMessage(LOG_INFO, "Loading language setting");
+
+        char *data = fsReadFile(std::string(std::string(configGet("configDir")) + "/lang.cfg").c_str());
+        switch (data[0])
+        {
+        case '0':
+            Game::instance->lang = Language::English;
+            break;
+        case '1':
+            Game::instance->lang = Language::Russian;
+            break;
+        default:
+            logMessage(LOG_WARNING, "Invalid language code '%c'; defaulting to English");
+            Game::instance->lang = Language::English;
+            break;
+        }
+    }
+}
+
 void SettingsManager::loadSettingsLegacy(void)
 {
     // * Old comment of me rambling about the old settings system (new settings system has not been introduced yet):
@@ -32,25 +55,7 @@ void SettingsManager::loadSettingsLegacy(void)
     logMessage(LOG_INFO, "Loading settings");
 
     // language setting
-    if (fsFileExists(std::string(std::string(configGet("configDir")) + "/lang.cfg").c_str()))
-    {
-        logMessage(LOG_INFO, "Loading language setting");
-
-        char *data = fsReadFile(std::string(std::string(configGet("configDir")) + "/lang.cfg").c_str());
-        switch (data[0])
-        {
-        case '0':
-            Game::instance->lang = Language::English;
-            break;
-        case '1':
-            Game::instance->lang = Language::Russian;
-            break;
-        default:
-            logMessage(LOG_WARNING, "Invalid language code '%c'; defaulting to English");
-            Game::instance->lang = Language::English;
-            break;
-        }
-    }
+    loadLanguageLegacy();
 
     // transparent leaves setting
     if (fsFileExists(std::string(std::string(configGet("configDir")) + "/trleaves.cfg").c_str()))
