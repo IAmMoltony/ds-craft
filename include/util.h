@@ -17,6 +17,11 @@
     mm_sound_effect snd##effectname##2; \
     mm_sound_effect snd##effectname##3; \
     mm_sound_effect snd##effectname##4;
+#define declsfx4ext(effectname)                \
+    extern mm_sound_effect snd##effectname##1; \
+    extern mm_sound_effect snd##effectname##2; \
+    extern mm_sound_effect snd##effectname##3; \
+    extern mm_sound_effect snd##effectname##4;
 #define declsfx3(effectname)            \
     mm_sound_effect snd##effectname##1; \
     mm_sound_effect snd##effectname##2; \

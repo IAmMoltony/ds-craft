@@ -459,8 +459,8 @@ extern glImage sprStoneBricks[1];
 extern glImage sprWheatBlock[8][1];
 extern glImage sprHayBale[1];
 
-declsfx4(DoorOpen);
-declsfx4(DoorClose);
+declsfx4ext(DoorOpen);
+declsfx4ext(DoorClose);
 
 // generic block declarations
 

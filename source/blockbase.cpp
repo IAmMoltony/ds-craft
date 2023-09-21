@@ -51,6 +51,9 @@ glImage sprGrassOverlay[1];
 
 static glImage _sprBlockBreak[10][1];
 
+declsfx4(DoorOpen);
+declsfx4(DoorClose);
+
 extern bool transparentLeaves;
 
 void Block::loadTextures(void)
