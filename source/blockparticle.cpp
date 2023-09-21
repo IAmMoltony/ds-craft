@@ -1,6 +1,8 @@
 #include "blockparticle.hpp"
 #include "glext.h"
 
+// TODO move this entire class into Block
+
 BlockParticle::BlockParticle(glImage *blockImage, u8 lifetime, int x, int y, float velX, float velY, rgb color) :
     blockImage(blockImage), lifetime(lifetime), imageXOff(rand() % 12), imageYOff(rand() % 12), x(x), y(y), velX(velX),
     velY(velY), color(color)
