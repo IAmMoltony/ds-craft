@@ -44,7 +44,7 @@ def main():
     output_count = 0
     try:
         output_count = int(argv[2])
-    except:
+    except ValueError:
         print("Invalid output count")
         exit(2)
     output = argv[3]
@@ -73,7 +73,7 @@ def main():
         count = 0
         try:
             count = int(split[1])
-        except:
+        except ValueError:
             print("Count must be an integer!")
             continue
         if count <= 0:
@@ -107,7 +107,7 @@ def main():
         print("All done!")
         exit(0)
     os.rename(f"{argv[1]}.rcp", f"nitrofiles/crafting/{argv[1]}.rcp")
-    print("OK")
+    print("All done!")
 
 
 if __name__ == "__main__":
