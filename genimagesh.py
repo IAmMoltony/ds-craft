@@ -17,7 +17,7 @@ def main():
 
     print(f"Found {len(images)} image files")
 
-    images_h = "#pragma once\n\n"
+    images_h = "/**\n * @file images.h\n * @brief File containing declarations for all images used in the game\n */\n\n#pragma once\n\n"
     for image in images:
         images_h += f"#include \"{Path(image).stem}.h\"\n"
 
