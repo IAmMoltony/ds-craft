@@ -6,8 +6,6 @@ import subprocess
 import shutil
 import pathlib
 
-# TODO this code needs cleanup...
-
 def get_game_version():
     version = ""
     prefix = ""
@@ -17,6 +15,8 @@ def get_game_version():
         for i in range(4):
             line = data_split[i]
             if i == 0 or i == 1: # what?
+                                 # i'm not going to question why this checks if i is 0 or 1.
+                                 # it works, and that's all that matters
                 version += f"{line}."
             elif i == 2:
                 version += line
@@ -36,17 +36,13 @@ def main():
     no_clean = args.noclean
 
     if not no_clean:
-        if be_quiet:
-            subprocess.run(["/bin/make", "clean"], stdout=subprocess.DEVNULL)
-        else:
+        if not be_quiet:
             print("Cleaning binaries")
-            subprocess.run(["/bin/make", "clean"])
+        subprocess.run(["/bin/make", "clean"])
 
-    if be_quiet:
-        subprocess.run(["/bin/make"], check=True, stdout=subprocess.DEVNULL)
-    else:
+    if not be_quiet:
         print("Compiling game")
-        subprocess.run(["/bin/make"], check=True)
+    subprocess.run(["/bin/make"], check=True)
 
     shutil.copyfile("bin/ds-craft.nds", f"releases/ds-craft-{get_game_version()}.nds")
     print(f"Saved to releases/ds-craft-{get_game_version()}.nds")
