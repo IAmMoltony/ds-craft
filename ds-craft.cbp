@@ -3614,6 +3614,8 @@
 		<Unit filename="releases/ds-craft-alpha2.8.nds" />
 		<Unit filename="source/animsprite.cpp" />
 		<Unit filename="source/block.cpp" />
+		<Unit filename="source/blockbase.cpp" />
+		<Unit filename="source/blockgeneric.cpp" />
 		<Unit filename="source/blockparticle.cpp" />
 		<Unit filename="source/config.c">
 			<Option compilerVar="CC" />
@@ -3638,6 +3640,7 @@
 		<Unit filename="source/loottable.cpp" />
 		<Unit filename="source/main.cpp" />
 		<Unit filename="source/player.cpp" />
+		<Unit filename="source/playercrafting.cpp" />
 		<Unit filename="source/random.cpp" />
 		<Unit filename="source/rect.cpp" />
 		<Unit filename="source/save.cpp" />
