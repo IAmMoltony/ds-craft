@@ -1,3 +1,5 @@
+#!/bin/python3
+
 # strencode.py
 # String encoder from russian to what game can understand
 # Usage python strencode.py <string in russian> or --file <file to convert>
