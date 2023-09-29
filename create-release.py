@@ -6,6 +6,8 @@ import subprocess
 import shutil
 import pathlib
 
+# TODO this code needs cleanup...
+
 def get_game_version():
     version = ""
     prefix = ""
@@ -14,7 +16,7 @@ def get_game_version():
         data_split = data.split('\n')
         for i in range(4):
             line = data_split[i]
-            if i == 0 or i == 1:
+            if i == 0 or i == 1: # what?
                 version += f"{line}."
             elif i == 2:
                 version += line
@@ -26,7 +28,7 @@ def main():
     pathlib.Path("releases").mkdir(parents=True, exist_ok=True)
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--noclean", help="don't run `make clean' before building", action="store_true")
+    parser.add_argument("--noclean", help="don't remove binaries before building", action="store_true")
     parser.add_argument("--quiet", help="don't display output (except for errors)", action="store_true")
     args = parser.parse_args()
 
@@ -37,13 +39,13 @@ def main():
         if be_quiet:
             subprocess.run(["/bin/make", "clean"], stdout=subprocess.DEVNULL)
         else:
-            print("Running `make clean'")
+            print("Cleaning binaries")
             subprocess.run(["/bin/make", "clean"])
 
     if be_quiet:
         subprocess.run(["/bin/make"], check=True, stdout=subprocess.DEVNULL)
     else:
-        print("Running `make'")
+        print("Compiling game")
         subprocess.run(["/bin/make"], check=True)
 
     shutil.copyfile("bin/ds-craft.nds", f"releases/ds-craft-{get_game_version()}.nds")
