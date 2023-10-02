@@ -452,6 +452,10 @@ void Player::drawBody(const Camera &camera)
     // calculate head angle
     int angle = angleRad * 180 / M_PI * 40;
 
+    // if spawn immunity, then make player a bit transparent
+    if (spawnImmunity)
+        glPolyFmt(POLY_ALPHA(16) | POLY_CULL_NONE);
+
     // draw player body
     bodySprite.draw(x - camera.x - (facing == Facing::Right ? 2 : 3), y - camera.y, (facing == Facing::Left) ? GL_FLIP_H : GL_FLIP_NONE);
 
@@ -464,6 +468,9 @@ void Player::drawBody(const Camera &camera)
     else
         glSpriteRotate(x + 5 - camera.x, y + 6 - camera.y, angle,
                        (facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H), _sprPlayerHead);
+
+    // stop the transparency
+    glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
 
     // draw item in hand
     if (inventory[hotbarSelect].id != InventoryItem::ID::None)
