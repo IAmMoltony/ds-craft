@@ -294,11 +294,12 @@ static constexpr u8 SETTING_LANGUAGE_SELECT = 0;
 static constexpr u8 SETTING_TRANSPARENT_LEAVES = 1;
 static constexpr u8 SETTING_AUTO_SAVE = 2;
 static constexpr u8 SETTING_SMOOTH_CAMERA = 3;
-static constexpr u8 SETTING_TOUCH_TO_MOVE = 4;
-static constexpr u8 SETTING_AUTO_JUMP = 5;
-static constexpr u8 SETTING_DELETE_ALL_WORLDS = 6;
-static constexpr u8 SETTING_EDIT_CONTROLS = 7;
+static constexpr u8 SETTING_AUTO_JUMP = 4;
+static constexpr u8 SETTING_DELETE_ALL_WORLDS = 5;
+static constexpr u8 SETTING_EDIT_CONTROLS = 6;
 static constexpr u8 SETTING_LAST = SETTING_EDIT_CONTROLS;
+
+// TODO add settings screen labels array
 
 void Game::init(void)
 {
@@ -1197,25 +1198,6 @@ void Game::draw(void)
                 fontRu.printCentered(0, 81, (settingsSelect == SETTING_SMOOTH_CAMERA) ? "> Qnbdpb& mbogsb CLM '" : "Qnbdpb& mbogsb CLM");
             else
                 fontRu.printCentered(0, 81, (settingsSelect == SETTING_SMOOTH_CAMERA) ? "> Qnbdpb& mbogsb C]LM '" : "Qnbdpb& mbogsb C]LM");
-            break;
-        }
-        glColor(RGB15(31, 31, 31));
-
-        if (settingsSelect == SETTING_TOUCH_TO_MOVE)
-            glColor(RGB15(0, 31, 0));
-        switch (lang)
-        {
-        case Language::English:
-            if (SettingsManager::touchToMove)
-                font.printCentered(0, 92, (settingsSelect == SETTING_TOUCH_TO_MOVE) ? "> Touch to move ON <" : "Touch to move ON");
-            else
-                font.printCentered(0, 92, (settingsSelect == SETTING_TOUCH_TO_MOVE) ? "> Touch to move OFF <" : "Touch to move OFF");
-            break;
-        case Language::Russian:
-            if (SettingsManager::touchToMove)
-                fontRu.printCentered(0, 92, (settingsSelect == SETTING_TOUCH_TO_MOVE) ? "> Edkigpkg mbtbpkgo CLM '" : "Edkigpkg mbtbpkgo CLM");
-            else
-                fontRu.printCentered(0, 92, (settingsSelect == SETTING_TOUCH_TO_MOVE) ? "> Edkigpkg mbtbpkgo C]LM '" : "Edkigpkg mbtbpkgo C]LM");
             break;
         }
         glColor(RGB15(31, 31, 31));
@@ -2144,10 +2126,6 @@ void Game::update(void)
                 SettingsManager::smoothCamera = !SettingsManager::smoothCamera;
                 SettingsManager::saveSettings();
                 break;
-            case SETTING_TOUCH_TO_MOVE:
-                SettingsManager::touchToMove = !SettingsManager::touchToMove;
-                SettingsManager::saveSettings();
-                break;
             case SETTING_AUTO_JUMP:
                 SettingsManager::autoJump = !SettingsManager::autoJump;
                 SettingsManager::saveSettings();
@@ -2177,9 +2155,6 @@ void Game::update(void)
                 break;
             case SETTING_SMOOTH_CAMERA:
                 showHelpScreen("smoothcam");
-                break;
-            case SETTING_TOUCH_TO_MOVE:
-                showHelpScreen("touchmove");
                 break;
             case SETTING_AUTO_JUMP:
                 showHelpScreen("autojump");

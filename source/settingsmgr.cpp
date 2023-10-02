@@ -9,7 +9,6 @@ bool SettingsManager::transparentLeaves = SettingsManager::TRANSPARENT_LEAVES_DE
 u8 SettingsManager::autoSaveSeconds = SettingsManager::AUTO_SAVE_SECONDS_DEFAULT;
 bool SettingsManager::smoothCamera = SettingsManager::SMOOTH_CAMERA_DEFAULT;
 bool SettingsManager::autoJump = SettingsManager::AUTO_JUMP_DEFAULT;
-bool SettingsManager::touchToMove = SettingsManager::TOUCH_TO_MOVE_DEFAULT;
 
 void SettingsManager::loadLanguageLegacy(void)
 {
@@ -90,15 +89,6 @@ void SettingsManager::loadSettingsLegacy(void)
     else
         fsWrite(std::string(std::string(configGet("configDir")) + "/smoothcam.cfg").c_str(), std::to_string((int)SMOOTH_CAMERA_DEFAULT).c_str());
 
-    // touch to move setting
-    if (fsFileExists(std::string(std::string(configGet("configDir")) + "/touchtomove.cfg").c_str()))
-    {
-        char *data = fsReadFile(std::string(std::string(configGet("configDir")) + "/touchtomove.cfg").c_str());
-        touchToMove = data[0] == '1';
-    }
-    else
-        fsWrite(std::string(std::string(configGet("configDir")) + "/touchtomove.cfg").c_str(), std::to_string((int)TOUCH_TO_MOVE_DEFAULT).c_str());
-
     // auto jump setting
     if (fsFileExists(std::string(std::string(configGet("configDir")) + "/autojump.cfg").c_str()))
     {
@@ -155,8 +145,10 @@ void SettingsManager::saveSettings(void)
         return;
     }
 
+    // TODO rework auto jump
+
     // write settings
-    fprintf(settingsFile, "trleaves %d\nautosave %d\nsmoothcam %d\nautojump %d\ntouchtomove %d\nlang %d\n", transparentLeaves, autoSaveSeconds, smoothCamera, autoJump, touchToMove, Game::instance->lang == Language::English ? 0 : 1);
+    fprintf(settingsFile, "trleaves %d\nautosave %d\nsmoothcam %d\nautojump %d\nlang %d\n", transparentLeaves, autoSaveSeconds, smoothCamera, autoJump, Game::instance->lang == Language::English ? 0 : 1);
 
     // don't forget to close
     fclose(settingsFile);
@@ -203,11 +195,6 @@ void SettingsManager::loadSettings(void)
         {
             // auto jump setting
             autoJump = std::stoi(split[1]);
-        }
-        else if (split[0] == "touchtomove")
-        {
-            // touch to move setting
-            touchToMove = std::stoi(split[1]);
         }
         else if (split[0] == "lang")
         {

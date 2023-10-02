@@ -28,11 +28,6 @@ public:
      */
     static bool autoJump;
 
-    /**
-     * @brief I should remove this feature
-     */
-    static bool touchToMove;
-
     // default values
 
     /**
@@ -54,12 +49,6 @@ public:
      * @brief Default value for auto jump setting
      */
     static inline bool AUTO_JUMP_DEFAULT = false;
-
-    /**
-     * @brief Default value for a feature that I should remove (aka touch to move)
-     * @todo Remove touch to move. I am not happy with how this feature turned out.
-     */
-    static inline bool TOUCH_TO_MOVE_DEFAULT = false;
 
     SettingsManager() = delete;
     SettingsManager(SettingsManager &) = delete;
