@@ -1757,7 +1757,7 @@ void Game::update(void)
                         {
                         case Language::English:
                             font.drawHeading("oops");
-                            font.print(10, 30, "This world was created in a newer version than  current.");
+                            font.print(10, 30, "This world was saved in a newer version than  current.");
                             font.printf(10, 90, "Current version: %s \nWorld version: %s",
                                         getVersionString(), worldVersion.c_str());
                             font.printCentered(0, SCREEN_HEIGHT - 19, "Press any button...");
