@@ -1155,7 +1155,7 @@ void Player::addSignChar(int chInt)
     }
 
     // check if too much text
-    if (Game::instance->font.getTextWidth(std::string(sign->getText() + '_')) > 75 * 2 - 10)
+    if (sign && Game::instance->font.getTextWidth(std::string(sign->getText() + '_')) > 75 * 2 - 10)
     {
         std::string textCopy = sign->getText();
         textCopy.pop_back();
