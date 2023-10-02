@@ -95,7 +95,8 @@ void fsDeleteDir(const char *name)
 
 bool fsFileExists(const char *name)
 {
-    return access(name, F_OK) == 0;
+    struct stat buffer;
+    return (stat(name, &buffer) == 0);
 }
 
 bool fsDirExists(const char *name)
