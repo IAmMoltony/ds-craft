@@ -36,7 +36,8 @@ void SettingsManager::loadLanguageLegacy(void)
 
 void SettingsManager::loadSettingsLegacy(void)
 {
-    // * Old comment of me rambling about the old settings system (new settings system has not been introduced yet):
+    // * Old comment of me rambling about the old settings system (new settings system has not been introduced at the time
+    //   of writing the comment):
     // a file on the disk takes up at least one cluster
     // and if the file is 1 character long (like most settings files are) it will take up one cluster.
     // let's assume that our SD card has a cluster size of 512 bytes.
@@ -49,7 +50,7 @@ void SettingsManager::loadSettingsLegacy(void)
     // removed. this functionality of upgrading the settings format will be in a function called `updateSettingsFormat()'.
     // -- Conclusion --
     // the old settings format is bad and uses way more space than it needs to.
-    // my reasoning might not be correct, but mtransitioning from using a billion files for storing settings to
+    // my reasoning might not be correct, but transitioning from using a billion files for storing settings to
     // having just a single file is still better.
 
     logMessage(LOG_INFO, "Loading settings");
