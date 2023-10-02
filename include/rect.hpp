@@ -50,13 +50,6 @@ public:
     bool intersects(const Rect &other);
 
     /**
-     * @brief Check if there is a point inside of the rectangle
-     * @param px point X
-     * @param py point Y
-    */
-    bool isPointInside(s16 px, s16 py);
-
-    /**
      * @brief Draw the rectangle as an outline
      * @param camera camera
      * @param color the color to draw the rectangle with
