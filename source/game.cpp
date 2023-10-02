@@ -1757,14 +1757,14 @@ void Game::update(void)
                         {
                         case Language::English:
                             font.drawHeading("oops");
-                            font.print(10, 30, "This world was saved in a newer version than  current.");
+                            font.print(10, 30, "This world was saved in a newer version than  current."); // this having 2 spaces is importantes
                             font.printf(10, 90, "Current version: %s \nWorld version: %s",
                                         getVersionString(), worldVersion.c_str());
                             font.printCentered(0, SCREEN_HEIGHT - 19, "Press any button...");
                             break;
                         case Language::Russian:
                             fontRu.drawHeading("ql");
-                            fontRu.print(10, 30, "_uqu oks c\"n tqjfbp d cqngg pqdql dgstkk@ \n"
+                            fontRu.print(10, 30, "_uqu oks c\"n tqxsbphp d cqngg pqdql dgstkk@ \n"
                                                  "zgo ugmv~b&.");
                             fontRu.printfDoubleFont(10, 90, &font, "Tgmv~b& dgstk&: \3%s\3 \n"
                                                                    "Cgstk& oksb: \3%s\3",
