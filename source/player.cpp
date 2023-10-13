@@ -1089,8 +1089,6 @@ void Player::updateChest(void)
             chestMoveSelect = chestSelect;
         else
         {
-            // TODO add comments to this part
-
             u8 moveFrom = 0; // 0 = chest, 1 = inventory
             u8 moveTo = 0;   // same thing as moveFrom
 
@@ -1101,7 +1099,9 @@ void Player::updateChest(void)
 
             InventoryItem toItem;
             InventoryItem fromItem;
-            if (moveFrom)
+
+            // create a copy of the items
+            if (moveFrom == 1)
             {
                 fromItem = inventory[chestMoveSelect - NUM_INVENTORY_ITEMS];
                 toItem = chest->getItems()[chestSelect];
@@ -1112,18 +1112,19 @@ void Player::updateChest(void)
                 toItem = inventory[chestSelect - NUM_INVENTORY_ITEMS];
             }
 
-            if (moveFrom && !moveTo)
+            // move the items around
+            if (moveFrom == 1 && moveTo == 0)
             {
                 chest->setItem(chestSelect, fromItem);
                 inventory[chestMoveSelect - NUM_INVENTORY_ITEMS] = toItem;
             }
-            else if (moveTo && !moveFrom)
+            else if (moveTo == 1 && moveFrom == 0)
             {
                 inventory[chestSelect - NUM_INVENTORY_ITEMS] = fromItem;
                 chest->setItem(chestMoveSelect, toItem);
             }
 
-            chestMoveSelect = 40;
+            chestMoveSelect = 40; // move unselect
         }
     }
 
@@ -1136,6 +1137,7 @@ void Player::addSignChar(int chInt)
     scanKeys();
     if (ch == '\n')
     {
+        // quit sign edit interface and hide keyboard when press enter
         sign = nullptr;
         keyboardHide();
     }
@@ -1151,6 +1153,7 @@ void Player::addSignChar(int chInt)
     }
     else
     {
+        // add char
         sign->setText(sign->getText() + ch);
     }
 
@@ -1194,15 +1197,18 @@ void Player::applyVelocity(void)
 
 void Player::updateSpawnImmunity(void)
 {
+    // if there are spawn immunity frames left...
     if (spawnImmunity)
     {
-        --spawnImmunity;
-        restoreHealth();
+        --spawnImmunity; // decrease amount of spawn immunity frames
+        restoreHealth(); // make health full
     }
 }
 
 void Player::pickUpItems(EntityList *entities, Camera *camera)
 {
+    // TODO this function is NOT picking up items. wtf?????????????????????????????????????????????????????????????
+
     u32 down = keysDown();
 
     for (auto &entity : *entities)
