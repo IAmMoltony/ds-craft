@@ -49,9 +49,7 @@ void configInit(void)
 
 		// crlf support
 		if (valueBuf[j - 1] == '\r')
-		{
 			valueBuf[j - 1] = 0;
-		}
 
 		valueBuf[j] = 0;
 		valueLen = i;
