@@ -522,12 +522,12 @@ public:
     /**
      * @brief Normal grass color
      */
-    static inline constexpr rgb COLOR_NORMAL = RGB15(15, 23, 13);
+    static const rgb COLOR_NORMAL = RGB15(15, 23, 13);
 
     /**
      * @brief Grass color in spruce biome
      */
-    static inline constexpr rgb COLOR_SPRUCE = RGB8(32, 138, 83);
+    static const rgb COLOR_SPRUCE = RGB8(32, 138, 83);
 
     GrassBlock(s16 x, s16 y);
     GrassBlock(s16 x, s16 y, Type type);
@@ -544,7 +544,7 @@ public:
 
 /**
  * @brief Class representing some grass
- * @note this class is nearly identical to GrassBlock except that it's not solid and it uses a different prite
+ * @note this class is nearly identical to GrassBlock except that it's not solid and it uses a different sprite
  * @see GrassBlock
  */
 class Grass : public Block
@@ -584,7 +584,7 @@ public:
 
     /**
      * @brief Dirt block constructor
-     * @see framland
+     * @see farmland
      * @see path
      */
     DirtBlock(s16 x, s16 y, bool farmland, bool path);
@@ -731,7 +731,7 @@ public:
     /**
      * @brief The number of items that can fit in one chest
      */
-    static inline constexpr u8 NUM_ITEMS = 10;
+    static const u8 NUM_ITEMS = 10;
 
 private:
     /**
@@ -855,19 +855,19 @@ private:
      * @brief Minimum grow interval
      * @see growInteval
      */
-    static inline constexpr u16 GROW_INTERVAL_MIN = 1700;
+    static const u16 GROW_INTERVAL_MIN = 1700;
 
     /**
      * @brief Maximum grow interval
      * @see growInterval
      */
-    static inline constexpr u16 GROW_INTERVAL_MAX = 2500;
+    static const u16 GROW_INTERVAL_MAX = 2500;
 
     /**
      * @brief Maximum growth stage
      * @see growStage
      */
-    static inline constexpr u8 MAX_GROW_STAGE = 7;
+    static const u8 MAX_GROW_STAGE = 7;
 
     /**
      * @brief Set grow interval to a random value between `GROW_INTERVAL_MIN` and `GROW_INTERVAL_MAX`
