@@ -191,4 +191,11 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="create-release.py" />
+    <None Include="genimagesh.py" />
+    <None Include="Makefile" />
+    <None Include="newrecipe.py" />
+    <None Include="strencode.py" />
+  </ItemGroup>
 </Project>

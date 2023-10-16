@@ -81,6 +81,13 @@
     <ClInclude Include="include\util.h" />
     <ClInclude Include="include\worldmgr.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="create-release.py" />
+    <None Include="genimagesh.py" />
+    <None Include="Makefile" />
+    <None Include="newrecipe.py" />
+    <None Include="strencode.py" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CC420FD8-143A-4007-9F39-5A99BF73CE92}</ProjectGuid>
     <Keyword>MakeFileProj</Keyword>
