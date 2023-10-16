@@ -134,8 +134,8 @@ endif
 ARCH		:=	-mthumb -mthumb-interwork -march=armv5te -mtune=arm946e-s
 
 CFLAGS	:=	-g -Wall -Wextra \
-                -O2 -Os\
- 			-march=armv5te -mtune=arm946e-s \
+				-O2 -Os\
+			-march=armv5te -mtune=arm946e-s \
 			$(ARCH) \
 			-fomit-frame-pointer\
 			-ffast-math
@@ -259,7 +259,7 @@ PYTHON_VERSION_MIN := 3.0
 PYTHON_VERSION_CUR := $(shell $(PYTHON) -c 'import sys; print("%d.%d"% sys.version_info[0:2])')
 PYTHON_VERSION_OK := $(shell $(PYTHON) -c 'import sys; cur_ver = sys.version_info[0:2]; min_ver = tuple(map(int, "$(PYTHON_VERSION_MIN)".split("."))); print(int(cur_ver >= min_ver))')
 ifeq ($(PYTHON_VERSION_OK), 0)
-    $(error "Need python version >= $(PYTHON_VERSION_MIN). Current version is $(PYTHON_VERSION_CUR)")
+	$(error "Need python version >= $(PYTHON_VERSION_MIN). Current version is $(PYTHON_VERSION_CUR)")
 endif
 
 ../include/images.h: $(shell $(FIND) ../gfx/* -name *.png) $(shell $(FIND) ../gfx/* -name *.bmp)
