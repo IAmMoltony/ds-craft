@@ -50,4 +50,4 @@ doxygen-warn.log
 *.opendb
 Debug/
 Release/
-.vs/ds-craft/v14/.suo
+*.suo
