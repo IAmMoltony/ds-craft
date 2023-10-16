@@ -13,10 +13,11 @@ static u8 _versionPatch = 0;
 
 void gameverInit(void)
 {
-    FILE *f = fopen(configGet("gameVersionFile"), "r");
+    const char *gameVerName = configGet("gameVersionFile");
+    FILE *f = fopen(gameVerName, "r");
     if (!f)
     {
-        logMessage(LOG_ERROR, "Failed opening game version file because %s", strerror(errno));
+        logMessage(LOG_ERROR, "Failed opening game version file (%s) because %s", gameVerName, strerror(errno));
         hang();
     }
 
