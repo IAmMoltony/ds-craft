@@ -6,6 +6,13 @@ ifeq ($(strip $(DEVKITARM)),)
 $(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM")
 endif
 
+# the find command is taken from windows and not from msys on visual studio
+ifeq ($(OS),Windows_NT)
+FIND := $(DEVKITPRO)/msys2/usr/bin/find
+else
+FIND := find
+endif
+
 #---------------------------------------------------------------------------------
 # TARGET is the name of the output
 # BUILD is the directory where object files & intermediate files will be placed
@@ -30,6 +37,8 @@ AUDIO           :=      audio
 NITRODATA       :=      nitrofiles
 
 CURDIR_BASENAME := $(shell basename $(CURDIR))
+
+# get version from game.ver
 ifeq ($(CURDIR_BASENAME),build)
 VERSION_MAJOR  := $(shell sed '1!d' ../$(NITRODATA)/game.ver)
 VERSION_MINOR  := $(shell sed '2!d' ../$(NITRODATA)/game.ver)
@@ -42,6 +51,7 @@ VERSION_PATCH  := $(shell sed '3!d' $(NITRODATA)/game.ver)
 VERSION_PREFIX := $(shell sed '4!d' $(NITRODATA)/game.ver)
 endif
 
+# icon, title and subtitles
 GAME_ICON      := ../icon.bmp
 GAME_TITLE     := DS-Craft
 GAME_SUBTITLE1 := Minecraft clone for NDS
@@ -51,12 +61,14 @@ else
 GAME_SUBTITLE2 := Version $(VERSION_PREFIX)$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
 endif
 
+# soundbank
 ifeq ($(CURDIR_BASENAME),build)
 SOUNDBANK := ../$(NITRODATA)/soundbank.bin
 else
 SOUNDBANK := $(NITRODATA)/soundbank.bin
 endif
 
+# check if DEVKITPRO env variable is set
 ifeq ($(strip $(DEVKITPRO)),)
 $(error "Please set DEVKITPRO in your environment. export DEVKITPRO=<path to>devkitPro)
 endif
@@ -66,22 +78,27 @@ include $(DEVKITARM)/base_rules
 PORTLIBS	:=	$(PORTLIBS_PATH)/nds $(PORTLIBS_PATH)/armv5te
 LIBNDS		:=	$(DEVKITPRO)/libnds
 
+# default title (ROM file name)
 ifeq ($(strip $(GAME_TITLE)),)
 GAME_TITLE	:=	$(notdir $(OUTPUT))
 endif
 
+# default 1st subtitle
 ifeq ($(strip $(GAME_SUBTITLE1)),)
 GAME_SUBTITLE1	:=	built with devkitARM
 endif
 
+# default 2nd subtitle
 ifeq ($(strip $(GAME_SUBTITLE2)),)
 GAME_SUBTITLE2	:=	http://devkitpro.org
 endif
 
+# default icon
 ifeq ($(strip $(GAME_ICON)),)
 GAME_ICON      :=      $(DEVKITPRO)/libnds/icon.bmp
 endif
 
+# add nitroFS if we specified where nitroFS at
 ifneq ($(strip $(NITRO_FILES)),)
 _ADDFILES	:=	-d $(NITRO_FILES)
 endif
@@ -229,7 +246,7 @@ DEPENDS	:=	$(OFILES:.o=.d)
 # main targets
 #---------------------------------------------------------------------------------
 $(OUTPUT).nds	: 	$(OUTPUT).elf
-$(OUTPUT).nds   :   $(shell find ../$(NITRODATA))
+$(OUTPUT).nds   :   $(shell $(FIND) ../$(NITRODATA))
 $(OUTPUT).elf	:	../include/images.h $(SOUNDBANK) $(OFILES)
 
 ifeq ($(OS),Windows_NT)
@@ -245,7 +262,7 @@ ifeq ($(PYTHON_VERSION_OK), 0)
     $(error "Need python version >= $(PYTHON_VERSION_MIN). Current version is $(PYTHON_VERSION_CUR)")
 endif
 
-../include/images.h: $(shell find ../gfx/* -name *.png) $(shell find ../gfx/* -name *.bmp)
+../include/images.h: $(shell $(FIND) ../gfx/* -name *.png) $(shell $(FIND) ../gfx/* -name *.bmp)
 	$(SILENTMSG) generating $(notdir $@)
 	$(SILENTCMD)$(PYTHON) ../genimagesh.py $@
 
