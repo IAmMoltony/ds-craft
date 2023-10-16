@@ -272,29 +272,29 @@ public:
     /**
      * @brief Player jump speed
      */
-    static inline constexpr float JUMP_SPEED = 4.0f;
+    static const float JUMP_SPEED;
 
     /**
      * @brief The Y position below which there is the void
      */
-    static inline constexpr s16 VOID_Y = 860;
+    static const s16 VOID_Y = 860;
 
     /**
      * @brief Full health value
      */
-    static inline constexpr s16 FULL_HEALTH = 9;
+    static const s16 FULL_HEALTH = 9;
 
     /**
      * @brief Maximum aiming distance
      *
      * If aim is further than this value then you can't place or break blocks or interact with stuff
      */
-    static inline constexpr u8 MAX_AIM_DISTANCE = 67;
+    static const u8 MAX_AIM_DISTANCE = 67;
 
     /**
      * @brief number of hotbar slots
      */
-    static inline constexpr u8 NUM_HOTBAR_SLOTS = 5;
+    static const u8 NUM_HOTBAR_SLOTS = 5;
 
     Player();
 

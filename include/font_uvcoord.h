@@ -32,7 +32,7 @@
 /**
  * @brief Font texture coordinates
  */
-inline const unsigned int fontTexCoords[] = {
+static const unsigned int fontTexCoords[] = {
     0, 0, 8, 9,    // 0
     8, 0, 8, 9,    // 1
     16, 0, 8, 9,   // 2

@@ -78,9 +78,9 @@ extern "C"
 #endif
 
     /**
-     * @brief play a sound effect from the spcified sound effects
+     * @brief play a sound effect from the specified sound effects
      * @param sound effect count
-     * @note The variable args are assumed to be pointers to `mm_sound_effect`.
+     * @note The variable arguments are assumed to be pointers to `mm_sound_effect`.
      * Passing stuff that is not sound effects WILL lead to undefined behavior!
     */
     void playsfx(u8 count, ...);
@@ -150,7 +150,7 @@ extern "C"
     /**
      * @brief Completely hang the entire system
     */
-    __attribute__((noreturn)) void hang(void);
+    void hang(void);
 
     /**
      * @brief Create a sound effect

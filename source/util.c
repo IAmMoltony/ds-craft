@@ -183,7 +183,7 @@ void unloadImage(glImage *spr)
     glDeleteTextures(1, &spr->textureID);
 }
 
-__attribute__((noreturn)) void hang(void)
+void hang(void)
 {
     while (true)
         swiWaitForVBlank();

@@ -13,7 +13,9 @@
 #include "config.h"
 #include "glext.h"
 
-// gui images
+const float Player::JUMP_SPEED = 4.0f;
+
+// GUI images
 
 glImage Player::sprInventorySlot[1];
 glImage Player::sprInventorySlotSelect[1];
