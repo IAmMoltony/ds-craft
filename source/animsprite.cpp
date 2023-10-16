@@ -40,7 +40,7 @@ void AnimatedSprite::update(void)
                 img = 0;
             break;
         case AnimatedSpriteMode::ReverseLoop:
-            // next/prev image depending on direction
+            // next/previous image depending on direction
             if (reverseLoopDirection == 0)
                 --img;
             else
