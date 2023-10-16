@@ -130,7 +130,7 @@
     <NMakeCleanCommandLine>make clean</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>make clean build</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>ARM9;WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeIncludeSearchPath>C:\devkitPro\libnds\include;C:\devkitPro\devkitARM\arm-none-eabi\include;$(SolutionDir)\build;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeIncludeSearchPath>C:\devkitPro\libnds\include;C:\devkitPro\devkitARM\arm-none-eabi\include;$(SolutionDir)\build;$(SolutionDir)\include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakeBuildCommandLine>make build</NMakeBuildCommandLine>
@@ -138,7 +138,7 @@
     <NMakeCleanCommandLine>make clean</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>make clean build</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>ARM9;WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeIncludeSearchPath>C:\devkitPro\libnds\include;C:\devkitPro\devkitARM\arm-none-eabi\include;$(SolutionDir)\build;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeIncludeSearchPath>C:\devkitPro\libnds\include;C:\devkitPro\devkitARM\arm-none-eabi\include;$(SolutionDir)\build;$(SolutionDir)\include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
