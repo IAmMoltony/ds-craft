@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\animsprite.cpp" />
+    <ClCompile Include="source\block.cpp" />
+    <ClCompile Include="source\blockbase.cpp" />
+    <ClCompile Include="source\blockgeneric.cpp" />
+    <ClCompile Include="source\blockparticle.cpp" />
+    <ClCompile Include="source\config.c" />
+    <ClCompile Include="source\controlsmgr.cpp" />
+    <ClCompile Include="source\crafting.cpp" />
+    <ClCompile Include="source\entity.cpp" />
+    <ClCompile Include="source\font.cpp" />
+    <ClCompile Include="source\fs.c" />
+    <ClCompile Include="source\game.cpp" />
+    <ClCompile Include="source\gamever.cpp" />
+    <ClCompile Include="source\glext.c" />
+    <ClCompile Include="source\help.cpp" />
+    <ClCompile Include="source\item.cpp" />
+    <ClCompile Include="source\log.c" />
+    <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\player.cpp" />
+    <ClCompile Include="source\playercrafting.cpp" />
+    <ClCompile Include="source\random.cpp" />
+    <ClCompile Include="source\rect.cpp" />
+    <ClCompile Include="source\save.cpp" />
+    <ClCompile Include="source\settingsmgr.cpp" />
+    <ClCompile Include="source\stats.cpp" />
+    <ClCompile Include="source\terrain.cpp" />
+    <ClCompile Include="source\userinfo.c" />
+    <ClCompile Include="source\util.c" />
+    <ClCompile Include="source\worldmgr.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\animsprite.hpp" />
+    <ClInclude Include="include\block.hpp" />
+    <ClInclude Include="include\blockparticle.hpp" />
+    <ClInclude Include="include\camera.h" />
+    <ClInclude Include="include\config.h" />
+    <ClInclude Include="include\controlsmgr.hpp" />
+    <ClInclude Include="include\crafting.hpp" />
+    <ClInclude Include="include\entity.hpp" />
+    <ClInclude Include="include\facing.hpp" />
+    <ClInclude Include="include\font.hpp" />
+    <ClInclude Include="include\font_uvcoord.h" />
+    <ClInclude Include="include\fs.h" />
+    <ClInclude Include="include\game.hpp" />
+    <ClInclude Include="include\gamever.hpp" />
+    <ClInclude Include="include\glext.h" />
+    <ClInclude Include="include\help.hpp" />
+    <ClInclude Include="include\images.h" />
+    <ClInclude Include="include\item.hpp" />
+    <ClInclude Include="include\lang.hpp" />
+    <ClInclude Include="include\log.h" />
+    <ClInclude Include="include\player.hpp" />
+    <ClInclude Include="include\random.hpp" />
+    <ClInclude Include="include\rect.hpp" />
+    <ClInclude Include="include\save.hpp" />
+    <ClInclude Include="include\settingsmgr.hpp" />
+    <ClInclude Include="include\stats.hpp" />
+    <ClInclude Include="include\terrain.hpp" />
+    <ClInclude Include="include\userinfo.h" />
+    <ClInclude Include="include\util.h" />
+    <ClInclude Include="include\worldmgr.hpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{CC420FD8-143A-4007-9F39-5A99BF73CE92}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <NMakeBuildCommandLine>make build</NMakeBuildCommandLine>
+    <NMakeOutput>bin/ds-craft.nds</NMakeOutput>
+    <NMakeCleanCommandLine>make clean</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>make clean build</NMakeReBuildCommandLine>
+    <NMakePreprocessorDefinitions>ARM9;WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>C:\devkitPro\libnds\include;C:\devkitPro\devkitARM\arm-none-eabi\include;$(SolutionDir)\build;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <NMakeBuildCommandLine>make build</NMakeBuildCommandLine>
+    <NMakeOutput>bin/ds-craft.nds</NMakeOutput>
+    <NMakeCleanCommandLine>make clean</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>make clean build</NMakeReBuildCommandLine>
+    <NMakePreprocessorDefinitions>ARM9;WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>C:\devkitPro\libnds\include;C:\devkitPro\devkitARM\arm-none-eabi\include;$(SolutionDir)\build;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

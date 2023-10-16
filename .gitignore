@@ -44,3 +44,10 @@ __pycache__/
 # doxygen stuff
 docs/
 doxygen-warn.log
+
+# visual studio stuff
+*.db
+*.opendb
+Debug/
+Release/
+.vs/ds-craft/v14/.suo

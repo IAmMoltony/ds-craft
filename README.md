@@ -13,17 +13,28 @@ DS-Craft is a Minecraft demake for Nintendo DS written in C and C++. Inspired by
 
 ## Building and running
 
-### With command line
+### With command line (everywhere)
 
-If you just want to build, run `make`. To build and then run, run `make build run EMULATOR=/path/to/emulator`. To rebuild, run `make clean build` and if you want to rebuild and run, run `make clean build run EMULATOR=/path/to/emulator`.
+If you just want to build, run `make`. To build and then run, run `make build run EMULATOR=/path/to/emulator`. To rebuild, run `make clean build` and if
+you want to rebuild and run, run `make clean build run EMULATOR=/path/to/emulator`.
 
 ### Using Code::Blocks (on Linux)
 
-To build, press the Build button on the top of the window. To run, press the Run button on the top of the window. To build and run, press the Build and Run button on the top of the window. To rebuild, press the Rebuild button on top of the window.
+To build, press the Build button on the top of the window. To run, press the Run button on the top of the window. To build and run, press the Build and Run
+button on the top of the window. To rebuild, press the Rebuild button on top of the window.
 
-If you want to run from Code::Blocks, then you will need to set the emulator in the `codeblocks_run` file.
+If you want to run from Code::Blocks, set the emulator in the `codeblocks_run` file.
 
-**Note**: Code::Blocks support was added only with Linux in mind.
+### Using Visual Studio (on Windows)
+
+You can use Visual Studio the same way as you do with other projects. Just ignore the libnds and devkitARM error messages.
+
+If you want to run the game from Visual Studio:
+
+1. go to the `ds-craft` project's properties ('ds-craft'->Properties)
+1. click on Debugging
+1. make sure the configuration is set to 'All Configurations'
+1. change 'Command' to your Nintendo DS emulator path
 
 ## Screenshots
 
@@ -35,6 +46,6 @@ If you want to run from Code::Blocks, then you will need to set the emulator in 
 
 Mojang - textures, font and sounds
 
-The libnds example authors <3
+The libnds example authors - a lot of lower-level code
 
-[This tutorial](https://www.youtube.com/watch?v=yb6QJl6mqf4)
+[This tutorial](https://www.youtube.com/watch?v=yb6QJl6mqf4) - logo creation
