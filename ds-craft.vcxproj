@@ -86,6 +86,7 @@
     <None Include="genimagesh.py" />
     <None Include="Makefile" />
     <None Include="newrecipe.py" />
+    <None Include="README.md" />
     <None Include="strencode.py" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

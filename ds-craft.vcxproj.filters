@@ -197,5 +197,6 @@
     <None Include="Makefile" />
     <None Include="newrecipe.py" />
     <None Include="strencode.py" />
+    <None Include="README.md" />
   </ItemGroup>
 </Project>
