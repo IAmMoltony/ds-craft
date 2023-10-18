@@ -25,6 +25,13 @@ u32 randomGenerate(void);
 */
 u32 randomRange(u32 min, u32 max);
 
+/*
+ * @brief Generate a random *signed* number in the specified range
+ * @param min minimum value
+ * @param max maximum value
+*/
+s32 randomRangeSigned(s32 min, s32 max);
+
 /**
  * @brief Calculate a probability
  * @param chance the probability represented as percentage

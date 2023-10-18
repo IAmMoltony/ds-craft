@@ -18,6 +18,11 @@ u32 randomRange(u32 min, u32 max)
     return min + randomGenerate() % ((max + 1) - min);
 }
 
+s32 randomRangeSigned(s32 min, s32 max)
+{
+    return min + randomGenerate() % ((max + 1) - min);
+}
+
 bool randomChance(u8 chance)
 {
     if (chance > 100)
