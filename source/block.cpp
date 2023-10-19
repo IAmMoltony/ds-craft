@@ -70,8 +70,8 @@ void Grass::draw(const Camera &camera)
 		glColor(GrassBlock::COLOR_SPRUCE);
 		break;
 	}
-	glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprGrass2);
-	glSpritePart(sprGrass2, x - camera.x, y - camera.y + (16 - height), 0, 16 - height, 16, height);
+
+	glSpritePart(sprGrass2, x - camera.x, y - camera.y + (16 - height), 0, 0, 16, height);
 	glColor(RGB15(31, 31, 31));
 }
 
