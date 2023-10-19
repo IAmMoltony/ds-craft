@@ -4,6 +4,11 @@ DS-Craft is a Minecraft demake for Nintendo DS written in C and C++. Inspired by
 
 [![CodeFactor](https://www.codefactor.io/repository/github/iammoltony/ds-craft/badge)](https://www.codefactor.io/repository/github/iammoltony/ds-craft)
 ![GitHub all releases](https://img.shields.io/github/downloads/IAmMoltony/ds-craft/total)
+![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/w/IAmMoltony/ds-craft)
+![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/IAmMoltony/ds-craft)
+![GitHub language count](https://img.shields.io/github/languages/count/IAmMoltony/ds-craft)
+![GitHub](https://img.shields.io/github/license/IAmMoltony/ds-craft)
+![GitHub tag (with filter)](https://img.shields.io/github/v/tag/IAmMoltony/ds-craft?label=latest%20version)
 
 **Note**: The development of this project is currently not very active because I have school.
 
