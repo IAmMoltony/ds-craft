@@ -559,17 +559,7 @@ private:
 	*/
 	u8 height;
 
-	/*
-	 * @brief Minimum height value
-	 * @see height
-	 */
 	static const u8 MIN_HEIGHT = 10;
-
-	/*
-	 * @brief Maximum height value
-	 * @see height
-	*/
-	static const u8 MAX_HEIGHT = 16;
 
 public:
 	Grass(s16 x, s16 y);

@@ -51,10 +51,12 @@ GrassBlock::Type GrassBlock::getType(void)
 
 Grass::Grass(s16 x, s16 y) : Block(x, y, 1), type(GrassBlock::Type::Normal)
 {
+	height = randomRange(MIN_HEIGHT, MAX_HEIGHT);
 }
 
 Grass::Grass(s16 x, s16 y, GrassBlock::Type type) : Block(x, y, 1), type(type)
 {
+	height = randomRange(MIN_HEIGHT, MAX_HEIGHT);
 }
 
 void Grass::draw(const Camera &camera)
@@ -69,6 +71,7 @@ void Grass::draw(const Camera &camera)
 		break;
 	}
 	glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprGrass2);
+	glSpritePart(sprGrass2, x - camera.x, y - camera.y + (16 - height), 0, 16 - height, 16, height);
 	glColor(RGB15(31, 31, 31));
 }
 
