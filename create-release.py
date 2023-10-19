@@ -38,11 +38,11 @@ def main():
     if not no_clean:
         if not be_quiet:
             print("Cleaning binaries")
-        subprocess.run(["/bin/make", "clean"])
+        subprocess.run(["make", "clean"])
 
     if not be_quiet:
         print("Compiling game")
-    subprocess.run(["/bin/make"], check=True)
+    subprocess.run(["make"], check=True)
 
     shutil.copyfile("bin/ds-craft.nds", f"releases/ds-craft-{get_game_version()}.nds")
     print(f"Saved to releases/ds-craft-{get_game_version()}.nds")
