@@ -488,6 +488,11 @@ void Player::drawBody(const Camera &camera)
         switch (inventory[hotbarSelect].id)
         {
         // some special cases
+        case InventoryItem::ID::Grass2:
+            glColor(GrassBlock::COLOR_NORMAL);
+            glSpriteScale(xx, yy, HALF_SCALE, flip, sprGrass2);
+            glColor(RGB15(31, 31, 31));
+            break;
         case InventoryItem::ID::Leaves:
             glColor(LeavesBlock::COLOR_OAK);
             glSpriteScale(xx, yy, HALF_SCALE, flip, sprLeaves);
