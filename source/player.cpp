@@ -581,8 +581,6 @@ void Player::drawChest(Font &font, Font &fontRu)
     switch (Game::instance->lang)
     {
     case Language::English:
-        // if chest select is less than num of inventory items
-        // then that means we are in chest
         font.drawHeadingShadow(isEditingChestAndNotInventory() ? "Chest" : "Inventory");
         font.printShadow(16, SCREEN_HEIGHT - 32, isEditingChestAndNotInventory() ? "\2:Y Switch to inventory" : "\2:Y Switch to chest");
         break;
@@ -720,7 +718,7 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
             // some special cases
             case InventoryItem::ID::Grass2:
                 glColor(GrassBlock::COLOR_NORMAL);
-                glSpriteScale(xxItem + 4, yyItem + 4, HALF_SCALE, GL_FLIP_NONE, getItemImage(currid));
+                glSpriteScale(xxItem + 4, yyItem + 4, HALF_SCALE, GL_FLIP_NONE, sprGrass2);
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItem::ID::Leaves:
@@ -920,7 +918,7 @@ void Player::updateInventory(void)
     // these if statements check if a direction is pressed
     // and if yes move cursor to that direction
     // but also check if we are on boundaries
-    // and if we are then dont move
+    // and if we are then don't move
     if (left)
     {
         if (inventorySelect - 1 >= 0)
@@ -969,7 +967,7 @@ void Player::updateInventory(void)
             u8 moveSelectAmount = inventory[inventoryMoveSelect].amount;
             u8 fromSelectAmount = inventory[inventorySelect].amount;
 
-            // if they arent the same then move/stack
+            // if they are not the same item in the inventory
             if (inventorySelect != inventoryMoveSelect)
             {
                 // stacking (same id)
