@@ -57,7 +57,7 @@ void statsSave(void)
 
 void statsLoad(void)
 {
-    logMessage(LOG_INFO, "Loading stats from file %s", _getStatsFile());
+    logMessage(LOG_INFO, "Loading stats from file %s", _getStatsFile().c_str());
 
     std::ifstream ifs(_getStatsFile());
     std::string line;
