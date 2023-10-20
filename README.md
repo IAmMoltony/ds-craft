@@ -46,7 +46,7 @@ If you want to run the game from Visual Studio:
 ![Screenshot 2](./screenshots/shot2.png)
 ![Screenshot 3](./screenshots/shot3.png)
 
-*Screenshot game version is beta1.3.*
+*Game version on screenshots is **beta1.3**.*
 
 ## Credits
 
