@@ -190,7 +190,7 @@ static InventoryItem::ID _nonBlockItemIDs[] =
         InventoryItem::ID::Bread,
 };
 
-// technically wheat seeds are a block item bc u can place them
+// technically wheat seeds are a block item bc u can place them on farmland
 
 static InventoryItem::ID _toolItemIDs[] =
     {
@@ -833,6 +833,10 @@ static void _eatFood(s16 *health, u8 healthAdd)
 
 static void _spawnBlockParticles(BlockParticleList *blockParticles, glImage *image, int x, int y, rgb color)
 {
+    // if the user doesn't want block particles then halt
+    if (!SettingsManager::blockParticles)
+        return;
+
     blockParticles->push_back(BlockParticle(image, 120, x + 1, y + 1, -1, -3, color));
     blockParticles->push_back(BlockParticle(image, 120, x + 8, y + 2, -1, -3, color));
     blockParticles->push_back(BlockParticle(image, 120, x + 16 - 6, y + 1, 1, -3, color));

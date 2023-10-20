@@ -28,27 +28,37 @@ public:
      */
     static bool autoJump;
 
-    // default values
+	/*
+	 * @brief Block particles setting
+	*/
+	static bool blockParticles;
+
+	// ======== Default values =========
 
     /**
      * @brief Default value for transparent leaves setting
      */
-    static inline bool TRANSPARENT_LEAVES_DEFAULT = false;
+    static const bool TRANSPARENT_LEAVES_DEFAULT = false;
 
     /**
      * @brief Default value for auto save setting
      */
-    static inline u8 AUTO_SAVE_SECONDS_DEFAULT = 15;
+    static const u8 AUTO_SAVE_SECONDS_DEFAULT = 15;
 
     /**
      * @brief Default value for smooth camera setting
      */
-    static inline bool SMOOTH_CAMERA_DEFAULT = true;
+    static const bool SMOOTH_CAMERA_DEFAULT = true;
 
     /**
      * @brief Default value for auto jump setting
      */
-    static inline bool AUTO_JUMP_DEFAULT = false;
+    static const bool AUTO_JUMP_DEFAULT = false;
+
+    /*
+     * @brief Default value for show block particles setting
+    */
+    static const bool BLOCK_PARTICLES_DEFAULT = true;
 
     SettingsManager() = delete;
     SettingsManager(SettingsManager &) = delete;
@@ -81,7 +91,7 @@ public:
 
 private:
     /**
-     * @brief Load legacy laguage setting
+     * @brief Load legacy language setting
      */
     static void loadLanguageLegacy(void);
 };

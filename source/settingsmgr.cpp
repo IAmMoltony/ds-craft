@@ -9,12 +9,13 @@ bool SettingsManager::transparentLeaves = SettingsManager::TRANSPARENT_LEAVES_DE
 u8 SettingsManager::autoSaveSeconds = SettingsManager::AUTO_SAVE_SECONDS_DEFAULT;
 bool SettingsManager::smoothCamera = SettingsManager::SMOOTH_CAMERA_DEFAULT;
 bool SettingsManager::autoJump = SettingsManager::AUTO_JUMP_DEFAULT;
+bool SettingsManager::blockParticles = SettingsManager::BLOCK_PARTICLES_DEFAULT;
 
 void SettingsManager::loadLanguageLegacy(void)
 {
     if (fsFileExists(std::string(std::string(configGet("configDir")) + "/lang.cfg").c_str()))
     {
-        logMessage(LOG_INFO, "Loading language setting");
+        logMessage(LOG_INFO, "Loading legacy language setting");
 
         char *data = fsReadFile(std::string(std::string(configGet("configDir")) + "/lang.cfg").c_str());
         switch (data[0])
@@ -41,7 +42,7 @@ void SettingsManager::loadSettingsLegacy(void)
     // and if the file is 1 character long (like most settings files are) it will take up one cluster.
     // let's assume that our SD card has a cluster size of 512 bytes.
     // for just 5 settings, this will take up roughly 2.5 kilobytes. that's WAY more than what our settings weigh!
-    // so to make disk usage more effecient and to decrease the number of files that our game creates,
+    // so to make disk usage more efficient and to decrease the number of files that our game creates,
     // the settings system should put all settings into a single file.
     // this old settings system should, however, still be kept, because what if the user came from an
     // older version of the game? we wouldn't want to erase all of his settings!
@@ -54,7 +55,7 @@ void SettingsManager::loadSettingsLegacy(void)
 
     logMessage(LOG_INFO, "Loading settings");
 
-    // language setting
+    // legacy language setting
     loadLanguageLegacy();
 
     // transparent leaves setting
@@ -148,7 +149,7 @@ void SettingsManager::saveSettings(void)
     // TODO rework auto jump
 
     // write settings
-    fprintf(settingsFile, "trleaves %d\nautosave %d\nsmoothcam %d\nautojump %d\nlang %d\n", transparentLeaves, autoSaveSeconds, smoothCamera, autoJump, Game::instance->lang == Language::English ? 0 : 1);
+    fprintf(settingsFile, "trleaves %d\nautosave %d\nsmoothcam %d\nautojump %d\nlang %d\nblockparts %d\n", transparentLeaves, autoSaveSeconds, smoothCamera, autoJump, Game::instance->lang == Language::English ? 0 : 1, blockParticles);
 
     // don't forget to close
     fclose(settingsFile);
@@ -205,6 +206,11 @@ void SettingsManager::loadSettings(void)
                 Game::instance->lang = Language::Russian;
             else
                 logMessage(LOG_WARNING, "Invalid language code %s", split[1].c_str());
+        }
+        else if (split[0] == "blockparts")
+        {
+            // block particles setting
+            blockParticles = std::stoi(split[1]);
         }
         else
         {
