@@ -158,6 +158,12 @@ extern "C"
     */
     mm_sound_effect soundEffect(mm_word id);
 
+    /**
+     * @brief Convert pixel size to TEXTURE_SIZE_x
+     * @param px pixel size
+    */
+    int pxToGLTextureSize(int px);
+
 #ifdef __cplusplus
 }
 #endif

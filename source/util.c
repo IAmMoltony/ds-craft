@@ -52,63 +52,8 @@ u32 stringHash(const char *str)
 
 void loadImage(glImage *spr, int w, int h, const unsigned int *bitmap)
 {
-    int texSizeW, texSizeH;
-    switch (w)
-    {
-    case 8:
-    default:
-        texSizeW = TEXTURE_SIZE_8;
-        break;
-    case 16:
-        texSizeW = TEXTURE_SIZE_16;
-        break;
-    case 32:
-        texSizeW = TEXTURE_SIZE_32;
-        break;
-    case 64:
-        texSizeW = TEXTURE_SIZE_64;
-        break;
-    case 128:
-        texSizeW = TEXTURE_SIZE_128;
-        break;
-    case 256:
-        texSizeW = TEXTURE_SIZE_256;
-        break;
-    case 512:
-        texSizeW = TEXTURE_SIZE_512;
-        break;
-    case 1024:
-        texSizeW = TEXTURE_SIZE_1024;
-        break;
-    }
-    switch (h)
-    {
-    case 8:
-    default:
-        texSizeH = TEXTURE_SIZE_8;
-        break;
-    case 16:
-        texSizeH = TEXTURE_SIZE_16;
-        break;
-    case 32:
-        texSizeH = TEXTURE_SIZE_32;
-        break;
-    case 64:
-        texSizeH = TEXTURE_SIZE_64;
-        break;
-    case 128:
-        texSizeH = TEXTURE_SIZE_128;
-        break;
-    case 256:
-        texSizeH = TEXTURE_SIZE_256;
-        break;
-    case 512:
-        texSizeH = TEXTURE_SIZE_512;
-        break;
-    case 1024:
-        texSizeH = TEXTURE_SIZE_1024;
-        break;
-    }
+    int texSizeW = pxToGLTextureSize(w);
+    int texSizeH = pxToGLTextureSize(h);
 
     glLoadTileSet(spr, w, h, w, h, GL_RGB, texSizeW, texSizeH,
                   GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF, 0, 0, (u8 *)bitmap);
@@ -116,63 +61,8 @@ void loadImage(glImage *spr, int w, int h, const unsigned int *bitmap)
 
 void loadImageAlpha(glImage *spr, int w, int h, const unsigned short *pal, const unsigned int *bitmap)
 {
-    int texSizeW, texSizeH;
-    switch (w)
-    {
-    case 8:
-    default:
-        texSizeW = TEXTURE_SIZE_8;
-        break;
-    case 16:
-        texSizeW = TEXTURE_SIZE_16;
-        break;
-    case 32:
-        texSizeW = TEXTURE_SIZE_32;
-        break;
-    case 64:
-        texSizeW = TEXTURE_SIZE_64;
-        break;
-    case 128:
-        texSizeW = TEXTURE_SIZE_128;
-        break;
-    case 256:
-        texSizeW = TEXTURE_SIZE_256;
-        break;
-    case 512:
-        texSizeW = TEXTURE_SIZE_512;
-        break;
-    case 1024:
-        texSizeW = TEXTURE_SIZE_1024;
-        break;
-    }
-    switch (h)
-    {
-    case 8:
-    default:
-        texSizeH = TEXTURE_SIZE_8;
-        break;
-    case 16:
-        texSizeH = TEXTURE_SIZE_16;
-        break;
-    case 32:
-        texSizeH = TEXTURE_SIZE_32;
-        break;
-    case 64:
-        texSizeH = TEXTURE_SIZE_64;
-        break;
-    case 128:
-        texSizeH = TEXTURE_SIZE_128;
-        break;
-    case 256:
-        texSizeH = TEXTURE_SIZE_256;
-        break;
-    case 512:
-        texSizeH = TEXTURE_SIZE_512;
-        break;
-    case 1024:
-        texSizeH = TEXTURE_SIZE_1024;
-        break;
-    }
+    int texSizeW = pxToGLTextureSize(w);
+    int texSizeH = pxToGLTextureSize(h);
 
     glLoadTileSet(spr, w, h, w, h, GL_RGB16, texSizeW, texSizeH,
                   GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF | GL_TEXTURE_COLOR0_TRANSPARENT, 16, pal, (u8 *)bitmap);
@@ -199,4 +89,29 @@ mm_sound_effect soundEffect(mm_word id)
     effect.volume = 255;
     effect.panning = 128;
     return effect;
+}
+
+int pxToGLTextureSize(int px)
+{
+    switch (px)
+    {
+    case 8:
+        return TEXTURE_SIZE_8;
+    case 16:
+        return TEXTURE_SIZE_16;
+    case 32:
+        return TEXTURE_SIZE_32;
+    case 64:
+        return TEXTURE_SIZE_64;
+    case 128:
+        return TEXTURE_SIZE_128;
+    case 256:
+        return TEXTURE_SIZE_256;
+    case 512:
+        return TEXTURE_SIZE_512;
+    case 1024:
+        return TEXTURE_SIZE_1024;
+    default:
+        return 0;
+    }
 }
