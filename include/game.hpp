@@ -39,6 +39,8 @@
  *
  * @ref log.h "Logger documentation"
  *
+ * @ref pcximage.h "PCX Image documentation"
+ * 
  * @ref player.hpp "Player documentation"
  *
  * @ref random.hpp "Random Number Generator documentation"

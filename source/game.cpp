@@ -12,6 +12,7 @@
 #include "config.h"
 #include "log.h"
 #include "glext.h"
+#include "pcximage.h"
 
 Game *Game::instance;
 
@@ -304,6 +305,8 @@ static constexpr u8 SETTING_LAST = SETTING_EDIT_CONTROLS;
 
 // TODO add settings screen labels array
 
+static PCXImage img;
+
 void Game::init(void)
 {
     // set exception handler
@@ -441,6 +444,8 @@ void Game::init(void)
 
     // load assets for menu
     AssetManager::loadMenuAssets();
+
+    pcxImageLoad("nitro:/textures/ball.pcx", &img);
 
     // init values of stuff
     gameState = State::TitleScreen;
@@ -1425,6 +1430,8 @@ void Game::draw(void)
         glGetInt(GL_GET_POLYGON_RAM_COUNT, &vc);
         printf("polygon ram count %d\n", vc);
     }
+
+    pcxImageDraw(&img, 10, 10, GL_FLIP_NONE);
 }
 
 void Game::update(void)
