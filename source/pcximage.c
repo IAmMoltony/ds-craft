@@ -36,7 +36,7 @@ static int _numColors(int bpp)
 	return 0;
 }
 
-void pcxImageLoad(const char *filePath, PCXImage *image)
+void pcxImageLoad(const char *filePath, bool color0Transparent, PCXImage *image)
 {
 	logMessage(LOG_INFO, "Loading PCX image from file %s", filePath);
 
@@ -63,7 +63,10 @@ void pcxImageLoad(const char *filePath, PCXImage *image)
 	loadPCX(pcxBytes, &image->simg);
 	free(pcxBytes);
 
-	glLoadTileSet(image->spr, image->simg.width, image->simg.height, image->simg.width, image->simg.height, _bppToTextureType(image->simg.bpp), pxToGLTextureSize(image->simg.width), pxToGLTextureSize(image->simg.height), GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF, _numColors(image->simg.bpp), image->simg.palette, image->simg.image.data8);
+	int flags = GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF;
+	if (color0Transparent)
+		flags |= GL_TEXTURE_COLOR0_TRANSPARENT;
+	glLoadTileSet(image->spr, image->simg.width, image->simg.height, image->simg.width, image->simg.height, _bppToTextureType(image->simg.bpp), pxToGLTextureSize(image->simg.width), pxToGLTextureSize(image->simg.height), flags, _numColors(image->simg.bpp), image->simg.palette, image->simg.image.data8);
 }
 
 void pcxImageUnload(PCXImage *image)

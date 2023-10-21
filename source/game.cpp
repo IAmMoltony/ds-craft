@@ -2292,7 +2292,7 @@ void Game::run(void)
 
 void Game::AssetManager::loadDirtBlock(void)
 {
-    pcxImageLoad("nitro:/textures/block/dirt.pcx", &sprDirt);
+    pcxImageLoad("nitro:/textures/block/dirt.pcx", false, &sprDirt);
 }
 
 void Game::AssetManager::loadGeneralAssets(void)

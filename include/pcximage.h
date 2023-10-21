@@ -33,9 +33,10 @@ extern "C"
 	 * @brief Load image from PCX file
 	 *
 	 * @param filePath Path to PCX file
+	 * @param color0Transparent whether or not the 0th color should be treated as transparent
 	 * @param image PCX image to load into
 	 */
-	void pcxImageLoad(const char *filePath, PCXImage *image);
+	void pcxImageLoad(const char *filePath, bool color0Transparent, PCXImage *image);
 
 	/**
 	 * @brief Unload a PCX image
