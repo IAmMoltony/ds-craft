@@ -61,7 +61,8 @@
         "xhash": "cpp",
         "xtree": "cpp",
         "xutility": "cpp",
-        "xlocmon": "cpp"
+        "xlocmon": "cpp",
+        "bitset": "cpp"
     },
     "editor.formatOnSave": true,
     "files.eol": "\n",

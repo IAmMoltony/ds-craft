@@ -6,7 +6,7 @@
 glImage sprGrass[1];
 glImage sprGrass2[1];
 glImage sprSnowyGrass[1];
-glImage sprDirt[1];
+PCXImage sprDirt;
 glImage sprDirtPath[1];
 glImage sprStone[1];
 glImage sprWood[1];

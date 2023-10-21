@@ -240,10 +240,10 @@ void Game::showButtonTooltips(Font *font, Font *font2, glImage *t1, const char *
 
 void Game::playPopSound(void)
 {
-    mm_hword oldRate = sndPop.rate; // save old rate
+    mm_hword oldRate = sndPop.rate;       // save old rate
     sndPop.rate = randomRange(512, 2048); // set rate to random rate
-    mmEffectEx(&sndPop); // play sound
-    sndPop.rate = oldRate; // restore old rate
+    mmEffectEx(&sndPop);                  // play sound
+    sndPop.rate = oldRate;                // restore old rate
 }
 
 void Game::loadFonts(void)
@@ -304,8 +304,6 @@ static constexpr u8 SETTING_EDIT_CONTROLS = 7;
 static constexpr u8 SETTING_LAST = SETTING_EDIT_CONTROLS;
 
 // TODO add settings screen labels array
-
-static PCXImage img;
 
 void Game::init(void)
 {
@@ -427,25 +425,23 @@ void Game::init(void)
 
     // set up random number generator
     u32 randomSeed;
-    randomSeed = PersonalData->rtcOffset; // set seed to RTC offset from the firmware
-    randomSeed += time(NULL); // add the time value
-    randomSeed ^= stringHash(getUserName()); // XOR by the hash of user name
-    Birthday bDay = getBirthday(); // get birthday
-    randomSeed -= bDay.day * bDay.month; // subtract by day times month of birthday
-    randomSeed ^= getFavoriteColorRgb() * getFavoriteColor(); // XOR by the product of RGB favorite color and enum value favorite color
+    randomSeed = PersonalData->rtcOffset;                                                                    // set seed to RTC offset from the firmware
+    randomSeed += time(NULL);                                                                                // add the time value
+    randomSeed ^= stringHash(getUserName());                                                                 // XOR by the hash of user name
+    Birthday bDay = getBirthday();                                                                           // get birthday
+    randomSeed -= bDay.day * bDay.month;                                                                     // subtract by day times month of birthday
+    randomSeed ^= getFavoriteColorRgb() * getFavoriteColor();                                                // XOR by the product of RGB favorite color and enum value favorite color
     randomSeed += (PersonalData->calX1 * PersonalData->calX2) ^ (PersonalData->calY1 * PersonalData->calY2); // add calibration stuff
-    randomSeed -= PersonalData->calY1px; // subtract first Y calibration value in pixels (i think)
-    randomSeed ^= PersonalData->language; // XOR by firmware language
-    randomSeed ^= stringHash(std::to_string(stringHash(getUserMessage())).c_str()); // XOR by user message hash's hash
-    randomSetSeed(randomSeed); // set seed
-    srand(time(NULL)); // set seed for stuff that doesn't need to be THAT random
+    randomSeed -= PersonalData->calY1px;                                                                     // subtract first Y calibration value in pixels (i think)
+    randomSeed ^= PersonalData->language;                                                                    // XOR by firmware language
+    randomSeed ^= stringHash(std::to_string(stringHash(getUserMessage())).c_str());                          // XOR by user message hash's hash
+    randomSetSeed(randomSeed);                                                                               // set seed
+    srand(time(NULL));                                                                                       // set seed for stuff that doesn't need to be THAT random
 
     logMessage(LOG_INFO, "Loading menu assets");
 
     // load assets for menu
     AssetManager::loadMenuAssets();
-
-    pcxImageLoad("nitro:/textures/test.pcx", &img);
 
     // init values of stuff
     gameState = State::TitleScreen;
@@ -536,8 +532,8 @@ u16 Game::getFrameCounter(void)
 
 void Game::drawMovingBackground(void)
 {
-    glColor(RGB15(15, 15, 15)); // set color to gray (to make dirt darker)
-    int oldWidth = sprDirt->width; // save the old width
+    glColor(RGB15(15, 15, 15));      // set color to gray (to make dirt darker)
+    int oldWidth = sprDirt->width;   // save the old width
     int oldHeight = sprDirt->height; // save the old height
 
     // resize dirt block
@@ -547,9 +543,9 @@ void Game::drawMovingBackground(void)
 
     // draw sprite with 2x scale
     glSpriteScale(0 - instance->getFrameCounter() % 64, 0, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
-    sprDirt->width = oldWidth; // restore width
+    sprDirt->width = oldWidth;   // restore width
     sprDirt->height = oldHeight; // restore height
-    glColor(RGB15(31, 31, 31)); // reset color to white
+    glColor(RGB15(31, 31, 31));  // reset color to white
 }
 
 // width & height of the world name box
@@ -1430,8 +1426,6 @@ void Game::draw(void)
         glGetInt(GL_GET_POLYGON_RAM_COUNT, &vc);
         printf("polygon ram count %d\n", vc);
     }
-
-    pcxImageDraw(&img, 10, 10, GL_FLIP_NONE);
 }
 
 void Game::update(void)
@@ -2309,7 +2303,7 @@ void Game::run(void)
 
 void Game::AssetManager::loadDirtBlock(void)
 {
-    loadImage(sprDirt, 16, 16, dirtBitmap);
+    pcxImageLoad("nitro:/textures/block/dirt.pcx", &sprDirt);
 }
 
 void Game::AssetManager::loadGeneralAssets(void)

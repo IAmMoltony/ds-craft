@@ -13,6 +13,7 @@
 #include "rect.hpp"
 #include "item.hpp"
 #include "util.h"
+#include "pcximage.h"
 
 #define BID_GRASS 1
 #define BID_DIRT 2
@@ -121,7 +122,7 @@ enum class SlabID
 	private:                                      \
 		u16 growTime;                             \
 		bool grown;                               \
-												  \
+                                                  \
 	public:                                       \
 		sapl##SaplingBlock(s16 x, s16 y);         \
 		void draw(const Camera &camera) override; \
@@ -140,7 +141,7 @@ enum class SlabID
 	{                                                   \
 	private:                                            \
 		bool open;                                      \
-														\
+                                                        \
 	public:                                             \
 		trapd##TrapdoorBlock(s16 x, s16 y);             \
 		trapd##TrapdoorBlock(s16 x, s16 y, bool open);  \
@@ -408,7 +409,7 @@ public:
  * @param blocks the block list where the replacement will take place
  * @param oldBlock the block to replace
  * @param newBlock the block that `oldBlock` will be replaced with
- * @note If `oldBlock` does not exist in `blocks`, then no replacement will be done. This is the worst-case scenario.
+ * @note If `oldBlock` does not exist in `blocks`, then no replacement will be done. This is the worst-case scenario, and the entire list will be iterated through without actually doing anything useful.
  */
 void replaceBlock(Block::List &blocks, const Block *oldBlock, Block::Pointer newBlock);
 
@@ -416,7 +417,7 @@ void replaceBlock(Block::List &blocks, const Block *oldBlock, Block::Pointer new
 extern glImage sprGrass[1];
 extern glImage sprGrassOverlay[1];
 extern glImage sprGrass2[1]; // image for the non block grass
-extern glImage sprDirt[1];
+extern PCXImage sprDirt;
 extern glImage sprDirtPath[1];
 extern glImage sprStone[1];
 extern glImage sprWood[1];
@@ -551,12 +552,12 @@ class Grass : public Block
 private:
 	/*
 	 * @brief What type of grass this is, used for coloring grass based on its biome
-	*/
+	 */
 	GrassBlock::Type type;
 
 	/*
 	 * @brief How tall the grass is in pixels
-	*/
+	 */
 	u8 height;
 
 	/*
@@ -568,7 +569,7 @@ private:
 	/*
 	 * @brief Maximum height value
 	 * @see height
-	*/
+	 */
 	static const u8 MAX_HEIGHT = 16;
 
 public:
@@ -690,24 +691,24 @@ class FlowerBlock : public Block
 private:
 	/**
 	 * @brief What kind of flower this is
-	*/
+	 */
 	FlowerType type;
 
 	/*
 	 * @brief X offset of the flower
-	*/
+	 */
 	s8 xOff;
 
 	/*
 	 * @brief Minimum X offset
 	 * @see xOff
-	*/
+	 */
 	static const s8 X_OFF_MIN = -5;
 
 	/*
 	 * @brief Maximum Y offset
 	 * @see xOff
-	*/
+	 */
 	static const s8 X_OFF_MAX = 10;
 
 public:
