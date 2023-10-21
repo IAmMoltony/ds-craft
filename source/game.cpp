@@ -445,7 +445,7 @@ void Game::init(void)
     // load assets for menu
     AssetManager::loadMenuAssets();
 
-    pcxImageLoad("nitro:/textures/ball.pcx", &img);
+    pcxImageLoad("nitro:/textures/test.pcx", &img);
 
     // init values of stuff
     gameState = State::TitleScreen;
