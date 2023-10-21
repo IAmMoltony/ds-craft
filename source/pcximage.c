@@ -1,6 +1,7 @@
 #include "pcximage.h"
 #include "log.h"
 #include "util.h"
+#include "glext.h"
 #include <stdio.h>
 #include <errno.h>
 
@@ -71,7 +72,12 @@ void pcxImageUnload(PCXImage *image)
 	imageDestroy(&image->simg);
 }
 
-void pcxImageDraw(PCXImage *image, int x, int y, int flip)
+void pcxImageDraw(PCXImage *image, int x, int y, GL_FLIP_MODE flip)
 {
 	glSprite(x, y, flip, image->spr);
+}
+
+void pcxImageDrawEx(PCXImage *image, int x, int y, int xOff, int yOff, int w, int h, s32 scale, GL_FLIP_MODE flip)
+{
+	glSpritePartScaleFlip(image->spr, x, y, xOff, yOff, w, h, scale, flip);
 }
