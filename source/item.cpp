@@ -806,7 +806,7 @@ const char *getItemName(InventoryItem::ID iid)
 static std::map<InventoryItem::ID, glImage *> _itemImages = {
     {InventoryItem::ID::Grass, sprGrass},
     {InventoryItem::ID::Grass2, sprGrass2},
-    {InventoryItem::ID::Dirt, sprDirt},
+    // TODO {InventoryItem::ID::Dirt, sprDirt},
     {InventoryItem::ID::Stone, sprStone},
     {InventoryItem::ID::Wood, sprWood},
     {InventoryItem::ID::BirchWood, sprBirchWood},

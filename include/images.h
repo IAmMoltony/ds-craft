@@ -30,7 +30,6 @@
 #include "destroy_stage_7.h"
 #include "destroy_stage_8.h"
 #include "destroy_stage_9.h"
-#include "dirt.h"
 #include "dirt_path.h"
 #include "door.h"
 #include "glass.h"

@@ -532,20 +532,9 @@ u16 Game::getFrameCounter(void)
 
 void Game::drawMovingBackground(void)
 {
-    glColor(RGB15(15, 15, 15));      // set color to gray (to make dirt darker)
-    int oldWidth = sprDirt->width;   // save the old width
-    int oldHeight = sprDirt->height; // save the old height
-
-    // resize dirt block
-    // resizing a sprite bigger than it actually it is will result in it repeating
-    sprDirt->width = SCREEN_WIDTH / 2 + 64;
-    sprDirt->height = SCREEN_HEIGHT / 2;
-
-    // draw sprite with 2x scale
-    glSpriteScale(0 - instance->getFrameCounter() % 64, 0, (1 << 12) * 2, GL_FLIP_NONE, sprDirt);
-    sprDirt->width = oldWidth;   // restore width
-    sprDirt->height = oldHeight; // restore height
-    glColor(RGB15(31, 31, 31));  // reset color to white
+    glColor(RGB15(15, 15, 15));
+    pcxImageDrawEx(&sprDirt, 0 - instance->getFrameCounter() % 64, 0, 0, 0, SCREEN_WIDTH / 2 + 64, SCREEN_HEIGHT / 2, (1 << 12) * 2, GL_FLIP_NONE);
+    glColor(RGB15(31, 31, 31));
 }
 
 // width & height of the world name box
@@ -2393,8 +2382,8 @@ void Game::cameraFollowPlayer(bool smooth)
 void Game::drawMenuBackground(void)
 {
     drawMovingBackground();
-    glSpritePartScale(sprDirt, 0, 0, 0, 0, SCREEN_WIDTH, 16, SCALE_NORMAL * 2);
-    glSpritePartScale(sprDirt, 0, SCREEN_HEIGHT - 32, 0, 0, SCREEN_WIDTH, 16, SCALE_NORMAL * 2);
+    pcxImageDrawEx(&sprDirt, 0, 0, 0, 0, SCREEN_WIDTH, 16, SCALE_NORMAL * 2, GL_FLIP_NONE);
+    pcxImageDrawEx(&sprDirt, 0, SCREEN_HEIGHT - 32, 0, 0, SCREEN_WIDTH, 16, SCALE_NORMAL * 2, GL_FLIP_NONE);
 }
 
 void Game::drawStatsScreen(void)

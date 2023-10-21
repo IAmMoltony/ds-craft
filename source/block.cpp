@@ -50,12 +50,12 @@ GrassBlock::Type GrassBlock::getType(void)
 //-----------------------------------------
 
 Grass::Grass(s16 x, s16 y) : Block(x, y, 1), type(GrassBlock::Type::Normal),
-	height(randomRange(MIN_HEIGHT, MAX_HEIGHT))
+							 height(randomRange(MIN_HEIGHT, MAX_HEIGHT))
 {
 }
 
 Grass::Grass(s16 x, s16 y, GrassBlock::Type type) : Block(x, y, 1), type(type),
-	height(randomRange(MIN_HEIGHT, MAX_HEIGHT))
+													height(randomRange(MIN_HEIGHT, MAX_HEIGHT))
 {
 }
 
@@ -103,11 +103,11 @@ DirtBlock::DirtBlock(s16 x, s16 y, bool farmland, bool path) : Block(x, y, 14), 
 void DirtBlock::draw(const Camera &camera)
 {
 	if (farmland)
-		glSpritePart(sprDirt, x - camera.x, y - camera.y + 1, 0, 0, 16, 15);
+		pcxImageDrawEx(&sprDirt, x - camera.x, y - camera.y + 1, 0, 0, 16, 15, SCALE_NORMAL, GL_FLIP_NONE);
 	else if (path)
 		glSpritePart(sprDirtPath, x - camera.x, y - camera.y + 1, 0, 1, 16, 15);
 	else
-		glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprDirt);
+		pcxImageDraw(&sprDirt, x - camera.x, y - camera.y, GL_FLIP_NONE);
 }
 
 u16 DirtBlock::id(void) const
@@ -188,7 +188,7 @@ bool LeavesBlock::isNatural(void)
 //-----------------------------------------
 
 FlowerBlock::FlowerBlock(s16 x, s16 y) : Block(x, y, 1), type(FlowerType::Poppy),
-	xOff(randomRangeSigned(X_OFF_MIN, X_OFF_MAX))
+										 xOff(randomRangeSigned(X_OFF_MIN, X_OFF_MAX))
 {
 	switch (randomRange(1, 3))
 	{
@@ -205,7 +205,7 @@ FlowerBlock::FlowerBlock(s16 x, s16 y) : Block(x, y, 1), type(FlowerType::Poppy)
 }
 
 FlowerBlock::FlowerBlock(s16 x, s16 y, FlowerType type) : Block(x, y, 1), type(type),
-	xOff(randomRangeSigned(X_OFF_MIN, X_OFF_MAX))
+														  xOff(randomRangeSigned(X_OFF_MIN, X_OFF_MAX))
 {
 }
 

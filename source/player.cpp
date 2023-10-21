@@ -1984,7 +1984,7 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
                     case BID_DIRT:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Dirt));
                         playsfx(4, &sndDirt1, &sndDirt2, &sndDirt3, &sndDirt4);
-                        _spawnBlockParticles(blockParticles, sprDirt, block->x, block->y);
+                        // TODO _spawnBlockParticles(blockParticles, sprDirt, block->x, block->y);
                         break;
                     case BID_STONE:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Cobblestone));
