@@ -134,6 +134,7 @@ void Block::loadTextures(void)
     //     loadImage(sprSpruceLeaves, 16, 16, spruce_leavesBitmap);
     // }
 
+    // non transparent blocks
     pcxImageLoad("nitro:/textures/block/grass.pcx", false, &sprGrass);
     pcxImageLoad("nitro:/textures/block/snowy_grass.pcx", false, &sprSnowyGrass);
     pcxImageLoad("nitro:/textures/block/dirt_path.pcx", false, &sprDirtPath);
@@ -156,58 +157,93 @@ void Block::loadTextures(void)
     pcxImageLoad("nitro:/textures/block/iron_ore.pcx", false, &sprIronOre);
     pcxImageLoad("nitro:/textures/block/stone_bricks.pcx", false, &sprStoneBricks);
     pcxImageLoad("nitro:/textures/block/hay_bale.pcx", false, &sprHayBale);
+
+    // transparent blocks
+    pcxImageLoad("nitro:/textures/block/grass2.pcx", true, &sprGrass2);
+    pcxImageLoad("nitro:/textures/block/cactus.pcx", true, &sprCactus);
+    pcxImageLoad("nitro:/textures/block/dead_bush.pcx", true, &sprDeadBush);
+    pcxImageLoad("nitro:/textures/block/dandelion.pcx", true, &sprDandelion);
+    pcxImageLoad("nitro:/textures/block/poppy.pcx", true, &sprPoppy);
+    pcxImageLoad("nitro:/textures/block/red_tulip.pcx", true, &sprRedTulip);
+    pcxImageLoad("nitro:/textures/block/door.pcx", true, &sprDoor);
+    pcxImageLoad("nitro:/textures/block/birch_door.pcx", true, &sprBirchDoor);
+    pcxImageLoad("nitro:/textures/block/spruce_door.pcx", true, &sprSpruceDoor);
+    pcxImageLoad("nitro:/textures/block/sapling.pcx", true, &sprSapling);
+    pcxImageLoad("nitro:/textures/block/birch_sapling.pcx", true, &sprBirchSapling);
+    pcxImageLoad("nitro:/textures/block/spruce_sapling.pcx", true, &sprSpruceSapling);
+    pcxImageLoad("nitro:/textures/block/glass.pcx", true, &sprGlass);
+    pcxImageLoad("nitro:/textures/block/oak_trapdoor.pcx", true, &sprOakTrapdoor);
+    pcxImageLoad("nitro:/textures/block/ladder.pcx", true, &sprLadder);
+    pcxImageLoad("nitro:/textures/block/sign.pcx", true, &sprSign);
+
+    // wheat
+    for (u8 i = 0; i < 8; ++i)
+    {
+        std::string fileName = std::string("nitro:/textures/block/wheat_stage") + std::to_string(i) + ".pcx";
+        pcxImageLoad(fileName.c_str(), true, &sprWheatBlock[i]);
+    }
+
+    // block break
+    for (u8 i = 0; i < 10; ++i)
+    {
+        std::string fileName = std::string("nitro:/textures/block/destroy_stage") + std::to_string(i) + ".pcx";
+        pcxImageLoad(fileName.c_str(), true, &_sprBlockBreak[i]);
+    }
+
+    // grass overlay
+    pcxImageLoad("nitro:/textures/block/grass_overlay.pcx", true, sprGrassOverlay);
 }
 
 void Block::unloadTextures(void)
 {
-    unloadImage(sprGrass);
-    unloadImage(sprSnowyGrass);
-    unloadImage(sprDirtPath);
-    unloadImage(sprStone);
-    unloadImage(sprWood);
-    unloadImage(sprBirchWood);
-    unloadImage(sprSpruceWood);
-    unloadImage(sprLeaves);
-    unloadImage(sprBirchLeaves);
-    unloadImage(sprSpruceLeaves);
-    unloadImage(sprSand);
-    unloadImage(sprSandstone);
-    unloadImage(sprCactus);
-    unloadImage(sprDeadBush);
-    unloadImage(sprDandelion);
-    unloadImage(sprPoppy);
-    unloadImage(sprRedTulip);
-    unloadImage(sprDoor);
-    unloadImage(sprBirchDoor);
-    unloadImage(sprSpruceDoor);
-    unloadImage(sprPlanks);
-    unloadImage(sprBirchPlanks);
-    unloadImage(sprSprucePlanks);
-    unloadImage(sprSapling);
-    unloadImage(sprBirchSapling);
-    unloadImage(sprSpruceSapling);
-    unloadImage(sprBedrock);
-    unloadImage(sprCobblestone);
-    unloadImage(sprCoalOre);
-    unloadImage(sprCoalBlock);
-    unloadImage(sprGlass);
-    unloadImage(sprOakTrapdoor);
-    unloadImage(sprBirchTrapdoor);
-    unloadImage(sprSpruceTrapdoor);
-    unloadImage(sprLadder);
-    unloadImage(sprChest);
-    unloadImage(sprSign);
-    unloadImage(sprIronOre);
-    unloadImage(sprIronBlock);
-    unloadImage(sprStoneBricks);
-    unloadImage(sprHayBale);
+    pcxImageUnload(&sprGrass);
+    pcxImageUnload(&sprSnowyGrass);
+    pcxImageUnload(&sprDirtPath);
+    pcxImageUnload(&sprStone);
+    pcxImageUnload(&sprWood);
+    pcxImageUnload(&sprBirchWood);
+    pcxImageUnload(&sprSpruceWood);
+    pcxImageUnload(&sprLeaves);
+    pcxImageUnload(&sprBirchLeaves);
+    pcxImageUnload(&sprSpruceLeaves);
+    pcxImageUnload(&sprSand);
+    pcxImageUnload(&sprSandstone);
+    pcxImageUnload(&sprCactus);
+    pcxImageUnload(&sprDeadBush);
+    pcxImageUnload(&sprDandelion);
+    pcxImageUnload(&sprPoppy);
+    pcxImageUnload(&sprRedTulip);
+    pcxImageUnload(&sprDoor);
+    pcxImageUnload(&sprBirchDoor);
+    pcxImageUnload(&sprSpruceDoor);
+    pcxImageUnload(&sprPlanks);
+    pcxImageUnload(&sprBirchPlanks);
+    pcxImageUnload(&sprSprucePlanks);
+    pcxImageUnload(&sprSapling);
+    pcxImageUnload(&sprBirchSapling);
+    pcxImageUnload(&sprSpruceSapling);
+    pcxImageUnload(&sprBedrock);
+    pcxImageUnload(&sprCobblestone);
+    pcxImageUnload(&sprCoalOre);
+    pcxImageUnload(&sprCoalBlock);
+    pcxImageUnload(&sprGlass);
+    pcxImageUnload(&sprOakTrapdoor);
+    pcxImageUnload(&sprBirchTrapdoor);
+    pcxImageUnload(&sprSpruceTrapdoor);
+    pcxImageUnload(&sprLadder);
+    pcxImageUnload(&sprChest);
+    pcxImageUnload(&sprSign);
+    pcxImageUnload(&sprIronOre);
+    pcxImageUnload(&sprIronBlock);
+    pcxImageUnload(&sprStoneBricks);
+    pcxImageUnload(&sprHayBale);
 
     for (u8 i = 0; i < 10; ++i)
-        unloadImage(_sprBlockBreak[i]);
+        pcxImageUnload(&_sprBlockBreak[i]);
     for (u8 i = 0; i < 8; ++i)
-        unloadImage(sprWheatBlock[i]);
+        pcxImageUnload(&sprWheatBlock[i]);
 
-    unloadImage(sprGrassOverlay);
+    pcxImageUnload(&sprGrassOverlay);
 }
 
 void Block::loadSounds(void)
@@ -233,12 +269,15 @@ Block::Block(s16 x, s16 y, u8 maxBrokenLevel) : x(x), y(y), brokenLevel(0), maxB
 
 void Block::drawBreaking(const Camera &camera)
 {
+    // if it aint broke dont draw the break animation
     if (!brokenLevel)
         return;
 
+    // do a relatively significant amount of trolling
     float textureIndex = ((float)brokenLevel / (float)maxBrokenLevel) * 10 - 1;
     textureIndex = std::max(0, std::min((int)textureIndex, 10 - 1));
-    glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, _sprBlockBreak[(int)textureIndex]);
+
+    pcxImageDraw(&_sprBlockBreak[(int)textureIndex], x - camera.x, y - camera.y, GL_FLIP_NONE);
 }
 
 void Block::hit(void)
@@ -258,12 +297,13 @@ bool Block::broken(void)
 
 Rect Block::getRect(void) const
 {
-    return Rect(x, y, 16, 16);
+    return Rect(x, y, 16, 16); // default hitbox
 }
 
 void Block::interact(InventoryItem::ID item)
 {
-    (void)item;
+    // do literally nothing
+    (void)item; // silence compiler warning
 }
 
 bool Block::solid(void)
