@@ -126,57 +126,57 @@ InventoryItem &InventoryItem::operator=(const InventoryItem &item)
 
 // item images
 
-static PCXImage _sprStick[1];
-static PCXImage _sprCoal[1];
-static PCXImage _sprIronIngot[1];
-static PCXImage _sprIronNugget[1];
-static PCXImage _sprShears[1];
+static PCXImage _sprStick;
+static PCXImage _sprCoal;
+static PCXImage _sprIronIngot;
+static PCXImage _sprIronNugget;
+static PCXImage _sprShears;
 
 // food items
 
-static PCXImage _sprRawPorkchop[1];
-static PCXImage _sprCookedPorkchop[1];
-static PCXImage _sprApple[1];
-static PCXImage _sprBread[1];
+static PCXImage _sprRawPorkchop;
+static PCXImage _sprCookedPorkchop;
+static PCXImage _sprApple;
+static PCXImage _sprBread;
 
 // pickaxes
 
-static PCXImage _sprWoodenPickaxe[1];
-static PCXImage _sprStonePickaxe[1];
-static PCXImage _sprIronPickaxe[1];
+static PCXImage _sprWoodenPickaxe;
+static PCXImage _sprStonePickaxe;
+static PCXImage _sprIronPickaxe;
 
 // shovels
 
-static PCXImage _sprWoodenShovel[1];
-static PCXImage _sprStoneShovel[1];
-static PCXImage _sprIronShovel[1];
+static PCXImage _sprWoodenShovel;
+static PCXImage _sprStoneShovel;
+static PCXImage _sprIronShovel;
 
 // axes
 
-static PCXImage _sprWoodenAxe[1];
-static PCXImage _sprStoneAxe[1];
-static PCXImage _sprIronAxe[1];
+static PCXImage _sprWoodenAxe;
+static PCXImage _sprStoneAxe;
+static PCXImage _sprIronAxe;
 
 // swords
 
-static PCXImage _sprWoodenSword[1];
-static PCXImage _sprStoneSword[1];
-static PCXImage _sprIronSword[1];
+static PCXImage _sprWoodenSword;
+static PCXImage _sprStoneSword;
+static PCXImage _sprIronSword;
 
 // hoes
 
-static PCXImage _sprWoodenHoe[1];
-static PCXImage _sprStoneHoe[1];
-static PCXImage _sprIronHoe[1];
+static PCXImage _sprWoodenHoe;
+static PCXImage _sprStoneHoe;
+static PCXImage _sprIronHoe;
 
 // farming stuff
 
-static PCXImage _sprWheatSeeds[1];
-static PCXImage _sprWheat[1];
+static PCXImage _sprWheatSeeds;
+static PCXImage _sprWheat;
 
 // dummy
 
-static PCXImage _sprDummy[1];
+static PCXImage _sprDummy;
 
 void InventoryItem::loadTextures(void)
 {
