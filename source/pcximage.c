@@ -5,37 +5,6 @@
 #include <stdio.h>
 #include <errno.h>
 
-static int _bppToTextureType(int bpp)
-{
-	switch (bpp)
-	{
-	case 2:
-		return GL_RGB4;
-	case 4:
-		return GL_RGB16;
-	case 8:
-		return GL_RGB256;
-	}
-
-	return 0; // default
-}
-
-static int _numColors(int bpp)
-{
-	switch (bpp)
-	{
-	case 2:
-		return 4;
-	case 4:
-		return 16;
-	case 8:
-		return 256;
-	}
-
-	logMessage(LOG_WARNING, "Someone is trying to find out how many colors %d bpp is. I'm not going to tell them.", bpp);
-	return 0;
-}
-
 void pcxImageLoad(const char *filePath, bool color0Transparent, PCXImage *image)
 {
 	logMessage(LOG_INFO, "Loading PCX image from file %s", filePath);
@@ -66,7 +35,7 @@ void pcxImageLoad(const char *filePath, bool color0Transparent, PCXImage *image)
 	int flags = GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF;
 	if (color0Transparent)
 		flags |= GL_TEXTURE_COLOR0_TRANSPARENT;
-	glLoadTileSet(image->spr, image->simg.width, image->simg.height, image->simg.width, image->simg.height, _bppToTextureType(image->simg.bpp), pxToGLTextureSize(image->simg.width), pxToGLTextureSize(image->simg.height), flags, _numColors(image->simg.bpp), image->simg.palette, image->simg.image.data8);
+	glLoadTileSet(image->spr, image->simg.width, image->simg.height, image->simg.width, image->simg.height, GL_RGB256, pxToGLTextureSize(image->simg.width), pxToGLTextureSize(image->simg.height), flags, 256, image->simg.palette, image->simg.image.data8);
 }
 
 void pcxImageUnload(PCXImage *image)

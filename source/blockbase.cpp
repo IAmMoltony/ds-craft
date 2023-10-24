@@ -160,15 +160,15 @@ void Block::loadTextures(void)
 
     // transparent blocks
     pcxImageLoad("nitro:/textures/block/grass2.pcx", true, &sprGrass2);
-    pcxImageLoad("nitro:/textures/block/cactus.pcx", true, &sprCactus);
+    pcxImageLoad("nitro:/textures/block/cactus_side.pcx", true, &sprCactus);
     pcxImageLoad("nitro:/textures/block/dead_bush.pcx", true, &sprDeadBush);
     pcxImageLoad("nitro:/textures/block/dandelion.pcx", true, &sprDandelion);
     pcxImageLoad("nitro:/textures/block/poppy.pcx", true, &sprPoppy);
     pcxImageLoad("nitro:/textures/block/red_tulip.pcx", true, &sprRedTulip);
     pcxImageLoad("nitro:/textures/block/door.pcx", true, &sprDoor);
-    pcxImageLoad("nitro:/textures/block/birch_door.pcx", true, &sprBirchDoor);
-    pcxImageLoad("nitro:/textures/block/spruce_door.pcx", true, &sprSpruceDoor);
-    pcxImageLoad("nitro:/textures/block/sapling.pcx", true, &sprSapling);
+    pcxImageLoad("nitro:/textures/block/birchdoor.pcx", true, &sprBirchDoor);
+    pcxImageLoad("nitro:/textures/block/sprucedoor.pcx", true, &sprSpruceDoor);
+    pcxImageLoad("nitro:/textures/block/oak_sapling.pcx", true, &sprSapling);
     pcxImageLoad("nitro:/textures/block/birch_sapling.pcx", true, &sprBirchSapling);
     pcxImageLoad("nitro:/textures/block/spruce_sapling.pcx", true, &sprSpruceSapling);
     pcxImageLoad("nitro:/textures/block/glass.pcx", true, &sprGlass);
@@ -186,7 +186,7 @@ void Block::loadTextures(void)
     // block break
     for (u8 i = 0; i < 10; ++i)
     {
-        std::string fileName = std::string("nitro:/textures/block/destroy_stage") + std::to_string(i) + ".pcx";
+        std::string fileName = std::string("nitro:/textures/block/destroy_stage_") + std::to_string(i) + ".pcx";
         pcxImageLoad(fileName.c_str(), true, &_sprBlockBreak[i]);
     }
 

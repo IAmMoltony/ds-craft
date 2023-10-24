@@ -35,6 +35,8 @@ extern "C"
 	 * @param filePath Path to PCX file
 	 * @param color0Transparent whether or not the 0th color should be treated as transparent
 	 * @param image PCX image to load into
+	 * 
+	 * @note PCX file must be 8bpp. I don't know why.
 	 */
 	void pcxImageLoad(const char *filePath, bool color0Transparent, PCXImage *image);
 
