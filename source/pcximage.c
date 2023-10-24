@@ -84,3 +84,8 @@ void pcxImageDrawEx(PCXImage *image, int x, int y, int xOff, int yOff, int w, in
 {
 	glSpritePartScaleFlip(image->spr, x, y, xOff, yOff, w, h, scale, flip);
 }
+
+void pcxImageDrawExScaleXY(PCXImage *image, int x, int y, int xOff, int yOff, int w, int h, s32 scaleX, s32 scaleY, GL_FLIP_MODE flip)
+{
+	
+}

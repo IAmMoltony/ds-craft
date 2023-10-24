@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <gl2d.h>
+#include "pcximage.h"
 #include "camera.h"
 #include <vector>
 
@@ -18,7 +18,7 @@ private:
     /**
      * @brief Image to use
     */
-    glImage *blockImage;
+    PCXImage *blockImage;
 
     /**
      * @brief Lifetime of the particle in frames
@@ -71,7 +71,7 @@ public:
      * @param velY Y velocity of the particle
      * @param color particle color
     */
-    BlockParticle(glImage *blockImage, u8 lifetime, int x, int y, float velX, float velY, rgb color);
+    BlockParticle(PCXImage *blockImage, u8 lifetime, int x, int y, float velX, float velY, rgb color);
 
     /**
      * @brief Update the particle

@@ -572,8 +572,7 @@ static glImage *_keyCodeToImage(u32 keyCode)
     case KEY_DOWN:
         return Game::instance->sprDownButton;
     default:
-        return sprCactus; // return cactus on failure for no reason
-                          // the user won't even see a cactus cuz it's not loaded in menus
+        return nullptr; // return a null pointer (i have no idea what will happen if this case gets called, probably crash)
     }
 }
 

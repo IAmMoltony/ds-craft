@@ -81,21 +81,21 @@ enum class SlabID
  * @param maxBrokenLevel_ maximum brokenness level
  * @param solid_ whether the block is solid
  */
-#define GENERIC_BLOCK_IMPL(block, spr, id_, maxBrokenLevel_, solid_) \
-	block::block(s16 x, s16 y) : Block(x, y, maxBrokenLevel_)        \
-	{                                                                \
-	}                                                                \
-	void block::draw(const Camera &camera)                           \
-	{                                                                \
-		glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, spr);     \
-	}                                                                \
-	u16 block::id(void) const                                        \
-	{                                                                \
-		return id_;                                                  \
-	}                                                                \
-	bool block::solid(void)                                          \
-	{                                                                \
-		return solid_;                                               \
+#define GENERIC_BLOCK_IMPL(block, spr, id_, maxBrokenLevel_, solid_)  \
+	block::block(s16 x, s16 y) : Block(x, y, maxBrokenLevel_)         \
+	{                                                                 \
+	}                                                                 \
+	void block::draw(const Camera &camera)                            \
+	{                                                                 \
+		pcxImageDraw(&spr, x - camera.x, y - camera.y, GL_FLIP_NONE); \
+	}                                                                 \
+	u16 block::id(void) const                                         \
+	{                                                                 \
+		return id_;                                                   \
+	}                                                                 \
+	bool block::solid(void)                                           \
+	{                                                                 \
+		return solid_;                                                \
 	}
 
 /**
@@ -178,7 +178,7 @@ enum class SlabID
 	}                                                                                                             \
 	void saplingid##SaplingBlock::draw(const Camera &camera)                                                      \
 	{                                                                                                             \
-		glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, spr);                                                  \
+		pcxImageDraw(&spr, x - camera.x, y - camera.y, GL_FLIP_NONE);                                             \
 	}                                                                                                             \
 	bool saplingid##SaplingBlock::solid(void)                                                                     \
 	{                                                                                                             \
@@ -206,44 +206,44 @@ enum class SlabID
  * @param spr block sprite
  * @param bid block ID
  */
-#define TRAPDOOR_IMPL(trapdid, spr, bid)                                                                 \
-	trapdid##TrapdoorBlock::trapdid##TrapdoorBlock(s16 x, s16 y) : Block(x, y, 6), open(false)           \
-	{                                                                                                    \
-	}                                                                                                    \
-	trapdid##TrapdoorBlock::trapdid##TrapdoorBlock(s16 x, s16 y, bool open) : Block(x, y, 6), open(open) \
-	{                                                                                                    \
-	}                                                                                                    \
-	void trapdid##TrapdoorBlock::draw(const Camera &camera)                                              \
-	{                                                                                                    \
-		if (open)                                                                                        \
-			glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, spr);                                     \
-		else                                                                                             \
-			glSpriteScaleXY(x - camera.x, y - camera.y, 1 << 12, 1 << 10, GL_FLIP_NONE, spr);            \
-	}                                                                                                    \
-	bool trapdid##TrapdoorBlock::solid(void)                                                             \
-	{                                                                                                    \
-		return !open;                                                                                    \
-	}                                                                                                    \
-	void trapdid##TrapdoorBlock::interact(InventoryItem::ID item)                                        \
-	{                                                                                                    \
-		(void)item;                                                                                      \
-		open = !open;                                                                                    \
-		if (open)                                                                                        \
-			playsfx(4, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4);                          \
-		else                                                                                             \
-			playsfx(4, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4);                      \
-	}                                                                                                    \
-	u16 trapdid##TrapdoorBlock::id(void) const                                                           \
-	{                                                                                                    \
-		return bid;                                                                                      \
-	}                                                                                                    \
-	Rect trapdid##TrapdoorBlock::getRect(void) const                                                     \
-	{                                                                                                    \
-		return Rect(x, y, 16, open ? 16 : 4);                                                            \
-	}                                                                                                    \
-	bool trapdid##TrapdoorBlock::isOpen(void)                                                            \
-	{                                                                                                    \
-		return open;                                                                                     \
+#define TRAPDOOR_IMPL(trapdid, spr, bid)                                                                                \
+	trapdid##TrapdoorBlock::trapdid##TrapdoorBlock(s16 x, s16 y) : Block(x, y, 6), open(false)                          \
+	{                                                                                                                   \
+	}                                                                                                                   \
+	trapdid##TrapdoorBlock::trapdid##TrapdoorBlock(s16 x, s16 y, bool open) : Block(x, y, 6), open(open)                \
+	{                                                                                                                   \
+	}                                                                                                                   \
+	void trapdid##TrapdoorBlock::draw(const Camera &camera)                                                             \
+	{                                                                                                                   \
+		if (open)                                                                                                       \
+			pcxImageDraw(&spr, x - camera.x, y - camera.y, GL_FLIP_NONE);                                               \
+		else                                                                                                            \
+			pcxImageDrawExScaleXY(&spr, x - camera.x, y - camera.y, 0, 0, 16, 16, SCALE_NORMAL, 1 << 10, GL_FLIP_NONE); \
+	}                                                                                                                   \
+	bool trapdid##TrapdoorBlock::solid(void)                                                                            \
+	{                                                                                                                   \
+		return !open;                                                                                                   \
+	}                                                                                                                   \
+	void trapdid##TrapdoorBlock::interact(InventoryItem::ID item)                                                       \
+	{                                                                                                                   \
+		(void)item;                                                                                                     \
+		open = !open;                                                                                                   \
+		if (open)                                                                                                       \
+			playsfx(4, sndDoorOpen1, sndDoorOpen2, sndDoorOpen3, sndDoorOpen4);                                         \
+		else                                                                                                            \
+			playsfx(4, sndDoorClose1, sndDoorClose2, sndDoorClose3, sndDoorClose4);                                     \
+	}                                                                                                                   \
+	u16 trapdid##TrapdoorBlock::id(void) const                                                                          \
+	{                                                                                                                   \
+		return bid;                                                                                                     \
+	}                                                                                                                   \
+	Rect trapdid##TrapdoorBlock::getRect(void) const                                                                    \
+	{                                                                                                                   \
+		return Rect(x, y, 16, open ? 16 : 4);                                                                           \
+	}                                                                                                                   \
+	bool trapdid##TrapdoorBlock::isOpen(void)                                                                           \
+	{                                                                                                                   \
+		return open;                                                                                                    \
 	}
 
 /**
@@ -259,7 +259,7 @@ enum class SlabID
 	}                                                                                                     \
 	void slabid##SlabBlock::draw(const Camera &camera)                                                    \
 	{                                                                                                     \
-		glSpritePart(spr, x - camera.x, y - camera.y + 8, 0, 0, 16, 8);                                   \
+		pcxImageDrawEx(&spr, x - camera.x, y - camera.y + 8, 0, 0, 16, 8, SCALE_NORMAL, GL_FLIP_NONE);    \
 	}                                                                                                     \
 	u16 slabid##SlabBlock::id(void) const                                                                 \
 	{                                                                                                     \

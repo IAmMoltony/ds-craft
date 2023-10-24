@@ -16,7 +16,7 @@ GrassBlock::GrassBlock(s16 x, s16 y, Type type) : Block(x, y, 14), type(type)
 
 void GrassBlock::draw(const Camera &camera)
 {
-	glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprGrass);
+	pcxImageDraw(&sprGrass, x - camera.x, y - camera.y, GL_FLIP_NONE);
 
 	switch (type)
 	{
@@ -28,7 +28,7 @@ void GrassBlock::draw(const Camera &camera)
 		break;
 	}
 
-	glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprGrassOverlay);
+	pcxImageDraw(&sprGrassOverlay, x - camera.x, y - camera.y, GL_FLIP_NONE);
 	glColor(RGB15(31, 31, 31));
 }
 
@@ -71,7 +71,7 @@ void Grass::draw(const Camera &camera)
 		break;
 	}
 
-	glSpritePart(sprGrass2, x - camera.x, y - camera.y + (16 - height), 0, 0, 16, height);
+	pcxImageDrawEx(&sprGrass2, x - camera.x, y - camera.y + (16 - height), 0, 0, 16, height, SCALE_NORMAL, GL_FLIP_NONE);
 	glColor(RGB15(31, 31, 31));
 }
 
@@ -105,7 +105,7 @@ void DirtBlock::draw(const Camera &camera)
 	if (farmland)
 		pcxImageDrawEx(&sprDirt, x - camera.x, y - camera.y + 1, 0, 0, 16, 15, SCALE_NORMAL, GL_FLIP_NONE);
 	else if (path)
-		glSpritePart(sprDirtPath, x - camera.x, y - camera.y + 1, 0, 1, 16, 15);
+		pcxImageDrawEx(&sprDirtPath, x - camera.y, y - camera.y + 1, 0, 1, 16, 15, SCALE_NORMAL, GL_FLIP_NONE);
 	else
 		pcxImageDraw(&sprDirt, x - camera.x, y - camera.y, GL_FLIP_NONE);
 }
@@ -156,18 +156,18 @@ void LeavesBlock::draw(const Camera &camera)
 	{
 	case Type::Oak:
 		glColor(COLOR_OAK);
-		glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprLeaves);
+		pcxImageDraw(&sprLeaves, x - camera.x, y - camera.y, GL_FLIP_NONE);
 		break;
 	case Type::Birch:
 		glColor(COLOR_BIRCH);
-		glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprBirchLeaves);
+		pcxImageDraw(&sprBirchLeaves, x - camera.x, y - camera.y, GL_FLIP_NONE);
 		break;
 	case Type::Spruce:
 		glColor(COLOR_SPRUCE);
-		glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprSpruceLeaves);
+		pcxImageDraw(&sprSpruceLeaves, x - camera.x, y - camera.y, GL_FLIP_NONE);
 		break;
 	}
-	glColor(RGB15(31, 31, 31)); // reset color
+	glColor(RGB15(31, 31, 31)); // reset draw color
 }
 
 bool LeavesBlock::solid(void)
@@ -190,6 +190,7 @@ bool LeavesBlock::isNatural(void)
 FlowerBlock::FlowerBlock(s16 x, s16 y) : Block(x, y, 1), type(FlowerType::Poppy),
 										 xOff(randomRangeSigned(X_OFF_MIN, X_OFF_MAX))
 {
+	// choose flower type
 	switch (randomRange(1, 3))
 	{
 	case 1:
@@ -214,13 +215,13 @@ void FlowerBlock::draw(const Camera &camera)
 	switch (type)
 	{
 	case FlowerType::Dandelion:
-		glSprite(x - camera.x + xOff, y - camera.y, GL_FLIP_NONE, sprDandelion);
+		pcxImageDraw(&sprDandelion, x - camera.x + xOff, y - camera.y, GL_FLIP_NONE);
 		break;
 	case FlowerType::Poppy:
-		glSprite(x - camera.x + xOff, y - camera.y, GL_FLIP_NONE, sprPoppy);
+		pcxImageDraw(&sprPoppy, x - camera.x + xOff, y - camera.y, GL_FLIP_NONE);
 		break;
 	case FlowerType::RedTulip:
-		glSprite(x - camera.x + xOff, y - camera.y, GL_FLIP_NONE, sprRedTulip);
+		pcxImageDraw(&sprRedTulip, x - camera.x + xOff, y - camera.y, GL_FLIP_NONE);
 		break;
 	}
 }
@@ -257,25 +258,25 @@ DoorBlock::DoorBlock(s16 x, s16 y, bool open, bool facing, DoorType type) : Bloc
 
 void DoorBlock::draw(const Camera &camera)
 {
-	glImage *spr;
+	PCXImage *spr;
 	switch (type)
 	{
 	case DoorType::Oak:
 	default:
-		spr = sprDoor;
+		spr = &sprDoor;
 		break;
 	case DoorType::Birch:
-		spr = sprBirchDoor;
+		spr = &sprBirchDoor;
 		break;
 	case DoorType::Spruce:
-		spr = sprSpruceDoor;
+		spr = &sprSpruceDoor;
 		break;
 	}
 
 	if (open)
-		glSprite(x - camera.x - 1, y - camera.y, GL_FLIP_NONE, spr);
+		pcxImageDraw(spr, x - camera.x - 1, y - camera.y, GL_FLIP_NONE);
 	else
-		glSpriteScaleXY(x - camera.x - 1 + (facing ? 0 : 8), y - camera.y, 1 << 10, 1 << 12, (facing ? GL_FLIP_NONE : GL_FLIP_H), spr);
+		pcxImageDrawExScaleXY(spr, x - camera.x - 1 + (facing ? 0 : 8), 0, 0, spr->simg.width, spr->simg.height, y - camera.y, 1 << 10, 1 << 12, (facing ? GL_FLIP_NONE : GL_FLIP_H));
 }
 
 bool DoorBlock::solid(void)
@@ -337,7 +338,7 @@ GlassBlock::GlassBlock(s16 x, s16 y) : Block(x, y, 6)
 
 void GlassBlock::draw(const Camera &camera)
 {
-	glSprite(x - camera.x - 1, y - camera.y, GL_FLIP_NONE, sprGlass);
+	pcxImageDraw(&sprGlass, x - camera.x - 1, y - camera.y, GL_FLIP_NONE);
 }
 
 u16 GlassBlock::id(void) const
@@ -367,7 +368,7 @@ ChestBlock::ChestBlock(s16 x, s16 y, u16 id) : Block(x, y, 7), chid(id)
 
 void ChestBlock::draw(const Camera &camera)
 {
-	glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprChest);
+	pcxImageDraw(&sprChest, x - camera.x, y - camera.y, GL_FLIP_NONE);
 }
 
 bool ChestBlock::solid(void)
@@ -417,7 +418,7 @@ SignBlock::SignBlock(s16 x, s16 y, const std::string &text) : Block(x, y, 6), te
 
 void SignBlock::draw(const Camera &camera)
 {
-	glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprSign);
+	pcxImageDraw(&sprSign, x - camera.x, y - camera.y, GL_FLIP_NONE);
 }
 
 void SignBlock::drawText(const Camera &camera)
@@ -496,7 +497,7 @@ WheatBlock::WheatBlock(s16 x, s16 y, u8 growStage) : Block(x, y, 1), growStage(g
 
 void WheatBlock::draw(const Camera &camera)
 {
-	glSprite(x - camera.x, y - camera.y, GL_FLIP_NONE, sprWheatBlock[growStage]);
+	pcxImageDraw(&sprWheatBlock[growStage], x - camera.x, y - camera.y, GL_FLIP_NONE);
 }
 
 u16 WheatBlock::id(void) const

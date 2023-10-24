@@ -49,7 +49,7 @@ PCXImage sprStoneBricks;
 PCXImage sprWheatBlock[8];
 PCXImage sprHayBale;
 
-static glImage _sprBlockBreak[10][1];
+static PCXImage _sprBlockBreak[10];
 
 declsfx4(DoorOpen);
 declsfx4(DoorClose);
@@ -191,7 +191,7 @@ void Block::loadTextures(void)
     }
 
     // grass overlay
-    pcxImageLoad("nitro:/textures/block/grass_overlay.pcx", true, sprGrassOverlay);
+    pcxImageLoad("nitro:/textures/block/grass_overlay.pcx", true, &sprGrassOverlay);
 }
 
 void Block::unloadTextures(void)

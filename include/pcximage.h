@@ -14,7 +14,7 @@
 typedef struct
 {
 	/**
-	 * @brief Image returned by pcxLoad
+	 * @brief Image returned by image loader
 	 */
 	sImage simg;
 
@@ -69,6 +69,21 @@ extern "C"
 	 * @param flip how the image should be flipped
 	 */
 	void pcxImageDrawEx(PCXImage *image, int x, int y, int xOff, int yOff, int w, int h, s32 scale, GL_FLIP_MODE flip);
+
+	/**
+	 * @brief Draw a PCX image (advanced edition) with XY scaling
+	 * @param image PCX image to draw
+	 * @param x X position of the image
+	 * @param y Y position of the image
+	 * @param xOff image X offset
+	 * @param yOff image Y offset
+	 * @param w image width
+	 * @param h image height
+	 * @param scaleX horizontal (X axis) scale
+	 * @param scaleY vertical (Y axis) scale
+	 * @param flip how the image should be flipped
+	 */
+	void pcxImageDrawExScaleXY(PCXImage *image, int x, int y, int xOff, int yOff, int w, int h, s32 scaleX, s32 scaleY, GL_FLIP_MODE flip);
 
 #ifdef __cplusplus
 }

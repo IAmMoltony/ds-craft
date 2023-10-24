@@ -2620,7 +2620,6 @@ void Player::addItem(InventoryItem::ID item, u8 amount)
         return;
 
     // execute addItem multiple times
-    // TODO i suspect there is a better way of doing this
     for (u8 _ = 0; _ < amount; ++_)
         addItem(item);
 }
@@ -2738,6 +2737,7 @@ void Player::reset(void)
 
 void Player::doDamage(u16 damage, Camera *camera)
 {
+    // do damage
     health -= damage;
 
     // play sound
@@ -2761,8 +2761,10 @@ bool Player::dead(void)
 bool Player::isInventoryFull(void)
 {
     // TODO this function does not work correctly with unstackable items. that's why i should add a function for getting max stack for item.
+    // TODO also, if the inventory *is* full, then this will iterate through the whole inventory. I need to find a better way to do this, if possible.
     for (u8 i = 0; i < 20; ++i)
         if (inventory[i].amount < 64)
+            // there is still space left
             return false;
 
     return true;
@@ -2902,16 +2904,17 @@ std::array<InventoryItem, 20> Player::getInventory(void)
     return inv;
 }
 
-// this file is already almost 3000 lines
-// upd: already over 3000 lines...
-// upd2: not anymore!
-
 void Player::jump(void)
 {
+    // can't jump if already jumping
     if (!jumping)
     {
         jumping = true;
         velY = -JUMP_SPEED;
-        statsSetEntry("timesjumped", statsGetEntry("timesjumped") + 1);
+        statsSetEntry("timesjumped", statsGetEntry("timesjumped") + 1); // add 1 to `times jumped' stat
     }
 }
+
+// this file is already almost 3000 lines
+// upd: already over 3000 lines...
+// upd2: not anymore!
