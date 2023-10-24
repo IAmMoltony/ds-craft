@@ -1,5 +1,6 @@
 #include "blockparticle.hpp"
 #include "glext.h"
+#include "util.h"
 
 // TODO move this entire class into Block
 
@@ -24,7 +25,7 @@ void BlockParticle::update(void)
 void BlockParticle::draw(const Camera &camera)
 {
     glColor(color);
-    pcxImageDrawEx(blockImage, x - camera.x, y - camera.y, imageXOff, imageYOff, 5, 5, GL_FLIP_NONE);
+    pcxImageDrawEx(blockImage, x - camera.x, y - camera.y, imageXOff, imageYOff, 5, 5, SCALE_NORMAL, GL_FLIP_NONE);
     glColor(RGB15(31, 31, 31));
 }
 

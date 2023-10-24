@@ -23,11 +23,15 @@ void Player::initCrafting(void)
         // ignore comments and empty lines
         if (!line.empty() && line[0] != '#')
         {
-            cpuStartTiming(0);
-            _craftingRecipes.push_back(CraftingRecipe(line));
-            float timeTook = (float)cpuEndTiming() / BUS_CLOCK;
-            logMessage(LOG_INFO, "loaded %s in %f s", line.c_str(), timeTook);
-            loadTimes[line] = timeTook;
+            cpuStartTiming(0); // start measuring time
+            _craftingRecipes.push_back(CraftingRecipe(line)); // parse + add the recipe
+            float timeTook = (float)cpuEndTiming() / BUS_CLOCK; // get how much time it took
+            logMessage(LOG_INFO, "loaded %s in %f s", line.c_str(), timeTook); // print how much it took
+            loadTimes[line] = timeTook; // put the time into the list
+
+            // the time measuring functions also measure how much time it takes to
+            // add the recipe into the recipes array
+            // but adding takes so little time to the point that it's basically negligible
         }
     }
 
@@ -102,25 +106,25 @@ void Player::drawCrafting(Font &font, Font &fontRu)
             break;
         // special cases
         case InventoryItem::ID::Door:
-            glSpriteScale(slotX + 4, slotY + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
+            pcxImageDrawEx(&sprDoor, slotX + 4, slotY + 4, 0, 0, 16, 16, SCALE_NORMAL / 4, GL_FLIP_NONE);
             break;
         case InventoryItem::ID::BirchDoor:
-            glSpriteScale(slotX + 4, slotY + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
+            pcxImageDrawEx(&sprBirchDoor, slotX + 4, slotY + 4, 0, 0, 16, 16, SCALE_NORMAL / 4, GL_FLIP_NONE);
             break;
         case InventoryItem::ID::SpruceDoor:
-            glSpriteScale(slotX + 4, slotY + 4, (1 << 12) / 4, GL_FLIP_NONE, sprSpruceDoor);
+            pcxImageDrawEx(&sprSpruceDoor, slotX + 4, slotY + 4, 0, 0, 16, 16, SCALE_NORMAL / 4, GL_FLIP_NONE);
             break;
         case InventoryItem::ID::OakSlab:
-            glSpritePartScale(sprPlanks, slotX + 4, slotY + 4, 0, 0, 16, 8, HALF_SCALE);
+            pcxImageDrawEx(&sprPlanks, slotX + 4, slotY + 4, 0, 0, 16, 8, HALF_SCALE, GL_FLIP_NONE);
             break;
         case InventoryItem::ID::BirchSlab:
-            glSpritePartScale(sprBirchPlanks, slotX + 4, slotY + 4, 0, 0, 16, 8, HALF_SCALE);
+            pcxImageDrawEx(&sprBirchPlanks, slotX + 4, slotY + 4, 0, 0, 16, 8, HALF_SCALE, GL_FLIP_NONE);
             break;
         case InventoryItem::ID::SpruceSlab:
-            glSpritePartScale(sprSprucePlanks, slotX + 4, slotY + 4, 0, 0, 16, 8, HALF_SCALE);
+            pcxImageDrawEx(&sprSprucePlanks, slotX + 4, slotY + 4, 0, 0, 16, 8, HALF_SCALE, GL_FLIP_NONE);
             break;
         case InventoryItem::ID::CobblestoneSlab:
-            glSpritePartScale(sprCobblestone, slotX + 4, slotY + 4, 0, 0, 16, 8, HALF_SCALE);
+            pcxImageDrawEx(&sprCobblestone, slotX + 4, slotY + 4, 0, 0, 16, 8, HALF_SCALE, GL_FLIP_NONE);
             break;
         }
 

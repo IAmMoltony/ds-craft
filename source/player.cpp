@@ -351,50 +351,50 @@ static void _drawInventory(InventoryItem inventory[], u8 itemCount, Font &font, 
             // some special cases
             case InventoryItem::ID::Grass2:
                 glColor(GrassBlock::COLOR_NORMAL);
-                glSpriteScale(xx + 4, yy + 4, HALF_SCALE, GL_FLIP_NONE, sprGrass2);
+                pcxImageDrawEx(&sprGrass2, xx + 4, yy + 4, 0, 0, 16, 16, HALF_SCALE, GL_FLIP_NONE);
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItem::ID::Leaves:
                 glColor(LeavesBlock::COLOR_OAK);
-                glSpriteScale(xx + 4, yy + 4, HALF_SCALE, GL_FLIP_NONE, sprLeaves);
+                pcxImageDrawEx(&sprLeaves, xx + 4, yy + 4, 0, 0, 16, 16, HALF_SCALE, GL_FLIP_NONE);
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItem::ID::BirchLeaves:
                 glColor(LeavesBlock::COLOR_BIRCH);
-                glSpriteScale(xx + 4, yy + 4, HALF_SCALE, GL_FLIP_NONE, sprBirchLeaves);
+                pcxImageDrawEx(&sprBirchLeaves, xx + 4, yy + 4, 0, 0, 16, 16, HALF_SCALE, GL_FLIP_NONE);
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItem::ID::SpruceLeaves:
                 glColor(LeavesBlock::COLOR_SPRUCE);
-                glSpriteScale(xx + 4, yy + 4, HALF_SCALE, GL_FLIP_NONE, sprSpruceLeaves);
+                pcxImageDrawEx(&sprSpruceLeaves, xx + 4, yy + 4, 0, 0, 16, 16, HALF_SCALE, GL_FLIP_NONE);
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItem::ID::Door:
-                glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
+                pcxImageDrawEx(&sprDoor, xx + 5, yy + 4, 0, 0, 16, 32, SCALE_NORMAL / 4, GL_FLIP_NONE);
                 break;
             case InventoryItem::ID::BirchDoor:
-                glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
+                pcxImageDrawEx(&sprBirchDoor, xx + 5, yy + 4, 0, 0, 16, 32, SCALE_NORMAL / 4, GL_FLIP_NONE);
                 break;
             case InventoryItem::ID::SpruceDoor:
-                glSpriteScale(xx + 5, yy + 4, (1 << 12) / 4, GL_FLIP_NONE, sprSpruceDoor);
+                pcxImageDrawEx(&sprSpruceDoor, xx + 5, yy + 4, 0, 0, 16, 32, SCALE_NORMAL / 4, GL_FLIP_NONE);
                 break;
             case InventoryItem::ID::Glass:
-                glSpriteScale(xx + 3, yy + 4, HALF_SCALE, GL_FLIP_NONE, sprGlass);
+                pcxImageDrawEx(&sprGlass, xx + 3, yy + 4, 0, 0, 16, 16, HALF_SCALE, GL_FLIP_NONE);
                 break;
             case InventoryItem::ID::OakSlab:
-                glSpritePartScale(sprPlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALF_SCALE);
+                pcxImageDrawEx(&sprPlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALF_SCALE, GL_FLIP_NONE);
                 break;
             case InventoryItem::ID::BirchSlab:
-                glSpritePartScale(sprBirchPlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALF_SCALE);
+                pcxImageDrawEx(&sprBirchPlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALF_SCALE, GL_FLIP_NONE);
                 break;
             case InventoryItem::ID::SpruceSlab:
-                glSpritePartScale(sprSprucePlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALF_SCALE);
+                pcxImageDrawEx(&sprSprucePlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALF_SCALE, GL_FLIP_NONE);
                 break;
             case InventoryItem::ID::CobblestoneSlab:
-                glSpritePartScale(sprCobblestone, xx + 3, yy + 5, 0, 0, 16, 8, HALF_SCALE);
+                pcxImageDrawEx(&sprCobblestone, xx + 3, yy + 6, 0, 0, 16, 8, HALF_SCALE, GL_FLIP_NONE);
                 break;
             case InventoryItem::ID::StoneBricksSlab:
-                glSpritePartScale(sprStoneBricks, xx + 3, yy + 5, 0, 0, 16, 8, HALF_SCALE);
+                pcxImageDrawEx(&sprStoneBricks, xx + 3, yy + 6, 0, 0, 16, 8, HALF_SCALE, GL_FLIP_NONE);
                 break;
             // default
             default:
@@ -490,50 +490,50 @@ void Player::drawBody(const Camera &camera)
         // some special cases
         case InventoryItem::ID::Grass2:
             glColor(GrassBlock::COLOR_NORMAL);
-            glSpriteScale(xx, yy, HALF_SCALE, flip, sprGrass2);
+            pcxImageDrawEx(&sprGrass2, xx, yy, 0, 0, 16, 16, HALF_SCALE, flip);
             glColor(RGB15(31, 31, 31));
             break;
         case InventoryItem::ID::Leaves:
             glColor(LeavesBlock::COLOR_OAK);
-            glSpriteScale(xx, yy, HALF_SCALE, flip, sprLeaves);
+            pcxImageDrawEx(&sprLeaves, xx, yy, 0, 0, 16, 16, HALF_SCALE, flip);
             glColor(RGB15(31, 31, 31));
             break;
         case InventoryItem::ID::BirchLeaves:
             glColor(LeavesBlock::COLOR_BIRCH);
-            glSpriteScale(xx, yy, HALF_SCALE, flip, sprBirchLeaves);
+            pcxImageDrawEx(&sprBirchLeaves, xx, yy, 0, 0, 16, 16, HALF_SCALE, flip);
             glColor(RGB15(31, 31, 31));
             break;
         case InventoryItem::ID::SpruceLeaves:
             glColor(LeavesBlock::COLOR_SPRUCE);
-            glSpriteScale(xx, yy, HALF_SCALE, flip, sprSpruceLeaves);
+            pcxImageDrawEx(&sprSpruceLeaves, xx, yy, 0, 0, 16, 16, HALF_SCALE, flip);
             glColor(RGB15(31, 31, 31));
             break;
         case InventoryItem::ID::Door:
-            glSpriteScale(xx, yy, SCALE_NORMAL / 4, flip, sprDoor);
+            pcxImageDrawEx(&sprDoor, xx, yy, 0, 0, 16, 16, SCALE_NORMAL / 4, flip);
             break;
         case InventoryItem::ID::BirchDoor:
-            glSpriteScale(xx, yy, SCALE_NORMAL / 4, flip, sprBirchDoor);
+            pcxImageDrawEx(&sprBirchDoor, xx, yy, 0, 0, 16, 16, SCALE_NORMAL / 4, flip);
             break;
         case InventoryItem::ID::SpruceDoor:
-            glSpriteScale(xx, yy, SCALE_NORMAL / 4, flip, sprSpruceDoor);
+            pcxImageDrawEx(&sprSpruceDoor, xx, yy, 0, 0, 16, 16, SCALE_NORMAL / 4, flip);
             break;
         case InventoryItem::ID::Glass:
-            glSpriteScale(xx - 1, yy, HALF_SCALE, flip, sprGlass);
+            pcxImageDrawEx(&sprGlass, xx - 1, yy, 0, 0, 16, 16, HALF_SCALE, flip);
             break;
         case InventoryItem::ID::OakSlab:
-            glSpritePartScale(sprPlanks, xx - 1, yy + 2, 0, 0, 16, 8, HALF_SCALE);
+            pcxImageDrawEx(&sprPlanks, xx - 1, yy + 2, 0, 0, 16, 8, HALF_SCALE, flip);
             break;
         case InventoryItem::ID::BirchSlab:
-            glSpritePartScale(sprBirchPlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALF_SCALE);
+            pcxImageDrawEx(&sprBirchPlanks, xx - 1, yy + 2, 0, 0, 16, 8, HALF_SCALE, flip);
             break;
         case InventoryItem::ID::SpruceSlab:
-            glSpritePartScale(sprSprucePlanks, xx + 3, yy + 6, 0, 0, 16, 8, HALF_SCALE);
+            pcxImageDrawEx(&sprSprucePlanks, xx - 1, yy + 2, 0, 0, 16, 8, HALF_SCALE, flip);
             break;
         case InventoryItem::ID::CobblestoneSlab:
-            glSpritePartScale(sprCobblestone, xx - 1, yy + 2, 0, 0, 16, 8, HALF_SCALE);
+            pcxImageDrawEx(&sprCobblestone, xx - 1, yy + 2, 0, 0, 16, 8, HALF_SCALE, flip);
             break;
         case InventoryItem::ID::StoneBricksSlab:
-            glSpritePartScale(sprStoneBricks, xx - 1, yy + 2, 0, 0, 16, 8, HALF_SCALE);
+            pcxImageDrawEx(&sprStoneBricks, xx - 1, yy + 2, 0, 0, 16, 8, HALF_SCALE, flip);
             break;
         // default
         default:
@@ -616,7 +616,7 @@ void Player::drawSign(Font &font, Font &fontRu)
         fontRu.printCentered(0, SCREEN_WIDTH / 2 + 23, "\3Rtrn\3 knk \2:A : Ibmqpzku#", &font);
         break;
     }
-    glSpritePartScale(sprPlanks, SCREEN_WIDTH / 2 - 75, SCREEN_HEIGHT / 2 - 30, 0, 0, 75, 30, SCALE_NORMAL * 2);
+    pcxImageDrawEx(&sprPlanks, SCREEN_WIDTH / 2 - 75, SCREEN_HEIGHT / 2 - 30, 0, 0, 75, 80, SCALE_NORMAL * 2, GL_FLIP_NONE);
     font.setCharWidthHandler(Game::fontSmallCharWidthHandler);
     font.printCentered(0, SCREEN_HEIGHT / 2 - 5, std::string(sign->getText() + '_'));
 }
@@ -636,10 +636,12 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
         yy = getRectAimY8(camera).y - camera.y;
 
     if (currid == InventoryItem::ID::None || isItem(currid))
+        // draw a filled rectangle
         glBoxFilled(xx, yy,
                     xx + 15, yy + 15, (aimDist <= MAX_AIM_DISTANCE) ? getFavoriteColorRgb() : RGB15(31, 0, 0));
     else
     {
+        // red color if out of reach
         if (aimDist > MAX_AIM_DISTANCE)
             glColor(RGB15(31, 0, 0));
 
@@ -648,41 +650,41 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
         // some special cases
         case InventoryItem::ID::Grass2:
             glColor(GrassBlock::COLOR_NORMAL);
-            glSprite(xx, yy, GL_FLIP_NONE, getItemImage(currid));
+            pcxImageDraw(&sprGrass2, xx, yy, GL_FLIP_NONE);
             glColor(RGB15(31, 31, 31));
             break;
         case InventoryItem::ID::Leaves:
             glColor(LeavesBlock::COLOR_OAK);
-            glSprite(xx, yy, GL_FLIP_NONE, sprLeaves);
+            pcxImageDraw(&sprLeaves, xx, yy, GL_FLIP_NONE);
             glColor(RGB15(31, 31, 31));
             break;
         case InventoryItem::ID::BirchLeaves:
             glColor(LeavesBlock::COLOR_BIRCH);
-            glSprite(xx, yy, GL_FLIP_NONE, sprBirchLeaves);
+            pcxImageDraw(&sprBirchLeaves, xx, yy, GL_FLIP_NONE);
             glColor(RGB15(31, 31, 31));
             break;
         case InventoryItem::ID::SpruceLeaves:
             glColor(LeavesBlock::COLOR_SPRUCE);
-            glSprite(xx, yy, GL_FLIP_NONE, sprSpruceLeaves);
+            pcxImageDraw(&sprSpruceLeaves, xx, yy, GL_FLIP_NONE);
             glColor(RGB15(31, 31, 31));
             break;
         case InventoryItem::ID::Glass:
-            glSpriteScale(xx - 1, yy, HALF_SCALE, GL_FLIP_NONE, sprGlass);
+            pcxImageDraw(&sprGlass, xx - 1, yy, GL_FLIP_NONE);
             break;
         case InventoryItem::ID::OakSlab:
-            glSpritePart(sprPlanks, xx, yy + 8, 0, 0, 16, 8);
+            pcxImageDrawEx(&sprPlanks, xx, yy + 8, 0, 0, 16, 8, SCALE_NORMAL, GL_FLIP_NONE);
             break;
         case InventoryItem::ID::BirchSlab:
-            glSpritePart(sprBirchPlanks, xx, yy + 8, 0, 0, 16, 8);
+            pcxImageDrawEx(&sprBirchPlanks, xx, yy + 8, 0, 0, 16, 8, SCALE_NORMAL, GL_FLIP_NONE);
             break;
         case InventoryItem::ID::SpruceSlab:
-            glSpritePart(sprSprucePlanks, xx, yy + 8, 0, 0, 16, 8);
+            pcxImageDrawEx(&sprSprucePlanks, xx, yy + 8, 0, 0, 16, 8, SCALE_NORMAL, GL_FLIP_NONE);
             break;
         case InventoryItem::ID::CobblestoneSlab:
-            glSpritePart(sprCobblestone, xx, yy + 8, 0, 0, 16, 8);
+            pcxImageDrawEx(&sprCobblestone, xx, yy + 8, 0, 0, 16, 8, SCALE_NORMAL, GL_FLIP_NONE);
             break;
         case InventoryItem::ID::StoneBricksSlab:
-            glSpritePart(sprStoneBricks, xx, yy + 8, 0, 0, 16, 8);
+            pcxImageDrawEx(&sprStoneBricks, xx, yy + 8, 0, 0, 16, 8, SCALE_NORMAL, GL_FLIP_NONE);
             break;
         // default
         default:
@@ -723,50 +725,50 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
             // some special cases
             case InventoryItem::ID::Grass2:
                 glColor(GrassBlock::COLOR_NORMAL);
-                glSpriteScale(xxItem + 4, yyItem + 4, HALF_SCALE, GL_FLIP_NONE, sprGrass2);
+                pcxImageDrawEx(&sprGrass2, xxItem + 4, yyItem + 4, 0, 0, 16, 16, HALF_SCALE, GL_FLIP_NONE);
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItem::ID::Leaves:
                 glColor(LeavesBlock::COLOR_OAK);
-                glSpriteScale(xxItem + 4, yyItem + 4, HALF_SCALE, GL_FLIP_NONE, sprLeaves);
+                pcxImageDrawEx(&sprLeaves, xxItem + 4, yyItem + 4, 0, 0, 16, 16, HALF_SCALE, GL_FLIP_NONE);
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItem::ID::BirchLeaves:
                 glColor(LeavesBlock::COLOR_BIRCH);
-                glSpriteScale(xxItem + 4, yyItem + 4, HALF_SCALE, GL_FLIP_NONE, sprBirchLeaves);
+                pcxImageDrawEx(&sprBirchLeaves, xxItem + 4, yyItem + 4, 0, 0, 16, 16, HALF_SCALE, GL_FLIP_NONE);
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItem::ID::SpruceLeaves:
                 glColor(LeavesBlock::COLOR_SPRUCE);
-                glSpriteScale(xxItem + 4, yyItem + 4, HALF_SCALE, GL_FLIP_NONE, sprSpruceLeaves);
+                pcxImageDrawEx(&sprSpruceLeaves, xxItem + 4, yyItem + 4, 0, 0, 16, 16, HALF_SCALE, GL_FLIP_NONE);
                 glColor(RGB15(31, 31, 31));
                 break;
             case InventoryItem::ID::Door:
-                glSpriteScale(xxItem + 5, yyItem + 4, (1 << 12) / 4, GL_FLIP_NONE, sprDoor);
+                pcxImageDrawEx(&sprDoor, xxItem + 5, yyItem + 4, 0, 0, 16, 32, SCALE_NORMAL / 4, GL_FLIP_NONE);
                 break;
             case InventoryItem::ID::BirchDoor:
-                glSpriteScale(xxItem + 5, yyItem + 4, (1 << 12) / 4, GL_FLIP_NONE, sprBirchDoor);
+                pcxImageDrawEx(&sprBirchDoor, xxItem + 5, yyItem + 4, 0, 0, 16, 32, SCALE_NORMAL / 4, GL_FLIP_NONE);
                 break;
             case InventoryItem::ID::SpruceDoor:
-                glSpriteScale(xxItem + 5, yyItem + 4, (1 << 12) / 4, GL_FLIP_NONE, sprSpruceDoor);
+                pcxImageDrawEx(&sprBirchDoor, xxItem + 5, yyItem + 4, 0, 0, 16, 32, SCALE_NORMAL / 4, GL_FLIP_NONE);
                 break;
             case InventoryItem::ID::Glass:
-                glSpriteScale(xxItem - 1, yyItem, HALF_SCALE, GL_FLIP_NONE, sprGlass);
+                pcxImageDrawEx(&sprGlass, xxItem - 1, yyItem, 0, 0, 16, 16, HALF_SCALE, GL_FLIP_NONE);
                 break;
             case InventoryItem::ID::OakSlab:
-                glSpritePartScale(sprPlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE);
+                pcxImageDrawEx(&sprPlanks, xxItem +4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE, GL_FLIP_NONE);
                 break;
             case InventoryItem::ID::BirchSlab:
-                glSpritePartScale(sprBirchPlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE);
+                pcxImageDrawEx(&sprBirchPlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE, GL_FLIP_NONE);
                 break;
             case InventoryItem::ID::SpruceSlab:
-                glSpritePartScale(sprSprucePlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE);
+                pcxImageDrawEx(&sprSprucePlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE, GL_FLIP_NONE);
                 break;
             case InventoryItem::ID::CobblestoneSlab:
-                glSpritePartScale(sprCobblestone, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE);
+                pcxImageDrawEx(&sprCobblestone, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE, GL_FLIP_NONE);
                 break;
             case InventoryItem::ID::StoneBricksSlab:
-                glSpritePartScale(sprStoneBricks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE);
+                pcxImageDrawEx(&sprStoneBricks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE, GL_FLIP_NONE);
                 break;
             // default
             default:
@@ -831,7 +833,7 @@ static void _eatFood(s16 *health, u8 healthAdd)
         *health = 9;
 }
 
-static void _spawnBlockParticles(BlockParticleList *blockParticles, glImage *image, int x, int y, rgb color)
+static void _spawnBlockParticles(BlockParticleList *blockParticles, PCXImage *image, int x, int y, rgb color)
 {
     // if the user doesn't want block particles then halt
     if (!SettingsManager::blockParticles)
@@ -843,7 +845,7 @@ static void _spawnBlockParticles(BlockParticleList *blockParticles, glImage *ima
     blockParticles->push_back(BlockParticle(image, 120, x + 4, y + 2, 1, -3, color));
 }
 
-static void _spawnBlockParticles(BlockParticleList *blockParticles, glImage *image, int x, int y)
+static void _spawnBlockParticles(BlockParticleList *blockParticles, PCXImage *image, int x, int y)
 {
     _spawnBlockParticles(blockParticles, image, x, y, RGB15(31, 31, 31));
 }
@@ -1964,7 +1966,7 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
                     case BID_GRASS:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Dirt));
                         playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
-                        _spawnBlockParticles(blockParticles, sprGrass, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprGrass, block->x, block->y);
                         break;
                     case BID_GRASS2:
                         if (inventory[hotbarSelect].id == InventoryItem::ID::Shears) // broken with shears
@@ -1979,32 +1981,32 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
                                 entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::WheatSeeds));
                         }
                         playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
-                        _spawnBlockParticles(blockParticles, sprGrass2, block->x, block->y, GrassBlock::COLOR_NORMAL);
+                        _spawnBlockParticles(blockParticles, &sprGrass2, block->x, block->y, GrassBlock::COLOR_NORMAL);
                         break;
                     case BID_DIRT:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Dirt));
                         playsfx(4, &sndDirt1, &sndDirt2, &sndDirt3, &sndDirt4);
-                        // TODO _spawnBlockParticles(blockParticles, sprDirt, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprDirt, block->x, block->y);
                         break;
                     case BID_STONE:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Cobblestone));
                         playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
-                        _spawnBlockParticles(blockParticles, sprStone, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprStone, block->x, block->y);
                         break;
                     case BID_WOOD:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Wood));
                         playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
-                        _spawnBlockParticles(blockParticles, sprWood, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprWood, block->x, block->y);
                         break;
                     case BID_BIRCH_WOOD:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::BirchWood));
                         playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
-                        _spawnBlockParticles(blockParticles, sprBirchWood, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprBirchWood, block->x, block->y);
                         break;
                     case BID_SPRUCE_WOOD:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::SpruceWood));
                         playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
-                        _spawnBlockParticles(blockParticles, sprSpruceWood, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprSpruceWood, block->x, block->y);
                         break;
                     case BID_LEAVES:
                     {
@@ -2036,13 +2038,13 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
                         switch (l->type)
                         {
                         case LeavesBlock::Type::Oak:
-                            _spawnBlockParticles(blockParticles, sprLeaves, block->x, block->y, LeavesBlock::COLOR_OAK);
+                            _spawnBlockParticles(blockParticles, &sprLeaves, block->x, block->y, LeavesBlock::COLOR_OAK);
                             break;
                         case LeavesBlock::Type::Birch:
-                            _spawnBlockParticles(blockParticles, sprBirchLeaves, block->x, block->y, LeavesBlock::COLOR_BIRCH);
+                            _spawnBlockParticles(blockParticles, &sprBirchLeaves, block->x, block->y, LeavesBlock::COLOR_BIRCH);
                             break; // TODO rename leaves and planks and wood to oak leaves and planks
                         case LeavesBlock::Type::Spruce:
-                            _spawnBlockParticles(blockParticles, sprSpruceLeaves, block->x, block->y, LeavesBlock::COLOR_SPRUCE);
+                            _spawnBlockParticles(blockParticles, &sprSpruceLeaves, block->x, block->y, LeavesBlock::COLOR_SPRUCE);
                             break;
                         }
 
@@ -2066,21 +2068,21 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
                     case BID_SAND:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Sand));
                         playsfx(4, &sndSand1, &sndSand2, &sndSand3, &sndSand4);
-                        _spawnBlockParticles(blockParticles, sprSand, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprSand, block->x, block->y);
                         break;
                     case BID_SANDSTONE:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Sandstone));
                         playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
-                        _spawnBlockParticles(blockParticles, sprSandstone, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprSandstone, block->x, block->y);
                         break;
                     case BID_CACTUS:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Cactus));
                         playsfx(4, &sndCloth1, &sndCloth2, &sndCloth3, &sndCloth4);
-                        _spawnBlockParticles(blockParticles, sprCactus, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprCactus, block->x, block->y);
                         break;
                     case BID_DEAD_BUSH:
                         playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
-                        _spawnBlockParticles(blockParticles, sprDeadBush, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprDeadBush, block->x, block->y);
                         if (inventory[hotbarSelect].id == InventoryItem::ID::Shears)
                             entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::DeadBush));
                         else
@@ -2093,151 +2095,151 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
                     case BID_POPPY:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Poppy));
                         playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
-                        _spawnBlockParticles(blockParticles, sprPoppy, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprPoppy, block->x, block->y);
                         break;
                     case BID_DANDELION:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Dandelion));
                         playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
-                        _spawnBlockParticles(blockParticles, sprDandelion, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprDandelion, block->x, block->y);
                         break;
                     case BID_RED_TULIP:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::RedTulip));
                         playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
-                        _spawnBlockParticles(blockParticles, sprRedTulip, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprRedTulip, block->x, block->y);
                         break;
                     case BID_DOOR:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Door));
                         playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
-                        _spawnBlockParticles(blockParticles, sprDoor, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprDoor, block->x, block->y);
                         break;
                     case BID_BIRCH_DOOR:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::BirchDoor));
                         playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
-                        _spawnBlockParticles(blockParticles, sprBirchDoor, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprBirchDoor, block->x, block->y);
                         break;
                     case BID_SPRUCE_DOOR:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::SpruceDoor));
                         playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
-                        _spawnBlockParticles(blockParticles, sprSpruceDoor, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprSpruceDoor, block->x, block->y);
                         break;
                     case BID_PLANKS:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Planks));
                         playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
-                        _spawnBlockParticles(blockParticles, sprPlanks, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprPlanks, block->x, block->y);
                         break;
                     case BID_BIRCH_PLANKS:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::BirchPlanks));
                         playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
-                        _spawnBlockParticles(blockParticles, sprBirchPlanks, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprBirchPlanks, block->x, block->y);
                         break;
                     case BID_SPRUCE_PLANKS:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::SprucePlanks));
                         playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
-                        _spawnBlockParticles(blockParticles, sprSprucePlanks, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprSprucePlanks, block->x, block->y);
                         break;
                     case BID_SNOWY_GRASS:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Dirt));
                         playsfx(4, &sndSnow1, &sndSnow2, &sndSnow3, &sndSnow4);
-                        _spawnBlockParticles(blockParticles, sprSnowyGrass, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprSnowyGrass, block->x, block->y);
                         break;
                     case BID_SAPLING:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Sapling));
                         playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
-                        _spawnBlockParticles(blockParticles, sprSapling, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprSapling, block->x, block->y);
                         break;
                     case BID_BIRCH_SAPLING:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::BirchSapling));
                         playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
-                        _spawnBlockParticles(blockParticles, sprBirchSapling, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprBirchSapling, block->x, block->y);
                         break;
                     case BID_SPRUCE_SAPLING:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::SpruceSapling));
                         playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
-                        _spawnBlockParticles(blockParticles, sprSpruceSapling, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprSpruceSapling, block->x, block->y);
                         break;
                     case BID_COBBLESTONE:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Cobblestone));
                         playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
-                        _spawnBlockParticles(blockParticles, sprCobblestone, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprCobblestone, block->x, block->y);
                         break;
                     case BID_COAL_ORE:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Coal));
                         playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
-                        _spawnBlockParticles(blockParticles, sprCoalOre, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprCoalOre, block->x, block->y);
                         break;
                     case BID_COAL_BLOCK:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::CoalBlock));
                         playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
-                        _spawnBlockParticles(blockParticles, sprCoalBlock, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprCoalBlock, block->x, block->y);
                         break;
                     case BID_IRON_ORE:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::IronOre));
                         playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
-                        _spawnBlockParticles(blockParticles, sprIronOre, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprIronOre, block->x, block->y);
                         break;
                     case BID_IRON_BLOCK:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::IronBlock));
                         playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
-                        _spawnBlockParticles(blockParticles, sprIronBlock, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprIronBlock, block->x, block->y);
                         break;
                     case BID_GLASS:
                         playsfx(4, &sndGlass1, &sndGlass2, &sndGlass3, &sndGlass1);
-                        _spawnBlockParticles(blockParticles, sprGlass, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprGlass, block->x, block->y);
                         break;
                     case BID_OAK_TRAPDOOR:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::OakTrapdoor));
                         playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
-                        _spawnBlockParticles(blockParticles, sprOakTrapdoor, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprOakTrapdoor, block->x, block->y);
                         break;
                     case BID_BIRCH_TRAPDOOR:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::BirchTrapdoor));
                         playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
-                        _spawnBlockParticles(blockParticles, sprBirchTrapdoor, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprBirchTrapdoor, block->x, block->y);
                         break;
                     case BID_SPRUCE_TRAPDOOR:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::SpruceTrapdoor));
                         playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
-                        _spawnBlockParticles(blockParticles, sprSpruceTrapdoor, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprSpruceTrapdoor, block->x, block->y);
                         break;
                     case BID_LADDER:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Ladder));
                         playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
-                        _spawnBlockParticles(blockParticles, sprLadder, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprLadder, block->x, block->y);
                         break;
                     case BID_CHEST:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Chest));
                         playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
-                        _spawnBlockParticles(blockParticles, sprChest, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprChest, block->x, block->y);
                         break;
                     case BID_OAK_SLAB:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::OakSlab));
                         playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
-                        _spawnBlockParticles(blockParticles, sprPlanks, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprPlanks, block->x, block->y);
                         break;
                     case BID_BIRCH_SLAB:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::BirchSlab));
                         playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
-                        _spawnBlockParticles(blockParticles, sprBirchPlanks, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprBirchPlanks, block->x, block->y);
                         break;
                     case BID_SPRUCE_SLAB:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::SpruceSlab));
                         playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
-                        _spawnBlockParticles(blockParticles, sprSprucePlanks, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprSprucePlanks, block->x, block->y);
                         break;
                     case BID_COBBLESTONE_SLAB:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::CobblestoneSlab));
                         playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
-                        _spawnBlockParticles(blockParticles, sprCobblestone, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprCobblestone, block->x, block->y);
                         break;
                     case BID_SIGN:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Sign));
                         playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);
-                        _spawnBlockParticles(blockParticles, sprSign, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprSign, block->x, block->y);
                         break;
                     case BID_STONE_BRICKS:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::StoneBricks));
                         playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
-                        _spawnBlockParticles(blockParticles, sprStoneBricks, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprStoneBricks, block->x, block->y);
                         break;
                     case BID_WHEAT:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::WheatSeeds));
@@ -2247,17 +2249,17 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
                             entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Wheat));
                         }
                         playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
-                        _spawnBlockParticles(blockParticles, sprWheatBlock[reinterpret_cast<WheatBlock *>(block.get())->getGrowStage()], block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprWheatBlock[reinterpret_cast<WheatBlock *>(block.get())->getGrowStage()], block->x, block->y);
                         break;
                     case BID_HAY_BALE:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::HayBale));
                         playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
-                        _spawnBlockParticles(blockParticles, sprHayBale, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprHayBale, block->x, block->y);
                         break;
                     case BID_STONE_BRICKS_SLAB:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::StoneBricksSlab));
                         playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
-                        _spawnBlockParticles(blockParticles, sprStoneBricks, block->x, block->y);
+                        _spawnBlockParticles(blockParticles, &sprStoneBricks, block->x, block->y);
                         break;
                     }
 
