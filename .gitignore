@@ -51,3 +51,6 @@ doxygen-warn.log
 Debug/
 Release/
 *.suo
+
+# thumbs dot db
+*Thumbs.db*
