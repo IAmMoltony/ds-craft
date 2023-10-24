@@ -40,6 +40,10 @@ If you want to run the game from Visual Studio:
 1. make sure the configuration is set to 'All Configurations'
 1. change 'Command' to your Nintendo DS emulator path
 
+## Docs
+
+To generate documentation, you will need to have [Doxygen](https://doxygen.nl) installed. If you need PDF file output as well, then install [EPS to PDF](https://tug.org/epstopdf/). Once you're ready, pull up your terminal, go to the root of the project and run `doxygen`. You can use Doxywizard too.
+
 ## Screenshots
 
 ![Screenshot 1](./screenshots/shot1.png)
