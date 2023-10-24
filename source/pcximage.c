@@ -32,6 +32,9 @@ void pcxImageLoad(const char *filePath, bool color0Transparent, PCXImage *image)
 	loadPCX(pcxBytes, &image->simg);
 	free(pcxBytes);
 
+	if (image->simg.bpp == 0)
+		logMessage(LOG_WARNING, "PCX file BPP is 0");
+
 	int flags = GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF;
 	if (color0Transparent)
 		flags |= GL_TEXTURE_COLOR0_TRANSPARENT;
