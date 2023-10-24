@@ -49,6 +49,16 @@ extern "C"
     */
     void glSpritePartScaleFlip(glImage *image, int x, int y, int xOff, int yOff, int w, int h, s32 scale, GL_FLIP_MODE flip);
 
+    /**
+     * @brief Draw a part of a sprite with the ability to set scale of the sprite individually on both the X and Y axis and flip it
+     * @param scaleX horizontal (X axis) scaling
+     * @param scaleY vertical (Y axis) scaling
+     * @see glSpritePartScaleFlip
+     * @see glSpritePartScale
+     * @see glSpritePart
+     */
+    void glSpritePartScaleXYFlip(glImage *image, int x, int y, int xOff, int yOff, int w, int h, s32 scaleX, s32 scaleY, GL_FLIP_MODE flip);
+
 #ifdef __cplusplus
 }
 #endif
