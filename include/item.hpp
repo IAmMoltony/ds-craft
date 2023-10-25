@@ -6,8 +6,8 @@
 #pragma once
 
 #include "lang.hpp"
+#include "pcximage.h"
 #include <nds.h>
-#include <gl2d.h>
 #include <string>
 
 /**
@@ -168,4 +168,4 @@ const char *getItemName(InventoryItem::ID iid);
  * @brief Get item image corresponding to the item ID
  * @param item item ID
 */
-glImage *getItemImage(InventoryItem::ID item);
+PCXImage *getItemImage(InventoryItem::ID item);

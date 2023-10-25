@@ -180,79 +180,76 @@ static PCXImage _sprDummy;
 
 void InventoryItem::loadTextures(void)
 {
-    loadImageAlpha(_sprStick, 16, 16, stickPal, stickBitmap);
-    loadImageAlpha(_sprCoal, 16, 16, coalPal, coalBitmap);
-    loadImageAlpha(_sprIronIngot, 16, 16, iron_ingotPal, iron_ingotBitmap);
-    loadImageAlpha(_sprIronNugget, 16, 16, iron_nuggetPal, iron_nuggetBitmap);
-    loadImageAlpha(_sprShears, 16, 16, shearsPal, shearsBitmap);
+    pcxImageLoad("nitro:/textures/item/stick.pcx", true, &_sprStick);
+    pcxImageLoad("nitro:/textures/item/coal.pcx", true, &_sprCoal);
 
-    loadImageAlpha(_sprRawPorkchop, 16, 16, porkchopPal, porkchopBitmap);
-    loadImageAlpha(_sprCookedPorkchop, 16, 16, cooked_porkchopPal, cooked_porkchopBitmap);
-    loadImageAlpha(_sprApple, 16, 16, applePal, appleBitmap);
-    loadImageAlpha(_sprBread, 16, 16, breadPal, breadBitmap);
+    pcxImageLoad("nitro:/textures/item/iron_ingot.pcx", true, &_sprIronIngot);
+    pcxImageLoad("nitro:/textures/item/iron_nugget.pcx", true, &_sprIronNugget);
+    pcxImageLoad("nitro:/textures/item/shears.pcx", true, &_sprShears);
 
-    loadImageAlpha(_sprWoodenPickaxe, 16, 16, wooden_pickaxePal, wooden_pickaxeBitmap);
-    loadImageAlpha(_sprStonePickaxe, 16, 16, stone_pickaxePal, stone_pickaxeBitmap);
-    loadImageAlpha(_sprIronPickaxe, 16, 16, iron_pickaxePal, iron_pickaxeBitmap);
+    pcxImageLoad("nitro:/textures/item/raw_porkchop.pcx", true, &_sprRawPorkchop);
+    pcxImageLoad("nitro:/textures/item/cooked_porkchop.pcx", true, &_sprCookedPorkchop);
+    pcxImageLoad("nitro:/textures/item/apple.pcx", true, &_sprApple);
+    pcxImageLoad("nitro:/textures/item/bread.pcx", true, &_sprBread);
 
-    loadImageAlpha(_sprWoodenShovel, 16, 16, wooden_shovelPal, wooden_shovelBitmap);
-    loadImageAlpha(_sprStoneShovel, 16, 16, stone_shovelPal, stone_shovelBitmap);
-    loadImageAlpha(_sprIronShovel, 16, 16, iron_shovelPal, iron_shovelBitmap);
+    pcxImageLoad("nitro:/textures/item/wooden_pickaxe.pcx", true, &_sprWoodenPickaxe);
+    pcxImageLoad("nitro:/textures/item/stone_pickaxe.pcx", true, &_sprStonePickaxe);
+    pcxImageLoad("nitro:/textures/item/iron_pickaxe.pcx", true, &_sprIronPickaxe);
 
-    loadImageAlpha(_sprWoodenAxe, 16, 16, wooden_axePal, wooden_axeBitmap);
-    loadImageAlpha(_sprStoneAxe, 16, 16, stone_axePal, stone_axeBitmap);
-    loadImageAlpha(_sprIronAxe, 16, 16, iron_axePal, iron_axeBitmap);
+    pcxImageLoad("nitro:/textures/item/wooden_axe.pcx", true, &_sprWoodenAxe);
+    pcxImageLoad("nitro:/textures/item/stone_axe.pcx", true, &_sprStoneAxe);
+    pcxImageLoad("nitro:/textures/item/iron_axe.pcx", true, &_sprIronAxe);
 
-    loadImageAlpha(_sprWoodenSword, 16, 16, wooden_swordPal, wooden_swordBitmap);
-    loadImageAlpha(_sprStoneSword, 16, 16, stone_swordPal, stone_swordBitmap);
-    loadImageAlpha(_sprIronSword, 16, 16, iron_swordPal, iron_swordBitmap);
+    pcxImageLoad("nitro:/textures/item/wooden_sword.pcx", true, &_sprWoodenSword);
+    pcxImageLoad("nitro:/textures/item/stone_sword.pcx", true, &_sprStoneSword);
+    pcxImageLoad("nitro:/textures/item/iron_sword.pcx", true, &_sprIronSword);
 
-    loadImageAlpha(_sprWoodenHoe, 16, 16, wooden_hoePal, wooden_hoeBitmap);
-    loadImageAlpha(_sprStoneHoe, 16, 16, stone_hoePal, stone_hoeBitmap);
-    loadImageAlpha(_sprIronHoe, 16, 16, iron_hoePal, iron_hoeBitmap);
+    pcxImageLoad("nitro:/textures/item/wooden_hoe.pcx", true, &_sprWoodenHoe);
+    pcxImageLoad("nitro:/textures/item/stone_hoe.pcx", true, &_sprStoneHoe);
+    pcxImageLoad("nitro:/textures/item/iron_hoe.pcx", true, &_sprIronHoe);
 
-    loadImageAlpha(_sprWheatSeeds, 16, 16, wheat_seedsPal, wheat_seedsBitmap);
-    loadImageAlpha(_sprWheat, 16, 16, wheatPal, wheatBitmap);
+    pcxImageLoad("nitro:/textures/item/wheat_seeds.pcx", true, &_sprWheatSeeds);
+    pcxImageLoad("nitro:/textures/item/wheat.pcx", true, &_sprWheat);
 
-    loadImage(_sprDummy, 16, 16, dummyBitmap);
+    pcxImageLoad("nitro:/textures/misc/dummy.pcx", false, &_sprDummy);
 }
 
 void InventoryItem::unloadTextures(void)
 {
-    unloadImage(_sprStick);
-    unloadImage(_sprCoal);
-    unloadImage(_sprIronIngot);
-    unloadImage(_sprIronNugget);
-    unloadImage(_sprShears);
+    pcxImageUnload(&_sprStick);
+    pcxImageUnload(&_sprCoal);
+    pcxImageUnload(&_sprIronIngot);
+    pcxImageUnload(&_sprIronNugget);
+    pcxImageUnload(&_sprShears);
 
-    unloadImage(_sprRawPorkchop);
-    unloadImage(_sprCookedPorkchop);
-    unloadImage(_sprApple);
-    unloadImage(_sprBread);
+    pcxImageUnload(&_sprRawPorkchop);
+    pcxImageUnload(&_sprCookedPorkchop);
+    pcxImageUnload(&_sprApple);
+    pcxImageUnload(&_sprBread);
 
-    unloadImage(_sprWoodenPickaxe);
-    unloadImage(_sprStonePickaxe);
+    pcxImageUnload(&_sprWoodenPickaxe);
+    pcxImageUnload(&_sprStonePickaxe);
 
-    unloadImage(_sprWoodenShovel);
-    unloadImage(_sprStoneShovel);
-    unloadImage(_sprIronShovel);
+    pcxImageUnload(&_sprWoodenShovel);
+    pcxImageUnload(&_sprStoneShovel);
+    pcxImageUnload(&_sprIronShovel);
 
-    unloadImage(_sprWoodenAxe);
-    unloadImage(_sprStoneAxe);
-    unloadImage(_sprIronAxe);
+    pcxImageUnload(&_sprWoodenAxe);
+    pcxImageUnload(&_sprStoneAxe);
+    pcxImageUnload(&_sprIronAxe);
 
-    unloadImage(_sprWoodenSword);
-    unloadImage(_sprStoneSword);
-    unloadImage(_sprIronSword);
+    pcxImageUnload(&_sprWoodenSword);
+    pcxImageUnload(&_sprStoneSword);
+    pcxImageUnload(&_sprIronSword);
 
-    unloadImage(_sprWoodenHoe);
-    unloadImage(_sprStoneHoe);
-    unloadImage(_sprIronHoe);
+    pcxImageUnload(&_sprWoodenHoe);
+    pcxImageUnload(&_sprStoneHoe);
+    pcxImageUnload(&_sprIronHoe);
 
-    unloadImage(_sprWheatSeeds);
-    unloadImage(_sprWheat);
+    pcxImageUnload(&_sprWheatSeeds);
+    pcxImageUnload(&_sprWheat);
 
-    unloadImage(_sprDummy);
+    pcxImageUnload(&_sprDummy);
 }
 
 // TODO make a 2-way map for string IDs
@@ -804,84 +801,84 @@ const char *getItemName(InventoryItem::ID iid)
 }
 
 static std::map<InventoryItem::ID, PCXImage *> _itemImages = {
-    {InventoryItem::ID::Grass, sprGrass},
-    {InventoryItem::ID::Grass2, sprGrass2},
-    {InventoryItem::ID::Dirt, sprDirt},
-    {InventoryItem::ID::Stone, sprStone},
-    {InventoryItem::ID::Wood, sprWood},
-    {InventoryItem::ID::BirchWood, sprBirchWood},
-    {InventoryItem::ID::SpruceWood, sprSpruceWood},
-    {InventoryItem::ID::Leaves, sprLeaves},
-    {InventoryItem::ID::BirchLeaves, sprBirchLeaves},
-    {InventoryItem::ID::SpruceLeaves, sprSpruceLeaves},
-    {InventoryItem::ID::Sand, sprSand},
-    {InventoryItem::ID::Sandstone, sprSandstone},
-    {InventoryItem::ID::Cactus, sprCactus},
-    {InventoryItem::ID::DeadBush, sprDeadBush},
-    {InventoryItem::ID::Poppy, sprPoppy},
-    {InventoryItem::ID::Dandelion, sprDandelion},
-    {InventoryItem::ID::RedTulip, sprRedTulip},
-    {InventoryItem::ID::Door, sprDoor},
-    {InventoryItem::ID::BirchDoor, sprBirchDoor},
-    {InventoryItem::ID::SpruceDoor, sprSpruceDoor},
-    {InventoryItem::ID::Planks, sprPlanks},
-    {InventoryItem::ID::BirchPlanks, sprBirchPlanks},
-    {InventoryItem::ID::SprucePlanks, sprSprucePlanks},
-    {InventoryItem::ID::Stick, _sprStick},
-    {InventoryItem::ID::SnowyGrass, sprSnowyGrass},
-    {InventoryItem::ID::Sapling, sprSapling},
-    {InventoryItem::ID::BirchSapling, sprBirchSapling},
-    {InventoryItem::ID::SpruceSapling, sprSpruceSapling},
-    {InventoryItem::ID::Cobblestone, sprCobblestone},
-    {InventoryItem::ID::CoalOre, sprCoalOre},
-    {InventoryItem::ID::Coal, _sprCoal},
-    {InventoryItem::ID::CoalBlock, sprCoalBlock},
-    {InventoryItem::ID::RawPorkchop, _sprRawPorkchop},
-    {InventoryItem::ID::CookedPorkchop, _sprCookedPorkchop},
-    {InventoryItem::ID::Apple, _sprApple},
-    {InventoryItem::ID::Glass, sprGlass},
-    {InventoryItem::ID::OakTrapdoor, sprOakTrapdoor},
-    {InventoryItem::ID::BirchTrapdoor, sprBirchTrapdoor},
-    {InventoryItem::ID::SpruceTrapdoor, sprSpruceTrapdoor},
-    {InventoryItem::ID::Ladder, sprLadder},
-    {InventoryItem::ID::Chest, sprChest},
-    {InventoryItem::ID::OakSlab, sprPlanks},
-    {InventoryItem::ID::BirchSlab, sprBirchPlanks},
-    {InventoryItem::ID::SpruceSlab, sprSprucePlanks},
-    {InventoryItem::ID::CobblestoneSlab, sprCobblestone},
-    {InventoryItem::ID::WoodenPickaxe, _sprWoodenPickaxe},
-    {InventoryItem::ID::StonePickaxe, _sprStonePickaxe},
-    {InventoryItem::ID::IronPickaxe, _sprIronPickaxe},
-    {InventoryItem::ID::WoodenShovel, _sprWoodenShovel},
-    {InventoryItem::ID::StoneShovel, _sprStoneShovel},
-    {InventoryItem::ID::IronShovel, _sprIronShovel},
-    {InventoryItem::ID::WoodenSword, _sprWoodenSword},
-    {InventoryItem::ID::StoneSword, _sprStoneSword},
-    {InventoryItem::ID::IronSword, _sprIronSword},
-    {InventoryItem::ID::WoodenHoe, _sprWoodenHoe},
-    {InventoryItem::ID::StoneHoe, _sprStoneHoe},
-    {InventoryItem::ID::IronHoe, _sprIronHoe},
-    {InventoryItem::ID::WoodenAxe, _sprWoodenAxe},
-    {InventoryItem::ID::StoneAxe, _sprStoneAxe},
-    {InventoryItem::ID::IronAxe, _sprIronAxe},
-    {InventoryItem::ID::Sign, sprSign},
-    {InventoryItem::ID::IronOre, sprIronOre},
-    {InventoryItem::ID::IronBlock, sprIronBlock},
-    {InventoryItem::ID::IronIngot, _sprIronIngot},
-    {InventoryItem::ID::IronNugget, _sprIronNugget},
-    {InventoryItem::ID::StoneBricks, sprStoneBricks},
-    {InventoryItem::ID::Shears, _sprShears},
-    {InventoryItem::ID::WheatSeeds, _sprWheatSeeds},
-    {InventoryItem::ID::Wheat, _sprWheat},
-    {InventoryItem::ID::Bread, _sprBread},
-    {InventoryItem::ID::HayBale, sprHayBale},
-    {InventoryItem::ID::StoneBricksSlab, sprStoneBricks},
+    {InventoryItem::ID::Grass, &sprGrass},
+    {InventoryItem::ID::Grass2, &sprGrass2},
+    {InventoryItem::ID::Dirt, &sprDirt},
+    {InventoryItem::ID::Stone, &sprStone},
+    {InventoryItem::ID::Wood, &sprWood},
+    {InventoryItem::ID::BirchWood, &sprBirchWood},
+    {InventoryItem::ID::SpruceWood, &sprSpruceWood},
+    {InventoryItem::ID::Leaves, &sprLeaves},
+    {InventoryItem::ID::BirchLeaves, &sprBirchLeaves},
+    {InventoryItem::ID::SpruceLeaves, &sprSpruceLeaves},
+    {InventoryItem::ID::Sand, &sprSand},
+    {InventoryItem::ID::Sandstone, &sprSandstone},
+    {InventoryItem::ID::Cactus, &sprCactus},
+    {InventoryItem::ID::DeadBush, &sprDeadBush},
+    {InventoryItem::ID::Poppy, &sprPoppy},
+    {InventoryItem::ID::Dandelion, &sprDandelion},
+    {InventoryItem::ID::RedTulip, &sprRedTulip},
+    {InventoryItem::ID::Door, &sprDoor},
+    {InventoryItem::ID::BirchDoor, &sprBirchDoor},
+    {InventoryItem::ID::SpruceDoor, &sprSpruceDoor},
+    {InventoryItem::ID::Planks, &sprPlanks},
+    {InventoryItem::ID::BirchPlanks, &sprBirchPlanks},
+    {InventoryItem::ID::SprucePlanks, &sprSprucePlanks},
+    {InventoryItem::ID::Stick, &_sprStick},
+    {InventoryItem::ID::SnowyGrass, &sprSnowyGrass},
+    {InventoryItem::ID::Sapling, &sprSapling},
+    {InventoryItem::ID::BirchSapling, &sprBirchSapling},
+    {InventoryItem::ID::SpruceSapling, &sprSpruceSapling},
+    {InventoryItem::ID::Cobblestone, &sprCobblestone},
+    {InventoryItem::ID::CoalOre, &sprCoalOre},
+    {InventoryItem::ID::Coal, &_sprCoal},
+    {InventoryItem::ID::CoalBlock, &sprCoalBlock},
+    {InventoryItem::ID::RawPorkchop, &_sprRawPorkchop},
+    {InventoryItem::ID::CookedPorkchop, &_sprCookedPorkchop},
+    {InventoryItem::ID::Apple, &_sprApple},
+    {InventoryItem::ID::Glass, &sprGlass},
+    {InventoryItem::ID::OakTrapdoor, &sprOakTrapdoor},
+    {InventoryItem::ID::BirchTrapdoor, &sprBirchTrapdoor},
+    {InventoryItem::ID::SpruceTrapdoor, &sprSpruceTrapdoor},
+    {InventoryItem::ID::Ladder, &sprLadder},
+    {InventoryItem::ID::Chest, &sprChest},
+    {InventoryItem::ID::OakSlab, &sprPlanks},
+    {InventoryItem::ID::BirchSlab, &sprBirchPlanks},
+    {InventoryItem::ID::SpruceSlab, &sprSprucePlanks},
+    {InventoryItem::ID::CobblestoneSlab, &sprCobblestone},
+    {InventoryItem::ID::WoodenPickaxe, &_sprWoodenPickaxe},
+    {InventoryItem::ID::StonePickaxe, &_sprStonePickaxe},
+    {InventoryItem::ID::IronPickaxe, &_sprIronPickaxe},
+    {InventoryItem::ID::WoodenShovel, &_sprWoodenShovel},
+    {InventoryItem::ID::StoneShovel, &_sprStoneShovel},
+    {InventoryItem::ID::IronShovel, &_sprIronShovel},
+    {InventoryItem::ID::WoodenSword, &_sprWoodenSword},
+    {InventoryItem::ID::StoneSword, &_sprStoneSword},
+    {InventoryItem::ID::IronSword, &_sprIronSword},
+    {InventoryItem::ID::WoodenHoe, &_sprWoodenHoe},
+    {InventoryItem::ID::StoneHoe, &_sprStoneHoe},
+    {InventoryItem::ID::IronHoe, &_sprIronHoe},
+    {InventoryItem::ID::WoodenAxe, &_sprWoodenAxe},
+    {InventoryItem::ID::StoneAxe, &_sprStoneAxe},
+    {InventoryItem::ID::IronAxe, &_sprIronAxe},
+    {InventoryItem::ID::Sign, &sprSign},
+    {InventoryItem::ID::IronOre, &sprIronOre},
+    {InventoryItem::ID::IronBlock, &sprIronBlock},
+    {InventoryItem::ID::IronIngot, &_sprIronIngot},
+    {InventoryItem::ID::IronNugget, &_sprIronNugget},
+    {InventoryItem::ID::StoneBricks, &sprStoneBricks},
+    {InventoryItem::ID::Shears, &_sprShears},
+    {InventoryItem::ID::WheatSeeds, &_sprWheatSeeds},
+    {InventoryItem::ID::Wheat, &_sprWheat},
+    {InventoryItem::ID::Bread, &_sprBread},
+    {InventoryItem::ID::HayBale, &sprHayBale},
+    {InventoryItem::ID::StoneBricksSlab, &sprStoneBricks},
 };
 
-glImage *getItemImage(InventoryItem::ID item)
+PCXImage *getItemImage(InventoryItem::ID item)
 {
     auto it = _itemImages.find(item);
     if (it != _itemImages.end())
         return it->second;
-    return _sprDummy;
+    return &_sprDummy;
 }
