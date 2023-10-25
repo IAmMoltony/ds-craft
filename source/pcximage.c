@@ -1,5 +1,5 @@
 #include "pcximage.h"
-#include "log.h"
+#include "mtnlog.h"
 #include "util.h"
 #include "glext.h"
 #include <stdio.h>
@@ -7,12 +7,12 @@
 
 void pcxImageLoad(const char *filePath, bool color0Transparent, PCXImage *image)
 {
-	logMessage(LOG_INFO, "Loading PCX image from file %s", filePath);
+	mtnlogMessage(LOG_INFO, "Loading PCX image from file %s", filePath);
 
 	FILE *file = fopen(filePath, "rb");
 	if (!file)
 	{
-		logMessage(LOG_ERROR, "Failed to open PCX image file %s because %s", filePath, strerror(errno));
+		mtnlogMessage(LOG_ERROR, "Failed to open PCX image file %s because %s", filePath, strerror(errno));
 		return;
 	}
 
@@ -23,7 +23,7 @@ void pcxImageLoad(const char *filePath, bool color0Transparent, PCXImage *image)
 	u8 *pcxBytes = (u8 *)malloc(fileSize);
 	if (!pcxBytes)
 	{
-		logMessage(LOG_ERROR, "Failed to allocate memory for PCX bytes");
+		mtnlogMessage(LOG_ERROR, "Failed to allocate memory for PCX bytes");
 		return;
 	}
 	fread(pcxBytes, fileSize, 1, file);
@@ -33,7 +33,7 @@ void pcxImageLoad(const char *filePath, bool color0Transparent, PCXImage *image)
 	free(pcxBytes);
 
 	if (image->simg.bpp == 0)
-		logMessage(LOG_WARNING, "PCX file BPP is 0");
+		mtnlogMessage(LOG_WARNING, "PCX file is corrupted or has wrong color depth");
 
 	int flags = GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF;
 	if (color0Transparent)

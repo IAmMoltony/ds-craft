@@ -9,7 +9,6 @@
 #include "controlsmgr.hpp"
 #include "settingsmgr.hpp"
 #include "util.h"
-#include "log.h"
 #include "config.h"
 #include "glext.h"
 

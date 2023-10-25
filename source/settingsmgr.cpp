@@ -3,7 +3,7 @@
 #include "save.hpp"
 #include "fs.h"
 #include "config.h"
-#include "log.h"
+#include "mtnlog.h"
 
 bool SettingsManager::transparentLeaves = SettingsManager::TRANSPARENT_LEAVES_DEFAULT;
 u8 SettingsManager::autoSaveSeconds = SettingsManager::AUTO_SAVE_SECONDS_DEFAULT;
@@ -15,7 +15,7 @@ void SettingsManager::loadLanguageLegacy(void)
 {
     if (fsFileExists(std::string(std::string(configGet("configDir")) + "/lang.cfg").c_str()))
     {
-        logMessage(LOG_INFO, "Loading legacy language setting");
+        mtnlogMessage(LOG_INFO, "Loading legacy language setting");
 
         char *data = fsReadFile(std::string(std::string(configGet("configDir")) + "/lang.cfg").c_str());
         switch (data[0])
@@ -27,7 +27,7 @@ void SettingsManager::loadLanguageLegacy(void)
             Game::instance->lang = Language::Russian;
             break;
         default:
-            logMessage(LOG_WARNING, "Invalid language code '%c'; defaulting to English");
+            mtnlogMessage(LOG_WARNING, "Invalid language code '%c'; defaulting to English");
             Game::instance->lang = Language::English;
             break;
         }
@@ -53,7 +53,7 @@ void SettingsManager::loadSettingsLegacy(void)
     // my reasoning might not be correct, but transitioning from using a billion files for storing settings to
     // having just a single file is still better.
 
-    logMessage(LOG_INFO, "Loading settings");
+    mtnlogMessage(LOG_INFO, "Loading settings");
 
     // legacy language setting
     loadLanguageLegacy();
@@ -74,7 +74,7 @@ void SettingsManager::loadSettingsLegacy(void)
         autoSaveSeconds = std::stoi(std::string(data));
         if (autoSaveSeconds == 1)
         {
-            logMessage(LOG_INFO, "Auto save every 1 second detected, changing to 15");
+            mtnlogMessage(LOG_INFO, "Auto save every 1 second detected, changing to 15");
             autoSaveSeconds = 15;
         }
     }
@@ -142,7 +142,7 @@ void SettingsManager::saveSettings(void)
     // check if error
     if (!settingsFile)
     {
-        logMessage(LOG_ERROR, "error opening settings file: %s", strerror(errno));
+        mtnlogMessage(LOG_ERROR, "error opening settings file: %s", strerror(errno));
         return;
     }
 
@@ -163,7 +163,7 @@ void SettingsManager::loadSettings(void)
     // check if error
     if (file.bad())
     {
-        logMessage(LOG_ERROR, "error opening settings file: %s", strerror(errno));
+        mtnlogMessage(LOG_ERROR, "error opening settings file: %s", strerror(errno));
         return;
     }
 
@@ -205,7 +205,7 @@ void SettingsManager::loadSettings(void)
             else if (split[1] == "1")
                 Game::instance->lang = Language::Russian;
             else
-                logMessage(LOG_WARNING, "Invalid language code %s", split[1].c_str());
+                mtnlogMessage(LOG_WARNING, "Invalid language code %s", split[1].c_str());
         }
         else if (split[0] == "blockparts")
         {
@@ -215,7 +215,7 @@ void SettingsManager::loadSettings(void)
         else
         {
             // invalid key
-            logMessage(LOG_WARNING, "Invalid setting %s", split[0].c_str());
+            mtnlogMessage(LOG_WARNING, "Invalid setting %s", split[0].c_str());
         }
     }
 }

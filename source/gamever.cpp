@@ -3,7 +3,7 @@
 #include "fs.h"
 #include "util.h"
 #include "config.h"
-#include "log.h"
+#include "mtnlog.h"
 
 static std::string _versionPrefix = "";
 static std::string _versionString = "";
@@ -17,7 +17,7 @@ void gameverInit(void)
     FILE *f = fopen(gameVerName, "r");
     if (!f)
     {
-        logMessage(LOG_ERROR, "Failed opening game version file (%s) because %s", gameVerName, strerror(errno));
+        mtnlogMessage(LOG_ERROR, "Failed opening game version file (%s) because %s", gameVerName, strerror(errno));
         hang();
     }
 

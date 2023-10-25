@@ -10,7 +10,7 @@
 #include "settingsmgr.hpp"
 #include "util.h"
 #include "config.h"
-#include "log.h"
+#include "mtnlog.h"
 #include "glext.h"
 #include "pcximage.h"
 
@@ -345,7 +345,7 @@ void Game::init(void)
     fsInitStatus fsInitSt = fsInit();
     if (fsInitSt != FS_INIT_STATUS_OK)
     {
-        logMessage(LOG_ERROR, "Error initializing filesystem");
+        mtnlogMessage(LOG_ERROR, "Error initializing filesystem");
         AssetManager::loadDirtBlock();
         loadFonts();
         while (true)
@@ -384,9 +384,9 @@ void Game::init(void)
     gameverInit();
 
     // init logging
-    logInit((LogLevel)configGetInt("logLevel"), configGet("logFile"));
+    mtnlogInit((MtnLogLevel)configGetInt("logLevel"), configGet("logFile"));
 
-    logMessage(LOG_INFO, "Initializing sound");
+    mtnlogMessage(LOG_INFO, "Initializing sound");
 
     // init sound
     mmInitDefault((char *)configGet("soundbankFile"));
@@ -396,19 +396,19 @@ void Game::init(void)
     fsCreateDir(configGet("worldsDir"));
     fsCreateDir(configGet("configDir"));
 
-    logMessage(LOG_INFO, "Initializing crafting");
+    mtnlogMessage(LOG_INFO, "Initializing crafting");
 
     // init crafting
     Player::initCrafting();
 
-    logMessage(LOG_INFO, "Loading general assets");
+    mtnlogMessage(LOG_INFO, "Loading general assets");
 
     // load some assets
     AssetManager::loadGeneralAssets();
     sndPop = soundEffect(SFX_POP);
     sndClick = soundEffect(SFX_CLICK);
 
-    logMessage(LOG_INFO, "Loading settings");
+    mtnlogMessage(LOG_INFO, "Loading settings");
 
     // update settings if need to
     SettingsManager::updateSettingsFormat();
@@ -416,12 +416,12 @@ void Game::init(void)
     // load settings
     SettingsManager::loadSettings();
 
-    logMessage(LOG_INFO, "Loading controls");
+    mtnlogMessage(LOG_INFO, "Loading controls");
 
     // load controls
     ControlsManager::loadControls();
 
-    logMessage(LOG_INFO, "Initializing RNG");
+    mtnlogMessage(LOG_INFO, "Initializing RNG");
 
     // set up random number generator
     u32 randomSeed;
@@ -438,7 +438,7 @@ void Game::init(void)
     randomSetSeed(randomSeed);                                                                               // set seed
     srand(time(NULL));                                                                                       // set seed for stuff that doesn't need to be THAT random
 
-    logMessage(LOG_INFO, "Loading menu assets");
+    mtnlogMessage(LOG_INFO, "Loading menu assets");
 
     // load assets for menu
     AssetManager::loadMenuAssets();
