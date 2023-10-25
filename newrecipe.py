@@ -7,6 +7,7 @@ import argparse
 from dataclasses import dataclass
 import os
 
+
 @dataclass
 class CraftingRecipe:
     recipe_file: str
@@ -18,6 +19,7 @@ class CraftingRecipe:
     def __repr__(self) -> str:
         return f"file: {self.recipe_file}, ID: {self.identifier}, count: {self.count}, outputs: {self.output}"
 
+
 @dataclass
 class CraftingRecipeIngredient:
     item_id: str
@@ -26,12 +28,13 @@ class CraftingRecipeIngredient:
     def __repr__(self) -> str:
         return f"{self.item_id} {self.count}"
 
+
 def main():
     parser = argparse.ArgumentParser(description="Script for creating a new recipe")
     parser.add_argument("recipe_file", help="File name without .rcp")
     parser.add_argument("output_count", type=int, help="Outputted item count")
     parser.add_argument("output_item", help="Output item id")
-    
+
     args = parser.parse_args()
 
     print("New recipe values")
@@ -50,7 +53,7 @@ def main():
         recipe_str = input("> ")
         if recipe_str == "done":
             break
-        split = recipe_str.split(' ')
+        split = recipe_str.split(" ")
         if len(split) != 2:
             print("Invalid argument count!")
             continue
@@ -93,6 +96,7 @@ def main():
         exit(0)
     os.rename(f"{args.recipe_file}.rcp", f"nitrofiles/crafting/{args.recipe_file}.rcp")
     print("All done!")
+
 
 if __name__ == "__main__":
     main()

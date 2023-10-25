@@ -6,8 +6,8 @@ from pathlib import Path
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Generate images.h file')
-    parser.add_argument('output_file', help='output file path')
+    parser = argparse.ArgumentParser(description="Generate images.h file")
+    parser.add_argument("output_file", help="output file path")
     args = parser.parse_args()
 
     script_dir = Path(os.path.dirname(os.path.realpath(__file__)))
@@ -21,7 +21,7 @@ def main():
 
     images_h = "/**\n * @file images.h\n * @brief File containing declarations for all images used in the game\n */\n\n#pragma once\n\n"
     for image in images:
-        images_h += f"#include \"{Path(image).stem}.h\"\n"
+        images_h += f'#include "{Path(image).stem}.h"\n'
 
     print("Writing images.h")
     with open(args.output_file, "w") as file:

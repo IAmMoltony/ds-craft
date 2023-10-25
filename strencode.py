@@ -68,7 +68,7 @@ letter_map = {
     "ш": "}",
     "щ": "~",
     "ъ": "!",
-    "ы": "\"",
+    "ы": '"',
     "ь": "#",
     "э": "$",
     "ю": "%",
@@ -109,9 +109,9 @@ def main():
         print_usage()
         exit(1)
 
-    content = ''
-    if argv[1] == '--file':
-        with open(argv[2], 'r', encoding='utf-8') as f:
+    content = ""
+    if argv[1] == "--file":
+        with open(argv[2], "r", encoding="utf-8") as f:
             content = f.read()
     else:
         content = " ".join(argv[1:])
