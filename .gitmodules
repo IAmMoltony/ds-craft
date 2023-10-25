@@ -1,3 +1,6 @@
 [submodule "lib/libmtnlog"]
 	path = lib/libmtnlog
 	url = https://github.com/IAmMoltony/libmtnlog
+[submodule "lib/libmtnconfig"]
+	path = lib/libmtnconfig
+	url = https://github.com/IAmMoltony/libmtnconfig
