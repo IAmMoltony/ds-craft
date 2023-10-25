@@ -36,6 +36,13 @@ GRAPHICS	:=      $(sort $(dir $(wildcard gfx/*/)))
 AUDIO           :=      audio
 NITRODATA       :=      nitrofiles
 
+LIBRARIES := $(wildcard lib/*)
+LIBSOURCES := $(patsubst lib/%,lib/%/source,$(LIBRARIES))
+LIBINCLUDES := $(patsubst lib/%,lib/%/include,$(LIBRARIES))
+
+SOURCES += $(LIBSOURCES)
+INCLUDES += $(LIBINCLUDES)
+
 CURDIR_BASENAME := $(shell basename $(CURDIR))
 
 # get version from game.ver
