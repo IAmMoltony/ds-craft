@@ -1,0 +1,3 @@
+[submodule "lib/libmtnlog"]
+	path = lib/libmtnlog
+	url = https://github.com/IAmMoltony/libmtnlog
