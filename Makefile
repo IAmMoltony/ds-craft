@@ -27,19 +27,21 @@ endif
 # the makefile is found
 #
 #---------------------------------------------------------------------------------
-TARGET		:=	bin/$(notdir $(CURDIR))
-BUILD		:=	build
-SOURCES		:=	source
-DATA		:=	data
-INCLUDES	:=	include
-GRAPHICS	:=      $(sort $(dir $(wildcard gfx/*/)))
-AUDIO           :=      audio
-NITRODATA       :=      nitrofiles
+TARGET := bin/$(notdir $(CURDIR))
+BUILD := build
+SOURCES := source
+DATA := data
+INCLUDES := include
+GRAPHICS := $(sort $(dir $(wildcard gfx/*/)))
+AUDIO := audio
+NITRODATA := nitrofiles
 
+# external library stuff
 LIBRARIES := $(wildcard lib/*)
 LIBSOURCES := $(patsubst lib/%,lib/%/source,$(LIBRARIES))
 LIBINCLUDES := $(patsubst lib/%,lib/%/include,$(LIBRARIES))
 
+# add library folders
 SOURCES += $(LIBSOURCES)
 INCLUDES += $(LIBINCLUDES)
 
@@ -61,7 +63,7 @@ endif
 # icon, title and subtitles
 GAME_ICON      := ../icon.bmp
 GAME_TITLE     := DS-Craft
-GAME_SUBTITLE1 := Minecraft clone for NDS
+GAME_SUBTITLE1 := Minecraft demake for Nintendo DS
 ifeq ($(strip $(VERSION_PATCH)),0)
 GAME_SUBTITLE2 := Version $(VERSION_PREFIX)$(VERSION_MAJOR).$(VERSION_MINOR)
 else
