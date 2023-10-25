@@ -77,7 +77,7 @@ else
 SOUNDBANK := $(NITRODATA)/soundbank.bin
 endif
 
-# check if DEVKITPRO env variable is set
+# check if DEVKITPRO environment variable is set
 ifeq ($(strip $(DEVKITPRO)),)
 $(error "Please set DEVKITPRO in your environment. export DEVKITPRO=<path to>devkitPro)
 endif
@@ -87,27 +87,27 @@ include $(DEVKITARM)/base_rules
 PORTLIBS	:=	$(PORTLIBS_PATH)/nds $(PORTLIBS_PATH)/armv5te
 LIBNDS		:=	$(DEVKITPRO)/libnds
 
-# default title (ROM file name)
+# default title
 ifeq ($(strip $(GAME_TITLE)),)
-GAME_TITLE	:=	$(notdir $(OUTPUT))
+GAME_TITLE := $(notdir $(OUTPUT))
 endif
 
 # default 1st subtitle
 ifeq ($(strip $(GAME_SUBTITLE1)),)
-GAME_SUBTITLE1	:=	built with devkitARM
+GAME_SUBTITLE1 := built with devkitARM
 endif
 
 # default 2nd subtitle
 ifeq ($(strip $(GAME_SUBTITLE2)),)
-GAME_SUBTITLE2	:=	http://devkitpro.org
+GAME_SUBTITLE2 := http://devkitpro.org
 endif
 
 # default icon
 ifeq ($(strip $(GAME_ICON)),)
-GAME_ICON      :=      $(DEVKITPRO)/libnds/icon.bmp
+GAME_ICON := $(LIBNDS)/icon.bmp
 endif
 
-# add nitroFS if we specified where nitroFS at
+# add NitroFS if we specified where NitroFS files are
 ifneq ($(strip $(NITRO_FILES)),)
 _ADDFILES	:=	-d $(NITRO_FILES)
 endif
@@ -115,22 +115,22 @@ endif
 #---------------------------------------------------------------------------------
 %.nds: %.arm9
 	$(SILENTCMD)ndstool -c $@ -9 $< -b $(GAME_ICON) "$(GAME_TITLE);$(GAME_SUBTITLE1);$(GAME_SUBTITLE2)" $(_ADDFILES)
-	@echo built ... $(notdir $@)
+	@echo built $(notdir $@)
 
 #---------------------------------------------------------------------------------
 %.nds: %.elf
 	$(SILENTCMD)ndstool -c $@ -9 $< -b $(GAME_ICON) "$(GAME_TITLE);$(GAME_SUBTITLE1);$(GAME_SUBTITLE2)" $(_ADDFILES)
-	$(SILENTMSG) built ... $(notdir $@)
+	$(SILENTMSG) built $(notdir $@)
 
 #---------------------------------------------------------------------------------
 %.arm9: %.elf
 	$(SILENTCMD)$(OBJCOPY) -O binary $< $@
-	$(SILENTMSG) built ... $(notdir $@)
+	$(SILENTMSG) built $(notdir $@)
 
 #---------------------------------------------------------------------------------
 %.arm7: %.elf
 	$(SILENTCMD)$(OBJCOPY) -O binary $< $@
-	$(SILENTMSG) built ... $(notdir $@)
+	$(SILENTMSG) built $(notdir $@)
 
 #---------------------------------------------------------------------------------
 %.elf: $(SOUNDBANK)
@@ -215,9 +215,6 @@ export OFILES_SOURCES := $(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o)
 
 export OFILES := $(PNGFILES:.png=.o) $(BMPFILES:.bmp=.o) $(OFILES_BIN) $(OFILES_SOURCES)
 
-#export OFILES_FILTER := $(filter-out $(SOUNDBANK).o,$(OFILES))
-#$(info $(OFILES_FILTER))
-
 export HFILES := $(PNGFILES:.png=.h) $(BMPFILES:.bmp=.h) $(addsuffix .h,$(subst .,_,$(BINFILES)))
 
 export INCLUDE	:=	$(foreach dir,$(INCLUDES),-iquote $(CURDIR)/$(dir)) \
@@ -236,14 +233,14 @@ $(BUILD):
 
 #---------------------------------------------------------------------------------
 clean:
-	$(SILENTMSG) clean ...
+	$(SILENTMSG) cleaning...
 	$(SILENTCMD)rm -fr $(BUILD) $(TARGET).elf $(TARGET).nds $(SOUNDBANK) $(TOPDIR)/include/images.h
 
 #---------------------------------------------------------------------------------
 run:
 	@if [ -z "$(EMULATOR)" ]; then echo >&2 "Please specify the emulator."; exit 1; fi
 	@command -v $(EMULATOR) >/dev/null 2>&1 || { echo >&2 "Emulator $(EMULATOR) not found. Please install it or set the correct path."; exit 1; }
-	$(SILENTMSG) run ...
+	$(SILENTMSG) running $(TARGET).nds using $(EMULATOR)
 	$(SILENTCMD)$(EMULATOR) $(TARGET).nds
 
 #---------------------------------------------------------------------------------
@@ -258,6 +255,7 @@ $(OUTPUT).nds	: 	$(OUTPUT).elf
 $(OUTPUT).nds   :   $(shell $(FIND) ../$(NITRODATA))
 $(OUTPUT).elf	:	../include/images.h $(SOUNDBANK) $(OFILES)
 
+# get python executable
 ifeq ($(OS),Windows_NT)
 PYTHON := python
 else
@@ -268,7 +266,7 @@ PYTHON_VERSION_MIN := 3.0
 PYTHON_VERSION_CUR := $(shell $(PYTHON) -c 'import sys; print("%d.%d"% sys.version_info[0:2])')
 PYTHON_VERSION_OK := $(shell $(PYTHON) -c 'import sys; cur_ver = sys.version_info[0:2]; min_ver = tuple(map(int, "$(PYTHON_VERSION_MIN)".split("."))); print(int(cur_ver >= min_ver))')
 ifeq ($(PYTHON_VERSION_OK), 0)
-	$(error "Need python version >= $(PYTHON_VERSION_MIN). Current version is $(PYTHON_VERSION_CUR)")
+	$(error "Python version $(PYTHON_VERSION_MIN) or newer is required. Current version is $(PYTHON_VERSION_CUR).")
 endif
 
 ../include/images.h: $(shell $(FIND) ../gfx/* -name *.png) $(shell $(FIND) ../gfx/* -name *.bmp)
