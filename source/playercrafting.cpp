@@ -102,7 +102,7 @@ void Player::drawCrafting(Font &font, Font &fontRu)
         switch (recipe.getOutput())
         {
         default:
-            glSpriteScale(slotX + 4, slotY + 4, HALF_SCALE, GL_FLIP_NONE, getItemImage(recipe.getOutput()));
+            pcxImageDrawEx(getItemImage(recipe.getOutput()), slotX + 4, slotY + 4, 0, 0, 16, 16, HALF_SCALE, GL_FLIP_NONE);
             break;
         // special cases
         case InventoryItem::ID::Door:

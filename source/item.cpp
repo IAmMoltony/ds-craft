@@ -187,7 +187,7 @@ void InventoryItem::loadTextures(void)
     pcxImageLoad("nitro:/textures/item/iron_nugget.pcx", true, &_sprIronNugget);
     pcxImageLoad("nitro:/textures/item/shears.pcx", true, &_sprShears);
 
-    pcxImageLoad("nitro:/textures/item/raw_porkchop.pcx", true, &_sprRawPorkchop);
+    pcxImageLoad("nitro:/textures/item/porkchop.pcx", true, &_sprRawPorkchop);
     pcxImageLoad("nitro:/textures/item/cooked_porkchop.pcx", true, &_sprCookedPorkchop);
     pcxImageLoad("nitro:/textures/item/apple.pcx", true, &_sprApple);
     pcxImageLoad("nitro:/textures/item/bread.pcx", true, &_sprBread);

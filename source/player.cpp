@@ -398,7 +398,7 @@ static void _drawInventory(InventoryItem inventory[], u8 itemCount, Font &font, 
                 break;
             // default
             default:
-                glSpriteScale(xx + 4, yy + 4, HALF_SCALE, GL_FLIP_NONE, getItemImage(id));
+                pcxImageDrawEx(getItemImage(id), xx + 4, yy + 4, 0, 0, 16, 16, HALF_SCALE, GL_FLIP_NONE);
                 break;
             }
 
@@ -537,7 +537,7 @@ void Player::drawBody(const Camera &camera)
             break;
         // default
         default:
-            glSpriteScale(xx, yy, HALF_SCALE, flip, getItemImage(inventory[hotbarSelect].id));
+            pcxImageDrawEx(getItemImage(inventory[hotbarSelect].id), xx, yy, 0, 0, 16, 16, HALF_SCALE, flip);
             break;
         }
     }
@@ -688,7 +688,7 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
             break;
         // default
         default:
-            glSprite(xx, yy, GL_FLIP_NONE, getItemImage(currid));
+            pcxImageDraw(getItemImage(currid), xx, yy, GL_FLIP_NONE);
             break;
         }
 
@@ -772,7 +772,7 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
                 break;
             // default
             default:
-                glSpriteScale(xxItem + 4, yyItem + 4, HALF_SCALE, GL_FLIP_NONE, getItemImage(id));
+                pcxImageDrawEx(getItemImage(id), xxItem + 4, yyItem + 4, 0, 0, 16, 16, HALF_SCALE, GL_FLIP_NONE);
                 break;
             }
 
