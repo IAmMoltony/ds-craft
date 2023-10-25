@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "fs.h"
 #include "util.h"
-#include "config.h"
+#include "mtnconfig.h"
 #include "mtnlog.h"
 
 static std::string _versionPrefix = "";
@@ -13,7 +13,7 @@ static u8 _versionPatch = 0;
 
 void gameverInit(void)
 {
-    const char *gameVerName = configGet("gameVersionFile");
+    const char *gameVerName = mtnconfigGet("gameVersionFile");
     FILE *f = fopen(gameVerName, "r");
     if (!f)
     {
@@ -78,7 +78,7 @@ u64 getVersionHash(const std::string &_versionString)
     else if (_versionString.find("beta") != std::string::npos)
         versionType = VersionType::Beta;
 
-    // calculate the hash based on type and numbers
+    // calculate the hash based on type and numbers (courtesy of chat gpt)
     u64 versionHash = static_cast<u32>(versionType);
     versionHash <<= 24;
     versionHash |= (major << 16) + (minor << 8) + patch;

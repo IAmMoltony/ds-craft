@@ -1,5 +1,5 @@
 #include "controlsmgr.hpp"
-#include "config.h"
+#include "mtnconfig.h"
 #include "fs.h"
 #include "mtnlog.h"
 #include "save.hpp"
@@ -13,10 +13,10 @@ void ControlsManager::loadControls(void)
     mtnlogMessage(LOG_INFO, "Loading controls");
 
     // write default controls if controls file not found
-    if (!fsFileExists(std::string(std::string(configGet("configDir")) + "/controls.cfg").c_str()))
+    if (!fsFileExists(std::string(std::string(mtnconfigGet("configDir")) + "/controls.cfg").c_str()))
         writeDefaultControls();
 
-    std::ifstream ifs(std::string(std::string(configGet("configDir")) + "/controls.cfg").c_str());
+    std::ifstream ifs(std::string(std::string(mtnconfigGet("configDir")) + "/controls.cfg").c_str());
     std::string line;
     while (std::getline(ifs, line, '\n'))
     {
@@ -39,7 +39,7 @@ void ControlsManager::saveControls(void)
 {
     mtnlogMessage(LOG_INFO, "Saving controls");
 
-    std::ofstream ofs(std::string(std::string(configGet("configDir")) + "/controls.cfg").c_str());
+    std::ofstream ofs(std::string(std::string(mtnconfigGet("configDir")) + "/controls.cfg").c_str());
     ofs << "goleft " << buttons[BUTTON_GO_LEFT] << "\ngoright " << buttons[BUTTON_GO_RIGHT] << "\njump " << buttons[BUTTON_JUMP]
         << "\nsneak " << buttons[BUTTON_SNEAK] << "\ndpadaim " << buttons[BUTTON_DPAD_AIM] << "\nopeninventory "
         << buttons[BUTTON_OPEN_INVENTORY] << "\npause " << buttons[BUTTON_PAUSE] << "\ninteract " << buttons[BUTTON_INTERACT]

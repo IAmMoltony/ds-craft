@@ -9,7 +9,7 @@
 #include "controlsmgr.hpp"
 #include "settingsmgr.hpp"
 #include "util.h"
-#include "config.h"
+#include "mtnconfig.h"
 #include "mtnlog.h"
 #include "glext.h"
 #include "pcximage.h"
@@ -378,23 +378,24 @@ void Game::init(void)
     }
 
     // init config
-    configInit();
+    if (!mtnconfigInit("nitro:/config.cfg"))
+        printf("Failed to initialize config. You will experience issues.\n");
 
     // init game version
     gameverInit();
 
     // init logging
-    mtnlogInit((MtnLogLevel)configGetInt("logLevel"), configGet("logFile"));
+    mtnlogInit((MtnLogLevel)mtnconfigGetInt("logLevel"), mtnconfigGet("logFile"));
 
     mtnlogMessage(LOG_INFO, "Initializing sound");
 
     // init sound
-    mmInitDefault((char *)configGet("soundbankFile"));
+    mmInitDefault((char *)mtnconfigGet("soundbankFile"));
 
     // create folders
-    fsCreateDir(configGet("dataDir"));
-    fsCreateDir(configGet("worldsDir"));
-    fsCreateDir(configGet("configDir"));
+    fsCreateDir(mtnconfigGet("dataDir"));
+    fsCreateDir(mtnconfigGet("worldsDir"));
+    fsCreateDir(mtnconfigGet("configDir"));
 
     mtnlogMessage(LOG_INFO, "Initializing crafting");
 
@@ -1407,7 +1408,7 @@ void Game::draw(void)
         break;
     }
 
-    if (configGetInt("showPolygonRamCount"))
+    if (mtnconfigGetInt("showPolygonRamCount"))
     {
         // for debug purposes
         int vc = 0;
@@ -1851,7 +1852,7 @@ void Game::update(void)
                     std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
 
                     mmEffectEx(&sndClick);
-                    if (configGetInt("clearConsoleOnPlay"))
+                    if (mtnconfigGetInt("clearConsoleOnPlay"))
                         consoleClear();
                     player.setAimX(SCREEN_WIDTH / 2);
                     player.setAimY(SCREEN_HEIGHT / 2);
@@ -1959,17 +1960,17 @@ void Game::update(void)
                                   renameWorldName.end());
 
             // man idk anymore
-            if (fsDirExists(std::string(std::string(configGet("worldsDir")) + "/" +
+            if (fsDirExists(std::string(std::string(mtnconfigGet("worldsDir")) + "/" +
                                         normalizeWorldFileName(renameWorldName))
                                 .c_str()))
                 renameWorldDuplError = true;
             else
             {
                 renameWorld(worldSelectWorlds[worldSelectSelected].name, renameWorldName);
-                rename(std::string(std::string(configGet("worldsDir")) + "/" +
+                rename(std::string(std::string(mtnconfigGet("worldsDir")) + "/" +
                                    normalizeWorldFileName(worldSelectWorlds[worldSelectSelected].name))
                            .c_str(),
-                       std::string(std::string(configGet("worldsDir")) + "/" + normalizeWorldFileName(renameWorldName)).c_str());
+                       std::string(std::string(mtnconfigGet("worldsDir")) + "/" + normalizeWorldFileName(renameWorldName)).c_str());
                 keyboardHide();
                 enterWorldSelect();
             }
@@ -2008,7 +2009,7 @@ void Game::update(void)
                                       .base(),
                                   createWorldName.end());
 
-            if (fsDirExists(std::string(std::string(configGet("worldsDir")) + "/" + normalizeWorldFileName(createWorldName)).c_str()))
+            if (fsDirExists(std::string(std::string(mtnconfigGet("worldsDir")) + "/" + normalizeWorldFileName(createWorldName)).c_str()))
                 createWorldError = true;
             else
             {
@@ -2197,7 +2198,7 @@ void Game::update(void)
         if (down & KEY_A)
         {
             worldSelectSelected = 0;
-            fsDeleteDir(std::string(std::string(configGet("worldsDir")) + "/" + normalizeWorldFileName(worldSelectWorlds[deleteWorldSelected].name)).c_str());
+            fsDeleteDir(std::string(std::string(mtnconfigGet("worldsDir")) + "/" + normalizeWorldFileName(worldSelectWorlds[deleteWorldSelected].name)).c_str());
             worldSelectWorlds.erase(worldSelectWorlds.begin() + deleteWorldSelected);
             deleteWorldSelected = 0;
             gameState = State::WorldSelect;
@@ -2212,8 +2213,8 @@ void Game::update(void)
     case State::DeleteAllWorlds:
         if (down & KEY_A)
         {
-            fsDeleteDir(configGet("worldsDir"));
-            fsCreateDir(configGet("worldsDir"));
+            fsDeleteDir(mtnconfigGet("worldsDir"));
+            fsCreateDir(mtnconfigGet("worldsDir"));
             gameState = State::Settings;
         }
         else if (down & KEY_B)

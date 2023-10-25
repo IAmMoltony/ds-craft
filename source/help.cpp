@@ -1,11 +1,11 @@
 #include "help.hpp"
 #include "game.hpp"
-#include "config.h"
+#include "mtnconfig.h"
 #include <sstream>
 
 void showHelp(const std::string &file, Font font, Font fontRu, u16 &frames)
 {
-    const std::string filename = std::string(configGet("helpDir")) + "/" + file + "_" +
+    const std::string filename = std::string(mtnconfigGet("helpDir")) + "/" + file + "_" +
                                  ((Game::instance->lang == Language::English) ? "en" : "ru") + ".txt";
     if (!fsFileExists(filename.c_str()))
     {

@@ -2,7 +2,7 @@
 #include <dirent.h>
 #include "stats.hpp"
 #include "random.hpp"
-#include "config.h"
+#include "mtnconfig.h"
 #include "mtnlog.h"
 
 std::string normalizeWorldFileName(const std::string &str)
@@ -30,7 +30,7 @@ std::string normalizeWorldFileName(const std::string &str)
 
 std::string getWorldFile(const std::string &name)
 {
-    std::string fn = std::string(configGet("worldsDir")) + "/" + normalizeWorldFileName(name);
+    std::string fn = std::string(mtnconfigGet("worldsDir")) + "/" + normalizeWorldFileName(name);
     return fsDirExists(fn.c_str()) ? fn : "(NO WORLD FILE)";
 }
 
@@ -70,11 +70,11 @@ std::string getWorldName(const std::string &file)
 std::string getWorldVersion(const std::string &file)
 {
     // if the world doesn't exist or no meta file, return error version
-    if (!fsDirExists(std::string(std::string(configGet("worldsDir")) + "/" + file).c_str()) ||
-        !fsFileExists(std::string(std::string(configGet("worldsDir")) + "/" + file + "/world.meta").c_str()))
+    if (!fsDirExists(std::string(std::string(mtnconfigGet("worldsDir")) + "/" + file).c_str()) ||
+        !fsFileExists(std::string(std::string(mtnconfigGet("worldsDir")) + "/" + file + "/world.meta").c_str()))
         return "alpha0.0.0";
 
-    std::ifstream wldMeta(std::string(configGet("worldsDir")) + "/" + file + "/world.meta");
+    std::ifstream wldMeta(std::string(mtnconfigGet("worldsDir")) + "/" + file + "/world.meta");
     std::string line;
     std::string gameVersion = "alpha0.0.0"; // alpha0.0.0 by default (returned when gameversion not found in metafile)
     while (std::getline(wldMeta, line))
@@ -184,7 +184,7 @@ static void _writeGeneric(std::ofstream &wld, const Block::Pointer &block)
 void saveWorld(const std::string &name, Block::List &blocks, EntityList &entities,
                Player &player, u32 seed, s16 currentLocation)
 {
-    std::string worldFolder = std::string(configGet("worldsDir")) + "/" + normalizeWorldFileName(name);
+    std::string worldFolder = std::string(mtnconfigGet("worldsDir")) + "/" + normalizeWorldFileName(name);
 
     // generate terrain in case folder doesn't exist or specified location's file doesn't exist
     if (!fsDirExists(worldFolder.c_str()) || !fsFileExists(std::string(worldFolder + "/locations/location" + std::to_string(currentLocation) + ".wld").c_str()))
@@ -352,7 +352,7 @@ void saveWorld(const std::string &name, Block::List &blocks, EntityList &entitie
 
 unsigned int getWorldSeed(const std::string &file)
 {
-    std::string worldFolder = std::string(configGet("worldsDir")) + "/" + normalizeWorldFileName(file);
+    std::string worldFolder = std::string(mtnconfigGet("worldsDir")) + "/" + normalizeWorldFileName(file);
 
     // check if the world like actually exists
     if (!fsDirExists(worldFolder.c_str()))
@@ -450,7 +450,7 @@ static void _argParseWheat(const StringVector &split, s16 &x, s16 &y, u8 &growSt
 void loadWorld(const std::string &name, Block::List &blocks, EntityList &entities,
                Player &player, s16 &currentLocation)
 {
-    std::string worldFolder = std::string(std::string(configGet("worldsDir")) + "/" + name);
+    std::string worldFolder = std::string(std::string(mtnconfigGet("worldsDir")) + "/" + name);
 
     mtnlogMessage(LOG_INFO, "Loading world with name `%s' folder `%s'", name.c_str(), worldFolder.c_str());
 
@@ -822,7 +822,7 @@ void loadWorld(const std::string &name, Block::List &blocks, EntityList &entitie
 void renameWorld(const std::string &oldName, const std::string &newName)
 {
     // check if exist
-    const std::string oldNameNormalized = std::string(configGet("worldsDir")) + "/" + normalizeWorldFileName(oldName);
+    const std::string oldNameNormalized = std::string(mtnconfigGet("worldsDir")) + "/" + normalizeWorldFileName(oldName);
     if (!fsDirExists(oldNameNormalized.c_str()))
         return;
 

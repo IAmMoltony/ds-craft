@@ -1,5 +1,5 @@
 #include "worldmgr.hpp"
-#include "config.h"
+#include "mtnconfig.h"
 #include "fs.h"
 #include "save.hpp"
 #include <sstream>
@@ -9,7 +9,7 @@ WorldManager::WorldList WorldManager::getWorlds(void)
 {
     // first we iterate through the world directory
     DIR *dp;
-    dp = opendir(configGet("worldsDir"));
+    dp = opendir(mtnconfigGet("worldsDir"));
     struct dirent *ep;
     std::string dls; // directory list string
     while ((ep = readdir(dp)) != NULL)
@@ -26,7 +26,7 @@ WorldManager::WorldList WorldManager::getWorlds(void)
         if (line == "." || line == "..")
             continue;
 
-        std::string worldFile = std::string(configGet("worldsDir")) + "/" + line;
+        std::string worldFile = std::string(mtnconfigGet("worldsDir")) + "/" + line;
 
         if (!fsIsDir(worldFile.c_str()))
             continue; // not directory

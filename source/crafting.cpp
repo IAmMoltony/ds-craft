@@ -3,13 +3,13 @@
 #include <sstream>
 #include <iterator>
 #include "util.h"
-#include "config.h"
+#include "mtnconfig.h"
 #include "save.hpp"
 #include "game.hpp"
 
 void CraftingRecipe::construct(const char *recipeFile)
 {
-    std::string path = std::string(configGet("craftingDir")) + "/" + std::string(recipeFile) + ".rcp";
+    std::string path = std::string(mtnconfigGet("craftingDir")) + "/" + std::string(recipeFile) + ".rcp";
     fileName = recipeFile;
 
     // check if file exists

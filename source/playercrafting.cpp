@@ -1,7 +1,7 @@
 #include "player.hpp"
 #include "crafting.hpp"
 #include "game.hpp"
-#include "config.h"
+#include "mtnconfig.h"
 #include "mtnlog.h"
 #include "glext.h"
 #include <fstream>
@@ -12,7 +12,7 @@ void Player::initCrafting(void)
 {
     std::map<std::string, float> loadTimes;
 
-    std::ifstream craftingOrder(configGet("craftingOrderFile"));
+    std::ifstream craftingOrder(mtnconfigGet("craftingOrderFile"));
     std::string line;
     while (std::getline(craftingOrder, line))
     {

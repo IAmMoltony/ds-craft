@@ -2,7 +2,7 @@
 #include "game.hpp"
 #include "save.hpp"
 #include "fs.h"
-#include "config.h"
+#include "mtnconfig.h"
 #include "mtnlog.h"
 
 bool SettingsManager::transparentLeaves = SettingsManager::TRANSPARENT_LEAVES_DEFAULT;
@@ -13,11 +13,11 @@ bool SettingsManager::blockParticles = SettingsManager::BLOCK_PARTICLES_DEFAULT;
 
 void SettingsManager::loadLanguageLegacy(void)
 {
-    if (fsFileExists(std::string(std::string(configGet("configDir")) + "/lang.cfg").c_str()))
+    if (fsFileExists(std::string(std::string(mtnconfigGet("configDir")) + "/lang.cfg").c_str()))
     {
         mtnlogMessage(LOG_INFO, "Loading legacy language setting");
 
-        char *data = fsReadFile(std::string(std::string(configGet("configDir")) + "/lang.cfg").c_str());
+        char *data = fsReadFile(std::string(std::string(mtnconfigGet("configDir")) + "/lang.cfg").c_str());
         switch (data[0])
         {
         case '0':
@@ -59,18 +59,18 @@ void SettingsManager::loadSettingsLegacy(void)
     loadLanguageLegacy();
 
     // transparent leaves setting
-    if (fsFileExists(std::string(std::string(configGet("configDir")) + "/trleaves.cfg").c_str()))
+    if (fsFileExists(std::string(std::string(mtnconfigGet("configDir")) + "/trleaves.cfg").c_str()))
     {
-        char *data = fsReadFile(std::string(std::string(configGet("configDir")) + "/trleaves.cfg").c_str());
+        char *data = fsReadFile(std::string(std::string(mtnconfigGet("configDir")) + "/trleaves.cfg").c_str());
         transparentLeaves = data[0] == '1';
     }
     else
-        fsWrite(std::string(std::string(configGet("configDir")) + "/trleaves.cfg").c_str(), std::to_string((int)TRANSPARENT_LEAVES_DEFAULT).c_str());
+        fsWrite(std::string(std::string(mtnconfigGet("configDir")) + "/trleaves.cfg").c_str(), std::to_string((int)TRANSPARENT_LEAVES_DEFAULT).c_str());
 
     // auto save setting
-    if (fsFileExists(std::string(std::string(configGet("configDir")) + "/autosave.cfg").c_str()))
+    if (fsFileExists(std::string(std::string(mtnconfigGet("configDir")) + "/autosave.cfg").c_str()))
     {
-        char *data = fsReadFile(std::string(std::string(configGet("configDir")) + "/autosave.cfg").c_str());
+        char *data = fsReadFile(std::string(std::string(mtnconfigGet("configDir")) + "/autosave.cfg").c_str());
         autoSaveSeconds = std::stoi(std::string(data));
         if (autoSaveSeconds == 1)
         {
@@ -79,25 +79,25 @@ void SettingsManager::loadSettingsLegacy(void)
         }
     }
     else
-        fsWrite(std::string(std::string(configGet("configDir")) + "/autosave.cfg").c_str(), std::to_string((int)AUTO_SAVE_SECONDS_DEFAULT).c_str());
+        fsWrite(std::string(std::string(mtnconfigGet("configDir")) + "/autosave.cfg").c_str(), std::to_string((int)AUTO_SAVE_SECONDS_DEFAULT).c_str());
 
     // smooth camera setting
-    if (fsFileExists(std::string(std::string(configGet("configDir")) + "/smoothcam.cfg").c_str()))
+    if (fsFileExists(std::string(std::string(mtnconfigGet("configDir")) + "/smoothcam.cfg").c_str()))
     {
-        char *data = fsReadFile(std::string(std::string(configGet("configDir")) + "/smoothcam.cfg").c_str());
+        char *data = fsReadFile(std::string(std::string(mtnconfigGet("configDir")) + "/smoothcam.cfg").c_str());
         smoothCamera = data[0] == '1';
     }
     else
-        fsWrite(std::string(std::string(configGet("configDir")) + "/smoothcam.cfg").c_str(), std::to_string((int)SMOOTH_CAMERA_DEFAULT).c_str());
+        fsWrite(std::string(std::string(mtnconfigGet("configDir")) + "/smoothcam.cfg").c_str(), std::to_string((int)SMOOTH_CAMERA_DEFAULT).c_str());
 
     // auto jump setting
-    if (fsFileExists(std::string(std::string(configGet("configDir")) + "/autojump.cfg").c_str()))
+    if (fsFileExists(std::string(std::string(mtnconfigGet("configDir")) + "/autojump.cfg").c_str()))
     {
-        char *data = fsReadFile(std::string(std::string(configGet("configDir")) + "/autojump.cfg").c_str());
+        char *data = fsReadFile(std::string(std::string(mtnconfigGet("configDir")) + "/autojump.cfg").c_str());
         autoJump = data[0] == '1';
     }
     else
-        fsWrite(std::string(std::string(configGet("configDir")) + "/autojump.cfg").c_str(), std::to_string((int)AUTO_JUMP_DEFAULT).c_str());
+        fsWrite(std::string(std::string(mtnconfigGet("configDir")) + "/autojump.cfg").c_str(), std::to_string((int)AUTO_JUMP_DEFAULT).c_str());
 }
 
 // list of legacy settings files
@@ -115,13 +115,13 @@ void SettingsManager::removeLegacySettings(void)
 {
     for (u8 i = 0; i < _numLegacySettingsFiles; ++i)
         // delete (config dir)/(file name).cfg
-        fsDeleteFile(std::string(std::string(configGet("configDir")) + "/" + _legacySettingsFiles[i] + ".cfg").c_str());
+        fsDeleteFile(std::string(std::string(mtnconfigGet("configDir")) + "/" + _legacySettingsFiles[i] + ".cfg").c_str());
 }
 
 void SettingsManager::updateSettingsFormat(void)
 {
     // check if we need to update
-    if (fsFileExists(std::string(std::string(configGet("configDir")) + "/settings.cfg").c_str()))
+    if (fsFileExists(std::string(std::string(mtnconfigGet("configDir")) + "/settings.cfg").c_str()))
         return;
 
     // load legacy settings
@@ -137,7 +137,7 @@ void SettingsManager::updateSettingsFormat(void)
 void SettingsManager::saveSettings(void)
 {
     // open na file
-    FILE *settingsFile = fopen(std::string(std::string(configGet("configDir")) + "/settings.cfg").c_str(), "w");
+    FILE *settingsFile = fopen(std::string(std::string(mtnconfigGet("configDir")) + "/settings.cfg").c_str(), "w");
 
     // check if error
     if (!settingsFile)
@@ -158,7 +158,7 @@ void SettingsManager::saveSettings(void)
 void SettingsManager::loadSettings(void)
 {
     // open file
-    std::ifstream file(std::string(std::string(configGet("configDir")) + "/settings.cfg"));
+    std::ifstream file(std::string(std::string(mtnconfigGet("configDir")) + "/settings.cfg"));
 
     // check if error
     if (file.bad())

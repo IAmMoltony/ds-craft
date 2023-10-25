@@ -9,7 +9,7 @@
 #include "controlsmgr.hpp"
 #include "settingsmgr.hpp"
 #include "util.h"
-#include "config.h"
+#include "mtnconfig.h"
 #include "glext.h"
 
 const float Player::JUMP_SPEED = 4.0f;
@@ -428,7 +428,7 @@ void Player::draw(const Camera &camera, Font &font, Font &fontRu)
     else
         drawHUD(camera, font, fontRu);
 
-    if (configGetInt("drawPlayerHitboxes"))
+    if (mtnconfigGetInt("drawPlayerHitboxes"))
     {
         getRectBottom().draw(camera, RGB15(31, 0, 0));
         getRectTop().draw(camera, RGB15(0, 31, 0));

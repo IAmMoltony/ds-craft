@@ -5,7 +5,7 @@
 #include <errno.h>
 #include <fat.h>
 #include <filesystem.h>
-#include "config.h"
+#include "mtnconfig.h"
 
 fsInitStatus fsInit(void)
 {
@@ -27,7 +27,7 @@ void fsCreateDir(const char *name)
 void fsCreateFile(const char *name)
 {
     FILE *fp = fopen(name, "w");
-    if (!fp && configGetInt("fsErrorMessages"))
+    if (!fp && mtnconfigGetInt("fsErrorMessages"))
     {
         printf("fsCreateFile failed (name: %s)\n", name);
         perror(name);
@@ -39,7 +39,7 @@ void fsCreateFile(const char *name)
 void fsWrite(const char *file, const char *data)
 {
     FILE *fp = fopen(file, "w");
-    if (fputs(data, fp) < 0 && configGet("fsErrorMessages"))
+    if (fputs(data, fp) < 0 && mtnconfigGet("fsErrorMessages"))
     {
         printf("fsWrite failed (name: %s)\n", file);
         perror(file);
@@ -60,7 +60,7 @@ void fsDeleteDir(const char *name)
     char path[PATH_MAX];
 
     dir = opendir(name);
-    if (!dir && configGetInt("fsErrorMessages"))
+    if (!dir && mtnconfigGetInt("fsErrorMessages"))
     {
         printf("fsDeleteDir: opendir error\n");
         perror(name);
@@ -76,7 +76,7 @@ void fsDeleteDir(const char *name)
             fsDeleteDir(path);
         else
         {
-            if (unlink(path) != 0 && configGetInt("fsErrorMessages"))
+            if (unlink(path) != 0 && mtnconfigGetInt("fsErrorMessages"))
             {
                 printf("fsDeleteDir: unlink error\n");
                 perror(path);
@@ -86,7 +86,7 @@ void fsDeleteDir(const char *name)
 
     closedir(dir);
 
-    if (remove(name) != 0 && configGetInt("fsErrorMessages"))
+    if (remove(name) != 0 && mtnconfigGetInt("fsErrorMessages"))
     {
         printf("fsDeleteDir: rmdir error\n");
         perror(name);
@@ -111,7 +111,7 @@ bool fsDirExists(const char *name)
         return false;
     else
     {
-        if (configGetInt("fsErrorMessages"))
+        if (mtnconfigGetInt("fsErrorMessages"))
             perror("fsDirExists: opendir() failed"); // TODO make fs errors also print to log
         return false;
     }
@@ -125,7 +125,7 @@ bool fsIsDir(const char *name)
 
     if (stat(name, &fileStat) == -1)
     {
-        if (configGetInt("fsErrorMessages"))
+        if (mtnconfigGetInt("fsErrorMessages"))
         {
             printf("fsIsDir failed: ");
             perror(name);
@@ -158,7 +158,7 @@ char *fsReadFile(const char *name)
         }
         fclose(fp);
     }
-    else if (configGetInt("fsErrorMessages"))
+    else if (mtnconfigGetInt("fsErrorMessages"))
     {
         printf("fsReadFile failed (name: %s)\n", name);
         perror(name);
@@ -172,7 +172,7 @@ long fsGetFileSize(const char *name)
     FILE *fp = fopen(name, "r");
     if (!fp)
     {
-        if (configGetInt("fsErrorMessages"))
+        if (mtnconfigGetInt("fsErrorMessages"))
         {
             printf("fsGetFileSize failed: ");
             perror(name);
@@ -192,7 +192,7 @@ long fsGetDirSize(const char *name)
 
     if (!d)
     {
-        if (configGetInt("fsErrorMessages"))
+        if (mtnconfigGetInt("fsErrorMessages"))
         {
             printf("fsGetDirSize: opendir() failed with name ");
             perror(name);
@@ -207,7 +207,7 @@ long fsGetDirSize(const char *name)
         char *fullFileName = malloc(strlen(name) + strlen(de->d_name) + 2);
         if (!fullFileName)
         {
-            if (configGetInt("fsErrorMessages"))
+            if (mtnconfigGetInt("fsErrorMessages"))
                 printf("fsGetDirSize: failed to allocate memory\n");
             return -1;
         }
