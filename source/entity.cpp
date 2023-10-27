@@ -4,6 +4,7 @@
 #include "random.hpp"
 #include "util.h"
 #include "glext.h"
+#include "entityai.hpp"
 
 static glImage _sprPig[1];
 static unsigned short _sprPigDamagePal[16];
@@ -82,135 +83,29 @@ void PigEntity::draw(Camera camera)
     }
 }
 
-void PigEntity::update(Block::List &blocks, Camera camera, u16 frames)
+void PigEntity::update(Block::List &blocks, const Camera &camera, const u16 &frames)
 {
-    // don't update if off screen
-    if (x - camera.x < -20 ||
-        x - camera.x > SCREEN_WIDTH ||
-        y - camera.y < -40 ||
-        y - camera.y > SCREEN_HEIGHT + 32)
-        return;
-
-    // damage overlay updating
-    if (damageOverlayTimer != 255)
-    {
-        ++damageOverlayTimer;
-        if (damageOverlayTimer == 20)
-            damageOverlayTimer = 255;
-    }
-
-    // panic mode updating
-    if (panicModeTimer != USHRT_MAX)
-    {
-        ++panicModeTimer;
-        if (panicModeTimer == 1000)
-            panicModeTimer = USHRT_MAX;
-    }
-
-    // move
-    x += velX;
-    y += velY;
-
-    // apply gravity if in air
-    if (falling || jumping)
-    {
-        velY += 0.3f;
-        if (velY > 5)
-            velY = 5;
-    }
-
-    // clamp x
-    if (x < 0)
-        x = 0;
-    if (x > 1000)
-        x = 1000;
-
-    s16 baseVelX = (panicModeTimer == USHRT_MAX) ? 1 : 2;
-
-    // set x velocity if moving
-    velX = moving ? (facing == Facing::Right ? baseVelX : -baseVelX) : 0;
-
-    // randomly change direction
-    if (randomGenerate() % 250 == 1)
-        facing = facing == Facing::Right ? Facing::Left : Facing::Right;
-
-    // jump randomly
-    if (randomChance(11))
-    {
-        if (!jumping)
-        {
-            jumping = true;
-            velY = -4;
-        }
-    }
-
-    // stop or start moving randomly
-    if (randomChance(3))
-        moving = !moving;
-
-    // always move if panic
-    if (panicModeTimer != USHRT_MAX)
-        moving = true;
-
-    // collision detection (every 4 frames for optimization)
-    if (frames % 4 == 0)
-    {
-        for (auto &block : blocks)
-        {
-            // skip block if off screen
-            if (block->getRect().x - camera.x < -40 ||
-                block->getRect().y - camera.y < -40 ||
-                block->y - camera.y > SCREEN_HEIGHT + 48)
-                continue;
-
-            // skip all blocks if too far to the right
-            if (block->getRect().x - camera.x > SCREEN_WIDTH + 48)
-                break;
-
-            // don't check collisions with non solid blocks
-            if (!block->solid())
-                continue;
-
-            if (block->getRect().intersects(getRectBottom()))
-            {
-                falling = jumping = false;
-                velY = 0;
-                y = block->y - 24;
-            }
-            else
-                falling = true;
-
-            if (block->getRect().intersects(getRectTop()))
-            {
-                velY = 0;
-                y = block->y + 17;
-            }
-
-            if (block->getRect().intersects(getRectRight()))
-            {
-                x = block->x - 22;
-                if (!jumping)
-                {
-                    jumping = true;
-                    velY = -4;
-                }
-            }
-
-            if (block->getRect().intersects(getRectLeft()))
-            {
-                x = block->x + 16;
-                if (!jumping)
-                {
-                    velY = -4;
-                    jumping = true;
-                }
-            }
-        }
-    }
-
-    // randomly make sound
-    if (randomChance(1) && randomChance(51))
-        playsfx(3, &sndPigSay1, &sndPigSay2, &sndPigSay3);
+    PigEntityAI::update(
+        x,
+        y,
+        velX,
+        velY,
+        falling,
+        jumping,
+        facing,
+        moving,
+        damageOverlayTimer,
+        panicModeTimer,
+        blocks,
+        camera,
+        frames,
+        getRectTop(),
+        getRectBottom(),
+        getRectLeft(),
+        getRectRight(),
+        &sndPigSay1,
+        &sndPigSay2,
+        &sndPigSay3);
 }
 
 Rect PigEntity::getRectBottom(void)
@@ -296,7 +191,7 @@ void DropEntity::draw(Camera camera)
     glColor(RGB15(31, 31, 31));
 }
 
-void DropEntity::update(Block::List &blocks, Camera camera, u16 frames)
+void DropEntity::update(Block::List &blocks, const Camera &camera, const u16 &frames)
 {
     if (x - camera.x < -20 ||
         x - camera.x > SCREEN_WIDTH ||
