@@ -6,7 +6,7 @@ ifeq ($(strip $(DEVKITARM)),)
 $(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM")
 endif
 
-# the find command is taken from windows and not from msys on visual studio
+# the find command is taken from windows and not from msys in visual studio
 ifeq ($(OS),Windows_NT)
 FIND := $(DEVKITPRO)/msys2/usr/bin/find
 else
