@@ -448,8 +448,6 @@ void Game::init(void)
     // load assets for menu
     AssetManager::loadMenuAssets();
 
-    printf("Battery is %lu\n", getBatteryLevel());
-
     // init values of stuff
     gameState = State::TitleScreen;
     camera = {0, 0};
