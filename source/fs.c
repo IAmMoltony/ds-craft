@@ -6,6 +6,7 @@
 #include <fat.h>
 #include <filesystem.h>
 #include "mtnconfig.h"
+#include "mtnlog.h"
 
 fsInitStatus fsInit(void)
 {
@@ -123,7 +124,7 @@ bool fsIsDir(const char *name)
     if (stat(name, &fileStat) == -1)
     {
         if (mtnconfigGetInt("fsErrorMessages"))
-            mtnlogMessage("Failed to check if %s is a directory or not: %s", name, strerror(errno))
+            mtnlogMessage(LOG_ERROR, "Failed to check if %s is a directory or not: %s", name, strerror(errno));
         return false;
     }
 
@@ -153,7 +154,7 @@ char *fsReadFile(const char *name)
         fclose(fp);
     }
     else if (mtnconfigGetInt("fsErrorMessages"))
-        mtnlogMessage("Failed to read file %s: %s", name, strerror(errno))
+        mtnlogMessage(LOG_ERROR, "Failed to read file %s: %s", name, strerror(errno));
 
     return buf;
 }
@@ -164,7 +165,7 @@ long fsGetFileSize(const char *name)
     if (!fp)
     {
         if (mtnconfigGetInt("fsErrorMessages"))
-            mtnlogMessage(LOG_ERROR, "Failed to get the size of file %s: %s", name, strerror(errno))
+            mtnlogMessage(LOG_ERROR, "Failed to get the size of file %s: %s", name, strerror(errno));
         return -1;
     }
 
@@ -181,7 +182,7 @@ long fsGetDirSize(const char *name)
     if (!d)
     {
         if (mtnconfigGetInt("fsErrorMessages"))
-            mtnlogMessage(LOG_ERROR, "Failed to open directory %s: %s", name, strerror(errno))
+            mtnlogMessage(LOG_ERROR, "Failed to open directory %s: %s", name, strerror(errno));
         return -1;
     }
 
