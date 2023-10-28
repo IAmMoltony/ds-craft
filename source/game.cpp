@@ -440,13 +440,15 @@ void Game::init(void)
     srand(time(NULL));                                                                                       // set seed for stuff that doesn't need to be THAT random
 
     // finally, do some random number generation to spice up the seed even more
-    for (int i = 0; i < randomRange(10, 100), ++i)
+    for (int i = 0; i < randomRange(10, 100); ++i)
         (void)randomRange(randomRange(0, 900), randomRange(0, 300));
 
     mtnlogMessage(LOG_INFO, "Loading menu assets");
 
     // load assets for menu
     AssetManager::loadMenuAssets();
+
+    printf("Battery is %u\n", getBatteryLevel());
 
     // init values of stuff
     gameState = State::TitleScreen;
