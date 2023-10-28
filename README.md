@@ -34,8 +34,11 @@ git submodule update --init --recursive
 
 ### With command line (everywhere)
 
-If you just want to build, run `make`. To build and then run, run `make build run EMULATOR=/path/to/emulator`. To rebuild, run `make clean build` and if
-you want to rebuild and run, run `make clean build run EMULATOR=/path/to/emulator`.
+The Makefile has these targets for building and running:
+
+`build` - build the game. This is the default target, so running `make` is the same as `make build`.
+`run` - run the game in the emulator specified. The emulator has to be specified as `EMULATOR=/path/to/emulator` at the end of the command. If you're on Windows, then the slashes in the path must be forward-slashes (`/`) instead of backslashes (`\`).
+`clean` - remove all binaries.
 
 ### Using Code::Blocks (on Linux)
 
@@ -57,7 +60,7 @@ If you want to run the game from Visual Studio:
 
 ## Docs
 
-To generate documentation, you will need to have [Doxygen](https://doxygen.nl) installed. If you need PDF file output as well, then install [EPS to PDF](https://tug.org/epstopdf/). Once you're ready, pull up your terminal, go to the root of the project and run `doxygen`. You can use Doxywizard too.
+To generate documentation, you will need to have [Doxygen](https://doxygen.nl) installed. If you need PDF file output as well, then install [EPS to PDF](https://tug.org/epstopdf/). Once you're ready, pull up your terminal, go to the root of the project and run `doxygen`. You can use Doxywizard too, if you like.
 
 ## Screenshots
 
