@@ -13,7 +13,7 @@ DS-Craft is a Minecraft demake for Nintendo DS written in C and C++ inspired by 
 
 ## Cloning
 
-Since `ds-craft` uses submodules, you should clone it like this:
+Since this game uses submodules, you should clone it like this:
 
 ```bash
 git clone https://github.com/IAmMoltony/ds-craft --recurse-submodules
@@ -27,27 +27,22 @@ git submodule update --init --recursive
 
 ## Dependencies
 
-- devkitPro for Nintendo DS (NDS) development. ([How to install](https://devkitpro.org/wiki/Getting_Started)).
-- Python 3 (For generating `images.h` which is required for building)
+- devkitPro toolchain for Nintendo DS (NDS) development. [How to install](https://devkitpro.org/wiki/Getting_Started).
+- Python **3** (not 2)
 
 ## Building and running
 
-### With command line (everywhere)
+### With command line (anywhere)
 
-The Makefile has these targets for building and running:
+- `make build` - build the game. This is the default target, so running `make` is the same as `make build`.
 
-- `build` - build the game. This is the default target, so running `make` is the same as `make build`.
+- `make run` - run the game in the emulator specified. The emulator has to be specified as `EMULATOR=/path/to/emulator` at the end of the command. If you're on Windows, then the slashes in the path must be forward-slashes (`/`) instead of backslashes (`\`).
 
-- `run` - run the game in the emulator specified. The emulator has to be specified as `EMULATOR=/path/to/emulator` at the end of the command. If you're on Windows, then the slashes in the path must be forward-slashes (`/`) instead of backslashes (`\`).
-
-- `clean` - remove all binaries.
+- `make clean` - remove all binaries.
 
 ### Using Code::Blocks (on Linux)
 
-To build, press the Build button on the top of the window. To run, press the Run button on the top of the window. To build and run, press the Build and Run
-button on the top of the window. To rebuild, press the Rebuild button on top of the window.
-
-If you want to run from Code::Blocks, set the emulator in the `codeblocks_run` file.
+You can use Code::Blocks the same way you do with other programs. The only difference is, if you want to run the game using an emulator from within Code::Blocks, you have to set the emulator in the `codeblocks_run` file.
 
 ### Using Visual Studio (on Windows)
 
