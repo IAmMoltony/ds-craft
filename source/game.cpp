@@ -1131,6 +1131,7 @@ void Game::draw(void)
         }
         break;
     case State::Settings:
+        {
         drawMenuBackground();
 
         if (settingsSelect == SETTING_LANGUAGE_SELECT)
@@ -1267,14 +1268,14 @@ void Game::draw(void)
             break;
         }
 
-        // the line below might look like english mixed in with code made up by a wizard who time traveled
-        // to 2023 from 1649 and they spoke ancient bulgarian dialect only spoken in middle east antractica
-        // but
-        // this is basically
-        // [yellow]< [white][L button sprite][yellow]     Page .../...     [white][R button sprite][white] >
-        // i hope that bade it clearer
-        // [insert imagemagick wizard]
-        font.printCentered(0, 139, "\1:31:31:0*< \1:31:31:31*\2:L\1:31:31:0*        Page 1 / 2        \1:31:31:31*\2:R\1:31:31:31* >");
+        // Create a string containing thirty two space characters.
+        std::string spaces;
+        for (u8 i = 0; i < 32; ++i)
+            spaces += ' ';
+
+        font.printCentered(0, 139, "\1:31:31:0*Page 1 / 2");
+        font.printCentered(0, 141, "< \2:L" + spaces);
+        font.printCentered(0, 141, spaces + "\2:R >");
 
         // TODO ayo why this dont use show button tolltips function????
         glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprBButton);
@@ -1307,6 +1308,7 @@ void Game::draw(void)
             break;
         }
         break;
+    }
     case State::DeleteWorld:
         drawMenuBackground();
 
