@@ -11,11 +11,22 @@
 fsInitStatus fsInit(void)
 {
     // TODO this doesnt work on real hardware (thx Its-Andy9 for pointing out)
+
+    bool fatFailed = false;
+    bool nitrofsFailed = false;
+
     if (!fatInitDefault())
-        return FS_INIT_STATUS_FAT_ERROR;
+        fatFailed = true;
     if (!nitroFSInit(NULL))
+        nitrofsFailed = true;
+
+    if (!fatFailed && !nitrofsFailed)
+        return FS_INIT_STATUS_OK;
+    if (fatFailed && !nitrofsFailed)
+        return FS_INIT_STATUS_FAT_ERROR;
+    if (!fatFailed && nitrofsFailed)
         return FS_INIT_STATUS_NITROFS_ERROR;
-    return FS_INIT_STATUS_OK;
+    return FS_INIT_STATUS_BOTH_ERROR;
 }
 
 void fsCreateDir(const char *name)

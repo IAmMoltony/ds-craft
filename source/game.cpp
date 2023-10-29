@@ -367,6 +367,9 @@ void Game::init(void)
                 font.print(10, 30, "There was an error initializing NitroFS. \n \nPlease make sure "
                                    "that it was set up correctly.");
                 break;
+            case FS_INIT_STATUS_BOTH_ERROR:
+                font.print(10, 30, "Both FAT and NitroFS failed to initialize. This is very bad.");
+                break;
             default:
                 break;
             }
