@@ -36,9 +36,11 @@ git submodule update --init --recursive
 
 The Makefile has these targets for building and running:
 
-`build` - build the game. This is the default target, so running `make` is the same as `make build`.
-`run` - run the game in the emulator specified. The emulator has to be specified as `EMULATOR=/path/to/emulator` at the end of the command. If you're on Windows, then the slashes in the path must be forward-slashes (`/`) instead of backslashes (`\`).
-`clean` - remove all binaries.
+- `build` - build the game. This is the default target, so running `make` is the same as `make build`.
+
+- `run` - run the game in the emulator specified. The emulator has to be specified as `EMULATOR=/path/to/emulator` at the end of the command. If you're on Windows, then the slashes in the path must be forward-slashes (`/`) instead of backslashes (`\`).
+
+- `clean` - remove all binaries.
 
 ### Using Code::Blocks (on Linux)
 
