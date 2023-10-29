@@ -160,128 +160,6 @@ void Player::unloadSounds(void)
     unloadsfx4(LADDER);
 }
 
-static InventoryItem::ID _nonBlockItemIDs[] =
-    {
-        InventoryItem::ID::Stick,
-        InventoryItem::ID::Coal,
-        InventoryItem::ID::IronIngot,
-        InventoryItem::ID::IronNugget,
-        InventoryItem::ID::RawPorkchop,
-        InventoryItem::ID::CookedPorkchop,
-        InventoryItem::ID::Apple,
-        InventoryItem::ID::WoodenPickaxe,
-        InventoryItem::ID::StonePickaxe,
-        InventoryItem::ID::IronPickaxe,
-        InventoryItem::ID::WoodenShovel,
-        InventoryItem::ID::StoneShovel,
-        InventoryItem::ID::IronShovel,
-        InventoryItem::ID::WoodenAxe,
-        InventoryItem::ID::StoneAxe,
-        InventoryItem::ID::IronAxe,
-        InventoryItem::ID::WoodenSword,
-        InventoryItem::ID::StoneSword,
-        InventoryItem::ID::IronSword,
-        InventoryItem::ID::WoodenHoe,
-        InventoryItem::ID::StoneHoe,
-        InventoryItem::ID::IronHoe,
-        InventoryItem::ID::Shears,
-        InventoryItem::ID::Wheat,
-        InventoryItem::ID::Bread,
-};
-
-// technically wheat seeds are a block item bc u can place them on farmland
-
-static InventoryItem::ID _toolItemIDs[] =
-    {
-        InventoryItem::ID::WoodenPickaxe,
-        InventoryItem::ID::StonePickaxe,
-        InventoryItem::ID::IronPickaxe,
-        InventoryItem::ID::WoodenShovel,
-        InventoryItem::ID::StoneShovel,
-        InventoryItem::ID::IronShovel,
-        InventoryItem::ID::WoodenAxe,
-        InventoryItem::ID::StoneAxe,
-        InventoryItem::ID::IronAxe,
-        InventoryItem::ID::WoodenSword,
-        InventoryItem::ID::StoneSword,
-        InventoryItem::ID::IronSword,
-        InventoryItem::ID::WoodenHoe,
-        InventoryItem::ID::StoneHoe,
-        InventoryItem::ID::IronHoe,
-        InventoryItem::ID::Shears,
-};
-
-static InventoryItem::ID _nonSolidBlockItemIDs[] =
-    {
-        InventoryItem::ID::Wood,
-        InventoryItem::ID::BirchWood,
-        InventoryItem::ID::SpruceWood,
-        InventoryItem::ID::Leaves,
-        InventoryItem::ID::BirchLeaves,
-        InventoryItem::ID::SpruceWood,
-        InventoryItem::ID::Sapling,
-        InventoryItem::ID::BirchSapling,
-        InventoryItem::ID::SpruceSapling,
-        InventoryItem::ID::Poppy,
-        InventoryItem::ID::Dandelion,
-        InventoryItem::ID::RedTulip,
-        InventoryItem::ID::Ladder,
-        InventoryItem::ID::Chest,
-        InventoryItem::ID::Sign,
-        InventoryItem::ID::WheatSeeds,
-};
-
-static InventoryItem::ID _slabItemIDs[] =
-    {
-        InventoryItem::ID::OakSlab,
-        InventoryItem::ID::CobblestoneSlab,
-        InventoryItem::ID::BirchSlab,
-        InventoryItem::ID::SpruceSlab,
-        InventoryItem::ID::StoneBricksSlab,
-};
-
-// check if the item is not a block item
-bool isItem(InventoryItem::ID id)
-{
-    static constexpr int n = sizeof(_nonBlockItemIDs) / sizeof(_nonBlockItemIDs[0]);
-    return std::find(_nonBlockItemIDs, _nonBlockItemIDs + n, id) != _nonBlockItemIDs + n;
-}
-
-// check if the item is a tool
-bool isToolItem(InventoryItem::ID id)
-{
-    // block item
-    if (!isItem(id))
-        return false;
-
-    static constexpr int n = sizeof(_toolItemIDs) / sizeof(_toolItemIDs[0]);
-    return std::find(_toolItemIDs, _toolItemIDs + n, id) != _toolItemIDs + n;
-}
-
-// check if the item is a non-solid block
-bool isNonSolidBlockItem(InventoryItem::ID id)
-{
-    // not a block item
-    if (isItem(id))
-        return false;
-
-    static constexpr int n = sizeof(_nonSolidBlockItemIDs) / sizeof(_nonSolidBlockItemIDs[0]);
-    return std::find(_nonSolidBlockItemIDs, _nonSolidBlockItemIDs + n, id) != _nonSolidBlockItemIDs + n;
-}
-
-// TODO move is<...> item into item class (called like item.isNonSolidBlock() for example)
-
-// check if the item is a slab
-bool isSlabItem(InventoryItem::ID id)
-{
-    // not a block item
-    if (isItem(id))
-        return false;
-
-    static constexpr int n = sizeof(_slabItemIDs) / sizeof(_slabItemIDs[0]);
-    return std::find(_slabItemIDs, _slabItemIDs + n, id) != _slabItemIDs + n;
-}
-
 Player::Player() : x(0), y(0), aimX(0), aimY(0), spawnX(0), spawnY(0), health(FULL_HEALTH), airY(0), hotbarSelect(0), inventorySelect(0), inventoryMoveSelect(NUM_INVENTORY_ITEMS), craftingSelect(0),
                    chestSelect(0), chestMoveSelect(40), normalSpriteFPI(0), spawnImmunity(SPAWN_IMMUNITY), velX(0), velY(0), falling(true), jumping(false), fullInventory(false), inventoryCrafting(false),
                    chestOpen(false), sneaking(false), facing(Facing::Right),
@@ -478,7 +356,7 @@ void Player::drawBody(const Camera &camera)
     {
         int xx = x - camera.x - (facing == Facing::Left ? 3 : -6);
         int yy = y - camera.y + 17;
-        if (isToolItem(inventory[hotbarSelect].id))
+        if (inventory[hotbarSelect].isToolItem())
         {
             yy -= 5;
             xx += (facing == Facing::Left ? 1 : -2);
@@ -627,20 +505,21 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
     // draw the aim as user's color in the ds settings-colored square or a half-transparent
     // version of the block
 
-    InventoryItem::ID currid = inventory[hotbarSelect].id;
+    InventoryItem curritem = inventory[hotbarSelect];
+    InventoryItem::ID currid = curritem.id;
 
     int xx = getRectAim(camera).x - camera.x;
     int yy = getRectAim(camera).y - camera.y;
     if (currid == InventoryItem::ID::OakSlab || currid == InventoryItem::ID::CobblestoneSlab || currid == InventoryItem::ID::BirchSlab)
         yy = getRectAimY8(camera).y - camera.y;
 
-    if (currid == InventoryItem::ID::None || isItem(currid))
-        // draw a filled rectangle
+    if (currid == InventoryItem::ID::None || !curritem.isBlockItem())
+        // if we are holding nothing or holding a non block item then draw a semi transparent rectangle
         glBoxFilled(xx, yy,
                     xx + 15, yy + 15, (aimDist <= MAX_AIM_DISTANCE) ? getFavoriteColorRgb() : RGB15(31, 0, 0));
     else
     {
-        // red color if out of reach
+        // color the block red if tryna place out of reach
         if (aimDist > MAX_AIM_DISTANCE)
             glColor(RGB15(31, 0, 0));
 
@@ -1349,9 +1228,10 @@ bool Player::doItemInteract(const u32 &downKeys, const Camera *camera, Block::Li
                                              Rect(snapToGrid(camera->x + aimX),
                                                   snapToGrid(camera->y + aimY), 16, 16));
 
-            InventoryItem::ID id = inventory[hotbarSelect].id;
+            InventoryItem item = inventory[hotbarSelect];
+            InventoryItem::ID id = item.id;
             // nonsolid blocks can be placed inside player because they are not solid
-            if (isNonSolidBlockItem(id))
+            if (item.isNonSolidBlockItem())
                 shouldPlaceBlock = true;
 
             // if try to place out of reach then we can't
@@ -1363,7 +1243,7 @@ bool Player::doItemInteract(const u32 &downKeys, const Camera *camera, Block::Li
                 // also check if there is a block that the block can be placed on
 
                 int rectHeight = 16;
-                if (isSlabItem(id))
+                if (item.isSlabItem())
                     rectHeight = 8; // slabs have rect height of 8
                 Rect blockRect(snapToGrid(camera->x + aimX), snapToGrid(camera->y + aimY),
                                16, rectHeight);
@@ -1394,7 +1274,7 @@ bool Player::doItemInteract(const u32 &downKeys, const Camera *camera, Block::Li
             {
                 // place a block or interact
                 // some blocks can only be placed on certain other blocks
-                if (inventory[hotbarSelect].amount > 0 && !isItem(id))
+                if (inventory[hotbarSelect].amount > 0 && InventoryItem(id, 1).isBlockItem())
                 {
                     bool canPlace = true; // can place block?
                     switch (id)
@@ -2586,7 +2466,7 @@ void Player::addItem(InventoryItem::ID item)
         return;
 
     u8 maxStack = 64;
-    if (isToolItem(item)) // max stack for tool items (e.g. pickaxes, swords and such) is 1
+    if (InventoryItem(item, 1).isToolItem()) // max stack for tool items (e.g. pickaxes, swords and such) is 1
         maxStack = 1;
 
     // find the stack (if item is stackable)

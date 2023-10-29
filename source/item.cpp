@@ -6,12 +6,152 @@
 #include "block.hpp"
 #include "game.hpp"
 
+static InventoryItem::ID _nonBlockItemIDs[] =
+    {
+        InventoryItem::ID::Stick,
+        InventoryItem::ID::Coal,
+        InventoryItem::ID::IronIngot,
+        InventoryItem::ID::IronNugget,
+        InventoryItem::ID::RawPorkchop,
+        InventoryItem::ID::CookedPorkchop,
+        InventoryItem::ID::Apple,
+        InventoryItem::ID::WoodenPickaxe,
+        InventoryItem::ID::StonePickaxe,
+        InventoryItem::ID::IronPickaxe,
+        InventoryItem::ID::WoodenShovel,
+        InventoryItem::ID::StoneShovel,
+        InventoryItem::ID::IronShovel,
+        InventoryItem::ID::WoodenAxe,
+        InventoryItem::ID::StoneAxe,
+        InventoryItem::ID::IronAxe,
+        InventoryItem::ID::WoodenSword,
+        InventoryItem::ID::StoneSword,
+        InventoryItem::ID::IronSword,
+        InventoryItem::ID::WoodenHoe,
+        InventoryItem::ID::StoneHoe,
+        InventoryItem::ID::IronHoe,
+        InventoryItem::ID::Shears,
+        InventoryItem::ID::Wheat,
+        InventoryItem::ID::Bread,
+};
+
+// technically wheat seeds are a block item bc u can place them on farmland
+
+static InventoryItem::ID _toolItemIDs[] =
+    {
+        InventoryItem::ID::WoodenPickaxe,
+        InventoryItem::ID::StonePickaxe,
+        InventoryItem::ID::IronPickaxe,
+        InventoryItem::ID::WoodenShovel,
+        InventoryItem::ID::StoneShovel,
+        InventoryItem::ID::IronShovel,
+        InventoryItem::ID::WoodenAxe,
+        InventoryItem::ID::StoneAxe,
+        InventoryItem::ID::IronAxe,
+        InventoryItem::ID::WoodenSword,
+        InventoryItem::ID::StoneSword,
+        InventoryItem::ID::IronSword,
+        InventoryItem::ID::WoodenHoe,
+        InventoryItem::ID::StoneHoe,
+        InventoryItem::ID::IronHoe,
+        InventoryItem::ID::Shears,
+};
+
+static InventoryItem::ID _nonSolidBlockItemIDs[] =
+    {
+        InventoryItem::ID::Wood,
+        InventoryItem::ID::BirchWood,
+        InventoryItem::ID::SpruceWood,
+        InventoryItem::ID::Leaves,
+        InventoryItem::ID::BirchLeaves,
+        InventoryItem::ID::SpruceWood,
+        InventoryItem::ID::Sapling,
+        InventoryItem::ID::BirchSapling,
+        InventoryItem::ID::SpruceSapling,
+        InventoryItem::ID::Poppy,
+        InventoryItem::ID::Dandelion,
+        InventoryItem::ID::RedTulip,
+        InventoryItem::ID::Ladder,
+        InventoryItem::ID::Chest,
+        InventoryItem::ID::Sign,
+        InventoryItem::ID::WheatSeeds,
+};
+
+static InventoryItem::ID _slabItemIDs[] =
+    {
+        InventoryItem::ID::OakSlab,
+        InventoryItem::ID::CobblestoneSlab,
+        InventoryItem::ID::BirchSlab,
+        InventoryItem::ID::SpruceSlab,
+        InventoryItem::ID::StoneBricksSlab,
+};
+
+// check if the item is not a block item
+static bool _isItem(InventoryItem::ID id)
+{
+    static constexpr int n = sizeof(_nonBlockItemIDs) / sizeof(_nonBlockItemIDs[0]);
+    return std::find(_nonBlockItemIDs, _nonBlockItemIDs + n, id) != _nonBlockItemIDs + n;
+}
+
+// check if the item is a tool
+static bool _isToolItem(InventoryItem::ID id)
+{
+    // block item
+    if (!_isItem(id))
+        return false;
+
+    static constexpr int n = sizeof(_toolItemIDs) / sizeof(_toolItemIDs[0]);
+    return std::find(_toolItemIDs, _toolItemIDs + n, id) != _toolItemIDs + n;
+}
+
+// check if the item is a non-solid block
+static bool _isNonSolidBlockItem(InventoryItem::ID id)
+{
+    // not a block item
+    if (_isItem(id))
+        return false;
+
+    static constexpr int n = sizeof(_nonSolidBlockItemIDs) / sizeof(_nonSolidBlockItemIDs[0]);
+    return std::find(_nonSolidBlockItemIDs, _nonSolidBlockItemIDs + n, id) != _nonSolidBlockItemIDs + n;
+}
+
+// check if the item is a slab
+static bool _isSlabItem(InventoryItem::ID id)
+{
+    // not a block item
+    if (_isItem(id))
+        return false;
+
+    static constexpr int n = sizeof(_slabItemIDs) / sizeof(_slabItemIDs[0]);
+    return std::find(_slabItemIDs, _slabItemIDs + n, id) != _slabItemIDs + n;
+}
+
 InventoryItem::InventoryItem(ID id, u8 amount) : id(id), amount(amount)
 {
 }
 
 InventoryItem::InventoryItem(const InventoryItem &item) : id(item.id), amount(item.amount)
 {
+}
+
+bool InventoryItem::isBlockItem(void)
+{
+    return !_isItem(id);
+}
+
+bool InventoryItem::isToolItem(void)
+{
+    return _isToolItem(id);
+}
+
+bool InventoryItem::isNonSolidBlockItem(void)
+{
+    return _isNonSolidBlockItem(id);
+}
+
+bool InventoryItem::isSlabItem(void)
+{
+    return _isSlabItem(id);
 }
 
 static std::map<std::string, InventoryItem::ID> _stringIDTable = {

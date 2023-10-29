@@ -138,7 +138,25 @@ public:
     */
     InventoryItem &operator=(const InventoryItem &item);
 
-    // TODO add durability for items
+    /**
+     * @brief Check if the item is a block item
+    */
+    bool isBlockItem(void);
+
+    /**
+     * @brief Check if the item is a tool item
+    */
+    bool isToolItem(void);
+
+    /**
+     * @brief Check if the item is a non solid block item
+    */
+    bool isNonSolidBlockItem(void);
+
+    /**
+     * @brief Check if the item is a slab item
+    */
+    bool isSlabItem(void);
 
     /**
      * @brief Load item textures
