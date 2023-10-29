@@ -9,8 +9,6 @@
  *
  * @ref camera.h "Camera documentation"
  *
- * @ref config.h "Global Game Configuration documentation"
- *
  * @ref controlsmgr.hpp "Controls Manager documentation"
  *
  * @ref crafting.hpp "Crafting documentation"
@@ -36,8 +34,6 @@
  * @ref item.hpp "Inventory Item documentation"
  *
  * @ref lang.hpp "Language documentation"
- *
- * @ref log.h "Logger documentation"
  *
  * @ref pcximage.h "PCX Image documentation"
  * 
@@ -130,6 +126,7 @@ private:
     bool createWorldError;
     bool renameWorldDuplError;
     u8 settingsSelect;
+    u8 settingsPage;
     u8 titleScreenSelect;
     bool createWorldShowCursor;
     u8 createWorldSelect;

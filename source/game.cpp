@@ -20,7 +20,7 @@ Game::Game() : blocks(), entities(), blockParticles(), player(), gameState(State
                frameCounter(0), saveTextTimer(0), worldSelectSelected(0), langSelectSelected(0),
                deleteWorldSelected(0), renameWorldSelected(0), worldSelectWorlds(), showSaveText(false),
                paused(false), showStats(false), worldName(), createWorldName(), createWorldSeed(), renameWorldName(),
-               createWorldError(false), renameWorldDuplError(false), settingsSelect(0), titleScreenSelect(0),
+               createWorldError(false), renameWorldDuplError(false), settingsSelect(0), settingsPage(1), titleScreenSelect(0),
                createWorldShowCursor(false), createWorldSelect(0), worldSettingsSelect(0), currentLocation(0),
                logoFall(false), logoY(0), editControlsSelected(0), editControlsSetMode(false),
                sndClick(soundEffect(SFX_CLICK)), sndPop(soundEffect(SFX_POP)), font(), fontRu(),
@@ -291,7 +291,7 @@ static constexpr const char *TITLE_SCREEN_LABELS_RU[] = {
 static constexpr u8 LANGUAGE_SELECT_ENGLISH = 0;
 static constexpr u8 LANGUAGE_SELECT_RUSSIAN = 1;
 
-// settings screen selection values
+// settings screen selection values [page 1]
 
 static constexpr u8 SETTING_LANGUAGE_SELECT = 0;
 static constexpr u8 SETTING_TRANSPARENT_LEAVES = 1;
@@ -301,7 +301,7 @@ static constexpr u8 SETTING_BLOCK_PARTICLES = 4;
 static constexpr u8 SETTING_AUTO_JUMP = 5;
 static constexpr u8 SETTING_DELETE_ALL_WORLDS = 6;
 static constexpr u8 SETTING_EDIT_CONTROLS = 7;
-static constexpr u8 SETTING_LAST = SETTING_EDIT_CONTROLS;
+static constexpr u8 SETTING_LAST_PAGE1 = SETTING_EDIT_CONTROLS;
 
 // TODO add settings screen labels array
 
@@ -469,6 +469,7 @@ void Game::init(void)
     createWorldError = false;
     renameWorldDuplError = false;
     settingsSelect = 0;
+    settingsPage = 1;
     titleScreenSelect = 0;
     createWorldShowCursor = false;
     createWorldSelect = 0;
@@ -1131,149 +1132,152 @@ void Game::draw(void)
         }
         break;
     case State::Settings:
-        {
+    {     
         drawMenuBackground();
 
-        if (settingsSelect == SETTING_LANGUAGE_SELECT)
-            glColor(RGB15(0, 31, 0));
-        switch (lang)
+        switch (settingsPage)
         {
-        case Language::English:
-            font.printCentered(0, 48, (settingsSelect == SETTING_LANGUAGE_SELECT) ? "> Change language <" : "Change language");
-            break;
-        case Language::Russian:
-            fontRu.printCentered(0, 48, (settingsSelect == SETTING_LANGUAGE_SELECT) ? "> C\"csbu# &j\"m '" : "C\"csbu# &j\"m");
+        case 1:
+            if (settingsSelect == SETTING_LANGUAGE_SELECT)
+                glColor(RGB15(0, 31, 0));
+            switch (lang)
+            {
+            case Language::English:
+                font.printCentered(0, 48, (settingsSelect == SETTING_LANGUAGE_SELECT) ? "> Change language <" : "Change language");
+                break;
+            case Language::Russian:
+                fontRu.printCentered(0, 48, (settingsSelect == SETTING_LANGUAGE_SELECT) ? "> C\"csbu# &j\"m '" : "C\"csbu# &j\"m");
+                break;
+            }
+            glColor(RGB15(31, 31, 31));
+
+            if (settingsSelect == SETTING_TRANSPARENT_LEAVES)
+                glColor(RGB15(0, 31, 0));
+            switch (lang)
+            {
+            case Language::English:
+                if (SettingsManager::transparentLeaves)
+                    font.printCentered(0, 59, (settingsSelect == SETTING_TRANSPARENT_LEAVES) ? "> Transparent leaves ON <" : "Transparent leaves ON");
+                else
+                    font.printCentered(0, 59, (settingsSelect == SETTING_TRANSPARENT_LEAVES) ? "> Transparent leaves OFF <" : "Transparent leaves OFF");
+                break;
+            case Language::Russian:
+                if (SettingsManager::transparentLeaves)
+                    fontRu.printCentered(0, 59, (settingsSelect == SETTING_TRANSPARENT_LEAVES) ? "> Qsqjsbzp\"g nktu#& CLM '" : "Qsqjsbzp\"g nktu#& CLM");
+                else
+                    fontRu.printCentered(0, 59, (settingsSelect == SETTING_TRANSPARENT_LEAVES) ? "> Qsqjsbzp\"g nktu#& C]LM '" : "Qsqjsbzp\"g nktu#& C]LM");
+                break;
+            }
+            glColor(RGB15(31, 31, 31));
+
+            if (settingsSelect == SETTING_AUTO_SAVE)
+                glColor(RGB15(0, 31, 0));
+            switch (lang)
+            {
+            case Language::English:
+                if (SettingsManager::autoSaveSeconds)
+                    font.printfCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Auto save: every %d seconds <" : "Auto save: every %d seconds", SettingsManager::autoSaveSeconds);
+                else
+                    font.printCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Auto save off <" : "Auto save off");
+                break;
+            case Language::Russian:
+                if (SettingsManager::autoSaveSeconds)
+                    fontRu.printfCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Aduq tqxsbpgpkg: mbif\"g %d tgmvpf '" : "Aduq tqxsbpgpkg: mbif\"g %d tgmvpf", SettingsManager::autoSaveSeconds);
+                else
+                    fontRu.printCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Aduq tqxsbpgpkg d\"mn '" : "Aduq tqxsbpgpkg d\"mn");
+                break;
+            }
+            glColor(RGB15(31, 31, 31));
+
+            if (settingsSelect == SETTING_SMOOTH_CAMERA)
+                glColor(RGB15(0, 31, 0));
+            switch (lang)
+            {
+            case Language::English:
+                if (SettingsManager::smoothCamera)
+                    font.printCentered(0, 81, (settingsSelect == SETTING_SMOOTH_CAMERA) ? "> Smooth camera ON <" : "Smooth camera ON");
+                else
+                    font.printCentered(0, 81, (settingsSelect == SETTING_SMOOTH_CAMERA) ? "> Smooth camera OFF <" : "Smooth camera OFF");
+                break;
+            case Language::Russian:
+                if (SettingsManager::smoothCamera)
+                    fontRu.printCentered(0, 81, (settingsSelect == SETTING_SMOOTH_CAMERA) ? "> Qnbdpb& mbogsb CLM '" : "Qnbdpb& mbogsb CLM");
+                else
+                    fontRu.printCentered(0, 81, (settingsSelect == SETTING_SMOOTH_CAMERA) ? "> Qnbdpb& mbogsb C]LM '" : "Qnbdpb& mbogsb C]LM");
+                break;
+            }
+            glColor(RGB15(31, 31, 31));
+
+            if (settingsSelect == SETTING_BLOCK_PARTICLES)
+                glColor(RGB15(0, 31, 0));
+            switch (lang)
+            {
+            case Language::English:
+                if (SettingsManager::blockParticles)
+                    font.printCentered(0, 92, (settingsSelect == SETTING_BLOCK_PARTICLES) ? "> Block particles ON <" : "Block particles ON");
+                else
+                    font.printCentered(0, 92, (settingsSelect == SETTING_BLOCK_PARTICLES) ? "> Block particles OFF <" : "Block particles OFF");
+                break;
+            case Language::Russian:
+                if (SettingsManager::blockParticles)
+                    fontRu.printCentered(0, 92, (settingsSelect == SETTING_BLOCK_PARTICLES) ? "> Ybtuky\" cnqmqd CLM '" : "Ybtuky\" cnqmqd CLM");
+                else
+                    fontRu.printCentered(0, 92, (settingsSelect == SETTING_BLOCK_PARTICLES) ? "> Ybtuky\" cnqmqd C]LM '" : "Ybtuky\" cnqmqd C]LM");
+                break;
+            }
+
+            if (settingsSelect == SETTING_AUTO_JUMP)
+                glColor(RGB15(0, 31, 0));
+            switch (lang)
+            {
+            case Language::English:
+                if (SettingsManager::autoJump)
+                    font.printCentered(0, 103, (settingsSelect == SETTING_AUTO_JUMP) ? "> Auto jump ON <" : "Auto jump ON");
+                else
+                    font.printCentered(0, 103, (settingsSelect == SETTING_AUTO_JUMP) ? "> Auto jump OFF <" : "Auto jump OFF");
+                break;
+            case Language::Russian:
+                if (SettingsManager::autoJump)
+                    fontRu.printCentered(0, 103, (settingsSelect == SETTING_AUTO_JUMP) ? "> Aduq rs\"iqm CLM '" : "Aduq rs\"iqm CLM");
+                else
+                    fontRu.printCentered(0, 103, (settingsSelect == SETTING_AUTO_JUMP) ? "> Aduq rs\"iqm C]LM '" : "Aduq rs\"iqm C]LM");
+                break;
+            }
+            glColor(RGB15(31, 31, 31));
+
+            if (settingsSelect == SETTING_DELETE_ALL_WORLDS)
+                glColor(RGB15(0, 31, 0));
+            switch (lang)
+            {
+            case Language::English:
+                font.printCentered(0, 114, (settingsSelect == SETTING_DELETE_ALL_WORLDS) ? "> Delete all worlds <" : "Delete all worlds");
+                break;
+            case Language::Russian:
+                fontRu.printCentered(0, 114, (settingsSelect == SETTING_DELETE_ALL_WORLDS) ? "> Ufbnku# dtg oks\" '" : "Ufbnku# dtg oks\"");
+                break;
+            }
+            glColor(RGB15(31, 31, 31));
+
+            if (settingsSelect == SETTING_EDIT_CONTROLS)
+                glColor(RGB15(0, 31, 0));
+            switch (lang)
+            {
+            case Language::English:
+                font.printCentered(0, 125, (settingsSelect == SETTING_EDIT_CONTROLS) ? "> Edit controls <" : "Edit controls");
+                break;
+            case Language::Russian:
+                fontRu.printCentered(0, 125, (settingsSelect == SETTING_EDIT_CONTROLS) ? "> Obtusqlmb vrsbdngpk& '" : "Obtusqlmb vrsbdngpk&");
+                break;
+            }
             break;
         }
-        glColor(RGB15(31, 31, 31));
 
-        if (settingsSelect == SETTING_TRANSPARENT_LEAVES)
-            glColor(RGB15(0, 31, 0));
-        switch (lang)
-        {
-        case Language::English:
-            if (SettingsManager::transparentLeaves)
-                font.printCentered(0, 59, (settingsSelect == SETTING_TRANSPARENT_LEAVES) ? "> Transparent leaves ON <" : "Transparent leaves ON");
-            else
-                font.printCentered(0, 59, (settingsSelect == SETTING_TRANSPARENT_LEAVES) ? "> Transparent leaves OFF <" : "Transparent leaves OFF");
-            break;
-        case Language::Russian:
-            if (SettingsManager::transparentLeaves)
-                fontRu.printCentered(0, 59, (settingsSelect == SETTING_TRANSPARENT_LEAVES) ? "> Qsqjsbzp\"g nktu#& CLM '" : "Qsqjsbzp\"g nktu#& CLM");
-            else
-                fontRu.printCentered(0, 59, (settingsSelect == SETTING_TRANSPARENT_LEAVES) ? "> Qsqjsbzp\"g nktu#& C]LM '" : "Qsqjsbzp\"g nktu#& C]LM");
-            break;
-        }
-        glColor(RGB15(31, 31, 31));
-
-        if (settingsSelect == SETTING_AUTO_SAVE)
-            glColor(RGB15(0, 31, 0));
-        switch (lang)
-        {
-        case Language::English:
-            if (SettingsManager::autoSaveSeconds)
-                font.printfCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Auto save: every %d seconds <" : "Auto save: every %d seconds", SettingsManager::autoSaveSeconds);
-            else
-                font.printCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Auto save off <" : "Auto save off");
-            break;
-        case Language::Russian:
-            if (SettingsManager::autoSaveSeconds)
-                fontRu.printfCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Aduq tqxsbpgpkg: mbif\"g %d tgmvpf '" : "Aduq tqxsbpgpkg: mbif\"g %d tgmvpf", SettingsManager::autoSaveSeconds);
-            else
-                fontRu.printCentered(0, 70, (settingsSelect == SETTING_AUTO_SAVE) ? "> Aduq tqxsbpgpkg d\"mn '" : "Aduq tqxsbpgpkg d\"mn");
-            break;
-        }
-        glColor(RGB15(31, 31, 31));
-
-        if (settingsSelect == SETTING_SMOOTH_CAMERA)
-            glColor(RGB15(0, 31, 0));
-        switch (lang)
-        {
-        case Language::English:
-            if (SettingsManager::smoothCamera)
-                font.printCentered(0, 81, (settingsSelect == SETTING_SMOOTH_CAMERA) ? "> Smooth camera ON <" : "Smooth camera ON");
-            else
-                font.printCentered(0, 81, (settingsSelect == SETTING_SMOOTH_CAMERA) ? "> Smooth camera OFF <" : "Smooth camera OFF");
-            break;
-        case Language::Russian:
-            if (SettingsManager::smoothCamera)
-                fontRu.printCentered(0, 81, (settingsSelect == SETTING_SMOOTH_CAMERA) ? "> Qnbdpb& mbogsb CLM '" : "Qnbdpb& mbogsb CLM");
-            else
-                fontRu.printCentered(0, 81, (settingsSelect == SETTING_SMOOTH_CAMERA) ? "> Qnbdpb& mbogsb C]LM '" : "Qnbdpb& mbogsb C]LM");
-            break;
-        }
-        glColor(RGB15(31, 31, 31));
-
-        if (settingsSelect == SETTING_BLOCK_PARTICLES)
-            glColor(RGB15(0, 31, 0));
-        switch (lang)
-        {
-        case Language::English:
-            if (SettingsManager::blockParticles)
-                font.printCentered(0, 92, (settingsSelect == SETTING_BLOCK_PARTICLES) ? "> Block particles ON <" : "Block particles ON");
-            else
-                font.printCentered(0, 92, (settingsSelect == SETTING_BLOCK_PARTICLES) ? "> Block particles OFF <" : "Block particles OFF");
-            break;
-        case Language::Russian:
-            if (SettingsManager::blockParticles)
-                fontRu.printCentered(0, 92, (settingsSelect == SETTING_BLOCK_PARTICLES) ? "> Ybtuky\" cnqmqd CLM '" : "Ybtuky\" cnqmqd CLM");
-            else
-                fontRu.printCentered(0, 92, (settingsSelect == SETTING_BLOCK_PARTICLES) ? "> Ybtuky\" cnqmqd C]LM '" : "Ybtuky\" cnqmqd C]LM");
-            break;
-        }
-
-        // TODO overhaul settings screen drawing. this is becoming unmanageable
-
-        if (settingsSelect == SETTING_AUTO_JUMP)
-            glColor(RGB15(0, 31, 0));
-        switch (lang)
-        {
-        case Language::English:
-            if (SettingsManager::autoJump)
-                font.printCentered(0, 103, (settingsSelect == SETTING_AUTO_JUMP) ? "> Auto jump ON <" : "Auto jump ON");
-            else
-                font.printCentered(0, 103, (settingsSelect == SETTING_AUTO_JUMP) ? "> Auto jump OFF <" : "Auto jump OFF");
-            break;
-        case Language::Russian:
-            if (SettingsManager::autoJump)
-                fontRu.printCentered(0, 103, (settingsSelect == SETTING_AUTO_JUMP) ? "> Aduq rs\"iqm CLM '" : "Aduq rs\"iqm CLM");
-            else
-                fontRu.printCentered(0, 103, (settingsSelect == SETTING_AUTO_JUMP) ? "> Aduq rs\"iqm C]LM '" : "Aduq rs\"iqm C]LM");
-            break;
-        }
-        glColor(RGB15(31, 31, 31));
-
-        if (settingsSelect == SETTING_DELETE_ALL_WORLDS)
-            glColor(RGB15(0, 31, 0));
-        switch (lang)
-        {
-        case Language::English:
-            font.printCentered(0, 114, (settingsSelect == SETTING_DELETE_ALL_WORLDS) ? "> Delete all worlds <" : "Delete all worlds");
-            break;
-        case Language::Russian:
-            fontRu.printCentered(0, 114, (settingsSelect == SETTING_DELETE_ALL_WORLDS) ? "> Ufbnku# dtg oks\" '" : "Ufbnku# dtg oks\"");
-            break;
-        }
-        glColor(RGB15(31, 31, 31));
-
-        if (settingsSelect == SETTING_EDIT_CONTROLS)
-            glColor(RGB15(0, 31, 0));
-        switch (lang)
-        {
-        case Language::English:
-            font.printCentered(0, 125, (settingsSelect == SETTING_EDIT_CONTROLS) ? "> Edit controls <" : "Edit controls");
-            break;
-        case Language::Russian:
-            fontRu.printCentered(0, 125, (settingsSelect == SETTING_EDIT_CONTROLS) ? "> Obtusqlmb vrsbdngpk& '" : "Obtusqlmb vrsbdngpk&");
-            break;
-        }
-
-        // Create a string containing thirty two space characters.
+        // Create a string containing exactly thirty two space characters.
         std::string spaces;
         for (u8 i = 0; i < 32; ++i)
             spaces += ' ';
 
-        font.printCentered(0, 139, "\1:31:31:0*Page 1 / 2");
+        font.printfCentered(0, 139, "\1:31:31:0*Page %u / 2", settingsPage);
         font.printCentered(0, 141, "< \2:L" + spaces);
         font.printCentered(0, 141, spaces + "\2:R >");
 
@@ -1774,6 +1778,7 @@ void Game::update(void)
                 {
                     // uh oh, the world version is newer than current!
                     // this means the world we are trying to play is incompatible!!!
+                    // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!
 
                     while (true)
                     {
@@ -2118,60 +2123,66 @@ void Game::update(void)
         }
         else if (down & KEY_A)
         {
-            switch (settingsSelect)
+            switch (settingsPage)
             {
-            case SETTING_LANGUAGE_SELECT:
-                gameState = State::LanguageSelect;
-                loadImageAlpha(sprLangEnglish, 16, 16, englishPal, englishBitmap);
-                loadImageAlpha(sprLangRussian, 16, 16, russianPal, russianBitmap);
-                break;
-            case SETTING_TRANSPARENT_LEAVES:
-                SettingsManager::transparentLeaves = !SettingsManager::transparentLeaves;
-                SettingsManager::saveSettings();
-                break;
-            case SETTING_AUTO_SAVE:
-            {
-                static u8 autoSaveValues[] = {0, 5, 10, 15, 30, 60};
-                static int numAutoSaveValues = sizeof(autoSaveValues) / sizeof(autoSaveValues[0]);
-
-                int currentIndex = -1;
-                for (int i = 0; i < numAutoSaveValues; i++)
+            case 1:
+                // page 1
+                switch (settingsSelect)
                 {
-                    if (SettingsManager::autoSaveSeconds == autoSaveValues[i])
+                case SETTING_LANGUAGE_SELECT:
+                    gameState = State::LanguageSelect;
+                    loadImageAlpha(sprLangEnglish, 16, 16, englishPal, englishBitmap);
+                    loadImageAlpha(sprLangRussian, 16, 16, russianPal, russianBitmap);
+                    break;
+                case SETTING_TRANSPARENT_LEAVES:
+                    SettingsManager::transparentLeaves = !SettingsManager::transparentLeaves;
+                    SettingsManager::saveSettings();
+                    break;
+                case SETTING_AUTO_SAVE:
+                {
+                    static u8 autoSaveValues[] = {0, 5, 10, 15, 30, 60};
+                    static int numAutoSaveValues = sizeof(autoSaveValues) / sizeof(autoSaveValues[0]);
+
+                    int currentIndex = -1;
+                    for (int i = 0; i < numAutoSaveValues; i++)
                     {
-                        currentIndex = i;
+                        if (SettingsManager::autoSaveSeconds == autoSaveValues[i])
+                        {
+                            currentIndex = i;
+                            break;
+                        }
+                    }
+
+                    if (currentIndex == -1)
+                    {
+                        SettingsManager::autoSaveSeconds = autoSaveValues[0];
                         break;
                     }
-                }
 
-                if (currentIndex == -1)
-                {
-                    SettingsManager::autoSaveSeconds = autoSaveValues[0];
+                    int nextIndex = (currentIndex + 1) % numAutoSaveValues;
+                    SettingsManager::autoSaveSeconds = autoSaveValues[nextIndex];
+                    SettingsManager::saveSettings();
                     break;
                 }
-
-                int nextIndex = (currentIndex + 1) % numAutoSaveValues;
-                SettingsManager::autoSaveSeconds = autoSaveValues[nextIndex];
-                SettingsManager::saveSettings();
-                break;
-            }
-            case SETTING_SMOOTH_CAMERA:
-                SettingsManager::smoothCamera = !SettingsManager::smoothCamera;
-                SettingsManager::saveSettings();
-                break;
-            case SETTING_BLOCK_PARTICLES:
-                SettingsManager::blockParticles = !SettingsManager::blockParticles;
-                SettingsManager::saveSettings();
-                break;
-            case SETTING_AUTO_JUMP:
-                SettingsManager::autoJump = !SettingsManager::autoJump;
-                SettingsManager::saveSettings();
-                break;
-            case SETTING_DELETE_ALL_WORLDS:
-                gameState = State::DeleteAllWorlds;
-                break;
-            case SETTING_EDIT_CONTROLS:
-                gameState = State::EditControls;
+                case SETTING_SMOOTH_CAMERA:
+                    SettingsManager::smoothCamera = !SettingsManager::smoothCamera;
+                    SettingsManager::saveSettings();
+                    break;
+                case SETTING_BLOCK_PARTICLES:
+                    SettingsManager::blockParticles = !SettingsManager::blockParticles;
+                    SettingsManager::saveSettings();
+                    break;
+                case SETTING_AUTO_JUMP:
+                    SettingsManager::autoJump = !SettingsManager::autoJump;
+                    SettingsManager::saveSettings();
+                    break;
+                case SETTING_DELETE_ALL_WORLDS:
+                    gameState = State::DeleteAllWorlds;
+                    break;
+                case SETTING_EDIT_CONTROLS:
+                    gameState = State::EditControls;
+                    break;
+                }
                 break;
             }
             mmEffectEx(&sndClick);
@@ -2209,15 +2220,35 @@ void Game::update(void)
         }
         else if (down & KEY_SELECT || down & KEY_DOWN)
         {
-            if (++settingsSelect > SETTING_LAST)
-                settingsSelect = 0;
+            switch (settingsPage)
+            {
+            case 1:
+                if (++settingsSelect > SETTING_LAST_PAGE1)
+                    settingsSelect = 0;
+                break;
+            }
         }
         else if (down & KEY_UP)
         {
-            if (settingsSelect == 0)
-                settingsSelect = SETTING_LAST;
-            else
-                --settingsSelect;
+            switch (settingsPage)
+            {
+            case 1:
+                if (settingsSelect == 0)
+                    settingsSelect = SETTING_LAST_PAGE1;
+                else
+                    --settingsSelect;
+                break;
+            }
+        }
+        else if (down & KEY_L)
+        {
+            if (settingsPage > 1)
+                --settingsPage;
+        }
+        else if (down & KEY_R)
+        {
+            if (settingsPage < 2)
+                ++settingsPage;
         }
         break;
     case State::DeleteWorld:
