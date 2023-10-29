@@ -1,6 +1,6 @@
 # ds-craft
 
-DS-Craft is a Minecraft demake for Nintendo DS written in C and C++. Inspired by [Paper Minecraft](https://scratch.mit.edu/projects/10128407/).
+DS-Craft is a Minecraft demake for Nintendo DS written in C and C++ inspired by [Paper Minecraft](https://scratch.mit.edu/projects/10128407/).
 
 [![CodeFactor](https://www.codefactor.io/repository/github/iammoltony/ds-craft/badge/main)](https://www.codefactor.io/repository/github/iammoltony/ds-craft/overview/main)
 ![GitHub all releases](https://img.shields.io/github/downloads/IAmMoltony/ds-craft/total)
@@ -60,7 +60,7 @@ If you want to run the game from Visual Studio:
 
 ## Docs
 
-To generate documentation, you will need to have [Doxygen](https://doxygen.nl) installed. If you need PDF file output as well, then install [EPS to PDF](https://tug.org/epstopdf/). Once you're ready, pull up your terminal, go to the root of the project and run `doxygen`. You can use Doxywizard too, if you like.
+To generate documentation, you need [Doxygen](https://doxygen.nl). If you need PDF file output as well, then install [EPS to PDF](https://tug.org/epstopdf/). Once you're ready, pull up your terminal, go to the root of the project and run `doxygen`. You can use Doxywizard too, if you like.
 
 ## Screenshots
 
@@ -74,6 +74,6 @@ To generate documentation, you will need to have [Doxygen](https://doxygen.nl) i
 
 Mojang - textures, font and sounds
 
-The libnds example authors - a lot of lower-level code
+libNDS examples - a lot of lower-level code
 
 [This tutorial](https://www.youtube.com/watch?v=yb6QJl6mqf4) - logo creation
