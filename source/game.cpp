@@ -1763,7 +1763,7 @@ void Game::update(void)
                 std::string worldVersion = getWorldVersion(normalizeWorldFileName(worldName));
                 if (worldVersion == "alpha0.0.0") // alpha0.0.0 means error
                 {
-                    printf("Error getting world version!\n");
+                    mtnlogMessage(LOG_ERROR, "Failed getting world version for world %s", worldName.c_str());
                     return;
                 }
                 u64 worldVersionHash = getVersionHash(worldVersion);
