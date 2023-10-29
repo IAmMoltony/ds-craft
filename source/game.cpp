@@ -1267,6 +1267,16 @@ void Game::draw(void)
             break;
         }
 
+        // the line below might look like english mixed in with code made up by a wizard who time traveled
+        // to 2023 from 1649 and they spoke ancient bulgarian dialect only spoken in middle east antractica
+        // but
+        // this is basically
+        // [yellow]< [white][L button sprite][yellow]     Page .../...     [white][R button sprite][white] >
+        // i hope that bade it clearer
+        // [insert imagemagick wizard]
+        font.printCentered(0, 139, "\1:31:31:0*< \1:31:31:31*\2:L\1:31:31:0*        Page 1 / 2        \1:31:31:31*\2:R\1:31:31:31* >");
+
+        // TODO ayo why this dont use show button tolltips function????
         glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprBButton);
         glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprAButton);
         glSprite(93, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprSelectButton);
