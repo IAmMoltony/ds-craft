@@ -417,7 +417,9 @@ public:
     void applyVelocity(void);
 
     /**
-     * @brief Pick up item drops that are on the ground
+     * @brief Do something else other than pickup items
+     *
+     * @note This function does not pick up items. The name is a refactoring mishap.
      */
     void pickUpItems(EntityList *entities, Camera *camera);
 
