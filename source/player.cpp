@@ -1829,8 +1829,8 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
 
         if (rdown & ControlsManager::getButton(ControlsManager::BUTTON_ATTACK))
         {
-            // if block touch aim then block break
-            // and we cant break bedrock
+            // if block touch aim then block get hit
+            // and we can't break bedrock
             Rect blockBreakRect = getRectAim(*camera);
             if (block->isSlab())
                 blockBreakRect = getRectAimY8(*camera);
@@ -2286,12 +2286,12 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
             // get sign block
             SignBlock *sign = reinterpret_cast<SignBlock *>(block.get());
 
-            // set sign's showText property
+            // make the sign show text
             sign->showText = shouldShowText;
             break;
         }
         case BID_CACTUS:
-            // damage if colliding with cactus
+            // do damage every 26 frames if colliding with cactus
             if (Game::instance->getFrameCounter() % 26 == 0 && getRectBottom().intersects(block->getRect()))
                 doDamage(1, camera);
             break;
