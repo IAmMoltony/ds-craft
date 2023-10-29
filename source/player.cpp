@@ -1215,10 +1215,8 @@ void Player::updateSpawnImmunity(void)
     }
 }
 
-void Player::pickUpItems(EntityList *entities, Camera *camera)
+void Player::updateEntities(EntityList *entities, Camera *camera)
 {
-    // TODO this function is NOT picking up items. wtf?????????????????????????????????????????????????????????????
-
     u32 down = keysDown();
 
     for (auto &entity : *entities)
@@ -1259,16 +1257,10 @@ void Player::pickUpItems(EntityList *entities, Camera *camera)
     }
 }
 
-Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blocks, EntityList *entities,
-                                            BlockParticleList *blockParticles, Camera *camera)
+bool Player::doItemInteract(const u32 &downKeys, const Camera *camera, Block::List *blocks)
 {
-    UpdateResult ret = UpdateResult::None;
-
-    updateSpawnImmunity();
-    applyVelocity();
-    pickUpItems(entities, camera);
-
-    u32 down = keysDown();
+    u32 down = downKeys; // this is here so that i dont have to rewrite half the code to use the new name
+    bool placedBlock = false;
 
     if (down & ControlsManager::getButton(ControlsManager::BUTTON_INTERACT))
     {
@@ -1362,6 +1354,7 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
             if (isNonSolidBlockItem(id))
                 shouldPlaceBlock = true;
 
+            // if try to place out of reach then we can't
             if (aimDist > MAX_AIM_DISTANCE)
                 shouldPlaceBlock = false;
 
@@ -1403,18 +1396,10 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
                 // some blocks can only be placed on certain other blocks
                 if (inventory[hotbarSelect].amount > 0 && !isItem(id))
                 {
-                    // TODO.
-                    // This code.
-                    // This code sucks.
-                    // This code has copy-pasting.
-                    // Copy-pasting == bad.
-                    // I should remove copy pasting from this code.
-                    // As soon as possible.
-
                     bool canPlace = true; // can place block?
                     switch (id)
                     {
-                    default:
+                    default: // unknown item id; do nothing
                         break;
                     case InventoryItem::ID::Grass:
                         blocks->emplace_back(new GrassBlock(snapToGrid(camera->x + aimX),
@@ -1786,19 +1771,39 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
 
                         statsSetEntry(STATS_KEY_BLOCKS_PLACED, statsGetEntry(STATS_KEY_BLOCKS_PLACED) + 1); // update stats
                     }
-                    ret = UpdateResult::BlockPlaced;
+                    placedBlock = true;
                 }
             }
             break;
         }
     }
+
+    return placedBlock;
+}
+
+Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blocks, EntityList *entities,
+                                            BlockParticleList *blockParticles, Camera *camera)
+{
+    UpdateResult ret = UpdateResult::None;
+
+    updateSpawnImmunity();
+    applyVelocity();
+    updateEntities(entities, camera);
+
+    u32 down = keysDown();
+
+    if (doItemInteract(down, camera, blocks))
+        ret = UpdateResult::BlockPlaced;
+
     if (down & KEY_R)
     {
-        // when r pressed go to next hotbar slot
+        // when R is pressed go to next hotbar slot
+        // TODO make the button for next hotbar slot rebindable
         ++hotbarSelect;
         if (hotbarSelect > NUM_HOTBAR_SLOTS - 1)
             hotbarSelect = 0; // reset to 1st slot
     }
+
     if (down & ControlsManager::getButton(ControlsManager::BUTTON_OPEN_INVENTORY))
     {
         fullInventory = true;

@@ -417,11 +417,9 @@ public:
     void applyVelocity(void);
 
     /**
-     * @brief Do something else other than pickup items
-     *
-     * @note This function does not pick up items. The name is a refactoring mishap.
+     * @brief Process entities
      */
-    void pickUpItems(EntityList *entities, Camera *camera);
+    void updateEntities(EntityList *entities, Camera *camera);
 
     /**
      * @brief Update spawn immunity
@@ -446,9 +444,18 @@ public:
     /**
      * @brief Update controls
      *
-     * By updating controls i mean checking if the player is pressing buttons and stuff like that
+     * By updating controls I mean checking if the user is pressing buttons and stuff like that
      */
     void updateControls(bool collideLadder);
+
+    /**
+     * @brief Update item interaction (interacting using items, placing blocks etc)
+     * @param downKeys keys that are pressed
+     * @param camera camera
+     * @param blocks list of blocks
+     * @return true if a block was placed; false otherwise
+    */
+    bool doItemInteract(const u32 &downKeys, const Camera *camera, Block::List *blocks);
 
     /**
      * @brief Check if the player has the item
