@@ -2205,10 +2205,17 @@ void Game::update(void)
                 break;
             }
         }
-        else if (down & KEY_SELECT)
+        else if (down & KEY_SELECT || down & KEY_DOWN)
         {
             if (++settingsSelect > SETTING_LAST)
                 settingsSelect = 0;
+        }
+        else if (down & KEY_UP)
+        {
+            if (settingsSelect == 0)
+                settingsSelect = SETTING_LAST;
+            else
+                --settingsSelect;
         }
         break;
     case State::DeleteWorld:
