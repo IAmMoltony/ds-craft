@@ -531,7 +531,7 @@ void Game::loadLocation(s16 oldLocation)
         player.setY(player.getSpawnY());
     }
 
-    cameraFollowPlayer(false);
+    cameraFollow(&camera, player.getX(), player.getY(), 0.0f, 0, 1024 - SCREEN_WIDTH);
 }
 
 u16 Game::getFrameCounter(void)
@@ -1699,7 +1699,7 @@ void Game::update(void)
                 mmEffectEx(&sndClick);
             }
         }
-        cameraFollowPlayer(SettingsManager::smoothCamera);
+        cameraFollow(&camera, player.getX(), player.getY(), SettingsManager::smoothCamera ? 0.1f : 0.0f, 0, 1024 - SCREEN_WIDTH);
         break;
     case State::TitleScreen:
         if (down & KEY_A || down & KEY_START)
@@ -2416,26 +2416,6 @@ void Game::AssetManager::unloadMenuAssets(void)
     unloadImage(Game::instance->sprWorldLabelSelect);
     unloadImage(Game::instance->sprLangEnglish);
     unloadImage(Game::instance->sprLangRussian);
-}
-
-void Game::cameraFollowPlayer(bool smooth)
-{
-    if (smooth)
-    {
-        camera.x = lerp(camera.x, player.getX() - SCREEN_WIDTH / 2, 0.1f);
-        camera.y = lerp(camera.y, player.getY() - SCREEN_HEIGHT / 2, 0.1f);
-    }
-    else
-    {
-        camera.x = player.getX() - SCREEN_WIDTH / 2;
-        camera.y = player.getY() - SCREEN_HEIGHT / 2;
-    }
-
-    // clamping
-    if (camera.x < 0)
-        camera.x = 0;
-    else if (camera.x > 1024 - SCREEN_WIDTH)
-        camera.x = 1024 - SCREEN_WIDTH;
 }
 
 void Game::drawMenuBackground(void)

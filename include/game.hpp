@@ -177,12 +177,6 @@ private:
     void loadLocation(s16 oldLocation);
 
     /**
-     * @brief Make the camera follow the player
-     * @param smooth whether the camera following should be smooth or not
-     */
-    void cameraFollowPlayer(bool smooth);
-
-    /**
      * @brief Draw the dirt background and the rows of dirt blocks on top and bottom
      */
     void drawMenuBackground(void);
