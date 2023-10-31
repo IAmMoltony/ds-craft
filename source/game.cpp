@@ -1310,18 +1310,15 @@ void Game::draw(void)
         font.printCentered(0, 141, "< \2:L" + spaces);
         font.printCentered(0, 141, spaces + "\2:R >");
 
-        // TODO ayo why this dont use show button tolltips function????
         glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprBButton);
         glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprAButton);
         switch (lang)
         {
         case Language::English:
-            font.print(15, SCREEN_HEIGHT - 15, "Back");
-            font.print(15, SCREEN_HEIGHT - 28, "Edit");
+            showButtonTooltips(&font, nullptr, sprBButton, "Back", sprAButton, "Edit", nullptr, "", nullptr, "");
             break;
         case Language::Russian:
-            fontRu.print(15, SCREEN_HEIGHT - 15, "Objbf");
-            fontRu.print(15, SCREEN_HEIGHT - 28, "Jjogpku#");
+            showButtonTooltips(&fontRu, nullptr, sprBButton, "Objbf", sprAButton, "Jjogpku#", nullptr, "", nullptr, "");
             break;
         }
 
