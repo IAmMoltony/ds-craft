@@ -2647,7 +2647,6 @@ bool Player::dead(void)
 bool Player::isInventoryFull(void)
 {
     // TODO this function does not work correctly with unstackable items. that's why i should add a function for getting max stack for item.
-    // TODO also, if the inventory *is* full, then this will iterate through the whole inventory. I need to find a better way to do this, if possible.
     for (u8 i = 0; i < 20; ++i)
         if (inventory[i].amount < 64)
             // there is still space left
