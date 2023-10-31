@@ -2545,7 +2545,6 @@ void Player::removeItem(InventoryItem::ID item)
 
 void Player::removeItem(InventoryItem::ID item, u8 amount)
 {
-    // TODO again i suspect there is a better way than calling the remove item function multiple times
     for (u8 _ = 0; _ < amount; ++_)
         removeItem(item);
 }

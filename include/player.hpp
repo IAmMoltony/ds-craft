@@ -86,7 +86,8 @@ private:
 
     /**
      * @brief How much the player has been in the air
-     * @note This is used for fall damage calculation
+     *
+     * This is used for fall damage calculation
      */
     u16 airY;
 
@@ -214,7 +215,6 @@ private:
 
     /**
      * @brief Check if the player is editing the chest and not their inventory in the chest edit interface
-     * @todo Think of a better name for this function
      */
     bool isEditingChestAndNotInventory(void);
 

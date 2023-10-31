@@ -1568,7 +1568,6 @@ void Game::update(void)
                     // make wheat grow!!!
                     wheat->grow();
                 }
-                // TODO there should be a function for updating sapling
             }
 
             // update entities

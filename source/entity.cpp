@@ -70,7 +70,7 @@ PigEntity::PigEntity(s16 x, s16 y)
     facing = (randomGenerate() % 2 == 0) ? Facing::Right : Facing::Left;
 }
 
-void PigEntity::draw(Camera camera)
+void PigEntity::draw(const Camera &camera)
 {
     glSpriteScale(x - camera.x - (facing == Facing::Left ? 17 : 0), y - camera.y,
                   (1 << 12) * 1.25f, facing == Facing::Right ? GL_FLIP_NONE : GL_FLIP_H, _sprPig);
@@ -156,7 +156,7 @@ DropEntity::DropEntity(s16 x, s16 y, InventoryItem::ID itemid) : Entity(x, y), i
     health = 255;
 }
 
-void DropEntity::draw(Camera camera)
+void DropEntity::draw(const Camera &camera)
 {
     if (itemid == InventoryItem::ID::Leaves)
         glColor(RGB15(0, 22, 0));

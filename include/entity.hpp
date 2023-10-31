@@ -91,7 +91,7 @@ public:
      * @brief Draw the entity
      * @param camera camera to use
     */
-    virtual void draw(Camera camera) = 0; // TODO const reference camera
+    virtual void draw(const Camera &camera) = 0;
 
     /**
      * @brief Update the entity
@@ -128,7 +128,7 @@ public:
 
     /**
      * @brief Get entity's ID
-     * @todo why is entity id a string?
+     * I think it's a string because of the save system.
     */
     virtual std::string id(void) = 0;
 
@@ -184,7 +184,7 @@ private:
 public:
     PigEntity(s16 x, s16 y);
 
-    void draw(Camera camera) override; // TODO const refernce
+    void draw(const Camera &camera) override;
     void update(Block::List &blocks, const Camera &camera, const u16 &frames) override;
     Rect getRectBottom(void) override;
     Rect getRectTop(void) override;
@@ -228,7 +228,7 @@ public:
     */
     DropEntity(s16 x, s16 y, InventoryItem::ID itemid);
 
-    void draw(Camera camera) override;
+    void draw(const Camera &camera) override;
     void update(Block::List &blocks, const Camera &camera, const u16 &frames) override;
     Rect getRectBottom(void) override;
     Rect getRectTop(void) override;
