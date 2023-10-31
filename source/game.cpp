@@ -382,7 +382,11 @@ void Game::init(void)
 
     // init config
     if (!mtnconfigInit("nitro:/config.cfg"))
-        printf("Failed to initialize config. You will experience issues.\n");
+    {
+        perror("Error initializing config");
+        printf("\nThis is a bug. Please report it!");
+        hang();
+    }
 
     // init game version
     gameverInit();
