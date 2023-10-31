@@ -1297,13 +1297,30 @@ void Game::draw(void)
                 break;
             }
             glColor(RGB15(31, 31, 31));
+
+            if (settingsSelect == SETTING_SHOW_FPS)
+                glColor(RGB15(0, 31, 0));
+            switch (lang)
+            {
+            case Language::English:
+                if (SettingsManager::showFPS)
+                    font.printCentered(0, 59, (settingsSelect == SETTING_SHOW_COORDS) ? "> Show FPS ON <" : "Show FPS ON");
+                else
+                    font.printCentered(0, 59, (settingsSelect == SETTING_SHOW_COORDS) ? "> Show FPS OFF <" : "Show FPS OFF");
+                break;
+            case Language::Russian:
+                if (SettingsManager::showFPS)
+                    fontRu.printCentered(0, 59, (settingsSelect == SETTING_SHOW_COORDS) ? "> Qqmbj\"dbu# \3FPS\3 CLM '" : "Qqmbj\"dbu# \3FPS\3 CLM");
+                else
+                    fontRu.printCentered(0, 59, (settingsSelect == SETTING_SHOW_COORDS) ? "> Qqmbj\"dbu# \3FPS\3 C]LM '" : "Qqmbj\"dbu# \3FPS\3 C]LM");
+                break;
+            }
+            glColor(RGB15(31, 31, 31));
             break;
         }
 
         // Create a string containing exactly thirty two space characters.
-        std::string spaces;
-        for (u8 i = 0; i < 32; ++i)
-            spaces += ' ';
+        std::string spaces(32, ' ');
 
         switch (lang)
         {
