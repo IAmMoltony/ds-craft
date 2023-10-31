@@ -741,7 +741,7 @@ Player::UpdateResult Player::update(Camera *camera, Block::List *blocks, EntityL
     else if (sign)
         updateSign();
     else
-        ret = updateGameplay(oldX, oldY, blocks, entities, blockParticles, camera); // TODO think of better name that updateGameplay
+        ret = updateGameplay(oldX, oldY, blocks, entities, blockParticles, camera);
 
     // die when fall under the world
     if (inVoid())
