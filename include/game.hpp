@@ -160,12 +160,6 @@ private:
     void init(void);
 
     /**
-     * @brief Show help screen for the specific setting
-     * @param setting setting to show the help screen for
-     */
-    void showHelpScreen(const std::string &setting);
-
-    /**
      * @brief Enter world select screen
      */
     void enterWorldSelect(void);

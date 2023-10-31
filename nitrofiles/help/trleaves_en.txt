@@ -1,2 +1,0 @@
-Transparent leaves
-Make leaves transparent or opaque.

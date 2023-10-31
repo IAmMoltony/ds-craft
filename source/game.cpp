@@ -4,7 +4,6 @@
 #include <libfatversion.h>
 #include "save.hpp"
 #include "random.hpp"
-#include "help.hpp"
 #include "stats.hpp"
 #include "controlsmgr.hpp"
 #include "settingsmgr.hpp"
@@ -485,11 +484,6 @@ void Game::init(void)
     logoY = 16;
     editControlsSelected = 0;
     editControlsSetMode = false;
-}
-
-void Game::showHelpScreen(const std::string &setting)
-{
-    showHelp(setting, font, fontRu, frameCounter);
 }
 
 void Game::enterWorldSelect(void)
@@ -1311,6 +1305,7 @@ void Game::draw(void)
         for (u8 i = 0; i < 32; ++i)
             spaces += ' ';
 
+        // TODO localize this
         font.printfCentered(0, 139, "\1:31:31:0*Page %u / 2", settingsPage);
         font.printCentered(0, 141, "< \2:L" + spaces);
         font.printCentered(0, 141, spaces + "\2:R >");
@@ -1318,21 +1313,15 @@ void Game::draw(void)
         // TODO ayo why this dont use show button tolltips function????
         glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprBButton);
         glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprAButton);
-        glSprite(93, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprSelectButton);
-        glSprite(93, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprYButton);
         switch (lang)
         {
         case Language::English:
             font.print(15, SCREEN_HEIGHT - 15, "Back");
             font.print(15, SCREEN_HEIGHT - 28, "Edit");
-            font.print(120, SCREEN_HEIGHT - 15, "Select");
-            font.print(106, SCREEN_HEIGHT - 28, "Help");
             break;
         case Language::Russian:
             fontRu.print(15, SCREEN_HEIGHT - 15, "Objbf");
             fontRu.print(15, SCREEN_HEIGHT - 28, "Jjogpku#");
-            fontRu.print(120, SCREEN_HEIGHT - 15, "C\"csbu#");
-            fontRu.print(106, SCREEN_HEIGHT - 28, "Qqoq~#");
             break;
         }
 
@@ -2229,37 +2218,6 @@ void Game::update(void)
                 break;
             }
             mmEffectEx(&sndClick);
-        }
-        else if (down & KEY_Y)
-        {
-            mmEffectEx(&sndClick);
-            switch (settingsSelect)
-            {
-            case SETTING_LANGUAGE_SELECT:
-                showHelpScreen("changelang");
-                break;
-            case SETTING_TRANSPARENT_LEAVES:
-                showHelpScreen("trleaves");
-                break;
-            case SETTING_AUTO_SAVE:
-                showHelpScreen("autosave");
-                break;
-            case SETTING_SMOOTH_CAMERA:
-                showHelpScreen("smoothcam");
-                break;
-            case SETTING_BLOCK_PARTICLES:
-                showHelpScreen("blockparts");
-                break;
-            case SETTING_AUTO_JUMP:
-                showHelpScreen("autojump");
-                break;
-            case SETTING_DELETE_ALL_WORLDS:
-                showHelpScreen("deleteallworlds");
-                break;
-            case SETTING_EDIT_CONTROLS:
-                showHelpScreen("editcontrols");
-                break;
-            }
         }
         else if (down & KEY_SELECT || down & KEY_DOWN)
         {

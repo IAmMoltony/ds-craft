@@ -1,2 +1,0 @@
-Block particles
-Turn the block particles that you see when breaking a block on or off.

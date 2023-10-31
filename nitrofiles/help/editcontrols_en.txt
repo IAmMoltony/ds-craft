@@ -1,2 +1,0 @@
-Edit controls
-This setting allows you to tailor with the game's controls to your preference, by allowing you to      edit the button mappings for specific actions. 
