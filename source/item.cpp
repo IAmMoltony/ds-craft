@@ -154,6 +154,14 @@ bool InventoryItem::isSlabItem(void)
     return _isSlabItem(id);
 }
 
+u8 InventoryItem::getMaxStack(void)
+{
+    // this is surprisingly simple
+    if (_isToolItem(id))
+        return 1;
+    return 64;
+}
+
 static std::map<std::string, InventoryItem::ID> _stringIDTable = {
     {"none", InventoryItem::ID::None},
     {"grass", InventoryItem::ID::Grass},

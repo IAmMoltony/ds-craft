@@ -862,6 +862,9 @@ void Player::updateInventory(void)
                 // stacking (same id)
                 if (moveSelectItemID == fromSelectItemID)
                 {
+                    // i was thinking of rewriting this to use InventoryItem::getMaxStack
+                    // but this seems to work okay
+
                     // stacking >64 items
                     if (fromSelectAmount + moveSelectAmount > 64)
                     {
@@ -2465,9 +2468,7 @@ void Player::addItem(InventoryItem::ID item)
     if (isInventoryFull())
         return;
 
-    u8 maxStack = 64;
-    if (InventoryItem(item, 1).isToolItem()) // max stack for tool items (e.g. pickaxes, swords and such) is 1
-        maxStack = 1;
+    u8 maxStack = InventoryItem(item, 1).getMaxStack();
 
     // find the stack (if item is stackable)
     if (maxStack > 1)
@@ -2478,6 +2479,7 @@ void Player::addItem(InventoryItem::ID item)
             if (inventory[i].amount >= maxStack)
                 continue;
 
+            // stack of our item; add
             if (inventory[i].id == item)
             {
                 ++inventory[i].amount;
@@ -2486,7 +2488,7 @@ void Player::addItem(InventoryItem::ID item)
         }
     }
 
-    // if the stack not found (or item not stackable), try to create new stack
+    // if the stack is not found (or item not stackable), try to create new stack
     for (u8 i = 0; i < 20; ++i)
     {
         // if slot is empty, then occupy it
@@ -2502,6 +2504,7 @@ void Player::addItem(InventoryItem::ID item)
 void Player::addItem(InventoryItem::ID item, u8 amount)
 {
     // cant add item if inventory is full
+    // TODO this check is reduntant
     if (isInventoryFull())
         return;
 
@@ -2646,9 +2649,8 @@ bool Player::dead(void)
 
 bool Player::isInventoryFull(void)
 {
-    // TODO this function does not work correctly with unstackable items. that's why i should add a function for getting max stack for item.
     for (u8 i = 0; i < 20; ++i)
-        if (inventory[i].amount < 64)
+        if (inventory[i].amount < inventory[i].getMaxStack())
             // there is still space left
             return false;
 
@@ -2657,7 +2659,7 @@ bool Player::isInventoryFull(void)
 
 bool Player::canAddItem(InventoryItem::ID item)
 {
-    if (isInventoryFull()) // we cant add anything if our inventory is full
+    if (isInventoryFull()) // we can't add anything if our inventory is full
         return false;
 
     for (u8 i = 0; i < 20; ++i)
@@ -2667,11 +2669,11 @@ bool Player::canAddItem(InventoryItem::ID item)
             return true;
 
         // not empty slot but it's the target item and the stack is not full
-        // TODO again this doesnt work with unstackable items
-        if (inventory[i].id == item && inventory[i].amount < 64)
+        if (inventory[i].id == item && inventory[i].amount < inventory[i].getMaxStack())
             return true;
     }
 
+    // inventory is not full, but all slots are taken and none of the slots are stacks of the item we want to add
     return false;
 }
 

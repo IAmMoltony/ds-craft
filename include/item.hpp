@@ -159,6 +159,11 @@ public:
     bool isSlabItem(void);
 
     /**
+     * @brief Get the max amount of the item that can be stacked in one inventory slot
+    */
+    u8 getMaxStack(void);
+
+    /**
      * @brief Load item textures
     */
     static void loadTextures(void);
