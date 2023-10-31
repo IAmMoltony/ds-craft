@@ -21,6 +21,11 @@ typedef struct camera
     int y;
 } Camera;
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 /**
  * @brief Make the camera follow a position with optional smoothness
  * @param camera the camera that will follow the position
@@ -31,3 +36,7 @@ typedef struct camera
  * @param maxX maximum X position of the camera
  */
 void cameraFollow(Camera *camera, int x, int y, float smooth, int minX, int maxX);
+
+#ifdef __cplusplus
+}
+#endif
