@@ -41,11 +41,6 @@ extern "C"
          * @brief NitroFS failed to initialize
         */
         FS_INIT_STATUS_NITROFS_ERROR,
-
-        /**
-         * @brief Both FAT and NitroFS failed to initialize 
-        */
-        FS_INIT_STATUS_BOTH_ERROR,
     } fsInitStatus;
 
     /**
