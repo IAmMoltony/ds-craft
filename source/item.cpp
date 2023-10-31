@@ -6,7 +6,7 @@
 #include "block.hpp"
 #include "game.hpp"
 
-static InventoryItem::ID _nonBlockItemIDs[] =
+InventoryItem::ID InventoryItem::nonBlockItemIDs[] =
     {
         InventoryItem::ID::Stick,
         InventoryItem::ID::Coal,
@@ -35,9 +35,11 @@ static InventoryItem::ID _nonBlockItemIDs[] =
         InventoryItem::ID::Bread,
 };
 
+const int InventoryItem::numNonBlockItemIDs = sizeof(InventoryItem::nonBlockItemIDs) / sizeof(InventoryItem::ID);
+
 // technically wheat seeds are a block item bc u can place them on farmland
 
-static InventoryItem::ID _toolItemIDs[] =
+InventoryItem::ID InventoryItem::toolItemIDs[] =
     {
         InventoryItem::ID::WoodenPickaxe,
         InventoryItem::ID::StonePickaxe,
@@ -57,7 +59,9 @@ static InventoryItem::ID _toolItemIDs[] =
         InventoryItem::ID::Shears,
 };
 
-static InventoryItem::ID _nonSolidBlockItemIDs[] =
+const int InventoryItem::numToolItemIDs = sizeof(InventoryItem::toolItemIDs) / sizeof(InventoryItem::ID);
+
+InventoryItem::ID InventoryItem::nonSolidBlockItemIDs[] =
     {
         InventoryItem::ID::Wood,
         InventoryItem::ID::BirchWood,
@@ -77,7 +81,9 @@ static InventoryItem::ID _nonSolidBlockItemIDs[] =
         InventoryItem::ID::WheatSeeds,
 };
 
-static InventoryItem::ID _slabItemIDs[] =
+const int InventoryItem::numNonSolidBlockItemIDs = sizeof(InventoryItem::nonSolidBlockItemIDs) / sizeof(InventoryItem::ID);
+
+InventoryItem::ID InventoryItem::slabItemIDs[] =
     {
         InventoryItem::ID::OakSlab,
         InventoryItem::ID::CobblestoneSlab,
@@ -86,11 +92,13 @@ static InventoryItem::ID _slabItemIDs[] =
         InventoryItem::ID::StoneBricksSlab,
 };
 
+const int InventoryItem::numSlabItemIDs = sizeof(InventoryItem::slabItemIDs) / sizeof(InventoryItem::ID);
+
 // check if the item is not a block item
 static bool _isItem(InventoryItem::ID id)
 {
-    static constexpr int n = sizeof(_nonBlockItemIDs) / sizeof(_nonBlockItemIDs[0]);
-    return std::find(_nonBlockItemIDs, _nonBlockItemIDs + n, id) != _nonBlockItemIDs + n;
+    return std::find(InventoryItem::nonBlockItemIDs, InventoryItem::nonBlockItemIDs + InventoryItem::numNonBlockItemIDs, id) !=
+        InventoryItem::nonBlockItemIDs + InventoryItem::numNonBlockItemIDs;
 }
 
 // check if the item is a tool
@@ -100,8 +108,8 @@ static bool _isToolItem(InventoryItem::ID id)
     if (!_isItem(id))
         return false;
 
-    static constexpr int n = sizeof(_toolItemIDs) / sizeof(_toolItemIDs[0]);
-    return std::find(_toolItemIDs, _toolItemIDs + n, id) != _toolItemIDs + n;
+    return std::find(InventoryItem::toolItemIDs, InventoryItem::toolItemIDs + InventoryItem::numToolItemIDs, id) !=
+        InventoryItem::toolItemIDs + InventoryItem::numToolItemIDs;
 }
 
 // check if the item is a non-solid block
@@ -111,8 +119,9 @@ static bool _isNonSolidBlockItem(InventoryItem::ID id)
     if (_isItem(id))
         return false;
 
-    static constexpr int n = sizeof(_nonSolidBlockItemIDs) / sizeof(_nonSolidBlockItemIDs[0]);
-    return std::find(_nonSolidBlockItemIDs, _nonSolidBlockItemIDs + n, id) != _nonSolidBlockItemIDs + n;
+    return std::find(InventoryItem::nonSolidBlockItemIDs, InventoryItem::nonSolidBlockItemIDs +
+        InventoryItem::numNonSolidBlockItemIDs, id) != InventoryItem::nonSolidBlockItemIDs +
+        InventoryItem::numNonSolidBlockItemIDs;
 }
 
 // check if the item is a slab
@@ -122,8 +131,8 @@ static bool _isSlabItem(InventoryItem::ID id)
     if (_isItem(id))
         return false;
 
-    static constexpr int n = sizeof(_slabItemIDs) / sizeof(_slabItemIDs[0]);
-    return std::find(_slabItemIDs, _slabItemIDs + n, id) != _slabItemIDs + n;
+    return std::find(InventoryItem::slabItemIDs, InventoryItem::slabItemIDs + InventoryItem::numSlabItemIDs, id) !=
+        InventoryItem::slabItemIDs + InventoryItem::numSlabItemIDs;
 }
 
 InventoryItem::InventoryItem(ID id, u8 amount) : id(id), amount(amount)

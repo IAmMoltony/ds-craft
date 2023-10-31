@@ -17,7 +17,7 @@ class InventoryItem
 {
 public:
     /**
-     * @brief Enum representing the inventory item ID
+     * @brief Enum representing the ID of an item
     */
     enum class ID
     {
@@ -96,6 +96,46 @@ public:
         HayBale,
         StoneBricksSlab,
     };
+
+    /**
+     * @brief List of non-block item IDs
+    */
+    static ID nonBlockItemIDs[];
+
+    /**
+     * @brief Number of non-block item IDs
+    */
+    static const int numNonBlockItemIDs;
+
+    /**
+     * @brief List of tool item IDs
+    */
+    static ID toolItemIDs[];
+
+    /**
+     * @brief Number of tool item IDs
+    */
+    static const int numToolItemIDs;
+
+    /**
+     * @brief List of non-solid block item IDs
+    */
+    static ID nonSolidBlockItemIDs[];
+
+    /**
+     * @brief Number of non-solid block item IDs
+    */
+    static const int numNonSolidBlockItemIDs;
+
+    /**
+     * @brief List of slab item IDs
+    */
+    static ID slabItemIDs[];
+
+    /**
+     * @brief Number of slab item IDs
+    */
+    static const int numSlabItemIDs;
 
     /**
      * @brief The item's ID
