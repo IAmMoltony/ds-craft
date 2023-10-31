@@ -2244,11 +2244,13 @@ void Game::update(void)
         {
             if (settingsPage > 1)
                 --settingsPage;
+            settingsSelect = 0;
         }
         else if (down & KEY_R)
         {
             if (settingsPage < 2)
                 ++settingsPage;
+            settingsSelect = 0;
         }
         break;
     case State::DeleteWorld:
