@@ -33,6 +33,11 @@ public:
 	*/
 	static bool blockParticles;
 
+    /**
+     * @brief Show coordinates setting
+    */
+    static bool showCoords;
+
 	// ======== Default values =========
 
     /**
@@ -55,10 +60,15 @@ public:
      */
     static const bool AUTO_JUMP_DEFAULT = false;
 
-    /*
+    /**
      * @brief Default value for show block particles setting
     */
     static const bool BLOCK_PARTICLES_DEFAULT = true;
+
+    /**
+     * @brief Default value for show coordinates setting
+    */
+    static const bool SHOW_COORDS_DEFAULT = false;
 
     SettingsManager() = delete;
     SettingsManager(SettingsManager &) = delete;

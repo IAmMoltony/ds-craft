@@ -10,6 +10,7 @@ u8 SettingsManager::autoSaveSeconds = SettingsManager::AUTO_SAVE_SECONDS_DEFAULT
 bool SettingsManager::smoothCamera = SettingsManager::SMOOTH_CAMERA_DEFAULT;
 bool SettingsManager::autoJump = SettingsManager::AUTO_JUMP_DEFAULT;
 bool SettingsManager::blockParticles = SettingsManager::BLOCK_PARTICLES_DEFAULT;
+bool SettingsManager::showCoords = SettingsManager::SHOW_COORDS_DEFAULT;
 
 void SettingsManager::loadLanguageLegacy(void)
 {
@@ -120,6 +121,8 @@ void SettingsManager::removeLegacySettings(void)
 
 void SettingsManager::updateSettingsFormat(void)
 {
+    mtnlogMessage(LOG_INFO, "Updating settings format");
+
     // check if we need to update
     if (fsFileExists(std::string(std::string(mtnconfigGet("configDir")) + "/settings.cfg").c_str()))
         return;
@@ -149,7 +152,7 @@ void SettingsManager::saveSettings(void)
     // TODO rework auto jump
 
     // write settings
-    fprintf(settingsFile, "trleaves %d\nautosave %d\nsmoothcam %d\nautojump %d\nlang %d\nblockparts %d\n", transparentLeaves, autoSaveSeconds, smoothCamera, autoJump, Game::instance->lang == Language::English ? 0 : 1, blockParticles);
+    fprintf(settingsFile, "trleaves %d\nautosave %d\nsmoothcam %d\nautojump %d\nlang %d\nblockparts %d\nshowcoords %d\n", transparentLeaves, autoSaveSeconds, smoothCamera, autoJump, Game::instance->lang == Language::English ? 0 : 1, blockParticles, showCoords);
 
     // don't forget to close
     fclose(settingsFile);
@@ -211,6 +214,11 @@ void SettingsManager::loadSettings(void)
         {
             // block particles setting
             blockParticles = std::stoi(split[1]);
+        }
+        else if (split[0] == "showcoords")
+        {
+            // show coords setting
+            showCoords = std::stoi(split[1]);
         }
         else
         {

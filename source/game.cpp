@@ -303,6 +303,11 @@ static constexpr u8 SETTING_DELETE_ALL_WORLDS = 6;
 static constexpr u8 SETTING_EDIT_CONTROLS = 7;
 static constexpr u8 SETTING_LAST_PAGE1 = SETTING_EDIT_CONTROLS;
 
+// settings screen selection values [page 2]
+
+static constexpr u8 SETTING_SHOW_COORDS = 0;
+static constexpr u8 SETTING_LAST_PAGE2 = SETTING_SHOW_COORDS;
+
 // TODO add settings screen labels array
 
 void Game::init(void)
@@ -591,6 +596,7 @@ void Game::draw(void)
     switch (gameState)
     {
     case State::Game:
+    {
         if (player.inVoid())
             // if player is in the void then make the sky black
             glBoxFilled(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(0, 0, 0));
@@ -667,6 +673,12 @@ void Game::draw(void)
         // draw game version (half transparent)
         glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(4));
         font.printf(3, 3, "%s", getVersionString());
+        u8 textYPos = 11;
+        if (SettingsManager::showCoords)
+        {
+            font.printf(3, 14, "X: %d Y: %d", player.getX(), player.getY());
+            textYPos += 11;
+        }
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(4));
 
         if (showSaveText)
@@ -719,6 +731,7 @@ void Game::draw(void)
             }
         }
         break;
+    }
     case State::TitleScreen:
         drawMovingBackground();
 
@@ -1270,6 +1283,26 @@ void Game::draw(void)
                 fontRu.printCentered(0, 125, (settingsSelect == SETTING_EDIT_CONTROLS) ? "> Obtusqlmb vrsbdngpk& '" : "Obtusqlmb vrsbdngpk&");
                 break;
             }
+            break;
+        case 2:
+            if (settingsSelect == SETTING_SHOW_COORDS)
+                glColor(RGB15(0, 31, 0));
+            switch (lang)
+            {
+            case Language::English:
+                if (SettingsManager::showCoords)
+                    font.printCentered(0, 48, (settingsSelect == SETTING_SHOW_COORDS) ? "> Show coordinates ON <" : "Show coordinates ON");
+                else
+                    font.printCentered(0, 48, (settingsSelect == SETTING_SHOW_COORDS) ? "> Show coordinates OFF <" : "Show coordinates OFF");
+                break;
+            case Language::Russian:
+                if (SettingsManager::showCoords)
+                    fontRu.printCentered(0, 48, (settingsSelect == SETTING_SHOW_COORDS) ? "> Qqmbj\"dbu# mqqsfkpbu\" CLM '" : "Qqmbj\"dbu# mqqsfkpbu\" CLM");
+                else
+                    fontRu.printCentered(0, 48, (settingsSelect == SETTING_SHOW_COORDS) ? "> Qqmbj\"dbu# mqqsfkpbu\" C]LM '" : "Qqmbj\"dbu# mqqsfkpbu\" C]LM");
+                break;
+            }
+            glColor(RGB15(31, 31, 31));
             break;
         }
 
@@ -2184,6 +2217,16 @@ void Game::update(void)
                     break;
                 }
                 break;
+            case 2:
+                // page 2
+                switch (settingsSelect)
+                {
+                case SETTING_SHOW_COORDS:
+                    SettingsManager::showCoords = !SettingsManager::showCoords;
+                    SettingsManager::saveSettings();
+                    break;
+                }
+                break;
             }
             mmEffectEx(&sndClick);
         }
@@ -2226,6 +2269,10 @@ void Game::update(void)
                 if (++settingsSelect > SETTING_LAST_PAGE1)
                     settingsSelect = 0;
                 break;
+            case 2:
+                if (++settingsSelect > SETTING_LAST_PAGE2)
+                    settingsSelect = 0;
+                break;
             }
         }
         else if (down & KEY_UP)
@@ -2235,6 +2282,12 @@ void Game::update(void)
             case 1:
                 if (settingsSelect == 0)
                     settingsSelect = SETTING_LAST_PAGE1;
+                else
+                    --settingsSelect;
+                break;
+            case 2:
+                if (settingsSelect == 0)
+                    settingsSelect = SETTING_LAST_PAGE2;
                 else
                     --settingsSelect;
                 break;
