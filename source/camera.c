@@ -16,8 +16,8 @@ void cameraFollow(Camera *camera, int x, int y, float smooth, int minX, int maxX
     }
 
     // clamping
-    if (camera.x < minX)
-        camera.x = minX;
-    else if (camera.x > maxX)
-        camera.x = maxX;
+    if (camera->x < minX)
+        camera->x = minX;
+    else if (camera->x > maxX)
+        camera->x = maxX;
 }

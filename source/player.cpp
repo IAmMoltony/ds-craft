@@ -2452,7 +2452,7 @@ bool Player::hasItem(InventoryItem item)
         // check every planks item
         for (int i = 0; i < InventoryItem::numPlanksItemIDs; ++i)
         {
-            if (hasItem(InventoryItem::planksItemIDs[i]))
+            if (hasItem(InventoryItem(InventoryItem::planksItemIDs[i], 1)))
                 return true;
         }
         return false;
