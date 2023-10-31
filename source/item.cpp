@@ -94,6 +94,15 @@ InventoryItem::ID InventoryItem::slabItemIDs[] =
 
 const int InventoryItem::numSlabItemIDs = sizeof(InventoryItem::slabItemIDs) / sizeof(InventoryItem::ID);
 
+InventoryItem::ID InventoryItem::planksItemIDs[] =
+    {
+        InventoryItem::ID::Planks,
+        InventoryItem::ID::BirchPlanks,
+        InventoryItem::ID::SprucePlanks,
+};
+
+const int InventoryItem::numPlanksItemIDs = sizeof(InventoryItem::planksItemIDs) / sizeof(InventoryItem::ID);
+
 // check if the item is not a block item
 static bool _isItem(InventoryItem::ID id)
 {
@@ -135,6 +144,16 @@ static bool _isSlabItem(InventoryItem::ID id)
         InventoryItem::slabItemIDs + InventoryItem::numSlabItemIDs;
 }
 
+// check if the item is planks
+static bool _isPlanksItem(InventoryItem::ID id)
+{
+    if (_isItem(id))
+        return false; // not block
+
+    return std::find(InventoryItem::planksItemIDs, InventoryItem::planksItemIDs + InventoryItem::numPlanksItemIDs, id) !=
+        InventoryItem::planksItemIDs + InventoryItem::numPlanksItemIDs;
+}
+
 InventoryItem::InventoryItem(ID id, u8 amount) : id(id), amount(amount)
 {
 }
@@ -161,6 +180,11 @@ bool InventoryItem::isNonSolidBlockItem(void)
 bool InventoryItem::isSlabItem(void)
 {
     return _isSlabItem(id);
+}
+
+bool InventoryItem::isPlanksItem(void)
+{
+    return _isPlanksItem(id);
 }
 
 u8 InventoryItem::getMaxStack(void)

@@ -138,6 +138,17 @@ public:
     static const int numSlabItemIDs;
 
     /**
+     * @brief List of planks item IDs
+     * @note this does not include AnyPlanks!!!
+    */
+    static ID planksItemIDs[];
+
+    /**
+     * @brief Number of planks item IDs
+    */
+    static const int numPlanksItemIDs;
+
+    /**
      * @brief The item's ID
     */
     ID id;
@@ -197,6 +208,11 @@ public:
      * @brief Check if the item is a slab item
     */
     bool isSlabItem(void);
+
+    /**
+     * @brief Check if the item is any kind of planks
+    */
+    bool isPlanksItem(void);
 
     /**
      * @brief Get the max amount of the item that can be stacked in one inventory slot

@@ -2448,9 +2448,15 @@ bool Player::hasItem(InventoryItem item)
 {
     // any planks handling
     if (item.id == InventoryItem::ID::AnyPlanks)
-        return hasItem({InventoryItem::ID::Planks, item.amount}) ||
-               hasItem({InventoryItem::ID::BirchPlanks, item.amount}) ||
-               hasItem({InventoryItem::ID::SprucePlanks, item.amount});
+    {
+        // check every planks item
+        for (int i = 0; i < InventoryItem::numPlanksItemIDs; ++i)
+        {
+            if (hasItem(InventoryItem::planksItemIDs[i]))
+                return true;
+        }
+        return false;
+    }
 
     // go through every single item in inventory and check if we have that item
     for (u8 i = 0; i < 20; ++i)
@@ -2515,26 +2521,17 @@ void Player::addItem(InventoryItem::ID item, u8 amount)
 
 void Player::removeItem(InventoryItem::ID item)
 {
-    // remove ALL planks from inventory if removing AnyPlanks
     if (item == InventoryItem::ID::AnyPlanks)
     {
-        if (hasItem({InventoryItem::ID::Planks, 1}))
+        for (int i = 0; i < InventoryItem::numPlanksItemIDs; ++i)
         {
-            removeItem(InventoryItem::ID::Planks);
-            return;
+            if (hasItem(InventoryItem(InventoryItem::planksItemIDs[i], 1)))
+            {
+                removeItem(InventoryItem::planksItemIDs[i]);
+                return;
+            }
         }
-        else if (hasItem({InventoryItem::ID::BirchPlanks, 1}))
-        {
-            removeItem(InventoryItem::ID::BirchPlanks);
-            return;
-        }
-        else if (hasItem({InventoryItem::ID::SprucePlanks, 1}))
-        {
-            removeItem(InventoryItem::ID::SprucePlanks);
-            return;
-        }
-        else
-            return;
+        return;
     }
 
     for (u8 i = 0; i < 20; ++i)
@@ -2732,11 +2729,14 @@ s16 Player::getHealth(void)
 u16 Player::countItems(InventoryItem::ID item)
 {
     // special case for any planks
-    // (we count all planks types)
-    // TODO put plank types into array or smth so that i dont have to go through each function that handles AnyPlanks and change it when i add new wood type
+    // (we just count all planks types)
     if (item == InventoryItem::ID::AnyPlanks)
-        return countItems(InventoryItem::ID::Planks) + countItems(InventoryItem::ID::BirchPlanks) +
-               countItems(InventoryItem::ID::SprucePlanks);
+    {
+        u16 c = 0;
+        for (int i = 0; i < InventoryItem::numPlanksItemIDs; ++i)
+            c += countItems(InventoryItem::planksItemIDs[i]);
+        return c;
+    }
 
     u16 count = 0;
     for (u8 i = 0; i < 20; ++i)
