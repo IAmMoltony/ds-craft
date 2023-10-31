@@ -2509,11 +2509,6 @@ void Player::addItem(InventoryItem::ID item)
 
 void Player::addItem(InventoryItem::ID item, u8 amount)
 {
-    // cant add item if inventory is full
-    // TODO this check is reduntant
-    if (isInventoryFull())
-        return;
-
     // execute addItem multiple times
     for (u8 _ = 0; _ < amount; ++_)
         addItem(item);
