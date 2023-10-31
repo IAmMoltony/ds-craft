@@ -1305,8 +1305,15 @@ void Game::draw(void)
         for (u8 i = 0; i < 32; ++i)
             spaces += ' ';
 
-        // TODO localize this
-        font.printfCentered(0, 139, "\1:31:31:0*Page %u / 2", settingsPage);
+        switch (lang)
+        {
+        case Language::English:
+            font.printfCentered(0, 139, "\1:31:31:0*Page %u / 2", settingsPage);
+            break;
+        case Language::Russian:
+            fontRu.printfCentered(0, 139, "\1:31:31:0*Sus %u / 2", settingsPage); // ...
+            break;
+        }
         font.printCentered(0, 141, "< \2:L" + spaces);
         font.printCentered(0, 141, spaces + "\2:R >");
 
