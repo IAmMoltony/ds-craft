@@ -177,7 +177,16 @@ bool LeavesBlock::solid(void)
 
 u16 LeavesBlock::id(void) const
 {
-	return BID_LEAVES; // TODO make this return the specific leaves BID
+	switch (type)
+	{
+	case Type::Oak:
+	default:
+		return BID_LEAVES;
+	case Type::Birch:
+		return BID_BIRCH_LEAVES;
+	case Type::Spruce:
+		return BID_SPRUCE_LEAVES;
+	}
 }
 
 bool LeavesBlock::isNatural(void)

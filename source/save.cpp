@@ -126,26 +126,6 @@ static void _writeDoor(std::ofstream &wld, DoorBlock *door)
     wld << "door " << std::to_string(door->x) << ' ' << std::to_string(door->y) << ' ' << std::to_string(door->isOpen()) << ' ' << std::to_string(door->getFacing()) << '\n';
 }
 
-static void _writeLeaves(std::ofstream &wld, LeavesBlock *leaves)
-{
-    std::string lid = "";
-
-    switch (leaves->type)
-    {
-    case LeavesBlock::Type::Oak:
-        lid = std::to_string(BID_LEAVES);
-        break;
-    case LeavesBlock::Type::Birch:
-        lid = std::to_string(BID_BIRCH_LEAVES);
-        break;
-    case LeavesBlock::Type::Spruce:
-        lid = std::to_string(BID_SPRUCE_LEAVES);
-        break;
-    }
-
-    wld << "block " << std::to_string(leaves->x) << ' ' << std::to_string(leaves->y) << ' ' << lid << '\n';
-}
-
 static void _writeSign(std::ofstream &wld, SignBlock *sign)
 {
     wld << "sign " << std::to_string(sign->x) << ' ' << std::to_string(sign->y) << ' ' << sign->getText() << '\n';
@@ -247,13 +227,6 @@ void saveWorld(const std::string &name, Block::List &blocks, EntityList &entitie
         // chests are handled separately
         case BID_CHEST:
             break;
-        // leaves
-        case BID_LEAVES:
-        {
-            LeavesBlock *leaves = reinterpret_cast<LeavesBlock *>(block.get());
-            _writeLeaves(wld, leaves);
-            break;
-        }
         // sign
         case BID_SIGN:
         {
