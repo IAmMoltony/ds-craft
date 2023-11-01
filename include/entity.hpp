@@ -99,7 +99,7 @@ public:
      * @param camera camera (used for culling)
      * @param frames frame counter
     */
-    virtual void update(Block::List &blocks, const Camera &camera, const u16 &frames) = 0; // TODO const reference camera; frames can be pulled from Game
+    virtual void update(Block::List &blocks, const Camera &camera, const u16 &frames) = 0;
 
     /**
      * @brief Get bottom hitbox of the entity
