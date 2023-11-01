@@ -11,6 +11,7 @@ bool SettingsManager::smoothCamera = SettingsManager::SMOOTH_CAMERA_DEFAULT;
 bool SettingsManager::autoJump = SettingsManager::AUTO_JUMP_DEFAULT;
 bool SettingsManager::blockParticles = SettingsManager::BLOCK_PARTICLES_DEFAULT;
 bool SettingsManager::showCoords = SettingsManager::SHOW_COORDS_DEFAULT;
+bool SettingsManager::showFPS = SettingsManager::SHOW_FPS_DEFAULT;
 
 void SettingsManager::loadLanguageLegacy(void)
 {
@@ -152,7 +153,7 @@ void SettingsManager::saveSettings(void)
     // TODO rework auto jump
 
     // write settings
-    fprintf(settingsFile, "trleaves %d\nautosave %d\nsmoothcam %d\nautojump %d\nlang %d\nblockparts %d\nshowcoords %d\n", transparentLeaves, autoSaveSeconds, smoothCamera, autoJump, Game::instance->lang == Language::English ? 0 : 1, blockParticles, showCoords);
+    fprintf(settingsFile, "trleaves %d\nautosave %d\nsmoothcam %d\nautojump %d\nlang %d\nblockparts %d\nshowcoords %d\nshowfps %d\n", transparentLeaves, autoSaveSeconds, smoothCamera, autoJump, Game::instance->lang == Language::English ? 0 : 1, blockParticles, showCoords, showFPS);
 
     // don't forget to close
     fclose(settingsFile);
@@ -219,6 +220,11 @@ void SettingsManager::loadSettings(void)
         {
             // show coords setting
             showCoords = std::stoi(split[1]);
+        }
+        else if (split[0] == "showfps")
+        {
+            // show fps setting
+            showFPS = std::stoi(split[1]);
         }
         else
         {

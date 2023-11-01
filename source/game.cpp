@@ -305,9 +305,19 @@ static constexpr u8 SETTING_LAST_PAGE1 = SETTING_EDIT_CONTROLS;
 // settings screen selection values [page 2]
 
 static constexpr u8 SETTING_SHOW_COORDS = 0;
-static constexpr u8 SETTING_LAST_PAGE2 = SETTING_SHOW_COORDS;
+static constexpr u8 SETTING_SHOW_FPS = 1;
+static constexpr u8 SETTING_LAST_PAGE2 = SETTING_SHOW_FPS;
 
 // TODO add settings screen labels array
+
+static u16 _frameCounterFPS = 0;
+static u16 _fps = 0.0f;
+
+static void _countFPS(void)
+{
+    _fps = _frameCounterFPS;
+    _frameCounterFPS = 0;
+}
 
 void Game::init(void)
 {
@@ -357,7 +367,7 @@ void Game::init(void)
             ++frameCounter;
 
             glBegin2D();
-            drawMovingBackground();
+            drawMovingBackground(); // TODO rename to drawDirtBackground
 
             font.drawHeading("Error!");
 
@@ -455,6 +465,9 @@ void Game::init(void)
 
     // load assets for menu
     AssetManager::loadMenuAssets();
+
+    // set fps timer
+    timerStart(2, ClockDivider_1024, TIMER_FREQ_1024(1), _countFPS);
 
     // init values of stuff
     gameState = State::TitleScreen;
@@ -667,10 +680,15 @@ void Game::draw(void)
         // draw game version (half transparent)
         glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(4));
         font.printf(3, 3, "%s", getVersionString());
-        u8 textYPos = 11;
+        u8 textYPos = 14;
         if (SettingsManager::showCoords)
         {
-            font.printf(3, 14, "X: %d Y: %d", player.getX(), player.getY());
+            font.printf(3, textYPos, "X: %d Y: %d", player.getX(), player.getY());
+            textYPos += 11;
+        }
+        if (SettingsManager::showFPS)
+        {
+            font.printf(3, textYPos, "%u FPS", _fps);
             textYPos += 11;
         }
         glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(4));
@@ -1304,15 +1322,15 @@ void Game::draw(void)
             {
             case Language::English:
                 if (SettingsManager::showFPS)
-                    font.printCentered(0, 59, (settingsSelect == SETTING_SHOW_COORDS) ? "> Show FPS ON <" : "Show FPS ON");
+                    font.printCentered(0, 59, (settingsSelect == SETTING_SHOW_FPS) ? "> Show FPS ON <" : "Show FPS ON");
                 else
-                    font.printCentered(0, 59, (settingsSelect == SETTING_SHOW_COORDS) ? "> Show FPS OFF <" : "Show FPS OFF");
+                    font.printCentered(0, 59, (settingsSelect == SETTING_SHOW_FPS) ? "> Show FPS OFF <" : "Show FPS OFF");
                 break;
             case Language::Russian:
                 if (SettingsManager::showFPS)
-                    fontRu.printCentered(0, 59, (settingsSelect == SETTING_SHOW_COORDS) ? "> Qqmbj\"dbu# \3FPS\3 CLM '" : "Qqmbj\"dbu# \3FPS\3 CLM");
+                    fontRu.printCentered(0, 59, (settingsSelect == SETTING_SHOW_FPS) ? "> Qqmbj\"dbu# \3FPS\3 CLM '" : "Qqmbj\"dbu# \3FPS\3 CLM");
                 else
-                    fontRu.printCentered(0, 59, (settingsSelect == SETTING_SHOW_COORDS) ? "> Qqmbj\"dbu# \3FPS\3 C]LM '" : "Qqmbj\"dbu# \3FPS\3 C]LM");
+                    fontRu.printCentered(0, 59, (settingsSelect == SETTING_SHOW_FPS) ? "> Qqmbj\"dbu# \3FPS\3 C]LM '" : "Qqmbj\"dbu# \3FPS\3 C]LM");
                 break;
             }
             glColor(RGB15(31, 31, 31));
@@ -2235,6 +2253,10 @@ void Game::update(void)
                     SettingsManager::showCoords = !SettingsManager::showCoords;
                     SettingsManager::saveSettings();
                     break;
+                case SETTING_SHOW_FPS:
+                    SettingsManager::showFPS = !SettingsManager::showFPS;
+                    SettingsManager::saveSettings();
+                    break;
                 }
                 break;
             }
@@ -2377,6 +2399,9 @@ void Game::run(void)
         draw();
         glEnd2D();
         glFlush(0);
+
+        ++_frameCounterFPS;
+
         swiWaitForVBlank();
     }
 }

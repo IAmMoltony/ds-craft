@@ -38,6 +38,11 @@ public:
     */
     static bool showCoords;
 
+    /**
+     * @brief Show FPS (frames per second) setting
+    */
+    static bool showFPS;
+
 	// ======== Default values =========
 
     /**
@@ -69,6 +74,11 @@ public:
      * @brief Default value for show coordinates setting
     */
     static const bool SHOW_COORDS_DEFAULT = false;
+
+    /**
+     * @brief Default value for show FPS setitng
+    */
+    static const bool SHOW_FPS_DEFAULT = false;
 
     SettingsManager() = delete;
     SettingsManager(SettingsManager &) = delete;
