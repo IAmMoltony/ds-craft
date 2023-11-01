@@ -1328,9 +1328,9 @@ void Game::draw(void)
                 break;
             case Language::Russian:
                 if (SettingsManager::showFPS)
-                    fontRu.printCentered(0, 59, (settingsSelect == SETTING_SHOW_FPS) ? "> Qqmbj\"dbu# \3FPS\3 CLM '" : "Qqmbj\"dbu# \3FPS\3 CLM");
+                    fontRu.printCentered(0, 59, (settingsSelect == SETTING_SHOW_FPS) ? "> Qqmbj\"dbu# \3FPS\3 CLM '" : "Qqmbj\"dbu# \3FPS\3 CLM", &font);
                 else
-                    fontRu.printCentered(0, 59, (settingsSelect == SETTING_SHOW_FPS) ? "> Qqmbj\"dbu# \3FPS\3 C]LM '" : "Qqmbj\"dbu# \3FPS\3 C]LM");
+                    fontRu.printCentered(0, 59, (settingsSelect == SETTING_SHOW_FPS) ? "> Qqmbj\"dbu# \3FPS\3 C]LM '" : "Qqmbj\"dbu# \3FPS\3 C]LM", &font);
                 break;
             }
             glColor(RGB15(31, 31, 31));
