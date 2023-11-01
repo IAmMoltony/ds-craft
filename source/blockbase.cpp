@@ -100,6 +100,11 @@ void Block::loadTextures(void)
     pcxImageLoad("nitro:/textures/block/ladder.pcx", true, &sprLadder);
     pcxImageLoad("nitro:/textures/block/sign.pcx", true, &sprSign);
 
+    // leaves
+    pcxImageLoad("nitro:/textures/block/oak_leaves.pcx", SettingsManager::transparentLeaves, &sprLeaves);
+    pcxImageLoad("nitro:/textures/block/birch_leaves.pcx", SettingsManager::transparentLeaves, &sprBirchLeaves);
+    pcxImageLoad("nitro:/textures/block/spruce_leaves.pcx", SettingsManager::transparentLeaves, &sprSpruceLeaves);
+
     // wheat
     for (u8 i = 0; i < 8; ++i)
     {
