@@ -1145,6 +1145,7 @@ void Game::draw(void)
         font.printfCentered(0, 93, "Version %s", getVersionString());
         font.printfCentered(0, 104, "libNDS version %d.%d.%d", _LIBNDS_MAJOR_, _LIBNDS_MINOR_, _LIBNDS_PATCH_);
         font.printfCentered(0, 115, "libFAT version %d.%d.%d", _LIBFAT_MAJOR_, _LIBFAT_MINOR_, _LIBFAT_PATCH_);
+        font.printCentered(0, 126, "Git commit " GIT_COMMIT);
 
         glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprBButton);
         switch (lang)

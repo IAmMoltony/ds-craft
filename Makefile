@@ -36,6 +36,9 @@ GRAPHICS := $(sort $(dir $(wildcard gfx/*/)))
 AUDIO := audio
 NITRODATA := nitrofiles
 
+# git commit
+GIT_COMMIT := $(shell git log -1 --format=%h)
+
 # external library stuff
 LIBRARIES := $(wildcard lib/*)
 LIBSOURCES := $(patsubst lib/%,lib/%/source,$(LIBRARIES))
@@ -149,7 +152,7 @@ CFLAGS	:=	-g -Wall -Wextra \
 			-fomit-frame-pointer\
 			-ffast-math
 
-CFLAGS	+=	$(INCLUDE) -DARM9
+CFLAGS	+=	$(INCLUDE) -DARM9 -DGIT_COMMIT=\"$(GIT_COMMIT)\"
 CXXFLAGS	:=	$(CFLAGS) -fno-rtti -fno-exceptions -Weffc++
 
 ASFLAGS	:=	-g $(ARCH)
