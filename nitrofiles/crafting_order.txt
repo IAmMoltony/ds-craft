@@ -30,6 +30,7 @@ sandstone
 stone
 cobblestone_slab
 stone_bricks
+stone_bricks_slab
 
 # coal block
 coal_block
