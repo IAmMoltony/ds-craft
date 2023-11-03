@@ -20,8 +20,6 @@ InventoryItem Inventory::operator[](u8 i) const
 
 InventoryItem &Inventory::operator[](u8 i)
 {
-	if (i >= numSlots)
-		return InventoryItem();
 	return items[i];
 }
 
