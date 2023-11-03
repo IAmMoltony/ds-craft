@@ -29,8 +29,6 @@
  *
  * @ref glext.h "GL Extensions documentation"
  *
- * @ref help.hpp "Help Screen documentation"
- *
  * @ref item.hpp "Inventory Item documentation"
  *
  * @ref lang.hpp "Language documentation"
@@ -57,9 +55,9 @@
  *
  * @section extlinks External links
  *
- * <a href="https://github.com/IAmMoltony/ds-craft">GitHub</a>
- *
  * <a href="https://iammoltony.github.io/ds-craft/index.html">Home page</a>
+ *
+ * <a href="https://github.com/IAmMoltony/ds-craft">GitHub repo</a>"
  */
 
 /**
