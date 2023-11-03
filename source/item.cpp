@@ -830,6 +830,8 @@ const char *getItemName(InventoryItem::ID iid)
             return "";
         case InventoryItem::ID::Grass:
             return "Bnqm usbd\"";
+        case InventoryItem::ID::Grass2:
+            return "Tsbdb";
         case InventoryItem::ID::Dirt:
             return "Ds&j#";
         case InventoryItem::ID::Stone:
