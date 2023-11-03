@@ -126,6 +126,9 @@ void Player::drawCrafting(Font &font, Font &fontRu)
         case InventoryItem::ID::CobblestoneSlab:
             pcxImageDrawEx(&sprCobblestone, slotX + 4, slotY + 4, 0, 0, 16, 8, HALF_SCALE, GL_FLIP_NONE);
             break;
+        case InventoryItem::ID::StoneBricksSlab:
+            pcxImageDrawEx(&sprStoneBricks, slotX + 4, slotY + 4, 0, 0, 16, 8, HALF_SCALE, GL_FLIP_NONE);
+            break;
         }
 
         // draw number if the recipe outputs more than 1 item
