@@ -1748,7 +1748,15 @@ void Game::update(void)
                 glBoxFilled(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(17, 17, 17));
                 glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(31));
 
-                font.printCentered(0, 50, "Loading location...");
+                switch (lang)
+                {
+                case Language::English:
+                    font.printCentered(0, 50, "Loading location...");
+                    break;
+                case Language::Russian:
+                    fontRu.printCentered(0, 50, "Ibesvjmb nqmbykk...");
+                    break;
+                }
 
                 glEnd2D();
                 glFlush(0);
