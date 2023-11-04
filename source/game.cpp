@@ -315,6 +315,10 @@ static constexpr u8 SETTING_LAST_PAGE2 = SETTING_SHOW_FPS;
 static u16 _frameCounterFPS = 0;
 static u16 _fps = 0.0f;
 
+static constexpr u32 SECONDS_IN_DAY = 86400;
+static constexpr u32 SECONDS_IN_HOUR = 3600;
+static constexpr u32 SECONDS_IN_MINUTE = 60;
+
 static void _countFPS(void)
 {
     _fps = _frameCounterFPS;
@@ -2522,10 +2526,10 @@ void Game::drawStatsScreen(void)
         break;
     }
     int timePlayed = statsGetEntry(STATS_KEY_TIME_PLAYED);
-    if (timePlayed >= 86400) // 86400 seconds = 1 day
+    if (timePlayed >= SECONDS_IN_DAY)
     {
-        float days = (float)timePlayed / 86400.0f;
-        float hours = (float)timePlayed / 3600.0f;
+        float days = (float)timePlayed / (float)SECONDS_IN_DAY;
+        float hours = (float)timePlayed / (float)SECONDS_IN_HOUR;
         switch (lang)
         {
         case Language::English:
@@ -2538,9 +2542,9 @@ void Game::drawStatsScreen(void)
             break;
         }
     }
-    else if (timePlayed >= 3600) // 3600 seconds = 1 hour
+    else if (timePlayed >= SECONDS_IN_HOUR)
     {
-        float hours = (float)timePlayed / 3600.0f;
+        float hours = (float)timePlayed / (float)SECONDS_IN_HOUR;
         switch (lang)
         {
         case Language::English:
@@ -2551,9 +2555,9 @@ void Game::drawStatsScreen(void)
             break;
         }
     }
-    else if (timePlayed >= 60) // 60 seconds = 1 minute
+    else if (timePlayed >= SECONDS_IN_MINUTE)
     {
-        float minutes = (float)timePlayed / 60.0f;
+        float minutes = (float)timePlayed / (float)SECONDS_IN_MINUTE;
         switch (lang)
         {
         case Language::English:
