@@ -273,13 +273,13 @@ static constexpr u8 TITLE_SCREEN_SETTINGS = 2;
 
 // title screen labels
 
-static constexpr const char *TITLE_SCREEN_LABELS_EN[] = {
+static const char *TITLE_SCREEN_LABELS_EN[] = {
     [TITLE_SCREEN_PLAY] = "Play",
     [TITLE_SCREEN_CREDITS] = "Credits",
     [TITLE_SCREEN_SETTINGS] = "Settings",
 };
 
-static constexpr const char *TITLE_SCREEN_LABELS_RU[] = {
+static const char *TITLE_SCREEN_LABELS_RU[] = {
     [TITLE_SCREEN_PLAY] = "Jesbu#",
     [TITLE_SCREEN_CREDITS] = "Tkus\"",
     [TITLE_SCREEN_SETTINGS] = "Obtusqlmk",
@@ -1159,7 +1159,7 @@ void Game::draw(void)
         }
         break;
     case State::Settings:
-    {     
+    {
         drawMenuBackground();
 
         switch (settingsPage)
@@ -1488,7 +1488,15 @@ void Game::draw(void)
                 glSprite(SCREEN_WIDTH / 2 - 121 + 113, 48 + i * 40 - offset, GL_FLIP_H, sprWorldLabel);
             }
 
-            font.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 10 - offset, ControlsManager::CONTROLS_LABELS[i]);
+            switch (lang)
+            {
+            case Language::English:
+                font.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 10 - offset, ControlsManager::CONTROLS_LABELS_EN[i]);
+                break;
+            case Language::Russian:
+                fontRu.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 10 - offset, ControlsManager::CONTROLS_LABELS_RU[i]);
+                break;
+            }
             glSprite(SCREEN_WIDTH / 2 + 121 - 32, 48 + i * 40 + 10 - offset, GL_FLIP_NONE, _keyCodeToImage(ControlsManager::getButton(i)));
         }
         break;

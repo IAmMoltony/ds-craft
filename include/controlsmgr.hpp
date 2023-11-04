@@ -1,7 +1,7 @@
 /**
  * @file controlsmgr.hpp
  * @brief Class for managing controls
-*/
+ */
 
 #pragma once
 
@@ -10,7 +10,7 @@
 
 /**
  * @brief Class for managing controls
-*/
+ */
 class ControlsManager
 {
 public:
@@ -129,31 +129,31 @@ public:
 
     /**
      * @brief Load controls from config directory
-    */
+     */
     static void loadControls(void);
 
     /**
      * @brief Save controls to config directory
-    */
+     */
     static void saveControls(void);
 
     /**
      * @brief Get the button code for specific button
      * @param button button to get the key code for
-    */
+     */
     static u32 getButton(u8 button);
 
     /**
      * @brief Set button's key code
      * @param button button to set key code for
      * @param key key code to set
-    */
+     */
     static void setButton(u8 button, u32 key);
 
     /**
-     * @brief Names for controls. Used in controls editor.
-    */
-    static constexpr const char *CONTROLS_LABELS[] = {
+     * @brief Names for controls (English). Used in controls editor.
+     */
+    static constexpr const char *CONTROLS_LABELS_EN[] = {
         "Go left",
         "Go right",
         "Jump",
@@ -165,6 +165,21 @@ public:
         "Attack/Break block",
     };
 
+    /**
+     * @brief Names for controls (Russian). Used in controls editor.
+     */
+    static constexpr const char *CONTROLS_LABELS_RU[] = {
+        "Jfuk dngdq",
+        "Jfuk drsbdq",
+        "Qs\"epvu#",
+        "Lsbtu#t&",
+        "Xgnku#t& msgtuqdkpql",
+        "Pums\"u#/jbms\"u# kpdgpubs#",
+        "Qbvjb",
+        "Cjbkoqf./rqtubdku# cnqm",
+        "Aubmqdbu#/sbjsv}ku# cnqm",
+    };
+
 private:
     /**
      * @brief Current control scheme
@@ -173,11 +188,11 @@ private:
 
     /**
      * @brief Write default controls
-    */
+     */
     static void writeDefaultControls(void);
 
     /**
      * @brief Convert string representation of button ID to button ID
-    */
+     */
     static u8 buttonIDIndex(const std::string &buttonID);
 };
