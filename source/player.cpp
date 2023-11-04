@@ -634,7 +634,7 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
                 pcxImageDrawEx(&sprGlass, xxItem - 1, yyItem, 0, 0, 16, 16, HALF_SCALE, GL_FLIP_NONE);
                 break;
             case InventoryItem::ID::OakSlab:
-                pcxImageDrawEx(&sprPlanks, xxItem +4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE, GL_FLIP_NONE);
+                pcxImageDrawEx(&sprPlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE, GL_FLIP_NONE);
                 break;
             case InventoryItem::ID::BirchSlab:
                 pcxImageDrawEx(&sprBirchPlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE, GL_FLIP_NONE);
