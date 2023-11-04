@@ -493,7 +493,7 @@ void Player::drawSign(Font &font, Font &fontRu)
         fontRu.printCentered(0, SCREEN_WIDTH / 2 + 23, "\3Rtrn\3 knk \2:A : Ibmqpzku#", &font);
         break;
     }
-    pcxImageDrawEx(&sprPlanks, SCREEN_WIDTH / 2 - 75, SCREEN_HEIGHT / 2 - 30, 0, 0, 75, 80, SCALE_NORMAL * 2, GL_FLIP_NONE);
+    pcxImageDrawEx(&sprPlanks, SCREEN_WIDTH / 2 - 75, SCREEN_HEIGHT / 2 - 30, 0, 0, 75, 35, SCALE_NORMAL * 2, GL_FLIP_NONE);
     font.setCharWidthHandler(Game::fontSmallCharWidthHandler);
     font.printCentered(0, SCREEN_HEIGHT / 2 - 5, std::string(sign->getText() + '_'));
 }
