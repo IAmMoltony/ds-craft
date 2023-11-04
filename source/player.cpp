@@ -717,6 +717,7 @@ static void _spawnBlockParticles(BlockParticleList *blockParticles, PCXImage *im
     if (!SettingsManager::blockParticles)
         return;
 
+    // copy pasting - my favourite!
     blockParticles->push_back(BlockParticle(image, 120, x + 1, y + 1, -1, -3, color));
     blockParticles->push_back(BlockParticle(image, 120, x + 8, y + 2, -1, -3, color));
     blockParticles->push_back(BlockParticle(image, 120, x + 16 - 6, y + 1, 1, -3, color));
@@ -1220,6 +1221,12 @@ bool Player::doItemInteract(const u32 &downKeys, const Camera *camera, Block::Li
                                 replaceBlock(*blocks, block.get(), std::make_unique<DirtBlock>(block->x, block->y));
                                 block->interact(itemid);
                             }
+                        }
+                        else if ((block->id() == BID_SIGN))
+                        {
+                            // edit sign
+                            sign = static_cast<SignBlock *>(block.get());
+                            keyboardShow();
                         }
                         break;
                     }
