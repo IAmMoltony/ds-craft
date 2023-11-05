@@ -11,11 +11,11 @@
 #include <algorithm>
 #include <numeric>
 
-static inline constexpr u8 BIOME_FOREST = 0;
-static inline constexpr u8 BIOME_DESERT = 1;
-static inline constexpr u8 BIOME_SNOW = 2;
-static inline constexpr u8 BIOME_FLOWER = 3;
-static inline constexpr u8 BIOME_SPRUCE = 4;
+static constexpr u8 BIOME_FOREST = 0;
+static constexpr u8 BIOME_DESERT = 1;
+static constexpr u8 BIOME_SNOW = 2;
+static constexpr u8 BIOME_FLOWER = 3;
+static constexpr u8 BIOME_SPRUCE = 4;
 
 /**
  * @brief Enum representing tree type

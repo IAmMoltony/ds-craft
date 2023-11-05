@@ -98,29 +98,15 @@ void Game::gameQuit(void)
 
 u8 Game::fontSmallCharWidthHandler(char ch)
 {
-    switch (ch)
+    if ((ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9') || (ch >= '<' && ch <= '?') || (ch >= '#' && ch <= '%'))
     {
-    case ' ':
-    case ';':
-    case '&':
-        return 3;
-    case 'A' ... 'Z':
         if (ch == 'I')
             return 4;
-        else
-            return 6;
-    case '0' ... '9':
-    case '<' ... '?':
-    case '#' ... '%':
-    case '+':
-    case '-':
-    case '*':
-    case '(':
-    case ')':
-    case '\\':
-    case '/':
         return 6;
-    case 'a' ... 'z':
+    }
+
+    if (ch >= 'a' && ch <= 'z')
+    {
         if (ch == 'i')
             return 2;
         else if (ch == 'l')
@@ -129,8 +115,23 @@ u8 Game::fontSmallCharWidthHandler(char ch)
             return 5;
         else if (ch == 't')
             return 4;
-        else
-            return 6;
+        return 6;
+    }
+
+    switch (ch)
+    {
+    case ' ':
+    case ';':
+    case '&':
+        return 3;
+    case '+':
+    case '-':
+    case '*':
+    case '(':
+    case ')':
+    case '\\':
+    case '/':
+        return 6;
     case '[':
     case ']':
     case '"':
@@ -159,12 +160,11 @@ u8 Game::fontBigCharWidthHandler(char ch)
 
 u8 Game::fontSmallRuCharWidthHandler(char ch)
 {
+    if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'e') || (ch >= 'g' && ch <= 'z') || (ch >= '0' && ch <= '9'))
+        return 6;
+
     switch (ch)
     {
-    case 'A' ... 'Z':
-    case 'a' ... 'e':
-    case 'g' ... 'z':
-    case '0' ... '9':
     case '!':
     case '$':
     case '&':
@@ -276,15 +276,15 @@ static constexpr u8 TITLE_SCREEN_SETTINGS = 2;
 // title screen labels
 
 static const char *TITLE_SCREEN_LABELS_EN[] = {
-    [TITLE_SCREEN_PLAY] = "Play",
-    [TITLE_SCREEN_CREDITS] = "Credits",
-    [TITLE_SCREEN_SETTINGS] = "Settings",
+    "Play",
+    "Credits",
+    "Settings",
 };
 
 static const char *TITLE_SCREEN_LABELS_RU[] = {
-    [TITLE_SCREEN_PLAY] = "Jesbu#",
-    [TITLE_SCREEN_CREDITS] = "Tkus\"",
-    [TITLE_SCREEN_SETTINGS] = "Obtusqlmk",
+    "Jesbu#",
+    "Tkus\"",
+    "Obtusqlmk",
 };
 
 // language select screen selection values
