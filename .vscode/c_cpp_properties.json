@@ -5,10 +5,11 @@
             "includePath": [
                 "${workspaceFolder}/include",
                 "${workspaceFolder}/build",
+                "${workspaceFolder}/lib/**",
                 "/opt/devkitpro/libnds/include/**",
                 "/opt/devkitpro/devkitARM/**",
                 "E:/devkitPro/libnds/include/**",
-                "E:/devkitPro/devkitARM/**"
+                "E:/devkitPro/devkitARM/**",
             ],
             "defines": [
                 "ARM9"

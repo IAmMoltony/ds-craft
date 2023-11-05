@@ -162,7 +162,8 @@ u8 Game::fontSmallRuCharWidthHandler(char ch)
     switch (ch)
     {
     case 'A' ... 'Z':
-    case 'a' ... 'z':
+    case 'a' ... 'e':
+    case 'g' ... 'z':
     case '0' ... '9':
     case '!':
     case '$':
@@ -184,6 +185,7 @@ u8 Game::fontSmallRuCharWidthHandler(char ch)
     case '#':
     case '~':
     case '\\':
+    case 'f':
         return 7;
     case '<':
     case '.':
@@ -273,13 +275,13 @@ static constexpr u8 TITLE_SCREEN_SETTINGS = 2;
 
 // title screen labels
 
-static constexpr const char *TITLE_SCREEN_LABELS_EN[] = {
+static const char *TITLE_SCREEN_LABELS_EN[] = {
     [TITLE_SCREEN_PLAY] = "Play",
     [TITLE_SCREEN_CREDITS] = "Credits",
     [TITLE_SCREEN_SETTINGS] = "Settings",
 };
 
-static constexpr const char *TITLE_SCREEN_LABELS_RU[] = {
+static const char *TITLE_SCREEN_LABELS_RU[] = {
     [TITLE_SCREEN_PLAY] = "Jesbu#",
     [TITLE_SCREEN_CREDITS] = "Tkus\"",
     [TITLE_SCREEN_SETTINGS] = "Obtusqlmk",
@@ -312,6 +314,10 @@ static constexpr u8 SETTING_LAST_PAGE2 = SETTING_SHOW_FPS;
 
 static u16 _frameCounterFPS = 0;
 static u16 _fps = 0.0f;
+
+static constexpr u32 SECONDS_IN_DAY = 86400;
+static constexpr u32 SECONDS_IN_HOUR = 3600;
+static constexpr u32 SECONDS_IN_MINUTE = 60;
 
 static void _countFPS(void)
 {
@@ -1159,7 +1165,7 @@ void Game::draw(void)
         }
         break;
     case State::Settings:
-    {     
+    {
         drawMenuBackground();
 
         switch (settingsPage)
@@ -1488,7 +1494,15 @@ void Game::draw(void)
                 glSprite(SCREEN_WIDTH / 2 - 121 + 113, 48 + i * 40 - offset, GL_FLIP_H, sprWorldLabel);
             }
 
-            font.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 10 - offset, ControlsManager::CONTROLS_LABELS[i]);
+            switch (lang)
+            {
+            case Language::English:
+                font.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 10 - offset, ControlsManager::CONTROLS_LABELS_EN[i]);
+                break;
+            case Language::Russian:
+                fontRu.print(SCREEN_WIDTH / 2 - 121 + 7, 48 + i * 40 + 10 - offset, ControlsManager::CONTROLS_LABELS_RU[i]);
+                break;
+            }
             glSprite(SCREEN_WIDTH / 2 + 121 - 32, 48 + i * 40 + 10 - offset, GL_FLIP_NONE, _keyCodeToImage(ControlsManager::getButton(i)));
         }
         break;
@@ -1734,7 +1748,15 @@ void Game::update(void)
                 glBoxFilled(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGB15(17, 17, 17));
                 glPolyFmt(POLY_CULL_NONE | POLY_ALPHA(31));
 
-                font.printCentered(0, 50, "Loading location...");
+                switch (lang)
+                {
+                case Language::English:
+                    font.printCentered(0, 50, "Loading location...");
+                    break;
+                case Language::Russian:
+                    fontRu.printCentered(0, 50, "Ibesvjmb nqmbykk...");
+                    break;
+                }
 
                 glEnd2D();
                 glFlush(0);
@@ -2512,10 +2534,10 @@ void Game::drawStatsScreen(void)
         break;
     }
     int timePlayed = statsGetEntry(STATS_KEY_TIME_PLAYED);
-    if (timePlayed >= 86400) // 86400 seconds = 1 day
+    if (timePlayed >= SECONDS_IN_DAY)
     {
-        float days = (float)timePlayed / 86400.0f;
-        float hours = (float)timePlayed / 3600.0f;
+        float days = (float)timePlayed / (float)SECONDS_IN_DAY;
+        float hours = (float)timePlayed / (float)SECONDS_IN_HOUR;
         switch (lang)
         {
         case Language::English:
@@ -2528,9 +2550,9 @@ void Game::drawStatsScreen(void)
             break;
         }
     }
-    else if (timePlayed >= 3600) // 3600 seconds = 1 hour
+    else if (timePlayed >= SECONDS_IN_HOUR)
     {
-        float hours = (float)timePlayed / 3600.0f;
+        float hours = (float)timePlayed / (float)SECONDS_IN_HOUR;
         switch (lang)
         {
         case Language::English:
@@ -2541,9 +2563,9 @@ void Game::drawStatsScreen(void)
             break;
         }
     }
-    else if (timePlayed >= 60) // 60 seconds = 1 minute
+    else if (timePlayed >= SECONDS_IN_MINUTE)
     {
-        float minutes = (float)timePlayed / 60.0f;
+        float minutes = (float)timePlayed / (float)SECONDS_IN_MINUTE;
         switch (lang)
         {
         case Language::English:

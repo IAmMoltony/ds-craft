@@ -493,7 +493,7 @@ void Player::drawSign(Font &font, Font &fontRu)
         fontRu.printCentered(0, SCREEN_WIDTH / 2 + 23, "\3Rtrn\3 knk \2:A : Ibmqpzku#", &font);
         break;
     }
-    pcxImageDrawEx(&sprPlanks, SCREEN_WIDTH / 2 - 75, SCREEN_HEIGHT / 2 - 30, 0, 0, 75, 80, SCALE_NORMAL * 2, GL_FLIP_NONE);
+    pcxImageDrawEx(&sprPlanks, SCREEN_WIDTH / 2 - 75, SCREEN_HEIGHT / 2 - 30, 0, 0, 75, 35, SCALE_NORMAL * 2, GL_FLIP_NONE);
     font.setCharWidthHandler(Game::fontSmallCharWidthHandler);
     font.printCentered(0, SCREEN_HEIGHT / 2 - 5, std::string(sign->getText() + '_'));
 }
@@ -634,7 +634,7 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
                 pcxImageDrawEx(&sprGlass, xxItem - 1, yyItem, 0, 0, 16, 16, HALF_SCALE, GL_FLIP_NONE);
                 break;
             case InventoryItem::ID::OakSlab:
-                pcxImageDrawEx(&sprPlanks, xxItem +4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE, GL_FLIP_NONE);
+                pcxImageDrawEx(&sprPlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE, GL_FLIP_NONE);
                 break;
             case InventoryItem::ID::BirchSlab:
                 pcxImageDrawEx(&sprBirchPlanks, xxItem + 4, yyItem + 6, 0, 0, 16, 8, HALF_SCALE, GL_FLIP_NONE);
@@ -717,6 +717,7 @@ static void _spawnBlockParticles(BlockParticleList *blockParticles, PCXImage *im
     if (!SettingsManager::blockParticles)
         return;
 
+    // copy pasting - my favourite!
     blockParticles->push_back(BlockParticle(image, 120, x + 1, y + 1, -1, -3, color));
     blockParticles->push_back(BlockParticle(image, 120, x + 8, y + 2, -1, -3, color));
     blockParticles->push_back(BlockParticle(image, 120, x + 16 - 6, y + 1, 1, -3, color));
@@ -1220,6 +1221,12 @@ bool Player::doItemInteract(const u32 &downKeys, const Camera *camera, Block::Li
                                 replaceBlock(*blocks, block.get(), std::make_unique<DirtBlock>(block->x, block->y));
                                 block->interact(itemid);
                             }
+                        }
+                        else if ((block->id() == BID_SIGN))
+                        {
+                            // edit sign
+                            sign = static_cast<SignBlock *>(block.get());
+                            keyboardShow();
                         }
                         break;
                     }
