@@ -27,7 +27,7 @@ melonDS.ini
 ds-craft-cppcheck-build-dir/
 ds-craft.cppcheck
 
-# pycache folder
+# compiled python
 __pycache__/
 
 # backup files
@@ -36,7 +36,7 @@ __pycache__/
 # vim swap files
 *.swp
 
-# cccc
+# C C++ Code Counter
 .cccc/
 
 # code blocks auto save
@@ -53,5 +53,5 @@ Debug/
 Release/
 .vs/
 
-# thumbs dot db
+# Windows thumbnail cache
 *Thumbs.db*
