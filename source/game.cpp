@@ -315,9 +315,9 @@ static constexpr u8 SETTING_LAST_PAGE2 = SETTING_SHOW_FPS;
 static u16 _frameCounterFPS = 0;
 static u16 _fps = 0.0f;
 
-static constexpr u32 SECONDS_IN_DAY = 86400;
-static constexpr u32 SECONDS_IN_HOUR = 3600;
-static constexpr u32 SECONDS_IN_MINUTE = 60;
+static constexpr int SECONDS_IN_DAY = 86400;
+static constexpr int SECONDS_IN_HOUR = 3600;
+static constexpr int SECONDS_IN_MINUTE = 60;
 
 static void _countFPS(void)
 {
