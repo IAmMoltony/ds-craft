@@ -51,7 +51,7 @@ doxygen-warn.log
 *.opendb
 Debug/
 Release/
-*.suo
+.vs/
 
 # thumbs dot db
 *Thumbs.db*
