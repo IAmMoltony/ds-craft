@@ -82,6 +82,7 @@
     <ClInclude Include="include\worldmgr.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".gitignore" />
     <None Include="create-release.py" />
     <None Include="genimagesh.py" />
     <None Include="Makefile" />

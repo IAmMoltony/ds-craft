@@ -198,5 +198,6 @@
     <None Include="newrecipe.py" />
     <None Include="strencode.py" />
     <None Include="README.md" />
+    <None Include=".gitignore" />
   </ItemGroup>
 </Project>
