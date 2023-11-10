@@ -2412,11 +2412,15 @@ void Game::update(void)
     ++frameCounter;
 }
 
+static constexpr float TARGET_FRAME_TIME = 1000.0f / 60.0f; // 60 FPS
+
 void Game::run(void)
 {
     init();
     while (true)
     {
+		cpuStartTiming(0);
+		
         update();
         glBegin2D();
         draw();
@@ -2424,6 +2428,16 @@ void Game::run(void)
         glFlush(0);
 
         ++_frameCounterFPS;
+
+		float frameTime = (float)cpuEndTiming() / BUS_CLOCK * 1000;
+		if (frameTime > TARGET_FRAME_TIME)
+		{
+			int framesToSkip = (int)(frameTime / TARGET_FRAME_TIME);
+			for (int i = 0; i < framesToSkip; ++i)
+				update();
+			
+			//printf("!! LAG DETECTED !! skipped %d frames\n", framesToSkip);
+		}
 
         swiWaitForVBlank();
     }
