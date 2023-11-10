@@ -1965,6 +1965,7 @@ void Game::update(void)
                     player.setAimX(SCREEN_WIDTH / 2);
                     player.setAimY(SCREEN_HEIGHT / 2);
                     gameState = State::Game;
+					frameCounter = 0;
                     swiWaitForVBlank();
                     return;
                 }
@@ -2430,7 +2431,7 @@ void Game::run(void)
         ++_frameCounterFPS;
 
 		float frameTime = (float)cpuEndTiming() / BUS_CLOCK * 1000;
-		if (frameTime > TARGET_FRAME_TIME)
+		if (frameTime > TARGET_FRAME_TIME && frameCounter >= 5)
 		{
 			int framesToSkip = (int)(frameTime / TARGET_FRAME_TIME);
 			for (int i = 0; i < framesToSkip; ++i)
