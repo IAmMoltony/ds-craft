@@ -1303,7 +1303,7 @@ bool Player::doItemInteract(const u32 &downKeys, const Camera *camera, Block::Li
                             if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
                                 blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_GRASS || blocks->at(i)->id() == BID_DIRT || blocks->at(i)->id() == BID_SNOWY_GRASS))
                             {
-                                if (blocks->at(i)->id() == BID_DIRT && !reinterpret_cast<DirtBlock *>(blocks->at(i).get())->isFarmland() && !reinterpret_cast<DirtBlock *>(blocks->at(i).get())->isPath())
+                                if ((blocks->at(i)->id() == BID_DIRT && !reinterpret_cast<DirtBlock *>(blocks->at(i).get())->isFarmland() && !reinterpret_cast<DirtBlock *>(blocks->at(i).get())->isPath()) || blocks->at(i)->id() != BID_DIRT)
                                     canPlace = true;
                             }
                         }
