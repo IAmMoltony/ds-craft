@@ -190,6 +190,11 @@ void Block::unloadSounds(void)
     unloadsfx4(DOORCLOSE);
 }
 
+bool Block::compareByX(const Pointer &a, const Pointer &b)
+{
+	return a->x < b->x;
+}
+
 //----------------------------------------
 
 Block::Block(s16 x, s16 y, u8 maxBrokenLevel) : x(x), y(y), brokenLevel(0), maxBrokenLevel(maxBrokenLevel)

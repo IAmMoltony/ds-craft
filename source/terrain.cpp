@@ -246,7 +246,7 @@ void generateTerrain(Block::List &blocks, EntityList &entities, Player &player)
         }
     }
 
-    std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort
+    std::sort(blocks.begin(), blocks.end(), Block::compareByX); // sort
 
     player.setX(1024 / 2 - 8);
     s16 maxY = INT16_MAX;

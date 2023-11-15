@@ -1608,7 +1608,7 @@ void Game::update(void)
                         s16 y = sapling->y;
                         blocks.erase(blocks.begin() + i); // remove it
                         spawnTree(blocks, x, y + 16, TreeType::Oak);
-                        std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort blocks
+                        std::sort(blocks.begin(), blocks.end(), Block::compareByX); // sort blocks
                     }
                 }
                 else if (block->id() == BID_BIRCH_SAPLING)
@@ -1622,7 +1622,7 @@ void Game::update(void)
                         s16 y = sapling->y;
                         blocks.erase(blocks.begin() + i); // remove it
                         spawnTree(blocks, x, y + 16, TreeType::Birch);
-                        std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort blocks
+                        std::sort(blocks.begin(), blocks.end(), Block::compareByX); // sort blocks
                     }
                 }
                 else if (block->id() == BID_SPRUCE_SAPLING)
@@ -1636,7 +1636,7 @@ void Game::update(void)
                         s16 y = sapling->y;
                         blocks.erase(blocks.begin() + i); // remove it
                         spawnTree(blocks, x, y + 16, TreeType::Spruce);
-                        std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort blocks
+                        std::sort(blocks.begin(), blocks.end(), Block::compareByX); // sort blocks
                     }
                 }
                 else if (block->id() == BID_WHEAT)
@@ -1694,7 +1694,7 @@ void Game::update(void)
             switch (playerUpdateResult)
             {
             case Player::UpdateResult::BlockPlaced:
-                std::sort(blocks.begin(), blocks.end(), BlockCompareKey()); // sort blocks
+                std::sort(blocks.begin(), blocks.end(), Block::compareByX); // sort blocks
                 break;
             case Player::UpdateResult::BlockDestroyed:
                 // make drop entities drop
@@ -1957,7 +1957,7 @@ void Game::update(void)
                     camera.x = player.getX() - SCREEN_WIDTH / 2;
                     camera.y = player.getY() - SCREEN_HEIGHT / 2;
 
-                    std::sort(blocks.begin(), blocks.end(), BlockCompareKey());
+                    std::sort(blocks.begin(), blocks.end(), Block::compareByX);
 
                     mmEffectEx(&sndClick);
                     if (mtnconfigGetInt("clearConsoleOnPlay"))

@@ -315,6 +315,12 @@ public:
 	static void unloadSounds(void);
 
 	/**
+	 * @brief Compare two blocks by their X position
+	 * This function is used for sorting blocks.
+	*/
+	static bool compareByX(const Pointer &a, const Pointer &b);
+
+	/**
 	 * @brief Block X position
 	 */
 	s16 x;
@@ -942,14 +948,3 @@ public:
  * @brief Reset next chest ID to 0
  */
 void resetNextChestID(void);
-
-/**
- * @brief Block compare key, used for sorting blocks
- */
-struct BlockCompareKey
-{
-	inline bool operator()(const Block::Pointer &b1, const Block::Pointer &b2)
-	{
-		return (b1->getRect().x < b2->getRect().x);
-	}
-};
