@@ -45,7 +45,7 @@ public:
         Planks,
         BirchPlanks,
         SprucePlanks,
-        AnyPlanks, /**< Not a real item, only used to select every planks type from the inventory. Putting this item in the inventory will result in a glitched item. */
+        AnyPlanks, /**< Not a real item, only used to select every planks type from the inventory. Forcing item with this ID will result in a glitched item. */
         Stick,
         SnowyGrass,
         Sapling,
