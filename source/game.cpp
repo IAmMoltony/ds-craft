@@ -1882,6 +1882,7 @@ void Game::update(void)
                             font.print(10, 30, "This world was saved in a newer version than  current."); // this having 2 spaces is importantes
                             font.printf(10, 70, "Current version: %s \nWorld version: %s",
                                         getVersionString(), worldVersion.c_str());
+							font.print(10, 100, "You can try opening it& but that might corrupt it.");
 										
                             font.printCentered(0, SCREEN_HEIGHT - 19, "Press any button...");
                             break;
