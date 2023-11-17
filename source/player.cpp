@@ -475,7 +475,7 @@ void Player::drawChest(Font &font, Font &fontRu)
     if (isEditingChestAndNotInventory())
         _drawInventory(Inventory::itemArrayToInventory(chest->getItems().data(), ChestBlock::NUM_ITEMS), font, chestSelect, chestMoveSelect);
     else
-        _drawInventory(inventory, NUM_INVENTORY_ITEMS, font, chestSelect - NUM_INVENTORY_ITEMS, chestMoveSelect - NUM_INVENTORY_ITEMS);
+        _drawInventory(inventory, font, chestSelect - NUM_INVENTORY_ITEMS, chestMoveSelect - NUM_INVENTORY_ITEMS);
 }
 
 void Player::drawSign(Font &font, Font &fontRu)
