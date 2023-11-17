@@ -162,22 +162,22 @@ void Player::unloadSounds(void)
 
 Player::Player() : x(0), y(0), aimX(0), aimY(0), spawnX(0), spawnY(0), health(FULL_HEALTH), airY(0), hotbarSelect(0), inventorySelect(0), inventoryMoveSelect(NUM_INVENTORY_ITEMS), craftingSelect(0),
                    chestSelect(0), chestMoveSelect(40), normalSpriteFPI(0), spawnImmunity(SPAWN_IMMUNITY), velX(0), velY(0), falling(true), jumping(false), fullInventory(false), inventoryCrafting(false),
-                   chestOpen(false), sneaking(false), facing(Facing::Right),
+                   chestOpen(false), sneaking(false), facing(Facing::Right), inventory(20),
                    chest(nullptr), sign(nullptr), bodySprite(AnimatedSprite(5, AnimatedSpriteMode::ReverseLoop,
                                                                             {_sprPlayerBody[0], _sprPlayerBody[1], _sprPlayerBody[2]})),
                    aimDist(0)
 {
     normalSpriteFPI = bodySprite.getFramesPerImage();
-
-    // initialize inventory with null items
-    for (u8 i = 0; i < NUM_INVENTORY_ITEMS; ++i)
-        inventory[i] = InventoryItem();
+    // clear the inventory just in case
+    inventory.clear();
 }
 
 // function for drawing an inventory aka list of items
-static void _drawInventory(InventoryItem inventory[], u8 itemCount, Font &font, u8 select,
+static void _drawInventory(const Inventory &inventory, Font &font, u8 select,
                            u8 moveSelect)
 {
+    u8 itemCount = inventory.getNumSlots();
+
     for (u8 i = 0; i < itemCount; ++i)
     {
         u8 xx, yy; // the x and y for the slot
@@ -439,7 +439,7 @@ void Player::drawInventory(Font &font, Font &fontRu)
         drawCrafting(font, fontRu);
     else
     {
-        _drawInventory(inventory, NUM_INVENTORY_ITEMS, font, inventorySelect, inventoryMoveSelect);
+        _drawInventory(inventory, font, inventorySelect, inventoryMoveSelect);
 
         switch (Game::instance->lang)
         {
@@ -473,7 +473,7 @@ void Player::drawChest(Font &font, Font &fontRu)
     }
 
     if (isEditingChestAndNotInventory())
-        _drawInventory(chest->getItems().data(), ChestBlock::NUM_ITEMS, font, chestSelect, chestMoveSelect);
+        _drawInventory(Inventory::itemArrayToInventory(chest->getItems().data(), ChestBlock::NUM_ITEMS), font, chestSelect, chestMoveSelect);
     else
         _drawInventory(inventory, NUM_INVENTORY_ITEMS, font, chestSelect - NUM_INVENTORY_ITEMS, chestMoveSelect - NUM_INVENTORY_ITEMS);
 }

@@ -63,7 +63,7 @@ public:
 	/**
 	 * @brief Get the number of slots in the inventory
 	 */
-	u8 getNumSlots(void);
+	u8 getNumSlots(void) const;
 
 	/**
 	 * @brief Check if the inventory has the item. Amount is also checked!

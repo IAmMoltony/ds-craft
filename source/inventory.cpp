@@ -29,7 +29,7 @@ void Inventory::clear(void)
 		items[i] = InventoryItem();
 }
 
-u8 Inventory::getNumSlots(void)
+u8 Inventory::getNumSlots(void) const
 {
 	return numSlots;
 }
