@@ -1656,10 +1656,12 @@ void Game::update(void)
                 if (entity->id() == "drop" && Rect(player.getX(), player.getY(), 16, 24)
                                                   .intersects(entity->getRectBottom()))
                 {
+                    // I have absolutely no idea why this is handled here.
+
                     bool ok = true;
                     DropEntity *drop = static_cast<DropEntity *>(entity.get());
                     if (player.canAddItem(drop->getItemID()))
-                        player.addItem(drop->getItemID());
+                        player.getInventory().add(drop->getItemID()); // give player the item
                     else
                         ok = false;
 
@@ -1674,6 +1676,7 @@ void Game::update(void)
 
                 if (entity->dead())
                 {
+                    // if the entity is dead then execute its death event and remove it from the entity list
                     entity->onDeath(entities);
                     entities.erase(entities.begin() + i);
                 }
@@ -1862,7 +1865,7 @@ void Game::update(void)
                 {
                     // uh oh, the world version is newer than current!
                     // this means the world we are trying to play is incompatible!!!
-					// the user can still load it...if they have the courage
+                    // the user can still load it...if they have the courage
 
                     while (true)
                     {
@@ -1882,7 +1885,7 @@ void Game::update(void)
                             font.print(10, 30, "This world was saved in a newer version than  current."); // this having 2 spaces is importantes
                             font.printf(10, 70, "Current version: %s \nWorld version: %s",
                                         getVersionString(), worldVersion.c_str());
-										
+
                             font.printCentered(0, SCREEN_HEIGHT - 19, "Press any button...");
                             break;
                         case Language::Russian:
@@ -1966,7 +1969,7 @@ void Game::update(void)
                     player.setAimX(SCREEN_WIDTH / 2);
                     player.setAimY(SCREEN_HEIGHT / 2);
                     gameState = State::Game;
-					frameCounter = 0;
+                    frameCounter = 0;
                     swiWaitForVBlank();
                     return;
                 }
@@ -2421,8 +2424,8 @@ void Game::run(void)
     init();
     while (true)
     {
-		cpuStartTiming(0);
-		
+        cpuStartTiming(0);
+
         update();
         glBegin2D();
         draw();
@@ -2431,15 +2434,15 @@ void Game::run(void)
 
         ++_frameCounterFPS;
 
-		float frameTime = (float)cpuEndTiming() / BUS_CLOCK * 1000;
-		if (frameTime > TARGET_FRAME_TIME && frameCounter >= 5)
-		{
-			int framesToSkip = (int)(frameTime / TARGET_FRAME_TIME);
-			for (int i = 0; i < framesToSkip; ++i)
-				update();
-			
-			//printf("!! LAG DETECTED !! skipped %d frames\n", framesToSkip);
-		}
+        float frameTime = (float)cpuEndTiming() / BUS_CLOCK * 1000;
+        if (frameTime > TARGET_FRAME_TIME && frameCounter >= 5)
+        {
+            int framesToSkip = (int)(frameTime / TARGET_FRAME_TIME);
+            for (int i = 0; i < framesToSkip; ++i)
+                update();
+
+            // printf("!! LAG DETECTED !! skipped %d frames\n", framesToSkip);
+        }
 
         swiWaitForVBlank();
     }

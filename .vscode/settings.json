@@ -62,7 +62,8 @@
         "xtree": "cpp",
         "xutility": "cpp",
         "xlocmon": "cpp",
-        "bitset": "cpp"
+        "bitset": "cpp",
+        "regex": "cpp"
     },
     "editor.formatOnSave": true,
     "files.eol": "\n",
