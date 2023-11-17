@@ -14,7 +14,7 @@ Inventory::~Inventory()
 InventoryItem Inventory::operator[](u8 i) const
 {
 	if (i >= numSlots)
-		return InventoryItem();
+		return InventoryItem(); // fallback in case request out of bounds item
 	return items[i];
 }
 
