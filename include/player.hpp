@@ -16,7 +16,7 @@
 #include "entity.hpp"
 #include "blockparticle.hpp"
 #include "animsprite.hpp"
-#include <array>
+#include "inventory.hpp"
 #include <map>
 #include <algorithm>
 #include <math.h>
@@ -182,7 +182,7 @@ private:
     /**
      * @brief Inventory
      */
-    InventoryItem inventory[NUM_INVENTORY_ITEMS];
+    Inventory inventory;
 
     /**
      * @brief Pointer to the chest that is currently being interacted with
@@ -454,40 +454,8 @@ public:
      * @param camera camera
      * @param blocks list of blocks
      * @return true if a block was placed; false otherwise
-    */
+     */
     bool doItemInteract(const u32 &downKeys, const Camera *camera, Block::List *blocks);
-
-    /**
-     * @brief Check if the player has the item
-     * @param item item to check if player has it
-     * @note This function also checks the amount
-     */
-    bool hasItem(InventoryItem item);
-
-    /**
-     * @brief Add one item with the given ID to the inventory
-     * @param item ID of the item to add
-     */
-    void addItem(InventoryItem::ID item);
-
-    /**
-     * @brief Add `amount` items with the given ID to the inventory
-     * @param item ID of the item to add
-     * @param amount how much of the item to add
-     */
-    void addItem(InventoryItem::ID item, u8 amount);
-
-    /**
-     * @brief Remove one item with the given ID
-     * @param item ID of the item to remove
-     */
-    void removeItem(InventoryItem::ID item);
-
-    /**
-     * @brief Remove `amount` items with the given ID
-     * @param item ID of the item to remove
-     */
-    void removeItem(InventoryItem::ID item, u8 amount);
 
     /**
      * @brief Set player's X position
@@ -664,9 +632,9 @@ public:
     Rect getRectAimY8(const Camera &camera);
 
     /**
-     * @brief Get a copy of the player's inventory
+     * @brief Get a reference to the player's inventory
      */
-    std::array<InventoryItem, NUM_INVENTORY_ITEMS> getInventory(void);
+    Inventory &getInventory(void);
 
     /**
      * @brief Initialize the crafting system

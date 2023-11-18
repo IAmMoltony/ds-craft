@@ -31,7 +31,7 @@ Game::Game() : blocks(), entities(), blockParticles(), player(), gameState(State
 void Game::gameQuit(void)
 {
     glBegin2D();
-    drawMovingBackground();
+    drawDirtBackground();
 
     // render "unload game assets" screen
     switch (lang)
@@ -50,7 +50,7 @@ void Game::gameQuit(void)
     AssetManager::unloadGameAssets(); // unload game assets
 
     glBegin2D();
-    drawMovingBackground();
+    drawDirtBackground();
 
     // show "loading menu assets" screen
     switch (lang)
@@ -69,7 +69,7 @@ void Game::gameQuit(void)
 
     // save world screen
     glBegin2D();
-    drawMovingBackground();
+    drawDirtBackground();
     switch (lang)
     {
     case Language::English:
@@ -373,7 +373,7 @@ void Game::init(void)
             ++frameCounter;
 
             glBegin2D();
-            drawMovingBackground(); // TODO rename to drawDirtBackground
+            drawDirtBackground();
 
             font.drawHeading("Error!");
 
@@ -509,7 +509,7 @@ void Game::enterWorldSelect(void)
 {
     gameState = State::WorldSelect;
     glBegin2D();
-    drawMovingBackground();
+    drawDirtBackground();
     switch (lang)
     {
     case Language::English:
@@ -558,7 +558,7 @@ u16 Game::getFrameCounter(void)
     return frameCounter;
 }
 
-void Game::drawMovingBackground(void)
+void Game::drawDirtBackground(void)
 {
     glColor(RGB15(15, 15, 15));
     pcxImageDrawEx(&sprDirt, 0 - instance->getFrameCounter() % 64, 0, 0, 0, SCREEN_WIDTH / 2 + 64, SCREEN_HEIGHT / 2, (1 << 12) * 2, GL_FLIP_NONE);
@@ -751,7 +751,7 @@ void Game::draw(void)
         break;
     }
     case State::TitleScreen:
-        drawMovingBackground();
+        drawDirtBackground();
 
         // draw the game logo
         glSpriteScale(SCREEN_WIDTH / 2 - 96, logoY, (1 << 12) * 2, GL_FLIP_NONE, sprLogo);
@@ -930,7 +930,6 @@ void Game::draw(void)
             glBoxStroke(SCREEN_WIDTH / 2 - 45, 90 + i * 30, 90, 22,
                         worldSettingsSelect == i ? RGB15(31, 31, 31) : RGB15(9, 9, 9));
 
-            // TODO add array labels here too
             switch (i)
             {
             case 0:
@@ -1656,10 +1655,12 @@ void Game::update(void)
                 if (entity->id() == "drop" && Rect(player.getX(), player.getY(), 16, 24)
                                                   .intersects(entity->getRectBottom()))
                 {
+                    // I have absolutely no idea why this is handled here.
+
                     bool ok = true;
                     DropEntity *drop = static_cast<DropEntity *>(entity.get());
                     if (player.canAddItem(drop->getItemID()))
-                        player.addItem(drop->getItemID());
+                        player.getInventory().add(drop->getItemID()); // give player the item
                     else
                         ok = false;
 
@@ -1674,6 +1675,7 @@ void Game::update(void)
 
                 if (entity->dead())
                 {
+                    // if the entity is dead then execute its death event and remove it from the entity list
                     entity->onDeath(entities);
                     entities.erase(entities.begin() + i);
                 }
@@ -1862,7 +1864,7 @@ void Game::update(void)
                 {
                     // uh oh, the world version is newer than current!
                     // this means the world we are trying to play is incompatible!!!
-					// the user can still load it...if they have the courage
+                    // the user can still load it...if they have the courage
 
                     while (true)
                     {
@@ -1874,7 +1876,7 @@ void Game::update(void)
                             break;
 
                         glBegin2D();
-                        drawMovingBackground();
+                        drawDirtBackground();
                         switch (lang)
                         {
                         case Language::English:
@@ -1883,7 +1885,6 @@ void Game::update(void)
                             font.printf(10, 70, "Current version: %s \nWorld version: %s",
                                         getVersionString(), worldVersion.c_str());
 							font.print(10, 100, "You can try opening it& but that might corrupt it.");
-										
                             font.printCentered(0, SCREEN_HEIGHT - 19, "Press any button...");
                             break;
                         case Language::Russian:
@@ -1907,7 +1908,7 @@ void Game::update(void)
                 {
                     // unloading screen for menu assets
                     glBegin2D();
-                    drawMovingBackground();
+                    drawDirtBackground();
                     switch (lang)
                     {
                     case Language::English:
@@ -1924,7 +1925,7 @@ void Game::update(void)
 
                     // loading screen for assets
                     glBegin2D();
-                    drawMovingBackground();
+                    drawDirtBackground();
                     switch (lang)
                     {
                     case Language::English:
@@ -1941,7 +1942,7 @@ void Game::update(void)
 
                     // loading screen for world
                     glBegin2D();
-                    drawMovingBackground();
+                    drawDirtBackground();
                     switch (lang)
                     {
                     case Language::English:
@@ -1967,7 +1968,7 @@ void Game::update(void)
                     player.setAimX(SCREEN_WIDTH / 2);
                     player.setAimY(SCREEN_HEIGHT / 2);
                     gameState = State::Game;
-					frameCounter = 0;
+                    frameCounter = 0;
                     swiWaitForVBlank();
                     return;
                 }
@@ -2130,7 +2131,7 @@ void Game::update(void)
 
                 // creating world screen
                 glBegin2D();
-                drawMovingBackground();
+                drawDirtBackground();
                 switch (lang)
                 {
                 case Language::English:
@@ -2422,8 +2423,8 @@ void Game::run(void)
     init();
     while (true)
     {
-		cpuStartTiming(0);
-		
+        cpuStartTiming(0);
+
         update();
         glBegin2D();
         draw();
@@ -2432,15 +2433,15 @@ void Game::run(void)
 
         ++_frameCounterFPS;
 
-		float frameTime = (float)cpuEndTiming() / BUS_CLOCK * 1000;
-		if (frameTime > TARGET_FRAME_TIME && frameCounter >= 5)
-		{
-			int framesToSkip = (int)(frameTime / TARGET_FRAME_TIME);
-			for (int i = 0; i < framesToSkip; ++i)
-				update();
-			
-			//printf("!! LAG DETECTED !! skipped %d frames\n", framesToSkip);
-		}
+        float frameTime = (float)cpuEndTiming() / BUS_CLOCK * 1000;
+        if (frameTime > TARGET_FRAME_TIME && frameCounter >= 5)
+        {
+            int framesToSkip = (int)(frameTime / TARGET_FRAME_TIME);
+            for (int i = 0; i < framesToSkip; ++i)
+                update();
+
+            // printf("!! LAG DETECTED !! skipped %d frames\n", framesToSkip);
+        }
 
         swiWaitForVBlank();
     }
@@ -2517,7 +2518,7 @@ void Game::AssetManager::unloadMenuAssets(void)
 
 void Game::drawMenuBackground(void)
 {
-    drawMovingBackground();
+    drawDirtBackground();
     pcxImageDrawEx(&sprDirt, 0, 0, 0, 0, SCREEN_WIDTH, 16, SCALE_NORMAL * 2, GL_FLIP_NONE);
     pcxImageDrawEx(&sprDirt, 0, SCREEN_HEIGHT - 32, 0, 0, SCREEN_WIDTH, 16, SCALE_NORMAL * 2, GL_FLIP_NONE);
 }

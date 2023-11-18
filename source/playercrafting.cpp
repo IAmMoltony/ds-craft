@@ -23,11 +23,11 @@ void Player::initCrafting(void)
         // ignore comments and empty lines
         if (!line.empty() && line[0] != '#')
         {
-            cpuStartTiming(0); // start measuring time
-            _craftingRecipes.push_back(CraftingRecipe(line)); // parse + add the recipe
-            float timeTook = (float)cpuEndTiming() / BUS_CLOCK; // get how much time it took
+            cpuStartTiming(0);                                                    // start measuring time
+            _craftingRecipes.push_back(CraftingRecipe(line));                     // parse + add the recipe
+            float timeTook = (float)cpuEndTiming() / BUS_CLOCK;                   // get how much time it took
             mtnlogMessage(LOG_INFO, "loaded %s in %f s", line.c_str(), timeTook); // print how much it took
-            loadTimes[line] = timeTook; // put the time into the list
+            loadTimes[line] = timeTook;                                           // put the time into the list
 
             // the time measuring functions also measure how much time it takes to
             // add the recipe into the recipes array
@@ -55,7 +55,7 @@ void Player::initCrafting(void)
     }
 
     mtnlogMessage(LOG_INFO, "*** Load Results\nFastest time: %f (%s)\nSlowest time: %f (%s)", lowest, lowestName.c_str(),
-               highest, highestName.c_str());
+                  highest, highestName.c_str());
 }
 
 static bool _canCraft(Player *pThis, CraftingRecipe recipe)
@@ -99,10 +99,12 @@ void Player::drawCrafting(Font &font, Font &fontRu)
                  craftingSelect == i ? sprInventorySlotSelect : sprInventorySlot);
         glColor(RGB15(31, 31, 31));
 
-        switch (recipe.getOutput())
+        InventoryItem output = recipe.getOutput();
+        InventoryItem::ID outID = output.id;
+        switch (outID)
         {
         default:
-            pcxImageDrawEx(getItemImage(recipe.getOutput()), slotX + 4, slotY + 4, 0, 0, 16, 16, HALF_SCALE, GL_FLIP_NONE);
+            pcxImageDrawEx(getItemImage(outID), slotX + 4, slotY + 4, 0, 0, 16, 16, HALF_SCALE, GL_FLIP_NONE);
             break;
         // special cases
         case InventoryItem::ID::Door:
@@ -132,8 +134,8 @@ void Player::drawCrafting(Font &font, Font &fontRu)
         }
 
         // draw number if the recipe outputs more than 1 item
-        if (recipe.getCount() > 1)
-            font.printfShadow(slotX, slotY + 3, "%d", recipe.getCount());
+        if (recipe.getOutput().amount > 1)
+            font.printfShadow(slotX, slotY + 3, "%d", recipe.getOutput().amount);
     }
 
     // print recipe full name
@@ -149,8 +151,6 @@ void Player::drawCrafting(Font &font, Font &fontRu)
     }
 }
 
-// TODO move inventory into its own class
-
 void Player::updateCrafting(void)
 {
     u32 kdown = keysDown();
@@ -164,12 +164,12 @@ void Player::updateCrafting(void)
         if (cc)
         {
             crafted = true;
-            addItem(recipe.getOutput(), recipe.getCount());
+            inventory.add(recipe.getOutput());
 
             // remove the recipe ingredients
             std::vector<InventoryItem> *rvec = recipe.getRecipe();
             for (auto item : *rvec)
-                removeItem(item.id, item.amount);
+                inventory.remove(item);
         }
 
         // play click sound if crafted successfully

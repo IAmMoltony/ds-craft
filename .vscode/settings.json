@@ -62,7 +62,8 @@
         "xtree": "cpp",
         "xutility": "cpp",
         "xlocmon": "cpp",
-        "bitset": "cpp"
+        "bitset": "cpp",
+        "regex": "cpp"
     },
     "editor.formatOnSave": true,
     "files.eol": "\n",
@@ -86,6 +87,5 @@
         "REWRITE"
     ],
     "python.analysis.typeCheckingMode": "basic",
-    // TODO is there way to have multiple compilers and vscode will just use the one it likes?
-    "C_Cpp.default.compilerPath": "E:\\devkitPro\\devkitARM\\bin\\arm-none-eabi-gcc.exe"
+    "C_Cpp.default.compilerPath": "C:\\MinGW\\bin\\gcc.exe"
 }

@@ -9,6 +9,7 @@
 #include <gl2d.h>
 #include <vector>
 #include <memory>
+#include <array>
 #include "camera.h"
 #include "rect.hpp"
 #include "item.hpp"
@@ -317,7 +318,7 @@ public:
 	/**
 	 * @brief Compare two blocks by their X position
 	 * This function is used for sorting blocks.
-	*/
+	 */
 	static bool compareByX(const Pointer &a, const Pointer &b);
 
 	/**

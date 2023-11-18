@@ -162,22 +162,22 @@ void Player::unloadSounds(void)
 
 Player::Player() : x(0), y(0), aimX(0), aimY(0), spawnX(0), spawnY(0), health(FULL_HEALTH), airY(0), hotbarSelect(0), inventorySelect(0), inventoryMoveSelect(NUM_INVENTORY_ITEMS), craftingSelect(0),
                    chestSelect(0), chestMoveSelect(40), normalSpriteFPI(0), spawnImmunity(SPAWN_IMMUNITY), velX(0), velY(0), falling(true), jumping(false), fullInventory(false), inventoryCrafting(false),
-                   chestOpen(false), sneaking(false), facing(Facing::Right),
+                   chestOpen(false), sneaking(false), facing(Facing::Right), inventory(20),
                    chest(nullptr), sign(nullptr), bodySprite(AnimatedSprite(5, AnimatedSpriteMode::ReverseLoop,
                                                                             {_sprPlayerBody[0], _sprPlayerBody[1], _sprPlayerBody[2]})),
                    aimDist(0)
 {
     normalSpriteFPI = bodySprite.getFramesPerImage();
-
-    // initialize inventory with null items
-    for (u8 i = 0; i < NUM_INVENTORY_ITEMS; ++i)
-        inventory[i] = InventoryItem();
+    // clear the inventory just in case
+    inventory.clear();
 }
 
 // function for drawing an inventory aka list of items
-static void _drawInventory(InventoryItem inventory[], u8 itemCount, Font &font, u8 select,
+static void _drawInventory(const Inventory &inventory, Font &font, u8 select,
                            u8 moveSelect)
 {
+    u8 itemCount = inventory.getNumSlots();
+
     for (u8 i = 0; i < itemCount; ++i)
     {
         u8 xx, yy; // the x and y for the slot
@@ -439,7 +439,7 @@ void Player::drawInventory(Font &font, Font &fontRu)
         drawCrafting(font, fontRu);
     else
     {
-        _drawInventory(inventory, NUM_INVENTORY_ITEMS, font, inventorySelect, inventoryMoveSelect);
+        _drawInventory(inventory, font, inventorySelect, inventoryMoveSelect);
 
         switch (Game::instance->lang)
         {
@@ -473,9 +473,9 @@ void Player::drawChest(Font &font, Font &fontRu)
     }
 
     if (isEditingChestAndNotInventory())
-        _drawInventory(chest->getItems().data(), ChestBlock::NUM_ITEMS, font, chestSelect, chestMoveSelect);
+        _drawInventory(Inventory::itemArrayToInventory(chest->getItems().data(), ChestBlock::NUM_ITEMS), font, chestSelect, chestMoveSelect);
     else
-        _drawInventory(inventory, NUM_INVENTORY_ITEMS, font, chestSelect - NUM_INVENTORY_ITEMS, chestMoveSelect - NUM_INVENTORY_ITEMS);
+        _drawInventory(inventory, font, chestSelect - NUM_INVENTORY_ITEMS, chestMoveSelect - NUM_INVENTORY_ITEMS);
 }
 
 void Player::drawSign(Font &font, Font &fontRu)
@@ -1161,28 +1161,28 @@ bool Player::doItemInteract(const u32 &downKeys, const Camera *camera, Block::Li
             if (health != FULL_HEALTH)
             {
                 _eatFood(&health, 2);
-                removeItem(InventoryItem::ID::RawPorkchop);
+                inventory.remove(InventoryItem::ID::RawPorkchop);
             }
             break;
         case InventoryItem::ID::CookedPorkchop:
             if (health != FULL_HEALTH)
             {
                 _eatFood(&health, 5);
-                removeItem(InventoryItem::ID::CookedPorkchop);
+                inventory.remove(InventoryItem::ID::CookedPorkchop);
             }
             break;
         case InventoryItem::ID::Apple:
             if (health != FULL_HEALTH)
             {
                 _eatFood(&health, 2);
-                removeItem(InventoryItem::ID::Apple); // TODO refactor food eating
+                inventory.remove(InventoryItem::ID::Apple);
             }
             break;
         case InventoryItem::ID::Bread:
             if (health != FULL_HEALTH)
             {
                 _eatFood(&health, 4);
-                removeItem(InventoryItem::ID::Bread);
+                inventory.remove(InventoryItem::ID::Bread);
             }
             break;
         // block placing
@@ -2451,111 +2451,6 @@ void Player::updateControls(bool collideLadder)
         velX = 0;
 }
 
-bool Player::hasItem(InventoryItem item)
-{
-    // any planks handling
-    if (item.id == InventoryItem::ID::AnyPlanks)
-    {
-        // check every planks item
-        for (int i = 0; i < InventoryItem::numPlanksItemIDs; ++i)
-        {
-            if (hasItem(InventoryItem(InventoryItem::planksItemIDs[i], 1)))
-                return true;
-        }
-        return false;
-    }
-
-    // go through every single item in inventory and check if we have that item
-    for (u8 i = 0; i < 20; ++i)
-    {
-        if (inventory[i].id == item.id && inventory[i].amount >= item.amount)
-            return true;
-    }
-    return false;
-}
-
-// TODO add a return value to this function
-void Player::addItem(InventoryItem::ID item)
-{
-    // cant add any items if inventory is full
-    if (isInventoryFull())
-        return;
-
-    u8 maxStack = InventoryItem(item, 1).getMaxStack();
-
-    // find the stack (if item is stackable)
-    if (maxStack > 1)
-    {
-        for (u8 i = 0; i < 20; ++i)
-        {
-            // if stack is full, skip
-            if (inventory[i].amount >= maxStack)
-                continue;
-
-            // stack of our item; add
-            if (inventory[i].id == item)
-            {
-                ++inventory[i].amount;
-                return;
-            }
-        }
-    }
-
-    // if the stack is not found (or item not stackable), try to create new stack
-    for (u8 i = 0; i < 20; ++i)
-    {
-        // if slot is empty, then occupy it
-        if (inventory[i].id == InventoryItem::ID::None)
-        {
-            inventory[i].id = item;
-            ++inventory[i].amount;
-            return;
-        }
-    }
-}
-
-void Player::addItem(InventoryItem::ID item, u8 amount)
-{
-    // execute addItem multiple times
-    for (u8 _ = 0; _ < amount; ++_)
-        addItem(item);
-}
-
-void Player::removeItem(InventoryItem::ID item)
-{
-    if (item == InventoryItem::ID::AnyPlanks)
-    {
-        for (int i = 0; i < InventoryItem::numPlanksItemIDs; ++i)
-        {
-            if (hasItem(InventoryItem(InventoryItem::planksItemIDs[i], 1)))
-            {
-                removeItem(InventoryItem::planksItemIDs[i]);
-                return;
-            }
-        }
-        return;
-    }
-
-    for (u8 i = 0; i < 20; ++i)
-    {
-        // if the item exists and correct id
-        if (inventory[i].id == item && inventory[i].amount > 0)
-        {
-            --inventory[i].amount; // remove item
-            // set it to none if no left
-            if (inventory[i].amount == 0)
-                inventory[i].id = InventoryItem::ID::None;
-            return;
-        }
-    }
-}
-
-void Player::removeItem(InventoryItem::ID item, u8 amount)
-{
-    for (u8 _ = 0; _ < amount; ++_)
-        removeItem(item);
-}
-
 // setters (they are super boring)
 
 void Player::setX(s16 x)
@@ -2784,12 +2679,9 @@ Rect Player::getRectAimY8(const Camera &camera)
     return Rect(snapToGrid(aimX + camera.x), snapToGrid8(aimY + camera.y), 16, 16);
 }
 
-std::array<InventoryItem, 20> Player::getInventory(void)
+Inventory &Player::getInventory(void)
 {
-    std::array<InventoryItem, 20> inv;
-    for (u8 i = 0; i < 20; ++i)
-        inv[i] = inventory[i];
-    return inv;
+    return inventory;
 }
 
 void Player::jump(void)

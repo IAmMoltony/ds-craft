@@ -54,10 +54,10 @@ void CraftingRecipe::construct(const char *recipeFile)
 
             // count
             if (key == "count")
-                count = (u8)std::stoi(split[1]);
+                output.amount = (u8)std::stoi(split[1]);
             // output
             else if (key == "output")
-                output = InventoryItem(split[1], 1).id;
+                output.id = InventoryItem(split[1], 1).id;
             else
             {
                 // oof
@@ -69,13 +69,13 @@ void CraftingRecipe::construct(const char *recipeFile)
 }
 
 CraftingRecipe::CraftingRecipe(const char *recipeFile)
-    : count(0), output(InventoryItem::ID::None), fileName(), recipe()
+    : output(InventoryItem::ID::None, 0), fileName(), recipe()
 {
     construct(recipeFile);
 }
 
 CraftingRecipe::CraftingRecipe(const std::string &recipeFile)
-    : count(0), output(InventoryItem::ID::None), fileName(), recipe()
+    : output(InventoryItem::ID::None, 0), fileName(), recipe()
 {
     construct(recipeFile.c_str());
 }
@@ -85,10 +85,12 @@ std::string CraftingRecipe::getFullName(Player *player)
     Language lang = Game::instance->lang;
 
     // get name
-    std::string nm = getItemName(output);
+    std::string nm = getItemName(output.id);
     std::string name;
-    if (count > 1)
-        name = std::to_string(count) + " " + nm;
+
+    // if we output more than 1 item, add its output amount to the name
+    if (output.amount > 1)
+        name = std::to_string(output.amount) + " " + nm;
     else
         name = nm;
 
@@ -105,7 +107,7 @@ std::string CraftingRecipe::getFullName(Player *player)
 
     // join with semicolon and space
     const char *delim = "; ";
-    std::ostringstream imploded; // php O_O
+    std::ostringstream imploded; // php reference?!?!?!
     std::copy(itemVec.begin(), itemVec.end(),
               std::ostream_iterator<std::string>(imploded, delim));
     std::string recipeStr = imploded.str();
@@ -122,12 +124,7 @@ std::string CraftingRecipe::getFileName(void)
     return fileName;
 }
 
-u8 CraftingRecipe::getCount(void)
-{
-    return count;
-}
-
-InventoryItem::ID CraftingRecipe::getOutput(void)
+InventoryItem CraftingRecipe::getOutput(void)
 {
     return output;
 }

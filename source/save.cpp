@@ -145,7 +145,7 @@ static void _writeDirt(std::ofstream &wld, DirtBlock *dirt)
     wld << "dirt " << std::to_string(dirt->x) << ' ' << std::to_string(dirt->y) << ' ' << chf << ' ' << chp << '\n';
 }
 
-static void _writeGrass2(std::ofstream &wld, Grass* grass)
+static void _writeGrass2(std::ofstream &wld, Grass *grass)
 {
     std::string stringType = _grassTypeToString(grass->getType());
     wld << "grass " << std::to_string(grass->x) << ' ' << std::to_string(grass->y) << ' ' << stringType << '\n';
@@ -309,7 +309,7 @@ void saveWorld(const std::string &name, Block::List &blocks, EntityList &entitie
     // player info
     std::ofstream playerinfo(worldFolder + "/player.info");
     playerinfo << "position " << player.getX() << ' ' << player.getY() << "\nspawnpoint " << player.getSpawnX() << ' ' << player.getSpawnY() << "\nhealth " << player.getHealth() << '\n';
-    std::array<InventoryItem, 20> playerInventory = player.getInventory();
+    Inventory &playerInventory = player.getInventory();
 
     // save inventory
     for (u8 i = 0; i < 20; ++i)
@@ -566,7 +566,7 @@ void loadWorld(const std::string &name, Block::List &blocks, EntityList &entitie
         }
         else if (split[0] == "block") // block <x> <y> <id>
         {
-            //extract X, Y AND ID
+            // extract X, Y AND ID
             s16 x = std::stoi(split[1]);
             s16 y = std::stoi(split[2]);
             u16 id = std::stoi(split[3]);

@@ -392,7 +392,7 @@ public:
     /**
      * @brief Draw scroling dirt background
      */
-    static void drawMovingBackground(void);
+    static void drawDirtBackground(void);
 
     /**
      * @brief Draw game

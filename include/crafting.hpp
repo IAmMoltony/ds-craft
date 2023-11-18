@@ -16,14 +16,9 @@ class CraftingRecipe
 {
 private:
     /**
-     * @brief Output item count
+     * @brief Output item - item you get when you craft the recipe
      */
-    u8 count;
-
-    /**
-     * @brief Output item ID
-     */
-    InventoryItem::ID output;
+    InventoryItem output;
 
     /**
      * @brief The file name of the recipe
@@ -71,16 +66,10 @@ public:
     std::string getFileName(void);
 
     /**
-     * @brief Get output item count
-     * @see count
-     */
-    u8 getCount(void);
-
-    /**
-     * @brief Get output item ID
+     * @brief Get output item
      * @see output
      */
-    InventoryItem::ID getOutput(void);
+    InventoryItem getOutput(void);
 
     /**
      * @brief Get list of items to craft the recipe
