@@ -87,6 +87,5 @@
         "REWRITE"
     ],
     "python.analysis.typeCheckingMode": "basic",
-    // TODO is there way to have multiple compilers and vscode will just use the one it likes?
     "C_Cpp.default.compilerPath": "C:\\MinGW\\bin\\gcc.exe"
 }
