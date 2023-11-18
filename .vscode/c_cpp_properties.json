@@ -12,7 +12,8 @@
                 "E:/devkitPro/devkitARM/**"
             ],
             "defines": [
-                "ARM9"
+                "ARM9",
+                "GIT_COMMIT=\"1234567\""
             ],
             "compilerPath": "E:\\devkitPro\\devkitARM\\bin\\arm-none-eabi-gcc.exe",
             "cStandard": "gnu17",
