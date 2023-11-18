@@ -47,6 +47,7 @@ void Inventory::clear(void)
 void Inventory::sort(void)
 {
 	std::sort(items, &items[numSlots], sortMode ? InventoryItem::compareByID : InventoryItem::compareByAmount);
+	std::reverse(items, &items[numSlots]);
 	sortMode = !sortMode;
 }
 
