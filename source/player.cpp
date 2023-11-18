@@ -788,6 +788,11 @@ void Player::updateFullInventory(void)
         inventorySelect = 0;
         mmEffectEx(&Game::instance->sndClick);
     }
+	if (kdown & KEY_X && !inventoryCrafting)
+	{
+		// sort inventory when user press X
+		inventory.sort();
+	}
 
     if (inventoryCrafting)
         updateCrafting();
