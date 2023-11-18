@@ -79,6 +79,7 @@ void Block::loadTextures(void)
     pcxImageLoad("nitro:/textures/block/spruce_trapdoor.pcx", false, &sprSpruceTrapdoor);
     pcxImageLoad("nitro:/textures/block/chest.pcx", false, &sprChest);
     pcxImageLoad("nitro:/textures/block/iron_ore.pcx", false, &sprIronOre);
+	pcxImageLoad("nitro:/textures/block/iron_block.pcx", false, &sprIronBlock);
     pcxImageLoad("nitro:/textures/block/stone_bricks.pcx", false, &sprStoneBricks);
     pcxImageLoad("nitro:/textures/block/hay_bale.pcx", false, &sprHayBale);
 
