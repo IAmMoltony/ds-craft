@@ -22,7 +22,7 @@ void generateTerrain(Block::List &blocks, EntityList &entities, Player &player)
     {
         // biomes
         // see terrain.hpp
-        u8 biome = randomRange(0, 5);
+        u8 biome = rng::range(0, 5);
         if (onlyWinterBiome)
             biome = 3;
         if (forceBiome >= 0)
@@ -36,11 +36,11 @@ void generateTerrain(Block::List &blocks, EntityList &entities, Player &player)
                 blocks.emplace_back(new GrassBlock(i * 16, y));
 
                 // create grass
-                if (randomChance(60))
+                if (rng::chance(60))
                     blocks.emplace_back(new Grass(i * 16, y - 16, GrassBlock::Type::Normal));
 
                 // create pig with 10% chance
-                if (randomChance(10))
+                if (rng::chance(10))
                     entities.emplace_back(new PigEntity(i * 16, y - 64));
 
                 // dirt generation
@@ -49,9 +49,9 @@ void generateTerrain(Block::List &blocks, EntityList &entities, Player &player)
                 // stone generation
                 for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
-                    if (randomChance(11))
+                    if (rng::chance(11))
                         blocks.emplace_back(new IronOreBlock(i * 16, j));
-                    else if (randomChance(16))
+                    else if (rng::chance(16))
                         blocks.emplace_back(new CoalOreBlock(i * 16, j));
                     else
                         blocks.emplace_back(new StoneBlock(i * 16, j));
@@ -63,15 +63,15 @@ void generateTerrain(Block::List &blocks, EntityList &entities, Player &player)
                 if (sinceLastTree > treeInterval)
                 {
                     placedTree = true;
-                    treeInterval = spawnTree(blocks, i * 16, y, (randomGenerate() % 2) ? TreeType::Birch : TreeType::Oak);
+                    treeInterval = spawnTree(blocks, i * 16, y, (rng::generate() % 2) ? TreeType::Birch : TreeType::Oak);
                     sinceLastTree = 0;
                 }
 
                 // place flower if not placed tree w chance 20%
-                if (!placedTree && randomChance(20))
+                if (!placedTree && rng::chance(20))
                     blocks.emplace_back(new FlowerBlock(i * 16, y - 16));
 
-                y += randomRange(-1, 2) * 16;
+                y += rng::range(-1, 2) * 16;
             }
             break;
         case BIOME_DESERT:
@@ -84,7 +84,7 @@ void generateTerrain(Block::List &blocks, EntityList &entities, Player &player)
                     blocks.emplace_back(new SandBlock(i * 16, j));
 
                 // pig
-                if (randomChance(10))
+                if (rng::chance(10))
                     entities.emplace_back(new PigEntity(i * 16, y - 64));
 
                 // sandstone
@@ -94,9 +94,9 @@ void generateTerrain(Block::List &blocks, EntityList &entities, Player &player)
                 // stone
                 for (s16 j = y + 16 * 8; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
-                    if (randomChance(11))
+                    if (rng::chance(11))
                         blocks.emplace_back(new IronOreBlock(i * 16, j));
-                    else if (randomChance(16))
+                    else if (rng::chance(16))
                         blocks.emplace_back(new CoalOreBlock(i * 16, j));
                     else
                         blocks.emplace_back(new StoneBlock(i * 16, j));
@@ -107,20 +107,20 @@ void generateTerrain(Block::List &blocks, EntityList &entities, Player &player)
 
                 bool placedCactus = false;
                 // create cactus with 40% chance
-                if (randomChance(40) && sinceLastTree > 3)
+                if (rng::chance(40) && sinceLastTree > 3)
                 {
                     placedCactus = true;
-                    u8 len = randomRange(0, 3);
+                    u8 len = rng::range(0, 3);
                     for (int l = 0; l < len; ++l)
                         blocks.emplace_back(new CactusBlock(i * 16, y - l * 16 - 16));
                     sinceLastTree = 0;
                 }
 
                 // place dead bush
-                if (!placedCactus && randomChance(30))
+                if (!placedCactus && rng::chance(30))
                     blocks.emplace_back(new DeadBushBlock(i * 16, y - 16));
 
-                y += randomRange(-1, 1) * 16;
+                y += rng::range(-1, 1) * 16;
             }
             break;
         case BIOME_SNOW:
@@ -130,32 +130,32 @@ void generateTerrain(Block::List &blocks, EntityList &entities, Player &player)
                 blocks.emplace_back(new SnowyGrassBlock(i * 16, y));
 
                 // create grass
-                if (randomChance(60))
+                if (rng::chance(60))
                     blocks.emplace_back(new Grass(i * 16, y - 16, GrassBlock::Type::Normal));
 
-                if (randomChance(10))
+                if (rng::chance(10))
                     entities.emplace_back(new PigEntity(i * 16, y - 64));
 
                 for (s16 j = y + 16; j < y + 16 * 4; j += 16)
                     blocks.emplace_back(new DirtBlock(i * 16, j));
                 for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
-                    if (randomChance(11))
+                    if (rng::chance(11))
                         blocks.emplace_back(new IronOreBlock(i * 16, j));
-                    else if (randomChance(16))
+                    else if (rng::chance(16))
                         blocks.emplace_back(new CoalOreBlock(i * 16, j));
                     else
                         blocks.emplace_back(new StoneBlock(i * 16, j));
                 }
                 blocks.emplace_back(new BedrockBlock(i * 16, y + 16 * 4 + 16 * 9));
 
-                if (randomChance(40) && sinceLastTree > treeInterval)
+                if (rng::chance(40) && sinceLastTree > treeInterval)
                 {
-                    treeInterval = spawnTree(blocks, i * 16, y, (randomGenerate() % 2) ? TreeType::Birch : TreeType::Oak);
+                    treeInterval = spawnTree(blocks, i * 16, y, (rng::generate() % 2) ? TreeType::Birch : TreeType::Oak);
                     sinceLastTree = 0;
                 }
 
-                y += randomRange(-1, 2) * 16;
+                y += rng::range(-1, 2) * 16;
             }
             break;
         case BIOME_FLOWER:
@@ -165,19 +165,19 @@ void generateTerrain(Block::List &blocks, EntityList &entities, Player &player)
                 blocks.emplace_back(new GrassBlock(i, y));
 
                 // create grass
-                if (randomChance(60))
+                if (rng::chance(60))
                     blocks.emplace_back(new Grass(i * 16, y - 16, GrassBlock::Type::Normal));
 
-                if (randomChance(10))
+                if (rng::chance(10))
                     entities.emplace_back(new PigEntity(i, y - 64));
 
                 for (s16 j = y + 16; j < y + 16 * 4; j += 16)
                     blocks.emplace_back(new DirtBlock(i, j));
                 for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
-                    if (randomChance(11))
+                    if (rng::chance(11))
                         blocks.emplace_back(new IronOreBlock(i, j));
-                    else if (randomChance(16))
+                    else if (rng::chance(16))
                         blocks.emplace_back(new CoalOreBlock(i, j));
                     else
                         blocks.emplace_back(new StoneBlock(i, j));
@@ -185,18 +185,18 @@ void generateTerrain(Block::List &blocks, EntityList &entities, Player &player)
                 blocks.emplace_back(new BedrockBlock(i, y + 16 * 4 + 16 * 9));
 
                 bool placedTree = false;
-                if (randomChance(55) && sinceLastTree > treeInterval)
+                if (rng::chance(55) && sinceLastTree > treeInterval)
                 {
                     placedTree = true;
-                    treeInterval = spawnTree(blocks, i * 16, y, (randomGenerate() % 2) ? TreeType::Birch : TreeType::Oak);
+                    treeInterval = spawnTree(blocks, i * 16, y, (rng::generate() % 2) ? TreeType::Birch : TreeType::Oak);
                     sinceLastTree = 0;
                 }
 
-                if (!placedTree && randomChance(50))
+                if (!placedTree && rng::chance(50))
                     blocks.emplace_back(new FlowerBlock(i, y - 16));
 
-                if (randomChance(30))
-                    y += randomRange(-1, 1) * 16;
+                if (rng::chance(30))
+                    y += rng::range(-1, 1) * 16;
             }
             break;
         case BIOME_SPRUCE:
@@ -206,11 +206,11 @@ void generateTerrain(Block::List &blocks, EntityList &entities, Player &player)
                 blocks.emplace_back(new GrassBlock(i * 16, y, GrassBlock::Type::Spruce));
 
                 // create grass
-                if (randomChance(60))
+                if (rng::chance(60))
                     blocks.emplace_back(new Grass(i * 16, y - 16, GrassBlock::Type::Spruce));
 
                 // create pig with 10% chance
-                if (randomChance(10))
+                if (rng::chance(10))
                     entities.emplace_back(new PigEntity(i * 16, y - 64));
 
                 // dirt generation
@@ -219,9 +219,9 @@ void generateTerrain(Block::List &blocks, EntityList &entities, Player &player)
                 // stone generation
                 for (s16 j = y + 16 * 4; j < y + 16 * 4 + 16 * 9; j += 16)
                 {
-                    if (randomChance(11))
+                    if (rng::chance(11))
                         blocks.emplace_back(new IronOreBlock(i * 16, j));
-                    else if (randomChance(16))
+                    else if (rng::chance(16))
                         blocks.emplace_back(new CoalOreBlock(i * 16, j));
                     else
                         blocks.emplace_back(new StoneBlock(i * 16, j));
@@ -238,10 +238,10 @@ void generateTerrain(Block::List &blocks, EntityList &entities, Player &player)
                 }
 
                 // place flower if not placed tree w 15% chance
-                if (!placedTree && randomChance(15))
+                if (!placedTree && rng::chance(15))
                     blocks.emplace_back(new FlowerBlock(i * 16, y - 16));
 
-                y += randomRange(-1, 2) * 16;
+                y += rng::range(-1, 2) * 16;
             }
         }
     }
@@ -263,7 +263,7 @@ void generateTerrain(Block::List &blocks, EntityList &entities, Player &player)
 
 int spawnTree(Block::List &blocks, s16 x, s16 y, TreeType treeType)
 {
-    u8 treeVariant = randomGenerate() % 2;
+    u8 treeVariant = rng::generate() % 2;
     switch (treeType)
     {
     case TreeType::Oak:

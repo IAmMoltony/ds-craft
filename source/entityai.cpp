@@ -51,11 +51,11 @@ void PigEntityAI::update(s16 &x, s16 &y, float &velX, float &velY, bool &falling
     velX = moving ? (facing == Facing::Right ? baseVelX : -baseVelX) : 0;
 
     // randomly change direction
-    if (randomGenerate() % 250 == 1)
+    if (rng::generate() % 250 == 1)
         facing = facing == Facing::Right ? Facing::Left : Facing::Right;
 
     // jump randomly
-    if (randomChance(11))
+    if (rng::chance(11))
     {
         if (!jumping)
         {
@@ -65,7 +65,7 @@ void PigEntityAI::update(s16 &x, s16 &y, float &velX, float &velY, bool &falling
     }
 
     // stop or start moving randomly
-    if (randomChance(3))
+    if (rng::chance(3))
         moving = !moving;
 
     // always move if panic
@@ -129,6 +129,6 @@ void PigEntityAI::update(s16 &x, s16 &y, float &velX, float &velY, bool &falling
     }
 
     // randomly do the oink oink (or whatever sound the caller passed)
-    if (randomChance(1) && randomChance(51))
+    if (rng::chance(1) && rng::chance(51))
         playsfx(3, sfx1, sfx2, sfx3);
 }

@@ -1,35 +1,38 @@
 #include "random.hpp"
 #include <random>
 
-static std::mt19937 _mtEngine(1);
-
-void randomSetSeed(u32 seed)
+namespace rng
 {
-    _mtEngine.seed(seed);
-}
+	static std::mt19937 _mtEngine(1);
 
-u32 randomGenerate(void)
-{
-    return _mtEngine();
-}
+	void setSeed(u32 seed)
+	{
+		_mtEngine.seed(seed);
+	}
 
-u32 randomRange(u32 min, u32 max)
-{
-    return min + randomGenerate() % ((max + 1) - min);
-}
+	u32 generate(void)
+	{
+		return _mtEngine();
+	}
 
-s32 randomRangeSigned(s32 min, s32 max)
-{
-    return min + randomGenerate() % ((max + 1) - min);
-}
+	u32 range(u32 min, u32 max)
+	{
+		return min + generate() % ((max + 1) - min);
+	}
 
-bool randomChance(u8 chance)
-{
-    if (chance > 100)
-        // >100% chance = always success
-        return true;
-    if (chance == 0)
-        // 0% chance = never success
-        return false;
-    return randomRange(1, 100) <= chance;
+	s32 rangeSigned(s32 min, s32 max)
+	{
+		return min + generate() % ((max + 1) - min);
+	}
+
+	bool chance(u8 chance)
+	{
+		if (chance > 100)
+			// >100% chance = always success
+			return true;
+		if (chance == 0)
+			// 0% chance = never success
+			return false;
+		return range(1, 100) <= chance;
+	}
 }

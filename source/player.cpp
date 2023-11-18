@@ -685,8 +685,8 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
         // if there is 2 or less health then we SHAKE
         if (health <= 2)
         {
-            xxHeart += randomRange(-1, 1);
-            yyHeart += randomRange(-1, 1);
+            xxHeart += rng::range(-1, 1);
+            yyHeart += rng::range(-1, 1);
         }
 
         // if odd, draw half-heart sprite
@@ -1878,7 +1878,7 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
                         else // broken with anything else
                         {
                             // get seeds with 60% chance
-                            if (randomChance(60))
+                            if (rng::chance(60))
                                 entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::WheatSeeds));
                         }
                         playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
@@ -1917,7 +1917,7 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
                         if (l->isNatural())
                         {
                             // get a sapling with 10% chance
-                            if (randomChance(10))
+                            if (rng::chance(10))
                             {
                                 switch (l->type)
                                 {
@@ -1933,7 +1933,7 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
                                 }
                             }
                             // get an apple with 8% chance
-                            if (randomChance(8))
+                            if (rng::chance(8))
                                 entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Apple));
                         }
                         switch (l->type)
@@ -1989,8 +1989,8 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
                         else
                         {
                             // sticks
-                            entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), InventoryItem::ID::Stick));
-                            entities->emplace_back(new DropEntity(block->x, block->y + randomRange(-7, 7), InventoryItem::ID::Stick));
+                            entities->emplace_back(new DropEntity(block->x, block->y + rng::range(-7, 7), InventoryItem::ID::Stick));
+                            entities->emplace_back(new DropEntity(block->x, block->y + rng::range(-7, 7), InventoryItem::ID::Stick));
                         }
                         break;
                     case BID_POPPY:
@@ -2531,8 +2531,8 @@ void Player::doDamage(u16 damage, Camera *camera)
     playsfx(3, &sndHit1, &sndHit2, &sndHit3);
 
     // shake
-    camera->x += randomRange(-50, 50);
-    camera->y += randomRange(-50, 50);
+    camera->x += rng::range(-50, 50);
+    camera->y += rng::range(-50, 50);
 }
 
 bool Player::moving(s16 oldX)

@@ -50,12 +50,12 @@ GrassBlock::Type GrassBlock::getType(void)
 //-----------------------------------------
 
 Grass::Grass(s16 x, s16 y) : Block(x, y, 1), type(GrassBlock::Type::Normal),
-							 height(randomRange(MIN_HEIGHT, MAX_HEIGHT))
+							 height(rng::range(MIN_HEIGHT, MAX_HEIGHT))
 {
 }
 
 Grass::Grass(s16 x, s16 y, GrassBlock::Type type) : Block(x, y, 1), type(type),
-													height(randomRange(MIN_HEIGHT, MAX_HEIGHT))
+													height(rng::range(MIN_HEIGHT, MAX_HEIGHT))
 {
 }
 
@@ -197,10 +197,10 @@ bool LeavesBlock::isNatural(void)
 //-----------------------------------------
 
 FlowerBlock::FlowerBlock(s16 x, s16 y) : Block(x, y, 1), type(FlowerType::Poppy),
-										 xOff(randomRangeSigned(X_OFF_MIN, X_OFF_MAX))
+										 xOff(rng::rangeSigned(X_OFF_MIN, X_OFF_MAX))
 {
 	// choose flower type
-	switch (randomRange(1, 3))
+	switch (rng::range(1, 3))
 	{
 	case 1:
 		type = FlowerType::Poppy;
@@ -215,7 +215,7 @@ FlowerBlock::FlowerBlock(s16 x, s16 y) : Block(x, y, 1), type(FlowerType::Poppy)
 }
 
 FlowerBlock::FlowerBlock(s16 x, s16 y, FlowerType type) : Block(x, y, 1), type(type),
-														  xOff(randomRangeSigned(X_OFF_MIN, X_OFF_MAX))
+														  xOff(rng::rangeSigned(X_OFF_MIN, X_OFF_MAX))
 {
 }
 
@@ -491,7 +491,7 @@ SlabID SlabBlock::getSlabID(void) const
 
 void WheatBlock::setGrowInterval(void)
 {
-	growInterval = randomRange(GROW_INTERVAL_MIN, GROW_INTERVAL_MAX);
+	growInterval = rng::range(GROW_INTERVAL_MIN, GROW_INTERVAL_MAX);
 }
 
 WheatBlock::WheatBlock(s16 x, s16 y) : Block(x, y, 1), growStage(0), growInterval(0)

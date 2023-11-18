@@ -317,7 +317,7 @@ void saveWorld(const std::string &name, Block::List &blocks, EntityList &entitie
         playerinfo << "inventory " << std::to_string(i) << ' ' << iidToString(playerInventory[i].id) << ' ' << std::to_string(playerInventory[i].amount) << '\n';
     playerinfo.close();
 
-    randomSetSeed(seed);
+    rng::setSeed(seed);
 
     // save stats
     statsSetWorld(name);
@@ -787,7 +787,7 @@ void loadWorld(const std::string &name, Block::List &blocks, EntityList &entitie
         chestFile.close();
     }
 
-    randomSetSeed(getWorldSeed(name) + currentLocation);
+    rng::setSeed(getWorldSeed(name) + currentLocation);
 
     statsSetWorld(name);
     statsLoad();

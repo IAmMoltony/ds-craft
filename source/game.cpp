@@ -242,7 +242,7 @@ void Game::showButtonTooltips(Font *font, Font *font2, glImage *t1, const char *
 void Game::playPopSound(void)
 {
     mm_hword oldRate = sndPop.rate;       // save old rate
-    sndPop.rate = randomRange(512, 2048); // set rate to random rate
+    sndPop.rate = rng::range(512, 2048); // set rate to random rate
     mmEffectEx(&sndPop);                  // play sound
     sndPop.rate = oldRate;                // restore old rate
 }
@@ -460,12 +460,12 @@ void Game::init(void)
     randomSeed -= PersonalData->calY1px;                                                                     // subtract first Y calibration value in pixels (i think)
     randomSeed ^= PersonalData->language;                                                                    // XOR by firmware language
     randomSeed ^= stringHash(std::to_string(stringHash(getUserMessage())).c_str());                          // XOR by user message hash's hash
-    randomSetSeed(randomSeed);                                                                               // set seed
+    rng::setSeed(randomSeed);                                                                               // set seed
     srand(time(NULL));                                                                                       // set seed for stuff that doesn't need to be THAT random
 
     // finally, do some random number generation to spice up the seed even more
-    for (int i = 0; i < randomRangeSigned(10, 100); ++i)
-        (void)randomRange(randomRange(0, 900), randomRange(0, 300));
+    for (int i = 0; i < rng::rangeSigned(10, 100); ++i)
+        (void)rng::range(rng::range(0, 900), rng::range(0, 300));
 
     mtnlogMessage(LOG_INFO, "Loading menu assets");
 
@@ -2147,7 +2147,7 @@ void Game::update(void)
                 if (createWorldSeed.find_first_not_of("0123456789") == std::string::npos && createWorldSeed.size() > 0)
                     randomSeed = std::stoi(createWorldSeed.c_str());
                 if (createWorldSeed.empty())
-                    randomSeed = randomGenerate() % UINT64_MAX;
+                    randomSeed = rng::generate() % UINT32_MAX;
                 saveWorld(worldName, blocks, entities, player, randomSeed, currentLocation);
 
                 enterWorldSelect();

@@ -67,7 +67,7 @@ PigEntity::PigEntity(s16 x, s16 y)
     : Entity(x, y), facing(Facing::Right), moving(true), damageOverlayTimer(255), panicModeTimer(USHRT_MAX)
 {
     health = 7;
-    facing = (randomGenerate() % 2 == 0) ? Facing::Right : Facing::Left;
+    facing = (rng::generate() % 2 == 0) ? Facing::Right : Facing::Left;
 }
 
 void PigEntity::draw(const Camera &camera)
