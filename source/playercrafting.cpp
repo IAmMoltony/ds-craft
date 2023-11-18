@@ -151,8 +151,6 @@ void Player::drawCrafting(Font &font, Font &fontRu)
     }
 }
 
-// TODO move inventory into its own class
-
 void Player::updateCrafting(void)
 {
     u32 kdown = keysDown();
