@@ -5,83 +5,86 @@
 #include "mtnconfig.h"
 #include "mtnlog.h"
 
-static std::string _versionPrefix = "";
-static std::string _versionString = "";
-static u8 _versionMajor = 0;
-static u8 _versionMinor = 0;
-static u8 _versionPatch = 0;
-
-void gameverInit(void)
+namespace gamever
 {
-    const char *gameVerName = mtnconfigGet("gameVersionFile");
-    FILE *f = fopen(gameVerName, "r");
-    if (!f)
-    {
-        mtnlogMessage(LOG_ERROR, "Failed opening game version file (%s) because %s", gameVerName, strerror(errno));
-        hang();
-    }
+	static std::string _versionPrefix = "";
+	static std::string _versionString = "";
+	static u8 _versionMajor = 0;
+	static u8 _versionMinor = 0;
+	static u8 _versionPatch = 0;
 
-    u8 count = 0;
-    char line[20];
-    while (fgets(line, sizeof(line), f) != NULL)
-    {
-        if (line[strlen(line) - 1] == '\n')
-            line[strlen(line) - 1] = 0; // remove \n
+	void init(void)
+	{
+		const char *gameVerName = mtnconfigGet("gameVersionFile");
+		FILE *f = fopen(gameVerName, "r");
+		if (!f)
+		{
+			mtnlogMessage(LOG_ERROR, "Failed opening game version file (%s) because %s", gameVerName, strerror(errno));
+			hang();
+		}
 
-        if (count == 0)
-            _versionMajor = atoi(line);
-        else if (count == 1)
-            _versionMinor = atoi(line);
-        else if (count == 2)
-            _versionPatch = atoi(line);
-        else if (count == 3)
-            _versionPrefix = std::string(line);
+		u8 count = 0;
+		char line[20];
+		while (fgets(line, sizeof(line), f) != NULL)
+		{
+			if (line[strlen(line) - 1] == '\n')
+				line[strlen(line) - 1] = 0; // remove \n
 
-        ++count;
-    }
-    fclose(f);
+			if (count == 0)
+				_versionMajor = atoi(line);
+			else if (count == 1)
+				_versionMinor = atoi(line);
+			else if (count == 2)
+				_versionPatch = atoi(line);
+			else if (count == 3)
+				_versionPrefix = std::string(line);
 
-    // if patch is 0, then don't put patch in version string
-    if (_versionPatch == 0)
-        _versionString = _versionPrefix + std::to_string(_versionMajor) + '.' +
-                        std::to_string(_versionMinor);
-    else
-        _versionString = _versionPrefix + std::to_string(_versionMajor) + '.' +
-                        std::to_string(_versionMinor) + '.' + std::to_string(_versionPatch);
-}
+			++count;
+		}
+		fclose(f);
 
-const char *getVersionString(void)
-{
-    return _versionString.c_str();
-}
+		// if patch is 0, then don't put patch in version string
+		if (_versionPatch == 0)
+			_versionString = _versionPrefix + std::to_string(_versionMajor) + '.' +
+							std::to_string(_versionMinor);
+		else
+			_versionString = _versionPrefix + std::to_string(_versionMajor) + '.' +
+							std::to_string(_versionMinor) + '.' + std::to_string(_versionPatch);
+	}
 
-enum class VersionType
-{
-    Alpha, Beta, Release,
-};
+	const char *getVersionString(void)
+	{
+		return _versionString.c_str();
+	}
 
-u64 getVersionHash(const std::string &_versionString)
-{
-    // extract the major, minor, and patch numbers from the version string
-    int major = 0;
-    int minor = 0;
-    int patch = 0;
+	enum class VersionType
+	{
+		Alpha, Beta, Release,
+	};
 
-    sscanf(_versionString.c_str(), "%*[^0-9]%d.%d.%d", &major, &minor, &patch);
-    if (patch == 0)
-        sscanf(_versionString.c_str(), "%*[^0-9]%d.%d", &major, &minor);
+	u64 getVersionHash(const std::string &_versionString)
+	{
+		// extract the major, minor, and patch numbers from the version string
+		int major = 0;
+		int minor = 0;
+		int patch = 0;
 
-    // determine version type
-    VersionType versionType = VersionType::Release;
-    if (_versionString.find("alpha") != std::string::npos)
-        versionType = VersionType::Alpha;
-    else if (_versionString.find("beta") != std::string::npos)
-        versionType = VersionType::Beta;
+		sscanf(_versionString.c_str(), "%*[^0-9]%d.%d.%d", &major, &minor, &patch);
+		if (patch == 0)
+			sscanf(_versionString.c_str(), "%*[^0-9]%d.%d", &major, &minor);
 
-    // calculate the hash based on type and numbers (courtesy of chat gpt)
-    u64 versionHash = static_cast<u32>(versionType);
-    versionHash <<= 24;
-    versionHash |= (major << 16) + (minor << 8) + patch;
+		// determine version type
+		VersionType versionType = VersionType::Release;
+		if (_versionString.find("alpha") != std::string::npos)
+			versionType = VersionType::Alpha;
+		else if (_versionString.find("beta") != std::string::npos)
+			versionType = VersionType::Beta;
 
-    return versionHash;
+		// calculate the hash based on type and numbers (courtesy of chat gpt)
+		u64 versionHash = static_cast<u32>(versionType);
+		versionHash <<= 24;
+		versionHash |= (major << 16) + (minor << 8) + patch;
+
+		return versionHash;
+	}
 }

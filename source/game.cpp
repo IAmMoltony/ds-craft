@@ -406,7 +406,7 @@ void Game::init(void)
     }
 
     // init game version
-    gameverInit();
+    gamever::init();
 
     // init logging
     mtnlogInit((MtnLogLevel)mtnconfigGetInt("logLevel"), mtnconfigGet("logFile"));
@@ -685,7 +685,7 @@ void Game::draw(void)
 
         // draw game version (half transparent)
         glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE | POLY_ID(4));
-        font.printf(3, 3, "%s", getVersionString());
+        font.printf(3, 3, "%s", gamever::getVersionString());
         u8 textYPos = 14;
         if (SettingsManager::showCoords)
         {
@@ -1147,7 +1147,7 @@ void Game::draw(void)
         font.printCentered(0, 50, "Compiled on:");
         font.printCentered(0, 61, __DATE__ " " __TIME__);
         font.printCentered(0, 72, "Compiled with GCC " __VERSION__);
-        font.printfCentered(0, 93, "Version %s", getVersionString());
+        font.printfCentered(0, 93, "Version %s", gamever::getVersionString());
         font.printfCentered(0, 104, "libNDS version %d.%d.%d", _LIBNDS_MAJOR_, _LIBNDS_MINOR_, _LIBNDS_PATCH_);
         font.printfCentered(0, 115, "libFAT version %d.%d.%d", _LIBFAT_MAJOR_, _LIBFAT_MINOR_, _LIBFAT_PATCH_);
         font.printCentered(0, 126, "Git commit " GIT_COMMIT);
@@ -1858,8 +1858,8 @@ void Game::update(void)
                     mtnlogMessage(LOG_ERROR, "Failed getting world version for world %s", worldName.c_str());
                     return;
                 }
-                u64 worldVersionHash = getVersionHash(worldVersion);
-                u64 currentVersionHash = getVersionHash(getVersionString());
+                u64 worldVersionHash = gamever::getVersionHash(worldVersion);
+                u64 currentVersionHash = gamever::getVersionHash(gamever::getVersionString());
                 if (worldVersionHash > currentVersionHash && worldVersion != "")
                 {
                     // uh oh, the world version is newer than current!
@@ -1883,7 +1883,7 @@ void Game::update(void)
                             font.drawHeading("oops");
                             font.print(10, 30, "This world was saved in a newer version than  current."); // this having 2 spaces is importantes
                             font.printf(10, 70, "Current version: %s \nWorld version: %s",
-                                        getVersionString(), worldVersion.c_str());
+                                        gamever::getVersionString(), worldVersion.c_str());
 							font.print(10, 100, "You can try opening it& but that might corrupt it.");
                             font.printCentered(0, SCREEN_HEIGHT - 19, "Press any button...");
                             break;
@@ -1893,7 +1893,7 @@ void Game::update(void)
                                                  "zgo ugmv~b&.");
                             fontRu.printfDoubleFont(10, 70, &font, "Tgmv~b& dgstk&: \3%s\3 \n"
                                                                    "Cgstk& oksb: \3%s\3",
-                                                    getVersionString(), worldVersion.c_str());
+                                                    gamever::getVersionString(), worldVersion.c_str());
                             fontRu.printCentered(0, SCREEN_HEIGHT - 19, "Obiokug n%cv% mpqrmv...");
                             break;
                         }

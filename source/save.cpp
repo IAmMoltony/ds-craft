@@ -303,7 +303,8 @@ void saveWorld(const std::string &name, Block::List &blocks, EntityList &entitie
 
     // world meta
     std::ofstream wldmeta(worldFolder + "/world.meta");
-    wldmeta << "worldname " << name << "\ngameversion " << getVersionString() << "\nseed " << std::to_string(seed) << "\nlocation " << std::to_string(currentLocation);
+    wldmeta << "worldname " << name << "\ngameversion " << gamever::getVersionString() << "\nseed " << std::to_string(seed) << "\nlocation "
+		<< std::to_string(currentLocation);
     wldmeta.close();
 
     // player info
