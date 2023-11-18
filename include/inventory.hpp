@@ -24,6 +24,13 @@ private:
 	 * @brief Array of inventory items
 	 */
 	InventoryItem *items;
+	
+	/**
+	 * @brief Sort mode
+	 *
+	 * True = sort by ID; False = sort by amount
+	 */
+	 bool sortMode;
 
 public:
 	static Inventory itemArrayToInventory(InventoryItem *array, u8 numSlots);
@@ -66,6 +73,20 @@ public:
 	 * This is also called when the inventory is constructed.
 	 */
 	void clear(void);
+
+	/**
+	 * @brief Sort the inventory
+	 *
+	 * This will alternate sorting by ID and amount.
+	 */
+	void sort(void);
+
+	/**
+	 * @brief Get sort mode
+	 *
+	 * True = sort by ID; False = sort by Amount
+	 */
+	bool getSortMode(void) const;
 
 	/**
 	 * @brief Get the number of slots in the inventory

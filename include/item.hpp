@@ -96,6 +96,16 @@ public:
         HayBale,
         StoneBricksSlab,
     };
+	
+	/**
+	 * @brief Compare two items by their ID (for sorting)
+	*/
+	static bool compareByID(const InventoryItem &a, const InventoryItem &b);
+
+	/**
+	 * @brief Compare two items by their amount
+	*/
+	static bool compareByAmount(const InventoryItem &a, const InventoryItem &b);
 
     /**
      * @brief List of non-block item IDs

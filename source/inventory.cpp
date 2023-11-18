@@ -1,4 +1,5 @@
 #include "inventory.hpp"
+#include <algorithm>
 
 Inventory Inventory::itemArrayToInventory(InventoryItem *array, u8 numSlots)
 {
@@ -8,7 +9,7 @@ Inventory Inventory::itemArrayToInventory(InventoryItem *array, u8 numSlots)
 	return inv;
 }
 
-Inventory::Inventory(u8 numSlots) : numSlots(numSlots), items(nullptr)
+Inventory::Inventory(u8 numSlots) : numSlots(numSlots), items(nullptr), sortMode(true)
 {
 	items = (InventoryItem *)malloc(sizeof(InventoryItem) * numSlots);
 	clear();
@@ -41,6 +42,17 @@ void Inventory::clear(void)
 {
 	for (u8 i = 0; i < numSlots; ++i)
 		items[i] = InventoryItem();
+}
+
+void Inventory::sort(void)
+{
+	std::sort(items, &items[numSlots], sortMode ? InventoryItem::compareByID : InventoryItem::compareByAmount);
+	sortMode = !sortMode;
+}
+
+bool Inventory::getSortMode(void) const
+{
+	return sortMode;
 }
 
 u8 Inventory::getNumSlots(void) const

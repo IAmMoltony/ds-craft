@@ -35,6 +35,16 @@ InventoryItem::ID InventoryItem::nonBlockItemIDs[] =
         InventoryItem::ID::Bread,
 };
 
+bool InventoryItem::compareByID(const InventoryItem &a, const InventoryItem &b)
+{
+	return static_cast<int>(a.id) < static_cast<int>(b.id);
+}
+
+bool InventoryItem::compareByAmount(const InventoryItem &a, const InventoryItem &b)
+{
+	return a.amount < b.amount;
+}
+
 const int InventoryItem::numNonBlockItemIDs = sizeof(InventoryItem::nonBlockItemIDs) / sizeof(InventoryItem::ID);
 
 // technically wheat seeds are a block item bc u can place them on farmland
