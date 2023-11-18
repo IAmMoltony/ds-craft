@@ -2503,9 +2503,7 @@ void Player::restoreHealth(void)
 
 void Player::resetInventory(void)
 {
-    // initialize the inventory with default values
-    for (u8 i = 0; i < 20; ++i)
-        inventory[i] = InventoryItem();
+	inventory.clear();
 }
 
 void Player::reset(void)
