@@ -26,14 +26,21 @@ private:
 	InventoryItem *items;
 
 public:
+	static Inventory itemArrayToInventory(InventoryItem *array, u8 numSlots);
+
 	/**
 	 * @brief Construct an inventory
 	 * @param numSlots number of slots (items) in the inventory
 	 */
 	Inventory(u8 numSlots);
 
-	// Deleted because copying and setting inventories is not used anywhere.
-	Inventory(const Inventory &) = delete;
+	/**
+	 * @brief Construct an inventory by copying from an already existing inventory
+	 *
+	 * @param other Inventory to copy data from
+	 */
+	Inventory(const Inventory &other);
+
 	Inventory &operator=(const Inventory &) = delete;
 
 	/**
@@ -91,6 +98,14 @@ public:
 	void add(InventoryItem::ID id, u8 amount);
 
 	/**
+	 * @brief Add item to the inventory
+	 * @todo Return value
+	 *
+	 * @param item Item to add
+	 */
+	void add(InventoryItem item);
+
+	/**
 	 * @brief Check if the inventory is full
 	 *
 	 * @return true if the inventory is full; false otherwise
@@ -112,4 +127,11 @@ public:
 	 * @param amount Maximum amount of occurences to be removed
 	 */
 	void remove(InventoryItem::ID id, u8 amount);
+
+	/**
+	 * @brief Remove item from inventory
+	 *
+	 * @param item Item to remove
+	 */
+	void remove(InventoryItem item);
 };

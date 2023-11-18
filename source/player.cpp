@@ -1161,28 +1161,28 @@ bool Player::doItemInteract(const u32 &downKeys, const Camera *camera, Block::Li
             if (health != FULL_HEALTH)
             {
                 _eatFood(&health, 2);
-                removeItem(InventoryItem::ID::RawPorkchop);
+                inventory.remove(InventoryItem::ID::RawPorkchop);
             }
             break;
         case InventoryItem::ID::CookedPorkchop:
             if (health != FULL_HEALTH)
             {
                 _eatFood(&health, 5);
-                removeItem(InventoryItem::ID::CookedPorkchop);
+                inventory.remove(InventoryItem::ID::CookedPorkchop);
             }
             break;
         case InventoryItem::ID::Apple:
             if (health != FULL_HEALTH)
             {
                 _eatFood(&health, 2);
-                removeItem(InventoryItem::ID::Apple); // TODO refactor food eating
+                inventory.remove(InventoryItem::ID::Apple);
             }
             break;
         case InventoryItem::ID::Bread:
             if (health != FULL_HEALTH)
             {
                 _eatFood(&health, 4);
-                removeItem(InventoryItem::ID::Bread);
+                inventory.remove(InventoryItem::ID::Bread);
             }
             break;
         // block placing
@@ -2679,12 +2679,9 @@ Rect Player::getRectAimY8(const Camera &camera)
     return Rect(snapToGrid(aimX + camera.x), snapToGrid8(aimY + camera.y), 16, 16);
 }
 
-std::array<InventoryItem, 20> Player::getInventory(void)
+Inventory &Player::getInventory(void)
 {
-    std::array<InventoryItem, 20> inv;
-    for (u8 i = 0; i < 20; ++i)
-        inv[i] = inventory[i];
-    return inv;
+    return inventory;
 }
 
 void Player::jump(void)

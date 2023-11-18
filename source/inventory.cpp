@@ -1,9 +1,23 @@
 #include "inventory.hpp"
 
+Inventory Inventory::itemArrayToInventory(InventoryItem *array, u8 numSlots)
+{
+	Inventory inv(numSlots);
+	for (u8 i = 0; i < numSlots; ++i)
+		inv[i] = array[i];
+	return inv;
+}
+
 Inventory::Inventory(u8 numSlots) : numSlots(numSlots), items(nullptr)
 {
 	items = (InventoryItem *)malloc(sizeof(InventoryItem) * numSlots);
 	clear();
+}
+
+Inventory::Inventory(const Inventory &other) : Inventory(other.getNumSlots())
+{
+	for (u8 i = 0; i < numSlots; ++i)
+		items[i] = other[i];
 }
 
 Inventory::~Inventory()
@@ -112,6 +126,11 @@ void Inventory::add(InventoryItem::ID id, u8 amount)
 		add(id);
 }
 
+void Inventory::add(InventoryItem item)
+{
+	add(item.id, item.amount);
+}
+
 bool Inventory::full(void)
 {
 	for (u8 i = 0; i < numSlots; ++i)
@@ -167,4 +186,9 @@ void Inventory::remove(InventoryItem::ID id, u8 amount)
 {
 	for (u8 _ = 0; _ < amount; ++_)
 		remove(id);
+}
+
+void Inventory::remove(InventoryItem item)
+{
+	remove(item.id, item.amount);
 }
