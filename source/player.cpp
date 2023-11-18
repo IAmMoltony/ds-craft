@@ -779,8 +779,8 @@ void Player::updateFullInventory(void)
         inventoryCrafting = false;
         mmEffectEx(&Game::instance->sndClick);
     }
-    // I just realized that you can open crafting while being in a chest
-    if (kdown & KEY_L)
+
+    if (kdown & KEY_L && !chestOpen)
     {
         // when l is pressed, open crafting (or close)
         inventoryCrafting = !inventoryCrafting;
