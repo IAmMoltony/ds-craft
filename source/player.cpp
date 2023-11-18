@@ -446,10 +446,12 @@ void Player::drawInventory(Font &font, Font &fontRu)
         case Language::English:
             font.printShadow(110, 46, getItemName(inventory[inventorySelect].id));
             font.printShadow(16, 46 + 48 + 23, "\2:L  Crafting");
+			font.printShadow(16, 46 + 48 + 36, "\2:X  Sort inventory");
             break;
         case Language::Russian:
             fontRu.printShadow(110, 46, getItemName(inventory[inventorySelect].id));
             fontRu.printShadow(16, 62 + 48 + 23, "\2:L  Sqjfbpkg");
+			fontRu.printShadow(16, 62 + 48 + 36, "\2:X  Sqsuksqdbu#");
             break;
         }
     }
