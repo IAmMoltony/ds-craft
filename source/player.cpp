@@ -445,11 +445,11 @@ void Player::drawInventory(Font &font, Font &fontRu)
         {
         case Language::English:
             font.printShadow(110, 46, getItemName(inventory[inventorySelect].id));
-            font.printShadow(16, 46 + 48 + 23, "Press \2:L  to see crafting menu");
+            font.printShadow(16, 46 + 48 + 23, "\2:L  Crafting");
             break;
         case Language::Russian:
             fontRu.printShadow(110, 46, getItemName(inventory[inventorySelect].id));
-            fontRu.printShadow(16, 62 + 28 + 23, "Obiokug \2:L  zuqc\" rgsgluk d ogp% tqjfbpk&");
+            fontRu.printShadow(16, 62 + 48 + 23, "\2:L  Sqjfbpkg");
             break;
         }
     }
