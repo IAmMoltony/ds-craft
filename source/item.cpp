@@ -399,6 +399,10 @@ void InventoryItem::loadTextures(void)
     pcxImageLoad("nitro:/textures/item/stone_hoe.pcx", true, &_sprStoneHoe);
     pcxImageLoad("nitro:/textures/item/iron_hoe.pcx", true, &_sprIronHoe);
 
+	pcxImageLoad("nitro:/textures/item/wooden_shovel.pcx", true, &_sprWoodenShovel);
+	pcxImageLoad("nitro:/textures/item/stone_shovel.pcx", true, &_sprStoneShovel);
+	pcxImageLoad("nitro:/textures/item/iron_shovel.pcx", true, &_sprIronShovel);
+
     pcxImageLoad("nitro:/textures/item/wheat_seeds.pcx", true, &_sprWheatSeeds);
     pcxImageLoad("nitro:/textures/item/wheat.pcx", true, &_sprWheat);
 
