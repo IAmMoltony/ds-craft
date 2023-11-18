@@ -29,6 +29,8 @@
  *
  * @ref glext.h "GL Extensions documentation"
  *
+ * @ref inventory.hpp "Inventory documentation"
+ *
  * @ref item.hpp "Inventory Item documentation"
  *
  * @ref lang.hpp "Language documentation"
