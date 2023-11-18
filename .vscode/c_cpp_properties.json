@@ -9,12 +9,12 @@
                 "/opt/devkitpro/libnds/include/**",
                 "/opt/devkitpro/devkitARM/**",
                 "E:/devkitPro/libnds/include/**",
-                "E:/devkitPro/devkitARM/**",
+                "E:/devkitPro/devkitARM/**"
             ],
             "defines": [
                 "ARM9"
             ],
-            "compilerPath": "/opt/devkitpro/devkitARM/bin/arm-none-eabi-gcc",
+            "compilerPath": "E:\\devkitPro\\devkitARM\\bin\\arm-none-eabi-gcc.exe",
             "cStandard": "gnu17",
             "cppStandard": "gnu++17",
             "intelliSenseMode": "linux-gcc-arm"
