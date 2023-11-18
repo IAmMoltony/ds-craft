@@ -31,7 +31,7 @@ Game::Game() : blocks(), entities(), blockParticles(), player(), gameState(State
 void Game::gameQuit(void)
 {
     glBegin2D();
-    drawMovingBackground();
+    drawDirtBackground();
 
     // render "unload game assets" screen
     switch (lang)
@@ -50,7 +50,7 @@ void Game::gameQuit(void)
     AssetManager::unloadGameAssets(); // unload game assets
 
     glBegin2D();
-    drawMovingBackground();
+    drawDirtBackground();
 
     // show "loading menu assets" screen
     switch (lang)
@@ -69,7 +69,7 @@ void Game::gameQuit(void)
 
     // save world screen
     glBegin2D();
-    drawMovingBackground();
+    drawDirtBackground();
     switch (lang)
     {
     case Language::English:
@@ -373,7 +373,7 @@ void Game::init(void)
             ++frameCounter;
 
             glBegin2D();
-            drawMovingBackground(); // TODO rename to drawDirtBackground
+            drawDirtBackground();
 
             font.drawHeading("Error!");
 
@@ -509,7 +509,7 @@ void Game::enterWorldSelect(void)
 {
     gameState = State::WorldSelect;
     glBegin2D();
-    drawMovingBackground();
+    drawDirtBackground();
     switch (lang)
     {
     case Language::English:
@@ -558,7 +558,7 @@ u16 Game::getFrameCounter(void)
     return frameCounter;
 }
 
-void Game::drawMovingBackground(void)
+void Game::drawDirtBackground(void)
 {
     glColor(RGB15(15, 15, 15));
     pcxImageDrawEx(&sprDirt, 0 - instance->getFrameCounter() % 64, 0, 0, 0, SCREEN_WIDTH / 2 + 64, SCREEN_HEIGHT / 2, (1 << 12) * 2, GL_FLIP_NONE);
@@ -751,7 +751,7 @@ void Game::draw(void)
         break;
     }
     case State::TitleScreen:
-        drawMovingBackground();
+        drawDirtBackground();
 
         // draw the game logo
         glSpriteScale(SCREEN_WIDTH / 2 - 96, logoY, (1 << 12) * 2, GL_FLIP_NONE, sprLogo);
@@ -1877,7 +1877,7 @@ void Game::update(void)
                             break;
 
                         glBegin2D();
-                        drawMovingBackground();
+                        drawDirtBackground();
                         switch (lang)
                         {
                         case Language::English:
@@ -1909,7 +1909,7 @@ void Game::update(void)
                 {
                     // unloading screen for menu assets
                     glBegin2D();
-                    drawMovingBackground();
+                    drawDirtBackground();
                     switch (lang)
                     {
                     case Language::English:
@@ -1926,7 +1926,7 @@ void Game::update(void)
 
                     // loading screen for assets
                     glBegin2D();
-                    drawMovingBackground();
+                    drawDirtBackground();
                     switch (lang)
                     {
                     case Language::English:
@@ -1943,7 +1943,7 @@ void Game::update(void)
 
                     // loading screen for world
                     glBegin2D();
-                    drawMovingBackground();
+                    drawDirtBackground();
                     switch (lang)
                     {
                     case Language::English:
@@ -2132,7 +2132,7 @@ void Game::update(void)
 
                 // creating world screen
                 glBegin2D();
-                drawMovingBackground();
+                drawDirtBackground();
                 switch (lang)
                 {
                 case Language::English:
@@ -2519,7 +2519,7 @@ void Game::AssetManager::unloadMenuAssets(void)
 
 void Game::drawMenuBackground(void)
 {
-    drawMovingBackground();
+    drawDirtBackground();
     pcxImageDrawEx(&sprDirt, 0, 0, 0, 0, SCREEN_WIDTH, 16, SCALE_NORMAL * 2, GL_FLIP_NONE);
     pcxImageDrawEx(&sprDirt, 0, SCREEN_HEIGHT - 32, 0, 0, SCREEN_WIDTH, 16, SCALE_NORMAL * 2, GL_FLIP_NONE);
 }
