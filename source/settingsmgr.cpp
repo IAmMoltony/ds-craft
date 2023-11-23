@@ -1,6 +1,7 @@
 #include "settingsmgr.hpp"
 #include "game.hpp"
 #include "save.hpp"
+#include "font.hpp"
 #include "fs.h"
 #include "mtnconfig.h"
 #include "mtnlog.h"
@@ -39,7 +40,7 @@ void SettingsManager::loadLanguageLegacy(void)
 void SettingsManager::loadSettingsLegacy(void)
 {
     // * Old comment of me rambling about the old settings system (new settings system has not been introduced at the time
-    //   of writing the comment):
+    //   of writing the comment); saved for historical purposes I guess?
     // a file on the disk takes up at least one cluster
     // and if the file is 1 character long (like most settings files are) it will take up one cluster.
     // let's assume that our SD card has a cluster size of 512 bytes.
@@ -153,7 +154,7 @@ void SettingsManager::saveSettings(void)
     // TODO rework auto jump
 
     // write settings
-    fprintf(settingsFile, "trleaves %d\nautosave %d\nsmoothcam %d\nautojump %d\nlang %d\nblockparts %d\nshowcoords %d\nshowfps %d\n", transparentLeaves, autoSaveSeconds, smoothCamera, autoJump, Game::instance->lang == Language::English ? 0 : 1, blockParticles, showCoords, showFPS);
+    fprintf(settingsFile, "trleaves %d\nautosave %d\nsmoothcam %d\nautojump %d\nlang %d\nblockparts %d\nshowcoords %d\nshowfps %d\nfsi %u\n", transparentLeaves, autoSaveSeconds, smoothCamera, autoJump, Game::instance->lang == Language::English ? 0 : 1, blockParticles, showCoords, showFPS, Font::shadowIntensity);
 
     // don't forget to close
     fclose(settingsFile);
@@ -226,6 +227,11 @@ void SettingsManager::loadSettings(void)
             // show fps setting
             showFPS = std::stoi(split[1]);
         }
+		else if (split[0] == "fsi")
+		{
+			// font shadow intensity
+			Font::shadowIntensity = std::stoi(split[1]);
+		}
         else
         {
             // invalid key
