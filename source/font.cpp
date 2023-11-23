@@ -6,7 +6,12 @@ u8 Font::shadowIntensity = Font::SHADOW_INTENSITY_DEFAULT;
 
 void Font::setShadowIntensity(u8 intensity)
 {
-	shadowIntensity = intensity;
+	shadowIntensity = std::max(intensity, (u8)31);
+}
+
+u8 Font::getShadowIntensity(void)
+{
+	return shadowIntensity; // I wish C++ had properties like C#, they're so cool...
 }
 
 u8 Font::getCharWidth(char ch)

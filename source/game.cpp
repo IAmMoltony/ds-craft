@@ -308,7 +308,8 @@ static constexpr u8 SETTING_LAST_PAGE1 = SETTING_EDIT_CONTROLS;
 
 static constexpr u8 SETTING_SHOW_COORDS = 0;
 static constexpr u8 SETTING_SHOW_FPS = 1;
-static constexpr u8 SETTING_LAST_PAGE2 = SETTING_SHOW_FPS;
+static constexpr u8 SETTING_FONT_SHADOW_INTENSITY = 2;
+static constexpr u8 SETTING_LAST_PAGE2 = SETTING_FONT_SHADOW_INTENSITY;
 
 // TODO add settings screen labels array
 
@@ -503,8 +504,6 @@ void Game::init(void)
     logoY = 16;
     editControlsSelected = 0;
     editControlsSetMode = false;
-	
-	Font::setShadowIntensity(31);
 }
 
 void Game::enterWorldSelect(void)
@@ -768,6 +767,7 @@ void Game::draw(void)
             glBoxStroke(SCREEN_WIDTH / 2 - 45, 70 + i * 30, 90, 22,
                         titleScreenSelect == i ? RGB15(31, 31, 31) : RGB15(9, 9, 9));
 
+			// draw label corresponding to the option
             if (lang == Language::English)
                 font.printCentered(0, 77 + i * 30, TITLE_SCREEN_LABELS_EN[i]);
             else
@@ -1342,6 +1342,20 @@ void Game::draw(void)
                 break;
             }
             glColor(RGB15(31, 31, 31));
+			
+			if (settingsSelect == SETTING_FONT_SHADOW_INTENSITY)
+				glColor(RGB15(0, 31, 0));
+			switch (lang)
+			{
+			case Language::English:
+				font.printfCentered(0, 70, (settingsSelect == SETTING_FONT_SHADOW_INTENSITY) ? "> Font shadow intensity: %u <" : "Font shadow intensity: %u", Font::getShadowIntensity());
+				break;
+			case Language::Russian:
+				fontRu.printfCentered(0, 70, (settingsSelect == SETTING_FONT_SHADOW_INTENSITY) ? "> Jpugptkdpqtu# ugpk ugmtub: %u '" : "Jpugptkdpqtu# ugpk ugmtub: %u", Font::getShadowIntensity());
+				break;
+			}			
+			glColor(RGB15(31, 31, 31));
+			
             break;
         }
 
@@ -1365,10 +1379,24 @@ void Game::draw(void)
         switch (lang)
         {
         case Language::English:
-            showButtonTooltips(&font, nullptr, sprBButton, "Back", sprAButton, "Edit", nullptr, "", nullptr, "");
+			if (settingsSelect == SETTING_FONT_SHADOW_INTENSITY && settingsPage == 2)
+			{
+				// fix of a bug where a different tooltip would be drawn before this one.
+				// i don't know how and why.
+				pcxImageDrawEx(&sprDirt, 0, SCREEN_HEIGHT - 32, 0, 0, 16, 16, SCALE_NORMAL * 2, GL_FLIP_NONE);
+
+				showButtonTooltips(&font, nullptr, sprBButton, "Back", sprLeftButton, "Decrease", nullptr, "", sprRightButton, "Increase");
+			}
+				showButtonTooltips(&font, nullptr, sprBButton, "Back", sprAButton, "Edit", nullptr, "", nullptr, "");
             break;
         case Language::Russian:
-            showButtonTooltips(&fontRu, nullptr, sprBButton, "Objbf", sprAButton, "Jjogpku#", nullptr, "", nullptr, "");
+			if (settingsSelect == SETTING_FONT_SHADOW_INTENSITY && settingsPage == 2)
+			{
+				pcxImageDrawEx(&sprDirt, 0, SCREEN_HEIGHT - 32, 0, 0, 16, 16, SCALE_NORMAL * 2, GL_FLIP_NONE);
+				showButtonTooltips(&fontRu, nullptr, sprBButton, "Objbf", sprLeftButton, "Ngp#}g", nullptr, "", sprRightButton, "Bqn#}g");
+			}
+			else
+				showButtonTooltips(&fontRu, nullptr, sprBButton, "Objbf", sprAButton, "Jjogpku#", nullptr, "", nullptr, "");
             break;
         }
 
@@ -2291,6 +2319,14 @@ void Game::update(void)
             }
             mmEffectEx(&sndClick);
         }
+		else if (down & KEY_LEFT && settingsSelect == SETTING_FONT_SHADOW_INTENSITY && settingsPage == 2)
+		{
+			Font::setShadowIntensity(Font::getShadowIntensity() - 1);
+		}
+		else if (down & KEY_RIGHT && settingsSelect == SETTING_FONT_SHADOW_INTENSITY && settingsPage == 2)
+		{
+			Font::setShadowIntensity(Font::getShadowIntensity() + 1);
+		}
         else if (down & KEY_SELECT || down & KEY_DOWN)
         {
             switch (settingsPage)

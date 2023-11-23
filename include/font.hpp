@@ -58,6 +58,7 @@ private:
 
 public:
 	static void setShadowIntensity(u8 intensity);
+	static u8 getShadowIntensity(void);
 
     glImage *spr; // why is this public
 
