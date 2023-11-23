@@ -503,6 +503,8 @@ void Game::init(void)
     logoY = 16;
     editControlsSelected = 0;
     editControlsSetMode = false;
+	
+	Font::setShadowIntensity(31);
 }
 
 void Game::enterWorldSelect(void)
