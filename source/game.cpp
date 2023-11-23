@@ -1353,7 +1353,7 @@ void Game::draw(void)
 			case Language::Russian:
 				fontRu.printfCentered(0, 70, (settingsSelect == SETTING_FONT_SHADOW_INTENSITY) ? "> Jpugptkdpqtu# ugpk ugmtub: %u '" : "Jpugptkdpqtu# ugpk ugmtub: %u", Font::shadowIntensity);
 				break;
-			}			
+			}
 			glColor(RGB15(31, 31, 31));
 			
             break;
