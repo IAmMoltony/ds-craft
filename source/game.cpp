@@ -1376,29 +1376,31 @@ void Game::draw(void)
 
         glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprBButton);
         glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprAButton);
-        switch (lang)
-        {
-        case Language::English:
-			if (settingsSelect == SETTING_FONT_SHADOW_INTENSITY && settingsPage == 2)
+		if (settingsSelect == SETTING_FONT_SHADOW_INTENSITY && settingsPage == 2)
+		{
+			switch (lang)
 			{
-				// fix of a bug where a different tooltip would be drawn before this one.
-				// i don't know how and why.
-				pcxImageDrawEx(&sprDirt, 0, SCREEN_HEIGHT - 32, 0, 0, 16, 16, SCALE_NORMAL * 2, GL_FLIP_NONE);
-
+			case Language::English:
+				// TODO fix this stupid bug with tooltips on this setting
 				showButtonTooltips(&font, nullptr, sprBButton, "Back", sprLeftButton, "Decrease", nullptr, "", sprRightButton, "Increase");
-			}
-				showButtonTooltips(&font, nullptr, sprBButton, "Back", sprAButton, "Edit", nullptr, "", nullptr, "");
-            break;
-        case Language::Russian:
-			if (settingsSelect == SETTING_FONT_SHADOW_INTENSITY && settingsPage == 2)
-			{
-				pcxImageDrawEx(&sprDirt, 0, SCREEN_HEIGHT - 32, 0, 0, 16, 16, SCALE_NORMAL * 2, GL_FLIP_NONE);
+				break;
+			case Language::Russian:
 				showButtonTooltips(&fontRu, nullptr, sprBButton, "Objbf", sprLeftButton, "Ngp#}g", nullptr, "", sprRightButton, "Bqn#}g");
+				break;
 			}
-			else
+		}
+		else
+		{
+			switch (lang)
+			{
+			case Language::English:
+				showButtonTooltips(&font, nullptr, sprBButton, "Back", sprAButton, "Edit", nullptr, "", nullptr, "");
+				break;
+			case Language::Russian:
 				showButtonTooltips(&fontRu, nullptr, sprBButton, "Objbf", sprAButton, "Jjogpku#", nullptr, "", nullptr, "");
-            break;
-        }
+				break;
+			}
+		}
 
         switch (lang)
         {
@@ -1417,19 +1419,19 @@ void Game::draw(void)
         switch (lang)
         {
         case Language::English:
-            font.printfCentered(0, 30, "Are sure you want to delete");
+            font.printfCentered(0, 35, "Are sure you want to delete");
             glColor(RGB15(31, 0, 0));
-            font.printCentered(0, 52, "You cannot undo this action!");
+            font.printCentered(0, 57, "You cannot undo this action!");
             glColor(RGB15(31, 31, 31));
             break;
         case Language::Russian:
-            fontRu.printfCentered(0, 30, "C\" uqzpq xqukug vfbnku#");
+            fontRu.printfCentered(0, 35, "C\" uqzpq xqukug vfbnku#");
             glColor(RGB15(31, 0, 0));
-            fontRu.printCentered(0, 52, "_uq pgn#j& cvfgu quogpku#<");
+            fontRu.printCentered(0, 57, "_uq pgn#j& cvfgu quogpku#<");
             glColor(RGB15(31, 31, 31));
             break;
         }
-        font.printfCentered(0, 41, "'%s'?", worldSelectWorlds[deleteWorldSelected].name.c_str());
+        font.printfCentered(0, 46, "'%s'?", worldSelectWorlds[deleteWorldSelected].name.c_str());
 
         switch (lang)
         {
