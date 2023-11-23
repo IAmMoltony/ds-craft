@@ -26,21 +26,6 @@ public:
 
 private:
     /**
-     * @brief Shadow intensity (0-31 inclusive)
-     *
-     * 0: text shadow is completely transparent
-     *
-     * 31: text shadow is fully opaque
-     */
-    static u8 shadowIntensity;
-
-    /**
-     * @brief Default shadow intensity
-     * @see shadowIntensity
-     */
-    static const u8 SHADOW_INTENSITY_DEFAULT = 14;
-
-    /**
      * @brief Character width handler for regular characters
      * @see CharWidthHandler
      *
@@ -57,9 +42,24 @@ private:
     CharWidthHandler chwhHeading;
 
 public:
-	static void setShadowIntensity(u8 intensity);
-	static u8 getShadowIntensity(void);
+	/**
+     * @brief Shadow intensity (0-31 inclusive)
+     *
+     * 0: text shadow is completely transparent
+     *
+     * 31: text shadow is fully opaque
+     */
+    static u8 shadowIntensity;
 
+    /**
+     * @brief Default shadow intensity
+     * @see shadowIntensity
+     */
+    static const u8 SHADOW_INTENSITY_DEFAULT = 14;
+
+	/**
+	 * @brief Font sprite sheet
+	 */
     glImage *spr; // why is this public
 
     /**
