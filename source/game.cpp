@@ -1348,10 +1348,10 @@ void Game::draw(void)
 			switch (lang)
 			{
 			case Language::English:
-				font.printfCentered(0, 70, (settingsSelect == SETTING_FONT_SHADOW_INTENSITY) ? "> Font shadow intensity: %u <" : "Font shadow intensity: %u", Font::getShadowIntensity());
+				font.printfCentered(0, 70, (settingsSelect == SETTING_FONT_SHADOW_INTENSITY) ? "> Font shadow intensity: %u <" : "Font shadow intensity: %u", Font::shadowIntensity);
 				break;
 			case Language::Russian:
-				fontRu.printfCentered(0, 70, (settingsSelect == SETTING_FONT_SHADOW_INTENSITY) ? "> Jpugptkdpqtu# ugpk ugmtub: %u '" : "Jpugptkdpqtu# ugpk ugmtub: %u", Font::getShadowIntensity());
+				fontRu.printfCentered(0, 70, (settingsSelect == SETTING_FONT_SHADOW_INTENSITY) ? "> Jpugptkdpqtu# ugpk ugmtub: %u '" : "Jpugptkdpqtu# ugpk ugmtub: %u", Font::shadowIntensity);
 				break;
 			}			
 			glColor(RGB15(31, 31, 31));
@@ -2323,11 +2323,11 @@ void Game::update(void)
         }
 		else if (down & KEY_LEFT && settingsSelect == SETTING_FONT_SHADOW_INTENSITY && settingsPage == 2)
 		{
-			Font::setShadowIntensity(Font::getShadowIntensity() - 1);
+			Font::shadowIntensity -= (Font::shadowIntensity == 0) ? 0 : 1;
 		}
 		else if (down & KEY_RIGHT && settingsSelect == SETTING_FONT_SHADOW_INTENSITY && settingsPage == 2)
 		{
-			Font::setShadowIntensity(Font::getShadowIntensity() + 1);
+			Font::shadowIntensity += (Font::shadowIntensity < 31) ? 1 : 0;
 		}
         else if (down & KEY_SELECT || down & KEY_DOWN)
         {
