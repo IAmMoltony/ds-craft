@@ -57,6 +57,8 @@ private:
     CharWidthHandler chwhHeading;
 
 public:
+	static void setShadowIntensity(u8 intensity);
+
     glImage *spr; // why is this public
 
     /**

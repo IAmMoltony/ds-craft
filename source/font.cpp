@@ -2,6 +2,13 @@
 #include "game.hpp"
 #include "util.h"
 
+u8 Font::shadowIntensity = Font::SHADOW_INTENSITY_DEFAULT;
+
+void Font::setShadowIntensity(u8 intensity)
+{
+	shadowIntensity = intensity;
+}
+
 u8 Font::getCharWidth(char ch)
 {
     if (chwHandler)
@@ -354,7 +361,7 @@ void Font::printShadow(int x, int y, const char *str, Font *font2, s32 scale)
 {
     // shadow part
     glColor(RGB15(0, 0, 0));
-    glPolyFmt(POLY_ALPHA(14) | POLY_CULL_NONE);
+    glPolyFmt(POLY_ALPHA(shadowIntensity) | POLY_CULL_NONE);
     print(x, y, str, 1, 1, font2, scale);
     glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
     glColor(RGB15(31, 31, 31));
@@ -372,7 +379,7 @@ void Font::printShadowCentered(int x, int y, const char *str, Font *font2, s32 s
 {
     // shadow part
     glColor(RGB15(0, 0, 0));
-    glPolyFmt(POLY_ALPHA(14) | POLY_CULL_NONE);
+    glPolyFmt(POLY_ALPHA(shadowIntensity) | POLY_CULL_NONE);
     printCentered(x + 1, y + 1, str, font2, scale);
     glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
     glColor(RGB15(31, 31, 31));
@@ -409,7 +416,7 @@ void Font::printfScaleShadow(int x, int y, s32 scale, const char *format, ...)
 
     // shadow part
     glColor(RGB15(0, 0, 0));
-    glPolyFmt(POLY_ALPHA(14) | POLY_CULL_NONE);
+    glPolyFmt(POLY_ALPHA(shadowIntensity) | POLY_CULL_NONE);
     print(x, y, str, 1, 1, NULL, scale);
     glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
     glColor(RGB15(31, 31, 31));
