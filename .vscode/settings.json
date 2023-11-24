@@ -71,9 +71,6 @@
         "TODO": {
             "icon": "check"
         },
-        "@todo": {
-            "icon": "check"
-        },
         "FIXME": {
             "icon": "bug"
         },
