@@ -9,13 +9,14 @@
                 "/opt/devkitpro/libnds/include/**",
                 "/opt/devkitpro/devkitARM/**",
                 "E:/devkitPro/libnds/include/**",
-                "E:/devkitPro/devkitARM/**"
+                "E:/devkitPro/devkitARM/**",
+                "C:/devkitPro/libnds/include/**",
+                "C:/devkitPro/devkitARM/**"
             ],
             "defines": [
                 "ARM9",
-                "GIT_COMMIT=\"1234567\""
+                "GIT_COMMIT=\"1234567\"" // placeholder
             ],
-            "compilerPath": "E:\\devkitPro\\devkitARM\\bin\\arm-none-eabi-gcc.exe",
             "cStandard": "gnu17",
             "cppStandard": "gnu++17",
             "intelliSenseMode": "linux-gcc-arm"
