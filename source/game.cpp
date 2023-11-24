@@ -7,6 +7,7 @@
 #include "stats.hpp"
 #include "controlsmgr.hpp"
 #include "settingsmgr.hpp"
+#include "ui.hpp"
 #include "util.h"
 #include "mtnconfig.h"
 #include "mtnlog.h"
@@ -210,41 +211,12 @@ u8 Game::fontBigRuCharWidthHandler(char ch)
     return fontSmallRuCharWidthHandler(ch) * 2; // small char width handler but twice as big
 }
 
-void Game::showButtonTooltips(Font *font, Font *font2, glImage *t1, const char *s1, glImage *t2, const char *s2, glImage *t3, const char *s3, glImage *t4, const char *s4)
-{
-    // this code is really boring
-
-    if (t1)
-    {
-        glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, t1);
-        font->print(15, SCREEN_HEIGHT - 28, s1, 0, 0, font2);
-    }
-
-    if (t2)
-    {
-        glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, t2);
-        font->print(15, SCREEN_HEIGHT - 15, s2, 0, 0, font2);
-    }
-
-    if (t3)
-    {
-        glSprite(105, SCREEN_HEIGHT - 30, GL_FLIP_NONE, t3);
-        font->print(118, SCREEN_HEIGHT - 28, s3, 0, 0, font2);
-    }
-
-    if (t4)
-    {
-        glSprite(105, SCREEN_HEIGHT - 17, GL_FLIP_NONE, t4);
-        font->print(118, SCREEN_HEIGHT - 15, s4, 0, 0, font2);
-    }
-}
-
 void Game::playPopSound(void)
 {
-    mm_hword oldRate = sndPop.rate;       // save old rate
+    mm_hword oldRate = sndPop.rate;      // save old rate
     sndPop.rate = rng::range(512, 2048); // set rate to random rate
-    mmEffectEx(&sndPop);                  // play sound
-    sndPop.rate = oldRate;                // restore old rate
+    mmEffectEx(&sndPop);                 // play sound
+    sndPop.rate = oldRate;               // restore old rate
 }
 
 void Game::loadFonts(void)
@@ -461,7 +433,7 @@ void Game::init(void)
     randomSeed -= PersonalData->calY1px;                                                                     // subtract first Y calibration value in pixels (i think)
     randomSeed ^= PersonalData->language;                                                                    // XOR by firmware language
     randomSeed ^= stringHash(std::to_string(stringHash(getUserMessage())).c_str());                          // XOR by user message hash's hash
-    rng::setSeed(randomSeed);                                                                               // set seed
+    rng::setSeed(randomSeed);                                                                                // set seed
     srand(time(NULL));                                                                                       // set seed for stuff that doesn't need to be THAT random
 
     // finally, do some random number generation to spice up the seed even more
@@ -767,7 +739,7 @@ void Game::draw(void)
             glBoxStroke(SCREEN_WIDTH / 2 - 45, 70 + i * 30, 90, 22,
                         titleScreenSelect == i ? RGB15(31, 31, 31) : RGB15(9, 9, 9));
 
-			// draw label corresponding to the option
+            // draw label corresponding to the option
             if (lang == Language::English)
                 font.printCentered(0, 77 + i * 30, TITLE_SCREEN_LABELS_EN[i]);
             else
@@ -797,10 +769,10 @@ void Game::draw(void)
         switch (lang)
         {
         case Language::English:
-            showButtonTooltips(&font, nullptr, sprBButton, "Back", sprAButton, "More", nullptr, nullptr, nullptr, nullptr);
+            ui::showButtonTooltips(&font, nullptr, sprBButton, "Back", sprAButton, "More", nullptr, nullptr, nullptr, nullptr);
             break;
         case Language::Russian:
-            showButtonTooltips(&fontRu, nullptr, sprBButton, "Objbf", sprAButton, "F~h", nullptr, nullptr, nullptr, nullptr);
+            ui::showButtonTooltips(&fontRu, nullptr, sprBButton, "Objbf", sprAButton, "F~h", nullptr, nullptr, nullptr, nullptr);
             break;
         }
         break;
@@ -878,10 +850,10 @@ void Game::draw(void)
         switch (lang)
         {
         case Language::English:
-            showButtonTooltips(&font, nullptr, sprBButton, "Back", sprAButton, "New world", sprXButton, "Play world", sprYButton, "World settings");
+            ui::showButtonTooltips(&font, nullptr, sprBButton, "Back", sprAButton, "New world", sprXButton, "Play world", sprYButton, "World settings");
             break;
         case Language::Russian:
-            showButtonTooltips(&fontRu, nullptr, sprBButton, "Objbf", sprAButton, "Oqd\"l oks", sprXButton, "Jesbu#", sprYButton, "Obtusqlmk");
+            ui::showButtonTooltips(&fontRu, nullptr, sprBButton, "Objbf", sprAButton, "Oqd\"l oks", sprXButton, "Jesbu#", sprYButton, "Obtusqlmk");
             break;
         }
 
@@ -1342,20 +1314,20 @@ void Game::draw(void)
                 break;
             }
             glColor(RGB15(31, 31, 31));
-			
-			if (settingsSelect == SETTING_FONT_SHADOW_INTENSITY)
-				glColor(RGB15(0, 31, 0));
-			switch (lang)
-			{
-			case Language::English:
-				font.printfCentered(0, 70, (settingsSelect == SETTING_FONT_SHADOW_INTENSITY) ? "> Font shadow intensity: %u <" : "Font shadow intensity: %u", Font::shadowIntensity);
-				break;
-			case Language::Russian:
-				fontRu.printfCentered(0, 70, (settingsSelect == SETTING_FONT_SHADOW_INTENSITY) ? "> Jpugptkdpqtu# ugpk ugmtub: %u '" : "Jpugptkdpqtu# ugpk ugmtub: %u", Font::shadowIntensity);
-				break;
-			}
-			glColor(RGB15(31, 31, 31));
-			
+
+            if (settingsSelect == SETTING_FONT_SHADOW_INTENSITY)
+                glColor(RGB15(0, 31, 0));
+            switch (lang)
+            {
+            case Language::English:
+                font.printfCentered(0, 70, (settingsSelect == SETTING_FONT_SHADOW_INTENSITY) ? "> Font shadow intensity: %u <" : "Font shadow intensity: %u", Font::shadowIntensity);
+                break;
+            case Language::Russian:
+                fontRu.printfCentered(0, 70, (settingsSelect == SETTING_FONT_SHADOW_INTENSITY) ? "> Jpugptkdpqtu# ugpk ugmtub: %u '" : "Jpugptkdpqtu# ugpk ugmtub: %u", Font::shadowIntensity);
+                break;
+            }
+            glColor(RGB15(31, 31, 31));
+
             break;
         }
 
@@ -1376,31 +1348,31 @@ void Game::draw(void)
 
         glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprBButton);
         glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprAButton);
-		if (settingsSelect == SETTING_FONT_SHADOW_INTENSITY && settingsPage == 2)
-		{
-			switch (lang)
-			{
-			case Language::English:
-				// TODO fix this stupid bug with tooltips on this setting
-				showButtonTooltips(&font, nullptr, sprBButton, "Back", sprLeftButton, "Decrease", nullptr, "", sprRightButton, "Increase");
-				break;
-			case Language::Russian:
-				showButtonTooltips(&fontRu, nullptr, sprBButton, "Objbf", sprLeftButton, "Ngp#}g", nullptr, "", sprRightButton, "Bqn#}g");
-				break;
-			}
-		}
-		else
-		{
-			switch (lang)
-			{
-			case Language::English:
-				showButtonTooltips(&font, nullptr, sprBButton, "Back", sprAButton, "Edit", nullptr, "", nullptr, "");
-				break;
-			case Language::Russian:
-				showButtonTooltips(&fontRu, nullptr, sprBButton, "Objbf", sprAButton, "Jjogpku#", nullptr, "", nullptr, "");
-				break;
-			}
-		}
+        if (settingsSelect == SETTING_FONT_SHADOW_INTENSITY && settingsPage == 2)
+        {
+            switch (lang)
+            {
+            case Language::English:
+                // TODO fix this stupid bug with tooltips on this setting
+                ui::showButtonTooltips(&font, nullptr, sprBButton, "Back", sprLeftButton, "Decrease", nullptr, "", sprRightButton, "Increase");
+                break;
+            case Language::Russian:
+                ui::showButtonTooltips(&fontRu, nullptr, sprBButton, "Objbf", sprLeftButton, "Ngp#}g", nullptr, "", sprRightButton, "Bqn#}g");
+                break;
+            }
+        }
+        else
+        {
+            switch (lang)
+            {
+            case Language::English:
+                ui::showButtonTooltips(&font, nullptr, sprBButton, "Back", sprAButton, "Edit", nullptr, "", nullptr, "");
+                break;
+            case Language::Russian:
+                ui::showButtonTooltips(&fontRu, nullptr, sprBButton, "Objbf", sprAButton, "Jjogpku#", nullptr, "", nullptr, "");
+                break;
+            }
+        }
 
         switch (lang)
         {
@@ -1916,7 +1888,7 @@ void Game::update(void)
                             font.print(10, 30, "This world was saved in a newer version than  current."); // this having 2 spaces is importantes
                             font.printf(10, 70, "Current version: %s \nWorld version: %s",
                                         gamever::getVersionString(), worldVersion.c_str());
-							font.print(10, 100, "You can try opening it& but that might corrupt it.");
+                            font.print(10, 100, "You can try opening it& but that might corrupt it.");
                             font.printCentered(0, SCREEN_HEIGHT - 19, "Press any button...");
                             break;
                         case Language::Russian:
@@ -2321,14 +2293,14 @@ void Game::update(void)
             }
             mmEffectEx(&sndClick);
         }
-		else if (down & KEY_LEFT && settingsSelect == SETTING_FONT_SHADOW_INTENSITY && settingsPage == 2)
-		{
-			Font::shadowIntensity -= (Font::shadowIntensity == 0) ? 0 : 1;
-		}
-		else if (down & KEY_RIGHT && settingsSelect == SETTING_FONT_SHADOW_INTENSITY && settingsPage == 2)
-		{
-			Font::shadowIntensity += (Font::shadowIntensity < 31) ? 1 : 0;
-		}
+        else if (down & KEY_LEFT && settingsSelect == SETTING_FONT_SHADOW_INTENSITY && settingsPage == 2)
+        {
+            Font::shadowIntensity -= (Font::shadowIntensity == 0) ? 0 : 1;
+        }
+        else if (down & KEY_RIGHT && settingsSelect == SETTING_FONT_SHADOW_INTENSITY && settingsPage == 2)
+        {
+            Font::shadowIntensity += (Font::shadowIntensity < 31) ? 1 : 0;
+        }
         else if (down & KEY_SELECT || down & KEY_DOWN)
         {
             switch (settingsPage)

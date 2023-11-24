@@ -36,7 +36,7 @@
  * @ref lang.hpp "Language documentation"
  *
  * @ref pcximage.h "PCX Image documentation"
- * 
+ *
  * @ref player.hpp "Player documentation"
  *
  * @ref random.hpp "Random Number Generator documentation"
@@ -48,6 +48,8 @@
  * @ref stats.hpp "Stats System documentation"
  *
  * @ref terrain.hpp "Terrain Generation documentation"
+ *
+ * @ref ui.hpp "UI utility documentation"
  *
  * @ref userinfo.h "User Information documentation"
  *
@@ -209,23 +211,6 @@ public:
      * @param ch character to handle
      */
     static u8 fontBigRuCharWidthHandler(char ch);
-
-    /**
-     * @brief Show button tooltips
-     * @param font Font to use
-     * @param font2 Secondary font (set to null if no secondary font)
-     * @param t1 Image for 1st tooltip
-     * @param s1 Text for 1st tooltip
-     * @param t2 Image for 2nd tooltip
-     * @param s2 Text for 2nd tooltip
-     * @param t3 Image for 3rd tooltip
-     * @param s3 Text for 3rd tooltip
-     * @param t4 Image for 4th tooltip
-     * @param s4 Text for 4th tooltip
-     *
-     * If an image is set to `NULL` or `nullptr`, then the corresponding tooltip will be hidden.
-     */
-    static void showButtonTooltips(Font *font, Font *font2, glImage *t1, const char *s1, glImage *t2, const char *s2, glImage *t3, const char *s3, glImage *t4, const char *s4);
 
     /**
      * @brief Game logo
