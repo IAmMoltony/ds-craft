@@ -32,7 +32,7 @@ Game::Game() : blocks(), entities(), blockParticles(), player(), gameState(State
 void Game::gameQuit(void)
 {
     glBegin2D();
-    drawDirtBackground();
+    ui::drawScrollingBackground();
 
     // render "unload game assets" screen
     switch (lang)
@@ -51,7 +51,7 @@ void Game::gameQuit(void)
     AssetManager::unloadGameAssets(); // unload game assets
 
     glBegin2D();
-    drawDirtBackground();
+    ui::drawScrollingBackground();
 
     // show "loading menu assets" screen
     switch (lang)
@@ -70,7 +70,7 @@ void Game::gameQuit(void)
 
     // save world screen
     glBegin2D();
-    drawDirtBackground();
+    ui::drawScrollingBackground();
     switch (lang)
     {
     case Language::English:
@@ -346,7 +346,7 @@ void Game::init(void)
             ++frameCounter;
 
             glBegin2D();
-            drawDirtBackground();
+            glClearColor(0, 0, 0, 31);
 
             font.drawHeading("Error!");
 
@@ -445,6 +445,9 @@ void Game::init(void)
     // load assets for menu
     AssetManager::loadMenuAssets();
 
+    // set up scrolling background
+    ui::setupScrollingBackground(&sprDirt, SCALE_NORMAL * 2, 15, GL_FLIP_NONE);
+
     // set fps timer
     timerStart(2, ClockDivider_1024, TIMER_FREQ_1024(1), _countFPS);
 
@@ -482,7 +485,7 @@ void Game::enterWorldSelect(void)
 {
     gameState = State::WorldSelect;
     glBegin2D();
-    drawDirtBackground();
+    ui::drawScrollingBackground();
     switch (lang)
     {
     case Language::English:
@@ -529,13 +532,6 @@ void Game::loadLocation(s16 oldLocation)
 u16 Game::getFrameCounter(void)
 {
     return frameCounter;
-}
-
-void Game::drawDirtBackground(void)
-{
-    glColor(RGB15(15, 15, 15));
-    pcxImageDrawEx(&sprDirt, 0 - instance->getFrameCounter() % 64, 0, 0, 0, SCREEN_WIDTH / 2 + 64, SCREEN_HEIGHT / 2, (1 << 12) * 2, GL_FLIP_NONE);
-    glColor(RGB15(31, 31, 31));
 }
 
 // width & height of the world name box
@@ -724,7 +720,7 @@ void Game::draw(void)
         break;
     }
     case State::TitleScreen:
-        drawDirtBackground();
+        ui::drawScrollingBackground();
 
         // draw the game logo
         glSpriteScale(SCREEN_WIDTH / 2 - 96, logoY, (1 << 12) * 2, GL_FLIP_NONE, sprLogo);
@@ -1880,7 +1876,7 @@ void Game::update(void)
                             break;
 
                         glBegin2D();
-                        drawDirtBackground();
+                        ui::drawScrollingBackground();
                         switch (lang)
                         {
                         case Language::English:
@@ -1912,7 +1908,7 @@ void Game::update(void)
                 {
                     // unloading screen for menu assets
                     glBegin2D();
-                    drawDirtBackground();
+                    ui::drawScrollingBackground();
                     switch (lang)
                     {
                     case Language::English:
@@ -1929,7 +1925,7 @@ void Game::update(void)
 
                     // loading screen for assets
                     glBegin2D();
-                    drawDirtBackground();
+                    ui::drawScrollingBackground();
                     switch (lang)
                     {
                     case Language::English:
@@ -1946,7 +1942,7 @@ void Game::update(void)
 
                     // loading screen for world
                     glBegin2D();
-                    drawDirtBackground();
+                    ui::drawScrollingBackground();
                     switch (lang)
                     {
                     case Language::English:
@@ -2135,7 +2131,7 @@ void Game::update(void)
 
                 // creating world screen
                 glBegin2D();
-                drawDirtBackground();
+                ui::drawScrollingBackground();
                 switch (lang)
                 {
                 case Language::English:
@@ -2530,7 +2526,7 @@ void Game::AssetManager::unloadMenuAssets(void)
 
 void Game::drawMenuBackground(void)
 {
-    drawDirtBackground();
+    ui::drawScrollingBackground();
     pcxImageDrawEx(&sprDirt, 0, 0, 0, 0, SCREEN_WIDTH, 16, SCALE_NORMAL * 2, GL_FLIP_NONE);
     pcxImageDrawEx(&sprDirt, 0, SCREEN_HEIGHT - 32, 0, 0, SCREEN_WIDTH, 16, SCALE_NORMAL * 2, GL_FLIP_NONE);
 }
