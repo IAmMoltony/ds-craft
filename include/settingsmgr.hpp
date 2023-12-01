@@ -1,3 +1,8 @@
+/**
+ * @file settingsmgr.hpp
+ * @brief Settings manager class
+ */
+
 #pragma once
 
 #include <nds/ndstypes.h>
