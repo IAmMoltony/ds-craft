@@ -4,6 +4,7 @@
  */
 
 #include "font.hpp"
+#include "pcximage.h"
 
 /**
  * @brief Namespace for UI utility module
@@ -28,5 +29,20 @@ namespace ui
      */
     void showButtonTooltips(Font *font, Font *font2, glImage *t1, const char *s1, glImage *t2,
                             const char *s2, glImage *t3, const char *s3, glImage *t4, const char *s4);
-    // TODO move menu background functions to here
+
+    /**
+     * @brief Set up scrolling background. Call this before using `drawScrollingBackground`.
+     *
+     * @param img image to use for scrolling background
+     * @param scaling how much to scale the image
+     * @param dim background dim level. This is 0 through 31 inclusive, where 0 is pitch black and 31 is no dim.
+     * @param flip how to flip the image when drawing the scrolling background (set to `GL_FLIP_NONE` for no flip)
+     */
+    void setupScrollingBackground(PCXImage *img, s32 scaling, u8 dim, GL_FLIP_MODE flip);
+
+    /**
+     * @brief Draw scrolling background.
+     * @see setupScrollingBackground
+     */
+    void drawScrollingBackground(void);
 }

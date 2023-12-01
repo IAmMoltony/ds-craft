@@ -1,4 +1,5 @@
 #include "ui.hpp"
+#include "game.hpp"
 
 namespace ui
 {
@@ -28,5 +29,31 @@ namespace ui
             glSprite(105, SCREEN_HEIGHT - 17, GL_FLIP_NONE, t4);
             font->print(118, SCREEN_HEIGHT - 15, s4, 0, 0, font2);
         }
+    }
+
+    // variables related to scrolling background
+    static PCXImage *_sbImg = nullptr;
+    static s32 _sbScale = 0;
+    static u8 _sbDim = 0;
+    static GL_FLIP_MODE _sbFlip = GL_FLIP_NONE;
+
+    void setupScrollingBackground(PCXImage *img, s32 scaling, u8 dim, GL_FLIP_MODE flip)
+    {
+        _sbImg = img;
+        _sbScale = scaling;
+        _sbDim = dim;
+
+        if (_sbDim > 31)
+            _sbDim = 31; // make sure that the dim level doesn't go above 31
+
+        _sbFlip = flip;
+    }
+
+    void drawScrollingBackground(void)
+    {
+        rgb dimColor = RGB15(_sbDim, _sbDim, _sbDim);
+        glColor(dimColor);
+        pcxImageDrawEx(_sbImg, 0 - Game::instance->getFrameCounter() % ((_sbScale / SCALE_NORMAL) * _sbImg->simg.width * 2), 0, 0, 0, SCREEN_WIDTH / (_sbScale / SCALE_NORMAL) + ((_sbScale / SCALE_NORMAL) * _sbImg->simg.width * 2), SCREEN_HEIGHT / 2, _sbScale, _sbFlip);
+        glColor(RGB15(31, 31, 31)); // reset draw color
     }
 }
