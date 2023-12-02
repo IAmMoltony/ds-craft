@@ -11,6 +11,20 @@ DS-Craft is a Minecraft demake for Nintendo DS written in C and C++ inspired by 
 ![GitHub tag (with filter)](https://img.shields.io/github/v/tag/IAmMoltony/ds-craft?label=latest%20version)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/IAmMoltony/ds-craft/main)
 
+## Table of contents
+
+- [ds-craft](#ds-craft)
+  * [Table of contents](#table-of-contents)
+  * [Cloning](#cloning)
+  * [Dependencies](#dependencies)
+  * [Building and running](#building-and-running)
+    + [With command line (anywhere)](#with-command-line-anywhere)
+    + [Using Code::Blocks (on Linux)](#using-codeblocks-on-linux)
+    + [Using Visual Studio (on Windows)](#using-visual-studio-on-windows)
+  * [Docs](#docs)
+  * [Screenshots](#screenshots)
+  * [Credits](#credits)
+
 ## Cloning
 
 Since this game uses submodules, you should clone it like this:
