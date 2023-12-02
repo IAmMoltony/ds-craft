@@ -48,7 +48,7 @@ public:
     */
     static bool showFPS;
 
-	// ======== Default values =========
+    // ======== Default values =========
 
     /**
      * @brief Default value for transparent leaves setting
