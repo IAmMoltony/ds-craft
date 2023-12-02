@@ -33,10 +33,10 @@ public:
      */
     static bool autoJump;
 
-	/*
-	 * @brief Block particles setting
-	*/
-	static bool blockParticles;
+    /*
+     * @brief Block particles setting
+     */
+    static bool blockParticles;
 
     /**
      * @brief Show coordinates setting
