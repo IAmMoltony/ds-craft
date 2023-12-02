@@ -35,6 +35,7 @@ INCLUDES := include
 GRAPHICS := $(sort $(dir $(wildcard gfx/*/)))
 AUDIO := audio
 NITRODATA := nitrofiles
+SCRIPTS := scripts
 
 # git commit
 GIT_COMMIT := $(shell git log -1 --format=%h)
@@ -274,7 +275,7 @@ endif
 
 ../include/images.h: $(shell $(FIND) ../gfx/* -name *.png) $(shell $(FIND) ../gfx/* -name *.bmp)
 	$(SILENTMSG) generating $(notdir $@)
-	$(SILENTCMD)$(PYTHON) ../genimagesh.py $@
+	$(SILENTCMD)$(PYTHON) $(TOPDIR)/$(SCRIPTS)/genimagesh.py $@ $(TOPDIR)/$(GRAPHICS)
 
 #---------------------------------------------------------------------------------
 # The bin2o rule should be copied and modified

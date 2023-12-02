@@ -8,10 +8,11 @@ from pathlib import Path
 def main():
     parser = argparse.ArgumentParser(description="Generate images.h file")
     parser.add_argument("output_file", help="output file path")
+    parser.add_argument("gfx_dir", help="graphics directory")
     args = parser.parse_args()
 
     script_dir = Path(os.path.dirname(os.path.realpath(__file__)))
-    gfx_dir = script_dir / "gfx"
+    gfx_dir = Path(args.gfx_dir)
 
     png_files = list(gfx_dir.glob("**/*.png")) + list(gfx_dir.glob("*.png"))
     bmp_files = list(gfx_dir.glob("**/*.bmp")) + list(gfx_dir.glob("*.bmp"))
