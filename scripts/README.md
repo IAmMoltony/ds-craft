@@ -3,6 +3,18 @@
 
 The `scripts` folder is the home of all convenience scripts in DS-Craft.
 
+## Table of contents
+
+- [DS-Craft Scripts](#ds-craft-scripts)
+  * [Table of contents](#table-of-contents)
+  * [Script Requirements](#script-requirements)
+  * [The Scripts](#the-scripts)
+    + [Create Release (`create-release.py`)](#create-release-create-releasepy)
+    + [Image Header Generator (`genimagesh.py`)](#image-header-generator-genimageshpy)
+    + [TODOs Lister (`lstodos.sh`, `lstodos.ps1`)](#todos-lister-lstodossh-lstodosps1)
+    + [Crafting Recipe Generator (`newrecipe.py`)](#crafting-recipe-generator-newrecipepy)
+    + [Russian String Encoder (`strencode.py`)](#russian-string-encoder-strencodepy)
+
 ## Script Requirements
 
 All scripts assume you run from the project root directory. Python scripts require Python 3, and preferably the latest update.
