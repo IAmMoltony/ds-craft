@@ -1,3 +1,4 @@
+Clear-Host
 $todoPattern = "@todo|TODO"
 
 Get-Content .\source\* | Select-String -Pattern $todoPattern 
