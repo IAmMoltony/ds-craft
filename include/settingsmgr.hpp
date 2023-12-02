@@ -48,6 +48,11 @@ public:
     */
     static bool showFPS;
 
+    /**
+     * @brief Whether frameskip is enabled or not
+     */
+    static bool frameskipEnabled;
+
     // ======== Default values =========
 
     /**
@@ -84,6 +89,11 @@ public:
      * @brief Default value for show FPS setitng
     */
     static const bool SHOW_FPS_DEFAULT = false;
+
+    /**
+     * @brief Default value for frameskip enabled setting
+     */
+    static const bool FRAMESKIP_ENABLED_DEFAULT = true;
 
     SettingsManager() = delete;
     SettingsManager(SettingsManager &) = delete;

@@ -13,6 +13,7 @@ bool SettingsManager::autoJump = SettingsManager::AUTO_JUMP_DEFAULT;
 bool SettingsManager::blockParticles = SettingsManager::BLOCK_PARTICLES_DEFAULT;
 bool SettingsManager::showCoords = SettingsManager::SHOW_COORDS_DEFAULT;
 bool SettingsManager::showFPS = SettingsManager::SHOW_FPS_DEFAULT;
+bool SettingsManager::frameskipEnabled = SettingsManager::FRAMESKIP_ENABLED_DEFAULT;
 
 void SettingsManager::loadLanguageLegacy(void)
 {
@@ -141,6 +142,8 @@ void SettingsManager::updateSettingsFormat(void)
 
 void SettingsManager::saveSettings(void)
 {
+    mtnlogMessage(LOG_INFO, "Saving settings");
+
     // open na file
     FILE *settingsFile = fopen(std::string(std::string(mtnconfigGet("configDir")) + "/settings.cfg").c_str(), "w");
 
@@ -154,7 +157,7 @@ void SettingsManager::saveSettings(void)
     // TODO rework auto jump
 
     // write settings
-    fprintf(settingsFile, "trleaves %d\nautosave %d\nsmoothcam %d\nautojump %d\nlang %d\nblockparts %d\nshowcoords %d\nshowfps %d\nfsi %u\n", transparentLeaves, autoSaveSeconds, smoothCamera, autoJump, Game::instance->lang == Language::English ? 0 : 1, blockParticles, showCoords, showFPS, Font::shadowIntensity);
+    fprintf(settingsFile, "trleaves %d\nautosave %d\nsmoothcam %d\nautojump %d\nlang %d\nblockparts %d\nshowcoords %d\nshowfps %d\nfsi %u\nframeskip %d\n", transparentLeaves, autoSaveSeconds, smoothCamera, autoJump, Game::instance->lang == Language::English ? 0 : 1, blockParticles, showCoords, showFPS, Font::shadowIntensity, frameskipEnabled);
 
     // don't forget to close
     fclose(settingsFile);
@@ -232,6 +235,11 @@ void SettingsManager::loadSettings(void)
 			// font shadow intensity
 			Font::shadowIntensity = std::stoi(split[1]);
 		}
+        else if (split[0] == "frameskip")
+        {
+            // frameskip enabled or not
+            frameskipEnabled = std::stoi(split[1]);
+        }
         else
         {
             // invalid key

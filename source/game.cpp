@@ -2442,7 +2442,7 @@ void Game::run(void)
         ++_frameCounterFPS;
 
         float frameTime = (float)cpuEndTiming() / BUS_CLOCK * 1000;
-        if (frameTime > TARGET_FRAME_TIME && frameCounter >= 5)
+        if (frameTime > TARGET_FRAME_TIME && frameCounter >= 5 && SettingsManager::frameskipEnabled)
         {
             int framesToSkip = (int)(frameTime / TARGET_FRAME_TIME);
             for (int i = 0; i < framesToSkip; ++i)
