@@ -13,6 +13,7 @@ The `scripts` folder is the home of all convenience scripts in DS-Craft.
     + [Image Header Generator (`genimagesh.py`)](#image-header-generator-genimageshpy)
     + [TODOs Lister (`lstodos.sh`, `lstodos.ps1`)](#todos-lister-lstodossh-lstodosps1)
     + [Crafting Recipe Generator (`newrecipe.py`)](#crafting-recipe-generator-newrecipepy)
+    + [Crafting Recipe Generator (OLD VERSION) (`newrecipe-old.py`)](#crafting-recipe-generator-old-version-newrecipe-oldpy)
     + [Russian String Encoder (`strencode.py`)](#russian-string-encoder-strencodepy)
 
 ## Script Requirements
@@ -56,7 +57,31 @@ The script has two versions: a Bash version (`lstodos.sh`) and a PowerShell vers
 
 ### Crafting Recipe Generator (`newrecipe.py`)
 
-**This script is planned to be overhauled.**
+The Crafting Recipe Generator script generates a new crafting recipe automatically based on the recipe data that you provide it with.
+
+The script requires the following positional arguments to be present in the following order:
+
+- Recipe file: the path to the recipe file that will be generated
+- Output count: how many of the item will be crafted at once
+- Output item ID: the ID of the output item as a string
+- Ingredient string: the ingredient string (see below)
+
+The ingredient string is the list of ingredients separated by semicolons. Example:
+
+```
+planks 7;dirt 2;poppy 1
+```
+
+The ingredient string above defines that the ingredients are 7 planks, 2 dirt and 1 poppy. An ingredient string can contain any amount of ingredients (Maybe even none, but behavior of recipes with no ingredients has never been tested).
+
+The script also supports the following optional arguments:
+
+- Quiet mode (`--quiet`): display no output. This option also skips confirmation.
+- No confirmation mode: (`--noconfirm`): assume 'yes' in confirmation (skip confirmation)
+
+### Crafting Recipe Generator (OLD VERSION) (`newrecipe-old.py`)
+
+**DEPRECATED!!!!! Please use `newrecipe.py`**
 
 The Crafting Recipe Generator script generates a new crafting recipe automatically.
 

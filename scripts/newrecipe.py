@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
-# newrecipe.py
-# Script for creating a new recipe
+# newrecipe_v2.py
+# Rewrite of the New Recipe script.
 
 import argparse
 from dataclasses import dataclass
@@ -9,15 +9,11 @@ import os
 
 
 @dataclass
-class CraftingRecipe:
+class CraftingRecipeMeta:
+    # Crafting recipe metadata
     recipe_file: str
-    identifier: int  # because 'id' is already taken
     count: int
     output: str
-    texid: int
-
-    def __repr__(self) -> str:
-        return f"file: {self.recipe_file}, ID: {self.identifier}, count: {self.count}, outputs: {self.output}"
 
 
 @dataclass
@@ -26,77 +22,70 @@ class CraftingRecipeIngredient:
     count: int
 
     def __repr__(self) -> str:
+        return f"{self.count} of {self.item_id}"
+
+    def serialize(self) -> str:
         return f"{self.item_id} {self.count}"
+
+def parse_ingredient(ingr_str: str) -> CraftingRecipeIngredient:
+    ingr = CraftingRecipeIngredient(0, "")
+    ingr_str_split = ingr_str.split(" ")
+    ingr.item_id = ingr_str_split[0]
+    ingr.count = int(ingr_str_split[1])
+    return ingr
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Script for creating a new recipe")
-    parser.add_argument("recipe_file", help="File name without .rcp")
-    parser.add_argument("output_count", type=int, help="Outputted item count")
-    parser.add_argument("output_item", help="Output item id")
-
+    parser = argparse.ArgumentParser(
+        description="script for generating a crafting recipe"
+    )
+    parser.add_argument("recipe_file", help="recipe file to generate")
+    parser.add_argument(
+        "output_count",
+        type=int,
+        help="output item count (how many of the item is crafted at once)",
+    )
+    parser.add_argument("output_item", help="string ID of the output item")
+    parser.add_argument(
+        "ingredient_string",
+        help="ingredient string. See scripts/README.md for details.",
+    )
+    parser.add_argument("--quiet", help="quiet mode on or off", action="store_true")
+    parser.add_argument("--noconfirm", help="skip confirmation and assume yes", action="store_true")
     args = parser.parse_args()
 
-    print("New recipe values")
-    print(f"Output count: {args.output_count}")
-    print(f"Output item: {args.output_item}")
-    print("Is this ok? (y/n)")
-    yn = input("> ")
-    if yn.lower() != "y":
-        print("Aborting.")
-        exit(0)
+    # get command line arguments
+    recipe_file = args.recipe_file
+    out_count = args.output_count
+    out_item = args.output_item
+    ingredient_str = args.ingredient_string
+    be_quiet = args.quiet
+    no_confirm = args.noconfirm
 
-    print("Please enter recipe ingredients in format <item id> <count>")
-    print("Enter 'done' to stop.")
-    ingredients: list[CraftingRecipeIngredient] = []
-    while True:
-        recipe_str = input("> ")
-        if recipe_str == "done":
-            break
-        split = recipe_str.split(" ")
-        if len(split) != 2:
-            print("Invalid argument count!")
-            continue
+    ingr_strs = ingredient_str.split(";")
+    ingrs = [parse_ingredient(ingr_str) for ingr_str in ingr_strs]
 
-        count = 0
-        try:
-            count = int(split[1])
-        except ValueError:
-            print("Count must be an integer!")
-            continue
-        if count <= 0:
-            print("Count must be greater than 0!")
-            continue
-        iid = split[0]
-        ingredients.append(CraftingRecipeIngredient(iid, count))
-    if len(ingredients) == 0:
-        print("Ingredient list must not be empty")
-        exit(3)
+    if not be_quiet:
+        print(f"Output recipe file: {recipe_file}")
+        print(f"Output item: {out_count} of {out_item}")
+        print("Ingredients:")
+        for ingr in ingrs:
+            print(f" {ingr}")
 
-    to_write = f"count {args.output_count}\noutput {args.output_item}\nRECIPE\n"
-    for ingr in ingredients:
-        to_write += repr(ingr) + "\n"
+    if not no_confirm and not be_quiet:
+        yn = input("Proceed? (y/n): ")
+        if yn.strip().lower() != "y":
+            print("Aborting.")
+            exit(1)
 
-    print(f"This will be written to {args.recipe_file}.rcp:")
-    print(to_write)
-    print("Is this ok? (y/n)")
-    yn = input("> ")
-    if yn.lower() != "y":
-        print("Aborting.")
-        exit(0)
+    recipe_str = f"count {out_count}\noutput {out_item}\nRECIPE\n"
+    for ingr in ingrs:
+        recipe_str += f"{ingr.serialize()}\n"
 
-    print("Writing recipe to file")
-    with open(f"{args.recipe_file}.rcp", "w") as f:
-        f.write(to_write)
-
-    print(f"Move {args.recipe_file}.rcp to nitrofiles/crafting? (y/n)")
-    yn = input("> ")
-    if yn.lower() != "y":
-        print("All done!")
-        exit(0)
-    os.rename(f"{args.recipe_file}.rcp", f"nitrofiles/crafting/{args.recipe_file}.rcp")
-    print("All done!")
-
+    with open(recipe_file, "w") as file:
+        file.write(recipe_str)
+    if not be_quiet:
+        print("ok")
 
 if __name__ == "__main__":
     main()
