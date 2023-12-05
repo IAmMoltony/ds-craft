@@ -281,9 +281,8 @@ static constexpr u8 SETTING_LAST_PAGE1 = SETTING_EDIT_CONTROLS;
 static constexpr u8 SETTING_SHOW_COORDS = 0;
 static constexpr u8 SETTING_SHOW_FPS = 1;
 static constexpr u8 SETTING_FONT_SHADOW_INTENSITY = 2;
-static constexpr u8 SETTING_LAST_PAGE2 = SETTING_FONT_SHADOW_INTENSITY;
-
-// TODO add settings screen labels array
+static constexpr u8 SETTING_FRAMESKIP_ENABLE = 3;
+static constexpr u8 SETTING_LAST_PAGE2 = SETTING_FRAMESKIP_ENABLE;
 
 static u16 _frameCounterFPS = 0;
 static u16 _fps = 0.0f;
@@ -374,7 +373,7 @@ void Game::init(void)
     if (!mtnconfigInit("nitro:/config.cfg"))
     {
         perror("Error initializing config");
-        printf("\nThis is a bug. Please report it!");
+        fprintf(stderr, "\nThis is a bug. Please report it!");
         hang();
     }
 
@@ -1324,6 +1323,16 @@ void Game::draw(void)
             }
             glColor(RGB15(31, 31, 31));
 
+            if (settingsSelect == SETTING_FRAMESKIP_ENABLE)
+                glColor(RGB15(0, 31, 0));
+
+            switch (lang)
+            {
+            case Language::English:
+                font.printfCentered(0, 81, (settingsSelect == SETTING_FRAMESKIP_ENABLE) ? "> Frameskip: %s <" : "Frameskip: %s", SettingsManager::frameskipEnabled ? "ON" : "OFF");
+            }
+            glColor(RGB15(0, 31, 0));
+
             break;
         }
 
@@ -1336,7 +1345,7 @@ void Game::draw(void)
             font.printfCentered(0, 139, "\1:31:31:0*Page %u / 2", settingsPage);
             break;
         case Language::Russian:
-            fontRu.printfCentered(0, 139, "\1:31:31:0*Sus %u / 2", settingsPage); // ...
+            fontRu.printfCentered(0, 139, "\1:31:31:0*Sus %u / 2", settingsPage); // uh
             break;
         }
         font.printCentered(0, 141, "< \2:L" + spaces);
