@@ -15,6 +15,7 @@ These changes are planned to be implemented in DS-Craft.
 - Dirt slabs: craftable using 6 dirt
 - Petrified wooden slabs
 - Stained glass
+- Changing sound volume per sound source
 
 ## Changes
 
