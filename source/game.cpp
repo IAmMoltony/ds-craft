@@ -2297,6 +2297,10 @@ void Game::update(void)
                     SettingsManager::showFPS = !SettingsManager::showFPS;
                     SettingsManager::saveSettings();
                     break;
+                case SETTING_FRAMESKIP_ENABLE:
+                    SettingsManager::frameskipEnabled = !SettingsManager::frameskipEnabled;
+                    SettingsManager::saveSettings();
+                    break;
                 }
                 break;
             }
