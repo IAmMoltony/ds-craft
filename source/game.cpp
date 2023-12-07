@@ -1330,6 +1330,10 @@ void Game::draw(void)
             {
             case Language::English:
                 font.printfCentered(0, 81, (settingsSelect == SETTING_FRAMESKIP_ENABLE) ? "> Frameskip: %s <" : "Frameskip: %s", SettingsManager::frameskipEnabled ? "ON" : "OFF");
+                break;
+            case Language::Russian:
+                fontRu.printfCentered(0, 81, (settingsSelect == SETTING_FRAMESKIP_ENABLE) ? "> Qsqrvtm mbfsqd: %s '" : "Qsqrvtm mbfsqd: %s", SettingsManager::frameskipEnabled ? "CLM" : "C]LM");
+                break;
             }
             glColor(RGB15(0, 31, 0));
 
