@@ -2309,10 +2309,12 @@ void Game::update(void)
         else if (down & KEY_LEFT && settingsSelect == SETTING_FONT_SHADOW_INTENSITY && settingsPage == 2)
         {
             Font::shadowIntensity -= (Font::shadowIntensity == 0) ? 0 : 1;
+            SettingsManager::saveSettings();
         }
         else if (down & KEY_RIGHT && settingsSelect == SETTING_FONT_SHADOW_INTENSITY && settingsPage == 2)
         {
             Font::shadowIntensity += (Font::shadowIntensity < 31) ? 1 : 0;
+            SettingsManager::saveSettings();
         }
         else if (down & KEY_SELECT || down & KEY_DOWN)
         {
