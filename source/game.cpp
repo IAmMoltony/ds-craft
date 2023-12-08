@@ -383,6 +383,7 @@ void Game::init(void)
 
     // init logging
     mtnlogInit((MtnLogLevel)mtnconfigGetInt("logLevel"), mtnconfigGet("logFile"));
+    mtnlogColor(true);
 
     mtnlogMessage(LOG_INFO, "Initializing sound");
 
