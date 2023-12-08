@@ -1113,13 +1113,12 @@ void Game::draw(void)
             break;
         }
 
-        font.printCentered(0, 50, "Compiled on:");
-        font.printCentered(0, 61, __DATE__ " " __TIME__);
-        font.printCentered(0, 72, "Compiled with GCC " __VERSION__);
-        font.printfCentered(0, 93, "Version %s", gamever::getVersionString());
-        font.printfCentered(0, 104, "libNDS version %d.%d.%d", _LIBNDS_MAJOR_, _LIBNDS_MINOR_, _LIBNDS_PATCH_);
-        font.printfCentered(0, 115, "libFAT version %d.%d.%d", _LIBFAT_MAJOR_, _LIBFAT_MINOR_, _LIBFAT_PATCH_);
-        font.printCentered(0, 126, "Git commit " GIT_COMMIT);
+        font.print(5, 45, "Compiled on " __DATE__ " " __TIME__);
+        font.print(5, 56, "Compiled with GCC " __VERSION__);
+        font.printf(5, 67, "Version %s", gamever::getVersionString());
+        font.printf(5, 88, "libNDS version %d.%d.%d", _LIBNDS_MAJOR_, _LIBNDS_MINOR_, _LIBNDS_PATCH_);
+        font.printf(5, 99, "libFAT version %d.%d.%d", _LIBFAT_MAJOR_, _LIBFAT_MINOR_, _LIBFAT_PATCH_);
+        font.print(5, 110, "Git commit " GIT_COMMIT);
 
         glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprBButton);
         switch (lang)
