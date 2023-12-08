@@ -1,6 +1,7 @@
 # ds-craft
 
-DS-Craft is a Minecraft demake for Nintendo DS written in C and C++ inspired by [Paper Minecraft](https://scratch.mit.edu/projects/10128407/).
+DS-Craft is a Minecraft demake for Nintendo DS written in C and C++ inspired by
+[Paper Minecraft](https://scratch.mit.edu/projects/10128407/).
 
 [![CodeFactor](https://www.codefactor.io/repository/github/iammoltony/ds-craft/badge/main)](https://www.codefactor.io/repository/github/iammoltony/ds-craft/overview/main)
 ![GitHub all releases](https://img.shields.io/github/downloads/IAmMoltony/ds-craft/total)
@@ -14,16 +15,16 @@ DS-Craft is a Minecraft demake for Nintendo DS written in C and C++ inspired by 
 ## Table of contents
 
 - [ds-craft](#ds-craft)
-  * [Table of contents](#table-of-contents)
-  * [Cloning](#cloning)
-  * [Dependencies](#dependencies)
-  * [Building and running](#building-and-running)
-    + [With command line (anywhere)](#with-command-line-anywhere)
-    + [Using Code::Blocks (on Linux)](#using-codeblocks-on-linux)
-    + [Using Visual Studio (on Windows)](#using-visual-studio-on-windows)
-  * [Docs](#docs)
-  * [Screenshots](#screenshots)
-  * [Credits](#credits)
+  - [Table of contents](#table-of-contents)
+  - [Cloning](#cloning)
+  - [Dependencies](#dependencies)
+  - [Building and running](#building-and-running)
+    - [With command line (anywhere)](#with-command-line-anywhere)
+    - [Using Code::Blocks (on Linux)](#using-codeblocks-on-linux)
+    - [Using Visual Studio (on Windows)](#using-visual-studio-on-windows)
+  - [Docs](#docs)
+  - [Screenshots](#screenshots)
+  - [Credits](#credits)
 
 ## Cloning
 
@@ -33,7 +34,8 @@ Since this game uses submodules, you should clone it like this:
 git clone https://github.com/IAmMoltony/ds-craft --recurse-submodules
 ```
 
-Or if you already cloned it without `--recurse-submodules`, then you need to run this in the repo folder:
+Or if you already cloned it without `--recurse-submodules`, then run this in the
+repo folder:
 
 ```bash
 git submodule update --init --recursive
@@ -48,19 +50,26 @@ git submodule update --init --recursive
 
 ### With command line (anywhere)
 
-- `make build` - build the game. This is the default target, so running `make` is the same as `make build`.
+- `make build` - build the game. This is the default target, so running `make`
+is the same as running `make build`.
 
-- `make run` - run the game in the emulator specified. The emulator has to be specified as `EMULATOR=/path/to/emulator` at the end of the command. If you're on Windows, then the slashes in the path must be forward-slashes (`/`) instead of backslashes (`\`).
+- `make run` - run the game in the emulator specified. The emulator has to be
+specified as `EMULATOR=/path/to/emulator` at the end of the command. If you're
+on Windows, then the slashes in the path must be forward-slashes (`/`) instead
+of backslashes (`\`).
 
 - `make clean` - remove all binaries.
 
 ### Using Code::Blocks (on Linux)
 
-You can use Code::Blocks the same way you do with other programs. The only difference is, if you want to run the game using an emulator from within Code::Blocks, you have to set the emulator in the `codeblocks_run` file.
+You can use Code::Blocks the same way you do with other programs. The only
+difference is, if you want to run the game using an emulator from within
+Code::Blocks, you have to set the emulator in the `codeblocks_run` file.
 
 ### Using Visual Studio (on Windows)
 
-You can use Visual Studio the same way as you do with other projects. Just ignore the libnds and devkitARM error messages.
+You can use Visual Studio the same way as you do with other projects. Just
+ignore the libnds and devkitARM error messages.
 
 If you want to run the game from Visual Studio:
 
@@ -69,11 +78,17 @@ If you want to run the game from Visual Studio:
 1. make sure the configuration is set to 'All Configurations'
 1. change 'Command' to your Nintendo DS emulator path
 
-The solution and project files were created in Visual Studio 2015, so they'll work in 2015 and above.
+The solution and project files were created in Visual Studio 2015, so they'll
+work in 2015 and above.
 
 ## Docs
 
-To generate documentation, you need [Doxygen](https://doxygen.nl). If you need PDF file output as well, then install [EPS to PDF](https://tug.org/epstopdf/). Once you're ready, pull up your terminal, go to the root of the project and run `doxygen`. You can use Doxywizard too, if you like.
+To generate documentation, you need [Doxygen](https://doxygen.nl). If you need
+PDF file output as well, then install [EPS to PDF](https://tug.org/epstopdf/).
+Once you're ready, pull up your terminal, go to the root of the project and run
+`doxygen`. You can use Doxywizard too, if you like.
+
+>TODO: pretty sure EPS to PDF is a part of LaTeX, need research
 
 ## Screenshots
 
