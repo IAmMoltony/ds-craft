@@ -1114,11 +1114,11 @@ void Game::draw(void)
         }
 
         font.print(5, 45, "Compiled on \1:0:31:0*" __DATE__ " " __TIME__);
-        font.print(5, 56, "Compiled with GCC " __VERSION__);
-        font.printf(5, 67, "Version %s", gamever::getVersionString());
-        font.printf(5, 88, "libNDS version %d.%d.%d", _LIBNDS_MAJOR_, _LIBNDS_MINOR_, _LIBNDS_PATCH_);
-        font.printf(5, 99, "libFAT version %d.%d.%d", _LIBFAT_MAJOR_, _LIBFAT_MINOR_, _LIBFAT_PATCH_);
-        font.print(5, 110, "Git commit " GIT_COMMIT);
+        font.print(5, 56, "Compiled with GCC \1:0:31:0*" __VERSION__);
+        font.printf(5, 67, "Version \1:0:31:0*%s", gamever::getVersionString());
+        font.printf(5, 88, "libNDS version \1:0:31:0*%d.%d.%d", _LIBNDS_MAJOR_, _LIBNDS_MINOR_, _LIBNDS_PATCH_);
+        font.printf(5, 99, "libFAT version \1:0:31:0*%d.%d.%d", _LIBFAT_MAJOR_, _LIBFAT_MINOR_, _LIBFAT_PATCH_);
+        font.print(5, 110, "Git commit \1:0:31:0*" GIT_COMMIT);
 
         glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprBButton);
         switch (lang)
