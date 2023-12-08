@@ -1113,7 +1113,7 @@ void Game::draw(void)
             break;
         }
 
-        font.print(5, 45, "Compiled on " __DATE__ " " __TIME__);
+        font.print(5, 45, "Compiled on \1:0:31:0*" __DATE__ " " __TIME__);
         font.print(5, 56, "Compiled with GCC " __VERSION__);
         font.printf(5, 67, "Version %s", gamever::getVersionString());
         font.printf(5, 88, "libNDS version %d.%d.%d", _LIBNDS_MAJOR_, _LIBNDS_MINOR_, _LIBNDS_PATCH_);
