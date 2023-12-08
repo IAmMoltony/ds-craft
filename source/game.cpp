@@ -379,7 +379,12 @@ void Game::init(void)
     }
 
     // init game version
-    gamever::init();
+    gamever::InitStatus gvis = gamever::init(mtnconfigGet("gameVersionFile"));
+    if (gvis == gamever::InitStatus::FileOpenError)
+    {
+        mtnlogMessage(LOG_INFO, "Error opening game version file '%s': %s", mtnconfigGet("gameVersionFile"), strerror(errno));
+        hang();
+    }
 
     // init logging
     mtnlogInit((MtnLogLevel)mtnconfigGetInt("logLevel"), mtnconfigGet("logFile"));

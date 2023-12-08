@@ -1,29 +1,22 @@
 #include "gamever.hpp"
 #include <stdio.h>
-#include "fs.h"
-#include "util.h"
-#include "mtnconfig.h"
-#include "mtnlog.h"
+#include <string.h>
 
 namespace gamever
 {
 	static std::string _versionPrefix = "";
 	static std::string _versionString = "";
-	static u8 _versionMajor = 0;
-	static u8 _versionMinor = 0;
-	static u8 _versionPatch = 0;
+	static uint8_t _versionMajor = 0;
+	static uint8_t _versionMinor = 0;
+	static uint8_t _versionPatch = 0;
 
-	void init(void)
+	InitStatus init(const char *gameVerName)
 	{
-		const char *gameVerName = mtnconfigGet("gameVersionFile");
 		FILE *f = fopen(gameVerName, "r");
 		if (!f)
-		{
-			mtnlogMessage(LOG_ERROR, "Failed opening game version file (%s) because %s", gameVerName, strerror(errno));
-			hang();
-		}
+			return InitStatus::FileOpenError;
 
-		u8 count = 0;
+		uint8_t count = 0;
 		char line[20];
 		while (fgets(line, sizeof(line), f) != NULL)
 		{
@@ -46,10 +39,12 @@ namespace gamever
 		// if patch is 0, then don't put patch in version string
 		if (_versionPatch == 0)
 			_versionString = _versionPrefix + std::to_string(_versionMajor) + '.' +
-							std::to_string(_versionMinor);
+							 std::to_string(_versionMinor);
 		else
 			_versionString = _versionPrefix + std::to_string(_versionMajor) + '.' +
-							std::to_string(_versionMinor) + '.' + std::to_string(_versionPatch);
+							 std::to_string(_versionMinor) + '.' + std::to_string(_versionPatch);
+
+		return InitStatus::OK;
 	}
 
 	const char *getVersionString(void)
@@ -59,10 +54,12 @@ namespace gamever
 
 	enum class VersionType
 	{
-		Alpha, Beta, Release,
+		Alpha,
+		Beta,
+		Release,
 	};
 
-	u64 getVersionHash(const std::string &_versionString)
+	uint64_t getVersionHash(const std::string &_versionString)
 	{
 		// extract the major, minor, and patch numbers from the version string
 		int major = 0;
@@ -81,7 +78,7 @@ namespace gamever
 			versionType = VersionType::Beta;
 
 		// calculate the hash based on type and numbers (courtesy of chat gpt)
-		u64 versionHash = static_cast<u32>(versionType);
+		uint64_t versionHash = static_cast<uint32_t>(versionType);
 		versionHash <<= 24;
 		versionHash |= (major << 16) + (minor << 8) + patch;
 
