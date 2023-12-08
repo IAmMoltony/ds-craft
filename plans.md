@@ -6,9 +6,10 @@ These changes are planned to be implemented in DS-Craft.
 ## Table of contents
 
 - [Feature Plans](#feature-plans)
-  * [Table of contents](#table-of-contents)
-  * [New Features](#new-features)
-  * [Changes](#changes)
+  - [Table of contents](#table-of-contents)
+  - [New Features](#new-features)
+  - [Changes](#changes)
+  - [Q of L (quality of life) Features](#q-of-l-quality-of-life-features)
 
 ## New Features
 
@@ -21,3 +22,7 @@ These changes are planned to be implemented in DS-Craft.
 
 - Store world's last played and creation date in `world.meta`
 - Show last played date in world select screen
+
+## Q of L (quality of life) Features
+
+- Allow for UI customization (even if its super basic)
