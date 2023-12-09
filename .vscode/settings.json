@@ -84,5 +84,8 @@
         "REWRITE"
     ],
     "python.analysis.typeCheckingMode": "basic",
-    "C_Cpp.default.compilerPath": "C:\\MinGW\\bin\\gcc.exe"
+    "C_Cpp.default.compilerPath": "C:\\MinGW\\bin\\gcc.exe",
+    "todo-tree.filtering.excludeGlobs": [
+        "**/scripts/README.md"
+    ]
 }
