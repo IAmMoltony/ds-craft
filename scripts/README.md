@@ -13,7 +13,6 @@ The `scripts` folder is the home of all convenience scripts in DS-Craft.
     - [Image Header Generator (`genimagesh.py`)](#image-header-generator-genimageshpy)
     - [TODOs Lister (`lstodos.sh`, `lstodos.ps1`)](#todos-lister-lstodossh-lstodosps1)
     - [Crafting Recipe Generator (`newrecipe.py`)](#crafting-recipe-generator-newrecipepy)
-    - [Crafting Recipe Generator (OLD VERSION) (`newrecipe-old.py`)](#crafting-recipe-generator-old-version-newrecipe-oldpy)
     - [Russian String Encoder (`strencode.py`)](#russian-string-encoder-strencodepy)
 
 ## Script Requirements
@@ -90,30 +89,6 @@ The script also supports the following optional arguments:
 
 - Quiet mode (`--quiet`): display no output. This option also skips confirmation.
 - No confirmation mode: (`--noconfirm`): assume 'yes' in confirmation (skip confirmation)
-
-### Crafting Recipe Generator (OLD VERSION) (`newrecipe-old.py`)
-
-**DEPRECATED!!!!! Please use `newrecipe.py`**
-
-The Crafting Recipe Generator script generates a new crafting recipe automatically.
-
-The script requires the following positional arguments to be present in the
-following order:
-
-- Recipe file: the path to the new recipe file to be generated (without `.rcp`
-extension for some reason)
-- Output count: how many of the item is crafted at once
-- Output item: the string ID of the item to be crafted
-
-After invocation, the script will also ask you to enter the items required to
-craft the item (ingredients) in the following format:
-
-```yaml
-<string ID> <count>
-```
-
-Once the ingredients list is complete, you have to enter `done`. Afterwards, your
-recipe file will be generated.
 
 ### Russian String Encoder (`strencode.py`)
 
