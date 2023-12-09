@@ -1366,10 +1366,12 @@ void Game::draw(void)
         glSprite(2, SCREEN_HEIGHT - 30, GL_FLIP_NONE, sprAButton);
         if (settingsSelect == SETTING_FONT_SHADOW_INTENSITY && settingsPage == 2)
         {
+            // the line below is a hacky way of fixing issue #31
+            pcxImageDrawEx(&sprDirt, 0, SCREEN_HEIGHT - 32, 0, 0, 16, 16, SCALE_NORMAL * 2, GL_FLIP_NONE);
+
             switch (lang)
             {
             case Language::English:
-                // TODO fix this stupid bug with tooltips on this setting
                 ui::showButtonTooltips(&font, nullptr, sprBButton, "Back", sprLeftButton, "Decrease", nullptr, "", sprRightButton, "Increase");
                 break;
             case Language::Russian:
