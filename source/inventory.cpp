@@ -61,8 +61,6 @@ u8 Inventory::getNumSlots(void) const
 	return numSlots;
 }
 
-// TODO So now that we have Inventory, why not move InventoryItem to Inventory? lol that'd be funni
-
 bool Inventory::has(InventoryItem item)
 {
 	// handling any planks
