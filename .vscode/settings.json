@@ -80,12 +80,12 @@
     },
     "todo-tree.general.tags": [
         "TODO",
-        "FIXME",
-        "REWRITE"
+        "FIXME"
     ],
     "python.analysis.typeCheckingMode": "basic",
     "C_Cpp.default.compilerPath": "C:\\MinGW\\bin\\gcc.exe",
     "todo-tree.filtering.excludeGlobs": [
         "**/scripts/README.md"
-    ]
+    ],
+    "todo-tree.general.statusBar": "current file"
 }
