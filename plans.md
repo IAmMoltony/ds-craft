@@ -17,6 +17,8 @@ These changes are planned to be implemented in DS-Craft.
 - Petrified wooden slabs
 - Stained glass
 - Changing sound volume per sound source
+- More flowers
+- Dyes (to make glass stained)
 
 ## Changes
 
