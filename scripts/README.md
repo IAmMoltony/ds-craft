@@ -59,7 +59,13 @@ The TODOS Lister script lists all TODOs present in the following files:
 
 The script has two versions: a Bash version (`lstodos.sh`) and a PowerShell version
 (`lstodos.ps1`). The Bash version requires `grep` to be installed on the system
-(which it probably already is), while the PowerShell version works straight away.
+(which it probably already is), while the PowerShell version works straight away
+without any external dependencies.
+
+The script supports the following command line argumeents:
+
+- `-NoClear` (PowerShell) / `--noclear` (Bash): don't clear the screen before
+listing TODOs.
 
 ### Crafting Recipe Generator (`newrecipe.py`)
 
