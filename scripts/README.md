@@ -11,7 +11,7 @@ The `scripts` folder is the home of all convenience scripts in DS-Craft.
   - [The Scripts](#the-scripts)
     - [Create Release (`create-release.py`)](#create-release-create-releasepy)
     - [Image Header Generator (`genimagesh.py`)](#image-header-generator-genimageshpy)
-    - [TODOs Lister (`lstodos.sh`, `lstodos.ps1`)](#todos-lister-lstodossh-lstodosps1)
+    - [TODOs Lister (`lstodos.py`)](#todos-lister-lstodospy)
     - [Crafting Recipe Generator (`newrecipe.py`)](#crafting-recipe-generator-newrecipepy)
     - [Russian String Encoder (`strencode.py`)](#russian-string-encoder-strencodepy)
 
@@ -48,24 +48,28 @@ following order:
 - Output file: the `images.h` file to generate
 - Graphics directory: the directory containing the graphics
 
-### TODOs Lister (`lstodos.sh`, `lstodos.ps1`)
+### TODOs Lister (`lstodos.py`)
 
-The TODOS Lister script lists all TODOs present in the following files:
+The TODOs Lister script lists all TODOs which are present in the source code
+of the game.
 
-- Source files (`source/*`)
-- Include files (`include/*`)
-- All Python scripts (`srcipts/*.py`)
-- The root README (`README.md`)
+Example output:
 
-The script has two versions: a Bash version (`lstodos.sh`) and a PowerShell version
-(`lstodos.ps1`). The Bash version requires `grep` to be installed on the system
-(which it probably already is), while the PowerShell version works straight away
-without any external dependencies.
+```bash
+$ python scripts/lstodos.py
 
-The script supports the following command line argumeents:
+source/player.cpp:1945: // TODO fix this
+scripts/create-release.py:15: # TODO rewrite this
+README.md:64: <!-- TODO rewrite this entire section -->
+include/camera.h: * @todo Think of a better name for this function
+```
 
-- `-NoClear` (PowerShell) / `--noclear` (Bash): don't clear the screen before
-listing TODOs.
+The script searches for either `TODO` or `@todo` in the following files:
+
+- `source/*`
+- `include/*`
+- `scripts/*.py`
+- `README.md`
 
 ### Crafting Recipe Generator (`newrecipe.py`)
 
