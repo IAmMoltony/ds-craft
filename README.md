@@ -84,11 +84,9 @@ work in 2015 and above.
 ## Docs
 
 To generate documentation, you need [Doxygen](https://doxygen.nl). If you need
-PDF file output as well, then install [EPS to PDF](https://tug.org/epstopdf/).
+PDF file output as well, then install LaTeX with the EPS to PDF package.
 Once you're ready, pull up your terminal, go to the root of the project and run
 `doxygen`. You can use Doxywizard too, if you like.
-
->TODO: pretty sure EPS to PDF is a part of LaTeX, need research
 
 ## Screenshots
 
