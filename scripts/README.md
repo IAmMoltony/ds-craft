@@ -17,8 +17,11 @@ The `scripts` folder is the home of all convenience scripts in DS-Craft.
 
 ## Script Requirements
 
-All scripts assume you run from the project root directory. Python scripts require
-Python 3, and preferably the latest update.
+All scripts assume you run from the project root directory and will not work
+correctly if you don't. Exceptions are
+[`strencode.py`](#russian-string-encoder-strencodepy) and
+[`newrecipe.py`](#crafting-recipe-generator-newrecipepy), which can be run from
+basically anywhere. All scripts require Python 3, and preferably the latest update.
 
 ## The Scripts
 
