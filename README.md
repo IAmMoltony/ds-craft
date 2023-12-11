@@ -41,45 +41,9 @@ repo folder:
 git submodule update --init --recursive
 ```
 
-## Dependencies
-
-- devkitPro toolchain for Nintendo DS (NDS) development. [How to install](https://devkitpro.org/wiki/Getting_Started).
-- Python **3** (not 2)
-
 ## Building and running
 
-### With command line (anywhere)
-
-- `make build` - build the game. This is the default target, so running `make`
-is the same as running `make build`.
-
-- `make run` - run the game in the emulator specified. The emulator has to be
-specified as `EMULATOR=/path/to/emulator` at the end of the command. If you're
-on Windows, then the slashes in the path must be forward-slashes (`/`) instead
-of backslashes (`\`).
-
-- `make clean` - remove all binaries.
-
-### Using Code::Blocks (on Linux)
-
-You can use Code::Blocks the same way you do with other programs. The only
-difference is, if you want to run the game using an emulator from within
-Code::Blocks, you have to set the emulator in the `codeblocks_run` file.
-
-### Using Visual Studio (on Windows)
-
-You can use Visual Studio the same way as you do with other projects. Just
-ignore the libnds and devkitARM error messages.
-
-If you want to run the game from Visual Studio:
-
-1. go to the `ds-craft` project's properties ('ds-craft'->Properties)
-1. click on Debugging
-1. make sure the configuration is set to 'All Configurations'
-1. change 'Command' to your Nintendo DS emulator path
-
-The solution and project files were created in Visual Studio 2015, so they'll
-work in 2015 and above.
+See BUILD.md.
 
 ## Docs
 
@@ -94,7 +58,9 @@ Once you're ready, pull up your terminal, go to the root of the project and run
 ![Screenshot 2](./screenshots/shot2.png)
 ![Screenshot 3](./screenshots/shot3.png)
 
-*Game version on screenshots is **beta1.3**.*
+## License
+
+This game is licensed under MIT license. Please see LICENSE for more info.
 
 ## Credits
 
