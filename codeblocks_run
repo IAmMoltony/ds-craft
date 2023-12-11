@@ -1,2 +1,0 @@
-#!/usr/bin/bash
-make run EMULATOR=~/melonDS DEVKITPRO=/opt/devkitpro DEVKITARM=/opt/devkitpro/devkitARM
