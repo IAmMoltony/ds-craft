@@ -115,3 +115,11 @@ int pxToGLTextureSize(int px)
         return 0;
     }
 }
+
+void setMainScreen(bool top)
+{
+    if (top)
+        lcdMainOnTop();
+    else
+        lcdMainOnBottom();
+}

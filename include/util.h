@@ -164,6 +164,12 @@ extern "C"
     */
     int pxToGLTextureSize(int px);
 
+    /**
+     * @brief Set main screen
+     * @param top true if top screen; false if bottom screen
+     */
+    void setMainScreen(bool top);
+
 #ifdef __cplusplus
 }
 #endif

@@ -53,6 +53,13 @@ public:
      */
     static bool frameskipEnabled;
 
+    /**
+     * @brief Main screen
+     * 
+     * true is top and false is bottom
+     */
+    static bool mainScreen;
+
     // ======== Default values =========
 
     /**
@@ -94,6 +101,11 @@ public:
      * @brief Default value for frameskip enabled setting
      */
     static const bool FRAMESKIP_ENABLED_DEFAULT = true;
+
+    /**
+     * @brief Default value for main screen setting
+     */
+    static const bool MAIN_SCREEN_DEFAULT = true;
 
     SettingsManager() = delete;
     SettingsManager(SettingsManager &) = delete;

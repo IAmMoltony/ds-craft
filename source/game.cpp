@@ -1550,6 +1550,10 @@ void Game::update(void)
     if (frameCounter % 50 == 0)
         createWorldShowCursor = !createWorldShowCursor;
 
+    // set main screen every sometimes
+    if (frameCounter % 100 == 0)
+        setMainScreen(SettingsManager::mainScreen);
+
     switch (gameState)
     {
     case State::Game:

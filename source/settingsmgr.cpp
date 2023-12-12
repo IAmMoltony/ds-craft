@@ -14,6 +14,7 @@ bool SettingsManager::blockParticles = SettingsManager::BLOCK_PARTICLES_DEFAULT;
 bool SettingsManager::showCoords = SettingsManager::SHOW_COORDS_DEFAULT;
 bool SettingsManager::showFPS = SettingsManager::SHOW_FPS_DEFAULT;
 bool SettingsManager::frameskipEnabled = SettingsManager::FRAMESKIP_ENABLED_DEFAULT;
+bool SettingsManager::mainScreen = SettingsManager::MAIN_SCREEN_DEFAULT;
 
 void SettingsManager::loadLanguageLegacy(void)
 {
@@ -57,7 +58,7 @@ void SettingsManager::loadSettingsLegacy(void)
     // my reasoning might not be correct, but transitioning from using a billion files for storing settings to
     // having just a single file is still better.
 
-    mtnlogMessage(LOG_INFO, "Loading settings");
+    mtnlogMessage(LOG_INFO, "Loading legacy settings");
 
     // legacy language setting
     loadLanguageLegacy();
@@ -157,7 +158,7 @@ void SettingsManager::saveSettings(void)
     // TODO rework auto jump
 
     // write settings
-    fprintf(settingsFile, "trleaves %d\nautosave %d\nsmoothcam %d\nautojump %d\nlang %d\nblockparts %d\nshowcoords %d\nshowfps %d\nfsi %u\nframeskip %d\n", transparentLeaves, autoSaveSeconds, smoothCamera, autoJump, Game::instance->lang == Language::English ? 0 : 1, blockParticles, showCoords, showFPS, Font::shadowIntensity, frameskipEnabled);
+    fprintf(settingsFile, "trleaves %d\nautosave %d\nsmoothcam %d\nautojump %d\nlang %d\nblockparts %d\nshowcoords %d\nshowfps %d\nfsi %u\nframeskip %d\nmainscr %d\n", transparentLeaves, autoSaveSeconds, smoothCamera, autoJump, Game::instance->lang == Language::English ? 0 : 1, blockParticles, showCoords, showFPS, Font::shadowIntensity, frameskipEnabled, mainScreen);
 
     // don't forget to close
     fclose(settingsFile);
@@ -165,6 +166,8 @@ void SettingsManager::saveSettings(void)
 
 void SettingsManager::loadSettings(void)
 {
+    mtnlogMessage(LOG_INFO, "Loading settings");
+
     // open file
     std::ifstream file(std::string(std::string(mtnconfigGet("configDir")) + "/settings.cfg"));
 
@@ -240,10 +243,15 @@ void SettingsManager::loadSettings(void)
             // frameskip enabled or not
             frameskipEnabled = std::stoi(split[1]);
         }
+        else if (split[0] == "mainscr")
+        {
+            // main screen
+            mainScreen = std::stoi(split[1]);
+        }
         else
         {
             // invalid key
-            mtnlogMessage(LOG_WARNING, "Invalid setting %s", split[0].c_str());
+            mtnlogMessage(LOG_WARNING, "Invalid setting '%s', assuming default", split[0].c_str());
         }
     }
 }
