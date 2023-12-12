@@ -19,6 +19,8 @@ These changes are planned to be implemented in DS-Craft.
 - Changing sound volume per sound source
 - More flowers
 - Dyes (to make glass stained)
+- Achievments!!! :p
+- Setting for making it so that the game appears on the bottom screen
 
 ## Changes
 
