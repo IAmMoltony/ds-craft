@@ -5,15 +5,17 @@ The `scripts` folder is the home of all convenience scripts in DS-Craft.
 
 ## Table of contents
 
-- [DS-Craft Scripts](#ds-craft-scripts)
-  - [Table of contents](#table-of-contents)
-  - [Script Requirements](#script-requirements)
-  - [The Scripts](#the-scripts)
-    - [Create Release (`create-release.py`)](#create-release-create-releasepy)
-    - [Image Header Generator (`genimagesh.py`)](#image-header-generator-genimageshpy)
-    - [TODOs Lister (`lstodos.py`)](#todos-lister-lstodospy)
-    - [Crafting Recipe Generator (`newrecipe.py`)](#crafting-recipe-generator-newrecipepy)
-    - [Russian String Encoder (`strencode.py`)](#russian-string-encoder-strencodepy)
+<!-- MarkdownTOC autolink="true" -->
+
+- [Script Requirements](#script-requirements)
+- [The Scripts](#the-scripts)
+  - [Create Release \(`create_release.py`\)](#create-release-create_releasepy)
+  - [Image Header Generator \(`genimagesh.py`\)](#image-header-generator-genimageshpy)
+  - [TODOs Lister \(`lstodos.py`\)](#todos-lister-lstodospy)
+  - [Crafting Recipe Generator \(`newrecipe.py`\)](#crafting-recipe-generator-newrecipepy)
+  - [Russian String Encoder \(`strencode.py`\)](#russian-string-encoder-strencodepy)
+
+<!-- /MarkdownTOC -->
 
 ## Script Requirements
 
@@ -25,7 +27,7 @@ basically anywhere. All scripts require Python 3, and preferably the latest upda
 
 ## The Scripts
 
-### Create Release (`create-release.py`)
+### Create Release (`create_release.py`)
 
 The Create Release script creates a new release. By default, it does the following:
 
