@@ -3,6 +3,8 @@
 import os
 import re
 
+# TODO this is slow
+
 
 def find_files_pattern(files, dir, bad_end_patterns, good_end_patterns):
     good_files = []
