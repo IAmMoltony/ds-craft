@@ -11,7 +11,6 @@ def main():
     parser.add_argument("gfx_dir", help="graphics directory")
     args = parser.parse_args()
 
-    script_dir = Path(os.path.dirname(os.path.realpath(__file__)))
     gfx_dir = Path(args.gfx_dir)
 
     png_files = list(gfx_dir.glob("**/*.png")) + list(gfx_dir.glob("*.png"))
@@ -25,7 +24,7 @@ def main():
         images_h += f'#include "{Path(image).stem}.h"\n'
 
     print("Writing images.h")
-    with open(args.output_file, "w") as file:
+    with open(args.output_file, "w", encoding="utf-8") as file:
         file.write(images_h)
     print("Done!")
 
