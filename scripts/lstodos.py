@@ -10,7 +10,7 @@ def find_todo_patterns(files):
             "lstodos.py" in file_name or "strencode.py" in file_name
         ):  # Idk why strencode.py fails (probably cuz it has Russian chars)
             continue
-        with open(file_name, "r") as file:
+        with open(file_name, "r", encoding="utf-8") as file:
             lines = file.readlines()
             for line_num, line in enumerate(lines, start=1):
                 matches = re.findall(r"@todo|TODO", line)
