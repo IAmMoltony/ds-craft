@@ -61,7 +61,7 @@
  *
  * <a href="https://iammoltony.github.io/ds-craft/index.html">Home page</a>
  *
- * <a href="https://github.com/IAmMoltony/ds-craft">GitHub repo</a>"
+ * <a href="https://github.com/IAmMoltony/ds-craft">GitHub repo</a>
  */
 
 /**
