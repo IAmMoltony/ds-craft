@@ -5,7 +5,7 @@
 
 import argparse
 from dataclasses import dataclass
-import os
+import sys
 
 
 @dataclass
@@ -26,6 +26,7 @@ class CraftingRecipeIngredient:
 
     def serialize(self) -> str:
         return f"{self.item_id} {self.count}"
+
 
 def parse_ingredient(ingr_str: str) -> CraftingRecipeIngredient:
     ingr = CraftingRecipeIngredient(0, "")
@@ -51,7 +52,9 @@ def main():
         help="ingredient string. See scripts/README.md for details.",
     )
     parser.add_argument("--quiet", help="quiet mode on or off", action="store_true")
-    parser.add_argument("--noconfirm", help="skip confirmation and assume yes", action="store_true")
+    parser.add_argument(
+        "--noconfirm", help="skip confirmation and assume yes", action="store_true"
+    )
     args = parser.parse_args()
 
     # get command line arguments
@@ -76,16 +79,17 @@ def main():
         yn = input("Proceed? (y/n): ")
         if yn.strip().lower() != "y":
             print("Aborting.")
-            exit(1)
+            sys.exit(1)
 
     recipe_str = f"count {out_count}\noutput {out_item}\nRECIPE\n"
     for ingr in ingrs:
         recipe_str += f"{ingr.serialize()}\n"
 
-    with open(recipe_file, "w") as file:
+    with open(recipe_file, "w", encoding="utf-8") as file:
         file.write(recipe_str)
     if not be_quiet:
         print("ok")
+
 
 if __name__ == "__main__":
     main()
