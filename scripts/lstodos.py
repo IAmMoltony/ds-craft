@@ -6,7 +6,7 @@ import re
 # TODO this is slow
 
 
-def find_files_pattern(files, dir, bad_end_patterns, good_end_patterns):
+def find_files_pattern(files, directory, bad_end_patterns, good_end_patterns):
     good_files = []
     for file in files:
         bad_pass = True
@@ -25,12 +25,14 @@ def find_files_pattern(files, dir, bad_end_patterns, good_end_patterns):
         if not good_pass:
             continue
 
-        good_files.append(f"{dir}/{file}")
+        good_files.append(f"{directory}/{file}")
     return good_files
 
 
-def add_files_pattern(files_list, files, dir, bad_end_patterns, good_end_patterns):
-    good = find_files_pattern(files, dir, bad_end_patterns, good_end_patterns)
+def add_files_pattern(
+    files_list, files, directory, bad_end_patterns, good_end_patterns
+):
+    good = find_files_pattern(files, directory, bad_end_patterns, good_end_patterns)
     for good_file in good:
         files_list.append(good_file)
 
