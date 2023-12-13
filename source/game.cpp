@@ -1356,6 +1356,9 @@ void Game::draw(void)
             case Language::English:
                 font.printfCentered(0, 92, (settingsSelect == SETTING_MAIN_SCREEN) ? "> Main screen: %s <" : "Main screen: %s", SettingsManager::mainScreen ? "top" : "bottom");
                 break;
+            case Language::Russian:
+                fontRu.printfCentered(0, 92, (settingsSelect == SETTING_MAIN_SCREEN) ? "> Dnbdp\"l $msbp: %s '" : "Dnbdp\"l $msbp: %s", SettingsManager::mainScreen ? "dgsxpkl" : "pkipkl");
+                break;
             }
             glColor(RGB15(31, 31, 31));
 
