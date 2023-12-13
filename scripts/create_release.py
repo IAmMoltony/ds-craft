@@ -1,6 +1,5 @@
 #!/bin/python3
 
-import sys
 import argparse
 import subprocess
 import shutil
@@ -44,7 +43,7 @@ def main():
     if not no_clean:
         if not be_quiet:
             print("Cleaning binaries")
-        subprocess.run(["make", "clean"])
+        subprocess.run(["make", "clean"], check=True)
 
     if not be_quiet:
         print("Compiling game")
