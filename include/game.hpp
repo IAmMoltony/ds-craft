@@ -67,6 +67,7 @@
 /**
  * @file game.hpp
  * @brief Classes for managing the game
+ * @todo Refactor and revamp this entire class its becoming increasingly unmaintainable
  */
 
 #pragma once
