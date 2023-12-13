@@ -283,7 +283,8 @@ static constexpr u8 SETTING_SHOW_COORDS = 0;
 static constexpr u8 SETTING_SHOW_FPS = 1;
 static constexpr u8 SETTING_FONT_SHADOW_INTENSITY = 2;
 static constexpr u8 SETTING_FRAMESKIP_ENABLE = 3;
-static constexpr u8 SETTING_LAST_PAGE2 = SETTING_FRAMESKIP_ENABLE;
+static constexpr u8 SETTING_MAIN_SCREEN = 4;
+static constexpr u8 SETTING_LAST_PAGE2 = SETTING_MAIN_SCREEN;
 
 static u16 _frameCounterFPS = 0;
 static u16 _fps = 0.0f;
@@ -419,6 +420,9 @@ void Game::init(void)
 
     // load settings
     SettingsManager::loadSettings();
+
+    // set main screen
+    setMainScreen(SettingsManager::mainScreen);
 
     mtnlogMessage(LOG_INFO, "Loading controls");
 
@@ -1342,7 +1346,19 @@ void Game::draw(void)
                 fontRu.printfCentered(0, 81, (settingsSelect == SETTING_FRAMESKIP_ENABLE) ? "> Qsqrvtm mbfsqd: %s '" : "Qsqrvtm mbfsqd: %s", SettingsManager::frameskipEnabled ? "CLM" : "C]LM");
                 break;
             }
-            glColor(RGB15(0, 31, 0));
+            glColor(RGB15(31, 31, 31));
+
+            if (settingsSelect == SETTING_MAIN_SCREEN)
+                glColor(RGB15(0, 31, 0));
+
+            switch (lang)
+            {
+            case Language::English:
+                font.printfCentered(0, 92, (settingsSelect == SETTING_MAIN_SCREEN) ? "> Main screen: %s <" : "Main screen: %s", SettingsManager::mainScreen ? "top" : "bottom");
+                break;
+            }
+            glColor(RGB15(31, 31, 31));
+
 
             break;
         }
@@ -1549,10 +1565,6 @@ void Game::update(void)
 
     if (frameCounter % 50 == 0)
         createWorldShowCursor = !createWorldShowCursor;
-
-    // set main screen every sometimes
-    if (frameCounter % 100 == 0)
-        setMainScreen(SettingsManager::mainScreen);
 
     switch (gameState)
     {
@@ -2313,6 +2325,11 @@ void Game::update(void)
                 case SETTING_FRAMESKIP_ENABLE:
                     SettingsManager::frameskipEnabled = !SettingsManager::frameskipEnabled;
                     SettingsManager::saveSettings();
+                    break;
+                case SETTING_MAIN_SCREEN:
+                    SettingsManager::mainScreen = !SettingsManager::mainScreen;
+                    setMainScreen(SettingsManager::mainScreen);
+                    SettingsManager::saveSettings(); // TODO extract saveSettings bit from all cases
                     break;
                 }
                 break;
