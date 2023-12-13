@@ -10,12 +10,12 @@ import pathlib
 def get_game_version():
     version = ""
     prefix = ""
-    with open("nitrofiles/game.ver", "r") as f:
+    with open("nitrofiles/game.ver", "r", encoding="utf-8") as f:
         data = f.read()
         data_split = data.split("\n")
         for i in range(4):
             line = data_split[i]
-            if i == 0 or i == 1:  # what?
+            if i in (0, 1):  # what?
                 # i'm not going to question why this checks if i is 0 or 1.
                 # it works, and that's all that matters
                 version += f"{line}."
