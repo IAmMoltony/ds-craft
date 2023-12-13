@@ -168,7 +168,6 @@ u8 Game::fontSmallRuCharWidthHandler(char ch)
     switch (ch)
     {
     case '!':
-    case '$':
     case '&':
     case '}':
     case '_':
@@ -188,6 +187,7 @@ u8 Game::fontSmallRuCharWidthHandler(char ch)
     case '~':
     case '\\':
     case 'f':
+    case '$':
         return 7;
     case '<':
     case '.':
