@@ -4,6 +4,42 @@ import os
 import re
 
 
+def find_files_pattern(files, dir, bad_end_patterns, good_end_patterns):
+    good_files = []
+    for file in files:
+        bad_pass = True
+        for bad_pattern in bad_end_patterns:
+            if file.endswith(bad_pattern):
+                bad_pass = False
+                break
+        if not bad_pass:
+            continue
+
+        good_pass = False
+        for good_pattern in good_end_patterns:
+            if file.endswith(good_pattern):
+                good_pass = True
+                break
+        if not good_pass:
+            continue
+
+        good_files.append(f"{dir}/{file}")
+    return good_files
+
+
+def add_files_pattern(files_list, files, dir, bad_end_patterns, good_end_patterns):
+    good = find_files_pattern(files, dir, bad_end_patterns, good_end_patterns)
+    for good_file in good:
+        files_list.append(good_file)
+
+
+def find_files(files):
+    files.append("README.md")
+    add_files_pattern(files, os.listdir("source"), "source", [".swp"], [".c", ".cpp"])
+    add_files_pattern(files, os.listdir("include"), "include", [".swp"], [".h", ".hpp"])
+    add_files_pattern(files, os.listdir("scripts"), "scripts", [".swp"], [".py"])
+
+
 def find_todo_patterns(files):
     for file_name in files:
         if (
@@ -20,16 +56,8 @@ def find_todo_patterns(files):
 
 
 def main():
-    files = ["README.md"]
-    for file in os.listdir("source"):
-        if not file.endswith(".swp") and (file.endswith(".c") or file.endswith(".cpp")):
-            files.append(f"source/{file}")
-    for file in os.listdir("include"):
-        if not file.endswith(".swp") and (file.endswith(".h") or file.endswith(".hpp")):
-            files.append(f"include/{file}")
-    for file in os.listdir("scripts"):
-        if not file.endswith(".swp") and file.endswith(".py"):
-            files.append(f"scripts/{file}")
+    files = []
+    find_files(files)
     find_todo_patterns(files)
 
 
