@@ -107,7 +107,7 @@ def main():
     argc = len(argv)
     if argc < 2:
         print_usage()
-        exit(1)
+        sys.exit(1)
 
     content = ""
     if argv[1] == "--file":
