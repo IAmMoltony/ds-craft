@@ -10,6 +10,7 @@ These changes are planned to be implemented in DS-Craft.
   - [New Features](#new-features)
   - [Changes](#changes)
   - [Q of L (quality of life) Features](#q-of-l-quality-of-life-features)
+  - [Code Improvements](#code-improvements)
 
 ## New Features
 
@@ -29,3 +30,7 @@ These changes are planned to be implemented in DS-Craft.
 ## Q of L (quality of life) Features
 
 - Allow for UI customization (even if its super basic)
+
+## Code Improvements
+
+- Documentation for scripts (doc strings)
