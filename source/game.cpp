@@ -2074,7 +2074,7 @@ void Game::update(void)
             gameState = State::WorldSelect;
             mmEffectEx(&sndClick);
         }
-        else if ((down & KEY_DOWN) || (down & KEY_UP))
+        else if ((down & KEY_DOWN) || (down & KEY_UP) || (down & KEY_SELECT))
             worldSettingsSelect = (worldSettingsSelect == 0) ? 1 : 0;
         else if (down & KEY_A)
         {
