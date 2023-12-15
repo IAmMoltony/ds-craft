@@ -1829,7 +1829,7 @@ void Game::update(void)
         cameraFollow(&camera, player.getX(), player.getY(), SettingsManager::smoothCamera ? 0.1f : 0.0f, 0, 1024 - SCREEN_WIDTH);
         break;
     case State::TitleScreen:
-        if (down & KEY_A || down & KEY_START)
+        if (down & KEY_A || down & KEY_SELECT)
         {
             switch (titleScreenSelect)
             {
