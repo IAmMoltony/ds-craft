@@ -1930,7 +1930,7 @@ void Game::update(void)
                         {
                         case Language::English:
                             font.drawHeading("oops");
-                            font.print(10, 30, "This world was saved in a newer version than  current.");
+                            font.print(10, 30, "This world was saved in a newer version than \ncurrent.");
                             font.printf(10, 70, "Current version: %s \nWorld version: %s",
                                         gamever::getVersionString(), worldVersion.c_str());
                             font.print(10, 100, "You can try opening it& but it might corrupt.");
