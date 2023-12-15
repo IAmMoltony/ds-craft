@@ -1829,7 +1829,7 @@ void Game::update(void)
         cameraFollow(&camera, player.getX(), player.getY(), SettingsManager::smoothCamera ? 0.1f : 0.0f, 0, 1024 - SCREEN_WIDTH);
         break;
     case State::TitleScreen:
-        if (down & KEY_A || down & KEY_SELECT)
+        if (down & KEY_A || down & KEY_START)
         {
             switch (titleScreenSelect)
             {
@@ -1849,7 +1849,7 @@ void Game::update(void)
             }
         }
 
-        if (down & KEY_DOWN || down & KEY_START)
+        if (down & KEY_DOWN || down & KEY_SELECT)
         {
             ++titleScreenSelect;
             if (titleScreenSelect > 2)
@@ -1943,7 +1943,8 @@ void Game::update(void)
                             fontRu.printfDoubleFont(10, 70, &font, "Tgmv~b& dgstk&: \3%s\3 \n"
                                                                    "Cgstk& oksb: \3%s\3",
                                                     gamever::getVersionString(), worldVersion.c_str());
-                            fontRu.printCentered(0, SCREEN_HEIGHT - 19, "Obiokug n%cv% mpqrmv...");
+                            fontRu.print(10, 100, "C\" oqigug geq qums\"u#@ pq oks oqigu tnqobu#t&.");
+                            ui::showButtonTooltips(&fontRu, nullptr, sprAButton, "Pums\"u#", sprBButton, "Objbf", nullptr, "", nullptr, "");
                             break;
                         }
                         glEnd2D();
