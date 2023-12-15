@@ -1901,11 +1901,14 @@ void Game::update(void)
                 }
                 u64 worldVersionHash = gamever::getVersionHash(worldVersion);
                 u64 currentVersionHash = gamever::getVersionHash(gamever::getVersionString());
+                bool doStart = true;
                 if (worldVersionHash > currentVersionHash && worldVersion != "")
                 {
                     // uh oh, the world version is newer than current!
                     // this means the world we are trying to play is incompatible!!!
                     // the user can still load it...if they have the courage
+
+                    doStart = false;
 
                     while (true)
                     {
@@ -1913,8 +1916,13 @@ void Game::update(void)
 
                         scanKeys();
                         u32 downKeys = keysDown();
-                        if (downKeys && !(downKeys & KEY_TOUCH))
+                        if (downKeys & KEY_B)
                             break;
+                        if (downKeys & KEY_A)
+                        {
+                            doStart = true;
+                            break;
+                        }
 
                         glBegin2D();
                         ui::drawScrollingBackground();
@@ -1922,11 +1930,11 @@ void Game::update(void)
                         {
                         case Language::English:
                             font.drawHeading("oops");
-                            font.print(10, 30, "This world was saved in a newer version than  current."); // this having 2 spaces is importantes
+                            font.print(10, 30, "This world was saved in a newer version than  current.");
                             font.printf(10, 70, "Current version: %s \nWorld version: %s",
                                         gamever::getVersionString(), worldVersion.c_str());
-                            font.print(10, 100, "You can try opening it& but that might corrupt it.");
-                            font.printCentered(0, SCREEN_HEIGHT - 19, "Press any button...");
+                            font.print(10, 100, "You can try opening it& but it might corrupt.");
+                            ui::showButtonTooltips(&font, nullptr, sprAButton, "Play anyway", sprBButton, "Back", nullptr, "", nullptr, "");
                             break;
                         case Language::Russian:
                             fontRu.drawHeading("ql");
@@ -1942,10 +1950,9 @@ void Game::update(void)
                         glFlush(0);
                         swiWaitForVBlank();
                     }
-
-                    return;
                 }
-                else
+
+                if (doStart)
                 {
                     // unloading screen for menu assets
                     glBegin2D();
@@ -2013,6 +2020,8 @@ void Game::update(void)
                     swiWaitForVBlank();
                     return;
                 }
+                else
+                    return;
             }
         }
         else if (down & KEY_Y)
