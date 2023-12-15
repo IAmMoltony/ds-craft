@@ -1849,7 +1849,7 @@ void Game::update(void)
             }
         }
 
-        if (down & KEY_DOWN)
+        if (down & KEY_DOWN || down & KEY_START)
         {
             ++titleScreenSelect;
             if (titleScreenSelect > 2)
