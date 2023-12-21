@@ -26,6 +26,11 @@ These changes are planned to be implemented in DS-Craft.
 
 - Store world's last played and creation date in `world.meta`
 - Show last played date in world select screen
+- Redesign settings menu with stuff like categories such as
+  - General
+  - Visual
+  - Audio
+  - Misc aka Settings that idk where to put them
 
 ## Q of L (quality of life) Features
 
