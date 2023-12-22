@@ -14,12 +14,12 @@ These changes are planned to be implemented in DS-Craft.
 
 ## New Features
 
-- Dirt slabs: craftable using 6 dirt
+- Dirt slabs: craftable using 6 dirt (planned for beta1.7)
 - Petrified wooden slabs
-- Stained glass
+- Stained glass (planned for beta1.7)
 - Changing sound volume per sound source
-- More flowers
-- Dyes (to make glass stained)
+- More flowers (planned for beta1.7)
+- Dyes (to make glass stained) (planned for beta1.7)
 - Achievments!!! :p
 
 ## Changes
@@ -34,7 +34,7 @@ These changes are planned to be implemented in DS-Craft.
 
 ## Q of L (quality of life) Features
 
-- Allow for UI customization (even if its super basic)
+- Allow for UI customization (even if its super basic) (planned for beta1.7)
 
 ## Code Improvements
 
