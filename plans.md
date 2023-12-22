@@ -20,7 +20,7 @@ These changes are planned to be implemented in DS-Craft.
 - Changing sound volume per sound source
 - More flowers (planned for beta1.7)
 - Dyes (to make glass stained) (planned for beta1.7)
-- Achievments!!! :p
+- Achievements!!! :p
 
 ## Changes
 
