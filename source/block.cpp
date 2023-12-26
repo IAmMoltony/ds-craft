@@ -211,6 +211,18 @@ FlowerBlock::FlowerBlock(s16 x, s16 y) : Block(x, y, 1), type(FlowerType::Poppy)
 	case 3:
 		type = FlowerType::RedTulip;
 		break;
+	case 4:
+		type = FlowerType::OrangeTulip;
+		break;
+	case 5:
+		type = FlowerType::PinkTulip;
+		break;
+	case 6:
+		type = FlowerType::WhiteTulip;
+		break;
+	case 7:
+		type = FlowerType::Cornflower;
+        break;
 	}
 }
 
@@ -232,6 +244,18 @@ void FlowerBlock::draw(const Camera &camera)
 	case FlowerType::RedTulip:
 		pcxImageDraw(&sprRedTulip, x - camera.x + xOff, y - camera.y, GL_FLIP_NONE);
 		break;
+    case FlowerType::OrangeTulip:
+        pcxImageDraw(&sprOrangeTulip, x - camera.x + xOff, y - camera.y, GL_FLIP_NONE);
+        break;
+    case FlowerType::PinkTulip:
+        pcxImageDraw(&sprPinkTulip, x - camera.x + xOff, y - camera.y, GL_FLIP_NONE);
+        break;
+    case FlowerType::WhiteTulip:
+        pcxImageDraw(&sprWhiteTulip, x - camera.x + xOff, y - camera.y, GL_FLIP_NONE);
+        break;
+    case FlowerType::Cornflower:
+        pcxImageDraw(&sprCornflower, x - camera.x + xOff, y - camera.y, GL_FLIP_NONE);
+        break;
 	}
 }
 
@@ -252,6 +276,14 @@ u16 FlowerBlock::id(void) const
 		return BID_DANDELION;
 	case FlowerType::RedTulip:
 		return BID_RED_TULIP;
+    case FlowerType::OrangeTulip:
+        return BID_ORANGE_TULIP;
+    case FlowerType::PinkTulip:
+        return BID_PINK_TULIP;
+    case FlowerType::WhiteTulip:
+        return BID_WHITE_TULIP;
+    case FlowerType::Cornflower:
+        return BID_CORNFLOWER;
 	}
 }
 

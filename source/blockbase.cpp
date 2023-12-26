@@ -23,6 +23,10 @@ PCXImage sprBedrock;
 PCXImage sprPoppy;
 PCXImage sprDandelion;
 PCXImage sprRedTulip;
+PCXImage sprOrangeTulip;
+PCXImage sprPinkTulip;
+PCXImage sprWhiteTulip;
+PCXImage sprCornflower;
 PCXImage sprDoor;
 PCXImage sprBirchDoor;
 PCXImage sprSpruceDoor;
@@ -79,7 +83,7 @@ void Block::loadTextures(void)
     pcxImageLoad("nitro:/textures/block/spruce_trapdoor.pcx", false, &sprSpruceTrapdoor);
     pcxImageLoad("nitro:/textures/block/chest.pcx", false, &sprChest);
     pcxImageLoad("nitro:/textures/block/iron_ore.pcx", false, &sprIronOre);
-	pcxImageLoad("nitro:/textures/block/iron_block.pcx", false, &sprIronBlock);
+    pcxImageLoad("nitro:/textures/block/iron_block.pcx", false, &sprIronBlock);
     pcxImageLoad("nitro:/textures/block/stone_bricks.pcx", false, &sprStoneBricks);
     pcxImageLoad("nitro:/textures/block/hay_bale.pcx", false, &sprHayBale);
 
@@ -90,6 +94,10 @@ void Block::loadTextures(void)
     pcxImageLoad("nitro:/textures/block/dandelion.pcx", true, &sprDandelion);
     pcxImageLoad("nitro:/textures/block/poppy.pcx", true, &sprPoppy);
     pcxImageLoad("nitro:/textures/block/red_tulip.pcx", true, &sprRedTulip);
+    pcxImageLoad("nitro:/textures/block/orange_tulip.pcx", true, &sprOrangeTulip);
+    pcxImageLoad("nitro:/textures/block/pink_tulip.pcx", true, &sprPinkTulip);
+    pcxImageLoad("nitro:/textures/block/white_tulip.pcx", true, &sprWhiteTulip);
+    pcxImageLoad("nitro:/textures/block/cornflower.pcx", true, &sprCornflower);
     pcxImageLoad("nitro:/textures/block/door.pcx", true, &sprDoor);
     pcxImageLoad("nitro:/textures/block/birchdoor.pcx", true, &sprBirchDoor);
     pcxImageLoad("nitro:/textures/block/sprucedoor.pcx", true, &sprSpruceDoor);
@@ -143,6 +151,10 @@ void Block::unloadTextures(void)
     pcxImageUnload(&sprDandelion);
     pcxImageUnload(&sprPoppy);
     pcxImageUnload(&sprRedTulip);
+    pcxImageUnload(&sprOrangeTulip);
+    pcxImageUnload(&sprPinkTulip);
+    pcxImageUnload(&sprWhiteTulip);
+    pcxImageUnload(&sprCornflower);
     pcxImageUnload(&sprDoor);
     pcxImageUnload(&sprBirchDoor);
     pcxImageUnload(&sprSpruceDoor);
@@ -193,7 +205,7 @@ void Block::unloadSounds(void)
 
 bool Block::compareByX(const Pointer &a, const Pointer &b)
 {
-	return a->x < b->x;
+    return a->x < b->x;
 }
 
 //----------------------------------------
