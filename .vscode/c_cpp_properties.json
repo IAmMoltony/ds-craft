@@ -17,7 +17,6 @@
                 "ARM9",
                 "GIT_COMMIT=\"1234567\"" // placeholder
             ],
-            "compilerPath": "C:/devkitPro/devkitARM/bin/arm-none-eabi-gcc.exe",
             "cStandard": "gnu17",
             "cppStandard": "gnu++17",
             "intelliSenseMode": "linux-gcc-arm"
