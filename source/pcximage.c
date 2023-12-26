@@ -33,7 +33,7 @@ void pcxImageLoad(const char *filePath, bool color0Transparent, PCXImage *image)
 	free(pcxBytes);
 
 	if (image->simg.bpp == 0)
-		mtnlogMessage(LOG_WARNING, "PCX file is corrupted or has wrong color depth");
+		mtnlogMessage(LOG_WARNING, "PCX file '%s' is corrupted or has wrong color depth", filePath);
 
 	int flags = GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF;
 	if (color0Transparent)
