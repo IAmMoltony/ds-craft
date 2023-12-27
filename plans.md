@@ -35,6 +35,7 @@ The next update (*beta1.7*) is planned to release in **January 2024**.
   - Visual
   - Audio
   - Misc aka Settings that idk where to put them
+- Logging tags (planned for beta1.7)
 
 ## Q of L (quality of life) Features
 
