@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/bin/python3
 
 # newrecipe_v2.py
 # Rewrite of the New Recipe script.
