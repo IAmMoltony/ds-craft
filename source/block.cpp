@@ -200,7 +200,7 @@ FlowerBlock::FlowerBlock(s16 x, s16 y) : Block(x, y, 1), type(FlowerType::Poppy)
 										 xOff(rng::rangeSigned(X_OFF_MIN, X_OFF_MAX))
 {
 	// choose flower type
-	switch (rng::range(1, 3))
+	switch (rng::range(1, 6))
 	{
 	case 1:
 		type = FlowerType::Poppy;
