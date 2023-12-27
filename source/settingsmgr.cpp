@@ -15,6 +15,7 @@ bool SettingsManager::showCoords = SettingsManager::SHOW_COORDS_DEFAULT;
 bool SettingsManager::showFPS = SettingsManager::SHOW_FPS_DEFAULT;
 bool SettingsManager::frameskipEnabled = SettingsManager::FRAMESKIP_ENABLED_DEFAULT;
 bool SettingsManager::mainScreen = SettingsManager::MAIN_SCREEN_DEFAULT;
+bool SettingsManager::hotbarOnTop = SettingsManager::HOTBAR_ON_TOP_DEFAULT;
 
 void SettingsManager::loadLanguageLegacy(void)
 {
@@ -158,7 +159,7 @@ void SettingsManager::saveSettings(void)
     // TODO rework auto jump
 
     // write settings
-    fprintf(settingsFile, "trleaves %d\nautosave %d\nsmoothcam %d\nautojump %d\nlang %d\nblockparts %d\nshowcoords %d\nshowfps %d\nfsi %u\nframeskip %d\nmainscr %d\n", transparentLeaves, autoSaveSeconds, smoothCamera, autoJump, Game::instance->lang == Language::English ? 0 : 1, blockParticles, showCoords, showFPS, Font::shadowIntensity, frameskipEnabled, mainScreen);
+    fprintf(settingsFile, "trleaves %d\nautosave %d\nsmoothcam %d\nautojump %d\nlang %d\nblockparts %d\nshowcoords %d\nshowfps %d\nfsi %u\nframeskip %d\nmainscr %d\nhotbarontop %d\n", transparentLeaves, autoSaveSeconds, smoothCamera, autoJump, Game::instance->lang == Language::English ? 0 : 1, blockParticles, showCoords, showFPS, Font::shadowIntensity, frameskipEnabled, mainScreen, hotbarOnTop);
 
     // don't forget to close
     fclose(settingsFile);

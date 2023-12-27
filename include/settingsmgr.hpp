@@ -60,6 +60,11 @@ public:
      */
     static bool mainScreen;
 
+    /**
+     * @brief Hootbar on top or not
+     */
+    static bool hotbarOnTop;
+
     // ======== Default values =========
 
     /**
@@ -106,6 +111,11 @@ public:
      * @brief Default value for main screen setting
      */
     static const bool MAIN_SCREEN_DEFAULT = true;
+
+    /**
+     * @brief Default value for hotbar on top setting
+     */
+    static const bool HOTBAR_ON_TOP_DEFAULT = false;
 
     SettingsManager() = delete;
     SettingsManager(SettingsManager &) = delete;
