@@ -95,6 +95,10 @@ public:
         Bread,
         HayBale,
         StoneBricksSlab,
+        OrangeTulip,
+        PinkTulip,
+        WhiteTulip,
+        Cornflower
     };
 	
 	/**
@@ -103,7 +107,7 @@ public:
 	static bool compareByID(const InventoryItem &a, const InventoryItem &b);
 
 	/**
-	 * @brief Compare two items by their amount
+	 * @brief Compare two items by their amount (also for sorting)
 	*/
 	static bool compareByAmount(const InventoryItem &a, const InventoryItem &b);
 

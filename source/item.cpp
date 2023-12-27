@@ -85,6 +85,10 @@ InventoryItem::ID InventoryItem::nonSolidBlockItemIDs[] =
         InventoryItem::ID::Poppy,
         InventoryItem::ID::Dandelion,
         InventoryItem::ID::RedTulip,
+        InventoryItem::ID::OrangeTulip,
+        InventoryItem::ID::PinkTulip,
+        InventoryItem::ID::WhiteTulip,
+        InventoryItem::ID::Cornflower,
         InventoryItem::ID::Ladder,
         InventoryItem::ID::Chest,
         InventoryItem::ID::Sign,
@@ -224,6 +228,10 @@ static std::map<std::string, InventoryItem::ID> _stringIDTable = {
     {"poppy", InventoryItem::ID::Poppy},
     {"dandelion", InventoryItem::ID::Dandelion},
     {"redtulip", InventoryItem::ID::RedTulip},
+    {"orangetulip", InventoryItem::ID::OrangeTulip},
+    {"pinktulip", InventoryItem::ID::PinkTulip},
+    {"whitetulip", InventoryItem::ID::WhiteTulip},
+    {"cornflower", InventoryItem::ID::Cornflower},
     {"door", InventoryItem::ID::Door},
     {"birchdoor", InventoryItem::ID::BirchDoor},
     {"sprucedoor", InventoryItem::ID::SpruceDoor},
@@ -501,6 +509,18 @@ std::string iidToString(InventoryItem::ID iid)
         break;
     case InventoryItem::ID::Poppy:
         id = "poppy";
+        break;
+    case InventoryItem::ID::OrangeTulip:
+        id = "orangetulip";
+        break;
+    case InventoryItem::ID::PinkTulip:
+        id = "pinktulip";
+        break;
+    case InventoryItem::ID::WhiteTulip:
+        id = "whitetulip";
+        break;
+    case InventoryItem::ID::Cornflower:
+        id = "cornflower";
         break;
     case InventoryItem::ID::Dandelion:
         id = "dandelion";

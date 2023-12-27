@@ -2008,6 +2008,26 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
                         playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                         _spawnBlockParticles(blockParticles, &sprRedTulip, block->x, block->y);
                         break;
+                    case BID_ORANGE_TULIP:
+                        entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::OrangeTulip));
+                        playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
+                        _spawnBlockParticles(blockParticles, &sprOrangeTulip, block->x, block->y);
+                        break;
+                    case BID_PINK_TULIP:
+                        entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::PinkTulip));
+                        playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
+                        _spawnBlockParticles(blockParticles, &sprPinkTulip, block->x, block->y);
+                        break;
+                    case BID_WHITE_TULIP:
+                        entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::WhiteTulip));
+                        playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
+                        _spawnBlockParticles(blockParticles, &sprWhiteTulip, block->x, block->y);
+                        break;
+                    case BID_CORNFLOWER:
+                        entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Cornflower));
+                        playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
+                        _spawnBlockParticles(blockParticles, &sprCornflower, block->x, block->y);
+                        break;
                     case BID_DOOR:
                         entities->emplace_back(new DropEntity(block->x, block->y, InventoryItem::ID::Door));
                         playsfx(4, &sndWood1, &sndWood2, &sndWood3, &sndWood4);

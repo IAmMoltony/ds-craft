@@ -2036,6 +2036,7 @@ void Game::update(void)
         else if (down & KEY_A)
         {
             gameState = State::CreateWorld;
+            lcdMainOnTop();
             u32 matches = 0;
             std::regex defWorldNameRegex("(World\\s?)(\\d*)?");
             for (auto world : worldSelectWorlds)
@@ -2155,6 +2156,8 @@ void Game::update(void)
             createWorldError = false;
             keyboardHide();
             gameState = State::WorldSelect;
+            if (!SettingsManager::mainScreen)
+                lcdMainOnBottom(); // restore screen to top if needed
             mmEffectEx(&sndClick);
         }
         else if (down & KEY_A || ch == '\n')
@@ -2178,6 +2181,8 @@ void Game::update(void)
             {
                 createWorldError = false;
                 keyboardHide();
+                if (!SettingsManager::mainScreen)
+                    lcdMainOnBottom(); // restore screen to top if needed
                 worldName = createWorldName.c_str();
 
                 // creating world screen
