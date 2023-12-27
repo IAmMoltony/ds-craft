@@ -2280,7 +2280,6 @@ void Game::update(void)
                     break;
                 case SETTING_TRANSPARENT_LEAVES:
                     SettingsManager::transparentLeaves = !SettingsManager::transparentLeaves;
-                    SettingsManager::saveSettings();
                     break;
                 case SETTING_AUTO_SAVE:
                 {
@@ -2305,20 +2304,16 @@ void Game::update(void)
 
                     int nextIndex = (currentIndex + 1) % numAutoSaveValues;
                     SettingsManager::autoSaveSeconds = autoSaveValues[nextIndex];
-                    SettingsManager::saveSettings();
                     break;
                 }
                 case SETTING_SMOOTH_CAMERA:
                     SettingsManager::smoothCamera = !SettingsManager::smoothCamera;
-                    SettingsManager::saveSettings();
                     break;
                 case SETTING_BLOCK_PARTICLES:
                     SettingsManager::blockParticles = !SettingsManager::blockParticles;
-                    SettingsManager::saveSettings();
                     break;
                 case SETTING_AUTO_JUMP:
                     SettingsManager::autoJump = !SettingsManager::autoJump;
-                    SettingsManager::saveSettings();
                     break;
                 case SETTING_DELETE_ALL_WORLDS:
                     gameState = State::DeleteAllWorlds;
@@ -2334,24 +2329,21 @@ void Game::update(void)
                 {
                 case SETTING_SHOW_COORDS:
                     SettingsManager::showCoords = !SettingsManager::showCoords;
-                    SettingsManager::saveSettings();
                     break;
                 case SETTING_SHOW_FPS:
                     SettingsManager::showFPS = !SettingsManager::showFPS;
-                    SettingsManager::saveSettings();
                     break;
                 case SETTING_FRAMESKIP_ENABLE:
                     SettingsManager::frameskipEnabled = !SettingsManager::frameskipEnabled;
-                    SettingsManager::saveSettings();
                     break;
                 case SETTING_MAIN_SCREEN:
                     SettingsManager::mainScreen = !SettingsManager::mainScreen;
-                    setMainScreen(SettingsManager::mainScreen);
-                    SettingsManager::saveSettings(); // TODO extract saveSettings bit from all cases
+                    SettingsManager::saveSettings();
                     break;
                 }
                 break;
             }
+            SettingsManager::saveSettings();
             mmEffectEx(&sndClick);
         }
         else if (down & KEY_LEFT && settingsSelect == SETTING_FONT_SHADOW_INTENSITY && settingsPage == 2)
