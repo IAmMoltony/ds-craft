@@ -23,7 +23,6 @@ The next update (*beta1.7*) is planned to release in **January 2024**.
 - Petrified wooden slabs
 - Stained glass (planned for beta1.7)
 - Changing sound volume per sound source
-- More flowers (planned for beta1.7)
 - Dyes (to make glass stained) (planned for beta1.7)
 - Achievements!!! :p
 
