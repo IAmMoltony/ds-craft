@@ -1458,6 +1458,79 @@ bool Player::doItemInteract(const u32 &downKeys, const Camera *camera, Block::Li
                             playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
                         }
                         break;
+                    case InventoryItem::ID::OrangeTulip:
+                        canPlace = false;
+                        for (size_t i = 0; i < blocks->size(); ++i)
+                        {
+                            if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
+                                blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_GRASS || blocks->at(i)->id() == BID_DIRT || blocks->at(i)->id() == BID_SNOWY_GRASS))
+                            {
+                                if (blocks->at(i)->id() == BID_DIRT && !reinterpret_cast<DirtBlock *>(blocks->at(i).get())->isFarmland() && !reinterpret_cast<DirtBlock *>(blocks->at(i).get())->isPath())
+                                    canPlace = true;
+                            }
+                        }
+                        if (canPlace)
+                        {
+                            blocks->emplace_back(new FlowerBlock(snapToGrid(camera->x + aimX),
+                                                                 snapToGrid(camera->y + aimY), FlowerType::OrangeTulip));
+                            playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
+                        }
+                        break;
+                    case InventoryItem::ID::PinkTulip:
+                        canPlace = false;
+                        for (size_t i = 0; i < blocks->size(); ++i)
+                        {
+                            if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
+                                blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_GRASS || blocks->at(i)->id() == BID_DIRT || blocks->at(i)->id() == BID_SNOWY_GRASS))
+                            {
+                                if (blocks->at(i)->id() == BID_DIRT && !reinterpret_cast<DirtBlock *>(blocks->at(i).get())->isFarmland() && !reinterpret_cast<DirtBlock *>(blocks->at(i).get())->isPath())
+                                    canPlace = true;
+                            }
+                        }
+                        if (canPlace)
+                        {
+                            blocks->emplace_back(new FlowerBlock(snapToGrid(camera->x + aimX),
+                                                                 snapToGrid(camera->y + aimY), FlowerType::PinkTulip));
+                            playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
+                        }
+                        break;
+                    case InventoryItem::ID::WhiteTulip:
+                        canPlace = false;
+                        for (size_t i = 0; i < blocks->size(); ++i)
+                        {
+                            if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
+                                blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_GRASS || blocks->at(i)->id() == BID_DIRT || blocks->at(i)->id() == BID_SNOWY_GRASS))
+                            {
+                                if (blocks->at(i)->id() == BID_DIRT && !reinterpret_cast<DirtBlock *>(blocks->at(i).get())->isFarmland() && !reinterpret_cast<DirtBlock *>(blocks->at(i).get())->isPath())
+                                    canPlace = true;
+                            }
+                        }
+                        if (canPlace)
+                        {
+                            blocks->emplace_back(new FlowerBlock(snapToGrid(camera->x + aimX),
+                                                                 snapToGrid(camera->y + aimY), FlowerType::WhiteTulip));
+                            playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
+                        }
+                        break;
+                    case InventoryItem::ID::Cornflower:
+                        canPlace = false;
+                        for (size_t i = 0; i < blocks->size(); ++i)
+                        {
+                            if (blocks->at(i)->y == getRectAim(*camera).y + 16 &&
+                                blocks->at(i)->x == getRectAim(*camera).x && (blocks->at(i)->id() == BID_GRASS || blocks->at(i)->id() == BID_DIRT || blocks->at(i)->id() == BID_SNOWY_GRASS))
+                            {
+                                if (blocks->at(i)->id() == BID_DIRT && !reinterpret_cast<DirtBlock *>(blocks->at(i).get())->isFarmland() && !reinterpret_cast<DirtBlock *>(blocks->at(i).get())->isPath())
+                                    canPlace = true;
+                                // TODO extract the 'can place' thing for some block types (the if conditions above) into its own function
+                            }
+                        }
+                        if (canPlace)
+                        {
+                            blocks->emplace_back(new FlowerBlock(snapToGrid(camera->x + aimX),
+                                                                 snapToGrid(camera->y + aimY), FlowerType::Cornflower));
+                            playsfx(4, &sndGrass1, &sndGrass2, &sndGrass3, &sndGrass4);
+                        }
+                        break;
                     case InventoryItem::ID::Door:
                         blocks->emplace_back(new DoorBlock(snapToGrid(camera->x + aimX),
                                                            snapToGrid(camera->y + aimY), x, DoorType::Oak));
