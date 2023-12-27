@@ -170,6 +170,11 @@ extern "C"
      */
     void setMainScreen(bool top);
 
+    /**
+     * @brief Check if it's Christmas right now
+     */
+    bool isChristmas(void);
+
 #ifdef __cplusplus
 }
 #endif

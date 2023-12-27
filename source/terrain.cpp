@@ -2,15 +2,6 @@
 #include "util.h"
 #include "random.hpp"
 
-static bool _checkWinter(void)
-{
-    time_t curTime = time(NULL);
-    struct tm *timeStruct = gmtime((const time_t *)&curTime);
-    u8 month = timeStruct->tm_mon;
-    u8 day = timeStruct->tm_mday;
-    return (month == 11 && day >= 25) || (month == 0 && day <= 7);
-}
-
 void generateTerrain(Block::List &blocks, EntityList &entities, Player &player)
 {
     // this forces only a certain biome to spawn.
@@ -18,7 +9,7 @@ void generateTerrain(Block::List &blocks, EntityList &entities, Player &player)
     // (useful for debugging)
     static constexpr s8 forceBiome = -1;
 
-    bool onlyWinterBiome = _checkWinter();
+    bool onlyWinterBiome = isChristmas();
 
     s16 y = SCREEN_HEIGHT / 2; // current height
     u8 sinceLastTree = 0;      // blocks since last tree
