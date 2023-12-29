@@ -128,7 +128,7 @@ void setMainScreen(bool top)
 bool isChristmas(void)
 {
     time_t curTime = time(NULL);
-    struct tm *timeStruct = gmtime((const time_t *)&curTime);
+    const struct tm *timeStruct = gmtime((const time_t *)&curTime);
     u8 month = timeStruct->tm_mon;
     u8 day = timeStruct->tm_mday;
     return (month == 11 && day >= 25) || (month == 0 && day <= 7);
