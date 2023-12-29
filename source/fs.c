@@ -29,7 +29,7 @@ void fsCreateFile(const char *name)
     FILE *fp = fopen(name, "w");
     if (!fp && mtnconfigGetInt("fsErrorMessages"))
     {
-        mtnlogMessage(LOG_ERROR, "Failed to create file %s: %s", name, strerror(errno));
+        mtnlogMessageTag(LOG_ERROR, "fs", "Failed to create file %s: %s", name, strerror(errno));
         return;
     }
     else if (fp)
@@ -43,12 +43,12 @@ void fsWrite(const char *file, const char *data)
     if (fp == NULL)
     {
         if (mtnconfigGetInt("fsErrorMessages"))
-            mtnlogMessage(LOG_ERROR, "Failed to open %s: %s", file, strerror(errno));
+            mtnlogMessageTag(LOG_ERROR, "fs", "Failed to open %s: %s", file, strerror(errno));
     }
     else
     {
         if (fputs(data, fp) == EOF && mtnconfigGet("fsErrorMessages"))
-            mtnlogMessage(LOG_ERROR, "Failed to write to %s: %s", file, strerror(errno));
+            mtnlogMessageTag(LOG_ERROR, "fs", "Failed to write to %s: %s", file, strerror(errno));
         fclose(fp);
     }
 }
@@ -67,7 +67,7 @@ void fsDeleteDir(const char *name)
     dir = opendir(name);
     if (!dir && mtnconfigGetInt("fsErrorMessages"))
     {
-        mtnlogMessage(LOG_ERROR, "Failed to open directory %s: %s", name, strerror(errno));
+        mtnlogMessageTag(LOG_ERROR, "fs", "Failed to open directory %s for deletion: %s", name, strerror(errno));
         return;
     }
 
@@ -81,14 +81,14 @@ void fsDeleteDir(const char *name)
         else
         {
             if (unlink(path) != 0 && mtnconfigGetInt("fsErrorMessages"))
-                mtnlogMessage(LOG_ERROR, "Failed to unlink directory %s: %s", path, strerror(errno));
+                mtnlogMessageTag(LOG_ERROR, "fs", "Failed to unlink directory %s: %s", path, strerror(errno));
         }
     }
 
     closedir(dir);
 
     if (remove(name) != 0 && mtnconfigGetInt("fsErrorMessages"))
-        mtnlogMessage(LOG_ERROR, "Failed to remove %s: %s", name, strerror(errno));
+        mtnlogMessageTag(LOG_ERROR, "fs", "Failed to remove %s: %s", name, strerror(errno));
 }
 
 bool fsFileExists(const char *name)
@@ -110,7 +110,7 @@ bool fsDirExists(const char *name)
     else
     {
         if (mtnconfigGetInt("fsErrorMessages"))
-            mtnlogMessage(LOG_ERROR, "Failed to check if dir %s exists: %s", name, strerror(errno));
+            mtnlogMessageTag(LOG_ERROR, "fs", "Failed to check if dir %s exists: %s", name, strerror(errno));
         return false;
     }
 
@@ -124,7 +124,7 @@ bool fsIsDir(const char *name)
     if (stat(name, &fileStat) == -1)
     {
         if (mtnconfigGetInt("fsErrorMessages"))
-            mtnlogMessage(LOG_ERROR, "Failed to check if %s is a directory or not: %s", name, strerror(errno));
+            mtnlogMessageTag(LOG_ERROR, "fs", "Failed to check if %s is a directory or not: %s", name, strerror(errno));
         return false;
     }
 
@@ -154,7 +154,7 @@ char *fsReadFile(const char *name)
         fclose(fp);
     }
     else if (mtnconfigGetInt("fsErrorMessages"))
-        mtnlogMessage(LOG_ERROR, "Failed to read file %s: %s", name, strerror(errno));
+        mtnlogMessageTag(LOG_ERROR, "fs", "Failed to read file %s: %s", name, strerror(errno));
 
     return buf;
 }
@@ -165,7 +165,7 @@ long fsGetFileSize(const char *name)
     if (!fp)
     {
         if (mtnconfigGetInt("fsErrorMessages"))
-            mtnlogMessage(LOG_ERROR, "Failed to open %s: %s", name, strerror(errno));
+            mtnlogMessageTag(LOG_ERROR, "fs", "Failed to open %s: %s", name, strerror(errno));
         return -1;
     }
 
@@ -173,9 +173,9 @@ long fsGetFileSize(const char *name)
     long size = ftell(fp);
     if (size == -1L) {
         if (mtnconfigGetInt("fsErrorMessages"))
-            mtnlogMessage(LOG_ERROR, "ftell failed on %s: %s", name, strerror(errno));
+            mtnlogMessageTag(LOG_ERROR, "fs", "ftell failed on %s: %s", name, strerror(errno));
         fclose(fp);
-        return;
+        return -1;
     }
     fclose(fp);
     return size;
@@ -188,7 +188,7 @@ long fsGetDirSize(const char *name)
     if (!d)
     {
         if (mtnconfigGetInt("fsErrorMessages"))
-            mtnlogMessage(LOG_ERROR, "Failed to open directory %s: %s", name, strerror(errno));
+            mtnlogMessageTag(LOG_ERROR, "fs", "Failed to open directory %s: %s", name, strerror(errno));
         return -1;
     }
 
@@ -200,7 +200,8 @@ long fsGetDirSize(const char *name)
         if (!fullFileName)
         {
             if (mtnconfigGetInt("fsErrorMessages"))
-                mtnlogMessage(LOG_ERROR, "Failed to allocate memory while checking if a directory exists or not");
+                // TODO tell what directory failed allocate memory
+                mtnlogMessageTag(LOG_ERROR, "fs", "Failed to allocate memory while checking if a directory exists or not");
             return -1;
         }
         strcpy(fullFileName, name);
