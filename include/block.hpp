@@ -157,7 +157,7 @@ enum class SlabID
         bool solid(void) override;                      \
         void interact(InventoryItem::ID item) override; \
         u16 id(void) const override;                    \
-        Rect getRect(void) const;                       \
+        Rect getRect(void) const override;              \
         bool isOpen(void);                              \
     };
 
@@ -419,7 +419,7 @@ public:
     /**
      * @brief Get the block's hitbox
      */
-    Rect getRect(void) const;
+    virtual Rect getRect(void) const;
 };
 
 /**
@@ -771,7 +771,7 @@ public:
     bool solid(void) override;
     void interact(InventoryItem::ID item) override;
     u16 id(void) const override;
-    Rect getRect(void) const;
+    Rect getRect(void) const override;
 
     /**
      * @brief Check if the door is open
@@ -886,7 +886,7 @@ public:
 
     bool solid(void) override;
     bool isSlab(void) override;
-    Rect getRect(void) const;
+    Rect getRect(void) const override;
 
     /**
      * @brief Get the slab's ID
