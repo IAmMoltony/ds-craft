@@ -39,19 +39,9 @@ __pycache__/
 # C C++ Code Counter
 .cccc/
 
-# code blocks auto save
-*.save
-
 # doxygen stuff
 docs/
 doxygen-warn.log
-
-# visual studio stuff
-*.db
-*.opendb
-Debug/
-Release/
-.vs/
 
 # Windows thumbnail cache
 *Thumbs.db*
