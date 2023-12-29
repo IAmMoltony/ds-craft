@@ -2191,7 +2191,7 @@ void Game::update(void)
                 keyboardHide();
                 if (!SettingsManager::mainScreen)
                     lcdMainOnBottom(); // restore screen to top if needed
-                worldName = createWorldName.c_str();
+                worldName = createWorldName;
 
                 // creating world screen
                 glBegin2D();
