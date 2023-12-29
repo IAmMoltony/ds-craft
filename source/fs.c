@@ -32,7 +32,8 @@ void fsCreateFile(const char *name)
         mtnlogMessage(LOG_ERROR, "Failed to create file %s: %s", name, strerror(errno));
         return;
     }
-    fclose(fp);
+    if (fp)
+        fclose(fp);
 }
 
 void fsWrite(const char *file, const char *data)
@@ -164,12 +165,17 @@ long fsGetFileSize(const char *name)
     if (!fp)
     {
         if (mtnconfigGetInt("fsErrorMessages"))
-            mtnlogMessage(LOG_ERROR, "Failed to get the size of file %s: %s", name, strerror(errno));
+            mtnlogMessage(LOG_ERROR, "Failed to open %s: %s", name, strerror(errno));
         return -1;
     }
 
     fseek(fp, 0L, SEEK_END);
     long size = ftell(fp);
+    if (size == -1L) {
+        if (mtnconfigGetInt("fsErrorMessages"))
+            mtnlogMessage(LOG_ERROR, "ftell failed on %s: %s", name, strerror(errno));
+        fclose(fp);
+    }
     fclose(fp);
     return size;
 }
