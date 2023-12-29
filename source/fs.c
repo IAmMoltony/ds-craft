@@ -27,12 +27,13 @@ void fsCreateDir(const char *name)
 void fsCreateFile(const char *name)
 {
     FILE *fp = fopen(name, "w");
-    if (!fp && mtnconfigGetInt("fsErrorMessages"))
+    if (!fp)
     {
-        mtnlogMessageTag(LOG_ERROR, "fs", "Failed to create file %s: %s", name, strerror(errno));
+        if (mtnconfigGetInt("fsErrorMessages"))
+            mtnlogMessageTag(LOG_ERROR, "fs", "Failed to create file %s: %s", name, strerror(errno));
         return;
     }
-    else if (fp)
+    else
         fclose(fp);
 }
 
