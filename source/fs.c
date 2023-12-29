@@ -32,7 +32,7 @@ void fsCreateFile(const char *name)
         mtnlogMessage(LOG_ERROR, "Failed to create file %s: %s", name, strerror(errno));
         return;
     }
-    if (fp)
+    else if (fp)
         fclose(fp);
 }
 
@@ -175,6 +175,7 @@ long fsGetFileSize(const char *name)
         if (mtnconfigGetInt("fsErrorMessages"))
             mtnlogMessage(LOG_ERROR, "ftell failed on %s: %s", name, strerror(errno));
         fclose(fp);
+        return;
     }
     fclose(fp);
     return size;
