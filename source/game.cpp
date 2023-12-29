@@ -735,6 +735,14 @@ void Game::draw(void)
         // draw the game logo
         glSpriteScale(SCREEN_WIDTH / 2 - 96, logoY, (1 << 12) * 2, GL_FLIP_NONE, sprLogo);
 
+        // draw "merry xmas" if needed
+        if (isChristmas())
+        {
+            glColor(RGB15(31, 31, 31));
+            glPolyFmt(POLY_ALPHA(17) | POLY_CULL_NONE);
+            font.print(2, SCREEN_HEIGHT - 12, "Merry X-mas!");
+        }
+
         // draw buttons
         for (u8 i = 0; i < 3; ++i)
         {
