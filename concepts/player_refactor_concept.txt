@@ -1,0 +1,26 @@
+Player Dot CPP: Why and how it should be refactored
+
+When I started making ds-craft, I didn't know it would grow this much, and
+as such, I didn't really think ahead about my code. The result of my carelessness
+is what is now known as player.cpp.
+
+This one single file is responsible for controlling half of the gameplay
+process. The list of things it handles includes:
+ - Player physics, movement, interaction with the world
+ - Crafting interface
+ - HUD
+
+Well I think this is actually all it does, but still that's too much for
+a player module! And before it also handled literally the entire inventory,
+before it got refactored into its own class.
+
+So here's my plan. I'm going to refactor player.cpp into the following:
+
+ - PlayerPhysics
+ - PlayerInteraction
+ - PlayerControls
+ - PlayerHUD
+ - PlayerCrafting
+ - ..and more i guess
+
+I do not know how to end this, but I think you get my point.
