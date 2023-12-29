@@ -33,6 +33,11 @@ private:
 	 bool sortMode;
 
 public:
+    /**
+     * @brief Convert item array to inventory
+     * @param array item array to convert
+     * @param numSlots number of items in the item array
+     */
 	static Inventory itemArrayToInventory(const InventoryItem *array, u8 numSlots);
 
 	/**
