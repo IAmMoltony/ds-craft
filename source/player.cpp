@@ -2274,10 +2274,10 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
             bool shouldShowText = getRectBottom().intersects(block->getRect());
 
             // get sign block
-            SignBlock *sign = reinterpret_cast<SignBlock *>(block.get());
+            SignBlock *signBlock = reinterpret_cast<SignBlock *>(block.get());
 
             // make the sign show text
-            sign->showText = shouldShowText;
+            signBlock->showText = shouldShowText;
             break;
         }
         case BID_CACTUS:

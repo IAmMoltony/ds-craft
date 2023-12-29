@@ -60,7 +60,7 @@ void Player::initCrafting(void)
 
 static bool _canCraft(Player *pThis, CraftingRecipe recipe)
 {
-    std::vector<InventoryItem> *rvec = recipe.getRecipe(); // recipe vector
+    const std::vector<InventoryItem> *rvec = recipe.getRecipe(); // recipe vector
     for (auto item : *rvec)
     {
         u16 playerItemCount = pThis->countItems(item.id);
@@ -167,7 +167,7 @@ void Player::updateCrafting(void)
             inventory.add(recipe.getOutput());
 
             // remove the recipe ingredients
-            std::vector<InventoryItem> *rvec = recipe.getRecipe();
+            const std::vector<InventoryItem> *rvec = recipe.getRecipe();
             for (auto item : *rvec)
                 inventory.remove(item);
         }

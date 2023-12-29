@@ -59,7 +59,8 @@ std::string getWorldName(const std::string &file)
                 for (size_t i = 1; i < split.size(); ++i)
                     worldName += split[i] + ' ';
 
-                worldName.pop_back(); // remove extra space
+                if (!worldName.empty())
+                    worldName.pop_back(); // remove extra space
                 return worldName;
             }
         }

@@ -33,7 +33,7 @@ private:
 	 bool sortMode;
 
 public:
-	static Inventory itemArrayToInventory(InventoryItem *array, u8 numSlots);
+	static Inventory itemArrayToInventory(const InventoryItem *array, u8 numSlots);
 
 	/**
 	 * @brief Construct an inventory

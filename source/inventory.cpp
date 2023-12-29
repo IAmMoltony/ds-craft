@@ -1,7 +1,7 @@
 #include "inventory.hpp"
 #include <algorithm>
 
-Inventory Inventory::itemArrayToInventory(InventoryItem *array, u8 numSlots)
+Inventory Inventory::itemArrayToInventory(const InventoryItem *array, u8 numSlots)
 {
 	Inventory inv(numSlots);
 	for (u8 i = 0; i < numSlots; ++i)

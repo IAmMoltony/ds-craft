@@ -196,6 +196,7 @@ bool InventoryItem::isSlabItem(void)
     return _isSlabItem(id);
 }
 
+// TODO is this not used??? why
 bool InventoryItem::isPlanksItem(void)
 {
     return _isPlanksItem(id);
@@ -292,7 +293,7 @@ static std::map<std::string, InventoryItem::ID> _stringIDTable = {
 
 InventoryItem::InventoryItem(const std::string &stringID, u8 amount) : id(ID::None), amount(amount)
 {
-    std::string sid = *&stringID;
+    std::string sid = stringID;
 
     // remove spaces
     sid.erase(std::remove_if(sid.begin(), sid.end(), ::isspace), sid.end());
