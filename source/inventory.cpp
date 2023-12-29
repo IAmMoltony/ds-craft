@@ -3,7 +3,7 @@
 
 Inventory Inventory::itemArrayToInventory(const InventoryItem *array, u8 numSlots)
 {
-	Inventory inv(numSlots);
+	Inventory inv((u8)numSlots);
 	for (u8 i = 0; i < numSlots; ++i)
 		inv[i] = array[i];
 	return inv;

@@ -39,7 +39,7 @@ public:
 	 * @brief Construct an inventory
 	 * @param numSlots number of slots (items) in the inventory
 	 */
-	Inventory(u8 numSlots);
+	explicit Inventory(u8 numSlots);
 
 	/**
 	 * @brief Construct an inventory by copying from an already existing inventory
