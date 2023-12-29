@@ -55,3 +55,6 @@ Release/
 
 # Windows thumbnail cache
 *Thumbs.db*
+
+# vim session
+Session.vim
