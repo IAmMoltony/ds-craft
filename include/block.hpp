@@ -300,6 +300,9 @@ enum class DoorType
 
 class Block;
 
+/**
+ * @brief Base class for all blocks
+ */
 class Block
 {
 public:
