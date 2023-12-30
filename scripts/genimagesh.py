@@ -1,10 +1,14 @@
 #!/bin/python3
+"""
+genimagesh.py - generate images.h file
+"""
 
 import argparse
 from pathlib import Path
 
 
 def main():
+    """Main function"""
     parser = argparse.ArgumentParser(description="Generate images.h file")
     parser.add_argument("output_file", help="output file path")
     parser.add_argument("gfx_dir", help="graphics directory")

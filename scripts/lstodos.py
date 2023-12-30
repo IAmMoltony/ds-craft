@@ -1,10 +1,21 @@
 #!/bin/python3
+"""
+lstodos.py - script for listing TODOs in the code
+"""
 
 import os
 import re
 
 
 def find_files_pattern(files, directory, bad_end_patterns, good_end_patterns):
+    """
+    Find files in files list by patterns
+
+    files - list of files to search in
+    directory - directory where the files are in
+    bad_end_patterns - if a file ends with one of the patterns from this list it will not be added
+    good_end_patterns - if a file ends with one of the patterns from this list it will be added
+    """
     good_files = []
     for file in files:
         bad_pass = True
@@ -30,12 +41,23 @@ def find_files_pattern(files, directory, bad_end_patterns, good_end_patterns):
 def add_files_pattern(
     files_list, files, directory, bad_end_patterns, good_end_patterns
 ):
+    """
+    Add files into a list using good and bad end patterns
+    
+    Parameters:
+    files_list - list where files that match the patterns will be added
+    files - list of files to add into the files list
+    directory - directory where the files are in
+    bad_end_patterns - if a file ends with one of the patterns from this list it will not be added
+    good_end_patterns - if a file ends with one of the patterns from this list it will be added
+    """
     good = find_files_pattern(files, directory, bad_end_patterns, good_end_patterns)
     for good_file in good:
         files_list.append(good_file)
 
 
 def find_files(files):
+    """Find files with TODOs and put them into the files list"""
     files.append("README.md")
     add_files_pattern(files, os.listdir("source"), "source", [".swp"], [".c", ".cpp"])
     add_files_pattern(files, os.listdir("include"), "include", [".swp"], [".h", ".hpp"])
@@ -43,6 +65,7 @@ def find_files(files):
 
 
 def find_todo_patterns(files):
+    """Find and print TODO patterns in the list of files"""
     for file_name in files:
         if (
             "lstodos.py" in file_name or "strencode.py" in file_name
@@ -58,6 +81,9 @@ def find_todo_patterns(files):
 
 
 def main():
+    """
+    Main function
+    """
     files = []
     find_files(files)
     find_todo_patterns(files)

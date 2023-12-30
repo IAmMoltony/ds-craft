@@ -1,4 +1,7 @@
 #!/bin/python3
+"""
+create_release.py - create a new release of the game
+"""
 
 import argparse
 import subprocess
@@ -7,6 +10,7 @@ import pathlib
 
 
 def get_game_version():
+    """Get the game version from game.ver"""
     version = ""
     prefix = ""
     with open("nitrofiles/game.ver", "r", encoding="utf-8") as f:
@@ -26,6 +30,7 @@ def get_game_version():
 
 
 def main():
+    """Main function"""
     pathlib.Path("releases").mkdir(parents=True, exist_ok=True)
 
     parser = argparse.ArgumentParser()

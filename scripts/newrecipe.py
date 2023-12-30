@@ -1,7 +1,7 @@
 #!/bin/python3
-
-# newrecipe_v2.py
-# Rewrite of the New Recipe script.
+"""
+newrecipe.py - script for generating a crafting recipe
+"""
 
 import argparse
 from dataclasses import dataclass
@@ -10,7 +10,9 @@ import sys
 
 @dataclass
 class CraftingRecipeMeta:
-    # Crafting recipe metadata
+    """
+    Crafting recipe metadata class
+    """
     recipe_file: str
     count: int
     output: str
@@ -18,6 +20,9 @@ class CraftingRecipeMeta:
 
 @dataclass
 class CraftingRecipeIngredient:
+    """
+    Crafting recipe ingredient class
+    """
     item_id: str
     count: int
 
@@ -25,10 +30,19 @@ class CraftingRecipeIngredient:
         return f"{self.count} of {self.item_id}"
 
     def serialize(self) -> str:
+        """
+        Turn the ingredient into the format that's used by the recipe files.
+        """
         return f"{self.item_id} {self.count}"
 
 
 def parse_ingredient(ingr_str: str) -> CraftingRecipeIngredient:
+    """
+    Parse a crafting recipe ingredient from ingredient string
+
+    Parameters:
+    ingr_str - ingredient string
+    """
     ingr = CraftingRecipeIngredient(0, "")
     ingr_str_split = ingr_str.split(" ")
     ingr.item_id = ingr_str_split[0]
@@ -37,6 +51,7 @@ def parse_ingredient(ingr_str: str) -> CraftingRecipeIngredient:
 
 
 def main():
+    """Main function"""
     parser = argparse.ArgumentParser(
         description="script for generating a crafting recipe"
     )

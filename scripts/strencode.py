@@ -1,8 +1,7 @@
 #!/bin/python3
-
-# strencode.py
-# String encoder from russian to what game can understand
-# Usage python strencode.py <string in russian> or --file <file to convert>
+"""
+strencode - script for encoding a Russian string into format that the game understands
+"""
 
 import sys
 
@@ -92,10 +91,22 @@ letter_map = {
 
 
 def print_usage():
+    """
+    Print script usage
+    """
     print("Usage: python strencode.py <string to convert> or --file <file to convert>")
 
 
 def encode(str_ru: str):
+    """
+    Encode a string
+
+    Parameters:
+    str_ru - Russian string to encode
+
+    Returns:
+    Encoded string
+    """
     newstr = ""
     for c in str_ru:
         newstr += letter_map[c]
@@ -103,6 +114,9 @@ def encode(str_ru: str):
 
 
 def main():
+    """
+    Main function
+    """
     argv = sys.argv
     argc = len(argv)
     if argc < 2:
