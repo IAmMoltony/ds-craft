@@ -43,4 +43,4 @@ The next update (*beta1.7*) is planned to release in **January 2024**.
 
 ## Code Improvements
 
-- Documentation for scripts (doc strings)
+*nothing here yet*
