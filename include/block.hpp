@@ -1,6 +1,6 @@
 /**
  * @file block.hpp
- * @brief Blocks and block functions
+ * @brief Stuff related to blocks
  */
 
 #pragma once
