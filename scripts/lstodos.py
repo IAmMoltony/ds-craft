@@ -43,7 +43,7 @@ def add_files_pattern(
 ):
     """
     Add files into a list using good and bad end patterns
-    
+
     Parameters:
     files_list - list where files that match the patterns will be added
     files - list of files to add into the files list

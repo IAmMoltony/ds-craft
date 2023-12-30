@@ -13,6 +13,7 @@ class CraftingRecipeMeta:
     """
     Crafting recipe metadata class
     """
+
     recipe_file: str
     count: int
     output: str
@@ -23,6 +24,7 @@ class CraftingRecipeIngredient:
     """
     Crafting recipe ingredient class
     """
+
     item_id: str
     count: int
 
