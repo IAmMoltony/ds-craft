@@ -224,6 +224,7 @@ FlowerBlock::FlowerBlock(s16 x, s16 y) : Block(x, y, 1), type(FlowerType::Poppy)
 		type = FlowerType::Cornflower;
         break;
 	}
+    // TODO why this no work
 }
 
 FlowerBlock::FlowerBlock(s16 x, s16 y, FlowerType type) : Block(x, y, 1), type(type),

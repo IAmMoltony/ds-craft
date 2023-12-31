@@ -584,10 +584,11 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
     glColor(RGB15(31, 31, 31));
 
     // hotbar drawing
+    int hotbarY = SCREEN_HEIGHT - 16;
     for (u8 i = 0; i < NUM_HOTBAR_SLOTS; i++)
     {
         // draw the slot
-        glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)), SCREEN_HEIGHT - 16, GL_FLIP_NONE,
+        glSprite(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)), hotbarY, GL_FLIP_NONE,
                  (i == hotbarSelect ? sprInventorySlotSelect : sprInventorySlot));
 
         // draw the item if it exists
@@ -598,7 +599,7 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
             u8 amount = inventory[i].amount;
 
             int xxItem = i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2));
-            int yyItem = SCREEN_HEIGHT - 16;
+            int yyItem = hotbarY;
 
             switch (id)
             {
@@ -658,7 +659,7 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
 
             if (amount > 1)
                 font.printfShadow(i * 16 + (SCREEN_WIDTH / 2 - (5 * 16 / 2)) + 1,
-                                  SCREEN_HEIGHT - 9, "%u", amount);
+                                  hotbarY + 7, "%u", amount);
         }
     }
 
@@ -668,10 +669,10 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
         switch (Game::instance->lang)
         {
         case Language::English:
-            font.printShadowCentered(0, SCREEN_HEIGHT - 27, getItemName(inventory[hotbarSelect].id));
+            font.printShadowCentered(0, hotbarY - 11, getItemName(inventory[hotbarSelect].id));
             break;
         case Language::Russian:
-            fontRu.printShadowCentered(0, SCREEN_HEIGHT - 27, getItemName(inventory[hotbarSelect].id));
+            fontRu.printShadowCentered(0, hotbarY - 11, getItemName(inventory[hotbarSelect].id));
             break;
         }
     }
