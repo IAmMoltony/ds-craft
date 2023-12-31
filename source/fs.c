@@ -201,8 +201,7 @@ long fsGetDirSize(const char *name)
         if (!fullFileName)
         {
             if (mtnconfigGetInt("fsErrorMessages"))
-                // TODO tell what directory failed allocate memory
-                mtnlogMessageTag(LOG_ERROR, "fs", "Failed to allocate memory while checking if a directory exists or not");
+                mtnlogMessageTag(LOG_ERROR, "fs", "Failed to allocate memory while checking if dir '%s' exists", de->d_name);
             return -1;
         }
         strcpy(fullFileName, name);
