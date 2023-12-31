@@ -340,7 +340,7 @@ void Game::init(void)
     fsInitStatus fsInitSt = fsInit();
     if (fsInitSt != FS_INIT_STATUS_OK)
     {
-        mtnlogMessage(LOG_ERROR, "Error initializing filesystem");
+        mtnlogMessageTag(LOG_ERROR, "init", "Error initializing filesystem");
         AssetManager::loadDirtBlock();
         loadFonts();
         while (true)
@@ -384,7 +384,7 @@ void Game::init(void)
     gamever::InitStatus gvis = gamever::init(mtnconfigGet("gameVersionFile"));
     if (gvis == gamever::InitStatus::FileOpenError)
     {
-        mtnlogMessage(LOG_INFO, "Error opening game version file '%s': %s", mtnconfigGet("gameVersionFile"), strerror(errno));
+        mtnlogMessageTag(LOG_ERROR, "init", "Error opening game version file '%s': %s", mtnconfigGet("gameVersionFile"), strerror(errno));
         hang();
     }
 
@@ -392,7 +392,7 @@ void Game::init(void)
     mtnlogInit((MtnLogLevel)mtnconfigGetInt("logLevel"), mtnconfigGet("logFile"));
     mtnlogColor(true);
 
-    mtnlogMessage(LOG_INFO, "Initializing sound");
+    mtnlogMessageTag(LOG_INFO, "init", "Initializing sound");
 
     // init sound
     mmInitDefault((char *)mtnconfigGet("soundbankFile"));
@@ -402,19 +402,19 @@ void Game::init(void)
     fsCreateDir(mtnconfigGet("worldsDir"));
     fsCreateDir(mtnconfigGet("configDir"));
 
-    mtnlogMessage(LOG_INFO, "Initializing crafting");
+    mtnlogMessageTag(LOG_INFO, "init", "Initializing crafting");
 
     // init crafting
     Player::initCrafting();
 
-    mtnlogMessage(LOG_INFO, "Loading general assets");
+    mtnlogMessageTag(LOG_INFO, "init", "Loading general assets");
 
     // load some assets
     AssetManager::loadGeneralAssets();
     sndPop = soundEffect(SFX_POP);
     sndClick = soundEffect(SFX_CLICK);
 
-    mtnlogMessage(LOG_INFO, "Loading settings");
+    mtnlogMessageTag(LOG_INFO, "init", "Loading settings");
 
     // update settings if need to
     SettingsManager::updateSettingsFormat();
@@ -425,12 +425,12 @@ void Game::init(void)
     // set main screen
     setMainScreen(SettingsManager::mainScreen);
 
-    mtnlogMessage(LOG_INFO, "Loading controls");
+    mtnlogMessageTag(LOG_INFO, "init", "Loading controls");
 
     // load controls
     ControlsManager::loadControls();
 
-    mtnlogMessage(LOG_INFO, "Initializing RNG");
+    mtnlogMessageTag(LOG_INFO, "init", "Initializing RNG");
 
     // set up random number generator
     u32 randomSeed;
@@ -451,7 +451,7 @@ void Game::init(void)
     for (int i = 0; i < rng::rangeSigned(10, 100); ++i)
         (void)rng::range(rng::range(0, 900), rng::range(0, 300));
 
-    mtnlogMessage(LOG_INFO, "Loading menu assets");
+    mtnlogMessageTag(LOG_INFO, "init", "Loading menu assets");
 
     // load assets for menu
     AssetManager::loadMenuAssets();
@@ -1923,7 +1923,7 @@ void Game::update(void)
                 std::string worldVersion = getWorldVersion(normalizeWorldFileName(worldName));
                 if (worldVersion == "alpha0.0.0") // alpha0.0.0 means error
                 {
-                    mtnlogMessage(LOG_ERROR, "Failed getting world version for world %s", worldName.c_str());
+                    mtnlogMessageTag(LOG_ERROR, "worldselect", "Failed getting world version for world %s", worldName.c_str());
                     return;
                 }
                 u64 worldVersionHash = gamever::getVersionHash(worldVersion);

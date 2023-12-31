@@ -10,7 +10,7 @@ u32 ControlsManager::buttons[ControlsManager::NUM_BUTTONS];
 
 void ControlsManager::loadControls(void)
 {
-    mtnlogMessage(LOG_INFO, "Loading controls");
+    mtnlogMessageTag(LOG_INFO, "controlsmgr", "Loading controls");
 
     // write default controls if controls file not found
     if (!fsFileExists(std::string(std::string(mtnconfigGet("configDir")) + "/controls.cfg").c_str()))
@@ -37,7 +37,7 @@ void ControlsManager::loadControls(void)
 
 void ControlsManager::saveControls(void)
 {
-    mtnlogMessage(LOG_INFO, "Saving controls");
+    mtnlogMessageTag(LOG_INFO, "controlsmgr", "Saving controls");
 
     std::ofstream ofs(std::string(std::string(mtnconfigGet("configDir")) + "/controls.cfg").c_str());
     ofs << "goleft " << buttons[BUTTON_GO_LEFT] << "\ngoright " << buttons[BUTTON_GO_RIGHT] << "\njump " << buttons[BUTTON_JUMP]
@@ -55,7 +55,7 @@ u32 ControlsManager::getButton(u8 button)
 
 void ControlsManager::writeDefaultControls(void)
 {
-    mtnlogMessage(LOG_INFO, "Writing default controls");
+    mtnlogMessageTag(LOG_INFO, "controlsmgr", "Writing default controls");
 
     buttons[BUTTON_GO_LEFT] = DEFAULT_GO_LEFT;
     buttons[BUTTON_GO_RIGHT] = DEFAULT_GO_RIGHT;
@@ -95,7 +95,7 @@ u8 ControlsManager::buttonIDIndex(const std::string &buttonID)
 
 void ControlsManager::setButton(u8 button, u32 key)
 {
-    mtnlogMessage(LOG_INFO, "Setting button %u to key %u", button, key);
+    mtnlogMessageTag(LOG_INFO, "controlsmgr", "Setting button %u to key %u", button, key);
 
     // if button index invalid or key is not valid
     if (button >= NUM_BUTTONS || (key != KEY_A && key != KEY_B && key != KEY_X && key != KEY_Y && key != KEY_LEFT &&

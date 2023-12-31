@@ -7,12 +7,12 @@
 
 void pcxImageLoad(const char *filePath, bool color0Transparent, PCXImage *image)
 {
-	mtnlogMessage(LOG_INFO, "Loading PCX image from file %s", filePath);
+	mtnlogMessageTag(LOG_INFO, "pcx", "Loading PCX image from file %s", filePath);
 
 	FILE *file = fopen(filePath, "rb");
 	if (!file)
 	{
-		mtnlogMessage(LOG_ERROR, "Failed to open PCX image file %s because %s", filePath, strerror(errno));
+		mtnlogMessageTag(LOG_ERROR, "pcx", "Failed to open PCX image file %s because %s", filePath, strerror(errno));
 		return;
 	}
 
@@ -23,7 +23,7 @@ void pcxImageLoad(const char *filePath, bool color0Transparent, PCXImage *image)
 	u8 *pcxBytes = (u8 *)malloc(fileSize);
 	if (!pcxBytes)
 	{
-		mtnlogMessage(LOG_ERROR, "Failed to allocate memory for PCX bytes");
+		mtnlogMessageTag(LOG_ERROR, "pcx", "Failed to allocate memory for PCX bytes");
         fclose(file);
 		return;
 	}
@@ -34,7 +34,7 @@ void pcxImageLoad(const char *filePath, bool color0Transparent, PCXImage *image)
 	free(pcxBytes);
 
 	if (image->simg.bpp == 0)
-		mtnlogMessage(LOG_WARNING, "PCX file '%s' is corrupted or has wrong color depth", filePath);
+		mtnlogMessageTag(LOG_WARNING, "pcx", "PCX file '%s' is corrupted or has wrong color depth", filePath);
 
 	int flags = GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF;
 	if (color0Transparent)
