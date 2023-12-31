@@ -38,7 +38,7 @@ The next update (*beta1.7*) is planned to release in **January 2024**.
 
 ## Q of L (quality of life) Features
 
-- Allow for UI customization (even if its super basic) (planned for beta1.7)
+*nothing here yet*
 
 ## Code Improvements
 

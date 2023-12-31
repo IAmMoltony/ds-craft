@@ -252,7 +252,7 @@ void SettingsManager::loadSettings(void)
         else if (split[0] == "hotbarontop")
         {
             // hotbar on top
-            hotbazrOnTop = std::stoi(split[1]);
+            hotbarOnTop = std::stoi(split[1]);
         }
         else
         {

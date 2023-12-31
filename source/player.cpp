@@ -668,13 +668,18 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
     // draw item name
     if (inventory[hotbarSelect].id != InventoryItem::ID::None)
     {
+        int itemNameY = hotbarY - 11;
+        if (SettingsManager::hotbarOnTop)
+        {
+            itemNameY = 18;
+        }
         switch (Game::instance->lang)
         {
         case Language::English:
-            font.printShadowCentered(0, hotbarY - 11, getItemName(inventory[hotbarSelect].id));
+            font.printShadowCentered(0, itemNameY, getItemName(inventory[hotbarSelect].id));
             break;
         case Language::Russian:
-            fontRu.printShadowCentered(0, hotbarY - 11, getItemName(inventory[hotbarSelect].id));
+            fontRu.printShadowCentered(0, itemNameY, getItemName(inventory[hotbarSelect].id));
             break;
         }
     }
