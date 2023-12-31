@@ -249,10 +249,15 @@ void SettingsManager::loadSettings(void)
             // main screen
             mainScreen = std::stoi(split[1]);
         }
+        else if (split[0] == "hotbarontop")
+        {
+            // hotbar on top
+            hotbazrOnTop = std::stoi(split[1]);
+        }
         else
         {
             // invalid key
-            mtnlogMessage(LOG_WARNING, "Invalid setting '%s', assuming default", split[0].c_str());
+            mtnlogMessage(LOG_WARNING, "Invalid setting '%s', ignoring", split[0].c_str());
         }
     }
 }
