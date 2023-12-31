@@ -139,6 +139,7 @@ private:
     u16 logoY;
     u8 editControlsSelected;
     bool editControlsSetMode;
+    bool settingsFromPause;
 
     /**
      * @brief Quit the game

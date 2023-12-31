@@ -489,6 +489,7 @@ void Game::init(void)
     logoY = 16;
     editControlsSelected = 0;
     editControlsSetMode = false;
+    settingsFromPause = false;
 }
 
 void Game::enterWorldSelect(void)
@@ -705,14 +706,16 @@ void Game::draw(void)
                 switch (lang)
                 {
                 case Language::English:
-                    font.printCentered(0, 86, "\2:A  Resume");
-                    font.printCentered(0, 102, "\2:B  Save and quit");
-                    font.printCentered(0, 118, "\2:X  Statistics");
+                    font.printCentered(0, 66, "\2:A  Resume");
+                    font.printCentered(0, 82, "\2:B  Save and quit");
+                    font.printCentered(0, 98, "\2:X  Statistics");
+                    font.printCentered(0, 114, "\2:Y  Settings");
                     break;
                 case Language::Russian:
-                    fontRu.printCentered(0, 86, "\2:A  Qsqfqniku#");
-                    fontRu.printCentered(0, 102, "\2:B  Sqxsbpku# k d\"luk");
-                    fontRu.printCentered(0, 118, "\2:X  Subuktukmb");
+                    fontRu.printCentered(0, 66, "\2:A  Qsqfqniku#");
+                    fontRu.printCentered(0, 82, "\2:B  Sqxsbpku# k d\"luk");
+                    fontRu.printCentered(0, 98, "\2:X  Subuktukmb");
+                    fontRu.printCentered(0, 114, "\2:Y  Obtusqlmk");
                     break;
                 }
 
@@ -1606,13 +1609,21 @@ void Game::update(void)
             gameQuit();
 
             // go to menu and play a click sound
-            gameState = State::TitleScreen;
             mmEffectEx(&sndClick);
+            gameState = State::TitleScreen;
         }
         if (down & KEY_X && paused && !showStats)
         {
             showStats = true;
             mmEffectEx(&sndClick);
+        }
+        if (down & KEY_Y && paused && !showStats)
+        {
+            paused = false;
+            settingsFromPause = true;
+            gameState = State::Settings;
+            mmEffectEx(&sndClick);
+            break;
         }
 
         if (paused && showStats)
@@ -2271,7 +2282,14 @@ void Game::update(void)
         if (down & KEY_B)
         {
             mmEffectEx(&sndClick);
-            gameState = State::TitleScreen;
+            if (settingsFromPause)
+            {
+                paused = true;
+                settingsFromPause = false;
+                gameState = State::Game;
+            }
+            else 
+                gameState = State::TitleScreen;
         }
         else if (down & KEY_A)
         {
