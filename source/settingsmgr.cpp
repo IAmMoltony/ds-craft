@@ -246,12 +246,12 @@ void SettingsManager::loadSettings(void)
         }
         else if (split[0] == "mainscr")
         {
-            // main screen
+            // main screen setting
             mainScreen = std::stoi(split[1]);
         }
         else if (split[0] == "hotbarontop")
         {
-            // hotbar on top
+            // hotbar on top setting
             hotbarOnTop = std::stoi(split[1]);
         }
         else
