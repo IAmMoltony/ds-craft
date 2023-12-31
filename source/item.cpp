@@ -33,16 +33,24 @@ InventoryItem::ID InventoryItem::nonBlockItemIDs[] =
         InventoryItem::ID::Shears,
         InventoryItem::ID::Wheat,
         InventoryItem::ID::Bread,
+        InventoryItem::ID::RedDye,
+        InventoryItem::ID::BlueDye,
+        InventoryItem::ID::PinkDye,
+        InventoryItem::ID::GreenDye,
+        InventoryItem::ID::OrangeDye,
+        InventoryItem::ID::PurpleDye,
+        InventoryItem::ID::YellowDye,
+        InventoryItem::ID::LightGrayDye,
 };
 
 bool InventoryItem::compareByID(const InventoryItem &a, const InventoryItem &b)
 {
-	return static_cast<int>(a.id) < static_cast<int>(b.id);
+    return static_cast<int>(a.id) < static_cast<int>(b.id);
 }
 
 bool InventoryItem::compareByAmount(const InventoryItem &a, const InventoryItem &b)
 {
-	return a.amount < b.amount;
+    return a.amount < b.amount;
 }
 
 const int InventoryItem::numNonBlockItemIDs = sizeof(InventoryItem::nonBlockItemIDs) / sizeof(InventoryItem::ID);
@@ -121,7 +129,7 @@ const int InventoryItem::numPlanksItemIDs = sizeof(InventoryItem::planksItemIDs)
 static bool _isItem(InventoryItem::ID id)
 {
     return std::find(InventoryItem::nonBlockItemIDs, InventoryItem::nonBlockItemIDs + InventoryItem::numNonBlockItemIDs, id) !=
-        InventoryItem::nonBlockItemIDs + InventoryItem::numNonBlockItemIDs;
+           InventoryItem::nonBlockItemIDs + InventoryItem::numNonBlockItemIDs;
 }
 
 // check if the item is a tool
@@ -132,7 +140,7 @@ static bool _isToolItem(InventoryItem::ID id)
         return false;
 
     return std::find(InventoryItem::toolItemIDs, InventoryItem::toolItemIDs + InventoryItem::numToolItemIDs, id) !=
-        InventoryItem::toolItemIDs + InventoryItem::numToolItemIDs;
+           InventoryItem::toolItemIDs + InventoryItem::numToolItemIDs;
 }
 
 // check if the item is a non-solid block
@@ -142,9 +150,8 @@ static bool _isNonSolidBlockItem(InventoryItem::ID id)
     if (_isItem(id))
         return false;
 
-    return std::find(InventoryItem::nonSolidBlockItemIDs, InventoryItem::nonSolidBlockItemIDs +
-        InventoryItem::numNonSolidBlockItemIDs, id) != InventoryItem::nonSolidBlockItemIDs +
-        InventoryItem::numNonSolidBlockItemIDs;
+    return std::find(InventoryItem::nonSolidBlockItemIDs, InventoryItem::nonSolidBlockItemIDs + InventoryItem::numNonSolidBlockItemIDs, id) != InventoryItem::nonSolidBlockItemIDs +
+                                                                                                                                                   InventoryItem::numNonSolidBlockItemIDs;
 }
 
 // check if the item is a slab
@@ -155,7 +162,7 @@ static bool _isSlabItem(InventoryItem::ID id)
         return false;
 
     return std::find(InventoryItem::slabItemIDs, InventoryItem::slabItemIDs + InventoryItem::numSlabItemIDs, id) !=
-        InventoryItem::slabItemIDs + InventoryItem::numSlabItemIDs;
+           InventoryItem::slabItemIDs + InventoryItem::numSlabItemIDs;
 }
 
 // check if the item is planks
@@ -165,7 +172,7 @@ static bool _isPlanksItem(InventoryItem::ID id)
         return false; // not block
 
     return std::find(InventoryItem::planksItemIDs, InventoryItem::planksItemIDs + InventoryItem::numPlanksItemIDs, id) !=
-        InventoryItem::planksItemIDs + InventoryItem::numPlanksItemIDs;
+           InventoryItem::planksItemIDs + InventoryItem::numPlanksItemIDs;
 }
 
 InventoryItem::InventoryItem(ID id, u8 amount) : id(id), amount(amount)
@@ -289,6 +296,14 @@ static std::map<std::string, InventoryItem::ID> _stringIDTable = {
     {"bread", InventoryItem::ID::Bread},
     {"haybale", InventoryItem::ID::HayBale},
     {"stonebricksslab", InventoryItem::ID::StoneBricksSlab},
+    {"reddye", InventoryItem::ID::RedDye},
+    {"bluedye", InventoryItem::ID::BlueDye},
+    {"yellowdye", InventoryItem::ID::YellowDye},
+    {"purpledye", InventoryItem::ID::PurpleDye},
+    {"pinkdye", InventoryItem::ID::PinkDye},
+    {"orangedye", InventoryItem::ID::OrangeDye},
+    {"lightgraydye", InventoryItem::ID::LightGrayDye},
+    {"greendye", InventoryItem::ID::GreenDye},
 };
 
 InventoryItem::InventoryItem(const std::string &stringID, u8 amount) : id(ID::None), amount(amount)
@@ -374,6 +389,17 @@ static PCXImage _sprIronHoe;
 static PCXImage _sprWheatSeeds;
 static PCXImage _sprWheat;
 
+// dyes
+
+static PCXImage _sprBlueDye;
+static PCXImage _sprYellowDye;
+static PCXImage _sprRedDye;
+static PCXImage _sprPurpleDye;
+static PCXImage _sprPinkDye;
+static PCXImage _sprOrangeDye;
+static PCXImage _sprLightGrayDye;
+static PCXImage _sprGreenDye;
+
 // dummy
 
 static PCXImage _sprDummy;
@@ -408,12 +434,21 @@ void InventoryItem::loadTextures(void)
     pcxImageLoad("nitro:/textures/item/stone_hoe.pcx", true, &_sprStoneHoe);
     pcxImageLoad("nitro:/textures/item/iron_hoe.pcx", true, &_sprIronHoe);
 
-	pcxImageLoad("nitro:/textures/item/wooden_shovel.pcx", true, &_sprWoodenShovel);
-	pcxImageLoad("nitro:/textures/item/stone_shovel.pcx", true, &_sprStoneShovel);
-	pcxImageLoad("nitro:/textures/item/iron_shovel.pcx", true, &_sprIronShovel);
+    pcxImageLoad("nitro:/textures/item/wooden_shovel.pcx", true, &_sprWoodenShovel);
+    pcxImageLoad("nitro:/textures/item/stone_shovel.pcx", true, &_sprStoneShovel);
+    pcxImageLoad("nitro:/textures/item/iron_shovel.pcx", true, &_sprIronShovel);
 
     pcxImageLoad("nitro:/textures/item/wheat_seeds.pcx", true, &_sprWheatSeeds);
     pcxImageLoad("nitro:/textures/item/wheat.pcx", true, &_sprWheat);
+
+    pcxImageLoad("nitro:/textures/item/blue_dye.pcx", true, &_sprBlueDye);
+    pcxImageLoad("nitro:/textures/item/yellow_dye.pcx", true, &_sprYellowDye);
+    pcxImageLoad("nitro:/textures/item/red_dye.pcx", true, &_sprRedDye);
+    pcxImageLoad("nitro:/textures/item/purple_dye.pcx", true, &_sprPurpleDye);
+    pcxImageLoad("nitro:/textures/item/pink_dye.pcx", true, &_sprPinkDye);
+    pcxImageLoad("nitro:/textures/item/orange_dye.pcx", true, &_sprOrangeDye);
+    pcxImageLoad("nitro:/textures/item/light_gray_dye.pcx", true, &_sprLightGrayDye);
+    pcxImageLoad("nitro:/textures/item/green_dye.pcx", true, &_sprGreenDye);
 
     pcxImageLoad("nitro:/textures/misc/dummy.pcx", false, &_sprDummy);
 }
@@ -697,6 +732,30 @@ std::string iidToString(InventoryItem::ID iid)
     case InventoryItem::ID::StoneBricksSlab:
         id = "stonebricksslab";
         break;
+    case InventoryItem::ID::BlueDye:
+        id = "bluedye";
+        break;
+    case InventoryItem::ID::YellowDye:
+        id = "yellowdye";
+        break;
+    case InventoryItem::ID::RedDye:
+        id = "reddye";
+        break;
+    case InventoryItem::ID::PurpleDye:
+        id = "purpledye";
+        break;
+    case InventoryItem::ID::PinkDye:
+        id = "pinkdye";
+        break;
+    case InventoryItem::ID::OrangeDye:
+        id = "orangedye";
+        break;
+    case InventoryItem::ID::LightGrayDye:
+        id = "lightgraydye";
+        break;
+    case InventoryItem::ID::GreenDye:
+        id = "greendye";
+        break;
     }
     return id;
 }
@@ -854,6 +913,30 @@ const char *getItemName(InventoryItem::ID iid)
             return "Hay Bale";
         case InventoryItem::ID::StoneBricksSlab:
             return "Stone Bricks Slab";
+        case InventoryItem::ID::OrangeTulip:
+            return "Orange Tulip";
+        case InventoryItem::ID::PinkTulip:
+            return "Pink Tulip";
+        case InventoryItem::ID::WhiteTulip:
+            return "White Tulip";
+        case InventoryItem::ID::Cornflower:
+            return "Cornflower";
+        case InventoryItem::ID::BlueDye:
+            return "Blue Dye";
+        case InventoryItem::ID::YellowDye:
+            return "Yellow Dye";
+        case InventoryItem::ID::RedDye:
+            return "Red Dye";
+        case InventoryItem::ID::PurpleDye:
+            return "Purple Dye";
+        case InventoryItem::ID::PinkDye:
+            return "Pink Dye";
+        case InventoryItem::ID::OrangeDye:
+            return "Orange Dye";
+        case InventoryItem::ID::LightGrayDye:
+            return "Light Gray Dye";
+        case InventoryItem::ID::GreenDye:
+            return "Green Dye";
         default:
             return "Error";
         }
@@ -1009,6 +1092,31 @@ const char *getItemName(InventoryItem::ID iid)
             return "Spqr tgpb";
         case InventoryItem::ID::StoneBricksSlab:
             return "Qnkub kj mbogpp\"x mksrkzgl";
+        // TODO
+        case InventoryItem::ID::OrangeTulip:
+            return "";
+        case InventoryItem::ID::PinkTulip:
+            return "";
+        case InventoryItem::ID::WhiteTulip:
+            return "";
+        case InventoryItem::ID::Cornflower:
+            return "";
+        case InventoryItem::ID::BlueDye:
+            return "";
+        case InventoryItem::ID::YellowDye:
+            return "";
+        case InventoryItem::ID::RedDye:
+            return "";
+        case InventoryItem::ID::PurpleDye:
+            return "";
+        case InventoryItem::ID::PinkDye:
+            return "";
+        case InventoryItem::ID::OrangeDye:
+            return "";
+        case InventoryItem::ID::LightGrayDye:
+            return "";
+        case InventoryItem::ID::GreenDye:
+            return "";
         default:
             return "P}kcmb";
         }
@@ -1091,6 +1199,18 @@ static std::map<InventoryItem::ID, PCXImage *> _itemImages = {
     {InventoryItem::ID::Bread, &_sprBread},
     {InventoryItem::ID::HayBale, &sprHayBale},
     {InventoryItem::ID::StoneBricksSlab, &sprStoneBricks},
+    {InventoryItem::ID::OrangeTulip, &sprOrangeTulip},
+    {InventoryItem::ID::PinkTulip, &sprPinkTulip},
+    {InventoryItem::ID::WhiteTulip, &sprWhiteTulip},
+    {InventoryItem::ID::Cornflower, &sprCornflower},
+    {InventoryItem::ID::BlueDye, &_sprBlueDye},
+    {InventoryItem::ID::YellowDye, &_sprYellowDye},
+    {InventoryItem::ID::RedDye, &_sprRedDye},
+    {InventoryItem::ID::PurpleDye, &_sprPurpleDye},
+    {InventoryItem::ID::PinkDye, &_sprPinkDye},
+    {InventoryItem::ID::OrangeDye, &_sprOrangeDye},
+    {InventoryItem::ID::LightGrayDye, &_sprLightGrayDye},
+    {InventoryItem::ID::GreenDye, &_sprGreenDye},
 };
 
 PCXImage *getItemImage(InventoryItem::ID item)
