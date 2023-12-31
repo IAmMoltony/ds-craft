@@ -488,6 +488,15 @@ void InventoryItem::unloadTextures(void)
     pcxImageUnload(&_sprWheatSeeds);
     pcxImageUnload(&_sprWheat);
 
+    pcxImageUnload(&_sprBlueDye);
+    pcxImageUnload(&_sprYellowDye);
+    pcxImageUnload(&_sprRedDye);
+    pcxImageUnload(&_sprPurpleDye);
+    pcxImageUnload(&_sprPinkDye);
+    pcxImageUnload(&_sprOrangeDye);
+    pcxImageUnload(&_sprLightGrayDye);
+    pcxImageUnload(&_sprGreenDye);
+
     pcxImageUnload(&_sprDummy);
 }
 
