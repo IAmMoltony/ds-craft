@@ -1101,31 +1101,30 @@ const char *getItemName(InventoryItem::ID iid)
             return "Spqr tgpb";
         case InventoryItem::ID::StoneBricksSlab:
             return "Qnkub kj mbogpp\"x mksrkzgl";
-        // TODO
         case InventoryItem::ID::OrangeTulip:
-            return "";
+            return "Psbpigd\"l u%n#rbp";
         case InventoryItem::ID::PinkTulip:
-            return "";
+            return "Rqjqd\"l u%n#rbp";
         case InventoryItem::ID::WhiteTulip:
-            return "";
+            return "Bgn\"l u%n#rbp";
         case InventoryItem::ID::Cornflower:
-            return "";
+            return "Cbtknhm";
         case InventoryItem::ID::BlueDye:
-            return "";
+            return "Skpkl msbtkugn#";
         case InventoryItem::ID::YellowDye:
-            return "";
+            return "Hhnu\"l msbtkugn#";
         case InventoryItem::ID::RedDye:
-            return "";
+            return "Lsbtp\"l msbtkugn#";
         case InventoryItem::ID::PurpleDye:
-            return "";
+            return "Vkqnguqd\" lmsbtkugn#";
         case InventoryItem::ID::PinkDye:
-            return "";
+            return "Rqjqd\"l msbtkugn#";
         case InventoryItem::ID::OrangeDye:
-            return "";
+            return "Psbpigd\"l msbtkugn#";
         case InventoryItem::ID::LightGrayDye:
-            return "";
+            return "Sdgunqtgs\" lmsbtkugn#";
         case InventoryItem::ID::GreenDye:
-            return "";
+            return "Ignhp\" lmsbtkugn#";
         default:
             return "P}kcmb";
         }
