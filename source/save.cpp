@@ -220,7 +220,6 @@ void saveWorld(const std::string &name, Block::List &blocks, EntityList &entitie
         // spruce trapdoor
         case BID_SPRUCE_TRAPDOOR:
         {
-            // TODO merge trapdoors into 1 (one) class kinda like leaves
             SpruceTrapdoorBlock *trapdoor = reinterpret_cast<SpruceTrapdoorBlock *>(block.get());
             wld << "sprucetrapdoor " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << std::to_string(trapdoor->isOpen()) << '\n';
             break;
