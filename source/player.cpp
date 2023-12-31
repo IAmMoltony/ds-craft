@@ -585,6 +585,8 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
 
     // hotbar drawing
     int hotbarY = SCREEN_HEIGHT - 16;
+    if (SettingsManager::hotbarOnTop)
+        hotbarY = 0;
     for (u8 i = 0; i < NUM_HOTBAR_SLOTS; i++)
     {
         // draw the slot

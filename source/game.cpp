@@ -284,7 +284,8 @@ static constexpr u8 SETTING_SHOW_FPS = 1;
 static constexpr u8 SETTING_FONT_SHADOW_INTENSITY = 2;
 static constexpr u8 SETTING_FRAMESKIP_ENABLE = 3;
 static constexpr u8 SETTING_MAIN_SCREEN = 4;
-static constexpr u8 SETTING_LAST_PAGE2 = SETTING_MAIN_SCREEN;
+static constexpr u8 SETTING_HOTBAR_ON_TOP = 5;
+static constexpr u8 SETTING_LAST_PAGE2 = SETTING_HOTBAR_ON_TOP;
 
 static u16 _frameCounterFPS = 0;
 static u16 _fps = 0.0f;
@@ -1373,7 +1374,14 @@ void Game::draw(void)
             }
             glColor(RGB15(31, 31, 31));
 
+            if (settingsSelect == SETTING_HOTBAR_ON_TOP)
+                glColor(RGB15(0, 31, 0));
 
+            switch (lang)
+            {
+            case Language::English:
+                font.printfCentered(0, 103, (settingsSelect == SETTING_HOTBAR_ON_TOP) ? "> Hotbar on top: %s <" : "Hotbar on top: %s", SettingsManager::hotbarOnTop ? "yes" : "no");
+            }
             break;
         }
 
@@ -2364,6 +2372,14 @@ void Game::update(void)
                     break;
                 case SETTING_MAIN_SCREEN:
                     SettingsManager::mainScreen = !SettingsManager::mainScreen;
+                    if (SettingsManager::mainScreen)
+                        lcdMainOnTop();
+                    else
+                        lcdMainOnBottom();
+                    SettingsManager::saveSettings();
+                    break;
+                case SETTING_HOTBAR_ON_TOP:
+                    SettingsManager::hotbarOnTop = !SettingsManager::hotbarOnTop;
                     SettingsManager::saveSettings();
                     break;
                 }
