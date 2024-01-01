@@ -10,7 +10,7 @@
 
 /**
  * @brief Class for managing worlds
-*/
+ */
 class WorldManager
 {
 public:
@@ -20,7 +20,7 @@ public:
 
     /**
      * @brief Struct for representing basic world info
-    */
+     */
     struct WorldInfo
     {
         /**
@@ -30,7 +30,7 @@ public:
 
         /**
          * @brief Size of the world in bytes
-        */
+         */
         int size;
     };
 
@@ -41,6 +41,8 @@ public:
 
     /**
      * @brief Get info about worlds stored in the worlds directory
-    */
+     */
     static WorldList getWorlds(void);
+
+    static std::vector<std::string> getFavoriteWorlds(void);
 };
