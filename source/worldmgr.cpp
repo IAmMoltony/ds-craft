@@ -44,6 +44,7 @@ WorldManager::WorldList WorldManager::getWorlds(void)
 
 std::vector<std::string> WorldManager::getFavoriteWorlds(void)
 {
+    // <data dir>/favWorlds.txt
     std::string favWorldsPath = std::string(std::string(mtnconfigGet("dataDir")) + "/favWorlds.txt");
 
     // check if the favorites file exists

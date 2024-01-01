@@ -462,7 +462,7 @@ void Game::init(void)
     // set fps timer
     timerStart(2, ClockDivider_1024, TIMER_FREQ_1024(1), _countFPS);
 
-    // init values of stuff
+    // init stuff
     gameState = State::TitleScreen;
     camera = {0, 0};
     frameCounter = 0;
