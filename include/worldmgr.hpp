@@ -23,14 +23,20 @@ public:
     */
     struct WorldInfo
     {
+        /**
+         * @brief name of world
+         */
         std::string name;
 
         /**
-         * @note size is in bytes
+         * @brief Size of the world in bytes
         */
         int size;
     };
 
+    /**
+     * @brief Type for list of worlds
+     */
     typedef std::vector<WorldInfo> WorldList;
 
     /**
