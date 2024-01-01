@@ -102,6 +102,7 @@ public:
     };
 
 private:
+    // TODO document everything
     Block::List blocks;
     EntityList entities;
     BlockParticleList blockParticles;
