@@ -159,9 +159,9 @@ private:
     void loadFonts(void);
 
     /**
-     * @brief Initialize the game. This game is run once after boot.
+     * @brief Initialize the game.
      */
-    void init(void);
+    void init(int args, char **argv);
 
     /**
      * @brief Enter world select screen
@@ -391,5 +391,5 @@ public:
     /**
      * @brief Run game
      */
-    void run(void);
+    void run(int argc, char **argv);
 };

@@ -300,7 +300,7 @@ static void _countFPS(void)
     _frameCounterFPS = 0;
 }
 
-void Game::init(void)
+void Game::init(int argc, char **argv)
 {
     // set exception handler
     defaultExceptionHandler();
@@ -391,6 +391,10 @@ void Game::init(void)
     // init logging
     mtnlogInit((MtnLogLevel)mtnconfigGetInt("logLevel"), mtnconfigGet("logFile"));
     mtnlogColor(true);
+
+    mtnlogMessageTag(LOG_INFO, "init", "%d arguments", argc);
+    for (int i = 0; i < argc; ++i)
+        mtnlogMessageTag(LOG_INFO, "init", "Argument %d: %s", i, argv[i]);
 
     mtnlogMessageTag(LOG_INFO, "init", "Initializing sound");
 
@@ -2527,9 +2531,9 @@ void Game::update(void)
 
 static constexpr float TARGET_FRAME_TIME = 1000.0f / 60.0f; // 60 FPS
 
-void Game::run(void)
+void Game::run(int argc, char **argv)
 {
-    init();
+    init(argc, argv);
     while (true)
     {
         cpuStartTiming(0);
