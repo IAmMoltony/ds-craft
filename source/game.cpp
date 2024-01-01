@@ -23,7 +23,7 @@ Game::Game() : blocks(), entities(), blockParticles(), player(), gameState(State
                paused(false), showStats(false), worldName(), createWorldName(), createWorldSeed(), renameWorldName(),
                createWorldError(false), renameWorldDuplError(false), settingsSelect(0), settingsPage(1), titleScreenSelect(0),
                createWorldShowCursor(false), createWorldSelect(0), worldSettingsSelect(0), currentLocation(0),
-               logoFall(false), logoY(0), editControlsSelected(0), editControlsSetMode(false),
+               logoFall(false), logoY(0), editControlsSelected(0), editControlsSetMode(false), settingsFromPause(false),
                sndClick(soundEffect(SFX_CLICK)), sndPop(soundEffect(SFX_POP)), font(), fontRu(),
                lang(Language::English)
 {
