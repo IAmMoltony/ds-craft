@@ -102,44 +102,185 @@ public:
     };
 
 private:
-    // TODO document everything
+    /**
+     * @brief List of blocks in the world
+     */
     Block::List blocks;
+
+    /**
+     * @brief List of entities in the world
+     */
     EntityList entities;
+
+    /**
+     * @brief List of block particles in the world
+     */
     BlockParticleList blockParticles;
+
+    /**
+     * @brief Player
+     */
     Player player;
 
+    /**
+     * @brief Buffer for English font images
+     */
     glImage fontSmallImg[FONT_NUM_IMAGES];
+
+    /**
+     * @brief Buffer for Russian font images
+     */
     glImage fontSmallRuImg[FONT_NUM_IMAGES];
 
+    /**
+     * @brief Current game state
+     */
     State gameState;
+
+    /**
+     * @brief Camera
+     */
     Camera camera;
+
+    /**
+     * @brief Frame counter (increments by 1 every frame)
+     */
     u16 frameCounter;
+
+    /**
+     * @brief Timer for "Saved!" text
+     */
     u8 saveTextTimer;
+
+    /**
+     * @brief Index of the selected world in world select
+     */
     u16 worldSelectSelected;
+
+    /**
+     * @brief Index of the selected language in language select
+     */
     u8 langSelectSelected;
+
+    /**
+     * @brief Index of the world that is about to be deleted
+     */
     u16 deleteWorldSelected;
+
+    /**
+     * @brief Index of the world for renaming
+     */
     u16 renameWorldSelected;
+
+    /**
+     * @brief List of worlds in world select
+     */
     WorldManager::WorldList worldSelectWorlds;
+
+    /**
+     * @brief Show "Saved!" text or not
+     */
     bool showSaveText;
+
+    /**
+     * @brief Is game paused
+     */
     bool paused;
+
+    /**
+     * @brief Show stats screen flag
+     */
     bool showStats;
+
+    /**
+     * @brief World name
+     * @todo where is this used
+     */
     std::string worldName;
+
+    /**
+     * @brief World name in world creation screen
+     */
     std::string createWorldName;
+
+    /**
+     * @brief World seed in world creation screen
+     */
     std::string createWorldSeed;
+
+    /**
+     * @brief World name in world rename screen
+     */
     std::string renameWorldName;
+
+    /**
+     * @brief Was there error in create world
+     */
     bool createWorldError;
+
+    /**
+     * @brief Was there error in rename world
+     */
     bool renameWorldDuplError;
+
+    /**
+     * @brief Index of selected option in settings
+     */
     u8 settingsSelect;
+
+    /**
+     * @brief Settings page
+     */
     u8 settingsPage;
+
+    /**
+     * @brief Selected option on title screen
+     */
     u8 titleScreenSelect;
+
+    /**
+     * @brief Show cursor in create world or not
+     */
     bool createWorldShowCursor;
+
+    /**
+     * @brief Selected world name or seed in create world
+     */
     u8 createWorldSelect;
+
+    /**
+     * @brief Selected option in world settings
+     */
     u8 worldSettingsSelect;
+
+    /**
+     * @brief Current world location
+     */
     s16 currentLocation;
+
+    /**
+     * @brief should logo fall or not
+     */
     bool logoFall;
+
+    /**
+     * @brief Logo Y position
+     */
     u16 logoY;
+
+    /**
+     * @brief Selected option in edit controls screen
+     */
     u8 editControlsSelected;
+
+    /**
+     * @brief Is set mode enabled in edit controls
+     */
     bool editControlsSetMode;
+
+    /**
+     * @brief Was settings opened from pause or not
+     */
     bool settingsFromPause;
 
     /**
