@@ -10,6 +10,7 @@
 #include "ui.hpp"
 #include "util.h"
 #include "mtnconfig.h"
+#include "mtnconfigversion.h"
 #include "mtnlog.h"
 #include "mtnlogversion.h"
 #include "glext.h"
@@ -1146,7 +1147,8 @@ void Game::draw(void)
         font.printf(5, 88, "libNDS version \1:0:31:0*%d.%d.%d", _LIBNDS_MAJOR_, _LIBNDS_MINOR_, _LIBNDS_PATCH_);
         font.printf(5, 99, "libFAT version \1:0:31:0*%d.%d.%d", _LIBFAT_MAJOR_, _LIBFAT_MINOR_, _LIBFAT_PATCH_);
         font.printf(5, 110, "MtnLog version \1:0:31:0*%d.%d.%d", MTNLOG_MAJOR, MTNLOG_MINOR, MTNLOG_PATCH);
-        font.print(5, 121, "Git commit \1:0:31:0*" GIT_COMMIT);
+        font.printf(5, 121, "MtnConfig version \1:0:31:0*%d.%d.%d", MTNCONFIG_MAJOR, MTNCONFIG_MINOR, MTNCONFIG_PATCH);
+        font.print(5, 132, "Git commit \1:0:31:0*" GIT_COMMIT);
 
         glSprite(2, SCREEN_HEIGHT - 17, GL_FLIP_NONE, sprBButton);
         switch (lang)
