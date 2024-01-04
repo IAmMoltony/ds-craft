@@ -2623,6 +2623,7 @@ void Game::AssetManager::loadMenuAssets(void)
     loadImageAlpha(Game::instance->sprWorldLabelSelect, 128, 32, world_label_selectPal, world_label_selectBitmap);
     loadImageAlpha(Game::instance->sprLangEnglish, 16, 16, englishPal, englishBitmap);
     loadImageAlpha(Game::instance->sprLangRussian, 16, 16, russianPal, russianBitmap);
+    loadImageAlpha(Game::instance->sprHeart, 8, 8, heartPal, heartBitmap);
 }
 
 void Game::AssetManager::unloadMenuAssets(void)
@@ -2633,6 +2634,7 @@ void Game::AssetManager::unloadMenuAssets(void)
     unloadImage(Game::instance->sprWorldLabelSelect);
     unloadImage(Game::instance->sprLangEnglish);
     unloadImage(Game::instance->sprLangRussian);
+    unloadImage(Game::instance->sprHeart);
 }
 
 void Game::drawMenuBackground(void)

@@ -442,6 +442,11 @@ public:
     glImage sprLangRussian[1];
 
     /**
+     * @brief Sprite for a 8x8 heart
+     */
+    glImage sprHeart[1];
+
+    /**
      * @brief Click sound effect
      */
     mm_sound_effect sndClick;
