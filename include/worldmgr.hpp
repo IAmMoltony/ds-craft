@@ -44,5 +44,14 @@ public:
      */
     static WorldList getWorlds(void);
 
+    /**
+     * @brief Get list of favorite worlds
+     */
     static std::vector<std::string> getFavoriteWorlds(void);
+
+    /**
+     * @brief Write a new favorite worlds list
+     * @param newList new list
+     */
+    static void writeFavoriteWorlds(std::vector<std::string> &newList);
 };

@@ -42,10 +42,14 @@ WorldManager::WorldList WorldManager::getWorlds(void)
     return worlds;
 }
 
+static std::string _getFavWorldsPath(void)
+{
+    return std::string(std::string(mtnconfigGet("dataDir")) + "/favWorlds.txt");
+}
+
 std::vector<std::string> WorldManager::getFavoriteWorlds(void)
 {
-    // <data dir>/favWorlds.txt
-    std::string favWorldsPath = std::string(std::string(mtnconfigGet("dataDir")) + "/favWorlds.txt");
+    std::string favWorldsPath = _getFavWorldsPath();
 
     // check if the favorites file exists
     if (!fsFileExists(favWorldsPath.c_str()))
@@ -60,4 +64,17 @@ std::vector<std::string> WorldManager::getFavoriteWorlds(void)
     while (std::getline(stream, line))
         favWorlds.push_back(line);
     return favWorlds;
+}
+
+void WorldManager::writeFavoriteWorlds(std::vector<std::string> &newList)
+{
+    std::string favWorldsPath = _getFavWorldsPath();
+
+    // write
+    std::ofstream stream(favWorldsPath);
+    for (auto item : newList)
+    {
+        stream << item << '\n';
+    }
+    stream.close(); // is this even necessary? i dont remember
 }

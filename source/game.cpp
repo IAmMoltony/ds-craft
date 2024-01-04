@@ -2072,6 +2072,21 @@ void Game::update(void)
                     return;
             }
         }
+        else if (down & KEY_L)
+        {
+            if (std::find(favWorlds.begin(), favWorlds.end(), worldSelectWorlds[worldSelectSelected].name) != favWorlds.end())
+            {
+                // remove from favorites
+                favWorlds.erase(std::remove(favWorlds.begin(), favWorlds.end(), worldSelectWorlds[worldSelectSelected].name), favWorlds.end());
+            }
+            else
+            {
+                // add to favorites
+                favWorlds.push_back(worldSelectWorlds[worldSelectSelected].name);
+            }
+            // write new list
+            WorldManager::writeFavoriteWorlds(favWorlds);
+        }
         else if (down & KEY_Y)
         {
             if (worldSelectWorlds.size() > 0)
