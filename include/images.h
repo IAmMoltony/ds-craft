@@ -22,6 +22,7 @@
 #include "startbtn.h"
 #include "bbtn.h"
 #include "english.h"
+#include "heart.h"
 #include "selectbtn.h"
 #include "world_label.h"
 #include "upbtn.h"
