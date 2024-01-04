@@ -178,6 +178,11 @@ private:
     WorldManager::WorldList worldSelectWorlds;
 
     /**
+     * @brief List of favorite worlds
+     */
+    std::vector<std::string> favWorlds;
+
+    /**
      * @brief Show "Saved!" text or not
      */
     bool showSaveText;

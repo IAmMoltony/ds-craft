@@ -20,7 +20,7 @@ Game *Game::instance;
 
 Game::Game() : blocks(), entities(), blockParticles(), player(), gameState(State::TitleScreen), camera({0, 0}),
                frameCounter(0), saveTextTimer(0), worldSelectSelected(0), langSelectSelected(0),
-               deleteWorldSelected(0), renameWorldSelected(0), worldSelectWorlds(), showSaveText(false),
+               deleteWorldSelected(0), renameWorldSelected(0), worldSelectWorlds(), favWorlds(), showSaveText(false),
                paused(false), showStats(false), worldName(), createWorldName(), createWorldSeed(), renameWorldName(),
                createWorldError(false), renameWorldDuplError(false), settingsSelect(0), settingsPage(1), titleScreenSelect(0),
                createWorldShowCursor(false), createWorldSelect(0), worldSettingsSelect(0), currentLocation(0),
@@ -515,6 +515,7 @@ void Game::enterWorldSelect(void)
     glEnd2D();
     glFlush(0);
     worldSelectWorlds = WorldManager::getWorlds();
+    favWorlds = WorldManager::getFavoriteWorlds();
 }
 
 void Game::loadLocation(s16 oldLocation)
@@ -865,6 +866,15 @@ void Game::draw(void)
                     break;
                 }
                 glColor(RGB15(31, 31, 31));
+
+                if (std::find(favWorlds.begin(), favWorlds.end(), worldInfoName) != favWorlds.end()) {
+                    glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE);
+                    glColor(RGB15(0, 0, 0));
+                    glSprite(SCREEN_WIDTH - 22, 48 + i * 40 + 18 - offset + 2, GL_FLIP_NONE, sprHeart);
+                    glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
+                    glColor(RGB15(31, 31, 31));
+                    glSprite(SCREEN_WIDTH - 24, 48 + i * 40 + 18 - offset, GL_FLIP_NONE, sprHeart);
+                }
 
                 free(hrfsz);
             }
