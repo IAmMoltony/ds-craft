@@ -1387,6 +1387,10 @@ void Game::draw(void)
             {
             case Language::English:
                 font.printfCentered(0, 103, (settingsSelect == SETTING_HOTBAR_ON_TOP) ? "> Hotbar on top: %s <" : "Hotbar on top: %s", SettingsManager::hotbarOnTop ? "yes" : "no");
+                break;
+            case Language::Russian:
+                fontRu.printfCentered(0, 103, (settingsSelect == SETTING_HOTBAR_ON_TOP) ? "> Qqjkyk& xqucbsb: %s <" : "Qqjkyk& xqucbsb: %s", SettingsManager::hotbarOnTop ? "tdgsxv" : "tpkjv");
+                break;
             }
             break;
         }
