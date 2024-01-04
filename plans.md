@@ -24,7 +24,6 @@ The next update (*beta1.7*) is planned to release in **January 2024**.
 - Stained glass (planned for beta1.7)
 - Changing sound volume per sound source
 - Achievements!!! :p
-- Making worlds favorite (planned for beta1.7) (mostly done)
 
 ## Changes
 
