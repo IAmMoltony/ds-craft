@@ -8,6 +8,11 @@
 #include "mtnconfig.h"
 #include "mtnlog.h"
 
+static bool _errorMessages(void)
+{
+    return mtnconfigGetBool("fsErrorMessages");
+}
+
 fsInitStatus fsInit(void)
 {
     if (!fatInitDefault())
@@ -29,7 +34,7 @@ void fsCreateFile(const char *name)
     FILE *fp = fopen(name, "w");
     if (!fp)
     {
-        if (mtnconfigGetInt("fsErrorMessages"))
+        if (_errorMessages())
             mtnlogMessageTag(LOG_ERROR, "fs", "Failed to create file %s: %s", name, strerror(errno));
         return;
     }
@@ -43,12 +48,12 @@ void fsWrite(const char *file, const char *data)
     
     if (fp == NULL)
     {
-        if (mtnconfigGetInt("fsErrorMessages"))
+        if (_errorMessages())
             mtnlogMessageTag(LOG_ERROR, "fs", "Failed to open %s: %s", file, strerror(errno));
     }
     else
     {
-        if (fputs(data, fp) == EOF && mtnconfigGet("fsErrorMessages"))
+        if (fputs(data, fp) == EOF && _errorMessages())
             mtnlogMessageTag(LOG_ERROR, "fs", "Failed to write to %s: %s", file, strerror(errno));
         fclose(fp);
     }
@@ -66,7 +71,7 @@ void fsDeleteDir(const char *name)
     char path[PATH_MAX];
 
     dir = opendir(name);
-    if (!dir && mtnconfigGetInt("fsErrorMessages"))
+    if (!dir && _errorMessages())
     {
         mtnlogMessageTag(LOG_ERROR, "fs", "Failed to open directory %s for deletion: %s", name, strerror(errno));
         return;
@@ -81,14 +86,14 @@ void fsDeleteDir(const char *name)
             fsDeleteDir(path);
         else
         {
-            if (unlink(path) != 0 && mtnconfigGetInt("fsErrorMessages"))
+            if (unlink(path) != 0 && _errorMessages())
                 mtnlogMessageTag(LOG_ERROR, "fs", "Failed to unlink directory %s: %s", path, strerror(errno));
         }
     }
 
     closedir(dir);
 
-    if (remove(name) != 0 && mtnconfigGetInt("fsErrorMessages"))
+    if (remove(name) != 0 && _errorMessages())
         mtnlogMessageTag(LOG_ERROR, "fs", "Failed to remove %s: %s", name, strerror(errno));
 }
 
@@ -110,7 +115,7 @@ bool fsDirExists(const char *name)
         return false; // no such file or directory
     else
     {
-        if (mtnconfigGetInt("fsErrorMessages"))
+        if (_errorMessages())
             mtnlogMessageTag(LOG_ERROR, "fs", "Failed to check if dir %s exists: %s", name, strerror(errno));
         return false;
     }
@@ -124,7 +129,7 @@ bool fsIsDir(const char *name)
 
     if (stat(name, &fileStat) == -1)
     {
-        if (mtnconfigGetInt("fsErrorMessages"))
+        if (_errorMessages())
             mtnlogMessageTag(LOG_ERROR, "fs", "Failed to check if %s is a directory or not: %s", name, strerror(errno));
         return false;
     }
@@ -154,7 +159,7 @@ char *fsReadFile(const char *name)
         }
         fclose(fp);
     }
-    else if (mtnconfigGetInt("fsErrorMessages"))
+    else if (_errorMessages())
         mtnlogMessageTag(LOG_ERROR, "fs", "Failed to read file %s: %s", name, strerror(errno));
 
     return buf;
@@ -165,7 +170,7 @@ long fsGetFileSize(const char *name)
     FILE *fp = fopen(name, "r");
     if (!fp)
     {
-        if (mtnconfigGetInt("fsErrorMessages"))
+        if (_errorMessages())
             mtnlogMessageTag(LOG_ERROR, "fs", "Failed to open %s: %s", name, strerror(errno));
         return -1;
     }
@@ -173,7 +178,7 @@ long fsGetFileSize(const char *name)
     fseek(fp, 0L, SEEK_END);
     long size = ftell(fp);
     if (size == -1L) {
-        if (mtnconfigGetInt("fsErrorMessages"))
+        if (_errorMessages())
             mtnlogMessageTag(LOG_ERROR, "fs", "ftell failed on %s: %s", name, strerror(errno));
         fclose(fp);
         return -1;
@@ -188,7 +193,7 @@ long fsGetDirSize(const char *name)
 
     if (!d)
     {
-        if (mtnconfigGetInt("fsErrorMessages"))
+        if (_errorMessages())
             mtnlogMessageTag(LOG_ERROR, "fs", "Failed to open directory %s: %s", name, strerror(errno));
         return -1;
     }
@@ -200,7 +205,7 @@ long fsGetDirSize(const char *name)
         char *fullFileName = malloc(strlen(name) + strlen(de->d_name) + 2);
         if (!fullFileName)
         {
-            if (mtnconfigGetInt("fsErrorMessages"))
+            if (_errorMessages())
                 mtnlogMessageTag(LOG_ERROR, "fs", "Failed to allocate memory while checking if dir '%s' exists", de->d_name);
             return -1;
         }
