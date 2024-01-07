@@ -82,3 +82,4 @@ wheat_from_hay_bale
 
 # dyes
 green_dye
+blue_dye
