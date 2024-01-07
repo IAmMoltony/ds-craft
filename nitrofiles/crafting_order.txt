@@ -83,3 +83,9 @@ wheat_from_hay_bale
 # dyes
 green_dye
 blue_dye
+light_gray_dye
+orange_dye
+pink_due
+red_dye1
+red_dye2
+yellow_dye
