@@ -3,8 +3,8 @@
 
 namespace ui
 {
-    void showButtonTooltips(Font *font, Font *font2, glImage *t1, const char *s1, glImage *t2,
-                            const char *s2, glImage *t3, const char *s3, glImage *t4, const char *s4)
+    void showButtonTooltips(Font *font, Font *font2, const glImage *t1, const char *s1, const glImage *t2,
+                            const char *s2, const glImage *t3, const char *s3, const glImage *t4, const char *s4)
     {
         if (t1)
         {
