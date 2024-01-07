@@ -11,7 +11,7 @@ Inventory Inventory::itemArrayToInventory(const InventoryItem *array, u8 numSlot
 
 Inventory::Inventory(u8 numSlots) : numSlots(numSlots), items(nullptr), sortMode(true)
 {
-	items = (InventoryItem *)malloc(sizeof(InventoryItem) * numSlots);
+    items = reinterpret_cast<InventoryItem*>(malloc(sizeof(InventoryItem) * numSlots));
 	clear();
 }
 
