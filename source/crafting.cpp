@@ -4,6 +4,7 @@
 #include <iterator>
 #include "util.h"
 #include "mtnconfig.h"
+#include "mtnlog.h"
 #include "save.hpp"
 #include "game.hpp"
 
@@ -15,7 +16,7 @@ void CraftingRecipe::construct(const char *recipeFile)
     // check if file exists
     if (!fsFileExists(path.c_str()))
     {
-        printf("crafting recipe %s not found (full path: %s)", recipeFile, path.c_str());
+        mtnlogMessageTag(LOG_ERROR, "crafting", "Crafting recipe '%s' not found (full path: %s)", recipeFile, path.c_str());
         hang();
     }
 
@@ -61,7 +62,7 @@ void CraftingRecipe::construct(const char *recipeFile)
             else
             {
                 // oof
-                printf("unknown key in recipe %s: %s (\"%s\")", recipeFile, key.c_str(), line.c_str());
+                mtnlogMessageTag(LOG_ERROR, "crafting", "Unknown key '%s' in recipe '%s' (\"%s\")", key.c_str(), recipeFile, line.c_str());
                 hang();
             }
         }
