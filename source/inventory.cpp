@@ -51,11 +51,6 @@ void Inventory::sort(void)
 	sortMode = !sortMode;
 }
 
-bool Inventory::getSortMode(void) const
-{
-	return sortMode;
-}
-
 u8 Inventory::getNumSlots(void) const
 {
 	return numSlots;

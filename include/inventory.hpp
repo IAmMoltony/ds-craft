@@ -87,13 +87,6 @@ public:
 	void sort(void);
 
 	/**
-	 * @brief Get sort mode
-	 *
-	 * True = sort by ID; False = sort by Amount
-	 */
-	bool getSortMode(void) const;
-
-	/**
 	 * @brief Get the number of slots in the inventory
 	 */
 	u8 getNumSlots(void) const;
