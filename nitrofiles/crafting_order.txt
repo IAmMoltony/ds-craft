@@ -79,3 +79,6 @@ shears
 # hay bale
 hay_bale
 wheat_from_hay_bale
+
+# dyes
+green_dye

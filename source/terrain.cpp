@@ -7,7 +7,7 @@ void generateTerrain(Block::List &blocks, EntityList &entities, Player &player)
     // this forces only a certain biome to spawn.
     // if less than 0, no biome is forced.
     // (useful for debugging)
-    static constexpr s8 forceBiome = -1;
+    static constexpr s8 forceBiome = BIOME_DESERT;
 
     bool onlyWinterBiome = isChristmas();
 
