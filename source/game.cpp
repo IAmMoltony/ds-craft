@@ -1587,7 +1587,7 @@ void Game::draw(void)
         break;
     }
 
-    if (mtnconfigGetInt("showPolygonRamCount"))
+    if (mtnconfigGetBool("showPolygonRamCount"))
     {
         // for debug purposes
         int vc = 0;
@@ -2059,7 +2059,7 @@ void Game::update(void)
                     std::sort(blocks.begin(), blocks.end(), Block::compareByX);
 
                     mmEffectEx(&sndClick);
-                    if (mtnconfigGetInt("clearConsoleOnPlay"))
+                    if (mtnconfigGetBool("clearConsoleOnPlay"))
                         consoleClear();
                     player.setAimX(SCREEN_WIDTH / 2);
                     player.setAimY(SCREEN_HEIGHT / 2);

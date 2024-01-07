@@ -306,7 +306,7 @@ void Player::draw(const Camera &camera, Font &font, Font &fontRu)
     else
         drawHUD(camera, font, fontRu);
 
-    if (mtnconfigGetInt("drawPlayerHitboxes"))
+    if (mtnconfigGetBool("drawPlayerHitboxes"))
     {
         getRectBottom().draw(camera, RGB15(31, 0, 0));
         getRectTop().draw(camera, RGB15(0, 31, 0));
