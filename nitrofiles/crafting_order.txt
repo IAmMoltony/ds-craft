@@ -85,7 +85,7 @@ green_dye
 blue_dye
 light_gray_dye
 orange_dye
-pink_due
+pink_dye
 red_dye1
 red_dye2
 yellow_dye
