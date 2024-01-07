@@ -59,7 +59,6 @@ std::vector<std::string> WorldManager::getFavoriteWorlds(void)
 
     // each line in the file is fav world name (not folder name of the world)
     std::ifstream stream(favWorldsPath);
-    std::vector<WorldInfo> worlds;
     std::string line;
     while (std::getline(stream, line))
         favWorlds.push_back(line);

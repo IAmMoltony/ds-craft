@@ -890,11 +890,6 @@ public:
     bool solid(void) override;
     bool isSlab(void) override;
     Rect getRect(void) const override;
-
-    /**
-     * @brief Get the slab's ID
-     */
-    SlabID getSlabID(void) const;
 };
 
 SLAB_DECL(Oak)

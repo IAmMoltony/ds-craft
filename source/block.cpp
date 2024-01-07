@@ -515,11 +515,6 @@ Rect SlabBlock::getRect(void) const
 	return Rect(x, y + 8, 16, 8);
 }
 
-SlabID SlabBlock::getSlabID(void) const
-{
-	return slabID;
-}
-
 //----------------------------------------
 
 void WheatBlock::setGrowInterval(void)
