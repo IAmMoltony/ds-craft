@@ -21,7 +21,7 @@ void SettingsManager::loadLanguageLegacy(void)
 {
     if (fsFileExists(std::string(std::string(mtnconfigGet("configDir")) + "/lang.cfg").c_str()))
     {
-        mtnlogMessageTag(LOG_INFO, "settingsmgr", "Loading legacy language setting");
+        mtnlogMessageTag(MTNLOG_INFO, "settingsmgr", "Loading legacy language setting");
 
         char *data = fsReadFile(std::string(std::string(mtnconfigGet("configDir")) + "/lang.cfg").c_str());
         switch (data[0])
@@ -33,7 +33,7 @@ void SettingsManager::loadLanguageLegacy(void)
             Game::instance->lang = Language::Russian;
             break;
         default:
-            mtnlogMessageTag(LOG_WARNING, "settingsmgr", "Invalid language code '%c'; defaulting to English");
+            mtnlogMessageTag(MTNLOG_WARNING, "settingsmgr", "Invalid language code '%c'; defaulting to English");
             Game::instance->lang = Language::English;
             break;
         }
@@ -59,7 +59,7 @@ void SettingsManager::loadSettingsLegacy(void)
     // my reasoning might not be correct, but transitioning from using a billion files for storing settings to
     // having just a single file is still better.
 
-    mtnlogMessageTag(LOG_INFO, "settingsmgr", "Loading legacy settings");
+    mtnlogMessageTag(MTNLOG_INFO, "settingsmgr", "Loading legacy settings");
 
     // legacy language setting
     loadLanguageLegacy();
@@ -80,7 +80,7 @@ void SettingsManager::loadSettingsLegacy(void)
         autoSaveSeconds = std::stoi(std::string(data));
         if (autoSaveSeconds == 1)
         {
-            mtnlogMessageTag(LOG_INFO, "settingsmgr", "Auto save every 1 second detected, changing to 15");
+            mtnlogMessageTag(MTNLOG_INFO, "settingsmgr", "Auto save every 1 second detected, changing to 15");
             autoSaveSeconds = 15;
         }
     }
@@ -126,7 +126,7 @@ void SettingsManager::removeLegacySettings(void)
 
 void SettingsManager::updateSettingsFormat(void)
 {
-    mtnlogMessageTag(LOG_INFO, "settingsmgr", "Updating settings format");
+    mtnlogMessageTag(MTNLOG_INFO, "settingsmgr", "Updating settings format");
 
     // check if we need to update
     if (fsFileExists(std::string(std::string(mtnconfigGet("configDir")) + "/settings.cfg").c_str()))
@@ -144,7 +144,7 @@ void SettingsManager::updateSettingsFormat(void)
 
 void SettingsManager::saveSettings(void)
 {
-    mtnlogMessageTag(LOG_INFO, "settingsmgr", "Saving settings");
+    mtnlogMessageTag(MTNLOG_INFO, "settingsmgr", "Saving settings");
 
     // open na file
     FILE *settingsFile = fopen(std::string(std::string(mtnconfigGet("configDir")) + "/settings.cfg").c_str(), "w");
@@ -152,7 +152,7 @@ void SettingsManager::saveSettings(void)
     // check if error
     if (!settingsFile)
     {
-        mtnlogMessageTag(LOG_ERROR, "settingsmgr", "error opening settings file: %s", strerror(errno));
+        mtnlogMessageTag(MTNLOG_ERROR, "settingsmgr", "error opening settings file: %s", strerror(errno));
         return;
     }
 
@@ -167,7 +167,7 @@ void SettingsManager::saveSettings(void)
 
 void SettingsManager::loadSettings(void)
 {
-    mtnlogMessageTag(LOG_INFO, "settingsmgr", "Loading settings");
+    mtnlogMessageTag(MTNLOG_INFO, "settingsmgr", "Loading settings");
 
     // open file
     std::ifstream file(std::string(std::string(mtnconfigGet("configDir")) + "/settings.cfg"));
@@ -175,7 +175,7 @@ void SettingsManager::loadSettings(void)
     // check if error
     if (file.bad())
     {
-        mtnlogMessageTag(LOG_ERROR, "settingsmgr", "error opening settings file: %s", strerror(errno));
+        mtnlogMessageTag(MTNLOG_ERROR, "settingsmgr", "error opening settings file: %s", strerror(errno));
         return;
     }
 
@@ -217,7 +217,7 @@ void SettingsManager::loadSettings(void)
             else if (split[1] == "1")
                 Game::instance->lang = Language::Russian;
             else
-                mtnlogMessageTag(LOG_WARNING, "settingsmgr", "Invalid language code %s", split[1].c_str());
+                mtnlogMessageTag(MTNLOG_WARNING, "settingsmgr", "Invalid language code %s", split[1].c_str());
         }
         else if (split[0] == "blockparts")
         {
@@ -257,7 +257,7 @@ void SettingsManager::loadSettings(void)
         else
         {
             // invalid key
-            mtnlogMessageTag(LOG_WARNING, "settingsmgr", "Invalid setting '%s', ignoring", split[0].c_str());
+            mtnlogMessageTag(MTNLOG_WARNING, "settingsmgr", "Invalid setting '%s', ignoring", split[0].c_str());
         }
     }
 }

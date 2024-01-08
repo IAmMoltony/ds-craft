@@ -26,7 +26,7 @@ void Player::initCrafting(void)
             cpuStartTiming(0);                                                    // start measuring time
             _craftingRecipes.push_back(CraftingRecipe(line));                     // parse + add the recipe
             float timeTook = (float)cpuEndTiming() / BUS_CLOCK;                   // get how much time it took
-            mtnlogMessageTag(LOG_INFO, "crafting", "loaded %s in %f s", line.c_str(), timeTook); // print how much it took
+            mtnlogMessageTag(MTNLOG_INFO, "crafting", "loaded %s in %f s", line.c_str(), timeTook); // print how much it took
             loadTimes[line] = timeTook;                                           // put the time into the list
 
             // the time measuring functions also measure how much time it takes to
@@ -53,7 +53,7 @@ void Player::initCrafting(void)
         }
     }
 
-    mtnlogMessageTag(LOG_INFO, "crafting", "*** Load Results: Fastest time: %f (%s); Slowest time: %f (%s)", lowest, lowestName.c_str(),
+    mtnlogMessageTag(MTNLOG_INFO, "crafting", "*** Load Results: Fastest time: %f (%s); Slowest time: %f (%s)", lowest, lowestName.c_str(),
                   highest, highestName.c_str());
 }
 
