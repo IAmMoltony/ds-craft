@@ -317,8 +317,8 @@ public:
 
     /**
      * @brief Draw crafting screen
-     * @param fontSmall English font
-     * @param fontSmallRu Russian font
+     * @param font English font
+     * @param fontRu Russian font
      */
     void drawCrafting(Font &font, Font &fontRu);
 
@@ -353,6 +353,7 @@ public:
      * @brief Draw heads-up display (HUD)
      * @param camera camera to use
      * @param font font
+     * @param fontRu Russian font
      */
     void drawHUD(const Camera &camera, Font &font, Font &fontRu);
 
@@ -362,7 +363,6 @@ public:
      * @param blocks list of blocks
      * @param entities list of entities
      * @param blockParticles list of block particles
-     * @param frames frame counter
      */
     UpdateResult update(Camera *camera, Block::List *blocks, EntityList *entities, BlockParticleList *blockParticles);
 
