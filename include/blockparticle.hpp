@@ -64,7 +64,7 @@ public:
     /**
      * @brief Block particle constructor
      * @param blockImage image to use
-     * @param lieftime lifetime in frames
+     * @param lifetime particle's lifetime in frames
      * @param x X position of the particle
      * @param y Y position of the particle
      * @param velX X velocity of the particle
