@@ -176,7 +176,7 @@ enum class SlabID
 
 /**
  * @brief Generic sapling implementation
- * @param splingid sapling name (class name without the SaplingBlock part)
+ * @param saplingid sapling name (class name without the SaplingBlock part)
  * @param spr block sprite
  * @param bid block ID
  */
