@@ -79,7 +79,7 @@ extern "C"
 
     /**
      * @brief play a sound effect from the specified sound effects
-     * @param sound effect count
+     * @param count sound effect count
      * @note The variable arguments are assumed to be pointers to `mm_sound_effect`.
      * Passing stuff that is not sound effects WILL lead to undefined behavior!
     */

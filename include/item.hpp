@@ -260,8 +260,8 @@ std::string iidToString(InventoryItem::ID iid);
 
 /**
  * @brief Get item name
- * @param lang language to use
  * @param iid item ID to get the name of
+ * @note This pulls the language from `Game` class
  */
 const char *getItemName(InventoryItem::ID iid);
 
