@@ -36,6 +36,13 @@ extern "C"
 
     /**
      * @brief Draw a part of a sprite with the ability to scale the sprite
+     * @param image the image to draw
+     * @param x X position of the sprite
+     * @param y Y position of the sprite
+     * @param xOff sprite X offset
+     * @param yOff sprite Y offset
+     * @param w sprite width
+     * @param h sprite height
      * @param scale sprite scale
      * @see glSpritePart
     */
@@ -43,6 +50,14 @@ extern "C"
 
     /**
      * @brief Draw a part of a sprite with the ability to scale the sprite and flip it
+     * @param image the image to draw
+     * @param x X position of the sprite
+     * @param y Y position of the sprite
+     * @param xOff sprite X offset
+     * @param yOff sprite Y offset
+     * @param w sprite width
+     * @param h sprite height
+     * @param scale sprite scale
      * @param flip sprite flip mode
      * @see glSpritePartScale
      * @see glSpritePart
@@ -51,8 +66,16 @@ extern "C"
 
     /**
      * @brief Draw a part of a sprite with the ability to set scale of the sprite individually on both the X and Y axis and flip it
+     * @param image the image to draw
+     * @param x X position of the sprite
+     * @param y Y position of the sprite
+     * @param xOff sprite X offset
+     * @param yOff sprite Y offset
+     * @param w sprite width
+     * @param h sprite height
      * @param scaleX horizontal (X axis) scaling
      * @param scaleY vertical (Y axis) scaling
+     * @param flip sprite flip mode
      * @see glSpritePartScaleFlip
      * @see glSpritePartScale
      * @see glSpritePart
