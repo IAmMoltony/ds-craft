@@ -163,14 +163,20 @@ public:
 
     /**
      * @brief Print text with formatting (version with second font)
+     * @param x X position of text
+     * @param y Y position of text
      * @param font2 second font
+     * @param format formatting string
      * @see printf
      */
     void printfDoubleFont(int x, int y, Font *font2, const char *format, ...) __attribute__((format(printf, 5, 6)));
 
     /**
      * @brief Print text with formatting and scaling
+     * @param x X position of text
+     * @param y Y position of text
      * @param scale character scaling
+     * @param format formatting string
      * @see printf
      */
     void printfScale(int x, int y, s32 scale, const char *format, ...) __attribute__((format(printf, 5, 6)));
@@ -221,7 +227,10 @@ public:
 
     /**
      * @brief Print text with shadow and formatting and with scaling
+     * @param x X position of text
+     * @param y Y position of text
      * @param scale character scaling
+     * @param format format string
      * @see printfShadow
      */
     void printfScaleShadow(int x, int y, s32 scale, const char *format, ...) __attribute__((format(printf, 5, 6)));
