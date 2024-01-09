@@ -16,6 +16,9 @@ The makefile supports these targets:
 - `clean`: removes binaries and intermediate files
 - `run`: runs DS-Craft
 
+So this means that running `make` builds the game, `make clean build` rebuilds,
+etc.
+
 ## Running
 
 To run using the makefile, you can use the `run` target. However, you
