@@ -1,5 +1,5 @@
 /**
- * @file ui.h
+ * @file ui.hpp
  * @brief UI utility functions
  */
 
