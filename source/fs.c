@@ -8,6 +8,9 @@
 #include "mtnconfig.h"
 #include "mtnlog.h"
 
+/**
+ * @brief Check if filesystem error messages are enabled
+ */
 static bool _errorMessages(void)
 {
     return mtnconfigGetBool("fsErrorMessages");
