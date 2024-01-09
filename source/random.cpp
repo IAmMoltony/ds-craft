@@ -25,14 +25,14 @@ namespace rng
 		return min + generate() % ((max + 1) - min);
 	}
 
-	bool chance(u8 chance)
+	bool chance(u8 ch)
 	{
-		if (chance > 100)
+		if (ch > 100)
 			// >100% chance = always success
 			return true;
-		if (chance == 0)
+		if (ch == 0)
 			// 0% chance = never success
 			return false;
-		return range(1, 100) <= chance;
+		return range(1, 100) <= ch;
 	}
 }

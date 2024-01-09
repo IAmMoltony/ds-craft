@@ -39,7 +39,7 @@ namespace rng
 
 	/**
 	 * @brief Calculate a probability
-	 * @param chance the probability represented as percentage
+	 * @param ch the probability represented as percentage
 	 */
-	bool chance(u8 chance);
+	bool chance(u8 ch);
 }
