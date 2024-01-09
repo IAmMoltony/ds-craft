@@ -224,6 +224,8 @@ private:
 public:
     /**
      * @brief Drop entity constructor
+     * @param x entity X position
+     * @param y entity Y position
      * @param itemid drop's item ID
     */
     DropEntity(s16 x, s16 y, InventoryItem::ID itemid);
