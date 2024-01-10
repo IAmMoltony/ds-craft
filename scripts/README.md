@@ -106,7 +106,7 @@ even none, but behavior of recipes with no ingredients has never been tested).
 The script also supports the following optional arguments:
 
 - Quiet mode (`--quiet`): display no output. This option also skips confirmation.
-- No confirmation mode: (`--noconfirm`): assume 'yes' in confirmation (skip confirmation)
+- No confirmation mode: (`--noconfirm`): assume 'yes' in all questions (skip confirmation) <sup><sub>inspired by `pacman`</sub></sup>
 
 ### Russian String Encoder (`strencode.py`)
 
