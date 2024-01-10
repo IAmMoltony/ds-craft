@@ -1,5 +1,6 @@
 #include "worldmgr.hpp"
 #include "mtnconfig.h"
+#include "mtnlog.h"
 #include "fs.h"
 #include "save.hpp"
 #include <sstream>
@@ -33,7 +34,10 @@ WorldManager::WorldList WorldManager::getWorlds(void)
 
         std::string worldName = getWorldName(std::string(worldFile.c_str()));
         if (worldName == "\1\4\3\2")
-            continue; // world.meta corrupted
+        {
+            mtnlogMessageTag(MTNLOG_ERROR, "worldmgr", "Metadata for world '%s' is corrupted or missing", worldFile.c_str());
+            continue;
+        }
 
         int size = fsGetDirSize(worldFile.c_str());
         worlds.push_back({worldName, size});

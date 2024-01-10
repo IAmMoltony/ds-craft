@@ -14,6 +14,7 @@ The `scripts` folder is the home of all convenience scripts in DS-Craft.
   - [TODOs Lister \(`lstodos.py`\)](#todos-lister-lstodospy)
   - [Crafting Recipe Generator \(`newrecipe.py`\)](#crafting-recipe-generator-newrecipepy)
   - [Russian String Encoder \(`strencode.py`\)](#russian-string-encoder-strencodepy)
+  - [World Metadata Generator \(`genworldmeta.py`\)](#world-metadata-generator-genworldmetapy)
 
 <!-- /MarkdownTOC -->
 
@@ -100,6 +101,8 @@ The ingredient string above defines that the ingredients are 7 planks, 2 dirt
 and 1 poppy. An ingredient string can contain any amount of ingredients (Maybe
 even none, but behavior of recipes with no ingredients has never been tested).
 
+> TODO: Test behavior of no ingredients
+
 The script also supports the following optional arguments:
 
 - Quiet mode (`--quiet`): display no output. This option also skips confirmation.
@@ -110,3 +113,9 @@ The script also supports the following optional arguments:
 The Russian String Encoder is a script used for encoding Russian language strings
 for use in the game. It takes in the Russian string as input and outputs the
 encoded version, which can then be printed using the Russian font.
+
+### World Metadata Generator (`genworldmeta.py`)
+
+The World Metadata Generator script generates a world metadata (`world.meta`) file based
+on the user's inputs. It has no command-line arguments.
+
