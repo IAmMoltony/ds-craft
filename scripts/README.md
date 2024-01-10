@@ -98,10 +98,8 @@ planks 7;dirt 2;poppy 1
 ```
 
 The ingredient string above defines that the ingredients are 7 planks, 2 dirt
-and 1 poppy. An ingredient string can contain any amount of ingredients (Maybe
-even none, but behavior of recipes with no ingredients has never been tested).
-
-> TODO: Test behavior of no ingredients
+and 1 poppy. An ingredient string can contain any amount of ingredients If you
+pass no ingredients, however, then the script crashes.
 
 The script also supports the following optional arguments:
 
