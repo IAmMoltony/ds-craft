@@ -1778,6 +1778,38 @@ bool Player::doItemInteract(const u32 &downKeys, const Camera *camera, Block::Li
                                                                       snapToGrid8(camera->y + aimY)));
                         playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                         break;
+                    case InventoryItem::ID::BlueStainedGlass:
+                        blocks->emplace_back(new StainedGlassBlock(snapToGrid(camera->x + aimX), snapToGrid(camera->y + aimY), StainedGlassColor::Blue));
+                        playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
+                        break;
+                    case InventoryItem::ID::GreenStainedGlass:
+                        blocks->emplace_back(new StainedGlassBlock(snapToGrid(camera->x + aimX), snapToGrid(camera->y + aimY), StainedGlassColor::Green));
+                        playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
+                        break;
+                    case InventoryItem::ID::LightGrayStainedGlass:
+                        blocks->emplace_back(new StainedGlassBlock(snapToGrid(camera->x + aimX), snapToGrid(camera->y + aimY), StainedGlassColor::LightGray));
+                        playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
+                        break;
+                    case InventoryItem::ID::OrangeStainedGlass:
+                        blocks->emplace_back(new StainedGlassBlock(snapToGrid(camera->x + aimX), snapToGrid(camera->y + aimY), StainedGlassColor::Orange));
+                        playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
+                        break;
+                    case InventoryItem::ID::PinkStainedGlass:
+                        blocks->emplace_back(new StainedGlassBlock(snapToGrid(camera->x + aimX), snapToGrid(camera->y + aimY), StainedGlassColor::Pink));
+                        playsfx(4, &sndStone1, &sndStone2, sndStone3, &sndStone4);
+                        break;
+                    case InventoryItem::ID::PurpleStainedGlass:
+                        blocks->emplace_back(new StainedGlassBlock(snapToGrid(camera->x + aimX), snapToGrid(camera->y + aimY), StainedGlassColor::Purple));
+                        playsfx(4, &sndStone1, &sndStone2, sndStone3, &sndStone4);
+                        break;
+                    case InventoryItem::ID::RedStainedGlass:
+                        blocks->emplace_back(new StainedGlassBlock(snapToGrid(camera->x + aimX), snapToGrid(camera->y + aimY), StainedGlassColor::Red));
+                        playsfx(4, &sndStone1, &sndStone2, sndStone3, &sndStone4);
+                        break;
+                    case InventoryItem::ID::YellowStainedGlass:
+                        blocks->emplace_back(new StainedGlassBlock(snapToGrid(camera->x + aimX), snapToGrid(camera->y + aimY), StainedGlassColor::Yellow));
+                        playsfx(4, &sndStone1, &sndStone2, sndStone3, &sndStone4);
+                        break;
                     }
                     if (canPlace)
                     {
