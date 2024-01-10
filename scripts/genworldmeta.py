@@ -3,8 +3,8 @@
 World metadata generator script
 """
 
-from create_release import get_game_version
 import random
+from create_release import get_game_version
 
 def main():
     """Main function"""
@@ -26,7 +26,7 @@ def main():
     print(f"worldname {wn}")
     print(f"gameversion {wv}")
     print(f"seed {sd}")
-    print(f"location 0")
+    print("location 0")
     print()
     print("Please paste the above text into a `world.meta` file in the world folder.")
 
