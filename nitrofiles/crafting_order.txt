@@ -89,3 +89,13 @@ pink_dye
 red_dye1
 red_dye2
 yellow_dye
+
+# stained glass
+bluesg
+greensg
+lgsg
+orangesg
+pinksg
+purplesg
+redsg
+yellowsg

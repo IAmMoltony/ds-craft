@@ -986,6 +986,8 @@ const char *getItemName(InventoryItem::ID iid)
             return "Red Stained Glass";
         case InventoryItem::ID::PurpleStainedGlass:
             return "Purple Stained Glass";
+        case InventoryItem::ID::PinkStainedGlass:
+            return "Pink Stained Glass";
         case InventoryItem::ID::OrangeStainedGlass:
             return "Orange Stained Glass";
         case InventoryItem::ID::LightGrayStainedGlass:
@@ -1179,6 +1181,8 @@ const char *getItemName(InventoryItem::ID iid)
             return "Lsbtpqg tugmnq";
         case InventoryItem::ID::PurpleStainedGlass:
             return "Vkqnguqdqg tugmnq";
+        case InventoryItem::ID::PinkStainedGlass:
+            return "Rqjqdq gtugmnq";
         case InventoryItem::ID::OrangeStainedGlass:
             return "Psbpigdqg tugmnq";
         case InventoryItem::ID::LightGrayStainedGlass:
