@@ -70,6 +70,7 @@ enum BlockID
     BID_PINK_TULIP = 50,
     BID_WHITE_TULIP = 51,
     BID_CORNFLOWER = 52,
+    BID_STAINED_GLASS = 53,
 };
 
 enum class SlabID
@@ -484,6 +485,7 @@ extern PCXImage sprSign;
 extern PCXImage sprStoneBricks;
 extern PCXImage sprWheatBlock[8];
 extern PCXImage sprHayBale;
+extern PCXImage sprStainedGlass;
 
 declsfx4ext(DoorOpen);
 declsfx4ext(DoorClose);
@@ -956,6 +958,49 @@ public:
      * @brief Check if the wheat block is fully grown or not
      */
     bool fullyGrown(void);
+};
+
+/**
+ * @brief Enum with all possible stained glass colors
+ * @see StainedGlassBlock
+ */
+enum class StainedGlassColor
+{
+    Blue,
+    Green,
+    LightGray,
+    Orange,
+    Pink,
+    Purple,
+    Red,
+    Yellow,
+};
+
+/**
+ * @brief Class representing a stained glass block
+ */
+class StainedGlassBlock : public Block
+{
+private:
+    StainedGlassColor color;
+
+public:
+    /**
+     * @brief Convert a StainedGlassColor to a GL color (can be used to color sprites)
+     */
+    static rgb colorToGLColor(StainedGlassColor color);
+
+    StainedGlassBlock(s16 x, s16 y);
+    StainedGlassBlock(s16 x, s16 y, StainedGlassColor color);
+
+    void draw(const Camera &camera) override;
+    u16 id(void) const override;
+    bool solid(void) override;
+
+    /**
+     * @brief Get the color of stained glass
+     */
+    StainedGlassColor getColor(void);
 };
 
 /**

@@ -157,6 +157,40 @@ static void _writeWheat(std::ofstream &wld, WheatBlock *wheat)
     wld << "wheat " << std::to_string(wheat->x) << ' ' << std::to_string(wheat->y) << ' ' << std::to_string(wheat->getGrowStage()) << '\n';
 }
 
+static void _writeStainedGlass(std::ofstream &wld, StainedGlassBlock *sg)
+{
+    // stained glass color string
+    std::string sgcs = "";
+    switch (sg->getColor())
+    {
+    case StainedGlassColor::Blue:
+        sgcs = "blue";
+        break;
+    case StainedGlassColor::Green:
+        sgcs = "green";
+        break;
+    case StainedGlassColor::LightGray:
+        sgcs = "lg";
+        break;
+    case StainedGlassColor::Orange:
+        sgcs = "orange";
+        break;
+    case StainedGlassColor::Pink:
+        sgcs = "pink";
+        break;
+    case StainedGlassColor::Purple:
+        sgcs = "purple";
+        break;
+    case StainedGlassColor::Red:
+        sgcs = "red";
+        break;
+    case StainedGlassColor::Yellow:
+        sgcs = "yellow";
+        break;
+    }
+    wld << "sg " << std::to_string(sg->x) << ' ' << std::to_string(sg->y) << ' ' << sgcs << '\n';
+}
+
 static void _writeGeneric(std::ofstream &wld, const Block::Pointer &block)
 {
     wld << "block " << std::to_string(block->x) << ' ' << std::to_string(block->y) << ' ' << std::to_string(block->id()) << '\n';
@@ -260,6 +294,13 @@ void saveWorld(const std::string &name, Block::List &blocks, EntityList &entitie
         {
             WheatBlock *wheat = reinterpret_cast<WheatBlock *>(block.get());
             _writeWheat(wld, wheat);
+            break;
+        }
+        // stained glass
+        case BID_STAINED_GLASS:
+        {
+            StainedGlassBlock *sg = reinterpret_cast<StainedGlassBlock *>(block.get());
+            _writeStainedGlass(wld, sg);
             break;
         }
         // every other block
@@ -421,6 +462,13 @@ static void _argParseWheat(const StringVector &split, s16 &x, s16 &y, u8 &growSt
     growStage = std::stoi(split[3]);
 }
 
+static void _argParseStainedGlass(const StringVector &split, s16 &x, s16 &y, std::string &sgcs)
+{
+    _argParseXY(split, x, y);
+
+    sgcs = split[3];
+}
+
 void loadWorld(const std::string &name, Block::List &blocks, EntityList &entities,
                Player &player, s16 &currentLocation)
 {
@@ -564,6 +612,38 @@ void loadWorld(const std::string &name, Block::List &blocks, EntityList &entitie
             _argParseWheat(split, x, y, growStage);
 
             blocks.emplace_back(new WheatBlock(x, y, growStage));
+        }
+        else if (split[0] == "sg") // sg <x> <y> <color>
+        {
+            s16 x = 0, y = 0;
+            std::string sgcs = "";
+            StainedGlassColor color;
+            _argParseStainedGlass(split, x, y, sgcs);
+            
+            // yet another ifelseifelseifelseifelseifelseif
+            if (sgcs == "blue")
+                color = StainedGlassColor::Blue;
+            else if (sgcs == "green")
+                color = StainedGlassColor::Green;
+            else if (sgcs == "lg")
+                color = StainedGlassColor::LightGray;
+            else if (sgcs == "orange")
+                color = StainedGlassColor::Orange;
+            else if (sgcs == "pink")
+                color = StainedGlassColor::Pink;
+            else if (sgcs == "purple")
+                color = StainedGlassColor::Purple;
+            else if (sgcs == "red")
+                color = StainedGlassColor::Red;
+            else if (sgcs == "yellow")
+                color = StainedGlassColor::Yellow;
+            else
+            {
+                mtnlogMessageTag(MTNLOG_WARNING, "save", "Unknown stained glass color str '%s', using orange for no reason", sgcs.c_str());
+                color = StainedGlassColor::Orange;
+            }
+
+            blocks.emplace_back(new StainedGlassBlock(x, y, color));
         }
         else if (split[0] == "block") // block <x> <y> <id>
         {

@@ -106,7 +106,15 @@ public:
         PinkDye,
         OrangeDye,
         LightGrayDye,
-        GreenDye
+        GreenDye,
+        BlueStainedGlass,
+        YellowStainedGlass,
+        RedStainedGlass,
+        PurpleStainedGlass,
+        PinkStainedGlass,
+        OrangeStainedGlass,
+        LightGrayStainedGlass,
+        GreenStainedGlass,
     };
 
     /**

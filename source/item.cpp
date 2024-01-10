@@ -304,6 +304,14 @@ static std::map<std::string, InventoryItem::ID> _stringIDTable = {
     {"orangedye", InventoryItem::ID::OrangeDye},
     {"lightgraydye", InventoryItem::ID::LightGrayDye},
     {"greendye", InventoryItem::ID::GreenDye},
+    {"bluesg", InventoryItem::ID::BlueStainedGlass},
+    {"yellowsg", InventoryItem::ID::YellowStainedGlass},
+    {"redsg", InventoryItem::ID::RedStainedGlass},
+    {"purplesg", InventoryItem::ID::PurpleStainedGlass},
+    {"pinksg", InventoryItem::ID::PinkStainedGlass},
+    {"orangesg", InventoryItem::ID::OrangeStainedGlass},
+    {"lightgraysg", InventoryItem::ID::LightGrayStainedGlass},
+    {"greensg", InventoryItem::ID::GreenStainedGlass},
 };
 
 InventoryItem::InventoryItem(const std::string &stringID, u8 amount) : id(ID::None), amount(amount)
@@ -765,6 +773,30 @@ std::string iidToString(InventoryItem::ID iid)
     case InventoryItem::ID::GreenDye:
         id = "greendye";
         break;
+    case InventoryItem::ID::BlueStainedGlass:
+        id = "bluesg";
+        break;
+    case InventoryItem::ID::YellowStainedGlass:
+        id = "yellowsg";
+        break;
+    case InventoryItem::ID::RedStainedGlass:
+        id = "redsg";
+        break;
+    case InventoryItem::ID::PurpleStainedGlass:
+        id = "purplesg";
+        break;
+    case InventoryItem::ID::PinkStainedGlass:
+        id = "pinksg";
+        break;
+    case InventoryItem::ID::OrangeStainedGlass:
+        id = "orangesg";
+        break;
+    case InventoryItem::ID::LightGrayStainedGlass:
+        id = "lightgraysg";
+        break;
+    case InventoryItem::ID::GreenStainedGlass:
+        id = "greensg";
+        break;
     }
     return id;
 }
@@ -946,6 +978,20 @@ const char *getItemName(InventoryItem::ID iid)
             return "Light Gray Dye";
         case InventoryItem::ID::GreenDye:
             return "Green Dye";
+        case InventoryItem::ID::BlueStainedGlass:
+            return "Blue Stained Glass";
+        case InventoryItem::ID::YellowStainedGlass:
+            return "Yellow Stained Glass";
+        case InventoryItem::ID::RedStainedGlass:
+            return "Red Stained Glass";
+        case InventoryItem::ID::PurpleStainedGlass:
+            return "Purple Stained Glass";
+        case InventoryItem::ID::OrangeStainedGlass:
+            return "Orange Stained Glass";
+        case InventoryItem::ID::LightGrayStainedGlass:
+            return "Light Gray Stained Glass";
+        case InventoryItem::ID::GreenStainedGlass:
+            return "Green Stained Glass";
         default:
             return "Error";
         }
@@ -1125,6 +1171,20 @@ const char *getItemName(InventoryItem::ID iid)
             return "Sdgunqtgs\" lmsbtkugn#";
         case InventoryItem::ID::GreenDye:
             return "Ignhp\" lmsbtkugn#";
+        case InventoryItem::ID::BlueStainedGlass:
+            return "Skpgg tugmnq";
+        case InventoryItem::ID::YellowStainedGlass:
+            return "Hhnuqg tugmnq";
+        case InventoryItem::ID::RedStainedGlass:
+            return "Lsbtpqg tugmnq";
+        case InventoryItem::ID::PurpleStainedGlass:
+            return "Vkqnguqdqg tugmnq";
+        case InventoryItem::ID::OrangeStainedGlass:
+            return "Psbpigdqg tugmnq";
+        case InventoryItem::ID::LightGrayStainedGlass:
+            return "Sdgunqtgsqg tugmnq";
+        case InventoryItem::ID::GreenStainedGlass:
+            return "Ignhpqg tugmnq";
         default:
             return "P}kcmb";
         }
@@ -1219,6 +1279,14 @@ static std::map<InventoryItem::ID, PCXImage *> _itemImages = {
     {InventoryItem::ID::OrangeDye, &_sprOrangeDye},
     {InventoryItem::ID::LightGrayDye, &_sprLightGrayDye},
     {InventoryItem::ID::GreenDye, &_sprGreenDye},
+    {InventoryItem::ID::BlueStainedGlass, &sprStainedGlass},
+    {InventoryItem::ID::YellowStainedGlass, &sprStainedGlass},
+    {InventoryItem::ID::RedStainedGlass, &sprStainedGlass},
+    {InventoryItem::ID::PurpleStainedGlass, &sprStainedGlass},
+    {InventoryItem::ID::PinkStainedGlass, &sprStainedGlass},
+    {InventoryItem::ID::OrangeStainedGlass, &sprStainedGlass},
+    {InventoryItem::ID::LightGrayStainedGlass, &sprStainedGlass},
+    {InventoryItem::ID::GreenStainedGlass, &sprStainedGlass},
 };
 
 PCXImage *getItemImage(InventoryItem::ID item)

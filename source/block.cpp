@@ -568,3 +568,63 @@ bool WheatBlock::fullyGrown(void)
 {
 	return growStage >= MAX_GROW_STAGE;
 }
+
+//----------------------------------------
+
+rgb StainedGlassBlock::colorToGLColor(StainedGlassColor color)
+{
+    switch (color)
+    {
+    case StainedGlassColor::Blue:
+        return RGB15(0, 0, 31);
+    case StainedGlassColor::Green:
+        return RGB15(0, 17, 0);
+    case StainedGlassColor::LightGray:
+        return RGB15(26, 26, 26);
+    case StainedGlassColor::Orange:
+        return RGB15(31, 15, 0);
+    case StainedGlassColor::Pink:
+        return RGB15(31, 23, 25); // approx. #FFC0CB (css pink)
+    case StainedGlassColor::Purple:
+        return RGB15(15, 15, 0);
+    case StainedGlassColor::Red:
+        return RGB15(31, 0, 0);
+    case StainedGlassColor::Yellow:
+        return RGB15(31, 31, 0);
+    }
+
+    // return white idk
+    return RGB15(31, 31, 31);
+}
+
+StainedGlassBlock::StainedGlassBlock(s16 x, s16 y) : StainedGlassBlock(x, y, StainedGlassColor::Orange)
+{
+}
+
+StainedGlassBlock::StainedGlassBlock(s16 x, s16 y, StainedGlassColor color) : Block(x, y, 6), color(color)
+{
+}
+
+void StainedGlassBlock::draw(const Camera &camera)
+{
+    glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE); // transparent kinda
+    glColor(colorToGLColor(color)); // that's a lot of color
+	pcxImageDraw(&sprStainedGlass, x - camera.x, y - camera.y, GL_FLIP_NONE);
+    glColor(RGB15(31, 31, 31)); // reset color
+    glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
+}
+
+u16 StainedGlassBlock::id(void) const
+{
+    return BID_STAINED_GLASS;
+}
+
+bool StainedGlassBlock::solid(void)
+{
+    return true;
+}
+
+StainedGlassColor StainedGlassBlock::getColor(void)
+{
+    return color;
+}
