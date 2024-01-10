@@ -607,7 +607,7 @@ StainedGlassBlock::StainedGlassBlock(s16 x, s16 y, StainedGlassColor color) : Bl
 
 void StainedGlassBlock::draw(const Camera &camera)
 {
-    glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE); // transparent kinda
+    glPolyFmt(POLY_ALPHA(20) | POLY_CULL_NONE); // transparent kinda
     glColor(colorToGLColor(color)); // that's a lot of color
 	pcxImageDraw(&sprStainedGlass, x - camera.x, y - camera.y, GL_FLIP_NONE);
     glColor(RGB15(31, 31, 31)); // reset color
