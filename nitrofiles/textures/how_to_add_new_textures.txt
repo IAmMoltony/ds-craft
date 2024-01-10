@@ -1,0 +1,19 @@
+Adding new textures
+
+Textures in `gfx`: copy one of the other textures' .grit file and paste the png of the texture into gfx/
+
+PCX textures (nitro:/textures/):
+
+On Linux, open the image in GIMP and save it as PCX in the textures folder. Then use ImageMagick's convert
+tool like this:
+
+convert texture.pcx -colors 256 texture.pcx
+
+..Where "texture.pcx" is the name of the texture
+
+On Windows, you can use IrfanView to convert the image. Here's how to do it:
+
+1. Open the PNG/BMP/JPG/whatever in IrfanView
+2. Decrease or increase color depth to 256 colors (8bpp). The button to do that is somewhere in the menu bar on the top.
+3. Save as PCX
+4. profit :p
