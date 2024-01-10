@@ -1982,6 +1982,7 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
                 case BID_GLASS:
                 case BID_STONE_BRICKS:
                 case BID_STONE_BRICKS_SLAB:
+                case BID_STAINED_GLASS:
                     playsfx(4, &sndStepStone1, &sndStepStone2, &sndStepStone3, &sndStepStone4);
                     break;
                 case BID_WOOD:
@@ -2336,6 +2337,42 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
                         playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
                         _spawnBlockParticles(blockParticles, &sprStoneBricks, block->x, block->y);
                         break;
+                    case BID_STAINED_GLASS:
+                    {
+                        StainedGlassBlock *sg = reinterpret_cast<StainedGlassBlock *>(block.get());
+                        InventoryItem::ID id = InventoryItem::ID::OrangeStainedGlass; // the decision to make orange stained glass default is entirely arbitrary
+                        switch (sg->getColor())
+                        {
+                        case StainedGlassColor::Blue:
+                            id = InventoryItem::ID::BlueStainedGlass;
+                            break;
+                        case StainedGlassColor::Green:
+                            id = InventoryItem::ID::GreenStainedGlass;
+                            break;
+                        case StainedGlassColor::LightGray:
+                            id = InventoryItem::ID::LightGrayStainedGlass;
+                            break;
+                        case StainedGlassColor::Orange:
+                            id = InventoryItem::ID::OrangeStainedGlass;
+                            break;
+                        case StainedGlassColor::Pink:
+                            id = InventoryItem::ID::PinkStainedGlass;
+                            break;
+                        case StainedGlassColor::Purple:
+                            id = InventoryItem::ID::PurpleStainedGlass;
+                            break;
+                        case StainedGlassColor::Red:
+                            id = InventoryItem::ID::RedStainedGlass;
+                            break;
+                        case StainedGlassColor::Yellow:
+                            id = InventoryItem::ID::YellowStainedGlass;
+                            break;
+                        }
+                        entities->emplace_back(new DropEntity(block->x, block->y, id));
+                        playsfx(4, &sndStone1, &sndStone2, &sndStone3, &sndStone4);
+                        _spawnBlockParticles(blockParticles, &sprStainedGlass, block->x, block->y);
+                        break;
+                    }
                     }
 
                     remove = true;
