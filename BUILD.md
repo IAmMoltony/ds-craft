@@ -30,4 +30,3 @@ make run EMULATOR=/home/moltony/melonDS
 
 Please note that if you're on Windows, you should use Unix forward slashes
 instead of Windows backslashes. (basically replace all `\` with `/`)
-
