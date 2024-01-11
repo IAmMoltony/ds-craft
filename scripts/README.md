@@ -109,7 +109,7 @@ pass no ingredients, however, then the script crashes.
 The script also supports the following optional arguments:
 
 - Quiet mode (`--quiet`): display no output. This option also skips confirmation.
-- No confirmation mode: (`--noconfirm`): assume 'yes' in all questions (skip confirmation) <sup><sub>inspired by `pacman`</sub></sup>
+- No confirmation mode: (`--noconfirm`): assume 'yes' in all questions
 
 ### Russian String Encoder (`strencode.py`)
 
@@ -119,6 +119,5 @@ encoded version, which can then be printed using the Russian font.
 
 ### World Metadata Generator (`genworldmeta.py`)
 
-The World Metadata Generator script generates a world metadata (`world.meta`) file based
-on the user's inputs. It has no command-line arguments.
-
+The World Metadata Generator script generates a world metadata (`world.meta`)
+file based on the user's inputs. It has no command-line arguments.
