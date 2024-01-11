@@ -59,6 +59,11 @@ following order:
 The TODOs Lister script lists all TODOs which are present in the source code
 of the game.
 
+By default, file names which contain TODOs are bold. If your terminal doesn't
+support the ANSI escape sequence to make text bold or it doesn't support ANSI
+sequences at all or you don't want file names to be bold, you can pass the
+`--no-bold` flag, which disables bold text.
+
 Example output:
 
 ```bash
