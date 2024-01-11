@@ -6,6 +6,7 @@ World metadata generator script
 import random
 from create_release import get_game_version
 
+
 def main():
     """Main function"""
     print("World metadata generator")
@@ -29,6 +30,7 @@ def main():
     print("location 0")
     print()
     print("Please paste the above text into a `world.meta` file in the world folder.")
+
 
 if __name__ == "__main__":
     main()

@@ -79,7 +79,9 @@ def find_todo_patterns(files, be_bold):
                 if matches:
                     for _ in matches:
                         if be_bold:
-                            print(f"\033[1m{file_name}:{line_num}\033[0m: {line.strip()}")
+                            print(
+                                f"\033[1m{file_name}:{line_num}\033[0m: {line.strip()}"
+                            )
                         else:
                             print(f"{file_name}:{line_num}: {line.strip()}")
 
