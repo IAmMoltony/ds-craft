@@ -100,6 +100,37 @@ void Player::drawCrafting(Font &font, Font &fontRu)
 
         InventoryItem output = recipe.getOutput();
         InventoryItem::ID outID = output.id;
+
+        switch (outID)
+        {
+        case InventoryItem::ID::BlueStainedGlass:
+            glColor(StainedGlassBlock::colorToGLColor(StainedGlassColor::Blue));
+            break;
+        case InventoryItem::ID::GreenStainedGlass:
+            glColor(StainedGlassBlock::colorToGLColor(StainedGlassColor::Green));
+            break;
+        case InventoryItem::ID::LightGrayStainedGlass:
+            glColor(StainedGlassBlock::colorToGLColor(StainedGlassColor::LightGray));
+            break;
+        case InventoryItem::ID::OrangeStainedGlass:
+            glColor(StainedGlassBlock::colorToGLColor(StainedGlassColor::Orange));
+            break;
+        case InventoryItem::ID::PinkStainedGlass:
+            glColor(StainedGlassBlock::colorToGLColor(StainedGlassColor::Pink));
+            break;
+        case InventoryItem::ID::PurpleStainedGlass:
+            glColor(StainedGlassBlock::colorToGLColor(StainedGlassColor::Purple));
+            break;
+        case InventoryItem::ID::RedStainedGlass:
+            glColor(StainedGlassBlock::colorToGLColor(StainedGlassColor::Red));
+            break;
+        case InventoryItem::ID::YellowStainedGlass:
+            glColor(StainedGlassBlock::colorToGLColor(StainedGlassColor::Yellow));
+            break;
+        default:
+            break;
+        }
+
         switch (outID)
         {
         default:
@@ -129,6 +160,17 @@ void Player::drawCrafting(Font &font, Font &fontRu)
             break;
         case InventoryItem::ID::StoneBricksSlab:
             pcxImageDrawEx(&sprStoneBricks, slotX + 4, slotY + 4, 0, 0, 16, 8, HALF_SCALE, GL_FLIP_NONE);
+            break;
+        case InventoryItem::ID::BlueStainedGlass:
+        case InventoryItem::ID::GreenStainedGlass:
+        case InventoryItem::ID::LightGrayStainedGlass:
+        case InventoryItem::ID::OrangeStainedGlass:
+        case InventoryItem::ID::PinkStainedGlass:
+        case InventoryItem::ID::PurpleStainedGlass:
+        case InventoryItem::ID::RedStainedGlass:
+        case InventoryItem::ID::YellowStainedGlass:
+            pcxImageDrawEx(&sprStainedGlass, slotX + 4, slotY + 4, 0, 0, 16, 16, HALF_SCALE, GL_FLIP_NONE);
+            glColor(RGB15(31, 31, 31));
             break;
         }
 
