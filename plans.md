@@ -21,7 +21,6 @@ The next update (*beta1.7*) is planned to release in **January 2024**.
 
 - Dirt slabs: craftable using 6 dirt (planned for beta1.7)
 - Petrified wooden slabs
-- Stained glass (planned for beta1.7)
 - Changing sound volume per sound source
 - Achievements!!! :p
 
