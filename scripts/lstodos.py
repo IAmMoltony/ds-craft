@@ -5,6 +5,7 @@ lstodos.py - script for listing TODOs in the code
 
 import os
 import re
+import argparse
 
 
 def find_files_pattern(files, directory, bad_end_patterns, good_end_patterns):
@@ -64,7 +65,7 @@ def find_files(files):
     add_files_pattern(files, os.listdir("scripts"), "scripts", [".swp"], [".py"])
 
 
-def find_todo_patterns(files):
+def find_todo_patterns(files, be_bold):
     """Find and print TODO patterns in the list of files"""
     for file_name in files:
         if (
@@ -77,16 +78,26 @@ def find_todo_patterns(files):
                 matches = re.findall(r"@todo|TODO", line)
                 if matches:
                     for _ in matches:
-                        print(f"{file_name}:{line_num}: {line.strip()}")
+                        if be_bold:
+                            print(f"\033[1m{file_name}:{line_num}\033[0m: {line.strip()}")
+                        else:
+                            print(f"{file_name}:{line_num}: {line.strip()}")
 
 
 def main():
     """
     Main function
     """
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--no-bold", action="store_true")
+    args = parser.parse_args()
+
+    be_bold = not args.no_bold
+
     files = []
     find_files(files)
-    find_todo_patterns(files)
+    find_todo_patterns(files, be_bold)
 
 
 if __name__ == "__main__":
