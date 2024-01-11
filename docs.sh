@@ -1,9 +1,8 @@
 #!/usr/bin//bash
 
 echo "Running Doxygen"
-doxygen
 
-if [ "$?" != "0" ]; then
+if ! doxygen; then
     echo "Doxygen error, please see log above"
     exit 1
 fi
