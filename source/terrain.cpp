@@ -67,7 +67,7 @@ void generateTerrain(Block::List &blocks, EntityList &entities, Player &player)
                 if (!placedTree && rng::chance(20))
                     blocks.emplace_back(new FlowerBlock(i * 16, y - 16));
 
-                y += rng::range(-1, 2) * 16;
+                y += rng::range(-2, 2) * 16;
             }
             break;
         case BIOME_DESERT:
@@ -151,7 +151,7 @@ void generateTerrain(Block::List &blocks, EntityList &entities, Player &player)
                     sinceLastTree = 0;
                 }
 
-                y += rng::range(-1, 2) * 16;
+                y += rng::range(-2, 2) * 16;
             }
             break;
         case BIOME_FLOWER:
@@ -191,7 +191,7 @@ void generateTerrain(Block::List &blocks, EntityList &entities, Player &player)
                 if (!placedTree && rng::chance(50))
                     blocks.emplace_back(new FlowerBlock(i, y - 16));
 
-                if (rng::chance(30))
+                if (rng::chance(40))
                     y += rng::range(-1, 1) * 16;
             }
             break;
@@ -237,7 +237,7 @@ void generateTerrain(Block::List &blocks, EntityList &entities, Player &player)
                 if (!placedTree && rng::chance(15))
                     blocks.emplace_back(new FlowerBlock(i * 16, y - 16));
 
-                y += rng::range(-1, 2) * 16;
+                y += rng::range(-2, 2) * 16;
             }
         }
     }
