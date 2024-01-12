@@ -15,7 +15,7 @@ These changes are planned to be implemented in DS-Craft.
 
 ## Next Update Date
 
-The next update (*beta1.7*) is planned to release in **January 2024**.
+The next update (*beta1.8*) is planned to release in **February 2024**.
 
 ## New Features
 
