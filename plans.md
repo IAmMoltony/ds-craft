@@ -15,7 +15,7 @@ These changes are planned to be implemented in DS-Craft.
 
 ## Next Update Date
 
-The next update (*beta1.8*) is planned to release in **February 2024**.
+The next major update (*beta1.8*) is planned to release in **February 2024**.
 
 ## New Features
 
@@ -23,6 +23,7 @@ The next update (*beta1.8*) is planned to release in **February 2024**.
 - Petrified wooden slabs
 - Changing sound volume per sound source
 - Achievements!!! :p
+- Showing only favorite worlds (beta1.7.1)
 
 ## Changes
 
