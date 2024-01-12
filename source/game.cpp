@@ -1933,7 +1933,7 @@ void Game::update(void)
             mmEffectEx(&sndClick);
             gameState = State::TitleScreen;
         }
-        else if (down & KEY_X)
+        else if ((down & KEY_X) || (down & KEY_START))
         {
             if (!worldSelectWorlds.empty())
             {
