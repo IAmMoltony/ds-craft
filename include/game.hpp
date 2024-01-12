@@ -289,6 +289,11 @@ private:
     bool settingsFromPause;
 
     /**
+     * @brief Show only favorite worlds
+     */
+    bool showFavorites;
+
+    /**
      * @brief Quit the game
      *
      * This function unloads the current world, game assets and loads menu assets - all with an unload screen
