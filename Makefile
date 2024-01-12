@@ -40,6 +40,9 @@ SCRIPTS := scripts
 # git commit
 GIT_COMMIT := $(shell git log -1 --format=%h)
 
+# git message
+GIT_MESSAGE := '"$(shell git log -1 --format=%s)"'
+
 # external library stuff
 LIBRARIES := $(wildcard lib/*)
 LIBSOURCES := $(patsubst lib/%,lib/%/source,$(LIBRARIES))
@@ -153,7 +156,7 @@ CFLAGS	:=	-g -Wall -Wextra \
 			-fomit-frame-pointer\
 			-ffast-math
 
-CFLAGS	+=	$(INCLUDE) -DARM9 -DGIT_COMMIT=\"$(GIT_COMMIT)\"
+CFLAGS	+=	$(INCLUDE) -DARM9 -DGIT_COMMIT=\"$(GIT_COMMIT)\" -DGIT_MESSAGE=$(GIT_MESSAGE)
 CXXFLAGS	:=	$(CFLAGS) -fno-rtti -fno-exceptions -Weffc++
 
 ASFLAGS	:=	-g $(ARCH)

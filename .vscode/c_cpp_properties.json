@@ -15,7 +15,8 @@
             ],
             "defines": [
                 "ARM9",
-                "GIT_COMMIT=\"1234567\"" // placeholder
+                "GIT_COMMIT=\"1234567\"",
+                "GIT_MESSAGE=\"git message\""
             ],
             "cStandard": "gnu17",
             "cppStandard": "gnu++17",
