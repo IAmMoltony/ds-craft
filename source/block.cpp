@@ -288,6 +288,11 @@ u16 FlowerBlock::id(void) const
 	}
 }
 
+FlowerType FlowerBlock::getType(void)
+{
+    return type;
+}
+
 //---------------------------------------------
 
 DoorBlock::DoorBlock(s16 x, s16 y, s16 px, DoorType type) : Block(x, y, 7), open(true), facing(px > x), type(type)

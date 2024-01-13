@@ -745,6 +745,8 @@ public:
     void draw(const Camera &camera) override;
     bool solid(void) override;
     u16 id(void) const override;
+
+    FlowerType getType(void);
 };
 
 /**
