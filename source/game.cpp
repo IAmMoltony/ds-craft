@@ -812,7 +812,7 @@ void Game::draw(void)
                 font.printCentered(0, 111, "Create a world by pressing \2:A  .");
                 break;
             case Language::Russian:
-                fontRu.printCentered(0, 100, "Qqmb pgu oksqd!");
+                fontRu.printCentered(0, 100, "Qqmb pgu oksqd<");
                 fontRu.printCentered(0, 111, "Obiokug \2:A  @ zuqc\" tqjfbu# oks");
                 break;
             }
