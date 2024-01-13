@@ -2,6 +2,7 @@
 #include "game.hpp"
 #include "util.h"
 #include "glext.h"
+#include "mtnlog.h"
 #include "random.hpp"
 
 // non-generic implementations
@@ -200,7 +201,8 @@ FlowerBlock::FlowerBlock(s16 x, s16 y) : Block(x, y, 1), type(FlowerType::Poppy)
 										 xOff(rng::rangeSigned(X_OFF_MIN, X_OFF_MAX))
 {
 	// choose flower type
-	switch (rng::range(1, 6))
+    int nid = rng::range(1, 7);
+	switch (nid)
 	{
 	case 1:
 		type = FlowerType::Poppy;
@@ -223,8 +225,11 @@ FlowerBlock::FlowerBlock(s16 x, s16 y) : Block(x, y, 1), type(FlowerType::Poppy)
 	case 7:
 		type = FlowerType::Cornflower;
         break;
+    default:
+        mtnlogMessageTag(MTNLOG_WARNING, "block", "Unknown flower type %d, defaulting to poppy", nid);
+        type = FlowerType::Poppy;
+        break;
 	}
-    // TODO why this no work
 }
 
 FlowerBlock::FlowerBlock(s16 x, s16 y, FlowerType type) : Block(x, y, 1), type(type),

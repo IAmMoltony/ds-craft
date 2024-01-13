@@ -496,6 +496,12 @@ void Game::init(int argc, char **argv)
     editControlsSelected = 0;
     editControlsSetMode = false;
     settingsFromPause = false;
+
+    for (int i = 0; i < 10; i++)
+    {
+        FlowerBlock b(0, 0);
+        printf("%d\n", b.getType());
+    }
 }
 
 void Game::enterWorldSelect(void)
