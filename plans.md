@@ -7,7 +7,7 @@ These changes are planned to be implemented in DS-Craft.
 
 - [Feature Plans](#feature-plans)
   - [Table of contents](#table-of-contents)
-  - [Next Update Date](#next-update-data)
+  - [Next Update Date](#next-update-date)
   - [New Features](#new-features)
   - [Changes](#changes)
   - [Q of L (quality of life) Features](#q-of-l-quality-of-life-features)
@@ -23,7 +23,6 @@ The next major update (*beta1.8*) is planned to release in **February 2024**.
 - Petrified wooden slabs
 - Changing sound volume per sound source
 - Achievements!!! :p
-- Showing only favorite worlds (beta1.7.1)
 
 ## Changes
 
@@ -37,8 +36,8 @@ The next major update (*beta1.8*) is planned to release in **February 2024**.
 
 ## Q of L (quality of life) Features
 
-*nothing here yet*
+There are no planned QoL features right now.
 
 ## Code Improvements
 
-*nothing here yet*
+- Refactoring player class
