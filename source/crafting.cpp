@@ -16,7 +16,7 @@ void CraftingRecipe::construct(const char *recipeFile)
     // check if file exists
     if (!fsFileExists(path.c_str()))
     {
-        mtnlogMessageTag(MTNLOG_ERROR, "crafting", "Crafting recipe '%s' not found (full path: %s)", recipeFile, path.c_str());
+        mtnlogMessageTagC(MTNLOG_ERROR, "crafting", "Crafting recipe '%s' not found (full path: %s)", recipeFile, path.c_str());
         hang();
     }
 
@@ -62,7 +62,7 @@ void CraftingRecipe::construct(const char *recipeFile)
             else
             {
                 // oof
-                mtnlogMessageTag(MTNLOG_ERROR, "crafting", "Unknown key '%s' in recipe '%s' (\"%s\")", key.c_str(), recipeFile, line.c_str());
+                mtnlogMessageTagC(MTNLOG_ERROR, "crafting", "Unknown key '%s' in recipe '%s' (\"%s\")", key.c_str(), recipeFile, line.c_str());
                 hang();
             }
         }

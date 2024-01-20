@@ -15,17 +15,17 @@ void statsSetWorld(const std::string &worldName)
     std::string worldFolder = getWorldFile(worldName);
     if (!fsDirExists(worldFolder.c_str()))
     {
-        mtnlogMessageTag(MTNLOG_ERROR, "stats", "world %s (%s) does not exist", worldName.c_str(),
+        mtnlogMessageTagC(MTNLOG_ERROR, "stats", "world %s (%s) does not exist", worldName.c_str(),
                    normalizeWorldFileName(worldName).c_str());
         return;
     }
 
-    mtnlogMessageTag(MTNLOG_INFO, "stats", "setting stats world to `%s'", worldName.c_str());
+    mtnlogMessageTagC(MTNLOG_INFO, "stats", "setting stats world to `%s'", worldName.c_str());
 
     _currentWorld = worldFolder;
     if (!fsFileExists(_getStatsFile().c_str()))
     {
-        mtnlogMessageTag(MTNLOG_INFO, "stats", "Stats file does not exist. Creating.");
+        mtnlogMessageTagC(MTNLOG_INFO, "stats", "Stats file does not exist. Creating.");
         fsCreateFile(_getStatsFile().c_str());
     }
 }
@@ -44,7 +44,7 @@ void statsSetEntry(const std::string &entryKey, int value)
 
 void statsSave(void)
 {
-    mtnlogMessageTag(MTNLOG_INFO, "stats", "saving stats");
+    mtnlogMessageTagC(MTNLOG_INFO, "stats", "saving stats");
 
     std::ofstream ofs(_getStatsFile());
     for (const auto &entry : _stats)
@@ -57,7 +57,7 @@ void statsSave(void)
 
 void statsLoad(void)
 {
-    mtnlogMessageTag(MTNLOG_INFO, "stats", "Loading stats from file %s", _getStatsFile().c_str());
+    mtnlogMessageTagC(MTNLOG_INFO, "stats", "Loading stats from file %s", _getStatsFile().c_str());
 
     std::ifstream ifs(_getStatsFile());
     std::string line;
@@ -76,7 +76,7 @@ void statsLoad(void)
                                                 split[1].end(), [](unsigned char c)
                                                 { return !std::isdigit(c); }) == split[1].end()))
         {
-            mtnlogMessageTag(MTNLOG_WARNING, "stats", "Value of key %s in stats file %s is not a number. Skipping.", key.c_str(), _getStatsFile().c_str());
+            mtnlogMessageTagC(MTNLOG_WARNING, "stats", "Value of key %s in stats file %s is not a number. Skipping.", key.c_str(), _getStatsFile().c_str());
             continue;
         }
         int value = std::stoi(split[1]);

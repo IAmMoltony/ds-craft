@@ -35,7 +35,7 @@ WorldManager::WorldList WorldManager::getWorlds(void)
         std::string worldName = getWorldName(std::string(worldFile.c_str()));
         if (worldName == "\1\4\3\2")
         {
-            mtnlogMessageTag(MTNLOG_ERROR, "worldmgr", "Metadata for world '%s' is corrupted or missing", worldFile.c_str());
+            mtnlogMessageTagC(MTNLOG_ERROR, "worldmgr", "Metadata for world '%s' is corrupted or missing", worldFile.c_str());
             continue;
         }
 

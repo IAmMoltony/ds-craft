@@ -474,7 +474,7 @@ void loadWorld(const std::string &name, Block::List &blocks, EntityList &entitie
 {
     std::string worldFolder = std::string(std::string(mtnconfigGet("worldsDir")) + "/" + name);
 
-    mtnlogMessageTag(MTNLOG_INFO, "save", "Loading world with name `%s' folder `%s'", name.c_str(), worldFolder.c_str());
+    mtnlogMessageTagC(MTNLOG_INFO, "save", "Loading world with name `%s' folder `%s'", name.c_str(), worldFolder.c_str());
 
     // clear the current world state
     blocks.clear();
@@ -486,7 +486,7 @@ void loadWorld(const std::string &name, Block::List &blocks, EntityList &entitie
     // we can't load something that doesn't exist
     if (!fsDirExists(worldFolder.c_str()))
     {
-        mtnlogMessageTag(MTNLOG_ERROR, "save", "folder %s does not exist", worldFolder.c_str());
+        mtnlogMessageTagC(MTNLOG_ERROR, "save", "folder %s does not exist", worldFolder.c_str());
         return;
     }
 
@@ -511,7 +511,7 @@ void loadWorld(const std::string &name, Block::List &blocks, EntityList &entitie
     if (!setLoc)
         currentLocation = 0; // default location is 0
 
-    mtnlogMessageTag(MTNLOG_INFO, "save", "current location is %d", currentLocation);
+    mtnlogMessageTagC(MTNLOG_INFO, "save", "current location is %d", currentLocation);
 
     std::ifstream wld(worldFolder + "/locations/location" + std::to_string(currentLocation) + ".wld");
     std::string line;
@@ -639,7 +639,7 @@ void loadWorld(const std::string &name, Block::List &blocks, EntityList &entitie
                 color = StainedGlassColor::Yellow;
             else
             {
-                mtnlogMessageTag(MTNLOG_WARNING, "save", "Unknown stained glass color str '%s', using orange for no reason", sgcs.c_str());
+                mtnlogMessageTagC(MTNLOG_WARNING, "save", "Unknown stained glass color str '%s', using orange for no reason", sgcs.c_str());
                 color = StainedGlassColor::Orange;
             }
 
@@ -839,11 +839,11 @@ void loadWorld(const std::string &name, Block::List &blocks, EntityList &entitie
         std::ifstream chestFile(chestFileName);
         if (chestFile.bad())
         {
-            mtnlogMessageTag(MTNLOG_ERROR, "save", "bad chest file %s", line.c_str());
+            mtnlogMessageTagC(MTNLOG_ERROR, "save", "bad chest file %s", line.c_str());
             continue;
         }
 
-        mtnlogMessageTag(MTNLOG_INFO, "save", "Loading chest with ID %d", chestID);
+        mtnlogMessageTagC(MTNLOG_INFO, "save", "Loading chest with ID %d", chestID);
 
         std::string line2;
         while (std::getline(chestFile, line2))

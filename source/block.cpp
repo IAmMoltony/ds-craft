@@ -226,7 +226,7 @@ FlowerBlock::FlowerBlock(s16 x, s16 y) : Block(x, y, 1), type(FlowerType::Poppy)
 		type = FlowerType::Cornflower;
         break;
     default:
-        mtnlogMessageTag(MTNLOG_WARNING, "block", "Unknown flower type %d, defaulting to poppy", nid);
+        mtnlogMessageTagC(MTNLOG_WARNING, "block", "Unknown flower type %d, defaulting to poppy", nid);
         type = FlowerType::Poppy;
         break;
 	}
