@@ -34,7 +34,7 @@ void fsCreateDir(const char *name)
 
 void fsCreateFile(const char *name)
 {
-    const FILE *fp = fopen(name, "w");
+    FILE *fp = fopen(name, "w");
     if (!fp)
     {
         if (_errorMessages())
@@ -47,7 +47,7 @@ void fsCreateFile(const char *name)
 
 void fsWrite(const char *file, const char *data)
 {
-    const FILE *fp = fopen(file, "w");
+    FILE *fp = fopen(file, "w");
     
     if (fp == NULL)
     {
@@ -143,7 +143,7 @@ bool fsIsDir(const char *name)
 char *fsReadFile(const char *name)
 {
     char *buf = NULL;
-    const FILE *fp = fopen(name, "r");
+    FILE *fp = fopen(name, "r");
 
     if (fp)
     {
@@ -170,7 +170,7 @@ char *fsReadFile(const char *name)
 
 long fsGetFileSize(const char *name)
 {
-    const FILE *fp = fopen(name, "r");
+    FILE *fp = fopen(name, "r");
     if (!fp)
     {
         if (_errorMessages())
