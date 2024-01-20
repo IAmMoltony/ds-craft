@@ -120,11 +120,6 @@ std::string CraftingRecipe::getFullName(Player *player)
     return name + " - " + recipeStr;
 }
 
-std::string CraftingRecipe::getFileName(void)
-{
-    return fileName;
-}
-
 InventoryItem CraftingRecipe::getOutput(void)
 {
     return output;

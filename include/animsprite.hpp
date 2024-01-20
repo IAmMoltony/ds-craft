@@ -105,22 +105,10 @@ public:
     void restart(void);
 
     /**
-     * @brief Set one of the frames to the specified image
-     * @param imgIndex frame index
-     * @param image the image to set the frame to
-     */
-    void setImage(u8 imgIndex, glImage *image);
-
-    /**
      * @brief Set frames per image
      * @see framesPerImage
      */
     void setFramesPerImage(u8 fpi);
-
-    /**
-     * @brief Get the current frame index
-    */
-    u8 getCurrentFrame(void);
 
     /**
      * @brief Get frames per image

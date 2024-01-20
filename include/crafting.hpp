@@ -58,13 +58,7 @@ public:
      * The full name is used in the crafting recipe screen
      */
     std::string getFullName(Player *player);
-
-    /**
-     * @brief Get recipe file name
-     * @see fileName
-     */
-    std::string getFileName(void);
-
+    
     /**
      * @brief Get output item
      * @see output
