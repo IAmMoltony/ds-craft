@@ -23,7 +23,7 @@ void SettingsManager::loadLanguageLegacy(void)
     {
         mtnlogMessageTag(MTNLOG_INFO, "settingsmgr", "Loading legacy language setting");
 
-        char *data = fsReadFile(std::string(std::string(mtnconfigGet("configDir")) + "/lang.cfg").c_str());
+        const char *data = fsReadFile(std::string(std::string(mtnconfigGet("configDir")) + "/lang.cfg").c_str());
         switch (data[0])
         {
         case '0':
@@ -67,7 +67,7 @@ void SettingsManager::loadSettingsLegacy(void)
     // transparent leaves setting
     if (fsFileExists(std::string(std::string(mtnconfigGet("configDir")) + "/trleaves.cfg").c_str()))
     {
-        char *data = fsReadFile(std::string(std::string(mtnconfigGet("configDir")) + "/trleaves.cfg").c_str());
+        const char *data = fsReadFile(std::string(std::string(mtnconfigGet("configDir")) + "/trleaves.cfg").c_str());
         transparentLeaves = data[0] == '1';
     }
     else
@@ -90,7 +90,7 @@ void SettingsManager::loadSettingsLegacy(void)
     // smooth camera setting
     if (fsFileExists(std::string(std::string(mtnconfigGet("configDir")) + "/smoothcam.cfg").c_str()))
     {
-        char *data = fsReadFile(std::string(std::string(mtnconfigGet("configDir")) + "/smoothcam.cfg").c_str());
+        const char *data = fsReadFile(std::string(std::string(mtnconfigGet("configDir")) + "/smoothcam.cfg").c_str());
         smoothCamera = data[0] == '1';
     }
     else
@@ -99,7 +99,7 @@ void SettingsManager::loadSettingsLegacy(void)
     // auto jump setting
     if (fsFileExists(std::string(std::string(mtnconfigGet("configDir")) + "/autojump.cfg").c_str()))
     {
-        char *data = fsReadFile(std::string(std::string(mtnconfigGet("configDir")) + "/autojump.cfg").c_str());
+        const char *data = fsReadFile(std::string(std::string(mtnconfigGet("configDir")) + "/autojump.cfg").c_str());
         autoJump = data[0] == '1';
     }
     else

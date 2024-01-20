@@ -1237,7 +1237,7 @@ void Player::updateSpawnImmunity(void)
     }
 }
 
-void Player::updateEntities(EntityList *entities, Camera *camera)
+void Player::updateEntities(EntityList *entities, const Camera *camera)
 {
     u32 down = keysDown();
 
@@ -1398,7 +1398,7 @@ bool Player::doItemInteract(const u32 &downKeys, const Camera *camera, Block::Li
                                16, rectHeight);
                 bool blockOnSide = false;
 
-                for (auto &block : *blocks)
+                for (const auto &block : *blocks)
                 {
                     // skip blocks out of camera
                     if (block->getRect().x - camera->x < -16 ||
@@ -2632,7 +2632,7 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
     bool collideLadder = false;
 
     // check if collide with ladder
-    for (auto &block : *blocks)
+    for (const auto &block : *blocks)
     {
         // optimizaciones
         if (block->getRect().x - camera->x < -16 ||
@@ -2680,7 +2680,7 @@ void Player::updateLadder(s16 oldY, bool collideLadder)
         playsfx(4, &sndLadder1, &sndLadder2, &sndLadder3, &sndLadder4);
 }
 
-void Player::updateFacing(Camera *camera)
+void Player::updateFacing(const Camera *camera)
 {
     if (aimX < x - camera->x + _sprPlayerBody[0]->width / 2)
         facing = Facing::Left;

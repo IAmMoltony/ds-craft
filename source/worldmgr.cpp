@@ -69,7 +69,7 @@ std::vector<std::string> WorldManager::getFavoriteWorlds(void)
     return favWorlds;
 }
 
-void WorldManager::writeFavoriteWorlds(std::vector<std::string> &newList)
+void WorldManager::writeFavoriteWorlds(const std::vector<std::string> &newList)
 {
     std::string favWorldsPath = _getFavWorldsPath();
 

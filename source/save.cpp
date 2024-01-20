@@ -127,7 +127,7 @@ static void _writeDoor(std::ofstream &wld, DoorBlock *door)
     wld << "door " << std::to_string(door->x) << ' ' << std::to_string(door->y) << ' ' << std::to_string(door->isOpen()) << ' ' << std::to_string(door->getFacing()) << '\n';
 }
 
-static void _writeSign(std::ofstream &wld, SignBlock *sign)
+static void _writeSign(std::ofstream &wld, const SignBlock *sign)
 {
     wld << "sign " << std::to_string(sign->x) << ' ' << std::to_string(sign->y) << ' ' << sign->getText() << '\n';
 }
@@ -351,7 +351,7 @@ void saveWorld(const std::string &name, Block::List &blocks, EntityList &entitie
     // player info
     std::ofstream playerinfo(worldFolder + "/player.info");
     playerinfo << "position " << player.getX() << ' ' << player.getY() << "\nspawnpoint " << player.getSpawnX() << ' ' << player.getSpawnY() << "\nhealth " << player.getHealth() << '\n';
-    Inventory &playerInventory = player.getInventory();
+    const Inventory &playerInventory = player.getInventory();
 
     // save inventory
     for (u8 i = 0; i < 20; ++i)

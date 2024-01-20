@@ -48,7 +48,7 @@ void pcxImageUnload(PCXImage *image)
 	imageDestroy(&image->simg);
 }
 
-void pcxImageDraw(PCXImage *image, int x, int y, GL_FLIP_MODE flip)
+void pcxImageDraw(const PCXImage *image, int x, int y, GL_FLIP_MODE flip)
 {
 	glSprite(x, y, flip, image->spr);
 }

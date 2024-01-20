@@ -55,7 +55,7 @@ extern "C"
 	 * @param y Y position of the image
 	 * @param flip How the image should be flipped (use `GL_FLIP_NONE` for no flip)
 	 */
-	void pcxImageDraw(PCXImage *image, int x, int y, GL_FLIP_MODE flip);
+	void pcxImageDraw(const PCXImage *image, int x, int y, GL_FLIP_MODE flip);
 
 	/**
 	 * @brief Draw a PCX image (advanced edition)

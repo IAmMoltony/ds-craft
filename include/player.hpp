@@ -419,7 +419,7 @@ public:
     /**
      * @brief Process entities
      */
-    void updateEntities(EntityList *entities, Camera *camera);
+    void updateEntities(EntityList *entities, const Camera *camera);
 
     /**
      * @brief Update spawn immunity
@@ -439,7 +439,7 @@ public:
     /**
      * @brief Update facing
      */
-    void updateFacing(Camera *camera);
+    void updateFacing(const Camera *camera);
 
     /**
      * @brief Update controls

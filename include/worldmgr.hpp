@@ -53,5 +53,5 @@ public:
      * @brief Write a new favorite worlds list
      * @param newList new list
      */
-    static void writeFavoriteWorlds(std::vector<std::string> &newList);
+    static void writeFavoriteWorlds(const std::vector<std::string> &newList);
 };
