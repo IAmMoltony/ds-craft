@@ -23,6 +23,7 @@ The next major update (*beta1.8*) is planned to release in **February 2024**.
 - Petrified wooden slabs
 - Changing sound volume per sound source
 - Achievements!!! :p
+- Renaming items (planned for beta1.8)
 
 ## Changes
 
