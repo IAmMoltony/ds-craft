@@ -1,4 +1,4 @@
-#include "player.hpp"
+#include "playercrafting.hpp"
 #include "crafting.hpp"
 #include "game.hpp"
 #include "mtnconfig.h"
@@ -6,9 +6,11 @@
 #include "glext.h"
 #include <fstream>
 
-static std::vector<CraftingRecipe> _craftingRecipes;
+Inventory *Player::Crafting::playerInventory = nullptr;
+std::vector<CraftingRecipe> Player::Crafting::craftingRecipes;
+u8 Player::Crafting::craftingSelect = 0;
 
-void Player::initCrafting(void)
+void Player::Crafting::init(void)
 {
     std::map<std::string, float> loadTimes;
 
@@ -24,7 +26,7 @@ void Player::initCrafting(void)
         if (!line.empty() && line[0] != '#')
         {
             cpuStartTiming(0);                                                    // start measuring time
-            _craftingRecipes.push_back(CraftingRecipe(line));                     // parse + add the recipe
+            craftingRecipes.push_back(CraftingRecipe(line));                     // parse + add the recipe
             float timeTook = (float)cpuEndTiming() / BUS_CLOCK;                   // get how much time it took
             mtnlogMessageTagC(MTNLOG_INFO, "crafting", "loaded %s in %f s", line.c_str(), timeTook); // print how much it took
             loadTimes[line] = timeTook;                                           // put the time into the list
@@ -76,9 +78,9 @@ static constexpr u8 CRAFTING_SLOTS_Y = 60;
 static constexpr u8 RECIPE_NAME_X = 16;
 static constexpr u8 RECIPE_NAME_Y = 35;
 
-void Player::drawCrafting(Font &font, Font &fontRu)
+void Player::Crafting::draw(Font &font, Font &fontRu, Player *player)
 {
-    size_t numRecipes = _craftingRecipes.size();
+    size_t numRecipes = craftingRecipes.size();
 
     for (size_t i = 0; i < numRecipes; ++i)
     {
@@ -86,9 +88,9 @@ void Player::drawCrafting(Font &font, Font &fontRu)
         u8 slotX = CRAFTING_SLOTS_X + (i % RECIPES_PER_ROW) * 16;
         u8 slotY = CRAFTING_SLOTS_Y + (i / RECIPES_PER_ROW) * 16;
 
-        CraftingRecipe recipe = _craftingRecipes[i];
+        CraftingRecipe recipe = craftingRecipes[i];
 
-        bool cc = _canCraft(this, recipe);
+        bool cc = _canCraft(player, recipe);
 
         // if can't craft, make slot red
         if (!cc)
@@ -180,37 +182,37 @@ void Player::drawCrafting(Font &font, Font &fontRu)
     }
 
     // print recipe full name
-    CraftingRecipe recipe = _craftingRecipes[craftingSelect];
+    CraftingRecipe recipe = craftingRecipes[craftingSelect];
     switch (Game::instance->lang)
     {
     case Language::English:
-        font.printShadow(RECIPE_NAME_X, RECIPE_NAME_Y, recipe.getFullName(this));
+        font.printShadow(RECIPE_NAME_X, RECIPE_NAME_Y, recipe.getFullName(player));
         break;
     case Language::Russian:
-        fontRu.printShadow(RECIPE_NAME_X, RECIPE_NAME_Y, recipe.getFullName(this));
+        fontRu.printShadow(RECIPE_NAME_X, RECIPE_NAME_Y, recipe.getFullName(player));
         break;
     }
 }
 
-void Player::updateCrafting(void)
+void Player::Crafting::update(Player *player)
 {
     u32 kdown = keysDown();
     if (kdown & KEY_A)
     {
         bool crafted = false;
 
-        CraftingRecipe recipe = _craftingRecipes[craftingSelect];
+        CraftingRecipe recipe = craftingRecipes[craftingSelect];
 
-        bool cc = _canCraft(this, recipe);
+        bool cc = _canCraft(player, recipe);
         if (cc)
         {
             crafted = true;
-            inventory.add(recipe.getOutput());
+            playerInventory->add(recipe.getOutput());
 
             // remove the recipe ingredients
             const std::vector<InventoryItem> *rvec = recipe.getRecipe();
             for (auto item : *rvec)
-                inventory.remove(item);
+                playerInventory->remove(item);
         }
 
         // play click sound if crafted successfully
@@ -222,18 +224,18 @@ void Player::updateCrafting(void)
     if (kdown & KEY_LEFT)
     {
         if (craftingSelect - 1 < 0)
-            craftingSelect = _craftingRecipes.size() - 1;
+            craftingSelect = craftingRecipes.size() - 1;
         else
             --craftingSelect;
     }
     else if (kdown & KEY_RIGHT)
     {
-        if (++craftingSelect > _craftingRecipes.size() - 1)
+        if (++craftingSelect > craftingRecipes.size() - 1)
             craftingSelect = 0;
     }
     else if (kdown & KEY_DOWN)
     {
-        if ((std::vector<CraftingRecipe>::size_type)(craftingSelect + RECIPES_PER_ROW) <= _craftingRecipes.size() - 1)
+        if ((std::vector<CraftingRecipe>::size_type)(craftingSelect + RECIPES_PER_ROW) <= craftingRecipes.size() - 1)
             craftingSelect += 14;
     }
     else if (kdown & KEY_UP)
@@ -241,4 +243,9 @@ void Player::updateCrafting(void)
         if (craftingSelect - 14 >= 0)
             craftingSelect -= 14;
     }
+}
+
+void Player::Crafting::setInventory(Inventory *inv)
+{
+    playerInventory = inv;
 }

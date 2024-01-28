@@ -1,7 +1,6 @@
 /**
  * @file player.hpp
  * @brief Player, crafting and inventory management.
- * @note i should refactor this
  */
 
 #pragma once
@@ -28,6 +27,8 @@
 class Player
 {
 public:
+    class Crafting;
+
     /**
      * @brief Number of items in the player's inventory
      */
@@ -105,11 +106,6 @@ private:
      * @brief Inventory item index used for moving item in inventory
      */
     u8 inventoryMoveSelect;
-
-    /**
-     * @brief Index of the selected crafting recipe in the crafting menu
-     */
-    u8 craftingSelect;
 
     /**
      * @brief Index of the selected item in chest
@@ -316,13 +312,6 @@ public:
     void draw(const Camera &camera, Font &font, Font &fontRu);
 
     /**
-     * @brief Draw crafting screen
-     * @param font English font
-     * @param fontRu Russian font
-     */
-    void drawCrafting(Font &font, Font &fontRu);
-
-    /**
      * @brief Draw the player's body (and head)
      * @param camera camera to use
      */
@@ -370,11 +359,6 @@ public:
      * @brief Update full inventory
      */
     void updateFullInventory(void);
-
-    /**
-     * @brief Update crafting screen
-     */
-    void updateCrafting(void);
 
     /**
      * @brief Update inventory screen
@@ -635,9 +619,4 @@ public:
      * @brief Get a reference to the player's inventory
      */
     Inventory &getInventory(void);
-
-    /**
-     * @brief Initialize the crafting system
-     */
-    static void initCrafting(void);
 };

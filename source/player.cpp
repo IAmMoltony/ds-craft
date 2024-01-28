@@ -8,6 +8,7 @@
 #include "stats.hpp"
 #include "controlsmgr.hpp"
 #include "settingsmgr.hpp"
+#include "playercrafting.hpp"
 #include "util.h"
 #include "mtnconfig.h"
 #include "glext.h"
@@ -160,7 +161,7 @@ void Player::unloadSounds(void)
     unloadsfx4(LADDER);
 }
 
-Player::Player() : x(0), y(0), aimX(0), aimY(0), spawnX(0), spawnY(0), health(FULL_HEALTH), airY(0), hotbarSelect(0), inventorySelect(0), inventoryMoveSelect(NUM_INVENTORY_ITEMS), craftingSelect(0),
+Player::Player() : x(0), y(0), aimX(0), aimY(0), spawnX(0), spawnY(0), health(FULL_HEALTH), airY(0), hotbarSelect(0), inventorySelect(0), inventoryMoveSelect(NUM_INVENTORY_ITEMS),
                    chestSelect(0), chestMoveSelect(40), normalSpriteFPI(0), spawnImmunity(SPAWN_IMMUNITY), velX(0), velY(0), falling(true), jumping(false), fullInventory(false), inventoryCrafting(false),
                    chestOpen(false), sneaking(false), facing(Facing::Right), inventory(20),
                    chest(nullptr), sign(nullptr), bodySprite(AnimatedSprite(5, AnimatedSpriteMode::ReverseLoop,
@@ -170,6 +171,9 @@ Player::Player() : x(0), y(0), aimX(0), aimY(0), spawnX(0), spawnY(0), health(FU
     normalSpriteFPI = bodySprite.getFramesPerImage();
     // clear the inventory just in case
     inventory.clear();
+
+    // give inventory to crafting
+    Crafting::setInventory(&inventory);
 }
 
 // function for drawing an inventory aka list of items
@@ -519,7 +523,7 @@ void Player::drawInventory(Font &font, Font &fontRu)
     }
 
     if (inventoryCrafting) // when crafting
-        drawCrafting(font, fontRu);
+        Crafting::draw(font, fontRu, this);
     else
     {
         _drawInventory(inventory, font, inventorySelect, inventoryMoveSelect);
@@ -918,7 +922,6 @@ void Player::updateFullInventory(void)
     {
         // when l is pressed, open crafting (or close)
         inventoryCrafting = !inventoryCrafting;
-        craftingSelect = 0;
         inventorySelect = 0;
         mmEffectEx(&Game::instance->sndClick);
     }
@@ -929,7 +932,7 @@ void Player::updateFullInventory(void)
 	}
 
     if (inventoryCrafting)
-        updateCrafting();
+        Crafting::update(this);
     else
         updateInventory();
 }

@@ -8,6 +8,7 @@
 #include "controlsmgr.hpp"
 #include "settingsmgr.hpp"
 #include "ui.hpp"
+#include "playercrafting.hpp"
 #include "util.h"
 #include "mtnconfig.h"
 #include "mtnconfigversion.h"
@@ -410,7 +411,7 @@ void Game::init(int argc, char **argv)
     mtnlogMessageTagC(MTNLOG_INFO, "init", "Initializing crafting");
 
     // init crafting
-    Player::initCrafting();
+    Player::Crafting::init();
 
     mtnlogMessageTagC(MTNLOG_INFO, "init", "Loading general assets");
 
