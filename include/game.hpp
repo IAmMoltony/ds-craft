@@ -39,6 +39,8 @@
  *
  * @ref player.hpp "Player documentation"
  *
+ * @ref playercrafting.hpp "Player crafting documentation"
+ *
  * @ref random.hpp "Random Number Generator documentation"
  *
  * @ref rect.hpp "Rectangle documentation"

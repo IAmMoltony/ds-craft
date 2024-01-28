@@ -203,7 +203,6 @@ bool InventoryItem::isSlabItem(void)
     return _isSlabItem(id);
 }
 
-// TODO is this not used??? why
 bool InventoryItem::isPlanksItem(void)
 {
     return _isPlanksItem(id);
