@@ -441,7 +441,7 @@ std::array<InventoryItem, ChestBlock::NUM_ITEMS> ChestBlock::getItems(void)
 	return inv;
 }
 
-void ChestBlock::setItem(u8 i, InventoryItem item)
+void ChestBlock::setItem(u8 i, const InventoryItem &item)
 {
 	items[i] = item;
 }
