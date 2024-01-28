@@ -156,7 +156,7 @@ CFLAGS	:=	-g -Wall -Wextra \
 			-fomit-frame-pointer\
 			-ffast-math
 
-CFLAGS	+=	$(INCLUDE) -DARM9 -DGIT_COMMIT=\"$(GIT_COMMIT)\" -DGIT_MESSAGE=$(GIT_MESSAGE)
+CFLAGS	+=	$(INCLUDE) -DARM9 -DGIT_COMMIT=\"$(GIT_COMMIT)\" -DGIT_MESSAGE=$(GIT_MESSAGE) -D_GNU_SOURCE
 CXXFLAGS	:=	$(CFLAGS) -fno-rtti -fno-exceptions -Weffc++
 
 ASFLAGS	:=	-g $(ARCH)
