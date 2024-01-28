@@ -493,7 +493,7 @@ public:
      * @param index item index
      * @param item new item to set at that index
      */
-    void setItem(u8 index, InventoryItem item);
+    void setItem(u8 index, const InventoryItem &item);
 
     /**
      * @brief Set player's health

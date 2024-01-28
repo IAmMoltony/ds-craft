@@ -831,7 +831,7 @@ public:
     /**
      * @brief Set an item in the chest
      */
-    void setItem(u8 i, InventoryItem item);
+    void setItem(u8 i, const InventoryItem &item);
 
     /**
      * @brief Clear the chest by initializing it with default values
