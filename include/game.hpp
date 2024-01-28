@@ -127,12 +127,12 @@ private:
     /**
      * @brief Buffer for English font images
      */
-    glImage fontSmallImg[FONT_NUM_IMAGES];
+    glImage fontImg[FONT_NUM_IMAGES];
 
     /**
      * @brief Buffer for Russian font images
      */
-    glImage fontSmallRuImg[FONT_NUM_IMAGES];
+    glImage fontRuImg[FONT_NUM_IMAGES];
 
     /**
      * @brief Current game state
