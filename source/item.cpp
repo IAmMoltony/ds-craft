@@ -175,11 +175,11 @@ static bool _isPlanksItem(InventoryItem::ID id)
            InventoryItem::planksItemIDs + InventoryItem::numPlanksItemIDs;
 }
 
-InventoryItem::InventoryItem(ID id, u8 amount) : id(id), amount(amount)
+InventoryItem::InventoryItem(ID id, u8 amount) : id(id), amount(amount), customName()
 {
 }
 
-InventoryItem::InventoryItem(const InventoryItem &item) : id(item.id), amount(item.amount)
+InventoryItem::InventoryItem(const InventoryItem &item) : id(item.id), amount(item.amount), customName()
 {
 }
 
@@ -314,7 +314,7 @@ static std::map<std::string, InventoryItem::ID> _stringIDTable = {
     {"greensg", InventoryItem::ID::GreenStainedGlass},
 };
 
-InventoryItem::InventoryItem(const std::string &stringID, u8 amount) : id(ID::None), amount(amount)
+InventoryItem::InventoryItem(const std::string &stringID, u8 amount) : id(ID::None), amount(amount), customName()
 {
     std::string sid = stringID;
 
@@ -331,7 +331,7 @@ InventoryItem::InventoryItem(const std::string &stringID, u8 amount) : id(ID::No
 }
 
 // initialize with default values
-InventoryItem::InventoryItem() : id(ID::None), amount(0)
+InventoryItem::InventoryItem() : id(ID::None), amount(0), customName()
 {
 }
 
@@ -343,6 +343,7 @@ InventoryItem &InventoryItem::operator=(const InventoryItem &item)
 
     id = item.id;
     amount = item.amount;
+    customName = item.customName;
 
     return *this;
 }
@@ -801,12 +802,15 @@ std::string iidToString(InventoryItem::ID iid)
     return id;
 }
 
-const char *getItemName(InventoryItem::ID iid)
+std::string InventoryItem::getName(void)
 {
+    if (customName.size() != 0)
+        return customName;
+
     switch (Game::instance->lang)
     {
     case Language::English:
-        switch (iid)
+        switch (id)
         {
         case InventoryItem::ID::None:
             return "";
@@ -999,7 +1003,7 @@ const char *getItemName(InventoryItem::ID iid)
         }
         break;
     case Language::Russian:
-        switch (iid)
+        switch (id)
         {
         case InventoryItem::ID::None:
             return "";

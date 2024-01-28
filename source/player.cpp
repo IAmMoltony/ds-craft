@@ -527,12 +527,12 @@ void Player::drawInventory(Font &font, Font &fontRu)
         switch (Game::instance->lang)
         {
         case Language::English:
-            font.printShadow(110, 46, getItemName(inventory[inventorySelect].id));
+            font.printShadow(110, 46, inventory[inventorySelect].getName());
             font.printShadow(16, 46 + 48 + 23, "\2:L  Crafting");
 			font.printShadow(16, 46 + 48 + 36, "\2:X  Sort inventory");
             break;
         case Language::Russian:
-            fontRu.printShadow(110, 46, getItemName(inventory[inventorySelect].id));
+            fontRu.printShadow(110, 46, inventory[inventorySelect].getName());
             fontRu.printShadow(16, 62 + 48 + 23, "\2:L  Sqjfbpkg");
 			fontRu.printShadow(16, 62 + 48 + 36, "\2:X  Sqsuksqdbu#");
             break;
@@ -800,10 +800,10 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
         switch (Game::instance->lang)
         {
         case Language::English:
-            font.printShadowCentered(0, itemNameY, getItemName(inventory[hotbarSelect].id));
+            font.printShadowCentered(0, itemNameY, inventory[hotbarSelect].getName().c_str());
             break;
         case Language::Russian:
-            fontRu.printShadowCentered(0, itemNameY, getItemName(inventory[hotbarSelect].id));
+            fontRu.printShadowCentered(0, itemNameY, inventory[hotbarSelect].getName().c_str());
             break;
         }
     }

@@ -189,6 +189,11 @@ public:
     u8 amount;
 
     /**
+     * @brief Item custom name
+     */
+    std::string customName;
+
+    /**
      * @brief Inventory item constructor using the ID and amount
      * @param id the ID of the item
      * @param amount the item amount
@@ -250,6 +255,11 @@ public:
     u8 getMaxStack(void);
 
     /**
+     * @brief Get the item's name
+     */
+    std::string getName(void);
+
+    /**
      * @brief Load item textures
      */
     static void loadTextures(void);
@@ -265,13 +275,6 @@ public:
  * @param iid item ID to convert
  */
 std::string iidToString(InventoryItem::ID iid);
-
-/**
- * @brief Get item name
- * @param iid item ID to get the name of
- * @note This pulls the language from `Game` class
- */
-const char *getItemName(InventoryItem::ID iid);
 
 /**
  * @brief Get item image corresponding to the item ID
