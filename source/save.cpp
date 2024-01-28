@@ -264,7 +264,7 @@ void saveWorld(const std::string &name, Block::List &blocks, EntityList &entitie
         // sign
         case BID_SIGN:
         {
-            SignBlock *sign = reinterpret_cast<SignBlock *>(block.get());
+            const SignBlock *sign = reinterpret_cast<SignBlock *>(block.get());
             _writeSign(wld, sign);
             break;
         }
