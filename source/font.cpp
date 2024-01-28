@@ -272,26 +272,6 @@ void Font::printfCentered(int x, int y, const char *format, ...)
     va_end(args);
 }
 
-void Font::printfScaleCentered(int x, int y, s32 scale, const char *format, ...)
-{
-    va_list args;
-    va_start(args, format);
-
-    // allocate some string
-    char *str = reinterpret_cast<char *>(malloc(150 * sizeof(char)));
-
-    // get formatted string
-    vsnprintf(str, 150, format, args);
-
-    // print with scale
-    printCentered(x, y, str, NULL, scale);
-
-    // we dont need anymore
-    free(str);
-
-    va_end(args);
-}
-
 void Font::printf(int x, int y, const char *format, ...)
 {
     va_list args;
@@ -325,26 +305,6 @@ void Font::printfDoubleFont(int x, int y, Font *font2, const char *format, ...)
 
     // print
     print(x, y, str, 0, 0, font2);
-
-    // we don't need anymore
-    free(str);
-
-    va_end(args);
-}
-
-void Font::printfScale(int x, int y, s32 scale, const char *format, ...)
-{
-    va_list args;
-    va_start(args, format);
-
-    // allocate some string
-    char *str = reinterpret_cast<char *>(malloc(150 * sizeof(char)));
-
-    // get formatted string
-    vsnprintf(str, 150, format, args);
-
-    // print but with sacle
-    print(x, y, str, 0, 0, NULL, scale);
 
     // we don't need anymore
     free(str);
@@ -393,31 +353,6 @@ void Font::printfShadow(int x, int y, const char *format, ...)
     vsnprintf(str, 150, format, args);
 
     printShadow(x, y, str);
-
-    // dont need anymore
-    free(str);
-
-    va_end(args);
-}
-
-void Font::printfScaleShadow(int x, int y, s32 scale, const char *format, ...)
-{
-    va_list args;
-    va_start(args, format);
-
-    // alloc string and get formatted
-    char *str = reinterpret_cast<char *>(malloc(150 * sizeof(char)));
-    vsnprintf(str, 150, format, args);
-
-    // shadow part
-    glColor(RGB15(0, 0, 0));
-    glPolyFmt(POLY_ALPHA(shadowIntensity) | POLY_CULL_NONE);
-    print(x, y, str, 1, 1, NULL, scale);
-    glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
-    glColor(RGB15(31, 31, 31));
-
-    // actual text
-    print(x, y, str, 0, 0, NULL, scale);
 
     // dont need anymore
     free(str);
