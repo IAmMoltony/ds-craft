@@ -2780,7 +2780,7 @@ void Player::setSpawnPoint(s16 x, s16 y)
     spawnY = y;
 }
 
-void Player::setItem(u8 index, InventoryItem item)
+void Player::setItem(u8 index, const InventoryItem &item)
 {
     inventory[index] = item;
 }
