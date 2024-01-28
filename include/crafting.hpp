@@ -57,7 +57,7 @@ public:
      *
      * The full name is used in the crafting recipe screen
      */
-    std::string getFullName(Player *player);
+    std::string getFullName(Inventory *inventory);
     
     /**
      * @brief Get output item

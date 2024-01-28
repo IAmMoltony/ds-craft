@@ -59,12 +59,12 @@ void Player::Crafting::init(void)
                   highest, highestName.c_str());
 }
 
-static bool _canCraft(Player *pThis, CraftingRecipe recipe)
+bool Player::Crafting::canCraft(CraftingRecipe recipe)
 {
     const std::vector<InventoryItem> *rvec = recipe.getRecipe(); // recipe vector
     for (auto item : *rvec)
     {
-        u16 playerItemCount = pThis->countItems(item.id);
+        u16 playerItemCount = playerInventory->count(item.id);
         u8 recipeItemCount = item.amount;
         if (playerItemCount < recipeItemCount)
             return false;
@@ -78,7 +78,7 @@ static constexpr u8 CRAFTING_SLOTS_Y = 60;
 static constexpr u8 RECIPE_NAME_X = 16;
 static constexpr u8 RECIPE_NAME_Y = 35;
 
-void Player::Crafting::draw(Font &font, Font &fontRu, Player *player)
+void Player::Crafting::draw(Font &font, Font &fontRu)
 {
     size_t numRecipes = craftingRecipes.size();
 
@@ -90,7 +90,7 @@ void Player::Crafting::draw(Font &font, Font &fontRu, Player *player)
 
         CraftingRecipe recipe = craftingRecipes[i];
 
-        bool cc = _canCraft(player, recipe);
+        bool cc = canCraft(recipe);
 
         // if can't craft, make slot red
         if (!cc)
@@ -186,15 +186,15 @@ void Player::Crafting::draw(Font &font, Font &fontRu, Player *player)
     switch (Game::instance->lang)
     {
     case Language::English:
-        font.printShadow(RECIPE_NAME_X, RECIPE_NAME_Y, recipe.getFullName(player));
+        font.printShadow(RECIPE_NAME_X, RECIPE_NAME_Y, recipe.getFullName(playerInventory));
         break;
     case Language::Russian:
-        fontRu.printShadow(RECIPE_NAME_X, RECIPE_NAME_Y, recipe.getFullName(player));
+        fontRu.printShadow(RECIPE_NAME_X, RECIPE_NAME_Y, recipe.getFullName(playerInventory));
         break;
     }
 }
 
-void Player::Crafting::update(Player *player)
+void Player::Crafting::update(void)
 {
     u32 kdown = keysDown();
     if (kdown & KEY_A)
@@ -203,7 +203,7 @@ void Player::Crafting::update(Player *player)
 
         CraftingRecipe recipe = craftingRecipes[craftingSelect];
 
-        bool cc = _canCraft(player, recipe);
+        bool cc = canCraft(recipe);
         if (cc)
         {
             crafted = true;

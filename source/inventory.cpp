@@ -172,7 +172,7 @@ void Inventory::remove(InventoryItem::ID id)
 		return;
 	}
 
-	for (u8 i = 0; i < 20; ++i)
+	for (u8 i = 0; i < numSlots; ++i)
 	{
 		// cheeck if the item exists and it has the desired ID
 		if (items[i].id == id && items[i].amount > 0)
@@ -197,4 +197,21 @@ void Inventory::remove(InventoryItem::ID id, u8 amount)
 void Inventory::remove(InventoryItem item)
 {
 	remove(item.id, item.amount);
+}
+
+u32 Inventory::count(InventoryItem::ID id)
+{
+    if (id == InventoryItem::ID::AnyPlanks)
+    {
+        u32 c = 0;
+        for (int i = 0; i < InventoryItem::numPlanksItemIDs; ++i)
+            c += count(InventoryItem::planksItemIDs[i]);
+        return c;
+    }
+
+    u32 count = 0;
+    for (u8 i = 0; i < numSlots; i++)
+        if (items[i].id == id)
+            count += items[i].amount;
+    return count;
 }

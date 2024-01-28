@@ -81,7 +81,7 @@ CraftingRecipe::CraftingRecipe(const std::string &recipeFile)
     construct(recipeFile.c_str());
 }
 
-std::string CraftingRecipe::getFullName(Player *player)
+std::string CraftingRecipe::getFullName(Inventory *inventory)
 {
     Language lang = Game::instance->lang;
 
@@ -99,10 +99,10 @@ std::string CraftingRecipe::getFullName(Player *player)
     StringVector itemVec;
 
     std::transform(recipe.begin(), recipe.end(), itemVec.begin(), std::back_inserter(itemVec),
-                   [player, lang](InventoryItem item, const std::string &str)
+                   [inventory, lang](InventoryItem item, const std::string &str)
                    {
                         (void)str; // trash the string
-                        return std::to_string(player->countItems(item.id)) + '/' +
+                        return std::to_string(inventory->count(item.id)) + '/' +
                             std::to_string(item.amount) + ' ' +
                             item.getName(); });
 

@@ -153,4 +153,10 @@ public:
 	 * @param item Item to remove
 	 */
 	void remove(InventoryItem item);
+
+    /**
+     * @brief Count how many items with the given ID are in the inventory
+     * @param id item ID to count
+     */
+    u32 count(InventoryItem::ID id);
 };

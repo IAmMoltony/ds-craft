@@ -523,7 +523,7 @@ void Player::drawInventory(Font &font, Font &fontRu)
     }
 
     if (inventoryCrafting) // when crafting
-        Crafting::draw(font, fontRu, this);
+        Crafting::draw(font, fontRu);
     else
     {
         _drawInventory(inventory, font, inventorySelect, inventoryMoveSelect);
@@ -932,7 +932,7 @@ void Player::updateFullInventory(void)
 	}
 
     if (inventoryCrafting)
-        Crafting::update(this);
+        Crafting::update();
     else
         updateInventory();
 }
@@ -2922,26 +2922,6 @@ s16 Player::getSpawnY(void)
 s16 Player::getHealth(void)
 {
     return health;
-}
-
-u16 Player::countItems(InventoryItem::ID item)
-{
-    // special case for any planks
-    // (we just count all planks types)
-    if (item == InventoryItem::ID::AnyPlanks)
-    {
-        u16 c = 0;
-        for (int i = 0; i < InventoryItem::numPlanksItemIDs; ++i)
-            c += countItems(InventoryItem::planksItemIDs[i]);
-        return c;
-    }
-
-    u16 count = 0;
-    for (u8 i = 0; i < 20; ++i)
-        // if target item, add its amount
-        if (inventory[i].id == item)
-            count += inventory[i].amount;
-    return count;
 }
 
 // hitboxes

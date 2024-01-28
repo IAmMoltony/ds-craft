@@ -575,12 +575,6 @@ public:
     s16 getHealth(void);
 
     /**
-     * @brief Count how many items with the given ID the player has
-     * @param item item ID to check
-     */
-    u16 countItems(InventoryItem::ID item);
-
-    /**
      * @brief Get the player's bottom hitbox
      */
     Rect getRectBottom(void);
