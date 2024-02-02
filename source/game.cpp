@@ -871,7 +871,8 @@ void Game::draw(void)
                 }
                 glColor(RGB15(31, 31, 31));
 
-                if (std::find(favWorlds.begin(), favWorlds.end(), worldInfoName) != favWorlds.end()) {
+                if (std::find(favWorlds.begin(), favWorlds.end(), worldInfoName) != favWorlds.end())
+                {
                     glPolyFmt(POLY_ALPHA(15) | POLY_CULL_NONE);
                     glColor(RGB15(0, 0, 0));
                     glSprite(SCREEN_WIDTH - 22, 48 + i * 40 + 18 - offset + 2, GL_FLIP_NONE, sprHeart);
@@ -1403,7 +1404,7 @@ void Game::draw(void)
                 font.printfCentered(0, 103, (settingsSelect == SETTING_HOTBAR_ON_TOP) ? "> Hotbar on top: %s <" : "Hotbar on top: %s", SettingsManager::hotbarOnTop ? "yes" : "no");
                 break;
             case Language::Russian:
-                fontRu.printfCentered(0, 103, (settingsSelect == SETTING_HOTBAR_ON_TOP) ? "> Qqjkyk& xqucbsb: %s <" : "Qqjkyk& xqucbsb: %s", SettingsManager::hotbarOnTop ? "tdgsxv" : "tpkjv");
+                fontRu.printfCentered(0, 103, (settingsSelect == SETTING_HOTBAR_ON_TOP) ? "> Qqjkyk& xqucbsb: %s '" : "Qqjkyk& xqucbsb: %s", SettingsManager::hotbarOnTop ? "tdgsxv" : "tpkjv");
                 break;
             }
 
@@ -2361,7 +2362,7 @@ void Game::update(void)
                 settingsFromPause = false;
                 gameState = State::Game;
             }
-            else 
+            else
                 gameState = State::TitleScreen;
         }
         else if (down & KEY_A)
