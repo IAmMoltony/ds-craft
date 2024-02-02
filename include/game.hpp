@@ -101,6 +101,7 @@ public:
         WorldSettings,
         RenameWorld,
         EditControls,
+        EditVolume,
     };
 
 private:

@@ -287,7 +287,8 @@ static constexpr u8 SETTING_FONT_SHADOW_INTENSITY = 2;
 static constexpr u8 SETTING_FRAMESKIP_ENABLE = 3;
 static constexpr u8 SETTING_MAIN_SCREEN = 4;
 static constexpr u8 SETTING_HOTBAR_ON_TOP = 5;
-static constexpr u8 SETTING_LAST_PAGE2 = SETTING_HOTBAR_ON_TOP;
+static constexpr u8 SETTING_SOUND_VOLUME = 6;
+static constexpr u8 SETTING_LAST_PAGE2 = SETTING_SOUND_VOLUME;
 
 static u16 _frameCounterFPS = 0;
 static u16 _fps = 0.0f;
@@ -1405,6 +1406,19 @@ void Game::draw(void)
                 fontRu.printfCentered(0, 103, (settingsSelect == SETTING_HOTBAR_ON_TOP) ? "> Qqjkyk& xqucbsb: %s <" : "Qqjkyk& xqucbsb: %s", SettingsManager::hotbarOnTop ? "tdgsxv" : "tpkjv");
                 break;
             }
+
+            if (settingsSelect == SETTING_SOUND_VOLUME)
+                glColor(RGB15(0, 31, 0));
+
+            switch (lang)
+            {
+            case Language::English:
+                font.printCentered(0, 114, (settingsSelect == SETTING_SOUND_VOLUME) ? "> Change sound volume <" : "Change sound volume");
+                break;
+            case Language::Russian:
+                fontRu.printCentered(0, 114, (settingsSelect == SETTING_SOUND_VOLUME) ? "> Dsqomqtu# jdvmb '" : "Dsqomqtu# jdvmb");
+                break;
+            }
             break;
         }
 
@@ -1588,8 +1602,21 @@ void Game::draw(void)
             glSprite(SCREEN_WIDTH / 2 + 121 - 32, 48 + i * 40 + 10 - offset, GL_FLIP_NONE, _keyCodeToImage(ControlsManager::getButton(i)));
         }
         break;
+    case State::EditVolume:
+        drawMenuBackground();
+        switch (lang)
+        {
+        case Language::English:
+            ui::showButtonTooltips(&font, nullptr, sprBButton, "Back", nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
+            break;
+        case Language::Russian:
+            ui::showButtonTooltips(&fontRu, nullptr, sprBButton, "Objbf", nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
+            break;
+        }
+        break;
     }
 
+    // TODO cache this
     if (mtnconfigGetBool("showPolygonRamCount"))
     {
         // for debug purposes
@@ -2420,6 +2447,9 @@ void Game::update(void)
                     SettingsManager::hotbarOnTop = !SettingsManager::hotbarOnTop;
                     SettingsManager::saveSettings();
                     break;
+                case SETTING_SOUND_VOLUME:
+                    gameState = State::EditVolume;
+                    break;
                 }
                 break;
             }
@@ -2558,6 +2588,10 @@ void Game::update(void)
             else if (down & KEY_A)
                 editControlsSetMode = true;
         }
+        break;
+    case State::EditVolume:
+        if (down & KEY_B)
+            gameState = State::Settings;
         break;
     }
     ++frameCounter;
