@@ -383,10 +383,10 @@ void Game::init(int argc, char **argv)
         hang();
     }
 
-    showPolygonRamCount = mtnconfigGetBool("showPolygonRamCount")
+    showPolygonRamCount = mtnconfigGetBool("showPolygonRamCount");
 
-        // init game version
-        gamever::InitStatus gvis = gamever::init(mtnconfigGet("gameVersionFile"));
+    // init game version
+    gamever::InitStatus gvis = gamever::init(mtnconfigGet("gameVersionFile"));
     if (gvis == gamever::InitStatus::FileOpenError)
     {
         mtnlogMessageTagC(MTNLOG_ERROR, "init", "Error opening game version file '%s': %s", mtnconfigGet("gameVersionFile"), strerror(errno));
