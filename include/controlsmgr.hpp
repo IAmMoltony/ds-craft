@@ -60,6 +60,11 @@ public:
     static constexpr u8 BUTTON_ATTACK = 8;
 
     /**
+     * @brief Button ID for going to next hotbar slot
+     */
+    static constexpr u8 BUTTON_HOTBAR = 9;
+
+    /**
      * @brief Button ID for when something goes wrong with saving/loading controls
      */
     static constexpr u8 BUTTON_UNKNOWN = UINT8_MAX;
@@ -67,7 +72,7 @@ public:
     /**
      * @brief How many controls there are
      */
-    static constexpr u8 NUM_BUTTONS = 9;
+    static constexpr u8 NUM_BUTTONS = 10;
 
     /**
      * @brief Default key code for button for going to the left
@@ -123,6 +128,12 @@ public:
      */
     static constexpr u32 DEFAULT_ATTACK = KEY_B;
 
+    /**
+     * @brief Default key code for next hotbar slot button
+     * @see BUTTON_HOTBAR
+     */
+    static constexpr u32 DEFAULT_HOTBAR = KEY_R;
+
     ControlsManager() = delete;
     ControlsManager(ControlsManager &) = delete;
     ~ControlsManager() = delete;
@@ -163,6 +174,7 @@ public:
         "Pause",
         "Interact/Place block",
         "Attack/Break block",
+        "Next hotbar slot",
     };
 
     /**
@@ -178,6 +190,7 @@ public:
         "Qbvjb",
         "Cjbkoqf./rqtubdku# cnqm",
         "Aubmqdbu#/sbjsv}ku# cnqm",
+        "Sngfv%~kl tnqu xqucbsb",
     };
 
 private:

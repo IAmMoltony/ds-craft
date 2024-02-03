@@ -43,7 +43,7 @@ void ControlsManager::saveControls(void)
     ofs << "goleft " << buttons[BUTTON_GO_LEFT] << "\ngoright " << buttons[BUTTON_GO_RIGHT] << "\njump " << buttons[BUTTON_JUMP]
         << "\nsneak " << buttons[BUTTON_SNEAK] << "\ndpadaim " << buttons[BUTTON_DPAD_AIM] << "\nopeninventory "
         << buttons[BUTTON_OPEN_INVENTORY] << "\npause " << buttons[BUTTON_PAUSE] << "\ninteract " << buttons[BUTTON_INTERACT]
-        << "\nattack " << buttons[BUTTON_ATTACK] << '\n';
+        << "\nattack " << buttons[BUTTON_ATTACK] << "\nhotbar " << buttons[BUTTON_HOTBAR] << '\n';
 }
 
 u32 ControlsManager::getButton(u8 button)
@@ -66,6 +66,7 @@ void ControlsManager::writeDefaultControls(void)
     buttons[BUTTON_PAUSE] = DEFAULT_PAUSE;
     buttons[BUTTON_INTERACT] = DEFAULT_INTERACT;
     buttons[BUTTON_ATTACK] = DEFAULT_ATTACK;
+    buttons[BUTTON_HOTBAR] = DEFAULT_HOTBAR;
     saveControls();
 }
 
@@ -89,6 +90,8 @@ u8 ControlsManager::buttonIDIndex(const std::string &buttonID)
         return BUTTON_INTERACT;
     else if (buttonID == "attack")
         return BUTTON_ATTACK;
+    else if (buttonID == "hotbar")
+        return BUTTON_HOTBAR;
 
     return BUTTON_UNKNOWN;
 }
@@ -101,6 +104,9 @@ void ControlsManager::setButton(u8 button, u32 key)
     if (button >= NUM_BUTTONS || (key != KEY_A && key != KEY_B && key != KEY_X && key != KEY_Y && key != KEY_LEFT &&
                                   key != KEY_RIGHT && key != KEY_UP && key != KEY_DOWN && key != KEY_SELECT &&
                                   key != KEY_START && key != KEY_L && key != KEY_R))
+    {
+        mtnlogMessageTagC(MTNLOG_WARNING, "controlsmgr", "Unknown button %u, ignoring", button);
         return;
+    }
     buttons[button] = key;
 }

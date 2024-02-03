@@ -1904,10 +1904,9 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
     if (doItemInteract(down, camera, blocks))
         ret = UpdateResult::BlockPlaced;
 
-    if (down & KEY_R)
+    if (down & ControlsManager::getButton(ControlsManager::BUTTON_HOTBAR))
     {
         // when R is pressed go to next hotbar slot
-        // TODO make the button for next hotbar slot rebindable
         ++hotbarSelect;
         if (hotbarSelect > NUM_HOTBAR_SLOTS - 1)
             hotbarSelect = 0; // reset to 1st slot
