@@ -383,8 +383,10 @@ void Game::init(int argc, char **argv)
         hang();
     }
 
-    // init game version
-    gamever::InitStatus gvis = gamever::init(mtnconfigGet("gameVersionFile"));
+    showPolygonRamCount = mtnconfigGetBool("showPolygonRamCount")
+
+        // init game version
+        gamever::InitStatus gvis = gamever::init(mtnconfigGet("gameVersionFile"));
     if (gvis == gamever::InitStatus::FileOpenError)
     {
         mtnlogMessageTagC(MTNLOG_ERROR, "init", "Error opening game version file '%s': %s", mtnconfigGet("gameVersionFile"), strerror(errno));
@@ -1617,13 +1619,11 @@ void Game::draw(void)
         break;
     }
 
-    // TODO cache this
-    if (mtnconfigGetBool("showPolygonRamCount"))
+    if (showPolygonRamCount)
     {
-        // for debug purposes
         int vc = 0;
         glGetInt(GL_GET_POLYGON_RAM_COUNT, &vc);
-        printf("polygon ram count %d\n", vc);
+        printf("Polygon count: %d\n", vc);
     }
 }
 

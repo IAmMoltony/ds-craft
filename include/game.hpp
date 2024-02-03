@@ -297,6 +297,11 @@ private:
     bool showFavorites;
 
     /**
+     * @brief Whether or not to show polygon count
+     */
+    bool showPolygonRamCount;
+
+    /**
      * @brief Quit the game
      *
      * This function unloads the current world, game assets and loads menu assets - all with an unload screen
