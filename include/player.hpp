@@ -214,6 +214,11 @@ private:
      */
     bool isEditingChestAndNotInventory(void);
 
+    /**
+     * @brief Eat
+     */
+    void eat(u8 healthAdd, InventoryItem::ID foodID);
+
 public:
     /**
      * @brief Inventory slot texture

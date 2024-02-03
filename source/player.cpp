@@ -533,12 +533,12 @@ void Player::drawInventory(Font &font, Font &fontRu)
         case Language::English:
             font.printShadow(110, 46, inventory[inventorySelect].getName());
             font.printShadow(16, 46 + 48 + 23, "\2:L  Crafting");
-			font.printShadow(16, 46 + 48 + 36, "\2:X  Sort inventory");
+            font.printShadow(16, 46 + 48 + 36, "\2:X  Sort inventory");
             break;
         case Language::Russian:
             fontRu.printShadow(110, 46, inventory[inventorySelect].getName());
             fontRu.printShadow(16, 62 + 48 + 23, "\2:L  Sqjfbpkg");
-			fontRu.printShadow(16, 62 + 48 + 36, "\2:X  Sqsuksqdbu#");
+            fontRu.printShadow(16, 62 + 48 + 36, "\2:X  Sqsuksqdbu#");
             break;
         }
     }
@@ -841,14 +841,6 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
     }
 }
 
-static void _eatFood(s16 *health, u8 healthAdd)
-{
-    playsfx(3, &sndEat1, &sndEat2, &sndEat3);
-    *health += healthAdd;
-    if (*health > 9)
-        *health = 9;
-}
-
 static void _spawnBlockParticles(BlockParticleList *blockParticles, PCXImage *image, int x, int y, rgb color)
 {
     // if the user doesn't want block particles then halt
@@ -925,11 +917,11 @@ void Player::updateFullInventory(void)
         inventorySelect = 0;
         mmEffectEx(&Game::instance->sndClick);
     }
-	if (kdown & KEY_X && !inventoryCrafting)
-	{
-		// sort inventory when user press X
-		inventory.sort();
-	}
+    if (kdown & KEY_X && !inventoryCrafting)
+    {
+        // sort inventory when user press X
+        inventory.sort();
+    }
 
     if (inventoryCrafting)
         Crafting::update();
@@ -1295,37 +1287,17 @@ bool Player::doItemInteract(const u32 &downKeys, const Camera *camera, Block::Li
         // then use it
 
         InventoryItem::ID itemid = inventory[hotbarSelect].id;
-        // TODO remove copypasting from eating food
-        // what i can do is have item ids and how much health they give to an array
         switch (itemid)
         {
         case InventoryItem::ID::RawPorkchop:
-            if (health != FULL_HEALTH)
-            {
-                _eatFood(&health, 2);
-                inventory.remove(InventoryItem::ID::RawPorkchop);
-            }
+        case InventoryItem::ID::Apple:
+            eat(2, itemid);
             break;
         case InventoryItem::ID::CookedPorkchop:
-            if (health != FULL_HEALTH)
-            {
-                _eatFood(&health, 5);
-                inventory.remove(InventoryItem::ID::CookedPorkchop);
-            }
-            break;
-        case InventoryItem::ID::Apple:
-            if (health != FULL_HEALTH)
-            {
-                _eatFood(&health, 2);
-                inventory.remove(InventoryItem::ID::Apple);
-            }
+            eat(5, itemid);
             break;
         case InventoryItem::ID::Bread:
-            if (health != FULL_HEALTH)
-            {
-                _eatFood(&health, 4);
-                inventory.remove(InventoryItem::ID::Bread);
-            }
+            eat(4, itemid);
             break;
         // block placing
         default:
@@ -2800,7 +2772,7 @@ void Player::restoreHealth(void)
 
 void Player::resetInventory(void)
 {
-	inventory.clear();
+    inventory.clear();
 }
 
 void Player::reset(void)
@@ -2887,6 +2859,18 @@ bool Player::isInChest(void)
 bool Player::isEditingChestAndNotInventory(void)
 {
     return chestSelect < NUM_INVENTORY_ITEMS;
+}
+
+void Player::eat(u8 healthAdd, InventoryItem::ID foodID)
+{
+    if (health != FULL_HEALTH)
+    {
+        playsfx(3, &sndEat1, &sndEat2, &sndEat3);
+        health += healthAdd;
+        if (health > FULL_HEALTH)
+            health = FULL_HEALTH;
+        inventory.remove(foodID);
+    }
 }
 
 bool Player::isEditingSign(void)
