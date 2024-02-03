@@ -160,8 +160,6 @@ u8 Game::fontBigCharWidthHandler(char ch)
     return fontSmallCharWidthHandler(ch) * 2; // small char width handler but twice as big
 }
 
-// TODO replace cwh with lookup table
-
 u8 Game::fontSmallRuCharWidthHandler(char ch)
 {
     if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'e') || (ch >= 'g' && ch <= 'z') || (ch >= '0' && ch <= '9'))
