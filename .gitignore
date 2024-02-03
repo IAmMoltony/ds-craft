@@ -48,3 +48,6 @@ doxygen-warn.log
 
 # vim session
 Session.vim
+
+# images header
+include/images.h
