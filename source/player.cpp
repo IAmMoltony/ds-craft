@@ -2487,10 +2487,11 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
             falling = jumping = false;
             velY = 0;
             y = block->getRect().y - 32;
+            // TODO refactor fall damage
             if (airY >= 44) // if we fall too much
             {
                 s16 damage = airY / 44;
-                if (airY - 44 >= 9)                          // TODO figure out what 44 is and move it into like a define or smth
+                if (airY - 44 >= 9)
                     damage += (airY - MAX_AIM_DISTANCE) / 9; // do some complicated tomfoolery
                 if (damage > 0)                              // if we got fall damage
                     doDamage(damage, camera);

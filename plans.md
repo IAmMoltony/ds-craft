@@ -27,13 +27,12 @@ The next major update (*beta1.8*) is planned to release in **February 2024**.
 
 ## Changes
 
-- Store world's last played and creation date in `world.meta`
-- Show last played date in world select screen
-- Redesign settings menu with stuff like categories such as
+- Settings categories:
   - General
   - Visual
   - Audio
   - Misc aka Settings that idk where to put them
+- Binary file formats instead of text - binary is faster and smaller than text
 
 ## Q of L (quality of life) Features
 
