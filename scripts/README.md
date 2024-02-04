@@ -69,10 +69,15 @@ Example output:
 ```bash
 $ python scripts/lstodos.py
 
-source/player.cpp:1945: // TODO fix this
-scripts/create-release.py:15: # TODO rewrite this
-README.md:64: <!-- TODO rewrite this entire section -->
-include/camera.h: * @todo Think of a better name for this function
+source/player.cpp:
+  1526: // TODO fix this
+scripts/create_release.py:
+  15: # TODO test this code
+  32: if a == 5: # TODO is this even necessary
+README.md:
+  43: <!-- TODO rewrite this entire section -->
+include/camera.h:
+  11: * @todo Think of a better name
 ```
 
 The script searches for either `TODO` or `@todo` in the following files:
