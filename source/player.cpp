@@ -1890,6 +1890,13 @@ bool Player::doItemInteract(const u32 &downKeys, const Camera *camera, Block::Li
     return placedBlock;
 }
 
+void Player::nextHotbarSlot(void)
+{
+    ++hotbarSelect;
+    if (hotbarSelect > NUM_HOTBAR_SLOTS - 1)
+        hotbarSelect = 0; // reset to 1st slot
+}
+
 Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blocks, EntityList *entities,
                                             BlockParticleList *blockParticles, Camera *camera)
 {
@@ -1905,12 +1912,7 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
         ret = UpdateResult::BlockPlaced;
 
     if (down & ControlsManager::getButton(ControlsManager::BUTTON_HOTBAR))
-    {
-        // when R is pressed go to next hotbar slot
-        ++hotbarSelect;
-        if (hotbarSelect > NUM_HOTBAR_SLOTS - 1)
-            hotbarSelect = 0; // reset to 1st slot
-    }
+        nextHotbarSlot();
 
     if (down & ControlsManager::getButton(ControlsManager::BUTTON_OPEN_INVENTORY))
     {
@@ -1918,6 +1920,7 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
         mmEffectEx(&Game::instance->sndClick);
     }
 
+    // TODO refactor block breaking
     u32 rdown = keysDownRepeat();
     // breaking blocks
     size_t removei = 0;  // remove index

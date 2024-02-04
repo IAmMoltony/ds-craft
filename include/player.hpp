@@ -447,6 +447,11 @@ public:
     bool doItemInteract(const u32 &downKeys, const Camera *camera, Block::List *blocks);
 
     /**
+     * @brief Go the the next hotbar slot
+     */
+    void nextHotbarSlot(void);
+
+    /**
      * @brief Set player's X position
      * @param x new X position
      */
