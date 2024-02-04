@@ -94,7 +94,7 @@ def print_usage():
     """
     Print script usage
     """
-    print("Usage: python strencode.py <string to convert> or --file <file to convert>")
+    print("Usage: python strencode.py <string to convert>")
 
 
 def encode(str_ru: str):
@@ -123,13 +123,7 @@ def main():
         print_usage()
         sys.exit(1)
 
-    content = ""
-    if argv[1] == "--file":
-        with open(argv[2], "r", encoding="utf-8") as f:
-            content = f.read()
-    else:
-        content = " ".join(argv[1:])
-
+    content = " ".join(argv[1:])
     print(encode(content))
 
 
