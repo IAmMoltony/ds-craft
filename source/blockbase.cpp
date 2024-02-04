@@ -53,6 +53,7 @@ PCXImage sprStoneBricks;
 PCXImage sprWheatBlock[8];
 PCXImage sprHayBale;
 PCXImage sprStainedGlass;
+PCXImage sprAnvil;
 
 static PCXImage _sprBlockBreak[10];
 
@@ -88,6 +89,7 @@ void Block::loadTextures(void)
     pcxImageLoad("nitro:/textures/block/stone_bricks.pcx", false, &sprStoneBricks);
     pcxImageLoad("nitro:/textures/block/hay_bale.pcx", false, &sprHayBale);
     pcxImageLoad("nitro:/textures/block/white_stained_glass.pcx", false, &sprStainedGlass);
+    pcxImageLoad("nitro:/textures/block/placeholder_anvil.pcx", false, &sprAnvil);
 
     // transparent blocks
     pcxImageLoad("nitro:/textures/block/grass2.pcx", true, &sprGrass2);

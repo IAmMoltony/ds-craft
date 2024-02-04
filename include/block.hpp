@@ -486,6 +486,7 @@ extern PCXImage sprStoneBricks;
 extern PCXImage sprWheatBlock[8];
 extern PCXImage sprHayBale;
 extern PCXImage sprStainedGlass;
+extern PCXImage sprAnvil;
 
 declsfx4ext(DoorOpen);
 declsfx4ext(DoorClose);

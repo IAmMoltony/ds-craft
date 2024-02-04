@@ -14,6 +14,6 @@ convert texture.pcx -colors 256 texture.pcx
 On Windows, you can use IrfanView to convert the image. Here's how to do it:
 
 1. Open the PNG/BMP/JPG/whatever in IrfanView
-2. Decrease or increase color depth to 256 colors (8bpp). The button to do that is somewhere in the menu bar on the top.
+2. Image -> Increase (or Decrease) Color Depth -> change to 256 colors (8bpp)
 3. Save as PCX
 4. profit :p
