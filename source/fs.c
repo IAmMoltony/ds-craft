@@ -13,7 +13,10 @@
  */
 static bool _errorMessages(void)
 {
-    return mtnconfigGetBool("fsErrorMessages");
+    static int em = -1;
+    if (em == -1)
+        em = mtnconfigGetBool("fsErrorMessages");
+    return (bool)em;
 }
 
 fsInitStatus fsInit(void)

@@ -74,17 +74,20 @@ def find_todo_patterns(files, be_bold):
             continue
         with open(file_name, "r", encoding="utf-8") as file:
             lines = file.readlines()
+            printed_file_name = False
             for line_num, line in enumerate(lines, start=1):
                 matches = re.findall(r"@todo|TODO", line)
                 if matches:
                     for _ in matches:
+                        if not printed_file_name:
+                            print(f"{file_name}:")
+                            printed_file_name = True
                         if be_bold:
                             print(
-                                f"\033[1m{file_name}:{line_num}\033[0m: {line.strip()}"
+                                f"\033[1m  {line_num}\033[0m: {line.strip()}"
                             )
                         else:
-                            print(f"{file_name}:{line_num}: {line.strip()}")
-
+                            print(f"  {line_num}: {line.strip()}")
 
 def main():
     """

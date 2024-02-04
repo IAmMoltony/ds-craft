@@ -160,8 +160,6 @@ u8 Game::fontBigCharWidthHandler(char ch)
     return fontSmallCharWidthHandler(ch) * 2; // small char width handler but twice as big
 }
 
-// TODO replace cwh with lookup table
-
 u8 Game::fontSmallRuCharWidthHandler(char ch)
 {
     if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'e') || (ch >= 'g' && ch <= 'z') || (ch >= '0' && ch <= '9'))
@@ -1621,9 +1619,11 @@ void Game::draw(void)
 
     if (showPolygonRamCount)
     {
-        int vc = 0;
-        glGetInt(GL_GET_POLYGON_RAM_COUNT, &vc);
-        printf("Polygon count: %d\n", vc);
+        int polys = 0;
+        int verts = 0;
+        glGetInt(GL_GET_POLYGON_RAM_COUNT, &polys);
+        glGetInt(GL_GET_VERTEX_RAM_COUNT, &verts);
+        printf("Poly: %d Vert: %d\n", polys, verts);
     }
 }
 
