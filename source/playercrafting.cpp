@@ -39,6 +39,7 @@ void Player::Crafting::init(void)
 
     float lowest = 999.0f;
     float highest = 0.0f;
+    float timeSum = 0.0f;
     std::string lowestName = "";
     std::string highestName = "";
     for (const auto &pair : loadTimes)
@@ -53,10 +54,11 @@ void Player::Crafting::init(void)
             highest = pair.second;
             highestName = pair.first;
         }
+        timeSum += pair.second;
     }
 
-    mtnlogMessageTagC(MTNLOG_INFO, "crafting", "*** Load Results: Fastest time: %f (%s); Slowest time: %f (%s)", lowest, lowestName.c_str(),
-                  highest, highestName.c_str());
+    mtnlogMessageTagC(MTNLOG_INFO, "crafting", "*** Load Results: Fastest time: %f (%s); Slowest time: %f (%s); %f total", lowest, lowestName.c_str(),
+                  highest, highestName.c_str(), timeSum);
 
     u32 recipesSize = sizeof(craftingRecipes);
     for (auto recipe : craftingRecipes)
