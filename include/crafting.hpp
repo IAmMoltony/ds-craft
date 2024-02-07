@@ -53,9 +53,7 @@ public:
 
     /**
      * @brief Get the full name of the recipe
-     * @param player player (used for item count in the inventory)
-     *
-     * The full name is used in the crafting recipe screen
+     * @param inventory Player's inventory
      */
     std::string getFullName(Inventory *inventory);
     
