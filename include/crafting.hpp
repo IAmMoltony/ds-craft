@@ -25,12 +25,6 @@ private:
      */
     std::vector<InventoryItem> recipe;
 
-    /**
-     * @brief Construct a crafting recipe
-     * @param recipeFile recipe file
-     */
-    void construct(const char *recipeFile);
-
 public:
     // constructors are marked as explicit because cppcheck said so
 
@@ -45,6 +39,12 @@ public:
      * @param recipeFile file to load the recipe from
      */
     explicit CraftingRecipe(const std::string &recipeFile);
+
+    /**
+     * @brief Load recipe from file
+     * @param recipeFile recipe file to load from
+     */
+    void load(const char *recipeFile);
 
     /**
      * @brief Get the full name of the recipe

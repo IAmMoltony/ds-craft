@@ -16,7 +16,7 @@ static const char *_craftingDir(void)
     return (const char *)_dir;
 }
 
-void CraftingRecipe::construct(const char *recipeFile)
+void CraftingRecipe::load(const char *recipeFile)
 {
     std::string path = std::string(_craftingDir()) + "/" + std::string(recipeFile) + ".rcp";
 
@@ -79,13 +79,13 @@ void CraftingRecipe::construct(const char *recipeFile)
 CraftingRecipe::CraftingRecipe(const char *recipeFile)
     : output(InventoryItem::ID::None, 0), recipe()
 {
-    construct(recipeFile);
+    load(recipeFile);
 }
 
 CraftingRecipe::CraftingRecipe(const std::string &recipeFile)
     : output(InventoryItem::ID::None, 0), recipe()
 {
-    construct(recipeFile.c_str());
+    load(recipeFile.c_str());
 }
 
 std::string CraftingRecipe::getFullName(Inventory *inventory)
