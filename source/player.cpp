@@ -816,7 +816,7 @@ void Player::drawHUD(const Camera &camera, Font &font, Font &fontRu)
     for (u8 i = 0; i < 10; ++i)
     {
         u8 xxHeart = SCREEN_WIDTH - 9 - i / 2 * 9;
-        u8 yyHeart = SCREEN_HEIGHT - 9;
+        u8 yyHeart = SettingsManager::hotbarOnTop ? 0 : SCREEN_HEIGHT - 9;
 
         // if there is 2 or less health then we SHAKE
         if (health <= 2)
