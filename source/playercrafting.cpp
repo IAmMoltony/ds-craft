@@ -57,6 +57,11 @@ void Player::Crafting::init(void)
 
     mtnlogMessageTagC(MTNLOG_INFO, "crafting", "*** Load Results: Fastest time: %f (%s); Slowest time: %f (%s)", lowest, lowestName.c_str(),
                   highest, highestName.c_str());
+
+    u32 recipesSize = sizeof(craftingRecipes);
+    for (auto recipe : craftingRecipes)
+        recipesSize += recipe.size();
+    mtnlogMessageTagC(MTNLOG_INFO, "crafting", "Size of recipe list: about %u bytes", recipesSize);
 }
 
 bool Player::Crafting::canCraft(CraftingRecipe recipe)

@@ -11,7 +11,6 @@
 void CraftingRecipe::construct(const char *recipeFile)
 {
     std::string path = std::string(mtnconfigGet("craftingDir")) + "/" + std::string(recipeFile) + ".rcp";
-    fileName = recipeFile;
 
     // check if file exists
     if (!fsFileExists(path.c_str()))
@@ -70,13 +69,13 @@ void CraftingRecipe::construct(const char *recipeFile)
 }
 
 CraftingRecipe::CraftingRecipe(const char *recipeFile)
-    : output(InventoryItem::ID::None, 0), fileName(), recipe()
+    : output(InventoryItem::ID::None, 0), recipe()
 {
     construct(recipeFile);
 }
 
 CraftingRecipe::CraftingRecipe(const std::string &recipeFile)
-    : output(InventoryItem::ID::None, 0), fileName(), recipe()
+    : output(InventoryItem::ID::None, 0), recipe()
 {
     construct(recipeFile.c_str());
 }
@@ -128,4 +127,12 @@ InventoryItem CraftingRecipe::getOutput(void)
 std::vector<InventoryItem> *CraftingRecipe::getRecipe(void)
 {
     return &recipe;
+}
+
+u32 CraftingRecipe::size(void)
+{
+    u32 size = sizeof(CraftingRecipe);
+    for (auto item : recipe)
+        size += sizeof(InventoryItem) + item.customName.size();
+    return size;
 }

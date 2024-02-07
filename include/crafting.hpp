@@ -21,11 +21,6 @@ private:
     InventoryItem output;
 
     /**
-     * @brief The file name of the recipe
-     */
-    std::string fileName;
-
-    /**
      * @brief List of items needed to craft the item
      */
     std::vector<InventoryItem> recipe;
@@ -67,4 +62,9 @@ public:
      * @brief Get list of items to craft the recipe
      */
     std::vector<InventoryItem> *getRecipe(void);
+
+    /**
+     * @brief Get the size of the recipe object in bytes
+     */
+    u32 size(void);
 };
