@@ -8,9 +8,17 @@
 #include "save.hpp"
 #include "game.hpp"
 
+static const char *_craftingDir(void)
+{
+    char *_dir = NULL;
+    if (_dir == NULL)
+        _dir = (char *)mtnconfigGet("craftingDir");
+    return (const char *)_dir;
+}
+
 void CraftingRecipe::construct(const char *recipeFile)
 {
-    std::string path = std::string(mtnconfigGet("craftingDir")) + "/" + std::string(recipeFile) + ".rcp";
+    std::string path = std::string(_craftingDir()) + "/" + std::string(recipeFile) + ".rcp";
 
     // check if file exists
     if (!fsFileExists(path.c_str()))
