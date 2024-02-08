@@ -2593,26 +2593,9 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
         statsSetEntry(STATS_KEY_BLOCKS_BROKEN, statsGetEntry(STATS_KEY_BLOCKS_BROKEN) + 1);
     }
 
-    bool collideLadder = false;
+    bool collideLadder = false; 
 
-    // check if collide with ladder
-    for (const auto &block : *blocks)
-    {
-        // optimizaciones
-        if (block->getRect().x - camera->x < -16 ||
-            block->getRect().y - camera->y < -16 ||
-            block->id() != BID_LADDER)
-            continue;
-        if (block->getRect().x - camera->x > SCREEN_WIDTH + 48)
-            break;
-
-        if (Rect(x, y, 12, 32).intersects(block->getRect()))
-        {
-            collideLadder = true;
-            break;
-        }
-    }
-
+    updateLadderCollision(collideLadder);
     updateLadder(oldY, collideLadder);
     updateFacing(camera);
     updateControls(collideLadder);
@@ -2628,6 +2611,25 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
         aimY = SCREEN_HEIGHT;
 
     return ret;
+}
+
+void Player::updateLadderCollision(bool &collideLadder)
+{
+    for (const auto &block : *blocks)
+    {
+        if (block->getRect().x - camera->x < -16 ||
+            block->getRect().y - camera->y < -16 ||
+            block->id() != BID_LADDER)
+            continue;
+        if (block->getRect().x - camera->x > SCREEN_WIDTH + 48)
+            break;
+
+        if (Rect(x, y, 12, 32).intersects(block->getRect()))
+        {
+            collideLadder = true;
+            break;
+        }
+    }
 }
 
 void Player::updateLadder(s16 oldY, bool collideLadder)

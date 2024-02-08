@@ -421,6 +421,12 @@ public:
     UpdateResult updateGameplay(s16 oldX, s16 oldY, Block::List *blocks, EntityList *entities, BlockParticleList *blockParticles, Camera *camera);
 
     /**
+     * @brief Update ladder collision
+     * @param collideLadder This will be set to true or false depending on if colliding with ladder or not
+     */
+    void updateLadderCollision(bool &collideLadder);
+
+    /**
      * @brief Update ladder climbing
      */
     void updateLadder(s16 oldY, bool collideLadder);
