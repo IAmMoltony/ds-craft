@@ -2593,20 +2593,6 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
         statsSetEntry(STATS_KEY_BLOCKS_BROKEN, statsGetEntry(STATS_KEY_BLOCKS_BROKEN) + 1);
     }
 
-    u32 keys = keysHeld();
-
-    if (keys & KEY_TOUCH)
-    {
-        touchPosition touchPos;
-        touchRead(&touchPos);
-        if (touchPos.px != 0 && touchPos.py != 0)
-        {
-            // aiming
-            aimX = touchPos.px;
-            aimY = touchPos.py;
-        }
-    }
-
     bool collideLadder = false;
 
     // check if collide with ladder
@@ -2713,6 +2699,18 @@ void Player::updateControls(bool collideLadder)
         // snap aim to grid
         aimX = snapToGrid(aimX) + 8;
         aimY = snapToGrid(aimY) + 8;
+    }
+
+    // aiming with touch
+    if (keys & KEY_TOUCH)
+    {
+        touchPosition touchPos;
+        touchRead(&touchPos);
+        if (touchPos.px != 0 && touchPos.py != 0)
+        {
+            aimX = touchPos.px;
+            aimY = touchPos.py;
+        }
     }
 
     // horizontal movement
