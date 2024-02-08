@@ -216,6 +216,8 @@ private:
 
     /**
      * @brief Eat
+     * @param healthAdd How much health to add
+     * @param foodID The item ID of the food
      */
     void eat(u8 healthAdd, InventoryItem::ID foodID);
 
@@ -392,6 +394,7 @@ public:
 
     /**
      * @brief Add character to sign that is currently edited
+     * @param chInt Scancode returned by keyboard
      */
     void addSignChar(int chInt);
 
@@ -407,6 +410,8 @@ public:
 
     /**
      * @brief Process entities
+     * @param entities List of entities
+     * @param camera Camera
      */
     void updateEntities(EntityList *entities, const Camera *camera);
 
@@ -417,6 +422,12 @@ public:
 
     /**
      * @brief Update gameplay
+     * @param oldX Previous X position
+     * @param oldY Previous Y position
+     * @param block List of blocks
+     * @param entities List of entities
+     * @param blockParticles List of block particles
+     * @param camera Camera
      */
     UpdateResult updateGameplay(s16 oldX, s16 oldY, Block::List *blocks, EntityList *entities, BlockParticleList *blockParticles, Camera *camera);
 
@@ -428,16 +439,20 @@ public:
 
     /**
      * @brief Update ladder climbing
+     * @param oldY Previous Y position
+     * @param collideLadder Is colliding with ladder?
      */
     void updateLadder(s16 oldY, bool collideLadder);
 
     /**
      * @brief Update facing
+     * @param camera Camera
      */
     void updateFacing(const Camera *camera);
 
     /**
      * @brief Update controls
+     * @param collideLadder Is colliding with ladder
      *
      * By updating controls I mean checking if the user is pressing buttons and stuff like that
      */
@@ -542,6 +557,7 @@ public:
     /**
      * @brief Check if the item can be added
      * @param item item to check if it can be added
+     * @todo Move into inventory class
      */
     bool canAddItem(InventoryItem::ID item);
 
