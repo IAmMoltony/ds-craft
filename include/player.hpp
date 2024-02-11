@@ -424,7 +424,7 @@ public:
      * @brief Update gameplay
      * @param oldX Previous X position
      * @param oldY Previous Y position
-     * @param block List of blocks
+     * @param blocks List of blocks
      * @param entities List of entities
      * @param blockParticles List of block particles
      * @param camera Camera
@@ -434,6 +434,8 @@ public:
     /**
      * @brief Update ladder collision
      * @param collideLadder This will be set to true or false depending on if colliding with ladder or not
+     * @param blocks List of blocks
+     * @param camera Camera
      */
     void updateLadderCollision(bool &collideLadder, Block::List *blocks, const Camera *camera);
 
