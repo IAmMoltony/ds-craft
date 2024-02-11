@@ -2595,7 +2595,7 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
 
     bool collideLadder = false; 
 
-    updateLadderCollision(collideLadder);
+    updateLadderCollision(collideLadder, blocks, camera);
     updateLadder(oldY, collideLadder);
     updateFacing(camera);
     updateControls(collideLadder);
@@ -2613,7 +2613,7 @@ Player::UpdateResult Player::updateGameplay(s16 oldX, s16 oldY, Block::List *blo
     return ret;
 }
 
-void Player::updateLadderCollision(bool &collideLadder)
+void Player::updateLadderCollision(bool &collideLadder, Block::List *blocks, const Camera *camera)
 {
     for (const auto &block : *blocks)
     {

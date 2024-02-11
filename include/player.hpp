@@ -435,7 +435,8 @@ public:
      * @brief Update ladder collision
      * @param collideLadder This will be set to true or false depending on if colliding with ladder or not
      */
-    void updateLadderCollision(bool &collideLadder);
+    void updateLadderCollision(bool &collideLadder, Block::List *blocks, const Camera *camera);
+
 
     /**
      * @brief Update ladder climbing
