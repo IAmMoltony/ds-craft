@@ -301,15 +301,8 @@ static void _countFPS(void)
     _frameCounterFPS = 0;
 }
 
-void Game::init(int argc, char **argv)
+void Game::initVideo(void)
 {
-    // set exception handler
-    defaultExceptionHandler();
-
-    // keyboard innit
-    keyboardDemoInit();
-    keyboardHide();
-
     // set video mode
     videoSetMode(MODE_5_3D);
 
@@ -323,21 +316,53 @@ void Game::init(int argc, char **argv)
     vramSetBankB(VRAM_B_TEXTURE);
     vramSetBankF(VRAM_F_TEX_PALETTE);
     vramSetBankE(VRAM_E_TEX_PALETTE);
+}
 
-    // init console
-    consoleDemoInit();
+void Game::initConfig(void)
+{
+    if (!mtnconfigInit("nitro:/config.cfg"))
+    {
+        perror("Error initializing config");
+        fprintf(stderr, "\nThis is a bug. Please report it!");
+        hang();
+    }
 
-    // load fonts
-    loadFonts();
+    showPolygonRamCount = mtnconfigGetBool("showPolygonRamCount");
+}
 
-    // show loading screen
-    glBegin2D();
-    font.printCentered(0, 30, "Loading...");
-    glEnd2D();
-    glFlush(0);
-    swiWaitForVBlank();
+void Game::initGamever(void)
+{
+    gamever::InitStatus initStatus = gamever::init(mtnconfigGet("gameVersionFile"));
+    if (initStatus == gamever::InitStatus::FileOpenError)
+    {
+        mtnlogMessageTagC(MTNLOG_ERROR, "init", "Error opening game version file '%s': %s", mtnconfigGet("gameVersionFile"), strerror(errno));
+        hang();
+    }
+}
 
-    // init filesystem
+void Game::initRandom(void)
+{
+    u32 randomSeed;
+    randomSeed = PersonalData->rtcOffset;                                                                    // set seed to RTC offset from the firmware
+    randomSeed += time(NULL);                                                                                // add the time value
+    randomSeed ^= stringHash(getUserName());                                                                 // XOR by the hash of user name
+    Birthday bDay = getBirthday();                                                                           // get birthday
+    randomSeed -= bDay.day * bDay.month;                                                                     // subtract by day times month of birthday
+    randomSeed ^= getFavoriteColorRgb() * getFavoriteColor();                                                // XOR by the product of RGB favorite color and enum value favorite color
+    randomSeed += (PersonalData->calX1 * PersonalData->calX2) ^ (PersonalData->calY1 * PersonalData->calY2); // add calibration stuff
+    randomSeed -= PersonalData->calY1px;                                                                     // subtract first Y calibration value in pixels (i think)
+    randomSeed ^= PersonalData->language;                                                                    // XOR by firmware language
+    randomSeed ^= stringHash(std::to_string(stringHash(getUserMessage())).c_str());                          // XOR by user message hash's hash
+    rng::setSeed(randomSeed);                                                                                // set seed
+    srand(time(NULL));                                                                                       // set seed for stuff that doesn't need to be THAT random
+
+    // finally, do some random number generation to spice up the seed even more
+    for (int i = 0; i < rng::rangeSigned(10, 100); ++i)
+        (void)rng::range(rng::range(0, 900), rng::range(0, 300));
+}
+
+void Game::initFS(void)
+{
     fsInitStatus fsInitSt = fsInit();
     if (fsInitSt != FS_INIT_STATUS_OK)
     {
@@ -372,24 +397,40 @@ void Game::init(int argc, char **argv)
             swiWaitForVBlank();
         }
     }
+}
+
+void Game::init(int argc, char **argv)
+{
+    // set exception handler
+    defaultExceptionHandler();
+
+    // keyboard innit
+    keyboardDemoInit();
+    keyboardHide();
+
+    initVideo();
+
+    // init console
+    consoleDemoInit();
+
+    // load fonts
+    loadFonts();
+
+    // show loading screen
+    glBegin2D();
+    font.printCentered(0, 30, "Loading...");
+    glEnd2D();
+    glFlush(0);
+    swiWaitForVBlank();
+
+    // init filesystem
+    initFS();
 
     // init config
-    if (!mtnconfigInit("nitro:/config.cfg"))
-    {
-        perror("Error initializing config");
-        fprintf(stderr, "\nThis is a bug. Please report it!");
-        hang();
-    }
-
-    showPolygonRamCount = mtnconfigGetBool("showPolygonRamCount");
+    initConfig();
 
     // init game version
-    gamever::InitStatus gvis = gamever::init(mtnconfigGet("gameVersionFile"));
-    if (gvis == gamever::InitStatus::FileOpenError)
-    {
-        mtnlogMessageTagC(MTNLOG_ERROR, "init", "Error opening game version file '%s': %s", mtnconfigGet("gameVersionFile"), strerror(errno));
-        hang();
-    }
+    initGamever();
 
     // init logging
     mtnlogInit((MtnLogLevel)mtnconfigGetInt("logLevel"), mtnconfigGet("logFile"));
@@ -440,23 +481,7 @@ void Game::init(int argc, char **argv)
     mtnlogMessageTagC(MTNLOG_INFO, "init", "Initializing RNG");
 
     // set up random number generator
-    u32 randomSeed;
-    randomSeed = PersonalData->rtcOffset;                                                                    // set seed to RTC offset from the firmware
-    randomSeed += time(NULL);                                                                                // add the time value
-    randomSeed ^= stringHash(getUserName());                                                                 // XOR by the hash of user name
-    Birthday bDay = getBirthday();                                                                           // get birthday
-    randomSeed -= bDay.day * bDay.month;                                                                     // subtract by day times month of birthday
-    randomSeed ^= getFavoriteColorRgb() * getFavoriteColor();                                                // XOR by the product of RGB favorite color and enum value favorite color
-    randomSeed += (PersonalData->calX1 * PersonalData->calX2) ^ (PersonalData->calY1 * PersonalData->calY2); // add calibration stuff
-    randomSeed -= PersonalData->calY1px;                                                                     // subtract first Y calibration value in pixels (i think)
-    randomSeed ^= PersonalData->language;                                                                    // XOR by firmware language
-    randomSeed ^= stringHash(std::to_string(stringHash(getUserMessage())).c_str());                          // XOR by user message hash's hash
-    rng::setSeed(randomSeed);                                                                                // set seed
-    srand(time(NULL));                                                                                       // set seed for stuff that doesn't need to be THAT random
-
-    // finally, do some random number generation to spice up the seed even more
-    for (int i = 0; i < rng::rangeSigned(10, 100); ++i)
-        (void)rng::range(rng::range(0, 900), rng::range(0, 300));
+    initRandom();
 
     mtnlogMessageTagC(MTNLOG_INFO, "init", "Loading menu assets");
 

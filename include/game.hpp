@@ -104,6 +104,12 @@ public:
         EditVolume,
     };
 
+    void initVideo(void);
+    void initConfig(void);
+    void initGamever(void);
+    void initRandom(void);
+    void initFS(void);
+
 private:
     /**
      * @brief List of blocks in the world
