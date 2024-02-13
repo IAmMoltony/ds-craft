@@ -13,10 +13,6 @@ These changes are planned to be implemented in DS-Craft.
   - [Q of L (quality of life) Features](#q-of-l-quality-of-life-features)
   - [Code Improvements](#code-improvements)
 
-## Next Update Date
-
-The next major update (*beta1.8*) is planned to release in **February 2024**.
-
 ## New Features
 
 - Dirt slabs: craftable using 6 dirt
