@@ -1,3 +1,6 @@
+**Notice**: this project's development is currently *paused*. It will resume in
+*Summer 2024*.
+
 # ds-craft
 
 DS-Craft is a Minecraft demake for Nintendo DS written in C and C++ inspired by
