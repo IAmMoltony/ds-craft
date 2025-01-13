@@ -1,6 +1,10 @@
-# ds-craft
+# Notice
 
-**This is no longer maintained.**
+This project is, evidently, no longer maintained. I have had great fun developing this little game and learning along the way, but it just became too much.
+
+Please click on [this link](https://iammoltony.github.io/abandonware.html#ap10) to find out more about the problems of this project, both technical and not.
+
+# ds-craft
 
 DS-Craft is a Minecraft demake for Nintendo DS written in C and C++ inspired by
 [Paper Minecraft](https://scratch.mit.edu/projects/10128407/).
